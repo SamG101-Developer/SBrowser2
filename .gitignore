@@ -1,0 +1,4 @@
+/third_party
+/cmake-build-debug
+/.PVS-Studio
+/.idea
