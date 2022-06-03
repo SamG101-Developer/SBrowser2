@@ -14,7 +14,7 @@ struct v8pp::convert<ext::boolean>
     using to_type = v8::Local<v8::Boolean>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsBoolean();}
-    static auto from_v8(v8::Isolate* property_name, v8::Local<v8::Value> v8_value) -> from_type;
+    static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type;
 };
 

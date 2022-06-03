@@ -16,7 +16,7 @@ struct v8pp::convert<ext::map<K, V>>
     using to_type   = v8::Local<v8::Object>;
 
     auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsObject();}
-    static auto from_v8(v8::Isolate* property_name, v8::Local<v8::Value> v8_value) -> from_type;
+    static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_map_like) -> to_type;
 };
 
@@ -50,7 +50,7 @@ inline auto v8pp::convert<ext::map<K, V>>::to_v8(v8::Isolate* isolate, const fro
     v8::EscapableHandleScope javascript_scope{isolate};
 
     // save the current context
-    auto v8_context = isolate->GetCurrentContext();
+    auto v8_context      = isolate->GetCurrentContext();
     auto v8_value_object = v8::Object::New(isolate);
 
     // iterate through the keys and values in the cpp map
@@ -59,7 +59,7 @@ inline auto v8pp::convert<ext::map<K, V>>::to_v8(v8::Isolate* isolate, const fro
         // convert the key and value to v8 values, and save them back into the v8 map
         auto v8_value_map_key = v8pp::convert<std::string>::to_v8(isolate, cpp_value_map_key);
         auto v8_value_map_val = v8pp::convert<V>::to_v8(isolate, cpp_value_map_key);
-        v8_value_object->Set(v8_context, v8_value_map_key, v8_value_map_val);
+        v8_value_object->DefineOwnProperty(v8_context, v8_value_map_key, v8_value_map_val, v8::PropertyAttribute::DontEnum);
     }
 
     return javascript_scope.template Escape(v8_value_object);
