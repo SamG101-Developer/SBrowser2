@@ -15,7 +15,7 @@ struct v8pp::convert<ext::shared_pointer<T>>
     using class_type = typename std::remove_cv<T>::type;
 
     auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsObject();}
-    static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
+    static auto from_v8(v8::Isolate* property_name, v8::Local<v8::Value> v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type;
 };
 

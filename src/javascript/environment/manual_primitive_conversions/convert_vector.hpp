@@ -15,7 +15,7 @@ struct v8pp::convert<ext::vector<T>>
     using to_type = v8::Local<v8::Array>;
 
     auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsArray();}
-    auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
+    auto static from_v8(v8::Isolate* property_name, v8::Local<v8::Value> v8_value) -> from_type;
     auto static to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector) -> to_type;
 };
 
@@ -57,10 +57,11 @@ inline auto v8pp::convert<ext::vector<T>>::to_v8(v8::Isolate* isolate, const fro
     auto v8_value_vector = v8::Array::New(isolate);
 
     // iterate through the values in the cpp vector
-    for (const auto& cpp_value_vector_val: cpp_value_vector)
+    for (auto cpp_value_vector_index = 0; cpp_value_vector_index < cpp_value_vector.size(); ++cpp_value_vector_index)
     {
         // convert the value to v8 a value, and save it back into the v8 vector
-        auto v8_value_vector_val = v8pp::convert<T>::to_v8(isolate, cpp_value_vector_val);
+        auto cpp_value_vector_val = cpp_value_vector.at(cpp_value_vector_index);
+        auto v8_value_vector_val = v8pp::convert<T>::to_v8(isolate, cpp_value_vector_index, cpp_value_vector_val);
         v8_value_vector->Set(v8_context, v8_value_vector_val);
     }
 

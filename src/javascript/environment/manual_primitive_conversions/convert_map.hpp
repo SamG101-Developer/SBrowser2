@@ -12,23 +12,20 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename Map>
-struct v8pp::convert<Map, constrict_map>
+template <typename K, typename V>
+struct v8pp::convert<ext::map<K, V>>
 {
-    using from_type = Map;
+    using from_type = ext::map<K, V>;
     using to_type = v8::Local<v8::Map>;
 
-    using K = typename Map::key_t;
-    using V = typename Map::value_t;
-
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsMap() and not v8_value->IsArray();}
-    static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
-    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_map) -> to_type;
+    static auto from_v8(v8::Isolate* property_name, v8::Local<v8::Value> v8_value) -> from_type;
+    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_map_like) -> to_type;
 };
 
 
-template <typename Map>
-inline auto v8pp::convert<Map, constrict_map>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
+template <typename K, typename V>
+inline auto v8pp::convert<ext::map<K, V>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
     if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::map<K, V> from v8"};
     v8::HandleScope javascript_scope{isolate};
@@ -37,7 +34,7 @@ inline auto v8pp::convert<Map, constrict_map>::from_v8(v8::Isolate* isolate, v8:
     auto v8_context        = isolate->GetCurrentContext();
     auto v8_value_map      = v8_value.template As<v8::Map>();
     auto v8_value_map_keys = v8_value_map->GetPropertyNames(v8_context).ToLocalChecked();
-    Map cpp_value_map;
+    from_type cpp_value_map;
 
     // iterate through the numeric positions of the keys, in the v8 map keys list
     for (auto v8_value_map_key_index = 0; v8_value_map_key_index < v8_value_map_keys->Length(); ++v8_value_map_key_index)
@@ -56,8 +53,8 @@ inline auto v8pp::convert<Map, constrict_map>::from_v8(v8::Isolate* isolate, v8:
 }
 
 
-template <typename Map>
-inline auto v8pp::convert<Map, constrict_map>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_map) -> to_type
+template <typename K, typename V>
+inline auto v8pp::convert<ext::map<K, V>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_map) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 
