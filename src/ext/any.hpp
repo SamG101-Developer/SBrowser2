@@ -22,41 +22,41 @@ public constructors:
     auto operator=(const any&) -> any& = default;
     auto operator=(any&&) noexcept -> any& = default;
 
-    template <typename _Ty> any(const _Ty& _Other) : _Val(_Other) {_Is_numeric = is_template_base_of_v<_Ty, ext::number>;}
-    template <typename _Ty> any(_Ty&& _Other) noexcept : _Val(std::forward<_Ty>(_Other)) {_Is_numeric = is_template_base_of_v<_Ty, ext::number>;}
-    template <typename _Ty> auto operator=(const _Ty& _Other) -> any&;
-    template <typename _Ty> auto operator=(_Ty&& _Other) noexcept -> any&;
+    template <typename _Ty> any(const _Ty& _Val) : _Any(_Val) {_IsNumeric = is_template_base_of_v<_Ty, ext::number>;}
+    template <typename _Ty> any(_Ty&& _Val) noexcept : _Any(std::forward<_Ty>(_Val)) {_IsNumeric = is_template_base_of_v<_Ty, ext::number>;}
+    template <typename _Ty> auto operator=(const _Ty& _Val) -> any&;
+    template <typename _Ty> auto operator=(_Ty&& _Val) noexcept -> any&;
 
 public cpp_methods:
-    [[nodiscard]] auto type() const -> const type_info& {return _Val.type();}
-    [[nodiscard]] auto is_numeric() const -> ext::boolean {return _Is_numeric;}
-    [[nodiscard]] auto is_empty() const -> ext::boolean {return not _Val.has_value();}
-    [[nodiscard]] auto has_value() const -> ext::boolean {return _Val.has_value();}
+    [[nodiscard]] auto type() const -> const type_info& {return _Any.type();}
+    [[nodiscard]] auto is_numeric() const -> ext::boolean {return _IsNumeric;}
+    [[nodiscard]] auto is_empty() const -> ext::boolean {return not _Any.has_value();}
+    [[nodiscard]] auto has_value() const -> ext::boolean {return _Any.has_value();}
     template <typename _Ty> auto to() const -> const _Ty&;
 
 public cpp_operators:
-    auto operator==(const any& _Other) const -> ext::boolean {return &_Other._Val == &_Val;}
+    auto operator==(const any& _Other) const -> ext::boolean {return &_Other._Any == &_Any;}
 
 private cpp_properties:
-    std::any _Val;
-    ext::boolean _Is_numeric;
+    std::any _Any;
+    ext::boolean _IsNumeric;
 };
 
 
 template <typename _Ty>
-auto ext::any::operator=(const _Ty& _Other) -> ext::any&
+auto ext::any::operator=(const _Ty& _Val) -> ext::any&
 {
-    _Val = _Other;
-    _Is_numeric = is_template_base_of_v<_Ty, ext::number>;
+    _Any = _Val;
+    _IsNumeric = is_template_base_of_v<_Ty, ext::number>;
     return *this;
 }
 
 
 template <typename _Ty>
-auto ext::any::operator=(_Ty&& _Other) noexcept -> any&
+auto ext::any::operator=(_Ty&& _Val) noexcept -> any&
 {
-    _Val = std::forward<_Ty>(_Other);
-    _Is_numeric = is_template_base_of_v<_Ty, ext::number>;
+    _Any = std::forward<_Ty>(_Val);
+    _IsNumeric = is_template_base_of_v<_Ty, ext::number>;
     return *this;
 }
 
@@ -72,7 +72,7 @@ inline auto ext::any::to() const -> const _Ty&
     }
 
     // otherwise cast the object as the correct type
-    return std::any_cast<_Ty>(_Val);
+    return std::any_cast<_Ty>(_Any);
 }
 
 
