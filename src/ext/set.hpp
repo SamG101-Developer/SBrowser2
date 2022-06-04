@@ -13,7 +13,7 @@ namespace ext {template <typename _Tx> class set;}
 
 template <typename _Tx>
 class ext::set
-        : inherits public container_internal<_Tx>
+        : public container_internal<_Tx>
 {
 public aliases:
     using value_type = _Tx;

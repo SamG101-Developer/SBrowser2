@@ -13,7 +13,7 @@ namespace ext {template <typename _Vt1, typename _Vt2> class map;}
 
 template <typename _Tx1, typename _Tx2>
 class ext::map
-        : inherits public container_internal<_Tx1, _Tx2>
+        : public container_internal<_Tx1, _Tx2>
 {
 public aliases:
     using key_t = _Tx1;

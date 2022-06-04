@@ -13,7 +13,7 @@ namespace ext {template <typename _Tx> class vector;}
 
 template <typename _Tx>
 class ext::vector
-        : inherits public container_internal<_Tx>
+        : public container_internal<_Tx>
 {
 public aliases:
     using reference = typename container_internal<_Tx>::reference;

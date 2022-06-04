@@ -8,15 +8,15 @@
 namespace ext {class string;}
 namespace ext {class string_view;}
 
-#include <QtCore/QString>
+#include <ext/keywords.hpp>
 #include <v8-isolate.h>
 #include <v8-local-handle.h>
 #include <v8-primitive.h>
-#include <ext/keywords.hpp>
+#include <QtCore/QString>
 
 
 class ext::string
-        : inherits public std::string
+        : public std::string
 {
 public constructors:
     string() = default;
@@ -27,7 +27,7 @@ public constructors:
     auto operator=(const string&) -> string& = default;
     auto operator=(string&&) noexcept -> string& = default;
 
-    explicit string(const char* _Other) : std::string(_Other) {};
+    string(const char* _Other) : std::string(_Other) {};
     auto operator=(const char* _Other) -> string& {std::string::operator=(_Other);};
 
 public cpp_operators:
@@ -40,7 +40,7 @@ public cpp_operators:
 
 
 class ext::string_view
-        : inherits public std::string_view
+        : public std::string_view
 {
 public constructors:
     string_view() = default;
