@@ -4,7 +4,6 @@
 
 #include <type_traits>
 #include <ext/boolean.hpp>
-#include <ext/shared_pointer.hpp>
 
 
 // type definitions
@@ -48,7 +47,7 @@ template <typename _Tx>
 struct ext::_is_smart_pointer : public std::false_type{};
 
 template <typename _Tx>
-struct ext::_is_smart_pointer<ext::shared_pointer<_Tx>> : std::true_type{};
+struct ext::_is_smart_pointer<std::shared_ptr<_Tx>> : std::true_type{};
 
 
 #endif //SBROWSER2_TYPE_TRAITS_HPP

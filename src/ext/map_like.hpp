@@ -13,13 +13,13 @@ template <typename _Tx1, typename _Tx2>
 class ext::map_like
 {
 public constructors:
-    explicit map_like(ext::map<_Tx2, _Tx1>* _Container) : _Linked_container{_Container} {};
+    explicit map_like(ext::map<_Tx2, _Tx1>* _Container) : _LinkedContainer{_Container} {};
 
 public cpp_operators:
-    auto operator[](const _Tx1& _Key) -> optional<_Tx2> {return _Linked_container.at(_Key);}
+    auto operator[](const _Tx1& _Key) -> optional<_Tx2> {return _LinkedContainer.at(_Key);}
 
 private cpp_properties:
-    shared_pointer<ext::map<_Tx1, _Tx2>> _Linked_container;
+    std::shared_ptr<ext::map<_Tx1, _Tx2>> _LinkedContainer;
 };
 
 
