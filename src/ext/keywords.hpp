@@ -26,7 +26,6 @@
 #define aliases
 #define enums
 #define constructors
-#define inherits
 
 #define js_static_constants
 #define js_methods
