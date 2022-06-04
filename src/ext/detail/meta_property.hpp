@@ -3,7 +3,7 @@
 #define SBROWSER2_META_PROPERTY_HPP
 
 #define bind_get(p, method) p._Meta._Getter  = [this] -> typename decltype(p)::value_type {return method();};
-#define bind_set(p, method) p._Meta._Setter  = [this](auto&& _Val) {method(std::forward<decltype(_Val)>(_Val));};
+#define bind_set(p, method) p._Meta._Setter  = [this](auto&& _Any) {method(std::forward<decltype(_Any)>(_Any));};
 #define bind_del(p, method) p._Meta._Deleter = [this] {method();};
 
 #define unlock_property(p) p._Meta._Unlock(); {

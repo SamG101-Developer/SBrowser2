@@ -50,19 +50,19 @@ public cpp_static_methods:
     static auto INF() -> detail::infinity<_Tx> {return detail::infinity<_Tx>{};};
 
 public cpp_operators:
-    template <typename _Ty> auto operator+(_Ty&& _Other) const {return number<_Tx>{_Val + std::forward<_Ty>(_Other)._Val};}
-    template <typename _Ty> auto operator-(_Ty&& _Other) const {return number<_Tx>{_Val - std::forward<_Ty>(_Other)._Val};}
-    template <typename _Ty> auto operator*(_Ty&& _Other) const {return number<_Tx>{_Val * std::forward<_Ty>(_Other)._Val};}
-    template <typename _Ty> auto operator/(_Ty&& _Other) const {return number<_Tx>{_Val / std::forward<_Ty>(_Other)._Val};}
-    template <typename _Ty> auto operator%(_Ty&& _Other) const {return number<_Tx>{_Val % std::forward<_Ty>(_Other)._Val};}
+    template <typename _Ty> auto operator+(_Ty&& _Other) const {return number<_Tx>{_Val + std::forward<_Ty>(_Other)._Any};}
+    template <typename _Ty> auto operator-(_Ty&& _Other) const {return number<_Tx>{_Val - std::forward<_Ty>(_Other)._Any};}
+    template <typename _Ty> auto operator*(_Ty&& _Other) const {return number<_Tx>{_Val * std::forward<_Ty>(_Other)._Any};}
+    template <typename _Ty> auto operator/(_Ty&& _Other) const {return number<_Tx>{_Val / std::forward<_Ty>(_Other)._Any};}
+    template <typename _Ty> auto operator%(_Ty&& _Other) const {return number<_Tx>{_Val % std::forward<_Ty>(_Other)._Any};}
 
-    template <typename _Ty> auto operator+=(_Ty&& _Other) {_Val += std::forward<_Ty>(_Other)._Val; return *this;}
-    template <typename _Ty> auto operator-=(_Ty&& _Other) {_Val -= std::forward<_Ty>(_Other)._Val; return *this;}
-    template <typename _Ty> auto operator*=(_Ty&& _Other) {_Val *= std::forward<_Ty>(_Other)._Val; return *this;}
-    template <typename _Ty> auto operator/=(_Ty&& _Other) {_Val /= std::forward<_Ty>(_Other)._Val; return *this;}
-    template <typename _Ty> auto operator%=(_Ty&& _Other) {_Val %= std::forward<_Ty>(_Other)._Val; return *this;}
+    template <typename _Ty> auto operator+=(_Ty&& _Other) {_Val += std::forward<_Ty>(_Other)._Any; return *this;}
+    template <typename _Ty> auto operator-=(_Ty&& _Other) {_Val -= std::forward<_Ty>(_Other)._Any; return *this;}
+    template <typename _Ty> auto operator*=(_Ty&& _Other) {_Val *= std::forward<_Ty>(_Other)._Any; return *this;}
+    template <typename _Ty> auto operator/=(_Ty&& _Other) {_Val /= std::forward<_Ty>(_Other)._Any; return *this;}
+    template <typename _Ty> auto operator%=(_Ty&& _Other) {_Val %= std::forward<_Ty>(_Other)._Any; return *this;}
 
-    template <typename _Ty> auto operator<=>(const _Ty& _Other) const {return _Val <=> _Other._Val;}
+    template <typename _Ty> auto operator<=>(const _Ty& _Other) const {return _Val <=> _Other._Any;}
 
     template <typename _Ty>
     auto operator==(const number<_Ty>& _Other) const -> bool {return _Val == _Other._Val;}
