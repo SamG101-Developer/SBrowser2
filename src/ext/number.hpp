@@ -4,6 +4,7 @@
 
 //template <typename T> concept Arithmetic = std::integral<T> or std::floating_point<T>;
 namespace ext {template <typename _Tx> class number;}
+namespace ext {template <typename _Vt> using number_view = const number<_Vt>&;}
 
 #include <algorithm>
 #include <limits>
@@ -31,7 +32,7 @@ public constructors:
     auto operator=(const number& _Other) -> number& {_Val = _Other._Val; return *this;}
     auto operator=(number&& _Other) noexcept -> number& {_Val = std::move(_Other._Val); return *this;}
 
-    number(const _Tx& _Other) = delete;
+    number(const _Tx& _Other) : _Val(_Other) {};
     number(_Tx&& _Other) noexcept : _Val(std::forward<_Tx>(_Other)) {}
     auto operator=(const _Tx&) = delete;
     auto operator=(_Tx&& _Other) noexcept -> number& {_Val = std::forward<_Tx>(_Other);}
@@ -42,27 +43,27 @@ public constructors:
     template <typename _Ty> auto operator=(number<_Ty>&& _Other) noexcept -> number& {_Val = static_cast<_Tx>(std::move(_Other._Val)); return *this;}
 
 public cpp_methods:
-    template <typename _Ty> auto as() {return number<_Ty>{static_cast<_Ty>(_Val)};}
-    auto min() -> _Tx {return std::numeric_limits<_Tx>::min();}
-    auto max() -> _Tx {return std::numeric_limits<_Tx>::max();}
+    template <typename _Ty> auto as() const -> ext::number<_Ty> {return static_cast<_Ty>(_Val);}
+    auto min() const -> ext::number<_Tx> {return std::numeric_limits<_Tx>::min();}
+    auto max() const -> ext::number<_Tx> {return std::numeric_limits<_Tx>::max();}
 
 public cpp_static_methods:
     static auto INF() -> detail::infinity<_Tx> {return detail::infinity<_Tx>{};};
 
 public cpp_operators:
-    template <typename _Ty> auto operator+(_Ty&& _Other) const {return number<_Tx>{_Val + std::forward<_Ty>(_Other)._Any};}
-    template <typename _Ty> auto operator-(_Ty&& _Other) const {return number<_Tx>{_Val - std::forward<_Ty>(_Other)._Any};}
-    template <typename _Ty> auto operator*(_Ty&& _Other) const {return number<_Tx>{_Val * std::forward<_Ty>(_Other)._Any};}
-    template <typename _Ty> auto operator/(_Ty&& _Other) const {return number<_Tx>{_Val / std::forward<_Ty>(_Other)._Any};}
-    template <typename _Ty> auto operator%(_Ty&& _Other) const {return number<_Tx>{_Val % std::forward<_Ty>(_Other)._Any};}
+    template <typename _Ty> auto operator+(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val + _Other._Any};}
+    template <typename _Ty> auto operator-(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val - _Other._Any};}
+    template <typename _Ty> auto operator*(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val * _Other._Any};}
+    template <typename _Ty> auto operator/(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val / _Other._Any};}
+    template <typename _Ty> auto operator%(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val % _Other._Any};}
 
-    template <typename _Ty> auto operator+=(_Ty&& _Other) {_Val += std::forward<_Ty>(_Other)._Any; return *this;}
-    template <typename _Ty> auto operator-=(_Ty&& _Other) {_Val -= std::forward<_Ty>(_Other)._Any; return *this;}
-    template <typename _Ty> auto operator*=(_Ty&& _Other) {_Val *= std::forward<_Ty>(_Other)._Any; return *this;}
-    template <typename _Ty> auto operator/=(_Ty&& _Other) {_Val /= std::forward<_Ty>(_Other)._Any; return *this;}
-    template <typename _Ty> auto operator%=(_Ty&& _Other) {_Val %= std::forward<_Ty>(_Other)._Any; return *this;}
+    template <typename _Ty> auto operator+=(ext::number_view<_Ty> _Other) {_Val += _Other._Any; return *this;}
+    template <typename _Ty> auto operator-=(ext::number_view<_Ty> _Other) {_Val -= _Other._Any; return *this;}
+    template <typename _Ty> auto operator*=(ext::number_view<_Ty> _Other) {_Val *= _Other._Any; return *this;}
+    template <typename _Ty> auto operator/=(ext::number_view<_Ty> _Other) {_Val /= _Other._Any; return *this;}
+    template <typename _Ty> auto operator%=(ext::number_view<_Ty> _Other) {_Val %= _Other._Any; return *this;}
 
-    template <typename _Ty> auto operator<=>(const _Ty& _Other) const {return _Val <=> _Other._Any;}
+    template <typename _Ty> auto operator<=>(ext::number_view<_Ty> _Other) const {return _Val <=> _Other._Val;}
 
     template <typename _Ty>
     auto operator==(const number<_Ty>& _Other) const -> bool {return _Val == _Other._Val;}
