@@ -2,10 +2,9 @@
 #ifndef SBROWSER2_SET_HPP
 #define SBROWSER2_SET_HPP
 
-#include <tsl/robin_set.h>
-#include <robin_hood.h>
+#include <set>
 
-namespace     {template <typename _Vt> using container_internal = tsl::robin_set<_Vt, robin_hood::hash<_Vt>>;}
+namespace     {template <typename _Vt> using container_internal = std::set<_Vt>;}
 namespace ext {template <typename _Tx> class set;}
 
 #include <ext/keywords.hpp>
@@ -16,15 +15,10 @@ class ext::set
         : public container_internal<_Tx>
 {
 public aliases:
-    using value_type = _Tx;
+    using outer_val_t = _Tx;
 
 public constructors:
-    set() = default;
-    set(const set&) = default;
-    set(set&&) noexcept = default;
-    auto operator=(const set&) -> set& = default;
-    auto operator=(set&&) noexcept -> set& = default;
-    ~set() {this->clear();}
+    using container_internal<_Tx>::container_internal;
 };
 
 
