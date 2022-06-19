@@ -5,17 +5,17 @@
 #include <ext/type_traits.hpp>
 
 
-namespace ext::detail {auto constexpr hash(const char* s) -> size_t;}
-namespace {constexpr ulong a = 54059;}
-namespace {constexpr ulong b = 76963;}
-namespace {constexpr ulong c = 86969;}
-namespace {constexpr ulong d = 00037;}
+namespace             {constexpr ulong _A = 54059;}
+namespace             {constexpr ulong _B = 76963;}
+namespace             {constexpr ulong _C = 86969;}
+namespace             {constexpr ulong _D = 00037;}
+namespace ext::detail {auto constexpr _Hash(const char* _S) -> size_t;}
 
-auto constexpr ext::detail::hash(const char* s) -> size_t
+auto constexpr ext::detail::_Hash(const char* _S) -> size_t
 {
-    auto h = d;
-    while (*s) {h = (h * a) ^ (s[0] * b); s++;}
-    return h;
+    auto _H = _D;
+    while (*_S) {_H = (_H * _A) ^ (_S[0] * _B); _S++;}
+    return _H;
 }
 
 
