@@ -3,9 +3,25 @@
 
 #include <memory>
 
-#include <ext/string.hpp>
 #include <javascript/environment/environment_module.hpp>
+
+#include <javascript/interop/automatic_object_conversions/cpp_object_to_v8.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_any.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_boolean.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_map.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_map_like.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_number_float.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_number_integer.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_optional.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_property.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_set.hpp>
 #include <javascript/interop/manual_primitive_conversions/convert_string.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_vector.hpp>
+#include <javascript/interop/manual_primitive_conversions/convert_vector_like.hpp>
+
+#include <web_apis/dom/events/event.hpp>
+
+#include <web_apis/dom/nodes/event_target.hpp>
 
 #include <v8-context.h>
 #include <v8-isolate.h>
@@ -17,22 +33,6 @@
 #include <v8pp/module.hpp>
 
 namespace javascript::interop {auto expose(v8::Isolate* isolate, environment::module_t module_type) -> v8::Persistent<v8::Context>&;}
-
-
-class A{
-public:
-    A(int a): m_a(a), m_b(nullptr) {};
-    int m_a;
-    std::shared_ptr<A> m_b;
-    int double_a() {return m_a * 2;}
-};
-
-
-class console
-{
-public:
-    auto static print(ext::string string) -> void {std::cout << string << std::endl;}
-};
 
 
 inline auto javascript::interop::expose(v8::Isolate* isolate, environment::module_t module_type) -> v8::Persistent<v8::Context>&
@@ -48,14 +48,8 @@ inline auto javascript::interop::expose(v8::Isolate* isolate, environment::modul
     {
         case (environment::module_t::WINDOW):
         {
-            v8_module.class_("A", v8pp::class_<A, v8pp::shared_ptr_traits>{isolate}
-                .ctor<int>()
-                .var("a_int", &A::m_a)
-                .var("a_ptr", &A::m_b)
-                .function("doubleA", &A::double_a));
-
-            v8_module.class_("Console", v8pp::class_<console>{isolate}
-                .function("print", &console::print));
+            v8_module.class_("Event", cpp_object_to_v8<dom::events::event>());
+            v8_module.class_("EventTarget", cpp_object_to_v8<dom::nodes::event_target>());
         }
 
         case (environment::module_t::WORKER):
