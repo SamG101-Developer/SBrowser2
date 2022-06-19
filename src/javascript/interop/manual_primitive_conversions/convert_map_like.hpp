@@ -15,7 +15,7 @@ struct v8pp::convert<ext::map<K, V>>
     using from_type = ext::map<K, V>;
     using to_type   = v8::Local<v8::Object>;
 
-    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsObject();}
+    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() && v8_value->IsObject();}
     static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_map_like) -> to_type;
 };
