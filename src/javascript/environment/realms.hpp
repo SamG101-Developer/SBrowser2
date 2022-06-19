@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_REALMS_HPP
 #define SBROWSER2_REALMS_HPP
 
-namespace javascript::environment::realms {class realm;}
+namespace javascript::environment::realms {template <typename T> class realm;}
 namespace web_apis {class dom_object;}
 
 #include <ext/keywords.hpp>
@@ -23,22 +23,26 @@ namespace web_apis {class dom_object;}
  */
 
 
+template <typename T>
 class javascript::environment::realms::realm
 {
+public aliases:
+    using global_object_t = T;
+
 public constructors:
     explicit realm(v8::Isolate* isolate, v8::Persistent<v8::Context>& persistent_context) : m_context(v8::Local<v8::Context>::New(isolate, persistent_context)) {};
 
 public cpp_static_methods:
-    static auto relevant_realm(web_apis::dom_object* object) -> realm;
-    static auto surrounding_realm(web_apis::dom_object* object) -> realm;
-    static auto current_realm(web_apis::dom_object* object) -> realm;
-    static auto entry_realm(web_apis::dom_object* object) -> realm;
-    static auto incumbent_realm(web_apis::dom_object* object) -> realm;
+    static auto relevant_realm(web_apis::dom_object* object) -> realm<T>;
+    static auto surrounding_realm(web_apis::dom_object* object) -> realm<T>;
+    static auto current_realm(web_apis::dom_object* object) -> realm<T>;
+    static auto entry_realm(web_apis::dom_object* object) -> realm<T>;
+    static auto incumbent_realm(web_apis::dom_object* object) -> realm<T>;
 
 public cpp_methods:
-    template <typename T> auto get(ext::string&& attribute_name) const -> T;
-    template <typename T> auto set(ext::string&& attribute_name, T new_value) -> void;
-    template <typename T> auto global_object() -> T;
+    template <typename U> auto get(ext::string&& attribute_name) const -> U;
+    template <typename U> auto set(ext::string&& attribute_name, U new_value) -> void;
+    auto global_object() -> T;
     auto settings_object();
 
 private cpp_properties:
@@ -47,7 +51,8 @@ private cpp_properties:
 
 
 template <typename T>
-inline auto javascript::environment::realms::realm::get(ext::string&& attribute_name) const -> T
+template <typename U>
+inline auto javascript::environment::realms::realm<T>::get(ext::string&& attribute_name) const -> U
 {
     // save the v8 isolate, convert the attribute name into a v8 string, and get the object from the global object
     auto v8_isolate        = m_context->GetIsolate();
@@ -55,13 +60,14 @@ inline auto javascript::environment::realms::realm::get(ext::string&& attribute_
     auto v8_object         = m_context->Global()->Get(m_context, v8_attribute_name).ToLocalChecked();
 
     // convert the v8 object into a cpp object
-    auto cpp_object = v8pp::convert<T>::from_v8(v8_isolate, v8_object);
+    auto cpp_object = v8pp::convert<U>::from_v8(v8_isolate, v8_object);
     return cpp_object;
 }
 
 
 template <typename T>
-inline auto javascript::environment::realms::realm::set(ext::string&& attribute_name, T new_value) -> void
+template <typename U>
+inline auto javascript::environment::realms::realm<T>::set(ext::string&& attribute_name, U new_value) -> void
 {
     // save the v8 isolate, convert the attribute name into a v8 string, and convert the cpp new value into a v8 object
     auto v8_isolate        = m_context->GetIsolate();
@@ -74,7 +80,7 @@ inline auto javascript::environment::realms::realm::set(ext::string&& attribute_
 
 
 template <typename T>
-auto javascript::environment::realms::realm::global_object() -> T
+inline auto javascript::environment::realms::realm<T>::global_object() -> T
 {
     // save the v8 isolate, get the v8 global object proxy and the true v8 global object
     auto v8_isolate             = m_context->GetIsolate();
