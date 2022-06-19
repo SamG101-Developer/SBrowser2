@@ -12,7 +12,7 @@ struct v8pp::convert<ext::set<T>>
     using from_type = ext::set<T>;
     using to_type = v8::Local<v8::Set>;
 
-    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() and v8_value->IsSet();}
+    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() && v8_value->IsSet();}
     auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
     auto static to_v8(v8::Isolate* isolate, const from_type& cpp_value_set) -> to_type;
 };
