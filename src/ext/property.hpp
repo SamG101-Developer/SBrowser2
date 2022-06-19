@@ -10,131 +10,182 @@ namespace ext {template <typename _Tx, bool ce_reactions> class property;}
 
 #include <ext/keywords.hpp>
 #include <ext/type_traits.hpp>
-#include <ext/detail/meta_property.hpp>
+#include <ext/detail/guard_property.hpp>
 
 template <typename _Tx, bool ce_reactions>
 class ext::property
 {
+public aliases:
+    using outer_val_t = _Tx;                                 // unique_ptr<node>, node*, etc
+    using inner_val_t = unwrap_smart_pointer_t<outer_val_t>; // node*           , node*, etc
+
 public constructors:
     property() = default;
     ~property() {_Meta._Deleter();};
 
-    property(const property&) = delete;
-    property(property&&) noexcept = delete;
-    auto operator=(const property&) -> property& = delete;
-    auto operator=(property&&) noexcept -> property& = delete;
+    [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
+    property(const property& _Other) = default;
+    [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
+    property(property&& _Other) noexcept = default;
+    [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
+    auto operator=(const property& _Other) -> property& = default;
+    [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
+    auto operator=(property&& _Other) noexcept -> property& = default;
 
-    property(const _Tx& _Other) : _Meta(_Other) {}
-    property(_Tx&& _Other) noexcept : _Meta(std::forward<_Tx>(_Other)) {}
+    // assign a starting value for the property
+    property(const outer_val_t& _OtherToCopy) requires is_dumb_property : _Meta(_OtherToCopy) {} // set new object (const ref)
+    property(outer_val_t&& _OtherToMove) noexcept requires is_dumb_property : _Meta(std::forward<outer_val_t>(_OtherToMove)) {} // set new object (movable)
+
+    property(outer_val_t&& _OtherSmartPointerToMove) noexcept requires is_smart_property {_Meta._Val = std::move(_OtherSmartPointerToMove);} // set unique_ptr to a new unique pointer
+    property(inner_val_t   _OtherRawPointerToLink) noexcept requires is_smart_property {_Meta._Val.reset(_OtherRawPointerToLink);}
 
 public cpp_operators:
     // member access
-    auto operator*() -> _Tx& {verify_lock return _Meta.M_Val;}
-    auto operator->() const {return &_Meta._Getter();}
-    auto operator->() const -> auto requires is_smart_pointer_v<_Tx> {return _Meta._Getter().get();}
-    auto operator->() const -> auto requires std::is_pointer_v<_Tx> {return _Meta._Getter();}
+    auto operator* ()       -> auto&;
+    auto operator* () const -> const auto&;
+    auto operator->()       -> auto&;
+    auto operator->() const -> const auto&;
 
-    // getter
-    operator _Tx() const requires (not is_smart_pointer_v<_Tx>) {return _Meta.getter();}
-    template <typename U> operator U() const requires (is_smart_pointer_v<_Tx>) {return _Meta.getter().get();}
+    // javascript getter
+    auto operator()() const -> auto {return _Meta._Getter();}
 
-    // setter
-    auto operator=(_Tx&& _That) noexcept;
-    auto operator=(const _Tx& that) -> property& {operator=(std::move(that));}
+    // javascript setter
+    auto operator=(const outer_val_t& _OtherToCopy) -> void {_Meta._Setter(_OtherToCopy);}
+    auto operator=(outer_val_t&& _OtherToMove) noexcept -> void {_Meta._Setter(std::forward<_Tx>(_OtherToMove));}
+
+    template <typename derived_from_inner_val_t>
+    auto operator=(derived_from_inner_val_t _OtherRawPointerToLink)
+            -> void requires (is_smart_property && is_dynamically_castable_to_v<inner_val_t, derived_from_inner_val_t>) {_Meta._Setter((inner_val_t)_OtherRawPointerToLink);}
+
+//    auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
 
     // comparison operators
-    template <typename U> auto operator==(const U& that) -> bool {return _Meta.m_value == that;}
-    template <typename U> auto operator!=(const U& that) -> bool {return _Meta.m_value != that;}
-    template <typename U> auto operator> (const U& that) -> bool {return _Meta.m_value >  that;}
-    template <typename U> auto operator< (const U& that) -> bool {return _Meta.m_value <  that;}
-    template <typename U> auto operator>=(const U& that) -> bool {return _Meta.m_value >= that;}
-    template <typename U> auto operator<=(const U& that) -> bool {return _Meta.m_value <= that;}
+    auto operator==(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() == _That;}
+    auto operator!=(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() != _That;}
+    auto operator> (const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() >  _That;}
+    auto operator< (const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() <  _That;}
+    auto operator>=(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() >= _That;}
+    auto operator<=(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() <= _That;}
 
     // assignment operators
-    template <typename U> auto operator+=(const U& that) -> property& {_Meta.m_value += that; return *this;}
-    template <typename U> auto operator-=(const U& that) -> property& {_Meta.m_value -= that; return *this;}
-    template <typename U> auto operator*=(const U& that) -> property& {_Meta.m_value *= that; return *this;}
-    template <typename U> auto operator/=(const U& that) -> property& {_Meta.m_value /= that; return *this;}
-    template <typename U> auto operator%=(const U& that) -> property& {_Meta.m_value %= that; return *this;}
+    auto operator+=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() += _That; return *this;}
+    auto operator-=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() -= _That; return *this;}
+    auto operator*=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() *= _That; return *this;}
+    auto operator/=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() /= _That; return *this;}
+    auto operator%=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() %= _That; return *this;}
 
     // arithmetic operators
-    template <typename U> auto operator+(const U& that) const -> property {return property{_Meta.m_value += that};}
-    template <typename U> auto operator-(const U& that) const -> property {return property{_Meta.m_value -= that};}
-    template <typename U> auto operator*(const U& that) const -> property {return property{_Meta.m_value *= that};}
-    template <typename U> auto operator/(const U& that) const -> property {return property{_Meta.m_value /= that};}
-    template <typename U> auto operator%(const U& that) const -> property {return property{_Meta.m_value %= that};}
+    auto operator+(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() += _That};}
+    auto operator-(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() -= _That};}
+    auto operator*(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() *= _That};}
+    auto operator/(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() /= _That};}
+    auto operator%(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() %= _That};}
 
     // increment operators
-    template <typename U> auto operator++() -> property& {++_Meta.m_value; return *this;}
-    template <typename U> auto operator--() -> property& {--_Meta.m_value; return *this;}
-    template <typename U> auto operator++(const int) const -> property {return property{_Meta.m_value++};}
-    template <typename U> auto operator--(const int) const -> property {return property{_Meta.m_value--};}
+    auto operator++() -> property& {++_Meta._Val; return *this;}
+    auto operator--() -> property& {--_Meta._Val; return *this;}
+    auto operator++(const int) const -> property {return property{_Meta._Val++};}
+    auto operator--(const int) const -> property {return property{_Meta._Val--};}
 
     // boolean operator
-    operator bool() const {return static_cast<bool>(_Meta.getter());}
+    operator bool() const {return static_cast<bool>(_Meta._Getter());}
 
 public cpp_properties:
     detail::meta_property<_Tx, ce_reactions> _Meta;
 };
 
 
+template <typename _Ty, bool ce_reactions>
+auto ext::property<_Ty, ce_reactions>::operator*() -> auto&
+{
+    // get the internal value (internal pointer of smart pointer, or object)
+    verify_lock
+    return _Meta._Val;
+}
+
+
+template <typename _Ty, bool ce_reactions>
+auto ext::property<_Ty, ce_reactions>::operator*() const -> const auto&
+{
+    // get the internal value (internal pointer of smart pointer, or object)
+    verify_lock
+    return _Meta._Val;
+}
+
+
+template <typename _Ty, bool ce_reactions>
+auto ext::property<_Ty, ce_reactions>::operator->() -> auto&
+{
+    // get the internal value (object of (smart)pointer, or address)
+    if constexpr(std::is_pointer_v<_Ty> || is_smart_pointer_v<_Ty>)
+        return _Meta._Val;
+    else
+        return &_Meta._Val;
+}
+
+
+template <typename _Ty, bool ce_reactions>
+auto ext::property<_Ty, ce_reactions>::operator->() const -> const auto&
+{
+    // get the internal value (object of (smart)pointer, or address)
+    if constexpr(std::is_pointer_v<_Ty> || is_smart_pointer_v<_Ty>)
+        return _Meta._Val;
+    else
+        return &_Meta._Val;
+}
+
+
 template <typename _Ty2, typename _Ty1>
-inline auto p_static_cast(const ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_static_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
 {
     // apply a dynamic_cast to a property's value
-    unlock_property(_That)
-    return property<_Ty2>(dynamic_cast<_Ty2>(*_That));
-    lock_property(_That)
+    property_guard(_That);
+    return ext::property<_Ty2>(dynamic_cast<_Ty2>(*_That));
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_dynamic_cast(const ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_dynamic_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
 {
     // apply a static_cast to a property's value
-    unlock_property(_That)
-    return property<_Ty2>(static_cast<_Ty2>(*_That));
-    lock_property(_That)
+    property_guard(_That);
+    return ext::property<_Ty2>(static_cast<_Ty2>(*_That));
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_const_cast(const ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_const_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
 {
     // apply a const_cast to a property's value
-    unlock_property(_That)
-    return property<_Ty2>(const_cast<_Ty2>(*_That));
-    lock_property(_That)
+    property_guard(_That);
+    return ext::property<_Ty2>(const_cast<_Ty2>(*_That));
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_reinterpret_cast(const ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_reinterpret_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
 {
     // apply a reinterpret_cast to a property's value
-    unlock_property(_That)
-    return property<_Ty2>(reinterpret_cast<_Ty2>(*_That));
-    lock_property(_That)
+    property_guard(_That);
+    return ext::property<_Ty2>(reinterpret_cast<_Ty2>(*_That));
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_any_cast(const ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_any_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
 {
     // apply an any_cast to a property's value
-    unlock_property(_That)
-    return property<_Ty2>((*_That).template to<_Ty2>());
-    lock_property(_That)
+    property_guard(_That);
+    return ext::property<_Ty2>((*_That).template to<_Ty2>());
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_bit_cast(const ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_bit_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
 {
     // apply a bit_cast to a property's value
-    unlock_property(_That)
-    return property<_Ty2>(std::bit_cast<_Ty2>(*_That));
-    lock_property(_That)
+    property_guard(_That);
+    return ext::property<_Ty2>(std::bit_cast<_Ty2>(*_That));
 }
 
 
