@@ -28,8 +28,8 @@ inline auto v8pp::convert<ext::any>::from_v8(v8::Isolate* isolate, to_type v8_va
     if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::any from v8"};
     v8::HandleScope javascript_scope{isolate};
 
-    // create the value of the correct type based on the type of v8 value paseed into the method
-    if (v8_value->IsUndefined() or v8_value.IsEmpty()) return from_type{};
+    // create the value of the correct type based on the type of v8 value passed into the method
+    if (v8_value->IsUndefined() || v8_value.IsEmpty()) return from_type{};
     if (v8_value->IsNull()) return from_type{nullptr};
     if (v8_value->IsBoolean()) return from_type{convert<ext::boolean>::from_v8(isolate, v8_value.As<v8::Boolean>())};
     if (v8_value->IsNumber()) return from_type{convert<ext::number<double>>::from_v8(isolate, v8_value.As<v8::Number>())};
