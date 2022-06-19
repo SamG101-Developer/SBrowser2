@@ -45,10 +45,10 @@ custom_operator(try_or) {try {return a();} catch(...) {return b;}}
 // prefix unary operators
 
 custom_operator(clamp) {std::clamp(b.min(), b.max(), b);}
-#define clamp 0 <clamp>
+#define js_clamp 0 <clamp>
 
-custom_operator(enforce_range) {if (b < b.min() or b > b.max()) throw std::out_of_range{"Number out of range"};}
-#define enforce_range 0 <enforce_range>
+custom_operator(enforce_range) {if (b < b.min() || b > b.max()) throw std::out_of_range{"Number out of range"};}
+#define js_enforce_range 0 <enforce_range>
 
 
 // postfix unary operators
@@ -60,7 +60,7 @@ custom_operator(enforce_range) {if (b < b.min() or b > b.max()) throw std::out_o
 // annotation operators
 #define new_object
 #define same_object
-#define unscopabe // TODO -> link to JS @@unscopable
+#define unscopable // TODO -> link to JS @@unscopable
 
 
 
