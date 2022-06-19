@@ -3,6 +3,7 @@
 #define SBROWSER2_ANY_HPP
 
 namespace ext {class any;}
+namespace ext {using any_view = const any&;}
 
 #include <any>
 #include <ext/boolean.hpp>
@@ -32,7 +33,7 @@ public cpp_methods:
     [[nodiscard]] auto is_numeric() const -> ext::boolean {return _IsNumeric;}
     [[nodiscard]] auto is_empty() const -> ext::boolean {return not _Any.has_value();}
     [[nodiscard]] auto has_value() const -> ext::boolean {return _Any.has_value();}
-    template <typename _Ty> auto to() const -> const _Ty&;
+    template <typename _Ty> auto to() const -> _Ty {return std::any_cast<_Ty>(_Any);};
 
 public cpp_operators:
     auto operator==(const any& _Other) const -> ext::boolean {return &_Other._Any == &_Any;}
@@ -58,21 +59,6 @@ auto ext::any::operator=(_Ty&& _Val) noexcept -> any&
     _Any = std::forward<_Ty>(_Val);
     _IsNumeric = is_template_base_of_v<_Ty, ext::number>;
     return *this;
-}
-
-
-template <typename _Ty>
-inline auto ext::any::to() const -> const _Ty&
-{
-    // types that are empty or contain a void are mapped to a nullptr or a new object for the _Ty type
-    if (is_empty() or type() == typeid(void))
-    {
-        if constexpr(std::is_pointer_v<_Ty>) return nullptr;
-        return _Ty{};
-    }
-
-    // otherwise cast the object as the correct type
-    return std::any_cast<_Ty>(_Any);
 }
 
 
