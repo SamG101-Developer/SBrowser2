@@ -12,15 +12,12 @@
 #define catch_specific (exception_t) catch(const exception_t& exception)
 #define catch_other catch (...&)
 
-#define string_switch(string) switch(ext::detail::hash(string))
-#define string_case(string) case(ext::detail::hash(string))
+#define string_switch(string) switch(ext::detail::_Hash(string))
+#define string_case(string) case(ext::detail::_Hash(string))
 #define string_default default
 
 #define JS_BLOCK_ENTER {
 #define JS_BLOCK_EXIT }
-
-
-#define enforce_range /* throw an error if the number is out of range */
 
 #define friends
 #define aliases
@@ -39,6 +36,10 @@
 #define cpp_accessors
 #define cpp_operators
 #define cpp_nested_classes
+
+#define return_if(condition) if (condition) return
+#define break_if(condition) if (condition) break
+#define continue_if(condition) if (condition) continue
 
 
 #endif //SBROWSER2_KEYWORDS_HPP
