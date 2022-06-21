@@ -47,7 +47,7 @@ public cpp_operators:
     auto operator->() const -> const auto&;
 
     // javascript getter
-    auto operator()() const -> auto {return _Meta._Getter();}
+    auto operator()() const -> inner_val_t {return _Meta._Getter();}
 
     // javascript setter
     auto operator=(const outer_val_t& _OtherToCopy) -> void {_Meta._Setter(_OtherToCopy);}
@@ -60,35 +60,32 @@ public cpp_operators:
 //    auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
 
     // comparison operators
-    auto operator==(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() == _That;}
-    auto operator!=(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() != _That;}
-    auto operator> (const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() >  _That;}
-    auto operator< (const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() <  _That;}
-    auto operator>=(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() >= _That;}
-    auto operator<=(const ext::property<_Tx>& _That) const -> bool {return _Meta._Getter() <= _That;}
+    template <typename _Ty> auto operator==(const _Ty& _That) const -> bool {return _Meta._Getter() == _That;}
+    template <typename _Ty> auto operator!=(const _Ty& _That) const -> bool {return _Meta._Getter() != _That;}
+    template <typename _Ty> auto operator> (const _Ty& _That) const -> bool {return _Meta._Getter() >  _That;}
+    template <typename _Ty> auto operator< (const _Ty& _That) const -> bool {return _Meta._Getter() <  _That;}
+    template <typename _Ty> auto operator>=(const _Ty& _That) const -> bool {return _Meta._Getter() >= _That;}
+    template <typename _Ty> auto operator<=(const _Ty& _That) const -> bool {return _Meta._Getter() <= _That;}
 
     // assignment operators
-    auto operator+=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() += _That; return *this;}
-    auto operator-=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() -= _That; return *this;}
-    auto operator*=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() *= _That; return *this;}
-    auto operator/=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() /= _That; return *this;}
-    auto operator%=(const ext::property<_Tx>& _That) -> property& {_Meta._Getter() %= _That; return *this;}
+    template <typename _Ty> auto operator+=(const _Ty& _That) -> property& {_Meta._Val += _That; return *this;}
+    template <typename _Ty> auto operator-=(const _Ty& _That) -> property& {_Meta._Val -= _That; return *this;}
+    template <typename _Ty> auto operator*=(const _Ty& _That) -> property& {_Meta._Val *= _That; return *this;}
+    template <typename _Ty> auto operator/=(const _Ty& _That) -> property& {_Meta._Val /= _That; return *this;}
+    template <typename _Ty> auto operator%=(const _Ty& _That) -> property& {_Meta._Val %= _That; return *this;}
 
     // arithmetic operators
-    auto operator+(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() += _That};}
-    auto operator-(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() -= _That};}
-    auto operator*(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() *= _That};}
-    auto operator/(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() /= _That};}
-    auto operator%(const ext::property<_Tx>& _That) const -> property {return property{_Meta._Getter() %= _That};}
+    template <typename _Ty> auto operator+(const _Ty& _That) const -> property {return property{_Meta._Val + _That};}
+    template <typename _Ty> auto operator-(const _Ty& _That) const -> property {return property{_Meta._Val - _That};}
+    template <typename _Ty> auto operator*(const _Ty& _That) const -> property {return property{_Meta._Val * _That};}
+    template <typename _Ty> auto operator/(const _Ty& _That) const -> property {return property{_Meta._Val / _That};}
+    template <typename _Ty> auto operator%(const _Ty& _That) const -> property {return property{_Meta._Val % _That};}
 
     // increment operators
     auto operator++() -> property& {++_Meta._Val; return *this;}
     auto operator--() -> property& {--_Meta._Val; return *this;}
     auto operator++(const int) const -> property {return property{_Meta._Val++};}
     auto operator--(const int) const -> property {return property{_Meta._Val--};}
-
-    // boolean operator
-    operator bool() const {return static_cast<bool>(_Meta._Getter());}
 
 public cpp_properties:
     detail::meta_property<_Tx, ce_reactions> _Meta;
