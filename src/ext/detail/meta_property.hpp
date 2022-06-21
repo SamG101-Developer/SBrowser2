@@ -90,8 +90,8 @@ public cpp_properties:
     };
 
 private cpp_methods:
-    auto _Is_value_valid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>;
-    auto _Is_value_valid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires ext::is_template_base_of_v<_Tx, ext::number>;
+    auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>;
+    auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires ext::is_template_base_of_v<_Tx, ext::number>;
 
 public cpp_properties:
     _Tx _Val;
@@ -128,12 +128,12 @@ auto ext::detail::meta_property<_Tx, ce_reactions>::_AttachQtMethod(_Ty _Qt_obj,
 {
     // set the of qt callbacks and add the callbacks to it (can be called multiple times)
     _Qt_callbacks._Is = true;
-    _Qt_callbacks._Callbacks.emplace([this, &_Qt_obj, _Callback] {std::mem_fn(_Callback)(_Qt_obj, _Val);});
+    _Qt_callbacks._Callbacks.emplace([this, &_Qt_obj, _Callback = std::forward<_Ty>(_Callback)] {std::mem_fn(_Callback)(_Qt_obj, _Val);});
 }
 
 
 template <typename _Tx, bool ce_reactions>
-auto ext::detail::meta_property<_Tx, ce_reactions>::_Is_value_valid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>
+auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>
 {
     // for non-arithmetic types, check that the constraints are satisfied
     return {_Constraints._Is and _Constraints._Allowed.contains(_That), _That};
@@ -141,7 +141,7 @@ auto ext::detail::meta_property<_Tx, ce_reactions>::_Is_value_valid(_Tx _That) c
 
 
 template <typename _Tx, bool ce_reactions>
-auto ext::detail::meta_property<_Tx, ce_reactions>::_Is_value_valid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires ext::is_template_base_of_v<_Tx, ext::number>
+auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires ext::is_template_base_of_v<_Tx, ext::number>
 {
     // for arithmetic types, check that the constraints are satisfied, and then clamp the value
     if (_Constraints._Is && not _Constraints._Allowed.contains(_That)) return {false, _That};
