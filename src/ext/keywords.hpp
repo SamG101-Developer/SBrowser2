@@ -8,9 +8,9 @@
 #define _F false
 
 #define try try
-#define catch_all catch (...&)
+#define catch_all catch (...)
 #define catch_specific (exception_t) catch(const exception_t& exception)
-#define catch_other catch (...&)
+#define catch_other catch (...)
 
 #define string_switch(string) switch(ext::detail::_Hash(string))
 #define string_case(string) case(ext::detail::_Hash(string))
