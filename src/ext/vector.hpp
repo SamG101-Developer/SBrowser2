@@ -8,6 +8,9 @@ namespace     {template <typename _Vt> using vector_internal = veque::veque<_Vt>
 namespace ext {template <typename _Tx> class vector;}
 namespace ext {template <typename _Vt> using vector_view = vector<_Vt>;}
 
+namespace ext {using string_vector = ext::vector<ext::string>;}
+namespace ext {using string_vector_view = const ext::vector<ext::string>&;}
+
 #include <ranges>
 #include <ext/keywords.hpp>
 #include <ext/optional.hpp>
@@ -19,7 +22,7 @@ class ext::vector
 public aliases:
     using reference = typename vector_internal<_Tx>::reference;
     using const_reference = typename vector_internal<_Tx>::const_reference;
-    using outer_val_t = _Tx;
+    using value_type = _Tx;
     using size_type = typename vector_internal<_Tx>::size_type;
 
     using iterator = typename vector_internal<_Tx>::iterator;
@@ -31,13 +34,13 @@ public constructors:
     template <typename ..._Valty> explicit vector(_Valty... _Val) : veque::veque<_Tx>{std::initializer_list{std::forward<_Valty>(_Val)...}} {};
 
 public cpp_methods:
-    auto front()       -> optional<      value_type> {return (*this)[0];};
+    auto front() -> optional<value_type> {return (*this)[0];};
     auto front() const -> optional<const value_type> {return (*this)[0];};
 
-    auto back()       -> optional<      value_type> {return (*this)[this->size() - 1];};
+    auto back() -> optional<value_type> {return (*this)[this->size() - 1];};
     auto back() const -> optional<const value_type> {return (*this)[this->size() - 1];};
 
-    auto at(size_type _Idx)       -> optional<      value_type> {return (*this)[_Idx];};
+    auto at(size_type _Idx) -> optional<value_type> {return (*this)[_Idx];};
     auto at(size_type _Idx) const -> optional<const value_type> {return (*this)[_Idx];};
 
     auto extend(const_iterator _Where, ext::vector_view<_Tx> _Other)
@@ -47,7 +50,7 @@ public cpp_methods:
     }
 
 public cpp_operators:
-    auto operator[](size_type _Idx)       -> optional<      value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
+    auto operator[](size_type _Idx) -> optional<value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
     auto operator[](size_type _Idx) const -> optional<const value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
 
     auto operator+=(vector_view<_Tx> _Other) -> vector&;
