@@ -11,7 +11,6 @@ class dom::node_ranges::range
         : public abstract_range
 {
 public constructors:
-    using abstract_range::abstract_range;
     range();
 
 public js_static_constants:
