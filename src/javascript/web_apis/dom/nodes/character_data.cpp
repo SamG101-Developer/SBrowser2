@@ -25,7 +25,7 @@ auto dom::nodes::character_data::append_data(
         -> void
 {
     // append data: replace 0 characters after the length of this node with the 'new_data'
-    return detail::text_internals::substring_data(detail::tree_internals::length(this), 0, new_data);
+    return detail::text_internals::replace_data(this, detail::tree_internals::length(this), 0, new_data);
 }
 
 
@@ -66,8 +66,8 @@ auto dom::nodes::character_data::to_v8(
 {
     return v8pp::class_<character_data>{isolate}
             .inherit<node>()
-            .inherit<dom::mixins::child_node<character_data>>()
-            .inherit<dom::mixins::non_document_type_child_node<character_data>>()
+            .inherit<dom::mixins::child_node>()
+            .inherit<dom::mixins::non_document_type_child_node>()
 
             .function("substringData", &character_data::substring_data)
             .function("appendData", &character_data::append_data)
