@@ -8,7 +8,8 @@ namespace dom::nodes {class document;}
 class dom::nodes::document
         : public node
 {
-
+private cpp_accessors:
+    auto get_node_name() const -> ext::string override {return "#document";}
 };
 
 
