@@ -12,6 +12,11 @@
 #include <v8pp/class.hpp>
 
 namespace web_apis {class dom_object;}
+namespace dom::events {class event;}
+namespace dom::nodes {class document;}
+namespace dom::nodes {class node;}
+
+#define behaviour_method(...) std::function<void(__VA_ARGS__)>
 
 
 class web_apis::dom_object
@@ -26,6 +31,41 @@ public constructors:
 
 public cpp_methods:
     virtual auto to_v8(v8::Isolate* isolate) const && -> ext::any = 0;
+
+public cpp_properties:
+    struct
+    {
+        behaviour_method(
+                dom::events::event* event_causing_activation)
+                activation_behaviour;
+
+        behaviour_method(
+                dom::nodes::node* node_to_remove)
+                remove_steps;
+
+        behaviour_method(
+                dom::nodes::node* node_to_clone,
+                dom::nodes::document* document_to_clone_into,
+                ext::boolean_view deep_clone)
+                cloning_steps;
+
+        behaviour_method(
+                ext::string local_name,
+                ext::string old_value,
+                ext::string new_value,
+                ext::string namespace_)
+                attribute_change_steps;
+
+        behaviour_method()
+                adopting_steps;
+
+        behaviour_method()
+                children_changed_steps;
+
+        behaviour_method()
+                insertion_steps;
+
+    } m_dom_behaviour;
 };
 
 
