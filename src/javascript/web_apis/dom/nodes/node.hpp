@@ -2,6 +2,7 @@
 #ifndef SBROWSER2_NODE_HPP
 #define SBROWSER2_NODE_HPP
 
+#include <ext/map.hpp>
 #include <web_apis/dom/nodes/event_target.hpp>
 namespace dom::nodes {class node;}
 
@@ -33,7 +34,7 @@ public js_methods:
     auto has_child_nodes() -> ext::boolean;
 
     auto normalize() -> void;
-    auto clone_node(ext::boolean deep = false) -> node*;
+    auto clone_node(ext::boolean_view deep = false) -> node*;
     auto is_equal_node(node* other) -> ext::boolean;
 
     auto is_default_namespace(ext::string_view namespace_) -> ext::boolean;
@@ -64,19 +65,20 @@ public js_properties:
     ext::property<node*> next_sibling;
 
 public cpp_methods:
-    virtual auto to_qt() const -> QObject* {return m_rendered_widget;};
+    virtual auto to_qt() const -> QWidget* {return m_rendered_widget;};
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_properties:
-    QPointer<QObject> m_rendered_widget = nullptr;
-    ext::vector<detail::mutation_internals::registered_observer*>& m_registered_observer_list;
+    QPointer<QWidget> m_rendered_widget;
+//    ext::vector<detail::mutation_internals::registered_observer*>& m_registered_observer_list;
 
 protected cpp_accessors:
-    virtual auto get_node_value() const -> ext::string;
-    virtual auto get_text_content() const -> ext::string;
+    [[nodiscard]] virtual auto get_node_name() const -> ext::string = 0;
+    [[nodiscard]] virtual auto get_text_content() const -> ext::string = 0;
+    [[nodiscard]] virtual auto get_node_value() const -> ext::string = 0;
 
-    virtual auto set_node_value(ext::string_view val) -> void;
-    virtual auto set_text_content(ext::string_view val) -> void;
+    virtual auto set_node_value(ext::string_view val) -> void = 0;
+    virtual auto set_text_content(ext::string_view val) -> void = 0;
     virtual auto set_parent_node(node* val) -> void;
 
 private cpp_accessors:
