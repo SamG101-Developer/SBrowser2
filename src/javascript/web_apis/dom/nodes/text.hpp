@@ -8,11 +8,11 @@ namespace dom::nodes {class text;}
 
 class dom::nodes::text
         : public character_data
-        , public mixins::slottable<text>
+        , public mixins::slottable
 {
 public constructors:
-    using character_data::character_data;
-    explicit text(ext::string_view new_data = "");
+    text();
+    explicit text(ext::string_view new_data);
 
 public js_methods:
     auto split_text(ext::number_view<ulong> offset) -> text*;
@@ -25,6 +25,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
+    auto get_node_name() const -> ext::string override {return "#text";};
     auto get_whole_text() const -> ext::string;
 };
 
