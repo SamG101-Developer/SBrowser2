@@ -51,25 +51,23 @@ public cpp_static_methods:
     static auto INF() -> detail::infinity<_Tx> {return detail::infinity<_Tx>{};};
 
 public cpp_operators:
-    template <typename _Ty> auto operator+(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val + _Other._Any};}
-    template <typename _Ty> auto operator-(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val - _Other._Any};}
-    template <typename _Ty> auto operator*(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val * _Other._Any};}
-    template <typename _Ty> auto operator/(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val / _Other._Any};}
-    template <typename _Ty> auto operator%(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val % _Other._Any};}
+    template <typename _Ty> auto operator+(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val + _Other._Val};}
+    template <typename _Ty> auto operator-(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val - _Other._Val};}
+    template <typename _Ty> auto operator*(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val * _Other._Val};}
+    template <typename _Ty> auto operator/(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val / _Other._Val};}
+    template <typename _Ty> auto operator%(ext::number_view<_Ty> _Other) const {return number<_Tx>{_Val % _Other._Val};}
 
-    template <typename _Ty> auto operator+=(ext::number_view<_Ty> _Other) {_Val += _Other._Any; return *this;}
-    template <typename _Ty> auto operator-=(ext::number_view<_Ty> _Other) {_Val -= _Other._Any; return *this;}
-    template <typename _Ty> auto operator*=(ext::number_view<_Ty> _Other) {_Val *= _Other._Any; return *this;}
-    template <typename _Ty> auto operator/=(ext::number_view<_Ty> _Other) {_Val /= _Other._Any; return *this;}
-    template <typename _Ty> auto operator%=(ext::number_view<_Ty> _Other) {_Val %= _Other._Any; return *this;}
+    template <typename _Ty> auto operator+=(ext::number_view<_Ty> _Other) {_Val += _Other._Val; return *this;}
+    template <typename _Ty> auto operator-=(ext::number_view<_Ty> _Other) {_Val -= _Other._Val; return *this;}
+    template <typename _Ty> auto operator*=(ext::number_view<_Ty> _Other) {_Val *= _Other._Val; return *this;}
+    template <typename _Ty> auto operator/=(ext::number_view<_Ty> _Other) {_Val /= _Other._Val; return *this;}
+    template <typename _Ty> auto operator%=(ext::number_view<_Ty> _Other) {_Val %= _Other._Val; return *this;}
 
     template <typename _Ty> auto operator<=>(ext::number_view<_Ty> _Other) const {return _Val <=> _Other._Val;}
 
-    template <typename _Ty>
-    auto operator==(const number<_Ty>& _Other) const -> bool {return _Val == _Other._Val;}
-    auto operator==(_Tx _Other) const -> bool {return _Val == _Other;}
     explicit operator std::string() const {return std::to_string(_Val);}
-    explicit operator _Tx() const {return _Val;}
+    operator _Tx() const {return _Val;}
+    template <typename _Ty> operator number<_Ty>() {return number<_Ty>{static_cast<_Ty>(_Val)};}
 
 private cpp_properties:
     _Tx _Val;
