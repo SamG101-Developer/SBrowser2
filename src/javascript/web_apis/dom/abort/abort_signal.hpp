@@ -21,7 +21,6 @@ public friends:
     friend auto detail::aborting_internals::follow_signal(abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;
 
 public constructors:
-    using nodes::event_target::event_target;
     abort_signal();
 
 public js_methods:

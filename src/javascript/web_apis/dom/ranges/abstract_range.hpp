@@ -8,10 +8,10 @@ namespace dom::nodes {class node;}
 
 
 class dom::node_ranges::abstract_range
-        : public virtual web_apis::dom_object
+        : public web_apis::dom_object
 {
 public constructors:
-    using web_apis::dom_object::dom_object;
+    abstract_range();
 
 public js_properties:
     ext::property<ext::boolean> collapsed;

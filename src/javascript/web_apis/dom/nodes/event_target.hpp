@@ -21,7 +21,7 @@ namespace dom::detail::event_internals {auto remove_all_event_listeners(nodes::e
 
 
 class dom::nodes::event_target
-        : public virtual web_apis::dom_object
+        : public web_apis::dom_object
 {
 private aliases:
     using event_listener_callback_t = std::function<void()>;
@@ -32,7 +32,7 @@ public friends:
     friend auto detail::event_internals::remove_all_event_listeners(nodes::event_target* event_target) -> void;
 
 public constructors:
-    using dom_object::dom_object;
+    event_target();
     ~event_target() override;
 
 public js_methods:

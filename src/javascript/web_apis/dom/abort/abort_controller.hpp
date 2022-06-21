@@ -11,7 +11,6 @@ class dom::abort::abort_controller
         : public web_apis::dom_object
 {
 public constructors:
-    using web_apis::dom_object::dom_object;
     abort_controller();
 
 public js_methods:

@@ -9,7 +9,7 @@ class dom::events::custom_event final
         : public event
 {
 public constructors:
-    using event::event;
+    custom_event();
     custom_event(ext::string_view event_type, ext::string_any_map_view event_init = {});
 
 public js_properties:
