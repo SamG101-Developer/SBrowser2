@@ -4,7 +4,10 @@
 
 #include <algorithm>
 #include <cmath>
+#include <queue>
+#include <stack>
 #include <stdexcept>
+#include <javascript/environment/realms.hpp>
 
 
 #define custom_operator(name)                                  \
@@ -38,16 +41,29 @@
 
 // binary operators
 
-custom_operator(try_or) {try {return a();} catch(...) {return b;}}
+custom_operator(try_or)
+{
+    try {return a();}
+    catch_all {return b;}
+}
+
 #define try_or <try_or>
 
 
 // prefix unary operators
 
-custom_operator(clamp) {std::clamp(b.min(), b.max(), b);}
+custom_operator(clamp)
+{
+    auto r = std::clamp(b.min(), b.max(), b);
+    static_cast<void>(r);
+}
 #define js_clamp 0 <clamp>
 
-custom_operator(enforce_range) {if (b < b.min() || b > b.max()) throw std::out_of_range{"Number out of range"};}
+custom_operator(enforce_range)
+{
+    if (b < b.min() || b > b.max())
+        throw std::out_of_range{"Number out of range"};
+}
 #define js_enforce_range 0 <enforce_range>
 
 
@@ -62,6 +78,23 @@ custom_operator(enforce_range) {if (b < b.min() || b > b.max()) throw std::out_o
 #define same_object
 #define unscopable // TODO -> link to JS @@unscopable
 
+
+#define ce_reaction_method_def \
+    auto _ce_method = [&]
+
+#define ce_reaction_method_exe                                                                                                                                               \
+    {                                                                                                                                                                         \
+    using element_queue_t = std::queue<dom::nodes::element*>;                                                                                                                 \
+    using stack_t = std::stack<element_queue_t*>;                                                                                                                             \
+    auto custom_element_reactions_stack = javascript::environment::realms::realm<dom::nodes::window*>::relevant_realm(this).get<stack_t*>("custom_element_reactions_stack");  \
+    custom_element_reactions_stack->push(new element_queue_t{});                                                                                                              \
+    v8::TryCatch exception_handler{v8::Isolate::GetCurrent()};                                                                                                                \
+    auto value = _ce_method();                                                                                                                                                \
+    auto* queue = custom_element_reactions_stack->top();                                                                                                                      \
+    custom_element_reactions_stack->pop();                                                                                                                                    \
+    if (exception_handler.HasCaught()) exception_handler.ReThrow();                                                                                                           \
+    return value;                                                                                                                                                             \
+    }
 
 
 #endif //SBROWSER2_CUSTOM_OPERATOR_HPP
