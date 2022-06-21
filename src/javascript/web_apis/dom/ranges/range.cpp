@@ -14,4 +14,6 @@ dom::node_ranges::range::range()
     end_container   = javascript::environment::realms::realm<nodes::window*>::current_realm(this).get<nodes::document*>("associated_document");
     start_offset    = 0;
     end_offset      = 0;
+
+    m_root = nullptr;
 }
