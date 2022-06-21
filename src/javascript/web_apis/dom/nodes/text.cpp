@@ -5,19 +5,24 @@
 #include <QtWidgets/QVBoxLayout>
 
 
-dom::nodes::text::text(
-        ext::string_view new_data)
+dom::nodes::text::text()
 {
     bind_get(whole_text);
     bind_qt(data, m_rendered_widget, QLabel::setText);
-
-    data = new_data;
 
     auto widget = QPointer<QLabel>{};
     widget->setLayout(new QVBoxLayout{});
     widget->hide();
     widget->setWordWrap(true);
     m_rendered_widget = widget;
+}
+
+
+dom::nodes::text::text(
+        ext::string_view new_data)
+        : text()
+{
+    data = new_data;
 }
 
 
