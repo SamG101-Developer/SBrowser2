@@ -1,5 +1,5 @@
-#ifndef SBROWSER2_MUTATION_INTERNALS_H
-#define SBROWSER2_MUTATION_INTERNALS_H
+#ifndef SBROWSER2_MUTATION_INTERNALS_HPP
+#define SBROWSER2_MUTATION_INTERNALS_HPP
 
 namespace dom::nodes {class node;}
 
@@ -62,4 +62,4 @@ namespace dom::detail::mutation_internals
 }
 
 
-#endif //SBROWSER2_MUTATION_INTERNALS_H
+#endif //SBROWSER2_MUTATION_INTERNALS_HPP
