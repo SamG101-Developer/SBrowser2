@@ -2,15 +2,14 @@
 #define SBROWSER2_CHILD_NODE_HPP
 
 #include <web_apis/dom_object.hpp>
-namespace dom::mixins {template <typename T> class child_node;}
+namespace dom::mixins {class child_node;}
 
 
-template <typename T>
 class dom::mixins::child_node
-        : public virtual web_apis::dom_object
+        : public web_apis::dom_object
 {
 public constructors:
-    using web_apis::dom_object::dom_object;
+    child_node();
 
 public js_methods:
     unscopable template<typename ...nodes_or_strings_t> auto before(nodes_or_strings_t&&... nodes) -> void;

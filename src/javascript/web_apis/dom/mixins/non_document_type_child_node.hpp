@@ -2,17 +2,15 @@
 #define SBROWSER2_NON_DOCUMENT_TYPE_CHILD_NODE_HPP
 
 #include <web_apis/dom_object.hpp>
-namespace dom::mixins {template <typename T> class non_document_type_child_node;}
+namespace dom::mixins {class non_document_type_child_node;}
 
 namespace dom::nodes {class element;}
 
 
-template <typename T>
 class dom::mixins::non_document_type_child_node
-        : public virtual web_apis::dom_object
+        : public web_apis::dom_object
 {
 public constructors:
-    using web_apis::dom_object::dom_object;
     non_document_type_child_node();
 
 public js_properties:
