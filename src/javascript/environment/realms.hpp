@@ -33,11 +33,11 @@ public constructors:
     explicit realm(v8::Isolate* isolate, v8::Persistent<v8::Context>& persistent_context) : m_context(v8::Local<v8::Context>::New(isolate, persistent_context)) {};
 
 public cpp_static_methods:
-    static auto relevant_realm(web_apis::dom_object* object) -> realm<T>;
-    static auto surrounding_realm(web_apis::dom_object* object) -> realm<T>;
-    static auto current_realm(web_apis::dom_object* object) -> realm<T>;
-    static auto entry_realm(web_apis::dom_object* object) -> realm<T>;
-    static auto incumbent_realm(web_apis::dom_object* object) -> realm<T>;
+    static auto relevant_realm(web_apis::dom_object* object) -> realm<T>&;
+    static auto surrounding_realm(web_apis::dom_object* object) -> realm<T>&;
+    static auto current_realm(web_apis::dom_object* object) -> realm<T>&;
+    static auto entry_realm(web_apis::dom_object* object) -> realm<T>&;
+    static auto incumbent_realm(web_apis::dom_object* object) -> realm<T>&;
 
 public cpp_methods:
     template <typename U> auto get(ext::string&& attribute_name) const -> U;
