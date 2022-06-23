@@ -31,7 +31,10 @@ public aliases:
 public constructors:
     using vector_internal<_Tx>::vector_internal;
 
-    template <typename ..._Valty> explicit vector(_Valty... _Val) : veque::veque<_Tx>{std::initializer_list{std::forward<_Valty>(_Val)...}} {};
+    vector(std::same_as<_Tx> auto&&... _Val)
+    {
+        (this->template emplace(std::forward<_Tx>(_Val)), ...);
+    };
 
 public cpp_methods:
     auto front() -> optional<value_type> {return (*this)[0];};
