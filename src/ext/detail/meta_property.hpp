@@ -52,7 +52,7 @@ public aliases:
     using qt_method_set_t = ext::set<qt_method_t>;
 
     using getter_t  = std::function<inner_val_t()>;
-    using setter_t  = std::function<void(inner_val_t)>;
+    using setter_t  = std::function<inner_val_t(inner_val_t)>;
     using deleter_t = std::function<void()>;
 
 public friends:
@@ -78,9 +78,15 @@ public cpp_properties:
     setter_t _Setter = [this](auto&& _Other)
     {
         if constexpr is_dumb_property
+        {
             _Val = std::forward<decltype(_Other)>(_Other);
+            return _Val;
+        }
         else
+        {
             _Val.reset(_Other);
+            return _Val.get();
+        }
     };
 
     deleter_t _Deleter = [this]()
