@@ -16,9 +16,6 @@
 #define string_case(string) case(ext::detail::_Hash(string))
 #define string_default default
 
-#define JS_BLOCK_ENTER {
-#define JS_BLOCK_EXIT }
-
 #define friends
 #define aliases
 #define enums
