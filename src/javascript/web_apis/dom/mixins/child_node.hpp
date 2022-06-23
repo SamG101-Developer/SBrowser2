@@ -6,7 +6,7 @@ namespace dom::mixins {class child_node;}
 
 
 class dom::mixins::child_node
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 public constructors:
     child_node();

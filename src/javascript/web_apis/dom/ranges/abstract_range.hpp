@@ -8,7 +8,7 @@ namespace dom::nodes {class node;}
 
 
 class dom::node_ranges::abstract_range
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 public constructors:
     abstract_range();

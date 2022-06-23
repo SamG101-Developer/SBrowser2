@@ -8,7 +8,7 @@ namespace dom::abort {class abort_signal;}
 
 
 class dom::abort::abort_controller
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 public constructors:
     abort_controller();

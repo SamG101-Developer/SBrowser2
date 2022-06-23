@@ -21,7 +21,7 @@ namespace dom::detail::event_internals {auto remove_all_event_listeners(nodes::e
 
 
 class dom::nodes::event_target
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 private aliases:
     using event_listener_callback_t = std::function<void()>;

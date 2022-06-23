@@ -8,7 +8,7 @@ namespace html::elements {class html_slot_element;}
 
 
 class dom::mixins::slottable
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 public friends:
     friend class html::elements::html_slot_element;

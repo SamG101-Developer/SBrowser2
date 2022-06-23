@@ -14,7 +14,7 @@ namespace dom::detail::event_internals {struct event_path_struct;}
 
 
 class dom::events::event
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 private: aliases
     using touch_targets_t = ext::vector<nodes::event_target*>;
