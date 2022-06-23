@@ -28,9 +28,9 @@ public constructors:
     [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
     property(property&& _Other) noexcept = default;
     [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
-    auto operator=(const property& _Other) -> property& = default;
+    auto operator=(const property& _Other) -> property& = delete;
     [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
-    auto operator=(property&& _Other) noexcept -> property& = default;
+    auto operator=(property&& _Other) noexcept -> property& = delete;
 
     // assign a starting value for the property
     property(const outer_val_t& _OtherToCopy) requires is_dumb_property : _Meta(_OtherToCopy) {} // set new object (const ref)
@@ -46,46 +46,21 @@ public cpp_operators:
     auto operator->()       -> auto&;
     auto operator->() const -> const auto&;
 
-    // javascript getter
+    // getter
     auto operator()() const -> inner_val_t {return _Meta._Getter();}
 
-    // javascript setter
-    auto operator=(const outer_val_t& _OtherToCopy) -> void {_Meta._Setter(_OtherToCopy);}
-    auto operator=(outer_val_t&& _OtherToMove) noexcept -> void {_Meta._Setter(std::forward<_Tx>(_OtherToMove));}
+    // setter
+    auto operator=(const outer_val_t& _OtherToCopy)
+            -> inner_val_t {return _Meta._Setter(_OtherToCopy);}
+
+    auto operator=(outer_val_t&& _OtherToMove) noexcept
+            -> inner_val_t {return _Meta._Setter(std::forward<_Tx>(_OtherToMove));}
 
     template <typename derived_from_inner_val_t>
     auto operator=(derived_from_inner_val_t _OtherRawPointerToLink)
-            -> void requires (is_smart_property && is_dynamically_castable_to_v<inner_val_t, derived_from_inner_val_t>) {_Meta._Setter((inner_val_t)_OtherRawPointerToLink);}
+            -> inner_val_t requires (is_smart_property && is_dynamically_castable_to_v<inner_val_t, derived_from_inner_val_t>) {return _Meta._Setter(_OtherRawPointerToLink);}
 
-//    auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
-
-    // comparison operators
-    template <typename _Ty> auto operator==(const _Ty& _That) const -> bool {return _Meta._Getter() == _That;}
-    template <typename _Ty> auto operator!=(const _Ty& _That) const -> bool {return _Meta._Getter() != _That;}
-    template <typename _Ty> auto operator> (const _Ty& _That) const -> bool {return _Meta._Getter() >  _That;}
-    template <typename _Ty> auto operator< (const _Ty& _That) const -> bool {return _Meta._Getter() <  _That;}
-    template <typename _Ty> auto operator>=(const _Ty& _That) const -> bool {return _Meta._Getter() >= _That;}
-    template <typename _Ty> auto operator<=(const _Ty& _That) const -> bool {return _Meta._Getter() <= _That;}
-
-    // assignment operators
-    template <typename _Ty> auto operator+=(const _Ty& _That) -> property& {_Meta._Val += _That; return *this;}
-    template <typename _Ty> auto operator-=(const _Ty& _That) -> property& {_Meta._Val -= _That; return *this;}
-    template <typename _Ty> auto operator*=(const _Ty& _That) -> property& {_Meta._Val *= _That; return *this;}
-    template <typename _Ty> auto operator/=(const _Ty& _That) -> property& {_Meta._Val /= _That; return *this;}
-    template <typename _Ty> auto operator%=(const _Ty& _That) -> property& {_Meta._Val %= _That; return *this;}
-
-    // arithmetic operators
-    template <typename _Ty> auto operator+(const _Ty& _That) const -> property {return property{_Meta._Val + _That};}
-    template <typename _Ty> auto operator-(const _Ty& _That) const -> property {return property{_Meta._Val - _That};}
-    template <typename _Ty> auto operator*(const _Ty& _That) const -> property {return property{_Meta._Val * _That};}
-    template <typename _Ty> auto operator/(const _Ty& _That) const -> property {return property{_Meta._Val / _That};}
-    template <typename _Ty> auto operator%(const _Ty& _That) const -> property {return property{_Meta._Val % _That};}
-
-    // increment operators
-    auto operator++() -> property& {++_Meta._Val; return *this;}
-    auto operator--() -> property& {--_Meta._Val; return *this;}
-    auto operator++(const int) const -> property {return property{_Meta._Val++};}
-    auto operator--(const int) const -> property {return property{_Meta._Val--};}
+    // auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
 
 public cpp_properties:
     detail::meta_property<_Tx, ce_reactions> _Meta;
