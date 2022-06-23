@@ -19,13 +19,13 @@ class ext::string_view
         : public std::string_view
 {
 public constructors:
-    using std::string_view::basic_string_view;
     string_view(const char* _Other) : std::string_view{_Other} {}
 
 public cpp_methods: // TODO -> is .data() safe?
     operator QString() const {return {data()};}
     operator v8::Local<v8::String>() const {return v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), data()).ToLocalChecked();}
     operator bool() {return not empty();}
+    constexpr explicit operator const char*() {return data();}
 };
 
 
@@ -33,10 +33,10 @@ class ext::string
         : public std::string
 {
 public constructors:
-    using std::string::basic_string;
-    string(const char* _Other) : std::string(_Other) {}
+    using std::string::string;
     string(string_view _Other) {/* TODO */}
     auto operator=(string_view _Other) -> string& {/* TODO */}
+    auto operator=(const char*) -> string&;
 
 public cpp_methods:
     [[nodiscard]] static auto from_qt_string(const QString& _That) -> ext::string {return string{_That.toStdString().c_str()};}
