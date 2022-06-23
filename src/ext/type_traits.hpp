@@ -8,6 +8,7 @@
 #include <ext/boolean.hpp>
 
 #include <range/v3/range/concepts.hpp>
+#include <range/v3/range/conversion.hpp>
 
 
 // type definitions
@@ -76,10 +77,18 @@ namespace ext {template <typename _Base, typename _Derived> using is_dynamically
 namespace ext {template <typename _Base, typename _Derived> constexpr bool is_dynamically_castable_to_v = is_dynamically_castable_to<_Base, _Derived>::value;}
 
 
-
 // equality checks
 template <typename _Fx>
 auto operator==(const _Fx& _FunctionA, const _Fx& _FunctionB) requires std::is_invocable_v<_Fx> {return &_FunctionA == &_FunctionB;}
+
+
+// additional functionality to ranges v3
+template <typename _Rng, typename _ViewFn>
+auto operator|=(_Rng& _Container, ranges::views::view_closure<_ViewFn> _ViewFunction) requires ext::is_iterable_v<_Rng>
+{
+    _Container = _Container | _ViewFunction | ranges::to<_Rng>();
+    return _Container;
+}
 
 
 // TODO : temporary for ranges v3 until i can get their concepts working
