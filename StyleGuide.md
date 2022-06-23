@@ -1,7 +1,7 @@
 # STech Style Guide
 
 ## Class definition (.hpp)
-```c++
+```C++
 class class_name
         : public base_class_a
         , public base_class_b
@@ -22,7 +22,7 @@ private cpp_properties:
 
 ## Class definition constructors (.hpp)
 ### Rule of 5
-```c++
+```C++
 template <typename template_parameter_1>
 class class_name
 {
@@ -35,7 +35,7 @@ class class_name
 ```
 
 ### Rule of 5 + 1
-```c++
+```C++
 template <typename template_parameter_1>
 class class_name
 {
@@ -50,7 +50,7 @@ class class_name
 ```
 
 ### Rule of 5 + 1 + 4 (+1)
-```c++
+```C++
 template <typename template_parameter_1>
 class class_name
 {
@@ -72,7 +72,7 @@ class class_name
 ```
 
 ## Class definition methods (.hpp)
-```c++
+```C++
 class class_name
 {
     auto method_name_a(parameter_type_1 argument_1, parameter_type_2 argument_2) const -> return_type_1;
@@ -81,20 +81,27 @@ class class_name
 ```
 
 ## Class declaration method (.hpp)
-```c++
+```C++
 inline auto class_name::method_name_a(parameter_type_1 argument_1, parameter_type_2 argument_2) -> return_type_1
 {
     ...
 }
+
+inline auto class_name::method_name_b(
+        very_long_parameter_type_1 very_long_argument_1, very_long_parameter_type_2 very_long_argument_2) -> very_long_return_type
 ```
 
 ## Class declaration method (.cpp)
-```c++
-auto class_name::method_name_a(
+```C++
+auto class_name::short_method_signature(parm_t_1, arg_1) -> ret_t
+{
+    ...
+}
+
+auto class_name::long_method_signature(
         parameter_type_1 argument_1,
-        parameter_type_2 argument_2)
-        const
-        -> return_type_1
+        parameter_type_2 argument_2
+        ) const && -> return_type_1
 {
     ...
 }
@@ -102,6 +109,6 @@ auto class_name::method_name_a(
 
 ## Primitives vs Objects
  - Use primitives for template types or temporary objects - `template <int size>`, `ext::boolean check = true`
- - Use object versions (ext::boolean, ext::number<T>) everywhere else
- - Pass ext::boolean, ext::number<T> by value to act like primitives
+ - Use object versions (`ext::boolean`, `ext::number<T>`) everywhere else
+ - Use `ext::boolean_view`, `ext::number_view<T>` by instead of `const ext::...&`
 
