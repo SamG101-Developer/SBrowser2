@@ -43,7 +43,7 @@ auto dom::nodes::text::to_v8(
             .ctor<>()
             .ctor<ext::string_view>()
             .inherit<character_data>()
-            .inherit<mixins::slottable<text>>()
+            .inherit<mixins::slottable>()
             .function("splitText", &text::split_text)
             .var("wholeText", &text::whole_text, true)
             .auto_wrap_objects();
