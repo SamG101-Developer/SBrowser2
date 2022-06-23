@@ -2,16 +2,19 @@
 #ifndef SBROWSER2_EVENT_INTERNALS_HPP
 #define SBROWSER2_EVENT_INTERNALS_HPP
 
-#include <ranges>
 #include <variant>
+
 #include <ext/any.hpp>
 #include <ext/boolean.hpp>
 #include <ext/map.hpp>
 #include <ext/string.hpp>
 #include <ext/type_traits.hpp>
 #include <ext/vector.hpp>
+
 #include <web_apis/dom/abort/abort_signal.hpp>
 #include <web_apis/dom/nodes/event_target.hpp>
+
+#include <range/v3/view/remove_if.hpp>
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}
 
@@ -96,7 +99,7 @@ auto dom::detail::event_internals::add_event_listener(
     //  - there is a signal that has already aborted, - no need for the event listener to exist
     //  - the event listener is already stored in the event listeners list - no duplicates allowed
     if (event_listener.at("callback").empty()
-        || signal && signal->aborted
+        || signal && signal->aborted()
         || std::ranges::find(event_target->m_event_listeners, event_listener) != event_target->m_event_listeners.end())
         return;
 
@@ -121,7 +124,7 @@ auto dom::detail::event_internals::remove_event_listener(
     // alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
     // capture attribute to event_listener
     using callback_t = typename nodes::event_target::event_listener_callback_t;
-    std::ranges::remove_if(event_target->m_event_listeners, [event_listener](const ext::string_any_map& existing_listener)
+    event_target->m_event_listeners |= ranges::views::remove_if([event_listener](const ext::string_any_map& existing_listener)
     {
         return existing_listener.at("callback")->to<callback_t>() == event_listener.at("callback")->to<callback_t>()
                && existing_listener.at("type")->to<ext::string_view>() == event_listener.at("type")->to<ext::string_view>()
