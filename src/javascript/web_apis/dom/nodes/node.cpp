@@ -15,6 +15,7 @@
 
 #include <javascript/environment/realms.hpp>
 
+#include <web_apis/dom/detail/customization_internals.hpp>
 #include <web_apis/dom/detail/exception_internals.hpp>
 #include <web_apis/dom/detail/node_internals.hpp>
 #include <web_apis/dom/detail/mutation_internals.hpp>
@@ -26,6 +27,8 @@
 #include <web_apis/dom/nodes/node.hpp>
 #include <web_apis/dom/nodes/text.hpp>
 #include <web_apis/dom/ranges/range.hpp>
+
+#include <range/v3/view/remove.hpp>
 
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QScrollArea>
@@ -339,7 +342,7 @@ auto dom::nodes::node::get_parent_element() const -> element*
 auto dom::nodes::node::set_parent_node(node* val) -> void
 {
     if (parent_node())
-        parent_node->child_nodes->erase(std::ranges::find(*parent_node->child_nodes(), this));
+        *parent_node->child_nodes() |= ranges::views::remove(this);
 
     *parent_node = std::unique_ptr<node>(val);
     parent_node->child_nodes->push_back(this);
