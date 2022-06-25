@@ -3,6 +3,7 @@
 
 #include <ext/string.hpp>
 #include <ext/vector.hpp>
+
 #include <dom/nodes/document.hpp>
 #include <dom/nodes/element.hpp>
 #include <dom/nodes/text.hpp>
@@ -78,11 +79,10 @@ namespace dom::detail::node_internals
             nodes::document* document)
             -> ext::boolean;
 
-    template <typename ...nodes_or_strings_t>
     auto convert_nodes_into_node(
             const nodes::document* document,
-            nodes_or_strings_t... nodes)
-            -> nodes::node* requires (std::is_same_v<nodes_or_strings_t..., ext::string> || std::is_same_v<nodes_or_strings_t..., nodes::text*>);
+            same_as_any<nodes::node*, ext::string> auto&&... nodes)
+            -> nodes::node*;
 }
 
 #endif //SBROWSER2_NODE_INTERNALS_HPP
