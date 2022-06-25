@@ -8,9 +8,9 @@ namespace dom::nodes {class node;}
 
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
-
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
+namespace dom::detail::observer_internals {struct registered_observer;}
 
 
 class dom::nodes::node
@@ -70,7 +70,7 @@ public cpp_methods:
 
 protected cpp_properties:
     QPointer<QWidget> m_rendered_widget;
-//    ext::vector<detail::mutation_internals::registered_observer*>& m_registered_observer_list;
+    std::unique_ptr<ext::vector<detail::observer_internals::registered_observer*>> m_registered_observer_list;
 
 protected cpp_accessors:
     [[nodiscard]] virtual auto get_node_name() const -> ext::string = 0;
