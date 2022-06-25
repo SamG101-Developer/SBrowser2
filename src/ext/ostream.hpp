@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <ext/map.hpp>
+#include <ext/number.hpp>
 #include <ext/vector.hpp>
 
 
@@ -31,6 +32,13 @@ std::ostream& operator<<(std::ostream& _Stream, const std::pair<_Keyty, _Valty>&
 {
     _Stream << "pair<" << typeid(_Keyty).name() << ", " << typeid(_Valty).name() << "> ";
     return _Stream << "{" << _Pair.first << ": " << _Pair.second << "}";
+}
+
+
+template <primitive_numeric _Tx>
+auto operator<<(std::ostream& _Out, const ext::number<_Tx>& _Val) -> std::ostream&
+{
+    return _Out << typeid(_Val).name() << ": " << static_cast<_Tx>(_Val) << std::endl;
 }
 
 
