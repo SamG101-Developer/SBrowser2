@@ -15,6 +15,7 @@
 #include <web_apis/dom/nodes/event_target.hpp>
 
 #include <range/v3/view/remove_if.hpp>
+
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}
 
