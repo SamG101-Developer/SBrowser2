@@ -48,8 +48,10 @@ inline auto javascript::interop::expose(v8::Isolate* isolate, environment::modul
     {
         case (environment::module_t::WINDOW):
         {
-            v8_module.class_("Event", cpp_object_to_v8<dom::events::event>());
-            v8_module.class_("EventTarget", cpp_object_to_v8<dom::nodes::event_target>());
+            v8_module.class_("Event", cpp_object_to_v8<dom::events::event>(isolate));
+            v8_module.class_("EventTarget", cpp_object_to_v8<dom::nodes::event_target>(isolate));
+
+            local_context->Global()->SetPrivate(local_context, v8::Private::New(isolate, v8pp::to_v8(isolate, "type")), v8pp::to_v8(isolate, "Window"));
         }
 
         case (environment::module_t::WORKER):
