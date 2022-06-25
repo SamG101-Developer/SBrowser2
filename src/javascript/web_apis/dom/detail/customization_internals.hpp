@@ -95,6 +95,10 @@ namespace dom::detail::customization_internals
     auto invoke_custom_elements_reactions(
             std::queue<nodes::element*>& queue)
             -> void;
+
+    auto is_custom(
+            nodes::element* element)
+            -> ext::boolean;
 }
 
 
