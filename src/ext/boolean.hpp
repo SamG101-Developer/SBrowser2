@@ -4,6 +4,7 @@
 
 namespace ext {class boolean;}
 namespace ext {using boolean_view = const boolean&;}
+using bv = ext::boolean_view;
 
 #include <utility>
 #include <ext/keywords.hpp>
