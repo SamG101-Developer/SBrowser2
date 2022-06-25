@@ -1,22 +1,25 @@
 #ifndef SBROWSER2_ELEMENT_HPP
 #define SBROWSER2_ELEMENT_HPP
 
-#include <ext/map.hpp>
-#include <ext/vector.hpp>
 #include <dom/nodes/node.hpp>
+#include <web_apis/dom/mixins/parent_node.hpp>
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail::customization_internals {struct custom_element_definition;}
 namespace dom::detail::customization_internals {struct reaction;}
-namespace dom::detail::customization_internals {enum   custom_element_state_t;}
-namespace dom::detail::customization_internals {auto create_an_element(nodes::document* document, ext::string_view local_name, ext::string_view namespace_, ext::string_view prefix, ext::string_view is, ext::boolean_view synchronous_custom_elements_flag) -> nodes::element*;}
-namespace dom::detail::customization_internals {auto upgrade_element(custom_element_definition* definition, nodes::element* element) -> void;}
+namespace dom::detail::customization_internals {enum custom_element_state_t;}
+namespace dom::detail::customization_internals {auto create_an_element(nodes::document*, sv, sv, sv, sv, bv) -> nodes::element*;}
+namespace dom::detail::customization_internals {auto upgrade_element(custom_element_definition*, nodes::element*) -> void;}
 namespace html::detail::context_internals {struct browsing_context;}
+
+#include <ext/map.hpp>
+#include <ext/vector.hpp>
 
 
 class dom::nodes::element
         : public node
+        , public mixins::parent_node
 {
 public friends:
     friend auto dom::detail::customization_internals::create_an_element(
