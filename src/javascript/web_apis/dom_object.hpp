@@ -2,7 +2,6 @@
 #define SBROWSER2_DOM_OBJECT_HPP
 
 #include <memory>
-
 #include <ext/any.hpp>
 #include <ext/custom_operator.hpp>
 #include <ext/keywords.hpp>
@@ -10,7 +9,6 @@
 #include <ext/string.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
-
 namespace web_apis {class dom_object;}
 namespace dom::events {class event;}
 namespace dom::nodes {class document;}
