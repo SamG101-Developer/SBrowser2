@@ -43,7 +43,7 @@ public cpp_operators:
     // member access
     auto operator* ()       -> auto&;
     auto operator* () const -> const auto&;
-    auto operator->()       -> auto&;
+    auto operator->()       -> const auto&;
     auto operator->() const -> const auto&;
 
     // getter
@@ -56,11 +56,25 @@ public cpp_operators:
     auto operator=(outer_val_t&& _OtherToMove) noexcept
             -> inner_val_t {return _Meta._Setter(std::forward<_Tx>(_OtherToMove));}
 
-    template <typename derived_from_inner_val_t>
-    auto operator=(derived_from_inner_val_t _OtherRawPointerToLink)
-            -> inner_val_t requires (is_smart_property && is_dynamically_castable_to_v<inner_val_t, derived_from_inner_val_t>) {return _Meta._Setter(_OtherRawPointerToLink);}
+    auto operator=(dynamically_castable_to<inner_val_t> auto _OtherPtr)
+            -> inner_val_t requires (is_smart_property)
+    {
+        return _Meta._Setter((inner_val_t)_OtherPtr);
+    }
 
     // auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
+
+    template <typename _Ty> auto operator+(const _Ty& _Other) -> auto {return _Meta._Val + _Other;}
+    template <typename _Ty> auto operator-(const _Ty& _Other) -> auto {return _Meta._Val - _Other;}
+    template <typename _Ty> auto operator*(const _Ty& _Other) -> auto {return _Meta._Val * _Other;}
+    template <typename _Ty> auto operator/(const _Ty& _Other) -> auto {return _Meta._Val / _Other;}
+    template <typename _Ty> auto operator%(const _Ty& _Other) -> auto {return _Meta._Val % _Other;}
+
+    template <typename _Ty> auto operator+=(const _Ty& _Other) -> property& {_Meta._Val += _Other; return *this;}
+    template <typename _Ty> auto operator-=(const _Ty& _Other) -> property& {_Meta._Val -= _Other; return *this;}
+    template <typename _Ty> auto operator*=(const _Ty& _Other) -> property& {_Meta._Val *= _Other; return *this;}
+    template <typename _Ty> auto operator/=(const _Ty& _Other) -> property& {_Meta._Val /= _Other; return *this;}
+    template <typename _Ty> auto operator%=(const _Ty& _Other) -> property& {_Meta._Val %= _Other; return *this;}
 
 public cpp_properties:
     detail::meta_property<_Tx, ce_reactions> _Meta;
@@ -86,10 +100,10 @@ auto ext::property<_Ty, ce_reactions>::operator*() const -> const auto&
 
 
 template <typename _Ty, bool ce_reactions>
-auto ext::property<_Ty, ce_reactions>::operator->() -> auto&
+auto ext::property<_Ty, ce_reactions>::operator->() -> const auto&
 {
     // get the internal value (object of (smart)pointer, or address)
-    if constexpr(std::is_pointer_v<_Ty> || is_smart_pointer_v<_Ty>)
+    if constexpr(std::is_pointer_v<_Ty> || smart_pointer<_Ty>)
         return _Meta._Val;
     else
         return &_Meta._Val;
@@ -100,7 +114,7 @@ template <typename _Ty, bool ce_reactions>
 auto ext::property<_Ty, ce_reactions>::operator->() const -> const auto&
 {
     // get the internal value (object of (smart)pointer, or address)
-    if constexpr(std::is_pointer_v<_Ty> || is_smart_pointer_v<_Ty>)
+    if constexpr(std::is_pointer_v<_Ty> || smart_pointer<_Ty>)
         return _Meta._Val;
     else
         return &_Meta._Val;
