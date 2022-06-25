@@ -38,10 +38,11 @@ public cpp_static_methods:
     static auto current_realm(web_apis::dom_object* object) -> realm<T>&;
     static auto entry_realm(web_apis::dom_object* object) -> realm<T>&;
     static auto incumbent_realm(web_apis::dom_object* object) -> realm<T>&;
+    static auto implied_realm(web_apis::dom_object* object) -> realm<T>&;
 
 public cpp_methods:
-    template <typename U> auto get(ext::string&& attribute_name) const -> U;
-    template <typename U> auto set(ext::string&& attribute_name, U new_value) -> void;
+    template <typename U> auto get(ext::string_view attribute_name) const -> U;
+    template <typename U> auto set(ext::string_view attribute_name, U new_value) -> void;
     auto global_object() -> T;
     auto settings_object();
 
@@ -52,7 +53,7 @@ private cpp_properties:
 
 template <typename T>
 template <typename U>
-inline auto javascript::environment::realms::realm<T>::get(ext::string&& attribute_name) const -> U
+inline auto javascript::environment::realms::realm<T>::get(ext::string_view attribute_name) const -> U
 {
     // save the v8 isolate, convert the attribute name into a v8 string, and get the object from the global object
     auto v8_isolate        = m_context->GetIsolate();
@@ -67,12 +68,12 @@ inline auto javascript::environment::realms::realm<T>::get(ext::string&& attribu
 
 template <typename T>
 template <typename U>
-inline auto javascript::environment::realms::realm<T>::set(ext::string&& attribute_name, U new_value) -> void
+inline auto javascript::environment::realms::realm<T>::set(ext::string_view attribute_name, U new_value) -> void
 {
     // save the v8 isolate, convert the attribute name into a v8 string, and convert the cpp new value into a v8 object
     auto v8_isolate        = m_context->GetIsolate();
     auto v8_attribute_name = v8pp::convert<ext::string>::to_v8(v8_isolate, std::forward<ext::string>(attribute_name));
-    auto v8_new_value      = v8pp::convert<T>::to_v8(v8_isolate, new_value);
+    auto v8_new_value      = v8pp::convert<U>::to_v8(v8_isolate, new_value);
 
     // set the object's value into the global object
     m_context->Global()->Set(m_context, v8_attribute_name, v8_new_value);
