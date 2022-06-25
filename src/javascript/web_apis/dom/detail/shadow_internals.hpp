@@ -14,101 +14,101 @@ namespace html::elements {class html_slot_element;}
 namespace dom::detail::shadow_internals
 {
     // shadow checks
-    static auto is_connected(
+    auto is_connected(
             nodes::node* node_a)
             -> bool;
 
-    static auto is_slot(
+    auto is_slot(
             nodes::node* node_a)
             -> bool;
 
-    static auto is_slottable(
+    auto is_slottable(
             nodes::node* node_a)
             -> bool;
 
-    static auto is_assigned(
+    auto is_assigned(
             nodes::node* node_a)
             -> bool;
 
     // tree based shadow checks
-    static auto is_root_shadow_root(
+    auto is_root_shadow_root(
             nodes::node* node_a)
             -> nodes::shadow_root*;
 
-    static auto is_shadow_root(
+    auto is_shadow_root(
             nodes::node* node_a)
             -> bool;
 
-    static auto is_shadow_host(
+    auto is_shadow_host(
             nodes::node* node_a)
             -> bool;
 
-    static auto shadow_including_descendants(
+    auto shadow_including_descendants(
             nodes::node* node_a)
             -> range_v3_view auto;
 
-    static auto is_shadow_including_descendant(
+    auto is_shadow_including_descendant(
             nodes::node* node_a,
             nodes::node* node_b)
             -> bool;
 
-    static auto is_shadow_including_ancestor(
+    auto is_shadow_including_ancestor(
             nodes::node* node_a,
             nodes::node* node_b)
             -> bool;
 
-    static auto is_host_including_ancestor(
+    auto is_host_including_ancestor(
             nodes::node* node_a,
             nodes::node* node_b)
             -> bool;
 
-    static auto is_closed_shadow_hidden(
+    auto is_closed_shadow_hidden(
             nodes::node* node_a,
             nodes::node* node_b)
             -> bool;
 
     // find slots and slottables
-    static auto find_slot(
+    auto find_slot(
             nodes::node* slottable,
             bool open_flag = false)
             -> html::elements::html_slot_element*;
 
-    static auto find_slottables(
+    auto find_slottables(
             html::elements::html_slot_element* slot)
             -> range_v3_view auto;
 
-    static auto find_flattened_slottables(
+    auto find_flattened_slottables(
             html::elements::html_slot_element* slot)
             -> range_v3_view auto;
 
     // assign slots and slottables
-    static auto assign_slot(
+    auto assign_slot(
             nodes::node* slottable)
             -> void;
 
-    static auto assign_slottables(
+    auto assign_slottables(
             html::elements::html_slot_element* slot)
             -> void;
 
-    static auto assign_slottables_for_tree(
+    auto assign_slottables_for_tree(
             nodes::node* descendant)
             -> void;
 
     // other general helper methods for shadows
-    static auto signal_slot_change(
+    auto signal_slot_change(
             nodes::node* slot)
             -> void;
 
-    static auto shadow_including_root(
+    auto shadow_including_root(
             nodes::node* node_a)
             -> nodes::node*;
 
-    static auto retarget(
+    auto retarget(
             nodes::event_target* event_target_a,
             nodes::event_target* event_target_b)
             -> nodes::event_target*;
 
-    static auto shadow_root(
+    auto shadow_root(
             nodes::node* node_a)
             -> nodes::shadow_root*;
 }
