@@ -10,7 +10,7 @@
 
 #define bind_qt(p, widget, method) p._Meta._AttachQtMethod(widget, &method);
 
-#define is_smart_property (ext::is_smart_pointer_v<outer_val_t>)
+#define is_smart_property (smart_pointer<outer_val_t>)
 #define is_dumb_property (!is_smart_property)
 
 #define unlock_property(p) p._Meta._Unlock()
@@ -97,7 +97,7 @@ public cpp_properties:
 
 private cpp_methods:
     auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>;
-    auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires ext::is_template_base_of_v<_Tx, ext::number>;
+    auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires templated_base_of<ext::number, _Tx>;
 
 public cpp_properties:
     _Tx _Val;
@@ -147,7 +147,7 @@ auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) con
 
 
 template <typename _Tx, bool ce_reactions>
-auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires ext::is_template_base_of_v<_Tx, ext::number>
+auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires templated_base_of<ext::number, _Tx>
 {
     // for arithmetic types, check that the constraints are satisfied, and then clamp the value
     if (_Constraints._Is && not _Constraints._Allowed.contains(_That)) return {false, _That};
