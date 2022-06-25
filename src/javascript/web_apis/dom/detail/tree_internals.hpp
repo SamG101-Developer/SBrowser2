@@ -10,6 +10,7 @@
 
 #include <web_apis/dom/nodes/attr.hpp>
 #include <web_apis/dom/nodes/document.hpp>
+#include <web_apis/dom/nodes/document_type.hpp>
 #include <web_apis/dom/nodes/element.hpp>
 #include <web_apis/dom/nodes/node.hpp>
 #include <web_apis/dom/nodes/text.hpp>
@@ -27,8 +28,6 @@
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/reverse.hpp>
 
-namespace dom::nodes {class node;}
-namespace dom::nodes {class text;}
 
 namespace dom::detail::tree_internals
 {
