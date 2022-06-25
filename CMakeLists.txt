@@ -23,4 +23,4 @@ add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 # link the 2nd / 3rd party libraries to the project
 target_link_libraries(${PROJECT_NAME} ext javascript web_apis)
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui)
-target_link_libraries(${PROJECT_NAME} robin_hood::robin_hood tsl::robin_map v8pp veque range-v3)
+target_link_libraries(${PROJECT_NAME} magic_enum robin_hood::robin_hood tsl::robin_map v8pp veque range-v3)
