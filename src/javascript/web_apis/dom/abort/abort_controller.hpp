@@ -17,7 +17,7 @@ public js_methods:
     auto abort(ext::any_view reason) const -> void;
 
 public js_properties:
-    ext::property<std::shared_ptr<abort_signal>> signal;
+    ext::property<std::unique_ptr<abort_signal>> signal;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
