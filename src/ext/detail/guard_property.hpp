@@ -13,7 +13,7 @@ template <typename _Tx>
 struct ext::detail::guard_property
 {
 public:
-    guard_property(ext::property<_Tx>& _PropertyToGuard): _Property(_PropertyToGuard) {unlock_property(_PropertyToGuard);}
+    explicit guard_property(const ext::property<_Tx>& _PropertyToGuard): _Property(_PropertyToGuard) {unlock_property(_PropertyToGuard);}
     ~guard_property() {lock_property(_Property);}
 
 private:
