@@ -13,7 +13,7 @@
 #include <range/v3/view/zip.hpp>
 #include <range/v3/to_container.hpp>
 
-#include <javascript/environment/realms.hpp>
+#include <javascript/environment/realms_2.hpp>
 
 #include <web_apis/dom/detail/customization_internals.hpp>
 #include <web_apis/dom/detail/exception_internals.hpp>
@@ -40,6 +40,7 @@ namespace dom::nodes {class window;}
 dom::nodes::node::node()
         : child_nodes(std::make_unique<ext::vector<node*>>())
         , parent_node(nullptr)
+        , m_registered_observer_list{std::make_unique<ext::vector<detail::observer_internals::registered_observer*>>()}
 {
     bind_get(node_name);
     bind_get(node_value);
@@ -155,34 +156,36 @@ auto dom::nodes::node::normalize()
 
         // get the current node as the next text node (whose text has been combined into the text node's text)
         auto* current_node = text_node->next_sibling();
-        auto* live_ranges  = new ext::vector<node_ranges::range*>{}; // TODO javascript::environment::realms::realm<nodes::window*>::surrounding_realm(this).get<ext::vector<node_ranges::range*>*>("live_ranges");
+
+        JS_REALM_GET_SURROUNDING(this)
+        auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(surrounding_global_object, "live_ranges");
 
         // iterate by incrementing the current_node to the next sibling
         while (detail::tree_internals::is_exclusive_text_node(current_node))
         {
             // ranges whose starting node is current_node: increment the starting offset by the length of the text of
             // the text node (text has shifted back to previous node) and set the starting node to the text node
-            *live_ranges
-                    | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container == current_node;})
-                    | ranges::for_each([&text_node, length](node_ranges::range* range) {range->start_offset += length; range->start_container = text_node;});
+            ranges::for_each(
+                    live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node;}),
+                    [&text_node, length](node_ranges::range* range) {range->start_offset += length; range->start_container = text_node;});
 
-            // ranges whose ending node is current_node: increment the ending offset by the length of the text of this
+            // ranges whose ending node is current_node: increment the ending offset by the length of the text of the
             // text node (text has shifted back to previous node) abd set the ending node to the text node
-            *live_ranges
-                    | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container == current_node;})
-                    | ranges::for_each([&text_node, length](node_ranges::range* range) {range->end_offset += length; range->end_container = text_node;});
+            ranges::for_each(
+                   live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node;}),
+                   [&text_node, length](node_ranges::range* range) {range->end_offset += length; range->end_container = text_node;});
 
             // ranges whose starting node is current_node's parent: set the starting offset to the length of the text in
             // the text node and set the starting node to the text node TODO : why?
-            *live_ranges
-                    | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container == current_node->parent_node();})
-                    | ranges::for_each([&text_node, length](node_ranges::range* range) {range->start_offset = length; range->start_container = text_node;});
+            ranges::for_each(
+                    live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node->parent_node();}),
+                    [&text_node, length](node_ranges::range* range) {range->start_offset = length; range->start_container = text_node;});
 
-            // ranges whose ending node is current_node's parent: set the ending offset to the length of the text in
-            // the text node and set the ending node to the text node TODO : why?
-            *live_ranges
-                    | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container == current_node->parent_node();})
-                    | ranges::for_each([&text_node, length](node_ranges::range* range) {range->end_offset = length; range->end_container = text_node;});
+            // ranges whose ending node is current_node's parent: set the ending offset to the length of the text in the
+            // text node and set the ending node to the text node TODO : why?
+            ranges::for_each(
+                    live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node->parent_node();}),
+                    [&text_node, length](node_ranges::range* range) {range->end_offset = length; range->end_container = text_node;});
 
             // increment the length by the current_node's length (so that the next current_node's offset can be
             // incremented further as needed to be, and set the current node to the next sibling
@@ -190,8 +193,9 @@ auto dom::nodes::node::normalize()
             current_node = current_node->next_sibling();
         }
 
-        dom::detail::tree_internals::contiguous_text_nodes(text_node)
-                | ranges::for_each([](node* contiguous_text_node) {detail::mutation_internals::remove(contiguous_text_node);});
+        ranges::for_each(
+                dom::detail::tree_internals::contiguous_text_nodes(text_node),
+                [](node* contiguous_text_node) {detail::mutation_internals::remove(contiguous_text_node);});
     }
 }
 
@@ -219,8 +223,9 @@ auto dom::nodes::node::is_equal_node(
     // children without error)
     if (not other) return false;
     if (child_nodes->size() != other->child_nodes->size()) return false;
-    return ranges::zip_view(*child_nodes(), *other->child_nodes())
-            | ranges::all_of([](node* child_of_this, node* child_of_other) {return child_of_this == child_of_other;});
+    return ranges::all_of(
+            ranges::zip_view(*child_nodes(), *other->child_nodes()),
+            [](auto&& compare_children) {return compare_children.first == compare_children.second;});
 }
 
 
@@ -279,8 +284,9 @@ auto dom::nodes::node::insert_before(
         -> node*
 {
     // insert 'new_node' into 'this->child_nodes', directly before 'child' node
-    ce_reaction_method_def {return detail::mutation_internals::pre_insert(new_node, this, child);};
-    ce_reaction_method_exe
+    ce_reactions_method_def
+        return detail::mutation_internals::pre_insert(new_node, this, child);
+    ce_reactions_method_exe
 }
 
 
@@ -289,8 +295,9 @@ auto dom::nodes::node::append_child(
         -> node*
 {
     // append 'new_node' to 'this->child_nodes', at the end
-    ce_reaction_method_def {return detail::mutation_internals::append(new_node, this);};
-    ce_reaction_method_exe
+    ce_reactions_method_def
+        return detail::mutation_internals::append(new_node, this);
+    ce_reactions_method_exe
 }
 
 
@@ -300,8 +307,9 @@ auto dom::nodes::node::replace_child(
         -> node*
 {
     // replace 'old_node' with 'new_node' in 'this->child_nodes'
-    ce_reaction_method_def {return detail::mutation_internals::replace(new_node, old_node, this);};
-    ce_reaction_method_exe
+    ce_reactions_method_def
+        return detail::mutation_internals::replace(new_node, old_node, this);
+    ce_reactions_method_exe
 }
 
 
@@ -310,8 +318,9 @@ auto dom::nodes::node::remove_child(
         -> node*
 {
     // remove 'old_node' from 'this->child_nodes'
-    ce_reaction_method_def {return detail::mutation_internals::pre_remove(old_node, this);};
-    ce_reaction_method_exe
+    ce_reactions_method_def
+        return detail::mutation_internals::pre_remove(old_node, this);
+    ce_reactions_method_exe
 }
 
 
@@ -341,11 +350,7 @@ auto dom::nodes::node::get_parent_element() const -> element*
 
 auto dom::nodes::node::set_parent_node(node* val) -> void
 {
-    if (parent_node())
-        *parent_node->child_nodes() |= ranges::views::remove(this);
-
     *parent_node = std::unique_ptr<node>(val);
-    parent_node->child_nodes->push_back(this);
 
     if (m_rendered_widget->isWidgetType())
     {
