@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_OPTIONAL_HPP
 #define SBROWSER2_OPTIONAL_HPP
 
-namespace ext {template <typename _Tx> class optional;}
+namespace ext {template <typename _Base> class optional;}
 
 #include <optional>
 #include <ext/keywords.hpp>
@@ -30,8 +30,8 @@ public constructors:
 //    auto operator=(const std::nullopt_t&) -> optional& {_Opt.reset();}
 
 public cpp_methods:
-    [[nodiscard]] constexpr auto empty() const -> bool {return not _Opt.has_value();}
-    [[nodiscard]] constexpr auto has_value() const -> bool {return _Opt.has_value();}
+    [[nodiscard]] constexpr auto empty() const -> ext::boolean {return not _Opt.has_value();}
+    [[nodiscard]] constexpr auto has_value() const -> ext::boolean {return _Opt.has_value();}
 
     constexpr auto value() const -> const _Tx& {return _Opt.value();}
 
@@ -41,8 +41,13 @@ public cpp_methods:
     template <typename _Ty> constexpr auto value_to_or(_Ty&& _Other     ) const -> _Ty requires std::is_same_v<std::remove_cvref_t<_Tx>, ext::any> {return not empty() ? _Other : value().template to<_Ty>();};
     template <typename _Ty> constexpr auto value_to_or(const _Ty& _Other) const -> _Ty requires std::is_same_v<std::remove_cvref_t<_Tx>, ext::any> {return not empty() ? _Other : value().template to<_Ty>();};
 
-    constexpr auto not_value_or(_Tx&& _Other     ) const -> const _Tx& {return empty() ? null : std::move(_Other);}
+    constexpr auto not_value_or(_Tx&& _Other     ) const -> const _Tx& {return empty() ? null : _Other;}
     constexpr auto not_value_or(const _Tx& _Other) const -> const _Tx& {return empty() ? null : _Other;}
+
+    auto has_value_and_equals(auto&& _Other) {return has_value() && value() == _Other;}
+    auto has_value_and_not_equals(auto&& _Other) {return has_value() && value() != _Other;}
+    auto empty_or_equals(auto&& _Other) {return empty() || value() == _Other;}
+    auto empty_or_not_equals(auto&& _Other) {return empty() || value() != _Other;}
     
 public cpp_operators:
     auto operator->() const -> auto {return _Opt.operator->();}
