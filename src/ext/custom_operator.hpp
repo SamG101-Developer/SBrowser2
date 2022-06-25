@@ -8,6 +8,7 @@
 #include <stack>
 #include <stdexcept>
 #include <javascript/environment/realms.hpp>
+#include <javascript/environment/realms_2.hpp>
 #include <javascript/interop/annotations.hpp>
 
 
@@ -75,20 +76,27 @@ custom_operator(enforce_range)
 #define unscopable // TODO -> link to JS @@unscopable
 
 
-#define ce_reaction_method_def \
-    auto _ce_method = [&]
+#define ce_reactions_method_def \
+    auto _ce_method = [&]{;
 
-#define ce_reaction_method_exe                                                                                                                                                   \
-    {                                                                                                                                                                            \
-        using stack_t = dom::detail::customization_internals::custom_element_reactions_stack;                                                                                    \
-        auto custom_element_reactions_stack = javascript::environment::realms::realm<dom::nodes::window*>::relevant_realm(this).get<stack_t*>("custom_element_reactions_stack"); \
-        custom_element_reactions_stack->emplace();                                                                                                                               \
-        JS_EXCEPTION_HANDLER;                                                                                                                                                    \
-        auto value = _ce_method();                                                                                                                                               \
-        auto* queue = custom_element_reactions_stack->top();                                                                                                                     \
-        custom_element_reactions_stack->pop();                                                                                                                                   \
-        if (JS_EXCEPTION_HAS_THROWN) JS_EXCEPTION_RETHROW;                                                                                                                       \
-        return value;                                                                                                                                                            \
+
+#define ce_reactions_method_exe                                                                                              \
+    };                                                                                                                       \
+    {                                                                                                                        \
+        using _stack_t = dom::detail::customization_internals::custom_element_reactions_stack;                               \
+        JS_REALM_GET_RELEVANT(this)                                                                                          \
+        auto _ce_reactions_stack = javascript::environment::realms_2::get<_stack_t>(relevant_global_object, "ce_reactions"); \
+        _ce_reactions_stack->emplace();                                                                                      \
+                                                                                                                             \
+        JS_EXCEPTION_HANDLER;                                                                                                \
+        auto _value = _ce_method();                                                                                          \
+        auto _queue = _ce_reactions_stack->top();                                                                            \
+        _ce_reactions_stack->pop();                                                                                          \
+                                                                                                                             \
+        if (JS_EXCEPTION_HAS_THROWN)                                                                                         \
+            JS_EXCEPTION_RETHROW;                                                                                            \
+                                                                                                                             \
+        return _value;                                                                                                       \
     }
 
 
