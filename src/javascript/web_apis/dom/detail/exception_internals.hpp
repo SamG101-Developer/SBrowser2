@@ -100,21 +100,21 @@ auto dom::detail::exception_internals::throw_v8_exception_formatted(
         ext::string exception_message = description;
 
         // bullet point the possible causes
-        exception_message += "\nPossible causes:\n";
+        exception_message += "\n\nPossible causes:\n";
         possible_causes | ranges::for_each([&exception_message](ext::string&& possible_cause)
         {
             exception_message += "\t-" + possible_cause + "\n";
         });
 
         // bullet point the possible fixes
-        exception_message += "\nPossible fixes:\n";
+        exception_message += "\n\nPossible fixes:\n";
         possible_fixes | ranges::for_each([&exception_message](ext::string&& possible_fix)
         {
             exception_message += "\t-" + possible_fix + "\n";
         });
 
         // bullet point the pointer description and the pointer memory address
-        exception_message += "\nImportant memory addresses:\n";
+        exception_message += "\n\nImportant memory addresses:\n";
 
         if constexpr(std::is_pointer_v<T>)
             objects | ranges::for_each([&exception_message](std::pair<ext::string, void*>&& memory_address)
