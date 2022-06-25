@@ -12,6 +12,13 @@ namespace ext {using any_view = const any&;}
 #include <ext/keywords.hpp>
 
 
+template <typename _Tx>
+concept not_any = requires(_Tx _Obj)
+{
+    !std::same_as<_Tx, ext::any>;
+};
+
+
 class ext::any final
 {
 public constructors:
@@ -23,10 +30,10 @@ public constructors:
     auto operator=(const any&) -> any& = default;
     auto operator=(any&&) noexcept -> any& = default;
 
-    template <typename _Ty> any(const _Ty& _Val) : _Any(_Val) {_IsNumeric = is_template_base_of_v<_Ty, ext::number>;}
-    template <typename _Ty> any(_Ty&& _Val) noexcept : _Any(std::forward<_Ty>(_Val)) {_IsNumeric = is_template_base_of_v<_Ty, ext::number>;}
-    template <typename _Ty> auto operator=(const _Ty& _Val) -> any&;
-    template <typename _Ty> auto operator=(_Ty&& _Val) noexcept -> any&;
+    any(const auto& _Val);
+    any(auto&& _Val) noexcept;
+    auto operator=(const auto& _Val) -> any&;
+    auto operator=(auto&& _Val) noexcept -> any&;
 
 public cpp_methods:
     [[nodiscard]] auto type() const -> const type_info& {return _Any.type();}
@@ -37,6 +44,7 @@ public cpp_methods:
 
 public cpp_operators:
     auto operator==(const any& _Other) const -> ext::boolean {return &_Other._Any == &_Any;}
+    auto operator==(not_any auto&& _Other) const -> ext::boolean {return _Other == to<decltype(_Other)>();}
 
 private cpp_properties:
     std::any _Any;
@@ -44,20 +52,30 @@ private cpp_properties:
 };
 
 
-template <typename _Ty>
-auto ext::any::operator=(const _Ty& _Val) -> ext::any&
+ext::any::any(const auto& _Val)
+        : _Any(_Val)
+        , _IsNumeric(templated_base_of<ext::number, decltype(_Val)>)
+{}
+
+
+ext::any::any(auto&& _Val) noexcept
+        : _Any(std::forward<decltype(_Val)>(_Val))
+        , _IsNumeric(templated_base_of<ext::number, decltype(_Val)>)
+{}
+
+
+auto ext::any::operator=(const auto& _Val) -> ext::any&
 {
     _Any = _Val;
-    _IsNumeric = is_template_base_of_v<_Ty, ext::number>;
+    _IsNumeric = templated_base_of<ext::number, decltype(_Val)>;
     return *this;
 }
 
 
-template <typename _Ty>
-auto ext::any::operator=(_Ty&& _Val) noexcept -> any&
+auto ext::any::operator=(auto&& _Val) noexcept -> any&
 {
-    _Any = std::forward<_Ty>(_Val);
-    _IsNumeric = is_template_base_of_v<_Ty, ext::number>;
+    _Any = std::forward<decltype(_Val)>(_Val);
+    _IsNumeric = templated_base_of<ext::number, decltype(_Val)>;
     return *this;
 }
 
