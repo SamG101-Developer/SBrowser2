@@ -44,4 +44,29 @@ inline auto v8pp::convert<ext::string>::to_v8(v8::Isolate* isolate, const from_t
 }
 
 
+
+template <>
+struct v8pp::convert<ext::string_view>
+{
+    using from_type = ext::string_view;
+    using to_type = v8::Local<v8::String>;
+
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty();}
+    static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
+    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_string_object) -> to_type;
+};
+
+
+inline auto v8pp::convert<ext::string_view>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
+{
+    return v8pp::convert<ext::string>::from_v8(isolate, v8_value);
+}
+
+
+inline auto v8pp::convert<ext::string_view>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_string_object) -> to_type
+{
+    return v8pp::convert<ext::string>::to_v8(isolate, cpp_value_string_object);
+}
+
+
 #endif //SBROWSER2_CONVERT_STRING_HPP
