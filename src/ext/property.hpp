@@ -122,56 +122,56 @@ auto ext::property<_Ty, ce_reactions>::operator->() const -> const auto&
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_static_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_static_cast(ext::property<_Ty1>& _That) -> _Ty2
 {
     // apply a dynamic_cast to a property's value
     property_guard(_That);
-    return ext::property<_Ty2>(dynamic_cast<_Ty2>(*_That));
+    return dynamic_cast<_Ty2>(*_That);
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_dynamic_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_dynamic_cast(ext::property<_Ty1>& _That) -> _Ty2
 {
     // apply a static_cast to a property's value
     property_guard(_That);
-    return ext::property<_Ty2>(static_cast<_Ty2>(*_That));
+    return static_cast<_Ty2>(*_That);
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_const_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_const_cast(ext::property<_Ty1>& _That) -> _Ty2
 {
     // apply a const_cast to a property's value
     property_guard(_That);
-    return ext::property<_Ty2>(const_cast<_Ty2>(*_That));
+    return const_cast<_Ty2>(*_That);
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_reinterpret_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_reinterpret_cast(ext::property<_Ty1>& _That) -> _Ty2
 {
     // apply a reinterpret_cast to a property's value
     property_guard(_That);
-    return ext::property<_Ty2>(reinterpret_cast<_Ty2>(*_That));
+    return reinterpret_cast<_Ty2>(*_That);
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_any_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_any_cast(ext::property<_Ty1>& _That) -> _Ty2
 {
     // apply an any_cast to a property's value
     property_guard(_That);
-    return ext::property<_Ty2>((*_That).template to<_Ty2>());
+    return (*_That).template to<_Ty2>();
 }
 
 
 template <typename _Ty2, typename _Ty1>
-inline auto p_bit_cast(ext::property<_Ty1>& _That) -> ext::property<_Ty2>
+inline auto p_bit_cast(ext::property<_Ty1>& _That) -> _Ty2
 {
     // apply a bit_cast to a property's value
     property_guard(_That);
-    return ext::property<_Ty2>(std::bit_cast<_Ty2>(*_That));
+    return std::bit_cast<_Ty2>(*_That);
 }
 
 
