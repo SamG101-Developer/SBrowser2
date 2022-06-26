@@ -3,7 +3,6 @@
 
 #include <ext/any.hpp>
 #include <web_apis/dom/abort/abort_signal.hpp>
-#include <web_apis/dom/detail/aborting_internals.hpp>
 namespace dom::abort {class abort_signal;}
 
 
@@ -26,7 +25,7 @@ auto dom::detail::aborting_internals::signal_abort(
         ext::any_view reason)
         -> void
 {
-    return_if(signal->aborted);
+    return_if(signal->aborted());
 
     // abort the signal, execute all the abort algorithms, and clear the list of algorithms
     signal->reason = reason;
@@ -44,11 +43,11 @@ auto dom::detail::aborting_internals::follow_signal(
         abort::abort_signal* parent_signal)
         -> void
 {
-    return_if(following_signal->aborted);
+    return_if(following_signal->aborted());
 
     // abort the following signal if the parent signal has aborted, otherwise when the parent signal does abort, tell
     // the following signal to abort as well, using the reason of the parent signal
-    parent_signal->aborted
+    parent_signal->aborted()
             ? signal_abort(following_signal, parent_signal->reason)
             : parent_signal->m_abort_algorithms.push_back([&f = following_signal, &p = parent_signal] {signal_abort(f, p->reason);});
 }
