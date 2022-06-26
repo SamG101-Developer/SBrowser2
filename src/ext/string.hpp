@@ -27,6 +27,8 @@ public cpp_methods: // TODO -> is .data() safe?
     operator QString() const {return {data()};}
     operator v8::Local<v8::String>() const {return v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), data()).ToLocalChecked();}
     operator bool() {return !empty();}
+    operator ext::string();
+
     constexpr explicit operator const char*() {return data();}
 
     auto operator !() -> ext::boolean {return empty();}
@@ -38,9 +40,6 @@ class ext::string
 {
 public constructors:
     using std::string::string;
-
-    string(string_view _Other) {/* TODO */}
-    auto operator=(string_view _Other) -> string& {/* TODO */}
 
     auto operator=(const char*) -> string&;
 
