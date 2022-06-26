@@ -123,8 +123,7 @@ auto dom::detail::observer_internals::notify_mutation_observers() -> void
         // TODO : why?
         for (nodes::node* node: *mo->m_node_list)
             *node->m_registered_observer_list
-                    |= ranges::views::transform([](registered_observer* observer) {return dynamic_cast<transient_registered_observer*>(observer);})
-                    | ranges::views::remove(nullptr)
+                    |= ranges::views::cast_all_to<transient_registered_observer>()
                     | ranges::views::remove_if([mo](transient_registered_observer* observer) {return observer->observer.get() == mo;});
 
         // if there are any MutationRecords from the JavaScript environment, call 'mo''s callback with the list of
