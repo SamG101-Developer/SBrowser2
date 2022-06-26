@@ -1,11 +1,13 @@
 #include "comment.hpp"
 
+#include <web_apis/dom/nodes/document.hpp>
 #include <web_apis/dom/nodes/window.hpp>
 
 
 dom::nodes::comment::comment()
 {
-    owner_document = javascript::environment::realms::realm<nodes::window*>::relevant_realm(this).get<document*>("associated_document");
+    JS_REALM_GET_RELEVANT(this)
+    owner_document = javascript::environment::realms_2::get<document*>(relevant_global_object, "associated_document");
 }
 
 
