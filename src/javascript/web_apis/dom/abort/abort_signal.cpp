@@ -47,9 +47,9 @@ auto dom::abort::abort_signal::throw_if_aborted()
         -> void
 {
     // if the reason attribute has been set, throw a v8 exception
-    detail::exception_internals::throw_v8_exception<ABORT_ERR>(
-            p_any_cast<other::dom_exception&>(reason).message,
-            [this] {return reason.to<bool>();});
+    detail::exception_internals::throw_v8_exception_formatted<ABORT_ERR>(
+            [this] {return reason->to<ext::boolean>();},
+            reason->to<other::dom_exception>().message());
 }
 
 
