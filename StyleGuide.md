@@ -80,6 +80,17 @@ class class_name
 };
 ```
 
+## Namespace definition methods (.hpp)
+```C++
+namespace namespace_name
+{
+    auto method_name_a(
+            parameter_type_1 argument_1,
+            parameter_type_2 argument_2)
+            const -> return_type_1;
+}
+```
+
 ## Class declaration method (.hpp)
 ```C++
 inline auto class_name::method_name_a(parameter_type_1 argument_1, parameter_type_2 argument_2) -> return_type_1
@@ -112,3 +123,13 @@ auto class_name::long_method_signature(
  - Use object versions (`ext::boolean`, `ext::number<T>`) everywhere else
  - Use `ext::boolean_view`, `ext::number_view<T>` by instead of `const ext::...&`
 
+
+## Concepts
+ - Always use inline parameter types if possible
+   - `auto function(concept_name auto parameter_a) -> return_type_a;`.
+ - Use trailing requires on the method when: function constrained based on class template
+   - `template <typename T> struct struct_name_a {auto method_a(T a) -> int requires concept_name<T> {}}`.
+ - Use template constraint when: class template is constrained
+   - `template <concept_name T> ...`
+ - Never need to use trailing requires on the template
+   - `template <typename T> requires (concept_name<T>)`.
