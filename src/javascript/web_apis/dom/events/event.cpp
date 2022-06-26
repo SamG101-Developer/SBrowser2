@@ -41,7 +41,7 @@ auto dom::events::event::prevent_default()
         -> void
 {
     // set the cancelled flag if the event is cancelled and isn't in a passive listener
-    m_canceled_flag = cancelable && !m_in_passive_listener_flag;
+    m_canceled_flag = cancelable() && !m_in_passive_listener_flag;
 }
 
 
