@@ -5,9 +5,9 @@
 #include <functional>
 #include <ext/type_traits.hpp>
 
-namespace ext::detail {auto constexpr _Hash(std::string_view _S) -> size_t;}
+namespace ext::detail {auto _Hash(std::string_view _S) -> size_t;}
 
-auto constexpr ext::detail::_Hash(std::string_view _S) -> size_t
+auto ext::detail::_Hash(std::string_view _S) -> size_t
 {
     std::hash<std::string_view> _Hasher;
     return _Hasher(_S);
