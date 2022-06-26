@@ -62,7 +62,8 @@ public cpp_operators:
     auto operator/=(primitive_numeric auto _Other) -> auto& {_Val /= _Other; return *this;}
     auto operator%=(primitive_numeric auto _Other) -> auto& {_Val %= _Other; return *this;}
 
-    auto operator<=>(primitive_numeric auto _Other) const -> ext::boolean {return _Val <=> static_cast<_Tx>(_Other);}
+    auto operator== (primitive_numeric auto _Other) const -> ext::boolean {return _Val == static_cast<_Tx>(_Other);}
+    auto operator<=>(primitive_numeric auto _Other) const -> auto {return _Val <=> static_cast<_Tx>(_Other);}
 
     explicit operator std::string() const {return std::to_string(_Val);}
     operator _Tx() const {return _Val;}
