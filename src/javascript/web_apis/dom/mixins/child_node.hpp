@@ -12,13 +12,13 @@ public constructors:
     child_node();
 
 public js_methods:
-    unscopable template<typename ...nodes_or_strings_t> auto before(nodes_or_strings_t&&... nodes) -> void;
-    unscopable template<typename ...nodes_or_strings_t> auto after(nodes_or_strings_t&&... nodes) -> void;
-    unscopable template<typename ...nodes_or_strings_t> auto replace_with(nodes_or_strings_t&&... nodes) -> void;
+    unscopable auto before(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto after(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto replace_with(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
     unscopable auto remove() -> void;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
