@@ -80,22 +80,22 @@ namespace dom::detail::tree_internals
             -> ext::number<ulong>;
 
     // lists of nodes preceding or following another node
-    template <typename T=nodes::node*>
+    template <typename T=nodes::node>
     auto all_following(
             nodes::node* node_a)
             -> range_v3_view auto;
 
-    template <typename T=nodes::node*>
+    template <typename T=nodes::node>
     auto all_preceding(
             nodes::node* node_a)
             -> range_v3_view auto;
 
-    template <typename T=nodes::node*>
+    template <typename T=nodes::node>
     auto all_following_siblings(
             nodes::node* node_a)
             -> range_v3_view auto;
 
-    template <typename T=nodes::node*>
+    template <typename T=nodes::node>
     auto all_preceding_siblings(
             nodes::node* node_a)
             -> range_v3_view auto;
@@ -153,7 +153,7 @@ namespace dom::detail::tree_internals
 auto dom::detail::tree_internals::root(nodes::node* node_a) -> nodes::node*
 {
     // return the topmost ancestor, or nullptr if there is no node
-    return not node_a ? nullptr : node_a->parent_node() ? root(node_a->parent_node()) : node_a;
+    return !node_a ? nullptr : node_a->parent_node() ? root(node_a->parent_node()) : node_a;
 }
 
 
@@ -194,7 +194,7 @@ auto dom::detail::tree_internals::is_descendant(nodes::node* node_a, nodes::node
 auto dom::detail::tree_internals::is_sibling(nodes::node* node_a, nodes::node* node_b) -> ext::boolean
 {
     // 'node_a' is a sibling of 'node_b' if they have the same 'parent_node'
-    return node_a->parent_node == node_b->parent_node;
+    return node_a->parent_node() == node_b->parent_node();
 }
 
 
@@ -234,8 +234,7 @@ auto dom::detail::tree_internals::all_following(nodes::node* node_a) -> range_v3
 {
     auto descendant_nodes = descendants(node_a);
     return descendant_nodes
-           | ranges::views::transform([](nodes::node* descendant) {return dynamic_cast<T*>(descendant);})
-           | ranges::views::filter([](T* descendant) -> bool {return descendant;})
+           | ranges::views::cast_all_to<T*>()
            | ranges::views::filter([index_a = index(node_a)](T* descendant) {return index(descendant) < index_a;});
 }
 
@@ -245,8 +244,7 @@ auto dom::detail::tree_internals::all_preceding(nodes::node* node_a) -> range_v3
 {
     auto descendant_nodes = descendants(node_a);
     return descendant_nodes
-           | ranges::views::transform([](nodes::node* descendant) {return dynamic_cast<T*>(descendant);})
-           | ranges::views::filter([](T* descendant) -> bool {return descendant;})
+           | ranges::views::cast_all_to<T*>()
            | ranges::views::filter([index_a = index(node_a)](T* descendant) {return index(descendant) > index_a;});
 }
 
@@ -254,22 +252,20 @@ auto dom::detail::tree_internals::all_preceding(nodes::node* node_a) -> range_v3
 template <typename T>
 auto dom::detail::tree_internals::all_preceding_siblings(nodes::node* node_a) -> range_v3_view auto
 {
-    auto sibling_nodes = node_a->parent_node->child_nodes();
-    return *sibling_nodes
-           | ranges::views::transform([](nodes::node* descendant) {return dynamic_cast<T*>(descendant);})
-           | ranges::views::filter([](T* sibling) -> bool {return sibling;})
-           | ranges::views::filter([index_a = ranges::find(*sibling_nodes, node_a), &sibling_nodes](T* sibling) {return ranges::find(*sibling_nodes, sibling) < index_a;});
+    auto sibling_nodes = *node_a->parent_node->child_nodes();
+    return sibling_nodes
+           | ranges::views::cast_all_to<T*>()
+           | ranges::views::filter([index_a = ranges::find(sibling_nodes, node_a), &sibling_nodes](T* sibling) {return ranges::find(sibling_nodes, sibling) < index_a;});
 }
 
 
 template <typename T>
 auto dom::detail::tree_internals::all_following_siblings(nodes::node* node_a) -> range_v3_view auto
 {
-    auto sibling_nodes = node_a->parent_node->child_nodes();
-    return *sibling_nodes
-           | ranges::views::transform([](nodes::node* descendant) {return dynamic_cast<T*>(descendant);})
-           | ranges::views::filter([](T* sibling) -> bool {return sibling;})
-           | ranges::views::filter([index_a = ranges::find(*sibling_nodes, node_a), &sibling_nodes](T* sibling) {return ranges::find(*sibling_nodes, sibling) > index_a;});
+    auto sibling_nodes = *node_a->parent_node->child_nodes();
+    return sibling_nodes
+           | ranges::views::cast_all_to<T*>()
+           | ranges::views::filter([index_a = ranges::find(sibling_nodes, node_a), &sibling_nodes](T* sibling) {return ranges::find(sibling_nodes, sibling) > index_a;});
 }
 
 
@@ -308,14 +304,14 @@ auto dom::detail::tree_internals::contiguous_text_nodes(nodes::node* node_a) -> 
     // previous consecutive text nodes as a range (adjacent to 'node_a')
     auto previous_consecutive_text_nodes = *sibling_nodes | ranges::views::reverse
             | ranges::views::drop_while([&node_a](nodes::node* sibling) {return sibling != node_a;})
-            | ranges::views::transform([](nodes::node* sibling) {return dynamic_cast<nodes::text*>(sibling);})
+            | ranges::views::cast_all_to<nodes::text*>(false)
             | ranges::views::take_while([](nodes::text* sibling_text_node) -> bool {return sibling_text_node;})
             | ranges::views::reverse;
 
     // next consecutive text nodes as a range (adjacent to 'node_a')
     auto next_consecutive_text_nodes = *sibling_nodes
             | ranges::views::drop_while([&node_a](nodes::node* sibling) {return sibling != node_a;})
-            | ranges::views::transform([](nodes::node* sibling) {return dynamic_cast<nodes::text*>(sibling);})
+            | ranges::views::cast_all_to<nodes::text*>(false)
             | ranges::views::take_while([](nodes::text* sibling_text_node) -> bool {return sibling_text_node;});
 
     return ranges::views::concat(previous_consecutive_text_nodes, current_text_node, next_consecutive_text_nodes);
@@ -325,18 +321,14 @@ auto dom::detail::tree_internals::contiguous_text_nodes(nodes::node* node_a) -> 
 auto dom::detail::tree_internals::descendant_text_nodes(nodes::node* node_a) -> range_v3_view auto
 {
     auto descendant_nodes = descendants(node_a);
-    return descendant_nodes
-            | ranges::views::transform([](nodes::node* descendant) {return dynamic_cast<nodes::text*>(descendant);})
-            | ranges::views::filter([](nodes::text* text_node) -> bool {return text_node;});
+    return descendant_nodes | ranges::views::cast_all_to<nodes::text*>();
 }
 
 
 auto dom::detail::tree_internals::child_text_nodes(nodes::node* node_a) -> range_v3_view auto
 {
-    auto child_nodes = node_a->parent_node->child_nodes();
-    return *child_nodes
-            | ranges::views::transform([](nodes::node* descendant) {return dynamic_cast<nodes::text*>(descendant);})
-            | ranges::views::filter([](nodes::text* text_node) -> bool {return text_node;});
+    auto child_nodes = *node_a->parent_node->child_nodes();
+    return child_nodes | ranges::views::cast_all_to<nodes::text*>();
 }
 
 
