@@ -214,40 +214,40 @@ auto dom::detail::customization_internals::create_an_element(
             assert(result->namespace_uri() == namespace_internals::HTML);
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                    [&result] {return not result->attributes->empty();},
                     "A custom element must have an empty 'attributes' list while being created",
                     {"The 'attribute' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects' attributes"},
-                    {{"Element being created", result}},
-                    [&result] {return not result->attributes->empty();});
+                    P("Element being created", result));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                    [&result] {return not result->child_nodes->empty();},
                     "A custom element must have an empty 'child_nodes' list while being created",
                     {"The 'child_nodes' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects; child nodes"},
-                    {{"Element being created", result}},
-                    [&result] {return not result->child_nodes->empty();});
+                    P("Element being created", result));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                    [&result] {return result->parent_node();},
                     "A custom element must have null 'parent_node' while being created",
                     {
                         "The 'parent_node' might have been initialized from another thread / asynchronously",
                         "General asynchronous tree manipulation"
                     },
                     {"Check for any threads modifying the DOM tree"},
-                    {{"Element being created", result}, {"Parent node", result->parent_node()}},
-                    [&result] {return result->parent_node();});
+                    P("Element being created", result), P("Parent node", result->parent_node()));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                    [&result] {return result->owner_document();},
                     "A custom element must have an 'owner_document' initialized to the 'document' parameter",
                     {""}, {""},
-                    {{"Element's owner_document", result->owner_document()}, {"Document parameter", document}},
-                    [&result] {return result->owner_document();});
+                    P("Element's owner_document", result->owner_document()), P("Document parameter", document));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                    [result, local_name] {return result->local_name() != local_name;},
                     "A custom element's 'local_name' must match the 'local_name' parameter",
                     {""}, {""},
-                    {{"Element's local_name", result->local_name()}, {"Local name parameter", local_name}},
-                    [result, local_name] {return result->local_name() != local_name;});
+                    P("Element's local_name", result->local_name()), P("Local name parameter", local_name));
 
             // set the result's 'prefix', and empty the 'is' attribute
             result->prefix = prefix;
@@ -313,7 +313,7 @@ auto dom::detail::customization_internals::upgrade_element(
 {
     // if the element is in the UNDEFINED or UNCUSTOMIZED custom element state, then return early
     auto non_upgradable_states = {UNDEFINED, UNCUSTOMIZED};
-    if (non_upgradable_states | ranges::contains(element->m_custom_element_state)) return;
+    if (ranges::contains(non_upgradable_states, element->m_custom_element_state)) return;
 
     // set the custom element definition, and default the custom element state to FAILED
     element->m_custom_element_definition = definition;
@@ -321,10 +321,8 @@ auto dom::detail::customization_internals::upgrade_element(
 
     // enqueue a callback reaction for each attribute in the element being upgraded, to call the
     // "attributeChangedCallback"
-    *element->attributes() | ranges::for_each([&element](nodes::attr* attribute)
-    {
+    for (nodes::attr* attribute: *element->attributes())
         enqueue_custom_element_callback_reaction(element, "attributeChangedCallback", attribute->local_name(), "", attribute->value(), attribute->namespace_uri());
-    });
 
     // if the element is connected, enqueue a callback reaction for the element to call the "connectedCallback" callback
     if (shadow_internals::is_connected(element))
@@ -335,12 +333,12 @@ auto dom::detail::customization_internals::upgrade_element(
 
     JS_EXCEPTION_HANDLER;
     exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [definition, element] {return definition->disable_shadow && element->shadow_root_node();},
             "An element being upgraded can not have a 'shadow_root' is not null, but the definition's 'disable_shadow'"
             "is true (can not have a 'shadow_root' set if definition forbids it)",
             {"Element has been attached to a shadow tree", "Element's definition has 'disable_shadow' set to true by accident"},
             {"Remove element's 'shadow_root' node", "Set element's definition's 'disable_shadow' to false"},
-            {{"Element being upgraded", element}, {"Element's 'shadow_root'", element->shadow_root_node()}},
-            [definition, element] {return definition->disable_shadow && element->shadow_root_node();});
+            P("Element being upgraded", element), P("Element's 'shadow_root'", element->shadow_root_node()));
 
     // the element is now PRECUSTOMIZED ie it's ready for customization now, so set the construct_result to the result
     // of invoking the constructor
@@ -348,9 +346,9 @@ auto dom::detail::customization_internals::upgrade_element(
     auto* construct_result = definition->constructor();
 
     JS_BLOCK_ENTER // throw an error if 'construction_result' is the same object as 'element'
-    auto* isolate = v8::Isolate::GetCurrent();
+        auto* isolate = v8::Isolate::GetCurrent();
         if (javascript::ecma::SameValue(v8pp::to_v8(isolate, construct_result), v8pp::to_v8(isolate, element)))
-            exception_internals::throw_v8_exception<V8_TYPE_ERROR>("");
+            exception_internals::throw_v8_exception<V8_TYPE_ERROR>();
     JS_BLOCK_EXIT
 
     // pop the element off the definition's construction stack
