@@ -23,9 +23,9 @@ auto dom::nodes::attr::set_value(
 
 
 auto dom::nodes::attr::qualified_name()
-        const -> ext::string_view
+        const -> ext::string
 {
-    ext::string concat = prefix() + ext::string{":"} + local_name();
+    ext::string concat = prefix() + ":" + local_name();
     return concat;
 }
 
