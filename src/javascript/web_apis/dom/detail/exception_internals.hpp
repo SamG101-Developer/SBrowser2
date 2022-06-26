@@ -1,12 +1,14 @@
 #ifndef SBROWSER2_EXCEPTION_INTERNALS_HPP
 #define SBROWSER2_EXCEPTION_INTERNALS_HPP
 
-#define no_condition [](){return true;}
-
 #include <functional>
+#include <tuple>
 #include <ext/string.hpp>
 
 #include <range/v3/algorithm/for_each.hpp>
+
+#define NO_CONDITION [](){return true;}
+#define P(key, val) std::make_pair(key, val)
 
 
 enum v8_custom_error_t
@@ -31,55 +33,41 @@ namespace dom::detail::exception_internals
 {
     using exception_condiditional_t = std::function<bool()>;
 
-    template <v8_custom_error_t exception_type>
-    [[deprecated("Use dom::detail::exception_internals::throw_v8_exception_formatted instead")]]
-    auto throw_v8_exception(
-            ext::string_view exception_message,
-            exception_condiditional_t&& condition = no_condition)
-            -> void;
-
     template <v8_primitive_error_t exception_type>
     auto throw_v8_exception(
-            ext::string_view exception_message,
-            exception_condiditional_t&& condition = no_condition)
+            exception_condiditional_t&& condition = NO_CONDITION,
+            ext::string_view exception_message = "")
             -> void;
 
-    template <v8_custom_error_t exception_type, typename T=void*>
+    template <v8_custom_error_t exception_type>
     auto throw_v8_exception_formatted(
-            ext::string_view description,
-            ext::vector<ext::string>&& possible_causes,
-            ext::vector<ext::string>&& possible_fixes,
-            ext::map<ext::string, T>&& objects,
-            exception_condiditional_t&& condition = no_condition)
+            exception_condiditional_t&& condition = NO_CONDITION,
+            ext::string_view description = "",
+            ext::vector<ext::string>&& possible_causes = {},
+            ext::vector<ext::string>&& possible_fixes = {},
+            auto&&... object_information)
             -> void;
-}
-
-
-template <v8_custom_error_t exception_type>
-auto dom::detail::exception_internals::throw_v8_exception(
-        ext::string_view exception_message, exception_condiditional_t&& condition) -> void
-{
-    if (condition()) v8::Isolate::GetCurrent()->ThrowError(exception_message);
 }
 
 
 template <v8_primitive_error_t exception_type>
 auto dom::detail::exception_internals::throw_v8_exception(
-        ext::string_view exception_message, exception_condiditional_t&& condition) -> void
+        exception_condiditional_t&& condition, ext::string_view exception_message) -> void
 {
-    if (condition())
+    if (std::move(condition)())
     {
         // create the v8 primitive exception object, and set its type based on the enum value
         v8::Local<v8::Value> v8_primitive_exception_object;
         switch(exception_type)
         {
-            case (V8_TYPE_ERROR): v8_primitive_exception_object = v8::Exception::TypeError(exception_message);
-            case (V8_RANGE_ERROR): v8_primitive_exception_object = v8::Exception::RangeError(exception_message);
-            case (V8_REFERENCE_ERROR): v8_primitive_exception_object = v8::Exception::ReferenceError(exception_message);
-            case (V8_SYNTAX_ERROR): v8_primitive_exception_object = v8::Exception::SyntaxError(exception_message);
-            case (V8_WASM_COMPILE_ERROR): v8_primitive_exception_object = v8::Exception::WasmCompileError(exception_message);
-            case (V8_WASM_LINK_ERROR): v8_primitive_exception_object = v8::Exception::WasmLinkError(exception_message);
-            case (V8_WASM_RUNTIME_ERROR): v8_primitive_exception_object = v8::Exception::WasmRuntimeError(exception_message);
+            case V8_TYPE_ERROR: v8_primitive_exception_object = v8::Exception::TypeError(exception_message);
+            case V8_RANGE_ERROR: v8_primitive_exception_object = v8::Exception::RangeError(exception_message);
+            case V8_REFERENCE_ERROR: v8_primitive_exception_object = v8::Exception::ReferenceError(exception_message);
+            case V8_SYNTAX_ERROR: v8_primitive_exception_object = v8::Exception::SyntaxError(exception_message);
+            case V8_WASM_COMPILE_ERROR: v8_primitive_exception_object = v8::Exception::WasmCompileError(exception_message);
+            case V8_WASM_LINK_ERROR: v8_primitive_exception_object = v8::Exception::WasmLinkError(exception_message);
+            case V8_WASM_RUNTIME_ERROR: v8_primitive_exception_object = v8::Exception::WasmRuntimeError(exception_message);
+            default: v8_primitive_exception_object = v8::Exception::Error(exception_message);
         }
 
         // the condition has already been asserted, so throw the exception
@@ -88,46 +76,35 @@ auto dom::detail::exception_internals::throw_v8_exception(
 }
 
 
-template <v8_custom_error_t exception_type, typename T>
+template <v8_custom_error_t exception_type>
 auto dom::detail::exception_internals::throw_v8_exception_formatted(
-        ext::string_view description, ext::vector<ext::string>&& possible_causes,
-        ext::vector<ext::string>&& possible_fixes, ext::map<ext::string, T>&& objects,
-        exception_condiditional_t&& condition) -> void
+        exception_condiditional_t&& condition, ext::string_view description, ext::vector<ext::string>&& possible_causes,
+        ext::vector<ext::string>&& possible_fixes, auto&& ...object_information) -> void
 {
-    if (condition())
+    if (std::move(condition)())
     {
         // start the error message with the description
         ext::string exception_message = description;
 
-        // bullet point the possible causes
-        exception_message += "\n\nPossible causes:\n";
-        possible_causes | ranges::for_each([&exception_message](ext::string&& possible_cause)
+        // bullet point the possible causes (if there are any)
+        if (!possible_causes.empty())
         {
-            exception_message += "\t-" + possible_cause + "\n";
-        });
+            exception_message += "\n\nPossible causes:\n";
+            ranges::for_each(std::move(possible_causes), [&exception_message](ext::string&& cause) {exception_message += "\t-" + cause + "\n";});
+        }
 
-        // bullet point the possible fixes
-        exception_message += "\n\nPossible fixes:\n";
-        possible_fixes | ranges::for_each([&exception_message](ext::string&& possible_fix)
+        // bullet point the possible fixes (if there are any)
+        if (!possible_fixes.empty())
         {
-            exception_message += "\t-" + possible_fix + "\n";
-        });
+            exception_message += "\n\nPossible fixes:\n";
+            ranges::for_each(std::move(possible_fixes), [&exception_message](ext::string&& fix) {exception_message += "\t-" + fix + "\n";});
+        }
 
-        // bullet point the pointer description and the pointer memory address
-        exception_message += "\n\nImportant memory addresses:\n";
+        // bullet point the relevant information / memory addresses of objects
+        exception_message += "\n\nRelevant information / memory addresses:\n";
+        ranges::for_each(object_information..., [&exception_message]<typename K, typename V>(std::pair<K, V>&& info) {exception_message += std::move(info).first + ": " + std::move(info).second;});
 
-        if constexpr(std::is_pointer_v<T>)
-            objects | ranges::for_each([&exception_message](std::pair<ext::string, void*>&& memory_address)
-            {
-                exception_message += "\t-" + memory_address.first + ": " + std::to_string(reinterpret_cast<size_t>(memory_address.second)) + "\n";
-            });
-        else
-            objects | ranges::for_each([&exception_message](std::pair<ext::string, T>&& object)
-            {
-                exception_message += "\t-" + object.first + ": " + object.second + "\n";
-            });
-
-        // the condition has already been asserted, so throw the exception
+        // the 'condition' has already been asserted, so throw the exception
         v8::Isolate::GetCurrent()->ThrowError(exception_message);
     }
 }
