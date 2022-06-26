@@ -2,9 +2,16 @@
 #define SBROWSER2_ELEMENT_HPP
 
 #include <dom/nodes/node.hpp>
-#include <web_apis/dom/mixins/parent_node.hpp>
-namespace dom::nodes {class attr;}
+#include <web_apis/dom/mixins/child_node.hpp>
+#include <web_apis/dom/mixins/document_or_element_node.hpp>
+#include <web_apis/dom/mixins/non_document_type_child_node.hpp>
+#include <web_apis/dom/mixins/parentable_node.hpp>
+#include <web_apis/dom/mixins/slottable.hpp>
 namespace dom::nodes {class element;}
+
+#include <ext/map.hpp>
+#include <ext/vector.hpp>
+namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail::customization_internals {struct custom_element_definition;}
 namespace dom::detail::customization_internals {struct reaction;}
@@ -13,13 +20,14 @@ namespace dom::detail::customization_internals {auto create_an_element(nodes::do
 namespace dom::detail::customization_internals {auto upgrade_element(custom_element_definition*, nodes::element*) -> void;}
 namespace html::detail::context_internals {struct browsing_context;}
 
-#include <ext/map.hpp>
-#include <ext/vector.hpp>
-
 
 class dom::nodes::element
         : public node
-        , public mixins::parent_node
+        , public mixins::child_node
+        , public mixins::document_or_element_node
+        , public mixins::non_document_type_child_node
+        , public mixins::parentable_node
+        , public mixins::slottable
 {
 public friends:
     friend auto dom::detail::customization_internals::create_an_element(
@@ -80,8 +88,8 @@ public js_properties:
     ext::property<std::unique_ptr<ext::string_vector>> class_list;
 
 protected cpp_methods:
-    auto qualified_name() const -> ext::string_view;
-    auto html_uppercase_qualified_name() const -> ext::string_view;
+    [[nodiscard]] auto qualified_name() const -> ext::string;
+    [[nodiscard]] auto html_uppercase_qualified_name() const -> ext::string;
 
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
