@@ -1,19 +1,19 @@
-#ifndef SBROWSER2_PARENT_NODE_HPP
-#define SBROWSER2_PARENT_NODE_HPP
+#ifndef SBROWSER2_PARENTABLE_NODE_HPP
+#define SBROWSER2_PARENTABLE_NODE_HPP
 
 #include <ext/vector.hpp>
 #include <ext/type_traits.hpp>
 #include <web_apis/dom_object.hpp>
 #include <range/v3/view/ref.hpp>
-namespace dom::mixins {class parent_node;}
+namespace dom::mixins {class parentable_node;}
 namespace dom::nodes {class element;}
 
 
-class dom::mixins::parent_node
+class dom::mixins::parentable_node
         : public virtual web_apis::dom_object
 {
 public constructors:
-    parent_node();
+    parentable_node();
 
 public js_methods:
     unscopable auto prepend(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
@@ -40,4 +40,4 @@ private cpp_accessors:
 };
 
 
-#endif //SBROWSER2_PARENT_NODE_HPP
+#endif //SBROWSER2_PARENTABLE_NODE_HPP
