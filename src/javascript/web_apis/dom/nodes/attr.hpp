@@ -25,7 +25,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_methods:
-    auto qualified_name() const -> ext::string_view;
+    [[nodiscard]] auto qualified_name() const -> ext::string;
 
 private cpp_accessors:
     [[nodiscard]] auto get_node_name() const -> ext::string override {return qualified_name();};
