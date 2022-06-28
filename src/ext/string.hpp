@@ -9,10 +9,10 @@ namespace ext {class string_view;}
 using sv = ext::string_view;
 
 #include <ext/keywords.hpp>
+#include <QtCore/QString>
 #include <v8-isolate.h>
 #include <v8-local-handle.h>
 #include <v8-primitive.h>
-#include <QtCore/QString>
 
 
 class ext::string_view
@@ -40,6 +40,8 @@ class ext::string
 {
 public constructors:
     using std::string::string;
+
+    constexpr string(std::string&&);
 
     auto operator=(const char*) -> string&;
 
