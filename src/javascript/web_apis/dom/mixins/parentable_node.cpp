@@ -1,7 +1,8 @@
 #include "parentable_node.hpp"
 
+#include <ext/casting.hpp>
+#include <ext/ranges.hpp>
 
-#include <web_apis/dom/nodes/node.hpp>
 #include <web_apis/dom/nodes/window.hpp>
 #include <web_apis/dom/detail/customization_internals.hpp>
 #include <web_apis/dom/detail/node_internals.hpp>
@@ -62,10 +63,11 @@ auto dom::mixins::parentable_node::replace_children(
 }
 
 
-auto dom::mixins::parentable_node::get_children() const -> ranges::ref_view<ext::vector<nodes::element*>>
+auto dom::mixins::parentable_node::get_children()
+        const -> ranges::any_view<nodes::element*>
 {
-    const auto* base = ext::cross_cast<const nodes::node*>(this);
-    const auto element_children = *base->child_nodes() | ranges::views::cast_all_to<nodes::element*>();
+    auto* base = ext::cross_cast<const nodes::node*>(this);
+    auto element_children = *base->child_nodes() | ranges::views::cast_all_to<nodes::element>();
 
     return element_children;
 }
