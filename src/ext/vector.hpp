@@ -3,6 +3,7 @@
 #define SBROWSER2_VECTOR_HPP
 
 #include <veque.hpp>
+#include <ext/type_traits.hpp>
 
 namespace     {template <typename _Vt> using vector_internal = veque::veque<_Vt>;}
 namespace ext {template <typename _Tx> class vector;}
@@ -31,7 +32,7 @@ public aliases:
 public constructors:
     using vector_internal<_Tx>::vector_internal;
 
-    vector(std::same_as<_Tx> auto&&... _Val)
+    vector(all_same_as<_Tx> auto&&... _Val)
     {
         (this->template emplace(std::forward<_Tx>(_Val)), ...);
     };
@@ -56,29 +57,22 @@ public cpp_operators:
     auto operator[](size_type _Idx) -> optional<value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
     auto operator[](size_type _Idx) const -> optional<const value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
 
-    auto operator+=(vector_view<_Tx> _Other) -> vector&;
-    auto operator+ (vector_view<_Tx> _Other) -> vector;
+    auto operator+=(iterable auto _Other) -> vector&
+    {
+        this->reserve(_Other.size());
+        for (const auto& _Item: _Other)
+            this->push_back(_Item);
+        return *this;
+    }
+
+    auto operator+ (iterable auto _Other) -> vector
+    {
+        vector<_Tx> _Out{this->size() + _Other.size()};
+        _Out += *this;
+        _Out += _Other;
+        return _Out;
+    }
 };
-
-
-template <typename _Tx>
-auto ext::vector<_Tx>::operator+=(vector_view<_Tx> _Other) -> vector<_Tx>&
-{
-    this->reserve(_Other.size());
-    for (const auto& _Item: _Other)
-        this->push_back(_Item);
-    return *this;
-}
-
-
-template <typename _Tx>
-auto ext::vector<_Tx>::operator+(vector_view<_Tx> _Other) -> vector<_Tx>
-{
-    vector<_Tx> _Out{this->size() + _Other.size()};
-    _Out += *this;
-    _Out += _Other;
-    return _Out;
-}
 
 
 #endif //SBROWSER2_VECTOR_HPP
