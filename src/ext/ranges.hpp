@@ -8,11 +8,11 @@
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
+#include <range/v3/view/filter.hpp>
 #include <range/v3/view/join.hpp>
 #include <range/v3/view/remove.hpp>
 #include <range/v3/view/split.hpp>
 #include <range/v3/view/transform.hpp>
-
 
 
 // additional functionality to ranges v3
@@ -29,6 +29,8 @@ namespace ranges::views {struct uppercase_fn;}
 namespace ranges::views {struct split_string_fn;}
 namespace ranges::views {template <typename T> struct cast_all_to_fn;}
 namespace ranges {struct contains_all_fn;}
+namespace ranges {struct first_where_fn;}
+namespace ranges {struct last_where_fn;}
 
 
 struct ranges::views::lowercase_fn
@@ -73,7 +75,29 @@ struct ranges::contains_all_fn
     template <typename Rng1, typename Rng2>
     constexpr auto operator()(Rng1&& range1, Rng2&& range2) const
     {
-        return ranges::all_of(range2, [range1](auto&& item_2) {ranges::contains(range1, item_2);});
+        return ranges::all_of(range2, [range1](auto&& item_2) {ranges::contains(std::forward<Rng1>(range1), std::forward<Rng2>(item_2));});
+    }
+};
+
+
+struct ranges::first_where_fn
+{
+    template <typename Rng1, typename Fx>
+    constexpr auto operator()(Rng1&& range1, Fx&& function) const
+    {
+        auto filtered = range1 | ranges::views::filter(std::forward<Fx>(function));
+        return filtered.front();
+    }
+};
+
+
+struct ranges::last_where_fn
+{
+    template <typename Rng1, typename Fx>
+    constexpr auto operator()(Rng1&& range1, Fx&& function) const
+    {
+        auto filtered = range1 | ranges::views::filter(std::forward<Fx>(function));
+        return filtered.back();
     }
 };
 
@@ -83,6 +107,8 @@ namespace ranges::views {constexpr lowercase_fn lowercase;}
 namespace ranges::views {constexpr uppercase_fn uppercase;}
 namespace ranges::views {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
 namespace ranges {constexpr contains_all_fn contains_all;}
+namespace ranges {constexpr first_where_fn first_where;}
+namespace ranges {constexpr last_where_fn last_where;}
 
 
 #endif //SBROWSER2_RANGES_HPP
