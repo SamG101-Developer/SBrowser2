@@ -20,6 +20,7 @@ using ulong     = unsigned long;
 using ulonglong = unsigned long long;
 
 
+// TODO : move into ext/concepts.hpp
 // check if a templated class is a base of another class (don't need template type to check)
 template <template <typename> typename _Base, typename _Derived>
 concept templated_base_of = requires(_Derived _Obj)
@@ -54,17 +55,33 @@ concept dynamically_castable_to = requires (_Tx _PtrL)
 
 // check if a type is a range_v3 type
 template <typename T>
-concept range_v3_view = requires(const T& range)
+concept range_v3_view = requires(T&& range)
 {
     ranges::view_<T>;
 };
 
 
-// check if a type is one of many
+// check if 1 type matches any types
 template <typename ..._Valty, typename _Tx>
-concept same_as_any = requires(_Valty... _Val)
+concept same_as_any = requires(_Tx _Val)
 {
     (std::same_as<_Tx, _Valty> || ...);
+};
+
+
+// check if all types match 1 type
+template <typename _Tx, typename ..._Valty>
+concept all_same_as = requires(_Valty... _Val)
+{
+    (std::same_as<_Valty, _Tx> && ...);
+};
+
+
+// check if any types match 1 type
+template <typename _Tx, typename ..._Valty>
+concept any_same_as = requires(_Valty... _Val)
+{
+    (std::same_as<_Valty, _Tx> || ...);
 };
 
 
