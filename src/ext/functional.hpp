@@ -13,15 +13,15 @@ template <typename _Fx, typename ..._Types>
 struct ext::bind_back
 {
 public:
-    explicit bind_back(_Fx&& _Func, _Types&&... _Args)
+    explicit bind_back(_Fx&& _Func, _Types&&... _FixedArgs)
             : _Function{std::forward<_Fx>(_Func)}
-            , _BackArgs{std::forward_as_tuple(std::forward<_Types>(_Args)...)}
+            , _BackArgs{std::forward_as_tuple(std::forward<_Types>(_FixedArgs)...)}
     {}
 
     template <typename ..._Types2>
-    auto operator()(_Types2&&... _Args)
+    auto operator()(_Types2&&... _VariableArgs)
     {
-        auto _FrontArgs = std::make_tuple(std::forward<_Types2>(_Args)...);
+        auto _FrontArgs = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
         auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
         return std::apply(_Function, _TotalArgs); // TODO : are arguments being forwarded out of tuple into method?
     }
@@ -36,15 +36,15 @@ template <typename _Fx, typename ..._Types>
 struct ext::bind_front
 {
 public:
-    explicit bind_front(_Fx&& _Func, _Types&&... _Args)
+    explicit bind_front(_Fx&& _Func, _Types&&... _FixedArgs)
             : _Function{std::forward<_Fx>(_Func)}
-            , _FrontArgs{std::forward_as_tuple(std::forward<_Types>(_Args)...)}
+            , _FrontArgs{std::forward_as_tuple(std::forward<_Types>(_FixedArgs)...)}
     {};
 
     template <typename ..._Types2>
-    auto operator()(_Types2&&... _Args)
+    auto operator()(_Types2&&... _VariableArgs)
     {
-        auto _BackArgs  = std::make_tuple(std::forward<_Types2>(_Args)...);
+        auto _BackArgs  = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
         auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
         return std::apply(_Function, _TotalArgs);
     }
