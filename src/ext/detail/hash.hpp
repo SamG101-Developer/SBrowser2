@@ -1,16 +1,22 @@
-#pragma once
 #ifndef SBROWSER2_HASH_HPP
 #define SBROWSER2_HASH_HPP
 
-#include <functional>
-#include <ext/type_traits.hpp>
+#include <string>
 
-namespace ext::detail {auto _Hash(std::string_view _S) -> size_t;}
+namespace ext {constexpr auto hash(const char* str) -> size_t;}
 
-auto ext::detail::_Hash(std::string_view _S) -> size_t
-{
-    std::hash<std::string_view> _Hasher;
-    return _Hasher(_S);
+
+constexpr auto ext::hash(const char* str) -> size_t {
+    const long long p = 131;
+    const long long m = 4294967291; // 2^32 - 5, largest 32 bit prime
+    long long total = 0;
+    long long current_multiplier = 1;
+    for (int i = 0; str[i] != '\0'; ++i)
+    {
+        total = (total + current_multiplier * str[i]) % m;
+        current_multiplier = (current_multiplier * p) % m;
+    }
+    return total;
 }
 
 
