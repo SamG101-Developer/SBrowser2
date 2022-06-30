@@ -30,7 +30,6 @@ public constructors:
     auto operator=(const any&) -> any& = default;
     auto operator=(any&&) noexcept -> any& = default;
 
-    any(const auto& _Val);
     any(auto&& _Val) noexcept;
     auto operator=(const auto& _Val) -> any&;
     auto operator=(auto&& _Val) noexcept -> any&;
@@ -43,8 +42,8 @@ public cpp_methods:
     template <typename _Ty> auto to() const -> _Ty {return std::any_cast<_Ty>(_Any);};
 
 public cpp_operators:
-    auto operator==(const any& _Other) const -> ext::boolean {return &_Other._Any == &_Any;}
-    auto operator==(not_any auto&& _Other) const -> ext::boolean {return _Other == to<decltype(_Other)>();}
+    auto operator==(const any& _Other) const -> bool {return &_Other._Any == &_Any;}
+    template <not_any T> auto operator==(T&& _Other) const -> bool {return std::forward<T>(_Other) == to<T>();}
 
 private cpp_properties:
     std::any _Any;
@@ -52,22 +51,16 @@ private cpp_properties:
 };
 
 
-ext::any::any(const auto& _Val)
-        : _Any(_Val)
-        , _IsNumeric(templated_base_of<ext::number, decltype(_Val)>)
-{}
-
-
 ext::any::any(auto&& _Val) noexcept
         : _Any(std::forward<decltype(_Val)>(_Val))
-        , _IsNumeric(templated_base_of<ext::number, decltype(_Val)>)
+        , _IsNumeric(inherit_template<ext::number, decltype(_Val)>)
 {}
 
 
 auto ext::any::operator=(const auto& _Val) -> ext::any&
 {
     _Any = _Val;
-    _IsNumeric = templated_base_of<ext::number, decltype(_Val)>;
+    _IsNumeric = inherit_template<ext::number, decltype(_Val)>;
     return *this;
 }
 
@@ -75,7 +68,7 @@ auto ext::any::operator=(const auto& _Val) -> ext::any&
 auto ext::any::operator=(auto&& _Val) noexcept -> any&
 {
     _Any = std::forward<decltype(_Val)>(_Val);
-    _IsNumeric = templated_base_of<ext::number, decltype(_Val)>;
+    _IsNumeric = inherit_template<ext::number, decltype(_Val)>;
     return *this;
 }
 
