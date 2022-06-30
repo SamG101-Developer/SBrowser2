@@ -7,7 +7,7 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename T> requires std::is_floating_point_v<T>
+template <typename _Tx> requires std::is_floating_point_v<T>
 struct v8pp::convert<ext::number<T>>
 {
     using from_type = ext::number<T>;
@@ -19,10 +19,10 @@ struct v8pp::convert<ext::number<T>>
 };
 
 
-template <typename T> requires std::is_floating_point_v<T>
+template <typename _Tx> requires std::is_floating_point_v<T>
 inline auto v8pp::convert<ext::number<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::number<T> from v8"};
+    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::number<_Tx> from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // create the ext::number<T> object from the primitive number conversion
@@ -33,7 +33,7 @@ inline auto v8pp::convert<ext::number<T>>::from_v8(v8::Isolate* isolate, v8::Loc
 }
 
 
-template <typename T> requires std::is_floating_point_v<T>
+template <typename _Tx> requires std::is_floating_point_v<T>
 inline auto v8pp::convert<ext::number<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_number_object) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
@@ -46,7 +46,7 @@ inline auto v8pp::convert<ext::number<T>>::to_v8(v8::Isolate* isolate, const fro
 }
 
 
-template <typename T> requires std::is_floating_point_v<T>
+template <typename _Tx> requires std::is_floating_point_v<T>
 struct v8pp::is_wrapped_class<ext::number<T>> : std::false_type{};
 
 
