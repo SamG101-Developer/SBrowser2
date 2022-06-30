@@ -24,7 +24,8 @@ class dom::nodes::event_target
         : public virtual web_apis::dom_object
 {
 private aliases:
-    using event_listener_callback_t = std::function<void()>;
+    // TODO : parameters optional (in v8::Function conversion?
+    using event_listener_callback_t = std::function<void(ext::string, events::event*)>;
 
 public friends:
     friend auto detail::event_internals::   add_event_listener(nodes::event_target* event_target, const ext::string_any_map& event_listener) -> void;
