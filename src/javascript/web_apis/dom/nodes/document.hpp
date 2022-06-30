@@ -65,7 +65,7 @@ public js_properties:
     ext::property<std::unique_ptr<other::dom_implementation>> implementation;
 
 private cpp_properties:
-    std::unique_ptr<encoding::encoding> m_encoding = nullptr;
+//    std::unique_ptr<encoding::encoding> m_encoding = nullptr;
     ext::string m_type = "xml";
     ext::string m_mode = "no-quirks";
     ext::string m_origin;
