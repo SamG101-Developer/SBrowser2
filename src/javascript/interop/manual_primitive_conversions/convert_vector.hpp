@@ -8,7 +8,7 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::convert<ext::vector<T>>
 {
     using from_type = ext::vector<T>;
@@ -20,10 +20,10 @@ struct v8pp::convert<ext::vector<T>>
 };
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::vector<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector<T> from v8"};
+    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector<_Tx> from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // save the current context
@@ -47,7 +47,7 @@ inline auto v8pp::convert<ext::vector<T>>::from_v8(v8::Isolate* isolate, v8::Loc
 }
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::vector<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
@@ -69,7 +69,7 @@ inline auto v8pp::convert<ext::vector<T>>::to_v8(v8::Isolate* isolate, const fro
 }
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::is_wrapped_class<ext::vector<T>> : std::false_type{};
 
 #endif //SBROWSER2_CONVERT_VECTOR_HPP

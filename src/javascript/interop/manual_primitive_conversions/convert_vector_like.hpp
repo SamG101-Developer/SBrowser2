@@ -8,7 +8,7 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::convert<ext::vector_like<T>>
 {
     using from_type = ext::vector_like<T>;
@@ -20,10 +20,10 @@ struct v8pp::convert<ext::vector_like<T>>
 };
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::vector_like<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector_like<T> from v8"};
+    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector_like<_Tx> from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // save the current context, and get the property names of the object
@@ -44,7 +44,7 @@ inline auto v8pp::convert<ext::vector_like<T>>::from_v8(v8::Isolate* isolate, v8
 }
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::vector_like<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector_like) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};

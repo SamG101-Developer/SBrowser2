@@ -6,7 +6,7 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::convert<ext::property<T>>
 {
     using from_type = ext::property<T>;
@@ -18,7 +18,7 @@ struct v8pp::convert<ext::property<T>>
 };
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::property<T>>::from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
 {
     if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::any from v8"};
@@ -30,7 +30,7 @@ inline auto v8pp::convert<ext::property<T>>::from_v8(v8::Isolate* isolate, to_ty
 }
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::property<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};

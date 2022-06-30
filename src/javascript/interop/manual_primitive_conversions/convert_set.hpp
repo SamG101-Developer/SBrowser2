@@ -6,7 +6,7 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::convert<ext::set<T>>
 {
     using from_type = ext::set<T>;
@@ -18,10 +18,10 @@ struct v8pp::convert<ext::set<T>>
 };
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::set<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::set<T> from v8"};
+    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::set<_Tx> from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // save the current context
@@ -45,7 +45,7 @@ inline auto v8pp::convert<ext::set<T>>::from_v8(v8::Isolate* isolate, v8::Local<
 }
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::set<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_set) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
@@ -66,7 +66,7 @@ inline auto v8pp::convert<ext::set<T>>::to_v8(v8::Isolate* isolate, const from_t
 }
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::is_wrapped_class<ext::set<T>> : std::false_type{};
 
 

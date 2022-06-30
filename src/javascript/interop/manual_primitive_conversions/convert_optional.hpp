@@ -6,7 +6,7 @@
 #include <v8pp/convert.hpp>
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::convert<ext::optional<T>>
 {
     using from_type = ext::optional<T>;
@@ -18,10 +18,10 @@ struct v8pp::convert<ext::optional<T>>
 };
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::optional<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::optional<T> from v8"};
+    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::optional<_Tx> from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // create the ext::optional<T> object, with either null for javascript Null, or the converted object
@@ -30,7 +30,7 @@ inline auto v8pp::convert<ext::optional<T>>::from_v8(v8::Isolate* isolate, v8::L
 }
 
 
-template <typename T>
+template <typename _Tx>
 inline auto v8pp::convert<ext::optional<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_optional) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
@@ -41,7 +41,7 @@ inline auto v8pp::convert<ext::optional<T>>::to_v8(v8::Isolate* isolate, const f
 }
 
 
-template <typename T>
+template <typename _Tx>
 struct v8pp::is_wrapped_class<ext::optional<T>> : std::false_type{};
 
 
