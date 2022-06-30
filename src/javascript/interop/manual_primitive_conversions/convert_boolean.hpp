@@ -21,7 +21,7 @@ struct v8pp::convert<ext::boolean>
 
 inline auto v8pp::convert<ext::boolean>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::boolean from v8"};
+    if (!is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::boolean from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // create the ext::boolean object from the primitive bool conversion
