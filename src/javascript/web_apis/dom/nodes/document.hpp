@@ -21,7 +21,7 @@ namespace dom::node_iterators {class node_filter;}
 namespace dom::node_iterators {class node_iterator;}
 namespace dom::node_iterators {class tree_walker;}
 namespace dom::other {class dom_implementation;}
-namespace url {class url;}
+namespace url {class url_object;}
 
 
 class dom::nodes::document
@@ -56,13 +56,16 @@ public js_methods:
     auto adopt_node(node* new_node) -> node*;
 
 public js_properties:
-    ext::property<std::unique_ptr<url::url>> url;
+    ext::property<std::unique_ptr<url::url_object>> url;
     ext::property<ext::string> compat_mode;
     ext::property<ext::string> character_set;
     ext::property<ext::string> content_type;
     ext::property<document_type*> doctype;
     ext::property<std::unique_ptr<element>> document_element;
     ext::property<std::unique_ptr<other::dom_implementation>> implementation;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
 //    std::unique_ptr<encoding::encoding> m_encoding = nullptr;
@@ -72,6 +75,10 @@ private cpp_properties:
 
 private cpp_accessors:
     [[nodiscard]] auto get_node_name() const -> ext::string override {return "#document";}
+    [[nodiscard]] auto get_node_value() const -> ext::string override {return "";}
+    [[nodiscard]] auto get_text_content() const -> ext::string override {return "";}
+    auto set_node_value(ext::string_view val) -> void override {};
+    auto set_text_content(ext::string_view val) -> void override {}
 
     [[nodiscard]] auto get_compat_mode() const -> ext::string;
     [[nodiscard]] auto get_character_set() const -> ext::string;
