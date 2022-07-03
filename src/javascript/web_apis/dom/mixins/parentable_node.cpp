@@ -21,7 +21,7 @@ dom::mixins::parentable_node::parentable_node()
 
 
 auto dom::mixins::parentable_node::prepend(
-        same_as_any<nodes::node*, ext::string> auto&&... nodes)
+        type_in<nodes::node*, ext::string> auto&&... nodes)
         -> void
 {
     // parse the 'nodes' parameter, and pre insert the derived 'node' into this's child nodes, before the first node in
@@ -35,7 +35,7 @@ auto dom::mixins::parentable_node::prepend(
 
 
 auto dom::mixins::parentable_node::append(
-        same_as_any<nodes::node*, ext::string> auto&&... nodes)
+        type_in<nodes::node*, ext::string> auto&&... nodes)
         -> void
 {
     // parse the 'nodes' parameter, and append the derived 'node' into this's child nodes, after the first node in the
@@ -49,7 +49,7 @@ auto dom::mixins::parentable_node::append(
 
 
 auto dom::mixins::parentable_node::replace_children(
-        same_as_any<nodes::node*, ext::string> auto&&... nodes)
+        type_in<nodes::node*, ext::string> auto&&... nodes)
         -> void
 {
     // parse the 'nodes' parameter, and replace the derived 'node' from this's child nodes, after ensuring pre insertion
@@ -67,9 +67,7 @@ auto dom::mixins::parentable_node::get_children()
         const -> ranges::any_view<nodes::element*>
 {
     auto* base = ext::cross_cast<const nodes::node*>(this);
-    auto element_children = *base->child_nodes() | ranges::views::cast_all_to<nodes::element>();
-
-    return element_children;
+    return *base->child_nodes() | ranges::views::cast_all_to<nodes::element>();
 }
 
 

@@ -1,13 +1,16 @@
 #include "child_node.hpp"
 
+#include <ext/casting.hpp>
+
 #include <dom/detail/customization_internals.hpp>
 #include <dom/detail/mutation_internals.hpp>
 #include <dom/detail/node_internals.hpp>
+#include <dom/detail/tree_internals.hpp>
 #include <range/v3/view/set_algorithm.hpp>
 
 
 auto dom::mixins::child_node::before(
-        same_as_any<nodes::node*, ext::string> auto&&... nodes)
+        type_in<nodes::node*, ext::string> auto&&... nodes)
         -> void
 {
     ce_reactions_method_def
@@ -35,7 +38,7 @@ auto dom::mixins::child_node::before(
 
 
 auto dom::mixins::child_node::after(
-        same_as_any<nodes::node*, ext::string> auto&&... nodes)
+        type_in<nodes::node*, ext::string> auto&&... nodes)
         -> void
 {
     ce_reactions_method_def
@@ -62,7 +65,7 @@ auto dom::mixins::child_node::after(
 
 
 auto dom::mixins::child_node::replace_with(
-        same_as_any<nodes::node*, ext::string> auto&& ...nodes)
+        type_in<nodes::node*, ext::string> auto&& ...nodes)
         -> void
 {
     ce_reactions_method_def
