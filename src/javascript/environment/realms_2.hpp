@@ -47,6 +47,12 @@
     auto surrounding_agent = surrounding_realm->GetIsolate();                                                                                                                     \
     auto surrounding_global_object = _JS_GLOBAL_OBJECT_FROM_REALM(surrounding).As<v8::Object>();
 
+#define JS_REALM_GET_ASSOCIATED(object)     \
+    JS_REALM_GET_RELEVANT(object)           \
+    auto associated_agent = relevant_agent; \
+    auto associated_realm = relevant_realm; \
+    auto associated_global_object = relevant_global_object;
+
 
 namespace javascript::environment::realms_2 {template <typename T> auto get(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> T;}
 namespace javascript::environment::realms_2 {template <typename T> auto set(v8::Local<v8::Object> global, ext::string_view cpp_attribute, T cpp_value) -> ext::boolean;}
