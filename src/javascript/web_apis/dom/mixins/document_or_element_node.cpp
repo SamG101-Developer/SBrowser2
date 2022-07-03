@@ -1,11 +1,11 @@
 #include "document_or_element_node.hpp"
 
 #include <regex>
-#include <ext/functors.hpp>
 #include <ext/ranges.hpp>
 
 #include <ext/casting.hpp>
 #include <ext/ranges.hpp>
+#include <web_apis/dom/nodes/document.hpp>
 #include <web_apis/dom/detail/tree_internals.hpp>
 #include <web_apis/dom/nodes/element.hpp>
 
@@ -15,7 +15,7 @@
 
 
 auto dom::mixins::document_or_element_node::get_elements_by_class_name(
-        ext::string class_names)
+        ext::string_view class_names)
         -> range_v3_view auto
 {
     auto* base = ext::cross_cast<nodes::node*>(this);
@@ -46,7 +46,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
 
 
 auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
-        ext::string qualified_name)
+        ext::string_view qualified_name)
         -> range_v3_view auto
 {
     // cross cast this node to a Node
@@ -78,8 +78,8 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
 
 
 auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
-        ext::string namespace_,
-        ext::string local_name)
+        ext::string_view namespace_,
+        ext::string_view local_name)
         -> range_v3_view auto
 {
     // cross cast this node to a Node
