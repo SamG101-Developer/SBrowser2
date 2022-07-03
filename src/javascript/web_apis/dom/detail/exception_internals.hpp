@@ -7,6 +7,11 @@
 #define NO_CONDITION [](){return true;}
 #define P(key, val) std::make_pair(key, val)
 
+#define verify_parent_exists(node)                                                    \
+    detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>( \
+        [_parent = node->parent_node()] {return _parent;},                            \
+        "New start container must have a parent")
+
 
 enum v8_custom_error_t
 {
