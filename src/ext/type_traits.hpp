@@ -5,9 +5,9 @@
 #include <functional>
 #include <memory>
 #include <type_traits>
-#include <ext/boolean.hpp>
 
-#include <range/v3/range/concepts.hpp>
+#include <ext/boolean.hpp>
+#include <ext/concepts.hpp>
 
 
 // type definitions
@@ -18,79 +18,6 @@ using ushort    = unsigned short;
 using uint      = unsigned int;
 using ulong     = unsigned long;
 using ulonglong = unsigned long long;
-
-
-// TODO : move into ext/concepts.hpp
-// check if a templated class is a base of another class (don't need template type to check)
-template <template <typename> typename _Base, typename _Derived>
-concept templated_base_of = requires(_Derived _Obj)
-{
-    []<typename _Ty>(const _Base<_Ty>&){}(_Obj);
-};
-
-
-// check if a type is iterable ie does it have .begin() and .end() iterator access
-template <typename _Tx>
-concept iterable = requires (_Tx _Obj)
-{
-    _Obj.begin(); _Obj.end();
-};
-
-
-// check if a type is a smart pointer
-template <typename _Tx>
-concept smart_pointer = requires (_Tx _Obj)
-{
-    _Obj.get() == &*_Obj;
-};
-
-
-// check if a pointer can be dynamically cast to another pointer
-template <typename _Tx, typename _Tx1>
-concept dynamically_castable_to = requires (_Tx _PtrL)
-{
-    dynamic_cast<_Tx1>(_PtrL);
-};
-
-
-// check if a type is a range_v3 type
-template <typename T>
-concept range_v3_view = requires(T&& range)
-{
-    ranges::view_<T>;
-};
-
-
-// check if 1 type matches any types
-template <typename ..._Valty, typename _Tx>
-concept same_as_any = requires(_Tx _Val)
-{
-    (std::same_as<_Tx, _Valty> || ...);
-};
-
-
-// check if all types match 1 type
-template <typename _Tx, typename ..._Valty>
-concept all_same_as = requires(_Valty... _Val)
-{
-    (std::same_as<_Valty, _Tx> && ...);
-};
-
-
-// check if any types match 1 type
-template <typename _Tx, typename ..._Valty>
-concept any_same_as = requires(_Valty... _Val)
-{
-    (std::same_as<_Valty, _Tx> || ...);
-};
-
-
-// check if a type is a primitive numeric type
-template <typename T>
-concept primitive_numeric = requires(T)
-{
-    std::integral<T> || std::floating_point<T>;
-};
 
 
 // pointer deduction for raw and smart pointers together
