@@ -16,9 +16,9 @@ public constructors:
     parentable_node();
 
 public js_methods:
-    unscopable auto prepend(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
-    unscopable auto append(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
-    unscopable auto replace_children(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto prepend(type_in<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto append(type_in<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto replace_children(type_in<nodes::node*, ext::string> auto&&... nodes) -> void;
 
     auto query_selector(ext::string_view selectors);
     auto query_selector_all(ext::string_view selectors);
@@ -34,9 +34,9 @@ public cpp_methods:
 
 private cpp_accessors:
     [[nodiscard]] auto get_children() const -> ranges::any_view<nodes::element*>;
-    [[nodiscard]] auto get_first_element_child() const -> nodes::element* {return children->front();};
-    [[nodiscard]] auto get_last_element_child() const -> nodes::element* {return children->back();};
-    [[nodiscard]] auto get_child_element_count() const -> size_t {return children->size();};
+    [[nodiscard]] auto get_first_element_child() const -> nodes::element*;
+    [[nodiscard]] auto get_last_element_child() const -> nodes::element*;
+    [[nodiscard]] auto get_child_element_count() const -> size_t;
 };
 
 

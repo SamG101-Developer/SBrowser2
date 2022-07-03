@@ -12,9 +12,9 @@ public constructors:
     child_node();
 
 public js_methods:
-    unscopable auto before(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
-    unscopable auto after(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
-    unscopable auto replace_with(same_as_any<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto before(type_in<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto after(type_in<nodes::node*, ext::string> auto&&... nodes) -> void;
+    unscopable auto replace_with(type_in<nodes::node*, ext::string> auto&&... nodes) -> void;
     unscopable auto remove() -> void;
 
 public cpp_methods:
