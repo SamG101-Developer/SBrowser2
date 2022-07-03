@@ -81,7 +81,7 @@ namespace dom::detail::node_internals
 
     auto convert_nodes_into_node(
             const nodes::document* document,
-            same_as_any<nodes::node*, ext::string> auto&&... nodes)
+            type_in<nodes::node*, ext::string> auto&&... nodes)
             -> nodes::node*;
 }
 
