@@ -27,7 +27,7 @@ auto operator|=(Rng& _Container, ranges::views::view_closure<_ViewFn> _ViewFunct
 namespace ranges::views {struct lowercase_fn;}
 namespace ranges::views {struct uppercase_fn;}
 namespace ranges::views {struct split_string_fn;}
-namespace ranges::views {template <typename T> struct cast_all_to_fn;}
+namespace ranges::views {template <typename _Tx> struct cast_all_to_fn;}
 namespace ranges {struct contains_all_fn;}
 namespace ranges {struct first_where_fn;}
 namespace ranges {struct last_where_fn;}
@@ -60,12 +60,12 @@ struct ranges::views::split_string_fn
 };
 
 
-template <typename T>
+template <typename _Tx>
 struct ranges::views::cast_all_to_fn
 {
     constexpr auto operator()(::ext::boolean remove_nullptr = true) const // TODO : apply parameter
     {
-        return ranges::views::transform([](auto* pointer) {return dynamic_cast<T*>(pointer);}) | ranges::views::remove(nullptr);
+        return ranges::views::transform([](auto* pointer) {return dynamic_cast<_Tx*>(pointer);}) | ranges::views::remove(nullptr);
     }
 };
 
@@ -105,7 +105,7 @@ struct ranges::last_where_fn
 namespace ranges::views {constexpr split_string_fn split_string;}
 namespace ranges::views {constexpr lowercase_fn lowercase;}
 namespace ranges::views {constexpr uppercase_fn uppercase;}
-namespace ranges::views {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
+namespace ranges::views {template <typename _Tx> constexpr cast_all_to_fn<_Tx> cast_all_to;}
 namespace ranges {constexpr contains_all_fn contains_all;}
 namespace ranges {constexpr first_where_fn first_where;}
 namespace ranges {constexpr last_where_fn last_where;}
