@@ -7,7 +7,8 @@ namespace dom::nodes {class xml_document;}
 
 class dom::nodes::xml_document : public document
 {
-
+public:
+    xml_document(); // TODO
 };
 
 
