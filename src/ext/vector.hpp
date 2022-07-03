@@ -32,7 +32,7 @@ public aliases:
 public constructors:
     using vector_internal<_Tx>::vector_internal;
 
-    vector(all_same_as<_Tx> auto&&... _Val)
+    vector(type_is<_Tx> auto&&... _Val)
     {
         (this->template emplace(std::forward<_Tx>(_Val)), ...);
     };
@@ -57,7 +57,7 @@ public cpp_operators:
     auto operator[](size_type _Idx) -> optional<value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
     auto operator[](size_type _Idx) const -> optional<const value_type> {if (this->begin() + _Idx != this->end()) return optional<value_type>{*(this->begin() + _Idx)}; else return optional<value_type>{};};
 
-    auto operator+=(iterable auto _Other) -> vector&
+    auto operator+=(const iterable auto& _Other) -> vector&
     {
         this->reserve(_Other.size());
         for (const auto& _Item: _Other)
@@ -65,7 +65,7 @@ public cpp_operators:
         return *this;
     }
 
-    auto operator+ (iterable auto _Other) -> vector
+    auto operator+(const iterable auto& _Other) -> vector
     {
         vector<_Tx> _Out{this->size() + _Other.size()};
         _Out += *this;
