@@ -25,8 +25,8 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    auto get_node_name() const -> ext::string override {return "#text";};
-    auto get_whole_text() const -> ext::string;
+    [[nodiscard]] auto get_node_name() const -> ext::string override {return "#text";};
+    [[nodiscard]] auto get_whole_text() const -> ext::string;
 };
 
 
