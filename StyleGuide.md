@@ -120,16 +120,16 @@ auto class_name::long_method_signature(
 
 ## Primitives vs Objects
  - Use primitives for template types or temporary objects - `template <int size>`, `ext::boolean check = true`
- - Use object versions (`ext::boolean`, `ext::number<T>`) everywhere else
- - Use `ext::boolean_view`, `ext::number_view<T>` by instead of `const ext::...&`
+ - Use object versions (`ext::boolean`, `ext::number<_Tx>`) everywhere else
+ - Use `ext::boolean_view`, `ext::number_view<_Tx>` by instead of `const ext::...&`
 
 
 ## Concepts
- - Always use inline parameter types if possible
+ - Always use inline parameter types if possible (constrain parameter)
    - `auto function(concept_name auto parameter_a) -> return_type_a;`.
  - Use trailing requires on the method when: function constrained based on class template
-   - `template <typename T> struct struct_name_a {auto method_a(T a) -> int requires concept_name<T> {}}`.
+   - `template <typename _Tx> struct struct_name_a {auto method_a(_Tx a) -> int requires concept_name<_Tx> {}}`.
  - Use template constraint when: class template is constrained
-   - `template <concept_name T> ...`
- - Never need to use trailing requires on the template
-   - `template <typename T> requires (concept_name<T>)`.
+   - `template <concept_name _Tx> ...`
+ - Never need to use trailing requires on the template -> use template constraint
+   - `template <typename _Tx> requires (concept_name<_Tx>)`.
