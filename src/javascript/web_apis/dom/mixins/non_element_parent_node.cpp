@@ -6,7 +6,6 @@
 #include <web_apis/dom/nodes/element.hpp>
 #include <web_apis/dom/detail/tree_internals.hpp>
 
-#include <range/v3/view/transform.hpp>
 #include <range/v3/view/filter.hpp>
 
 
@@ -19,10 +18,10 @@ auto dom::mixins::non_element_parent_node::get_element_by_id(
     // nullptr
     auto* base = ext::cross_cast<nodes::node*>(this);
     auto matches = detail::tree_internals::descendants(base)
-            | ranges::views::cast_<nodes::element*>(node);})
+            | ranges::views::cast_all_to<nodes::element>()
             | ranges::views::filter([id](nodes::element* element) {return element && element->id() == id;});
 
-    return !matches.empty() ? matches.front() : nullptr;
+    return *matches.begin(); // will be nullptr for empty list
 }
 
 
