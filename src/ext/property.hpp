@@ -24,12 +24,12 @@ public constructors:
     ~property() {_Meta._Deleter();};
 
     [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
-    property(const property& _Other) = default;
+    explicit property(const property& _Other) = default;
     [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
-    property(property&& _Other) noexcept = default;
-    [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
+    explicit property(property&& _Other) noexcept = default;
+    [[deprecated("Check if this CTor should be used, or if operator=(_Tx) should be used")]]
     auto operator=(const property& _Other) -> property& = delete;
-    [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
+    [[deprecated("Check if this CTor should be used, or if operator=(_Tx) should be used")]]
     auto operator=(property&& _Other) noexcept -> property& = delete;
 
     // assign a starting value for the property
@@ -37,7 +37,7 @@ public constructors:
     property(outer_val_t&& _OtherToMove) noexcept requires is_dumb_property : _Meta(std::forward<outer_val_t>(_OtherToMove)) {} // set new object (movable)
 
     property(outer_val_t&& _OtherSmartPointerToMove) noexcept requires is_smart_property {_Meta._Val = std::move(_OtherSmartPointerToMove);} // set unique_ptr to a new unique pointer
-    property(inner_val_t   _OtherRawPointerToLink) noexcept requires is_smart_property {_Meta._Val.reset(_OtherRawPointerToLink);}
+    property(inner_val_t   _OtherRawPointerToLink) requires is_smart_property {_Meta._Val.reset(_OtherRawPointerToLink);}
 
 public cpp_operators:
     // member access
@@ -54,27 +54,27 @@ public cpp_operators:
             -> inner_val_t {return _Meta._Setter(_OtherToCopy);}
 
     auto operator=(outer_val_t&& _OtherToMove) noexcept
-            -> inner_val_t {return _Meta._Setter(std::forward<_Tx>(_OtherToMove));}
+            -> inner_val_t {return _Meta._Setter(std::forward<outer_val_t>(_OtherToMove));}
 
     auto operator=(dynamically_castable_to<inner_val_t> auto _OtherPtr)
-            -> inner_val_t requires (is_smart_property)
-    {
-        return _Meta._Setter((inner_val_t)_OtherPtr);
-    }
+            -> inner_val_t requires (is_smart_property) {return _Meta._Setter((inner_val_t)_OtherPtr);}
+
+    auto operator=(std::nullptr_t)
+            -> inner_val_t requires (is_smart_property) {return _Meta._Setter(nullptr);}
 
     // auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
 
-    template <typename _Ty> auto operator+(const _Ty& _Other) -> auto {return _Meta._Val + _Other;}
-    template <typename _Ty> auto operator-(const _Ty& _Other) -> auto {return _Meta._Val - _Other;}
-    template <typename _Ty> auto operator*(const _Ty& _Other) -> auto {return _Meta._Val * _Other;}
-    template <typename _Ty> auto operator/(const _Ty& _Other) -> auto {return _Meta._Val / _Other;}
-    template <typename _Ty> auto operator%(const _Ty& _Other) -> auto {return _Meta._Val % _Other;}
+    auto operator+(auto&& _Other) const -> auto {return _Meta._Val + std::forward<_Tx>(_Other);}
+    auto operator-(auto&& _Other) const -> auto {return _Meta._Val - std::forward<_Tx>(_Other);}
+    auto operator*(auto&& _Other) const -> auto {return _Meta._Val * std::forward<_Tx>(_Other);}
+    auto operator/(auto&& _Other) const -> auto {return _Meta._Val / std::forward<_Tx>(_Other);}
+    auto operator%(auto&& _Other) const -> auto {return _Meta._Val % std::forward<_Tx>(_Other);}
 
-    template <typename _Ty> auto operator+=(const _Ty& _Other) -> property& {_Meta._Val += _Other; return *this;}
-    template <typename _Ty> auto operator-=(const _Ty& _Other) -> property& {_Meta._Val -= _Other; return *this;}
-    template <typename _Ty> auto operator*=(const _Ty& _Other) -> property& {_Meta._Val *= _Other; return *this;}
-    template <typename _Ty> auto operator/=(const _Ty& _Other) -> property& {_Meta._Val /= _Other; return *this;}
-    template <typename _Ty> auto operator%=(const _Ty& _Other) -> property& {_Meta._Val %= _Other; return *this;}
+    auto operator+=(auto&& _Other) -> property& {_Meta._Val += std::forward<_Tx>(_Other); return *this;}
+    auto operator-=(auto&& _Other) -> property& {_Meta._Val -= std::forward<_Tx>(_Other); return *this;}
+    auto operator*=(auto&& _Other) -> property& {_Meta._Val *= std::forward<_Tx>(_Other); return *this;}
+    auto operator/=(auto&& _Other) -> property& {_Meta._Val /= std::forward<_Tx>(_Other); return *this;}
+    auto operator%=(auto&& _Other) -> property& {_Meta._Val %= std::forward<_Tx>(_Other); return *this;}
 
 public cpp_properties:
     detail::meta_property<_Tx, ce_reactions> _Meta;
