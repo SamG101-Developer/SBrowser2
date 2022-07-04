@@ -123,7 +123,7 @@ auto dom::detail::mutation_internals::ensure_pre_insertion_validity(
             }
         }
 
-            // otherwise, if the node is an element (document element)
+        // otherwise, if the node is an element (document element)
         else if (auto* cast_node = dynamic_cast<nodes::element*>(node))
         {
             exception_internals::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -139,7 +139,7 @@ auto dom::detail::mutation_internals::ensure_pre_insertion_validity(
                     "An Element with a Document parent cannot be inserted before a DocumentType");
         }
 
-            // otherwise, if the node is a document type
+        // otherwise, if the node is a document type
         else if (auto* cast_node = dynamic_cast<nodes::document_type*>(node))
         {
             exception_internals::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
