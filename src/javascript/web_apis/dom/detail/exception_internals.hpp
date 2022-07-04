@@ -1,16 +1,23 @@
 #ifndef SBROWSER2_EXCEPTION_INTERNALS_HPP
 #define SBROWSER2_EXCEPTION_INTERNALS_HPP
 
+#include <ext/casting.hpp>
 #include <ext/string.hpp>
 #include <ext/vector.hpp>
 
 #define NO_CONDITION [](){return true;}
 #define P(key, val) std::make_pair(key, val)
 
-#define verify_parent_exists(node)                                                    \
+#define verify_parent_exists(_node)                                                   \
     detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>( \
-        [_parent = node->parent_node()] {return _parent;},                            \
+        [_parent = _node->parent_node()] {return _parent;},                           \
         "New start container must have a parent")
+
+
+//#define verify_node_type_is_not(_node, ...)                                            \
+//    detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR> ( \
+//        [container] {return !ext::multi_cast<__VA_ARGS__>(_node);},                    \
+//        ext::string{} + "Node can not be " + #__VA_ARGS__ + " types")
 
 
 enum v8_custom_error_t
