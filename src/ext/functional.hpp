@@ -3,12 +3,12 @@
 
 #include <functional>
 #include <type_traits>
-
 namespace ext {template <typename _Fx, typename ..._Types> struct bind_back;}
 namespace ext {template <typename _Fx, typename ..._Types> struct bind_front;}
 
 
 // TODO : test performance against C++ std implementations (bind_front)
+// TODO : are arguments being forwarded out of tuple into method?
 template <typename _Fx, typename ..._Types>
 struct ext::bind_back
 {
@@ -23,7 +23,7 @@ public:
     {
         auto _FrontArgs = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
         auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
-        return std::apply(_Function, _TotalArgs); // TODO : are arguments being forwarded out of tuple into method?
+        return std::apply(_Function, _TotalArgs);
     }
 
 private:
