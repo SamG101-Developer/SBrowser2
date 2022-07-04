@@ -23,12 +23,15 @@ namespace ext {template <typename T, typename U, typename ...V> auto max(T&& fir
 template <primitive_numeric _Tx>
 class ext::number final
 {
+public aliases:
+    using primitive_t = _Tx;
+
 public friends:
     template <primitive_numeric _Vt> friend class number;
 
 public constructors:
     number() = default;
-    template <primitive_numeric _Ty> number(_Ty _Primitive);
+    template <primitive_numeric _Ty> constexpr number(_Ty _Primitive);
     template <primitive_numeric _Ty> auto operator=(_Ty _Primitive) -> number&;
 
     template <primitive_numeric _Ty> explicit number(const number<_Ty>& _Other);
@@ -63,7 +66,7 @@ public cpp_operators:
     auto operator<=>(const auto& other) const {return _Val <=> other;}
 
     template <primitive_numeric _Ty> operator number<_Ty>() const {return number<_Ty>(_Val);}
-    template <primitive_numeric _Ty> operator _Ty() {return _Val;}
+    template <primitive_numeric _Ty> constexpr operator _Ty() const {return _Val;}
 
 private:
     auto operator*() const -> _Tx {return _Val;}
@@ -75,7 +78,7 @@ private cpp_properties:
 
 template <primitive_numeric _Tx>
 template <primitive_numeric _Ty>
-ext::number<_Tx>::number(_Ty _Primitive)
+constexpr ext::number<_Tx>::number(_Ty _Primitive)
         : _Val(_Primitive)
 {}
 
