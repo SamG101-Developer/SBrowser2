@@ -12,9 +12,13 @@
 #define catch_specific (exception_t) catch(const exception_t& exception)
 #define catch_other catch (...)
 
-#define string_switch(string) switch(ext::hash(string))
-#define string_case(string) case(ext::hash(string))
+#define string_switch(_String) switch(ext::hash(_String))
+#define string_case(_String) case(ext::hash(_String))
 #define string_default default
+
+#define number_switch(_Number) switch((decltype(ext::number{_Number})::primitive_t)_Number)
+#define number_case(_Number) case((decltype(ext::number{_Number})::primitive_t)_Number)
+#define number_default default
 
 #define friends
 #define aliases
