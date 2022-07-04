@@ -7,7 +7,6 @@
 #include <queue>
 #include <stack>
 #include <stdexcept>
-#include <javascript/environment/realms.hpp>
 #include <javascript/environment/realms_2.hpp>
 #include <javascript/interop/annotations.hpp>
 
