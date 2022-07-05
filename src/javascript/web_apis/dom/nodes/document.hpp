@@ -38,21 +38,21 @@ public constructors:
     document();
 
 public js_methods:
-    [[nodiscard]] auto create_element(const ext::string& local_name, ext::string_any_map_view options = {}) const -> element;
-    [[nodiscard]] auto create_element_ns(const ext::string& namespace_, const ext::string& qualified_name, ext::string_any_map_view options) const -> element;
+    [[nodiscard]] auto create_element(ext::string_view local_name, ext::string_any_map_view options = {}) const -> element;
+    [[nodiscard]] auto create_element_ns(ext::string_view namespace_, ext::string_view qualified_name, ext::string_any_map_view options) const -> element;
     [[nodiscard]] auto create_document_fragment() const -> document_fragment;
-    [[nodiscard]] auto create_text_node(const ext::string& data) const -> text;
-    [[nodiscard]] auto create_cdata_section_node(const ext::string& data) const -> cdata_section;
-    [[nodiscard]] auto create_comment(const ext::string& data) const -> comment;
-    [[nodiscard]] auto create_processing_instruction(const ext::string& target, const ext::string& data) const -> processing_instruction;
-    [[nodiscard]] auto create_attribute(const ext::string& local_name) const -> attr;
-    [[nodiscard]] auto create_attribute_ns(const ext::string& namespace_, const ext::string& qualified_name) const -> attr;
+    [[nodiscard]] auto create_text_node(ext::string_view data) const -> text;
+    [[nodiscard]] auto create_cdata_section_node(ext::string_view data) const -> cdata_section;
+    [[nodiscard]] auto create_comment(ext::string_view data) const -> comment;
+    [[nodiscard]] auto create_processing_instruction(ext::string_view target, ext::string_view data) const -> processing_instruction;
+    [[nodiscard]] auto create_attribute(ext::string_view local_name) const -> attr;
+    [[nodiscard]] auto create_attribute_ns(ext::string_view namespace_, ext::string_view qualified_name) const -> attr;
 
-    auto create_range() -> node_ranges::range;
-    auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) -> node_iterators::node_iterator;
-    auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) -> node_iterators::tree_walker;
+    [[nodiscard]] auto create_range() const -> node_ranges::range;
+    auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::node_iterator;
+    auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::tree_walker;
 
-    auto import_node(node* new_node, bool deep = false) -> node*;
+    auto import_node(node* new_node, ext::boolean_view deep = false) -> node*;
     auto adopt_node(node* new_node) -> node*;
 
 public js_properties:
