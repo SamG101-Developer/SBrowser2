@@ -13,10 +13,7 @@ namespace ext {using any_view = const any&;}
 
 
 template <typename _Tx>
-concept not_any = requires(_Tx _Obj)
-{
-    !std::same_as<_Tx, ext::any>;
-};
+concept not_any = !type_is<_Tx, ext::any>;
 
 
 class ext::any final
