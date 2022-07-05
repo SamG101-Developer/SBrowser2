@@ -11,6 +11,7 @@ namespace dom::nodes {class element;}
 
 #include <ext/map.hpp>
 #include <ext/vector.hpp>
+#include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail::customization_internals {struct custom_element_definition;}
@@ -41,39 +42,40 @@ public friends:
 
 public constructors:
     element();
+    ~element() override;
 
 public js_methods:
-    auto has_attributes() const -> bool;
-    auto get_attribute_names() const -> ext::string_vector;
+    [[nodiscard]] auto has_attributes() const -> ext::boolean;
+    [[nodiscard]] auto get_attribute_names() const -> ranges::any_view<ext::string>;
 
-    auto has_attribute(ext::string_view name) const -> bool;
-    auto has_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> bool;
-    auto has_attribute_node(attr* attribute) const -> bool;
-    auto has_attribute_node_ns(attr* attribute) const -> bool;
+    [[nodiscard]] auto has_attribute(ext::string_view name) const -> ext::boolean;
+    [[nodiscard]] auto has_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::boolean;
+    auto has_attribute_node(attr* attribute) const -> ext::boolean;
+    auto has_attribute_node_ns(attr* attribute) const -> ext::boolean;
 
-    auto get_attribute(ext::string_view qualified_name) const -> ext::string;
-    auto get_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::string;
-    auto get_attribute_node(ext::string_view qualified_name) const -> attr*;
-    auto get_attribute_node_ns(ext::string_view namespace_, ext::string_view local_name) const -> attr*;
+    [[nodiscard]] auto get_attribute(ext::string_view qualified_name) const -> ext::string;
+    [[nodiscard]] auto get_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::string;
+    [[nodiscard]] auto get_attribute_node(ext::string_view qualified_name) const -> attr*;
+    [[nodiscard]] auto get_attribute_node_ns(ext::string_view namespace_, ext::string_view local_name) const -> attr*;
 
-    auto set_attribute(ext::string_view qualified_name, ext::string_view value) -> void;
-    auto set_attribute_ns(ext::string_view namespace_, ext::string_view qualified_name, ext::string_view value) -> void;
+    auto set_attribute(ext::string_view qualified_name, ext::string_view value) -> attr*;
+    auto set_attribute_ns(ext::string_view namespace_, ext::string_view qualified_name, ext::string_view value) -> attr*;
     auto set_attribute_node(attr* attribute) -> attr*;
     auto set_attribute_node_ns(attr* attribute) -> attr*;
 
-    auto remove_attribute(ext::string_view qualified_name) -> void;
-    auto remove_attribute_ns(ext::string_view namespace_, ext::string_view local_name) -> void;
+    auto remove_attribute(ext::string_view qualified_name) -> attr*;
+    auto remove_attribute_ns(ext::string_view namespace_, ext::string_view local_name) -> attr*;
     auto remove_attribute_node(attr* attribute) -> attr*;
     auto remove_attribute_node_ns(attr* attribute) -> attr*;
 
-    auto toggle_attribute(ext::string_view qualified_name, bool force = false) -> bool;
-    auto toggle_attribute_ns(ext::string_view namespace_, ext::string_view local_name, bool force = false) -> bool;
-    auto toggle_attribute_node(attr* attribute, bool force = false) -> attr*;
-    auto toggle_attribute_node_ns(attr* attribute, bool force = false) -> attr*;
+    auto toggle_attribute(ext::string_view qualified_name, ext::optional<ext::boolean> force) -> ext::boolean;
+    auto toggle_attribute_ns(ext::string_view namespace_, ext::string_view local_name, ext::optional<ext::boolean> force) -> ext::boolean;
+    auto toggle_attribute_node(attr* attribute, ext::optional<ext::boolean> force) -> attr*;
+    auto toggle_attribute_node_ns(attr* attribute, ext::optional<ext::boolean> force) -> attr*;
 
-    auto attach_shadow(ext::string_any_map_view options) -> shadow_root;
+    auto attach_shadow(ext::string_any_map_view options) -> shadow_root*;
     auto closest(ext::string_view selectors) -> element*;
-    auto matches(ext::string_view selectors) -> bool;
+    auto matches(ext::string_view selectors) -> ext::boolean;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;
@@ -90,6 +92,7 @@ public js_properties:
 protected cpp_methods:
     [[nodiscard]] auto qualified_name() const -> ext::string;
     [[nodiscard]] auto html_uppercase_qualified_name() const -> ext::string;
+    [[nodiscard]] auto html_lowercase_qualified_name() const -> ext::string;
 
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
@@ -104,9 +107,11 @@ private cpp_accessors:
     [[nodiscard]] auto get_node_name() const -> ext::string override {return html_uppercase_qualified_name();};
     [[nodiscard]] auto get_node_value() const -> ext::string override;
     [[nodiscard]] auto get_text_content() const -> ext::string override;
-
     auto set_node_value(ext::string_view val) -> void override;
     auto set_text_content(ext::string_view val) -> void override;
+
+    [[nodiscard]] auto get_tag_name() const -> ext::string {return html_uppercase_qualified_name();};
+    [[nodiscard]] auto get_shadow_root_node() const -> shadow_root*;
 };
 
 
