@@ -37,16 +37,6 @@ namespace dom::detail::event_internals
             std::variant<ext::boolean, ext::string_any_map> options)
             -> ext::boolean;
 
-    auto add_event_listener(
-            nodes::event_target* event_target,
-            ext::string_any_map_view event_listener)
-            -> void;
-
-    auto remove_event_listener(
-            nodes::event_target* event_target,
-            ext::string_any_map_view event_listener)
-            -> void;
-
     auto remove_all_event_listeners(
             nodes::event_target* event_target)
             -> void;
