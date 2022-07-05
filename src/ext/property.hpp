@@ -25,11 +25,12 @@ public constructors:
 
     [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
     explicit property(const property& _Other) = default;
-    [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
-    explicit property(property&& _Other) noexcept = default;
+
+    explicit property(property&& _Other) noexcept = delete;
+
     [[deprecated("Check if this CTor should be used, or if operator=(_Tx) should be used")]]
-    auto operator=(const property& _Other) -> property& = delete;
-    [[deprecated("Check if this CTor should be used, or if operator=(_Tx) should be used")]]
+    auto operator=(const property& _Other) -> property& = default;
+
     auto operator=(property&& _Other) noexcept -> property& = delete;
 
     // assign a starting value for the property
