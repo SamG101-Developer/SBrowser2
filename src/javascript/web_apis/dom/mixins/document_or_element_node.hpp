@@ -10,7 +10,7 @@ namespace dom::nodes {class element;}
 
 
 class dom::mixins::document_or_element_node
-        : public web_apis::dom_object
+        : public virtual web_apis::dom_object
 {
 public js_methods:
     auto get_elements_by_class_name(ext::string_view class_names) -> range_v3_view auto;
