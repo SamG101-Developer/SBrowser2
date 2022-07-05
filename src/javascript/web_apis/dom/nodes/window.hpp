@@ -5,7 +5,7 @@
 namespace dom::nodes {class window;}
 
 
-class dom::nodes::window
+class dom::nodes::window final
         : public event_target
 {
 

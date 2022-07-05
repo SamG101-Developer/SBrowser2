@@ -5,7 +5,7 @@
 #include <web_apis/dom/mixins/child_node.hpp>
 namespace dom::nodes {class document_type;}
 
-class dom::nodes::document_type
+class dom::nodes::document_type final
         : public node
         , public mixins::child_node
 {
@@ -18,7 +18,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return "#document-fragment";};
+    [[nodiscard]] auto get_node_name() const -> ext::string override {return name();};
     [[nodiscard]] auto get_node_value() const -> ext::string override {return "";};
     [[nodiscard]] auto get_text_content() const -> ext::string override {return "";};
 

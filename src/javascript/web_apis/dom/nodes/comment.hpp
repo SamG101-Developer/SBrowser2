@@ -5,7 +5,7 @@
 namespace dom::nodes {class comment;}
 
 
-class dom::nodes::comment
+class dom::nodes::comment final
         : public character_data
 {
 public constructors:

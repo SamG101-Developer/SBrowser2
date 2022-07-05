@@ -7,7 +7,7 @@ namespace dom::nodes {class attr;}
 namespace dom::nodes {class element;}
 
 
-class dom::nodes::attr
+class dom::nodes::attr final
         : public node
 {
 public constructors:
