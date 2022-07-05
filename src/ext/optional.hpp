@@ -33,16 +33,10 @@ public cpp_methods:
     [[nodiscard]] constexpr auto empty() const -> ext::boolean {return not _Opt.has_value();}
     [[nodiscard]] constexpr auto has_value() const -> ext::boolean {return _Opt.has_value();}
 
-    constexpr auto value() const -> const _Tx& {return _Opt.value();}
-
-    constexpr auto value_or(_Tx&& _Other     ) const ->       _Tx  {return _Opt.value_or(std::forward<_Tx>(_Other));}
-    constexpr auto value_or(const _Tx& _Other) const -> const _Tx& {return _Opt.value_or(_Other);}
-
-    template <typename _Ty> constexpr auto value_to_or(_Ty&& _Other     ) const -> _Ty requires std::is_same_v<std::remove_cvref_t<_Tx>, ext::any> {return not empty() ? _Other : value().template to<_Ty>();};
-    template <typename _Ty> constexpr auto value_to_or(const _Ty& _Other) const -> _Ty requires std::is_same_v<std::remove_cvref_t<_Tx>, ext::any> {return not empty() ? _Other : value().template to<_Ty>();};
-
-    constexpr auto not_value_or(_Tx&& _Other     ) const -> const _Tx& {return empty() ? null : _Other;}
-    constexpr auto not_value_or(const _Tx& _Other) const -> const _Tx& {return empty() ? null : _Other;}
+    constexpr auto value() const;
+    constexpr auto value_or(auto&& _Other) const;
+    constexpr auto not_value_or(auto&& _Other) const;
+    template <typename _Tx1> constexpr auto value_to_or(auto&& _Other) const -> _Tx1 requires (type_is<_Tx, ext::any>);
 
     auto has_value_and_equals(auto&& _Other) {return has_value() && value() == _Other;}
     auto has_value_and_not_equals(auto&& _Other) {return has_value() && value() != _Other;}
@@ -50,10 +44,40 @@ public cpp_methods:
     auto empty_or_not_equals(auto&& _Other) {return empty() || value() != _Other;}
     
 public cpp_operators:
-    auto operator->() const -> auto {return _Opt.operator->();}
+    auto operator->() const -> auto {return value();}
 
 private cpp_properties:
     std::optional<_Tx> _Opt;
 };
+
+
+template <typename _Ty>
+constexpr auto ext::optional<_Ty>::value() const
+{
+    return _Opt.value();
+}
+
+
+template <typename _Ty>
+constexpr auto ext::optional<_Ty>::value_or(auto&& _Other) const
+{
+    return _Opt.value_or(std::forward<_Ty>(_Other));
+}
+
+
+template <typename _Ty>
+constexpr auto ext::optional<_Ty>::not_value_or(auto&& _Other) const
+{
+    return empty() ? null : std::forward<_Ty>(_Other);
+}
+
+
+template <typename _Ty>
+template <typename _Ty1>
+constexpr auto ext::optional<_Ty>::value_to_or(auto&& _Other) const -> _Ty1 requires (type_is<_Ty, ext::any>)
+{
+    return not empty() ? std::forward<_Ty1>(_Other) : value().template to<_Ty1>();
+}
+
 
 #endif //SBROWSER2_OPTIONAL_HPP
