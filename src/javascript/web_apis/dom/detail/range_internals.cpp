@@ -1,10 +1,26 @@
 #include "range_internals.hpp"
 
+#include <tuple>
+
+#include <ext/functional.hpp>
+#include <ext/ranges.hpp>
+
 #include <web_apis/dom/detail/exception_internals.hpp>
+#include <web_apis/dom/detail/mutation_internals.hpp>
+#include <web_apis/dom/detail/text_internals.hpp>
 #include <web_apis/dom/detail/tree_internals.hpp>
 
+#include <web_apis/dom/nodes/character_data.hpp>
+#include <web_apis/dom/nodes/document.hpp>
+#include <web_apis/dom/nodes/element.hpp>
+#include <web_apis/dom/nodes/document_fragment.hpp>
 #include <web_apis/dom/nodes/document_type.hpp>
+#include <web_apis/dom/nodes/shadow_root.hpp>
 #include <web_apis/dom/ranges/range.hpp>
+
+#include <web_apis/url/url.hpp>
+
+#include <range/v3/view/filter.hpp>
 
 
 auto dom::detail::range_internals::contains(
@@ -77,4 +93,90 @@ auto dom::detail::range_internals::set_start_or_end(
         range->end_container   = new_container;
         range->end_offset      = new_offset;
     }
+}
+
+
+auto dom::detail::range_internals::get_range_containment_children(
+        node_ranges::range* range,
+        nodes::node* start_container,
+        nodes::node* end_container)
+        -> std::tuple<nodes::node*, nodes::node*, ranges::any_view<nodes::node*>>
+{
+    auto  common_ancestor_children = *range->common_ancestor_container->child_nodes();
+
+    auto* first_partially_contained_child = !detail::tree_internals::is_ancestor(start_container, end_container)
+            ? ranges::first_where(common_ancestor_children, ext::bind_back(detail::range_internals::partially_contains, static_cast<node_ranges::range*&&>(range)))
+            : nullptr;
+
+    auto* last_partially_contained_child = !detail::tree_internals::is_ancestor(end_container, start_container)
+            ? ranges::last_where(common_ancestor_children, ext::bind_back(detail::range_internals::partially_contains, static_cast<node_ranges::range*&&>(range)))
+            : nullptr;
+
+    auto contained_children = common_ancestor_children
+            | ranges::views::filter(ext::bind_back(detail::range_internals::contains, static_cast<node_ranges::range*&&>(range)));
+
+    return std::make_tuple(first_partially_contained_child, last_partially_contained_child, contained_children);
+}
+
+
+auto dom::detail::range_internals::copy_data(
+        nodes::node* child,
+        nodes::document_fragment* fragment,
+        nodes::character_data* container,
+        ext::number_view<ulong> start_offset,
+        ext::number_view<ulong> end_offset,
+        ext::boolean_view replace)
+        -> nodes::document_fragment*
+{
+    auto* clone = dynamic_cast<nodes::character_data*>(child->clone_node());
+    clone->data = detail::text_internals::substring_data(container, start_offset, end_offset - start_offset);
+    detail::mutation_internals::append(clone, fragment);
+
+    if (replace)
+        detail::text_internals::replace_data(container, start_offset, end_offset - start_offset, "");
+}
+
+
+auto dom::detail::range_internals::append_to_sub_fragment(
+        nodes::node* child,
+        nodes::document_fragment* fragment,
+        nodes::node* start_container,
+        ext::number_view<ulong> start_offset,
+        nodes::node* end_container,
+        ext::number_view<ulong> end_offset,
+        append_action what)
+        -> nodes::document_fragment*
+{
+    return_if (!child) nullptr;
+
+    auto* clone = child->clone_node();
+    detail::mutation_internals::append(clone, fragment);
+    auto* subrange = std::make_unique<node_ranges::range>().get();
+    subrange->start_container = start_container;
+    subrange->start_offset = start_offset;
+    subrange->end_container = end_container;
+    subrange->end_offset = end_offset;
+    auto* subfragment = what == EXTRACT ? subrange->extract_contents() : subrange->clone_contents();
+    detail::mutation_internals::append(clone, subfragment);
+    return subfragment;
+}
+
+
+auto dom::detail::range_internals::create_new_node_and_offset(
+        nodes::node* start_container,
+        nodes::node* end_container,
+        ext::number_view<ulong> start_offset)
+        -> std::tuple<nodes::node*, ext::number_view<ulong>>
+{
+    auto* common_ancestor = detail::tree_internals::common_ancestor(start_container, end_container);
+
+    auto* new_node = detail::tree_internals::is_ancestor(start_container, end_container)
+            ? start_container
+            : common_ancestor->parent_node();
+
+    auto new_offset = detail::tree_internals::is_ancestor(start_container, end_container)
+            ? start_offset
+            : detail::tree_internals::index(common_ancestor) + 1;
+
+    return std::make_tuple(new_node, new_offset);
 }
