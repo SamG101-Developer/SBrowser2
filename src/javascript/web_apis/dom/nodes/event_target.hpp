@@ -3,11 +3,9 @@
 #define SBROWSER2_EVENT_TARGET_HPP
 
 #include <web_apis/dom_object.hpp>
-
 namespace dom::nodes {class event_target;}
 
 #include <functional>
-
 #include <ext/boolean.hpp>
 #include <ext/keywords.hpp>
 #include <ext/map.hpp>
@@ -15,22 +13,14 @@ namespace dom::nodes {class event_target;}
 #include <ext/vector.hpp>
 
 namespace dom::events {class event;}
-namespace dom::detail::event_internals {auto    add_event_listener(nodes::event_target* event_target, const ext::string_any_map& event_listener) -> void;}
-namespace dom::detail::event_internals {auto remove_event_listener(nodes::event_target* event_target, const ext::string_any_map& event_listener) -> void;}
-namespace dom::detail::event_internals {auto remove_all_event_listeners(nodes::event_target* event_target) -> void;}
 
 
 class dom::nodes::event_target
         : public virtual web_apis::dom_object
 {
 private aliases:
-    // TODO : parameters optional (in v8::Function conversion?
+    // TODO : parameters optional (in v8::Function conversion?)
     using event_listener_callback_t = std::function<void(ext::string, events::event*)>;
-
-public friends:
-    friend auto detail::event_internals::   add_event_listener(nodes::event_target* event_target, const ext::string_any_map& event_listener) -> void;
-    friend auto detail::event_internals::remove_event_listener(nodes::event_target* event_target, const ext::string_any_map& event_listener) -> void;
-    friend auto detail::event_internals::remove_all_event_listeners(nodes::event_target* event_target) -> void;
 
 public constructors:
     event_target();

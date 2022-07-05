@@ -1,8 +1,15 @@
 #include "event_target.hpp"
 
+#include <ext/functional.hpp>
+#include <ext/ranges.hpp>
+
+#include <web_apis/dom/abort/abort_signal.hpp>
 #include <web_apis/dom/detail/exception_internals.hpp>
 #include <web_apis/dom/detail/event_internals.hpp>
 #include <web_apis/dom/events/event.hpp>
+
+#include <range/v3/algorithm/contains.hpp>
+#include <range/v3/view/remove_if.hpp>
 
 
 auto dom::nodes::event_target::add_event_listener(
@@ -16,8 +23,23 @@ auto dom::nodes::event_target::add_event_listener(
     event_listener.insert_or_assign("callback", std::forward<event_listener_callback_t>(callback));
     event_listener.insert_or_assign("type"    , std::forward<ext::string              >(type    ));
 
-    // add the event listener to the event target by calling the add_event_listener helper method
-    detail::event_internals::add_event_listener(this, event_listener);
+    // get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map
+    auto* signal = event_listener.at("signal").value_to_or<abort::abort_signal*>(nullptr);
+
+    // return if
+    //  - there is no callback - invoking the event listener would have no effect and would waste cycles;
+    //  - there is a signal that has already aborted - no need for the event listener to exist;
+    //  - the event listener is already stored in the event listeners list - no duplicates allowed;
+    if (event_listener.at("callback").empty()
+            || signal && signal->aborted()
+            || ranges::contains(m_event_listeners, event_listener))
+        return;
+
+    // append the event listener to the event listeners list and if there is an abort signal, add an abort algorithm
+    // that removes the event_listener from the event_target->m_event_listeners list
+    m_event_listeners.push_back(event_listener);
+    if (signal)
+        signal->m_abort_algorithms.push_back(ext::bind_front(event_target::remove_event_listener, this, event_listener));
 }
 
 
@@ -32,8 +54,22 @@ auto dom::nodes::event_target::remove_event_listener(
     event_listener.insert_or_assign("callback", std::move(callback));
     event_listener.insert_or_assign("type", type);
 
-    // remove the event listener from the event target by  calling the remove_event_listener helper method
-    detail::event_internals::remove_event_listener(this, event_listener);
+    // set the removed attribute of the listener to true (so if the listener is being held in a variable it can be
+    // detected that it is no longer in use)
+    event_listener.insert_or_assign("removed", false);
+
+    // alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
+    // capture attribute to event_listener
+    using callback_t = typename nodes::event_target::event_listener_callback_t;
+
+    auto event_listener_equality_check = [event_listener](const ext::string_any_map& existing_listener)
+    {
+        return existing_listener.at("callback").has_value_and_equals(event_listener.at("callback")->to<callback_t>())
+               && existing_listener.at("type").has_value_and_equals(event_listener.at("type")->to<ext::string_view>())
+               && existing_listener.at("capture").has_value_and_equals(event_listener.at("capture")->to<ext::boolean>());
+    };
+
+    m_event_listeners |= ranges::views::remove_if(event_listener_equality_check);
 }
 
 
