@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_NAMESPACE_INTERNALS_HPP
 #define SBROWSER2_NAMESPACE_INTERNALS_HPP
 
+#include <ext/boolean.hpp>
 #include <ext/string.hpp>
 
 
@@ -23,6 +24,12 @@ namespace dom::detail::namespace_internals
             ext::string_view namespace_,
             ext::string_view qualified_name)
             -> std::tuple<ext::string, ext::string>;
+
+    auto html_adjust_string(
+            ext::string_view string,
+            ext::boolean_view adjust,
+            ext::boolean_view lower = true)
+            -> ext::string;
 }
 
 

@@ -21,7 +21,7 @@ auto dom::detail::namespace_internals::validate_and_extract(
 
     // if there is a colon in the qualified name, then there is a prefix and a local name contained in the qualified
     // name, so split the qualified name on the colon, and set the prefix and local name to the first 2 results
-    if (ranges::contains(qualified_name, ":"))
+    if (ranges::contains(qualified_name, ":"sv))
     {
         auto split_on_colon = qualified_name | ranges::views::split_string(":");
         prefix     = *(  split_on_colon.begin());
@@ -52,4 +52,18 @@ auto dom::detail::namespace_internals::validate_and_extract(
     // return the prefix and local name - namespace_ and qualified name don't change, so they can be got from wherever
     // the function was called from
     return {prefix, local_name};
+}
+
+
+auto dom::detail::namespace_internals::html_adjust_string(
+        ext::string_view string,
+        ext::boolean_view adjust,
+        ext::boolean_view lower)
+        -> ext::string
+{
+    // TODO : rework so that `(ext::string)` conversion is not required
+    return adjust ? lower
+            ? string | ranges::views::lowercase() | ranges::to<ext::string>()
+            : string | ranges::views::uppercase() | ranges::to<ext::string>()
+            : (ext::string)string;
 }
