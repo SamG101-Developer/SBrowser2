@@ -5,9 +5,14 @@
 namespace dom::nodes {class processing_instruction;}
 
 
-class dom::nodes::processing_instruction : public character_data
+class dom::nodes::processing_instruction final
+        : public character_data
 {
+public cpp_properties:
+    ext::property<ext::string> target;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
