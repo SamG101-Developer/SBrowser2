@@ -14,10 +14,10 @@ public constructors:
     range();
 
 public js_static_constants:
-    static const short START_TO_START = 0;
-    static const short START_TO_END = 1;
-    static const short END_TO_END = 2;
-    static const short END_TO_START = 3;
+    constexpr static const ext::number<short> START_TO_START = 0;
+    constexpr static const ext::number<short> START_TO_END = 1;
+    constexpr static const ext::number<short> END_TO_END = 2;
+    constexpr static const ext::number<short> END_TO_START = 3;
 
 public js_methods:
     auto set_start(nodes::node* new_container, ext::number_view<ulong> new_offset) -> void;
@@ -29,21 +29,21 @@ public js_methods:
     auto set_end_after(nodes::node* new_container) -> void;
 
     auto insert_node(nodes::node* new_container) -> void;
-    auto intersects_node(const nodes::node* new_container) const -> bool;
-    auto select_node(nodes::node* new_container) -> void;
-    auto select_node_contents(nodes::node* new_container) -> void;
+    auto intersects_node(nodes::node* container) const -> ext::boolean;
+    auto select_node(nodes::node* container) -> void;
+    auto select_node_contents(nodes::node* container) -> void;
 
-    auto compare_boundary_points(ext::number_view<ushort> how, range* source_range) -> short;
-    auto compare_point(nodes::node* new_container, ext::number_view<ulong> new_offset) const -> short;
+    auto compare_boundary_points(ext::number_view<ushort> how, range* source_range) -> ext::number<short>;
+    auto compare_point(nodes::node* container, ext::number_view<ulong> offset) const -> ext::number<short>;
+    auto is_point_in_range(nodes::node* container, ext::number_view<ulong> offset) const -> ext::boolean;
 
-    auto extract_contents() -> nodes::document_fragment;
-    auto clone_contents() -> nodes::document_fragment;
+    auto extract_contents() -> nodes::document_fragment*;
+    auto clone_contents() -> nodes::document_fragment*;
     auto delete_contents() -> void;
-    auto surround_contents(nodes::node* new_parent) -> void;
+    auto surround_contents(nodes::node* parent) -> void;
 
     auto collapse(ext::boolean_view to_start = false) -> void;
     auto clone_range() const -> range;
-    auto is_point_in_range(nodes::node* new_container, ext::number_view<ulong> new_offset) const -> bool;
 
     auto to_json() const -> ext::string;
 
