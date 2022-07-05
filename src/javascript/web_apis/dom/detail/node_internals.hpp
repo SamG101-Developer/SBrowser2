@@ -22,7 +22,7 @@ namespace dom::detail::node_internals
     auto adopt(
             nodes::node* node,
             const nodes::document* document)
-            -> void;
+            -> nodes::node*;
 
     // locating information on a node
     auto locate_a_namespace_prefix(
