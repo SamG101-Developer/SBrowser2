@@ -5,6 +5,7 @@
 #include <web_apis/dom/nodes/event_target.hpp>
 namespace dom::abort {class abort_signal;}
 
+namespace dom::nodes {class event_target;}
 namespace dom::detail::aborting_internals {auto signal_abort(abort::abort_signal* signal, ext::any_view reason) -> void;}
 namespace dom::detail::aborting_internals {auto follow_signal(abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;}
 
@@ -17,6 +18,7 @@ public aliases:
     using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
 
 public friends:
+    friend class nodes::event_target;
     friend auto detail::aborting_internals::signal_abort(abort::abort_signal* signal, ext::any_view reason) -> void;
     friend auto detail::aborting_internals::follow_signal(abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;
 
