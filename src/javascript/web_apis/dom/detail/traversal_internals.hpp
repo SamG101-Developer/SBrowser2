@@ -36,14 +36,6 @@ namespace dom::detail::traversal_internals
             node_iterators::tree_walker* iterator,
             traversal_sibling type)
             -> nodes::node*;
-
-    static auto traverse_node_previous(
-            node_iterators::tree_walker* iterator)
-            -> nodes::node*;
-
-    static auto traverse_node_next(
-            node_iterators::tree_walker* iterator)
-            -> nodes::node*;
 }
 
 
