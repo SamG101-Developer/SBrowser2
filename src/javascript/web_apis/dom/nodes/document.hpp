@@ -6,6 +6,7 @@
 #include <web_apis/dom/mixins/document_or_shadow_root.hpp>
 #include <web_apis/dom/mixins/non_element_parent_node.hpp>
 #include <web_apis/dom/mixins/parentable_node.hpp>
+#include <web_apis/dom/xpath/xpath_evaluator_base.hpp>
 namespace dom::nodes {class document;}
 
 #include <ext/map.hpp>
@@ -30,6 +31,7 @@ class dom::nodes::document
         , public mixins::document_or_shadow_root
         , public mixins::non_element_parent_node
         , public mixins::parentable_node
+        , public xpath::xpath_evaluator_base
 {
 public friends:
     friend struct mixins::document_or_element_node;
@@ -74,6 +76,7 @@ private cpp_properties:
     ext::string m_origin;
 
 private cpp_accessors:
+    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return DOCUMENT_NODE;}
     [[nodiscard]] auto get_node_name() const -> ext::string override {return "#document";}
     [[nodiscard]] auto get_node_value() const -> ext::string override {return "";}
     [[nodiscard]] auto get_text_content() const -> ext::string override {return "";}
