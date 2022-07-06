@@ -55,12 +55,20 @@ public cpp_operators:
     auto operator*(auto&& other) const {return number{_Val * std::forward<_Tx>(other)};}
     auto operator/(auto&& other) const {return number{_Val / std::forward<_Tx>(other)};}
     auto operator%(auto&& other) const {return number{_Val % std::forward<_Tx>(other)};}
+    auto operator|(auto&& other) const {return number{_Val | std::forward<_Tx>(other)};}
+    auto operator&(auto&& other) const {return number{_Val & std::forward<_Tx>(other)};}
+    auto operator<<(auto&& other) const {return number{_Val << std::forward<_Tx>(other)};}
+    auto operator>>(auto&& other) const {return number{_Val >> std::forward<_Tx>(other)};}
 
     auto operator+=(auto&& other) {_Val += std::forward<_Tx>(other); return *this;}
     auto operator-=(auto&& other) {_Val -= std::forward<_Tx>(other); return *this;}
     auto operator*=(auto&& other) {_Val *= std::forward<_Tx>(other); return *this;}
     auto operator/=(auto&& other) {_Val /= std::forward<_Tx>(other); return *this;}
     auto operator%=(auto&& other) {_Val %= std::forward<_Tx>(other); return *this;}
+    auto operator|=(auto&& other) {_Val |= std::forward<_Tx>(other); return *this;}
+    auto operator&=(auto&& other) {_Val &= std::forward<_Tx>(other); return *this;}
+    auto operator<<=(auto&& other) {_Val <<= std::forward<_Tx>(other); return *this;}
+    auto operator>>=(auto&& other) {_Val >>= std::forward<_Tx>(other); return *this;}
 
     auto operator==(const auto& other) const -> bool {return _Val == other;}
     auto operator<=>(const auto& other) const {return _Val <=> other;}
