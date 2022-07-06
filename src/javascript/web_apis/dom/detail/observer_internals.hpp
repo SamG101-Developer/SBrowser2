@@ -2,6 +2,7 @@
 #define SBROWSER2_OBSERVER_INTERNALS_HPP
 
 #include <memory>
+#include <ext/map.hpp>
 #include <ext/string.hpp>
 #include <ext/vector.hpp>
 #include <v8-platform.h>
