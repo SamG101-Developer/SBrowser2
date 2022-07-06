@@ -55,14 +55,16 @@ auto dom::nodes::document::create_element(
         ext::string_any_map_view options)
         const -> element
 {
-    // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
-    // to the empty string otherwise
-    auto html_adjusted_local_name = m_type == "html" ? local_name | ranges::views::lowercase(): local_name;
-    auto html_adjusted_namespace_ = m_type == "html" || content_type() == "application/xhtml+xml" ? detail::namespace_internals::HTML : "";
-    auto is = options.at("is").value_to_or<ext::string>("");
+    ce_reactions_method_def
+        // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
+        // to the empty string otherwise
+        auto html_adjusted_local_name = detail::namespace_internals::html_adjust_string(local_name, m_type == "html");
+        auto html_adjusted_namespace_ = m_type == "html" || content_type() == "application/xhtml+xml" ? detail::namespace_internals::HTML : "";
+        auto is = options.at("is").value_to_or<ext::string>("");
 
-    // create the Element node with the html adjusted variables
-    return detail::customization_internals::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
+        // create the Element node with the html adjusted variables
+        return detail::customization_internals::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
+    ce_reactions_method_exe
 }
 
 
@@ -72,13 +74,15 @@ auto dom::nodes::document::create_element_ns(
         ext::string_any_map_view options)
         const -> element
 {
-    // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
-    // 'validate_and_extract(...)' method
-    auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
-    auto is = options.at("is").value_to_or<ext::string>("");
+    ce_reactions_method_def
+        // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
+        // 'validate_and_extract(...)' method
+        auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
+        auto is = options.at("is").value_to_or<ext::string>("");
 
-    // create the Element node with the html adjusted variables
-    return detail::customization_internals::create_an_element(this, local_name, namespace_, prefix, is, true);
+        // create the Element node with the html adjusted variables
+        return detail::customization_internals::create_an_element(this, local_name, namespace_, prefix, is, true);
+    ce_reactions_method_exe
 }
 
 
@@ -196,13 +200,15 @@ auto dom::nodes::document::import_node(
         ext::boolean_view deep)
         -> node*
 {
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [new_node] {return ext::multi_cast<nodes::document*, nodes::shadow_root*>(new_node);},
-            "Node being imported cannot be a Document or ShadowRoot");
+    ce_reactions_method_def
+        detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                [new_node] {return ext::multi_cast<nodes::document*, nodes::shadow_root*>(new_node);},
+                "Node being imported cannot be a Document or ShadowRoot");
 
-    // to import a node, a clone of the node is made, with the Document set tot this node; the node is basically copied
-    // into this Document
-    return detail::node_internals::clone(new_node, this, true);
+        // to import a node, a clone of the node is made, with the Document set tot this node; the node is basically copied
+        // into this Document
+        return detail::node_internals::clone(new_node, this, true);
+    ce_reactions_method_exe
 }
 
 
@@ -210,15 +216,17 @@ auto dom::nodes::document::adopt_node(
         node* new_node)
         -> node*
 {
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [new_node] {return ext::multi_cast<nodes::document*>(new_node);},
-            "Node being imported cannot be a Document");
+    ce_reactions_method_def
+        detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                [new_node] {return ext::multi_cast<nodes::document*>(new_node);},
+                "Node being imported cannot be a Document");
 
-    detail::exception_internals::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-            [new_node] {return ext::multi_cast<nodes::shadow_root*>(new_node);},
-            "Node being imported cannot be a ShadowRoot");
+        detail::exception_internals::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
+                [new_node] {return ext::multi_cast<nodes::shadow_root*>(new_node);},
+                "Node being imported cannot be a ShadowRoot");
 
-    // to adopt a node, the node is moved, not copied, from its current Document node to this Document Node; no cloning
-    // takes place
-    return detail::node_internals::adopt(new_node, this);
+        // to adopt a node, the node is moved, not copied, from its current Document node to this Document Node; no cloning
+        // takes place
+        return detail::node_internals::adopt(new_node, this);
+    ce_reactions_method_exe
 }

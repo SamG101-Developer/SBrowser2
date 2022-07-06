@@ -18,7 +18,7 @@ public js_properties:
     ext::property<ext::string> prefix;
     ext::property<ext::string> local_name;
     ext::property<ext::string> name;
-    ext::property<ext::string> value;
+    ext::property<ext::string, _T> value;
     ext::property<std::unique_ptr<element>> owner_element;
 
 public cpp_methods:
@@ -28,6 +28,7 @@ private cpp_methods:
     [[nodiscard]] auto qualified_name() const -> ext::string;
 
 private cpp_accessors:
+    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return ATTRIBUTE_NODE;}
     [[nodiscard]] auto get_node_name() const -> ext::string override {return qualified_name();};
     [[nodiscard]] auto get_node_value() const -> ext::string override {return value();};
     [[nodiscard]] auto get_text_content() const -> ext::string override {return value();};

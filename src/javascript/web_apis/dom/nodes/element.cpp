@@ -172,10 +172,12 @@ auto dom::nodes::element::set_attribute(
         ext::string_view value)
         -> attr*
 {
-    // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
-    // element; the internal method will handle replacing an existing attribute etc
-    auto* new_attribute = detail::attribute_internals::create(qualified_name, "", value, "", owner_document());
-    return detail::attribute_internals::set_attribute(this, new_attribute);
+    ce_reactions_method_def
+        // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
+        // element; the internal method will handle replacing an existing attribute etc
+        auto* new_attribute = detail::attribute_internals::create(qualified_name, "", value, "", owner_document());
+        return detail::attribute_internals::set_attribute(this, new_attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -185,11 +187,13 @@ auto dom::nodes::element::set_attribute_ns(
         ext::string_view value)
         -> attr*
 {
-    // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
-    // element; the internal method will handle replacing an existing attribute etc
-    auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
-    auto* new_attribute = detail::attribute_internals::create(local_name, namespace_, value, prefix, owner_document());
-    return detail::attribute_internals::set_attribute(this, new_attribute);
+    ce_reactions_method_def
+        // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
+        // element; the internal method will handle replacing an existing attribute etc
+        auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
+        auto* new_attribute = detail::attribute_internals::create(local_name, namespace_, value, prefix, owner_document());
+        return detail::attribute_internals::set_attribute(this, new_attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -197,10 +201,12 @@ auto dom::nodes::element::set_attribute_node(
         attr* attribute)
         -> attr*
 {
-    // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
-    // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
-    // changing the Attr value
-    return detail::attribute_internals::set_attribute(this, attribute);
+    ce_reactions_method_def
+        // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
+        // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
+        // changing the Attr value
+        return detail::attribute_internals::set_attribute(this, attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -208,10 +214,12 @@ auto dom::nodes::element::set_attribute_node_ns(
         attr* attribute)
         -> attr*
 {
-    // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
-    // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
-    // changing the Attr value
-    return detail::attribute_internals::set_attribute(this, attribute);
+    ce_reactions_method_def
+        // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
+        // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
+        // changing the Attr value
+        return detail::attribute_internals::set_attribute(this, attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -222,10 +230,12 @@ auto dom::nodes::element::remove_attribute(
         ext::string_view qualified_name)
         -> attr*
 {
-    // find the Attr node in this 'attributes' list by the 'qualified_name' that is going to be removed (can be nullptr
-    // if the Attr doesn't exist in this Element), and remove it by calling the internal method
-    auto* existing_attribute = get_attribute_node(qualified_name);
-    return detail::attribute_internals::remove_attribute(this, existing_attribute);
+    ce_reactions_method_def
+        // find the Attr node in this 'attributes' list by the 'qualified_name' that is going to be removed (can be nullptr
+        // if the Attr doesn't exist in this Element), and remove it by calling the internal method
+        auto* existing_attribute = get_attribute_node(qualified_name);
+        return detail::attribute_internals::remove_attribute(this, existing_attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -234,10 +244,12 @@ auto dom::nodes::element::remove_attribute_ns(
         ext::string_view local_name)
         -> attr*
 {
-    // find the Attr node in this 'attributes' list by the 'local_name' and 'namespace_' that is going to be removed
-    // (can be nullptr if the Attr doesn't exist in this Element), and remove it by calling the internal method
-    auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
-    return detail::attribute_internals::remove_attribute(this, existing_attribute);
+    ce_reactions_method_def
+        // find the Attr node in this 'attributes' list by the 'local_name' and 'namespace_' that is going to be removed
+        // (can be nullptr if the Attr doesn't exist in this Element), and remove it by calling the internal method
+        auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
+        return detail::attribute_internals::remove_attribute(this, existing_attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -245,9 +257,11 @@ auto dom::nodes::element::remove_attribute_node(
         attr* attribute)
         -> attr*
 {
-    // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
-    // deletion, and removal from this 'attributes' list
-    return detail::attribute_internals::remove_attribute(this, attribute);
+    ce_reactions_method_def
+        // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
+        // deletion, and removal from this 'attributes' list
+        return detail::attribute_internals::remove_attribute(this, attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -255,9 +269,11 @@ auto dom::nodes::element::remove_attribute_node_ns(
         attr* attribute)
         -> attr*
 {
-    // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
-    // deletion, and removal from this 'attributes' list
-    return detail::attribute_internals::remove_attribute(this, attribute);
+    ce_reactions_method_def
+        // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
+        // deletion, and removal from this 'attributes' list
+        return detail::attribute_internals::remove_attribute(this, attribute);
+    ce_reactions_method_exe
 }
 
 
@@ -269,8 +285,10 @@ auto dom::nodes::element::toggle_attribute(
         ext::optional<ext::boolean> force)
         -> ext::boolean
 {
-    auto* existing_attribute = get_attribute_node(qualified_name);
-    return detail::attribute_internals::toggle_attribute(this, existing_attribute, std::move(force), qualified_name);
+    ce_reactions_method_def
+        auto* existing_attribute = get_attribute_node(qualified_name);
+        return detail::attribute_internals::toggle_attribute(this, existing_attribute, std::move(force), qualified_name);
+    ce_reactions_method_exe
 }
 
 
@@ -280,8 +298,10 @@ auto dom::nodes::element::toggle_attribute_ns(
         ext::optional<ext::boolean> force)
         -> ext::boolean
 {
-    auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
-    return detail::attribute_internals::toggle_attribute(this, existing_attribute, std::move(force), local_name, namespace_);
+    ce_reactions_method_def
+        auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
+        return detail::attribute_internals::toggle_attribute(this, existing_attribute, std::move(force), local_name, namespace_);
+    ce_reactions_method_exe
 }
 
 
@@ -290,8 +310,10 @@ auto dom::nodes::element::toggle_attribute_node(
         ext::optional<ext::boolean> force)
         -> attr*
 {
-    return_if(!attribute) nullptr;
-    return detail::attribute_internals::toggle_attribute(this, attribute, std::move(force));
+    ce_reactions_method_def
+        return_if(!attribute) static_cast<attr*>(nullptr);
+        return detail::attribute_internals::toggle_attribute(this, attribute, std::move(force));
+    ce_reactions_method_exe
 }
 
 
@@ -300,8 +322,10 @@ auto dom::nodes::element::toggle_attribute_node_ns(
         ext::optional<ext::boolean> force)
         -> attr*
 {
-    return_if(!attribute) nullptr;
-    return detail::attribute_internals::toggle_attribute(this, attribute, std::move(force));
+    ce_reactions_method_def
+        return_if(!attribute) static_cast<attr*>(nullptr);
+        return detail::attribute_internals::toggle_attribute(this, attribute, std::move(force));
+    ce_reactions_method_exe
 }
 
 

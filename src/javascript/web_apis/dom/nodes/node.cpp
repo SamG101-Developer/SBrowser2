@@ -22,10 +22,15 @@
 #include <web_apis/dom/detail/shadow_internals.hpp>
 #include <web_apis/dom/detail/text_internals.hpp>
 #include <web_apis/dom/detail/tree_internals.hpp>
+
+#include <web_apis/dom/nodes/attr.hpp>
 #include <web_apis/dom/nodes/character_data.hpp>
+#include <web_apis/dom/nodes/document_fragment.hpp>
+#include <web_apis/dom/nodes/document_type.hpp>
 #include <web_apis/dom/nodes/element.hpp>
 #include <web_apis/dom/nodes/node.hpp>
 #include <web_apis/dom/nodes/text.hpp>
+
 #include <web_apis/dom/ranges/range.hpp>
 
 #include <range/v3/view/remove.hpp>
@@ -138,65 +143,69 @@ auto dom::nodes::node::has_child_nodes()
 
 
 auto dom::nodes::node::normalize()
-        -> void
+        -> node*
 {
-    for (nodes::text* text_node: detail::tree_internals::descendant_text_nodes(this))
-    {
-        // if the length of the text node (ie the length of the text) is 0 then remove the text node
-        auto length = dom::detail::tree_internals::length(text_node);
-        continue_if(length <= 0);
-
-        // combine the text from the next consecutive text nodes into the text node
-        auto data = dom::detail::tree_internals::contiguous_text_nodes(text_node)
-                    | ranges::views::transform([](nodes::text* contiguous_text_node) {return contiguous_text_node->data();})
-                    | ranges::to<ext::string>();
-
-        // replace the data in this node with the combined data from the contiguous nodes
-        detail::text_internals::replace_data(text_node, 0, length, data);
-
-        // get the current node as the next text node (whose text has been combined into the text node's text)
-        auto* current_node = text_node->next_sibling();
-
-        JS_REALM_GET_SURROUNDING(this)
-        auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(surrounding_global_object, "live_ranges");
-
-        // iterate by incrementing the current_node to the next sibling
-        while (detail::tree_internals::is_exclusive_text_node(current_node))
+    ce_reactions_method_def
+        for (nodes::text* text_node: detail::tree_internals::descendant_text_nodes(this))
         {
-            // ranges whose starting node is current_node: increment the starting offset by the length of the text of
-            // the text node (text has shifted back to previous node) and set the starting node to the text node
-            ranges::for_each(
-                    live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node;}),
-                    [&text_node, length](node_ranges::range* range) {range->start_offset += length; range->start_container = text_node;});
+            // if the length of the text node (ie the length of the text) is 0 then remove the text node
+            auto length = dom::detail::tree_internals::length(text_node);
+            continue_if(length <= 0ul);
 
-            // ranges whose ending node is current_node: increment the ending offset by the length of the text of the
-            // text node (text has shifted back to previous node) abd set the ending node to the text node
-            ranges::for_each(
-                   live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node;}),
-                   [&text_node, length](node_ranges::range* range) {range->end_offset += length; range->end_container = text_node;});
+            // combine the text from the next consecutive text nodes into the text node
+            auto data = dom::detail::tree_internals::contiguous_text_nodes(text_node)
+                        | ranges::views::transform([](nodes::text* contiguous_text_node) {return contiguous_text_node->data();})
+                        | ranges::to<ext::string>();
 
-            // ranges whose starting node is current_node's parent: set the starting offset to the length of the text in
-            // the text node and set the starting node to the text node TODO : why?
-            ranges::for_each(
-                    live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node->parent_node();}),
-                    [&text_node, length](node_ranges::range* range) {range->start_offset = length; range->start_container = text_node;});
+            // replace the data in this node with the combined data from the contiguous nodes
+            detail::text_internals::replace_data(text_node, 0, length, data);
 
-            // ranges whose ending node is current_node's parent: set the ending offset to the length of the text in the
-            // text node and set the ending node to the text node TODO : why?
-            ranges::for_each(
-                    live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node->parent_node();}),
-                    [&text_node, length](node_ranges::range* range) {range->end_offset = length; range->end_container = text_node;});
+            // get the current node as the next text node (whose text has been combined into the text node's text)
+            auto* current_node = text_node->next_sibling();
 
-            // increment the length by the current_node's length (so that the next current_node's offset can be
-            // incremented further as needed to be, and set the current node to the next sibling
-            length += detail::tree_internals::length(current_node);
-            current_node = current_node->next_sibling();
+            JS_REALM_GET_SURROUNDING(this)
+            auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(surrounding_global_object, "live_ranges");
+
+            // iterate by incrementing the current_node to the next sibling
+            while (detail::tree_internals::is_exclusive_text_node(current_node))
+            {
+                // ranges whose starting node is current_node: increment the starting offset by the length of the text of
+                // the text node (text has shifted back to previous node) and set the starting node to the text node
+                ranges::for_each(
+                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node;}),
+                        [&text_node, length](node_ranges::range* range) {range->start_offset += length; range->start_container = text_node;});
+
+                // ranges whose ending node is current_node: increment the ending offset by the length of the text of the
+                // text node (text has shifted back to previous node) abd set the ending node to the text node
+                ranges::for_each(
+                       live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node;}),
+                       [&text_node, length](node_ranges::range* range) {range->end_offset += length; range->end_container = text_node;});
+
+                // ranges whose starting node is current_node's parent: set the starting offset to the length of the text in
+                // the text node and set the starting node to the text node TODO : why?
+                ranges::for_each(
+                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node->parent_node();}),
+                        [&text_node, length](node_ranges::range* range) {range->start_offset = length; range->start_container = text_node;});
+
+                // ranges whose ending node is current_node's parent: set the ending offset to the length of the text in the
+                // text node and set the ending node to the text node TODO : why?
+                ranges::for_each(
+                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node->parent_node();}),
+                        [&text_node, length](node_ranges::range* range) {range->end_offset = length; range->end_container = text_node;});
+
+                // increment the length by the current_node's length (so that the next current_node's offset can be
+                // incremented further as needed to be, and set the current node to the next sibling
+                length += detail::tree_internals::length(current_node);
+                current_node = current_node->next_sibling();
+            }
+
+            ranges::for_each(
+                    dom::detail::tree_internals::contiguous_text_nodes(text_node),
+                    [](node* contiguous_text_node) {detail::mutation_internals::remove(contiguous_text_node);});
         }
 
-        ranges::for_each(
-                dom::detail::tree_internals::contiguous_text_nodes(text_node),
-                [](node* contiguous_text_node) {detail::mutation_internals::remove(contiguous_text_node);});
-    }
+        return this; // TODO : what to return
+    ce_reactions_method_exe
 }
 
 
@@ -204,13 +213,15 @@ auto dom::nodes::node::clone_node(
         ext::boolean_view deep)
         -> node*
 {
-    // throw an error if there is an attempt to clone a shadow node
-    detail::exception_internals::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            "Cannot clone a ShadowRoot node",
-            [this] {return detail::shadow_internals::is_shadow_root(this);});
+    ce_reactions_method_def
+        // throw an error if there is an attempt to clone a shadow node
+        detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                [this] {return detail::shadow_internals::is_shadow_root(this);},
+                "Cannot clone a ShadowRoot node");
 
-    // clone the node and return it
-    return detail::node_internals::clone(this, nullptr, deep);
+        // clone the node and return it
+        return detail::node_internals::clone(this, nullptr, deep);
+    ce_reactions_method_exe
 }
 
 
@@ -248,7 +259,7 @@ auto dom::nodes::node::lookup_prefix(
 
     // document node: return the lookup for the document element
     if (auto* document_cast = dynamic_cast<document*>(this))
-        return detail::node_internals::locate_a_namespace_prefix(document_cast->document_element, namespace_);
+        return detail::node_internals::locate_a_namespace_prefix(document_cast->document_element(), namespace_);
 
     // document type node: return empty string
     if (auto* document_type_cast = dynamic_cast<document_type*>(this))
@@ -381,7 +392,7 @@ auto dom::nodes::node::to_v8(
         const && -> ext::any
 {
     return v8pp::class_<node>{isolate}
-            .inherit<event_target>()
+            .inherit<event_target>() // TODO : other static attributes
             .static_("DOCUMENT_POSITION_DISCONNECTED", node::DOCUMENT_POSITION_DISCONNECTED, true)
             .static_("DOCUMENT_POSITION_PRECEDING", node::DOCUMENT_POSITION_PRECEDING, true)
             .static_("DOCUMENT_POSITION_FOLLOWING", node::DOCUMENT_POSITION_FOLLOWING, true)
@@ -402,6 +413,7 @@ auto dom::nodes::node::to_v8(
             .function("appendChild", &node::append_child)
             .function("replaceChild", &node::replace_child)
             .function("removeChild", &node::remove_child)
+            .var("nodeType", &node::node_type, true)
             .var("nodeName", &node::node_name, true)
             .var("nodeValue", &node::node_value, false)
             .var("textContent", &node::text_content, false)
