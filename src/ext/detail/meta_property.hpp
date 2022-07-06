@@ -5,7 +5,7 @@
 #include <ext/set.hpp>
 
 #define bind_get(p) p._Meta._Getter  = [this] {return get_##p();}
-#define bind_set(p) p._Meta._Setter  = [this](auto&& _Any) {set_##p(std::forward<decltype(_Any)>(_Any));}
+#define bind_set(p) p._Meta._Setter  = [this](auto&& _Any) {set_##p(std::forward<decltype(_Any)>(_Any)); return _Any;}
 #define bind_del(p) p._Meta._Deleter = [this] {del_##p();}
 
 #define bind_qt(p, widget, method) p._Meta._AttachQtMethod(widget, &method);
