@@ -20,12 +20,22 @@ public constructors:
     node();
 
 public js_static_constants:
-    static const ushort DOCUMENT_POSITION_DISCONNECTED = 0x01;
-    static const ushort DOCUMENT_POSITION_PRECEDING = 0x02;
-    static const ushort DOCUMENT_POSITION_FOLLOWING = 0x04;
-    static const ushort DOCUMENT_POSITION_CONTAINS = 0x08;
-    static const ushort DOCUMENT_POSITION_CONTAINED_BY = 0x10;
-    static const ushort DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
+    constexpr static const ext::number<ushort> ELEMENT_NODE = 1;
+    constexpr static const ext::number<ushort> ATTRIBUTE_NODE = 2;
+    constexpr static const ext::number<ushort> TEXT_NODE = 3;
+    constexpr static const ext::number<ushort> CDATA_SECTION_NODE = 4;
+    constexpr static const ext::number<ushort> PROCESSING_INSTRUCTION_NODE = 7;
+    constexpr static const ext::number<ushort> COMMENT_NODE = 8;
+    constexpr static const ext::number<ushort> DOCUMENT_NODE = 9;
+    constexpr static const ext::number<ushort> DOCUMENT_TYPE_NODE = 10;
+    constexpr static const ext::number<ushort> DOCUMENT_FRAGMENT_NODE = 11;
+    
+    constexpr static const ext::number<ushort> DOCUMENT_POSITION_DISCONNECTED = 0x01;
+    constexpr static const ext::number<ushort> DOCUMENT_POSITION_PRECEDING = 0x02;
+    constexpr static const ext::number<ushort> DOCUMENT_POSITION_FOLLOWING = 0x04;
+    constexpr static const ext::number<ushort> DOCUMENT_POSITION_CONTAINS = 0x08;
+    constexpr static const ext::number<ushort> DOCUMENT_POSITION_CONTAINED_BY = 0x10;
+    constexpr static const ext::number<ushort> DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
 
 public js_methods:
     auto compare_document_position(node* other) -> ext::number<ushort>;
@@ -33,7 +43,7 @@ public js_methods:
     auto contains(node* other) -> ext::boolean;
     auto has_child_nodes() -> ext::boolean;
 
-    auto normalize() -> void;
+    auto normalize() -> node*;
     auto clone_node(ext::boolean_view deep = false) -> node*;
     auto is_equal_node(node* other) -> ext::boolean;
 
@@ -47,6 +57,7 @@ public js_methods:
     auto remove_child(node* old_node) -> node*;
 
 public js_properties:
+    ext::property<ext::number<ushort>> node_type;
     ext::property<ext::string, _T> node_name;
     ext::property<ext::string, _T> node_value;
     ext::property<ext::string, _T> text_content;
@@ -73,6 +84,7 @@ protected cpp_properties:
     std::unique_ptr<ext::vector<detail::observer_internals::registered_observer*>> m_registered_observer_list;
 
 protected cpp_accessors:
+    [[nodiscard]] virtual auto get_node_type() const -> ext::number<ushort> = 0;
     [[nodiscard]] virtual auto get_node_name() const -> ext::string = 0;
     [[nodiscard]] virtual auto get_text_content() const -> ext::string = 0;
     [[nodiscard]] virtual auto get_node_value() const -> ext::string = 0;
