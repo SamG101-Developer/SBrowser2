@@ -11,7 +11,7 @@
 
 auto dom::mixins::child_node::before(
         type_in<nodes::node*, ext::string> auto&&... nodes)
-        -> void
+        -> nodes::node*
 {
     ce_reactions_method_def
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -33,13 +33,15 @@ auto dom::mixins::child_node::before(
         // into the correct place
         viable_previous_sibling = !viable_previous_sibling ? parent->first_child() : viable_previous_sibling->next_sibling();
         detail::mutation_internals::pre_insert(node, parent, viable_previous_sibling);
+
+        return node;
     ce_reactions_method_exe
 }
 
 
 auto dom::mixins::child_node::after(
         type_in<nodes::node*, ext::string> auto&&... nodes)
-        -> void
+        -> nodes::node*
 {
     ce_reactions_method_def
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -60,13 +62,15 @@ auto dom::mixins::child_node::after(
         // detect the iterator as ...::end(), meaning that the 'node' will get appended, so 'node' is inserted into the
         // correct place anyway
         detail::mutation_internals::pre_insert(node, parent, viable_next_sibling);
+
+        return node;
     ce_reactions_method_exe
 }
 
 
 auto dom::mixins::child_node::replace_with(
         type_in<nodes::node*, ext::string> auto&& ...nodes)
-        -> void
+        -> nodes::node*
 {
     ce_reactions_method_def
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -93,22 +97,26 @@ auto dom::mixins::child_node::replace_with(
             auto* viable_next_sibling = viable_next_siblings.front();
             detail::mutation_internals::pre_insert(node, parent, viable_next_sibling);
         }
+
+        return node;
     ce_reactions_method_exe
 }
 
 
 auto dom::mixins::child_node::remove()
-        -> void
+        -> nodes::node*
 {
     ce_reactions_method_def
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to remove nodes into a nullptr parent
         auto* base = ext::cross_cast<nodes::node*>(this);
         auto* parent = base->parent_node();
-        return_if(!parent);
+        return_if(!parent) static_cast<nodes::node*>(nullptr);
 
         // remove this node from the DOM tree
         detail::mutation_internals::remove(base);
+
+        return base;
     ce_reactions_method_exe
 }
 

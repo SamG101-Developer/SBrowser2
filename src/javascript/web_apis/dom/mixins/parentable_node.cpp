@@ -22,7 +22,7 @@ dom::mixins::parentable_node::parentable_node()
 
 auto dom::mixins::parentable_node::prepend(
         type_in<nodes::node*, ext::string> auto&&... nodes)
-        -> void
+        -> nodes::node*
 {
     // parse the 'nodes' parameter, and pre insert the derived 'node' into this's child nodes, before the first node in
     // the child nodes list
@@ -30,13 +30,14 @@ auto dom::mixins::parentable_node::prepend(
         auto* base = ext::cross_cast<nodes::node*>(this);
         auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::mutation_internals::pre_insert(node, base, base->child_nodes->front());
+        return node;
     ce_reactions_method_exe
 }
 
 
 auto dom::mixins::parentable_node::append(
         type_in<nodes::node*, ext::string> auto&&... nodes)
-        -> void
+        -> nodes::node*
 {
     // parse the 'nodes' parameter, and append the derived 'node' into this's child nodes, after the first node in the
     // child nodes list
@@ -44,13 +45,14 @@ auto dom::mixins::parentable_node::append(
         auto* base = ext::cross_cast<nodes::node*>(this);
         auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::mutation_internals::append(node, base, base->child_nodes->front());
+        return node;
     ce_reactions_method_exe
 }
 
 
 auto dom::mixins::parentable_node::replace_children(
         type_in<nodes::node*, ext::string> auto&&... nodes)
-        -> void
+        -> nodes::node*
 {
     // parse the 'nodes' parameter, and replace the derived 'node' from this's child nodes, after ensuring pre insertion
     // validity of the node, at the end of the child nodes list
@@ -59,6 +61,7 @@ auto dom::mixins::parentable_node::replace_children(
         auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::mutation_internals::ensure_pre_insertion_validity(node, base, nullptr);
         detail::mutation_internals::replace_all(node, base);
+        return node;
     ce_reactions_method_exe
 }
 
