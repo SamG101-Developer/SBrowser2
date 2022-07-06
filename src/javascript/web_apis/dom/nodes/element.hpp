@@ -89,12 +89,13 @@ public js_properties:
     ext::property<std::unique_ptr<ext::vector<attr*>>> attributes;
     ext::property<std::unique_ptr<ext::string_vector>> class_list;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
 protected cpp_methods:
     [[nodiscard]] auto qualified_name() const -> ext::string;
     [[nodiscard]] auto html_uppercase_qualified_name() const -> ext::string;
     [[nodiscard]] auto html_lowercase_qualified_name() const -> ext::string;
-
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
     ext::string m_is;
@@ -104,6 +105,7 @@ private cpp_properties:
     html::detail::context_internals::browsing_context* m_nested_browsing_context;
 
 private cpp_accessors:
+    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return ELEMENT_NODE;}
     [[nodiscard]] auto get_node_name() const -> ext::string override {return html_uppercase_qualified_name();};
     [[nodiscard]] auto get_node_value() const -> ext::string override;
     [[nodiscard]] auto get_text_content() const -> ext::string override;
