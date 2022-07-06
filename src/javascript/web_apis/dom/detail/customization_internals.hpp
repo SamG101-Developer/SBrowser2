@@ -1,9 +1,10 @@
 #ifndef SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
-
 #include <ext/boolean.hpp>
+#include <ext/map.hpp>
 #include <ext/string.hpp>
+#include <ext/vector.hpp>
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}
 namespace html::elements {class html_unknown_element;}
@@ -85,6 +86,43 @@ namespace dom::detail::customization_internals
             nodes::element* element)
             -> ext::boolean;
 }
+
+
+struct dom::detail::customization_internals::custom_element_reactions_stack
+{
+    std::queue<nodes::element*> backup_element_queue;
+    std::queue<nodes::element*> current_element_queue() {return queues.top();};
+    std::stack<std::queue<nodes::element*>> queues;
+    ext::boolean processing_backup_element_queue_flag = false;
+
+    auto operator->() -> auto {return &queues;}
+};
+
+
+struct dom::detail::customization_internals::custom_element_definition
+{
+    using lifecycle_callback_t = std::function<void()>;
+    using html_element_constructor_t = std::function<nodes::element*()>;
+
+    ext::boolean form_associated;
+    ext::boolean disable_internals;
+    ext::boolean disable_shadow;
+
+    ext::string name;
+    ext::string local_name;
+
+    ext::vector<ext::string> observed_attributes;
+    ext::vector<nodes::element*> construction_stack;
+    html_element_constructor_t constructor;
+
+    ext::map<ext::string, lifecycle_callback_t> lifecycle_callbacks
+            {
+                    {"connectedCallback"     , [] {}}, {"disconnectedCallback"    , [] {}},
+                    {"adoptedCallback"       , [] {}}, {"attributeChangedCallback", [] {}},
+                    {"formAssociatedCallback", [] {}}, {"formDisabledCallback"    , [] {}},
+                    {"formResetCallback"     , [] {}}, {"formStateRestoreCallback", [] {}}
+            };
+};
 
 
 #endif //SBROWSER2_CUSTOMIZATION_INTERNALS_HPP

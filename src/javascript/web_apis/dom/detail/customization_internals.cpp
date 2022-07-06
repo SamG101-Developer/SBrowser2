@@ -3,7 +3,6 @@
 #include <memory>
 #include <queue>
 #include <stack>
-#include <ext/string.hpp>
 
 #include <javascript/interop/annotations.hpp>
 #include <javascript/ecma/7_absract_operations/7_2_testing_and_comparison_operations.hpp>
@@ -14,43 +13,6 @@
 #include <web_apis/dom/nodes/element.hpp>
 
 #include <range/v3/algorithm/contains.hpp>
-
-
-struct dom::detail::customization_internals::custom_element_reactions_stack
-{
-    std::queue<nodes::element*> backup_element_queue;
-    std::queue<nodes::element*> current_element_queue() {return queues.top();};
-    std::stack<std::queue<nodes::element*>> queues;
-    ext::boolean processing_backup_element_queue_flag = false;
-
-    auto operator->() -> auto {return &queues;}
-};
-
-
-struct dom::detail::customization_internals::custom_element_definition
-{
-    using lifecycle_callback_t = std::function<void()>;
-    using html_element_constructor_t = std::function<nodes::element*()>;
-
-    ext::boolean form_associated;
-    ext::boolean disable_internals;
-    ext::boolean disable_shadow;
-
-    ext::string name;
-    ext::string local_name;
-
-    ext::vector<ext::string> observed_attributes;
-    ext::vector<nodes::element*> construction_stack;
-    html_element_constructor_t constructor;
-
-    ext::map<ext::string, lifecycle_callback_t> lifecycle_callbacks
-            {
-                    {"connectedCallback"     , [] {}}, {"disconnectedCallback"    , [] {}},
-                    {"adoptedCallback"       , [] {}}, {"attributeChangedCallback", [] {}},
-                    {"formAssociatedCallback", [] {}}, {"formDisabledCallback"    , [] {}},
-                    {"formResetCallback"     , [] {}}, {"formStateRestoreCallback", [] {}}
-            };
-};
 
 
 auto dom::detail::customization_internals::create_an_element(
