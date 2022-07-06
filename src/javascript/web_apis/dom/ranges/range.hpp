@@ -28,7 +28,7 @@ public js_methods:
     auto set_end_before(nodes::node* new_container) -> void;
     auto set_end_after(nodes::node* new_container) -> void;
 
-    auto insert_node(nodes::node* new_container) -> void;
+    auto insert_node(nodes::node* new_container) -> nodes::node*;
     auto intersects_node(nodes::node* container) const -> ext::boolean;
     auto select_node(nodes::node* container) -> void;
     auto select_node_contents(nodes::node* container) -> void;
@@ -39,8 +39,8 @@ public js_methods:
 
     auto extract_contents() -> nodes::document_fragment*;
     auto clone_contents() -> nodes::document_fragment*;
-    auto delete_contents() -> void;
-    auto surround_contents(nodes::node* parent) -> void;
+    auto delete_contents() -> nodes::document_fragment*;
+    auto surround_contents(nodes::node* parent) -> nodes::document_fragment*;
 
     auto collapse(ext::boolean_view to_start = false) -> void;
     auto clone_range() const -> range;
