@@ -23,11 +23,11 @@ public:
     {
         auto _FrontArgs = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
         auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
-        return std::apply(_Function, _TotalArgs);
+        return std::apply(std::forward<_Fx>(_Function), _TotalArgs);
     }
 
 private:
-    _Fx* _Function;
+    _Fx&& _Function;
     std::tuple<_Types...> _BackArgs;
 };
 
@@ -46,11 +46,11 @@ public:
     {
         auto _BackArgs  = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
         auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
-        return std::apply(_Function, _TotalArgs);
+        return std::apply(std::forward<_Fx>(_Function), _TotalArgs);
     }
 
 private:
-    _Fx* _Function;
+    _Fx&& _Function;
     std::tuple<_Types...> _FrontArgs;
 };
 
