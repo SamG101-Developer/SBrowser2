@@ -265,12 +265,13 @@ auto dom::detail::event_internals::inner_invoke(
         // type alias the callback type for convenience, and get the associated javascript realm for the listener's
         // callback function object
         using callback_t = typename nodes::event_target::event_listener_callback_t;
-        JS_REALM_GET_ASSOCIATED(v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at("callback").value().to<callback_t>()));
+        auto javascript_callback = v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at("callback").value().to<callback_t>());
+        JS_REALM_GET_ASSOCIATED(javascript_callback)
 
         // if the global object for the associated realm is a Window object, then save its 'current_event' attribute,
         // and set the attribute to the 'event', if the invocation target is in a shadow tree TODO : why?
         events::event* current_event = nullptr;
-        if (auto* global = v8pp::from_v8<nodes::window*>(associated_agent, associated_global_object))
+        if (auto* global = v8pp::from_v8<nodes::window*>(javascript_callback_associated_agent, javascript_callback_associated_global_object))
         {
             current_event = global->current_event();
             global->current_event = invocation_target_in_shadow_tree ? event : global->current_event();
@@ -284,7 +285,7 @@ auto dom::detail::event_internals::inner_invoke(
         event->m_in_passive_listener_flag = ext::boolean::FALSE();
 
         // restore the current event back to the Window associated global object
-        if (auto* global = v8pp::from_v8<nodes::window*>(associated_agent, associated_global_object))
+        if (auto* global = v8pp::from_v8<nodes::window*>(javascript_callback_associated_agent, javascript_callback_associated_global_object))
             global->current_event = current_event;
 
         // return if the stop immediate propagation flag is set, as this disallows any more listeners from being called
