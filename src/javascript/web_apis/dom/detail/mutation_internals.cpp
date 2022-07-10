@@ -214,7 +214,7 @@ auto dom::detail::mutation_internals::insert(
     if (child)
     {
         JS_REALM_GET_SURROUNDING(nullptr)
-        auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(surrounding_global_object, "live_ranges");
+        auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(nullptr_surrounding_global_object, "live_ranges");
         auto child_index = tree_internals::index(child);
 
         // ranges whose starting node is 'parent' and whose starting offset is greater that the index of 'child':
