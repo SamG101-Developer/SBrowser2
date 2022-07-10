@@ -45,7 +45,7 @@ public js_methods:
     auto collapse(ext::boolean_view to_start = false) -> void;
     auto clone_range() const -> range;
 
-    auto to_json() const -> ext::string;
+    auto to_json() const -> ext::string override;
 
 public js_properties:
     ext::property<nodes::node*> common_ancestor_container;
