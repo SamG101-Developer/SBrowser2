@@ -13,14 +13,36 @@
 #include <v8-platform.h>
 #include <libplatform/libplatform.h>
 
-std::unique_ptr<v8::Platform> platform;
 
-namespace javascript::environment {auto initialize_v8_engine(char** argv) -> int;}
-namespace javascript::environment {auto create_new_isolate() -> v8::Isolate*;}
-namespace javascript::environment {auto create_new_context(v8::Isolate* isolate, module_t module_type) -> v8::Persistent<v8::Context>&;}
-namespace javascript::environment {auto execute(v8::Isolate* isolate, const v8::Persistent<v8::Context>& persistent_context, const char* code) -> void;}
-namespace javascript::environment {auto dispose_isolate(v8::Isolate* isolate) -> void;}
-namespace javascript::environment {auto dispose_v8_engine() -> int;}
+namespace javascript::environment {
+    auto initialize_v8_engine(
+            char** argv)
+            -> int;
+
+    auto create_new_isolate()
+            -> v8::Isolate*;
+
+    auto create_new_context(
+            v8::Isolate* isolate,
+            module_t module_type)
+            -> v8::Persistent<v8::Context>&;
+
+    auto execute(
+            v8::Isolate* isolate,
+            const v8::Persistent<v8::Context>& persistent_context,
+            const char* code)
+            -> void;
+
+    auto dispose_isolate(
+            v8::Isolate* isolate)
+            -> void;
+
+    auto dispose_v8_engine()
+            -> int;
+}
+
+
+std::unique_ptr<v8::Platform> platform;
 
 
 auto javascript::environment::initialize_v8_engine(char** argv) -> int
