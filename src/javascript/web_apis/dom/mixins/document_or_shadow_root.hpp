@@ -4,14 +4,20 @@
 #include <web_apis/dom_object.hpp>
 namespace dom::mixins {class document_or_shadow_root;}
 
+namespace dom::nodes {class element;}
+
 class dom::mixins::document_or_shadow_root
         : public virtual web_apis::dom_object
 {
 public constructors:
     document_or_shadow_root();
 
+public js_properties:
+    /* HTML */
+    ext::property<std::unique_ptr<nodes::element>> active_element;
+
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
