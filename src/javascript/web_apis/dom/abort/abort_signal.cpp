@@ -35,8 +35,8 @@ auto dom::abort::abort_signal::timeout(
     JS_REALM_GET_RELEVANT(signal)
 
     auto timeout_error_callback = [] {detail::exception_internals::throw_v8_exception<TIMEOUT_ERR>("Timeout");}
-    auto callback = [&relevant_global_object, timeout_error_callback] {detail::observer_internals::queue_global_task(html::detail::task_internals::timer_task_source(), relevant_global_object, timeout_error_callback);};
-    html::detail::timers::run_steps_after_timeout(relevant_global_object, "AbortSignal-timeout", milliseconds, callback);
+    auto callback = [&signal_relevant_global_object, timeout_error_callback] {detail::observer_internals::queue_global_task(html::detail::task_internals::timer_task_source(), signal_relevant_global_object, timeout_error_callback);};
+    html::detail::timers::run_steps_after_timeout(signal_relevant_global_object, "AbortSignal-timeout", milliseconds, callback);
 
     // return the signal
     return signal;
