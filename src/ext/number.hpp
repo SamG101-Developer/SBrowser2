@@ -8,6 +8,7 @@ namespace ext {template <primitive_numeric _Vt> using number_view = const number
 namespace ext {template <bool _InclusiveLo = false, bool _InclusiveHi = false> auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> ext::boolean;}
 namespace ext {template <typename T, typename U, typename ...V> auto min(T&& first, U&& second, V&&... values);}
 namespace ext {template <typename T, typename U, typename ...V> auto max(T&& first, U&& second, V&&... values);}
+namespace ext {template <typename T, typename U> auto round(T&& _Val, U&& _Mult);}
 
 #include <algorithm>
 #include <limits>
@@ -155,6 +156,13 @@ auto ext::max(T&& first, U&& second, V&&... values)
 {
     if constexpr(sizeof...(values) == 0) return first > second ? first : number{second};
     else return max(max(std::forward<T>(first), std::forward<U>(second)), std::forward<V>(values)...);
+}
+
+
+template <typename T, typename U>
+auto ext::round(T&& _Val, U&& _Mult)
+{
+    return std::round(std::move(_Val / _Mult)) * std::forward<U>(_Mult);
 }
 
 
