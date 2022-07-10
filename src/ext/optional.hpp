@@ -22,12 +22,13 @@ public constructors:
     auto operator=(const optional&) -> optional& = delete;
     auto operator=(optional&&) noexcept -> optional& = default;
 
-    explicit optional(const _Tx& _Val) : _Opt(std::make_optional<_Tx>(_Val)) {}
-    explicit optional(_Tx&& _Val) noexcept : _Opt(std::make_optional<_Tx>(std::forward<_Tx>(_Val))) {}
-    auto operator=(const _Tx& _Val) -> optional& {_Opt.emplace(_Val); return *this;};
-    auto operator=(_Tx&& _Val) -> optional& {_Opt.emplace(std::forward<_Tx>(_Val)); return *this;};
+    explicit optional(const _Tx& _Val) : _Opt{std::make_optional<_Tx>(_Val)} {}
+    explicit optional(_Tx&& _Val) noexcept : _Opt{std::make_optional<_Tx>(std::forward<_Tx>(_Val))} {}
+    auto operator=(const _Tx& _Val) -> optional& {_Opt.emplace(_Val); return *this;}
+    auto operator=(_Tx&& _Val) -> optional& {_Opt.emplace(std::forward<_Tx>(_Val)); return *this;}
 
-//    auto operator=(const std::nullopt_t&) -> optional& {_Opt.reset();}
+    optional(const std::nullopt_t&) {}
+    auto operator=(const std::nullopt_t&) -> optional& {_Opt.reset();}
 
 public cpp_methods:
     [[nodiscard]] constexpr auto empty() const -> ext::boolean {return not _Opt.has_value();}
