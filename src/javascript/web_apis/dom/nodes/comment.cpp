@@ -7,7 +7,7 @@
 dom::nodes::comment::comment()
 {
     JS_REALM_GET_RELEVANT(this)
-    owner_document = javascript::environment::realms_2::get<document*>(relevant_global_object, "associated_document");
+    owner_document = javascript::environment::realms_2::get<document*>(this_relevant_global_object, "associated_document");
 }
 
 
