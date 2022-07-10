@@ -13,21 +13,19 @@ template <typename _Fx, typename ..._Types>
 struct ext::bind_back
 {
 public:
-    explicit bind_back(_Fx&& _Func, _Types&&... _FixedArgs)
-            : _Function{std::forward<_Fx>(_Func)}
+    explicit bind_back(const _Fx& _Func, _Types&&... _FixedArgs)
+            : _Function{_Func}
             , _BackArgs{std::forward_as_tuple(std::forward<_Types>(_FixedArgs)...)}
     {}
 
-    template <typename ..._Types2>
-    auto operator()(_Types2&&... _VariableArgs)
+    constexpr auto operator()(auto&&... _VariableArgs) const
     {
-        auto _FrontArgs = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
-        auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
-        return std::apply(std::forward<_Fx>(_Function), _TotalArgs);
+        auto _FrontArgs = std::make_tuple(std::forward<decltype(_VariableArgs)>(_VariableArgs)...);
+        return std::apply(_Function, std::tuple_cat(_FrontArgs, _BackArgs));
     }
 
 private:
-    _Fx&& _Function;
+    const _Fx& _Function;
     std::tuple<_Types...> _BackArgs;
 };
 
@@ -36,21 +34,19 @@ template <typename _Fx, typename ..._Types>
 struct ext::bind_front
 {
 public:
-    explicit bind_front(_Fx&& _Func, _Types&&... _FixedArgs)
-            : _Function{std::forward<_Fx>(_Func)}
+    explicit bind_front(const _Fx& _Func, _Types&&... _FixedArgs)
+            : _Function{_Func}
             , _FrontArgs{std::forward_as_tuple(std::forward<_Types>(_FixedArgs)...)}
     {};
 
-    template <typename ..._Types2>
-    auto operator()(_Types2&&... _VariableArgs)
+    constexpr auto operator()(auto&&... _VariableArgs) const
     {
-        auto _BackArgs  = std::make_tuple(std::forward<_Types2>(_VariableArgs)...);
-        auto _TotalArgs = std::tuple_cat(_FrontArgs, _BackArgs);
-        return std::apply(std::forward<_Fx>(_Function), _TotalArgs);
+        auto _BackArgs = std::make_tuple(std::forward<decltype(_VariableArgs)>(_VariableArgs)...);
+        return std::apply(_Function, std::tuple_cat(_FrontArgs, _BackArgs));
     }
 
 private:
-    _Fx&& _Function;
+    const _Fx& _Function;
     std::tuple<_Types...> _FrontArgs;
 };
 
