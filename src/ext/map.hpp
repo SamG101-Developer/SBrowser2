@@ -31,8 +31,19 @@ public constructors:
     using map_internal<_Tx1, _Tx2>::map_internal;
 
 public cpp_methods:
-    auto at(_Tx1&& _Key)       -> ext::optional<      _Tx2> {return optional(this->contains(std::forward<_Tx1>(_Key)) ? map_internal<_Tx1, _Tx2>::at(std::forward<_Tx1>(_Key)) : null);};
-    auto at(_Tx1&& _Key) const -> ext::optional<const _Tx2> {return optional(this->contains(std::forward<_Tx1>(_Key)) ? map_internal<_Tx1, _Tx2>::at(std::forward<_Tx1>(_Key)) : null);};
+    auto at(_Tx1&& _Key) -> optional<_Tx2>
+    {
+        if (this->contains(std::forward<_Tx1>(_Key)))
+            return optional<_Tx2>{map_internal<_Tx1, _Tx2>::at(std::forward<_Tx1>(_Key))};
+        return optional<_Tx2>{null};
+    }
+
+    auto at(_Tx1&& _Key) const -> optional<const _Tx2>
+    {
+        if (this->contains(std::forward<_Tx1>(_Key)))
+            return optional<const _Tx2>{map_internal<_Tx1, _Tx2>::at(std::forward<_Tx1>(_Key))};
+        return optional<_Tx2>{null};
+    }
 };
 
 
