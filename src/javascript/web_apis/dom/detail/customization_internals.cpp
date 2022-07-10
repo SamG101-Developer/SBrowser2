@@ -1,18 +1,41 @@
 #include "customization_internals.hpp"
 
-#include <memory>
-#include <queue>
-#include <stack>
-
 #include <javascript/interop/annotations.hpp>
 #include <javascript/ecma/7_absract_operations/7_2_testing_and_comparison_operations.hpp>
 #include <web_apis/dom/detail/exception_internals.hpp>
 #include <web_apis/dom/detail/namespace_internals.hpp>
 #include <web_apis/dom/detail/shadow_internals.hpp>
+#include <web_apis/dom/nodes/attr.hpp>
 #include <web_apis/dom/nodes/document.hpp>
 #include <web_apis/dom/nodes/element.hpp>
+#include <web_apis/dom/other/dom_implementation.hpp>
+
+#include <web_apis/html/elements/html_unknown_element.hpp>
 
 #include <range/v3/algorithm/contains.hpp>
+
+
+template <typename T>
+auto dom::detail::customization_internals::element_interface(
+        ext::string_view local_name,
+        ext::string_view namespace_)
+        -> std::unique_ptr<T>
+{
+    using namespace namespace_internals;
+
+    if (namespace_ == HTML)
+    {
+        string_switch(local_name.data())
+        {
+            string_default:
+                return is_valid_custom_element_name(local_name)
+                        ? std::make_unique<html::elements::html_element>()
+                        : std::make_unique<html::elements::html_unknown_element>();
+        }
+    }
+
+    return std::make_unique<nodes::element>();
+}
 
 
 auto dom::detail::customization_internals::create_an_element(
@@ -33,14 +56,12 @@ auto dom::detail::customization_internals::create_an_element(
     // definitions's local name (JavaScript: ... extends ...)
     if (definition && definition->name == definition->local_name)
     {
-        using interface = element_interface_t;
-
         // try to upgrade the element to the correct interface stored in the definition (ie a HTMLElement is created in
         // place of the Element class - pointer casting allows this) synchronously
         if (synchronous_custom_elements_flag)
         {
             JS_EXCEPTION_HANDLER;
-            result = std::make_unique<interface>().get();
+            result = element_interface(local_name, namespace_).get();
             result->namespace_uri = detail::namespace_internals::HTML;
             result->prefix = prefix;
             result->local_name = local_name;
@@ -64,7 +85,7 @@ auto dom::detail::customization_internals::create_an_element(
             // upgrade reaction asynchronously
         else
         {
-            result = std::make_unique<interface>().get();
+            result = element_interface(local_name, namespace_).get();
             result->namespace_uri = detail::namespace_internals::HTML;
             result->prefix = prefix;
             result->local_name = local_name;
@@ -171,8 +192,7 @@ auto dom::detail::customization_internals::create_an_element(
         // case for when there is no valid definition for the parameters (ie normal element like HTMLButtonElement)
     else
     {
-        using interface = element_interface_t;
-        result = std::make_unique<interface>().get();
+        result = element_interface(local_name, namespace_).get();
         result->namespace_uri = namespace_;
         result->prefix = prefix;
         result->local_name = local_name;

@@ -1,10 +1,13 @@
 #ifndef SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
+#include <queue>
+#include <stack>
 #include <ext/boolean.hpp>
 #include <ext/map.hpp>
 #include <ext/string.hpp>
 #include <ext/vector.hpp>
+namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}
 namespace html::elements {class html_unknown_element;}
@@ -19,7 +22,11 @@ namespace dom::detail::customization_internals
     struct upgrade_reaction : public reaction {};
     struct callback_reaction : public reaction {};
 
-    using element_interface_t = nodes::element;
+    template <typename T>
+    auto element_interface(
+            ext::string_view local_name,
+            ext::string_view namespace_)
+            -> std::unique_ptr<T>;
 
     // custom element creation and upgrading
     auto create_an_element(
@@ -52,11 +59,10 @@ namespace dom::detail::customization_internals
             nodes::element* element)
             -> void;
 
-    template <typename ...Args>
     auto enqueue_custom_element_callback_reaction(
             nodes::element* element,
             ext::string_view callback_name,
-            Args&&... args)
+            auto&&... args)
             -> void;
 
     auto enqueue_custom_element_upgrade_reaction(
