@@ -84,7 +84,7 @@ custom_operator(enforce_range)
     {                                                                                                                        \
         using _stack_t = dom::detail::customization_internals::custom_element_reactions_stack;                               \
         JS_REALM_GET_RELEVANT(this)                                                                                          \
-        auto _ce_reactions_stack = javascript::environment::realms_2::get<_stack_t>(relevant_global_object, "ce_reactions"); \
+        auto _ce_reactions_stack = javascript::environment::realms_2::get<_stack_t>(this_relevant_global_object, "ce_reactions"); \
         _ce_reactions_stack->emplace();                                                                                      \
                                                                                                                              \
         JS_EXCEPTION_HANDLER;                                                                                                \
@@ -96,6 +96,12 @@ custom_operator(enforce_range)
             JS_EXCEPTION_RETHROW;                                                                                            \
                                                                                                                              \
         return _value;                                                                                                       \
+    }
+
+
+#define HTML_CONSTRUCTOR     \
+    {                        \
+        JS_REALM_GET_CURRENT \
     }
 
 
