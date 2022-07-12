@@ -23,7 +23,7 @@ template <v8_primitive_error_t exception_type>
 auto dom::detail::exception_internals::throw_v8_exception(
         exception_condiditional_t&& condition, ext::string_view exception_message) -> void
 {
-    if (std::move(condition)())
+    if (condition())
     {
         // create the v8 primitive exception object, and set its type based on the enum value
         v8::Local<v8::Value> v8_primitive_exception_object;
@@ -54,7 +54,7 @@ auto dom::detail::exception_internals::throw_v8_exception_formatted(
         auto&& ...object_information)
         -> void
 {
-    if (std::move(condition)())
+    if (condition())
     {
         // start the error message with the description
         ext::string exception_message = description;
