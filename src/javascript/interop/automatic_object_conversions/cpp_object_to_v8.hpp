@@ -5,16 +5,14 @@
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
-#include <web_apis/dom_object.hpp>
-
-namespace javascript::interop {template <typename T> auto cpp_object_to_v8(v8::Isolate* isolate) requires std::is_base_of_v<T, web_apis::dom_object>;}
+namespace javascript::interop {template <typename T> auto cpp_object_to_v8(v8::Isolate* isolate) -> v8pp::class_<T>;}
 
 
-template <typename T>
-auto javascript::interop::cpp_object_to_v8(v8::Isolate* isolate) requires std::is_base_of_v<T, web_apis::dom_object>
+template <typename T> // TODO : `typename` -> `inherit<web_apis::dom_object> T>`
+auto javascript::interop::cpp_object_to_v8(v8::Isolate* isolate) -> v8pp::class_<T>
 {
-    // get the v8 conversion of the class by calling the conversion method on a temporary object of type T
-    return T{}.v8(isolate).template to<v8pp::class_<T>>();
+    // get the v8 conversion of the class cby calling the conversion method on a temporary object of type T
+    return T{}.to_v8(isolate).template to<v8pp::class_<T>>();
 }
 
 
