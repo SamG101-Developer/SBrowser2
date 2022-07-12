@@ -15,8 +15,8 @@ public:
     infinity() = default;
 
 public:
-    operator _Tx() const                                   {return std::numeric_limits<_Tx>::infinity();};
-    operator _Tx() const requires ( std::is_signed_v<_Tx>) {return std::numeric_limits<_Tx>::infinity() * (_Positive ? 1 : -1);}
+    operator _Tx() const                                  {return std::numeric_limits<_Tx>::infinity();};
+    operator _Tx() const requires (std::is_signed_v<_Tx>) {return std::numeric_limits<_Tx>::infinity() * (_Positive ? 1 : -1);}
 
     auto operator-() const -> infinity {return *this;};
     auto operator+() const -> infinity {return *this;};
