@@ -14,7 +14,7 @@ concept inherit_template = requires(_Derived _Obj)
 
 // check if a class is a base of another class
 template <typename _Base, typename _Derived>
-concept inherit = std::is_base_of_v<_Base, _Derived>;
+concept inherit = std::derived_from<_Base, _Derived>;
 
 
 // check if a type is iterable ie does it have .begin() and .end() iterator access
@@ -46,14 +46,10 @@ template <typename _Tx>
 concept range_v3_view = ranges::view_<_Tx>;
 
 
-// check if a type(s) is another type, works for parameter packs too - are all arguments an integer
-template <typename TypeToCheck, typename TypeToCheckAgainst>
-concept type_is = std::same_as<std::remove_cvref_t<TypeToCheck>, TypeToCheckAgainst>;
-
-
-// check if a type(s) is in a list of types, works for parameter pack too - are all arguments a string or node?
+// check if a type(s) is in a list of types, works for parameter pack too; checks if all arguments are of a certain
+// type or types for example `auto function(type_is<ext::string, ext::number<int>> auto&&... args) -> void`?
 template <typename TypeToCheck, typename ...TypesToCheckAgainst>
-concept type_in = (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
+concept type_is = (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
 
 
 // check if a type is a primitive numeric type
