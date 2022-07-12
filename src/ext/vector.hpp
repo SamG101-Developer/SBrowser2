@@ -2,21 +2,22 @@
 #ifndef SBROWSER2_VECTOR_HPP
 #define SBROWSER2_VECTOR_HPP
 
+#include "ext/type_traits.hpp"
 #include <veque.hpp>
-#include <ext/type_traits.hpp>
+#include <v8-container.h>
 
 namespace     {template <typename _Vt> using vector_internal = veque::veque<_Vt>;}
-namespace ext {template <typename _Tx> class vector;}
-namespace ext {template <typename _Vt> using vector_view = vector<_Vt>;}
+namespace ext {template <typename _Tx, typename _Tx1 = v8::Array> class vector;}
+namespace ext {template <typename _Vt, typename _Tx1 = v8::Array> using vector_view = const vector<_Vt, _Tx1>&;}
 
 namespace ext {using string_vector = ext::vector<ext::string>;}
-namespace ext {using string_vector_view = const ext::vector<ext::string>&;}
+namespace ext {using string_vector_view = const string_vector&;}
 
+#include "ext/keywords.hpp"
+#include "ext/optional.hpp"
 #include <ranges>
-#include <ext/keywords.hpp>
-#include <ext/optional.hpp>
 
-template <typename _Tx>
+template <typename _Tx, typename _Tx1>
 class ext::vector
         : public vector_internal<_Tx>
 {
@@ -28,6 +29,8 @@ public aliases:
 
     using iterator = typename vector_internal<_Tx>::iterator;
     using const_iterator = typename vector_internal<_Tx>::const_iterator;
+
+    using javascript_container_t = _Tx1;
 
 public constructors:
     using vector_internal<_Tx>::vector_internal;
