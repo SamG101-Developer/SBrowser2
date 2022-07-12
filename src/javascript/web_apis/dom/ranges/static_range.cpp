@@ -1,10 +1,10 @@
 #include "static_range.hpp"
 
-#include <ext/casting.hpp>
+#include "ext/casting.hpp"
 
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/document_type.hpp>
+#include "dom/detail/exception_internals.hpp"
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/document_type.hpp"
 
 
 dom::node_ranges::static_range::static_range(

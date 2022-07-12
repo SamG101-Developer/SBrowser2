@@ -2,10 +2,10 @@
 #ifndef SBROWSER2_NODE_HPP
 #define SBROWSER2_NODE_HPP
 
-#include <ext/map.hpp>
-#include <web_apis/dom/nodes/event_target.hpp>
+#include "dom/nodes/event_target.hpp"
 namespace dom::nodes {class node;}
 
+#include "ext/map.hpp"
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 namespace dom::nodes {class element;}

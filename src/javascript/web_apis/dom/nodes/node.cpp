@@ -3,37 +3,34 @@
 
 #include "node.hpp"
 
+#include "javascript/environment/realms_2.hpp"
+
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/mutation_internals.hpp"
+#include "dom/detail/shadow_internals.hpp"
+#include "dom/detail/text_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/character_data.hpp"
+#include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/document_type.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/node.hpp"
+#include "dom/nodes/text.hpp"
+#include "dom/ranges/range.hpp"
+
 #include <queue>
 #include <stack>
 
+#include <range/v3/to_container.hpp>
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/view/filter.hpp>
+#include <range/v3/view/remove.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/zip.hpp>
-#include <range/v3/to_container.hpp>
-
-#include <javascript/environment/realms_2.hpp>
-
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/node_internals.hpp>
-#include <web_apis/dom/detail/mutation_internals.hpp>
-#include <web_apis/dom/detail/shadow_internals.hpp>
-#include <web_apis/dom/detail/text_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
-
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/character_data.hpp>
-#include <web_apis/dom/nodes/document_fragment.hpp>
-#include <web_apis/dom/nodes/document_type.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/node.hpp>
-#include <web_apis/dom/nodes/text.hpp>
-
-#include <web_apis/dom/ranges/range.hpp>
-
-#include <range/v3/view/remove.hpp>
 
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QScrollArea>

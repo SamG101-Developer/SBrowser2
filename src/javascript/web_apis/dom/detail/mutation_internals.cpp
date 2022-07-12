@@ -1,22 +1,22 @@
 #include "mutation_internals.hpp"
 
-#include <ext/casting.hpp>
+#include "ext/casting.hpp"
 
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/shadow_internals.hpp>
-#include <web_apis/dom/detail/node_internals.hpp>
-#include <web_apis/dom/detail/observer_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/shadow_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/observer_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 
-#include <web_apis/dom/nodes/text.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/document_fragment.hpp>
-#include <web_apis/dom/nodes/document_type.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
+#include "dom/nodes/text.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/document_type.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/shadow_root.hpp"
 
-#include <web_apis/dom/ranges/range.hpp>
+#include "dom/ranges/range.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/find.hpp>

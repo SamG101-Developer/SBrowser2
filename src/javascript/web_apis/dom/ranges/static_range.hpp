@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_STATIC_RANGE_HPP
 #define SBROWSER2_STATIC_RANGE_HPP
 
-#include <web_apis/dom/ranges/abstract_range.hpp>
+#include "dom/ranges/abstract_range.hpp"
 namespace dom::node_ranges {class static_range;}
 
 #include <ext/map.hpp>

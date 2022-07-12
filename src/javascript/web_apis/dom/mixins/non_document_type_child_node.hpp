@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_NON_DOCUMENT_TYPE_CHILD_NODE_HPP
 #define SBROWSER2_NON_DOCUMENT_TYPE_CHILD_NODE_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::mixins {class non_document_type_child_node;}
 
 namespace dom::nodes {class element;}

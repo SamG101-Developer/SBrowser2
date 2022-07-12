@@ -2,16 +2,15 @@
 #ifndef SBROWSER2_EVENT_TARGET_HPP
 #define SBROWSER2_EVENT_TARGET_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::nodes {class event_target;}
 
+#include "ext/boolean.hpp"
+#include "ext/keywords.hpp"
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
 #include <functional>
-#include <ext/boolean.hpp>
-#include <ext/keywords.hpp>
-#include <ext/map.hpp>
-#include <ext/string.hpp>
-#include <ext/vector.hpp>
-
 namespace dom::events {class event;}
 
 

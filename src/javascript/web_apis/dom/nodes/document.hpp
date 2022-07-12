@@ -1,21 +1,20 @@
 #ifndef SBROWSER2_DOCUMENT_HPP
 #define SBROWSER2_DOCUMENT_HPP
 
-#include "range/v3/view/any_view.hpp"
-#include <web_apis/dom/nodes/node.hpp>
-#include <web_apis/dom/mixins/document_or_element_node.hpp>
-#include <web_apis/dom/mixins/document_or_shadow_root.hpp>
-#include <web_apis/dom/mixins/non_element_parent_node.hpp>
-#include <web_apis/dom/mixins/parentable_node.hpp>
-#include <web_apis/dom/xpath/xpath_evaluator_base.hpp>
-#include <ext/map_like.hpp>
+#include "dom/nodes/node.hpp"
+#include "dom/mixins/document_or_element_node.hpp"
+#include "dom/mixins/document_or_shadow_root.hpp"
+#include "dom/mixins/non_element_parent_node.hpp"
+#include "dom/mixins/parentable_node.hpp"
+#include "dom/xpath/xpath_evaluator_base.hpp"
+#include "ext/map_like.hpp"
 namespace dom::nodes {class document;}
 
-#include <ext/concepts.hpp>
-#include <ext/map.hpp>
-#include <ext/set.hpp>
-#include <url/url.hpp>
-#include <ext/vector.hpp>
+#include "ext/concepts.hpp"
+#include "ext/map.hpp"
+#include "ext/set.hpp"
+#include "url/url.hpp"
+#include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
@@ -32,7 +31,7 @@ namespace dom::node_iterators {class node_iterator;}
 namespace dom::node_iterators {class tree_walker;}
 namespace dom::other {class dom_implementation;}
 
-namespace html::detail::policy_internals {struct cross_origin_opener_policy_value;}
+namespace html::detail::policy_internals {struct cross_origin_opener_policy_value_t;}
 namespace html::detail::policy_internals {struct policy_container;}
 namespace html::detail::context_internals {struct browsing_context;}
 namespace html::detail::document_internals {struct document_load_timing_info;}
@@ -165,7 +164,7 @@ private cpp_properties:
 
     /* HTML */
     std::unique_ptr<html::detail::policy_internals::policy_container> m_policy_container;
-    std::unique_ptr<html::detail::policy_internals::cross_origin_opener_policy_value> m_cross_origin_opener_policy;
+    std::unique_ptr<html::detail::policy_internals::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
     std::unique_ptr<permissions_policy::permissions_policy> m_permissions_policy;
     module_map m_module_map;
     ext::boolean m_is_initial = false;

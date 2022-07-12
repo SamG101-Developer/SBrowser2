@@ -1,17 +1,18 @@
 #include "element.hpp"
 
+#include "ext/ranges.hpp"
+
+#include "dom/detail/attribute_internals.hpp"
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/namespace_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/shadow_internals.hpp"
+
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/shadow_root.hpp"
+
 #include <memory>
-#include <ext/ranges.hpp>
-
-#include <web_apis/dom/detail/attribute_internals.hpp>
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/namespace_internals.hpp>
-#include <web_apis/dom/detail/node_internals.hpp>
-#include <web_apis/dom/detail/shadow_internals.hpp>
-
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
 
 #include <QtCore/QPointer>
 #include <QtWidgets/QWidget>
@@ -336,13 +337,15 @@ auto dom::nodes::element::attach_shadow(
         ext::string_any_map_view options)
         -> shadow_root*
 {
-    ext::string_vector shadow_attachable_local_names {"article", "aside", "blockquote", "body", "div", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "main", "nav", "p", "section", "span"};
+    using namespace detail::namespace_internals;
+
+    ext::string shadow_attachable_local_names[] {"article", "aside", "blockquote", "body", "div", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "main", "nav", "p", "section", "span"};
     auto valid_custom = detail::customization_internals::is_valid_custom_element_name(local_name());
     auto valid_local  = ranges::contains(shadow_attachable_local_names, local_name());
     auto definition = detail::customization_internals::lookup_custom_element_definition(owner_document(), namespace_uri(), local_name(), m_is);
 
     detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [this] {return namespace_uri() != detail::namespace_internals::HTML;});
+            [this] {return namespace_uri() != HTML;});
 
     detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [valid_local, valid_custom] {return !(valid_local || valid_custom);});
