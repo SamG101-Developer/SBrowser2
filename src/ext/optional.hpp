@@ -4,8 +4,8 @@
 
 namespace ext {template <typename _Base> class optional;}
 
+#include "ext/keywords.hpp"
 #include <optional>
-#include <ext/keywords.hpp>
 
 namespace ext {class any;}
 namespace ext {auto null = std::nullopt;}
@@ -37,12 +37,12 @@ public cpp_methods:
     constexpr auto value() const;
     constexpr auto value_or(auto&& _Other) const;
     constexpr auto not_value_or(auto&& _Other) const;
-    template <typename _Tx1> constexpr auto value_to_or(auto&& _Other) const -> _Tx1 requires (type_is<_Tx, ext::any>);
+    template <typename _Tx1> constexpr auto value_to_or(_Tx1&& _Other) const -> _Tx1 requires (type_is<_Tx, ext::any>);
 
-    auto has_value_and_equals(auto&& _Other) {return has_value() && value() == _Other;}
-    auto has_value_and_not_equals(auto&& _Other) {return has_value() && value() != _Other;}
-    auto empty_or_equals(auto&& _Other) {return empty() || value() == _Other;}
-    auto empty_or_not_equals(auto&& _Other) {return empty() || value() != _Other;}
+    auto has_value_and_equals(auto&& _Other) const -> ext::boolean {return has_value() && value() == _Other;}
+    auto has_value_and_not_equals(auto&& _Other) const -> ext::boolean {return has_value() && value() != _Other;}
+    auto empty_or_equals(auto&& _Other) const -> ext::boolean {return empty() || value() == _Other;}
+    auto empty_or_not_equals(auto&& _Other) const -> ext::boolean {return empty() || value() != _Other;}
     
 public cpp_operators:
     auto operator->() const -> auto {return value();}
@@ -75,9 +75,9 @@ constexpr auto ext::optional<_Ty>::not_value_or(auto&& _Other) const
 
 template <typename _Ty>
 template <typename _Ty1>
-constexpr auto ext::optional<_Ty>::value_to_or(auto&& _Other) const -> _Ty1 requires (type_is<_Ty, ext::any>)
+constexpr auto ext::optional<_Ty>::value_to_or(_Ty1&& _Other) const -> _Ty1 requires (type_is<_Ty, ext::any>)
 {
-    return not empty() ? std::forward<_Ty1>(_Other) : value().template to<_Ty1>();
+    return empty() ? std::forward<_Ty1>(_Other) : value().template to<_Ty1>();
 }
 
 
