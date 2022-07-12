@@ -6,7 +6,7 @@ dom::events::custom_event::custom_event(
         ext::string_any_map_view event_init)
 
         : event(event_type, event_init)
-        , detail(event_init.at("detail").value_or(ext::string{}))
+        , detail(event_init.at("detail").value_to_or<ext::string>(""))
 {
     // create a custom event
 }
