@@ -1,7 +1,7 @@
 #include "text.hpp"
 
-#include <web_apis/dom/detail/text_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
+#include "dom/detail/text_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 
 #include <range/v3/view/transform.hpp>
 #include <range/v3/to_container.hpp>

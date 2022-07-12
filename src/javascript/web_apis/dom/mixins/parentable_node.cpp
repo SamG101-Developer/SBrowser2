@@ -1,12 +1,12 @@
 #include "parentable_node.hpp"
 
-#include <ext/casting.hpp>
-#include <ext/ranges.hpp>
+#include "ext/casting.hpp"
+#include "ext/ranges.hpp"
 
-#include <web_apis/dom/nodes/window.hpp>
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/node_internals.hpp>
-#include <web_apis/dom/detail/mutation_internals.hpp>
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/mutation_internals.hpp"
+#include "dom/nodes/window.hpp"
 
 #include <range/v3/view/remove.hpp>
 
@@ -21,7 +21,7 @@ dom::mixins::parentable_node::parentable_node()
 
 
 auto dom::mixins::parentable_node::prepend(
-        type_in<nodes::node*, ext::string> auto&&... nodes)
+        type_is<nodes::node*, ext::string> auto&&... nodes)
         -> nodes::node*
 {
     // parse the 'nodes' parameter, and pre insert the derived 'node' into this's child nodes, before the first node in
@@ -36,7 +36,7 @@ auto dom::mixins::parentable_node::prepend(
 
 
 auto dom::mixins::parentable_node::append(
-        type_in<nodes::node*, ext::string> auto&&... nodes)
+        type_is<nodes::node*, ext::string> auto&&... nodes)
         -> nodes::node*
 {
     // parse the 'nodes' parameter, and append the derived 'node' into this's child nodes, after the first node in the
@@ -51,7 +51,7 @@ auto dom::mixins::parentable_node::append(
 
 
 auto dom::mixins::parentable_node::replace_children(
-        type_in<nodes::node*, ext::string> auto&&... nodes)
+        type_is<nodes::node*, ext::string> auto&&... nodes)
         -> nodes::node*
 {
     // parse the 'nodes' parameter, and replace the derived 'node' from this's child nodes, after ensuring pre insertion

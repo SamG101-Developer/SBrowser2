@@ -1,16 +1,17 @@
 #include "observer_internals.hpp"
 
-#include <ext/ranges.hpp>
-#include <javascript/environment/realms_2.hpp>
+#include "ext/optional.hpp"
+#include "ext/ranges.hpp"
+#include "javascript/environment/realms_2.hpp"
 
-#include <web_apis/dom/detail/event_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
-#include <web_apis/dom/mutations/mutation_observer.hpp>
-#include <web_apis/dom/mutations/mutation_record.hpp>
-#include <web_apis/dom/nodes/document.hpp>
+#include "dom/detail/event_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
+#include "dom/mutations/mutation_observer.hpp"
+#include "dom/mutations/mutation_record.hpp"
+#include "dom/nodes/document.hpp"
 
 #include <magic_enum.hpp>
-#include <range/v3/view/remove_if.hpp>
+#include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/map.hpp>
 
 namespace html::elements {class html_slot_element;}
@@ -45,8 +46,8 @@ auto dom::detail::observer_internals::notify_mutation_observers() -> void
         // TODO : why?
         for (nodes::node* node: *mo->m_node_list)
             *node->m_registered_observer_list
-                    |= ranges::views::cast_all_to<transient_registered_observer>()
-                    | ranges::views::remove_if([mo](transient_registered_observer* observer) {return observer->observer.get() == mo;});
+                    |= ranges::actions::cast_all_to<transient_registered_observer>()
+                    | ranges::actions::remove_if([mo](transient_registered_observer* observer) {return observer->observer.get() == mo;});
 
         // if there are any MutationRecords from the JavaScript environment, call 'mo''s callback with the list of
         // records, reporting any exceptions that are caught during the process
@@ -62,7 +63,7 @@ auto dom::detail::observer_internals::notify_mutation_observers() -> void
 
     // fire a "slotchange" event at every slot in the JavaScript environment list TODO : why
     for (html::elements::html_slot_element* slot: signal_set)
-        event_internals::fire_event<>(slot, "slotchange", {"bubbles", true});
+        event_internals::fire_event(slot, "slotchange", {{"bubbles", true}});
 }
 
 

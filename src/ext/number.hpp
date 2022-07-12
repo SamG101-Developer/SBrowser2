@@ -2,13 +2,15 @@
 #ifndef SBROWSER2_NUMBER_HPP
 #define SBROWSER2_NUMBER_HPP
 
-#include <ext/type_traits.hpp>
+#include "type_traits.hpp"
+#include "string.hpp"
 namespace ext {template <primitive_numeric _Tx> class number;}
 namespace ext {template <primitive_numeric _Vt> using number_view = const number<_Vt>&;}
 namespace ext {template <bool _InclusiveLo = false, bool _InclusiveHi = false> auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> ext::boolean;}
 namespace ext {template <typename T, typename U, typename ...V> auto min(T&& first, U&& second, V&&... values);}
 namespace ext {template <typename T, typename U, typename ...V> auto max(T&& first, U&& second, V&&... values);}
 namespace ext {template <typename T, typename U> auto round(T&& _Val, U&& _Mult);}
+namespace ext {auto is_numeric_string(string_view _Str) -> ext::boolean;}
 
 #include <algorithm>
 #include <limits>
@@ -17,8 +19,8 @@ namespace ext {template <typename T, typename U> auto round(T&& _Val, U&& _Mult)
 #include <type_traits>
 #include <utility>
 
-#include <ext/keywords.hpp>
-#include <ext/detail/infinity.hpp>
+#include "ext/keywords.hpp"
+#include "ext/detail/infinity.hpp"
 
 
 template <primitive_numeric _Tx>
@@ -163,6 +165,13 @@ template <typename T, typename U>
 auto ext::round(T&& _Val, U&& _Mult)
 {
     return std::round(std::move(_Val / _Mult)) * std::forward<U>(_Mult);
+}
+
+
+auto ext::is_numeric_string(ext::string_view _Str) -> ext::boolean
+{
+    try {auto _Num = std::stod(_Str); return true;}
+    catch_specific (std::invalid_argument) {return false;}
 }
 
 

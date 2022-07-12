@@ -1,9 +1,10 @@
 #ifndef SBROWSER2_7_2_TESTING_AND_COMPARISON_OPERATIONS_HPP
 #define SBROWSER2_7_2_TESTING_AND_COMPARISON_OPERATIONS_HPP
 
+#include "ext/boolean.hpp"
+#include "javascript/interop/annotations.hpp"
+
 #include <cassert>
-#include <ext/boolean.hpp>
-#include <javascript/interop/annotations.hpp>
 
 #include <v8-callbacks.h>
 #include <v8-exception.h>

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_NODE_FILTER_HPP
 #define SBROWSER2_NODE_FILTER_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::node_iterators {class node_filter;}
 
 

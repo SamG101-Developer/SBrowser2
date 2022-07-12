@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_DOM_EXCEPTION_HPP
 #define SBROWSER2_DOM_EXCEPTION_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::other {class dom_exception;}
 
-#include <ext/string.hpp>
+#include "ext/string.hpp"
 enum v8_custom_error_t;
 
 

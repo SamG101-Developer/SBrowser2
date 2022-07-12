@@ -1,7 +1,7 @@
 #include "comment.hpp"
 
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/window.hpp>
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/window.hpp"
 
 
 dom::nodes::comment::comment()

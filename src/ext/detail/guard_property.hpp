@@ -3,7 +3,7 @@
 
 namespace ext::detail {template <typename _Tx> struct guard_property;}
 
-#include <ext/detail/meta_property.hpp>
+#include "ext/detail/meta_property.hpp"
 
 
 #define property_guard(p) ext::detail::guard_property _PropertyGuard{p}

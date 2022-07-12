@@ -1,6 +1,6 @@
 #include "dom_exception.hpp"
 
-#include <web_apis/dom/detail/exception_internals.hpp>
+#include "dom/detail/exception_internals.hpp"
 
 
 dom::other::dom_exception::dom_exception(

@@ -1,9 +1,9 @@
 #include "abort_signal.hpp"
 
-#include <javascript/environment/realms_2.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/observer_internals.hpp>
-#include <web_apis/dom/other/dom_exception.hpp>
+#include "javascript/environment/realms_2.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/observer_internals.hpp"
+#include "dom/other/dom_exception.hpp"
 
 
 dom::abort::abort_signal::abort_signal()

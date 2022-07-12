@@ -2,10 +2,10 @@
 #ifndef SBROWSER2_NODE_ITERATOR_HPP
 #define SBROWSER2_NODE_ITERATOR_HPP
 
-#include <web_apis/dom/iterators/abstract_iterator.hpp>
+#include "dom/iterators/abstract_iterator.hpp"
 namespace dom::node_iterators {class node_iterator;}
 
-#include <ext/vector.hpp>
+#include "ext/vector.hpp"
 namespace dom::nodes {class node;}
 
 

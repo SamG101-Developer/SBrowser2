@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_OBSERVER_INTERNALS_HPP
 #define SBROWSER2_OBSERVER_INTERNALS_HPP
 
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
 #include <memory>
-#include <ext/map.hpp>
-#include <ext/string.hpp>
-#include <ext/vector.hpp>
 #include <v8-platform.h>
 namespace dom::mutations {class mutation_observer;}
 namespace dom::nodes {class node;}
@@ -15,21 +15,10 @@ namespace html::elements {class html_element; class html_media_element;}
 namespace dom::detail::observer_internals
 {
     using steps_t = std::function<void()>;
-
     enum mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
 
-    struct registered_observer
-    {
-        std::unique_ptr<mutations::mutation_observer> observer;
-        ext::string_any_map options;
-        virtual ~registered_observer() = default;
-    };
-
-
-    struct transient_registered_observer : public registered_observer
-    {
-        std::unique_ptr<registered_observer> source;
-    };
+    struct registered_observer;
+    struct transient_registered_observer;
 
     // notifications
     auto notify_mutation_observers()
@@ -89,5 +78,19 @@ namespace dom::detail::observer_internals
             steps_t&& steps)
             -> void;
 }
+
+
+struct dom::detail::observer_internals::registered_observer
+{
+    std::unique_ptr<mutations::mutation_observer> observer;
+    ext::string_any_map options;
+    virtual ~registered_observer() = default;
+};
+
+
+struct dom::detail::observer_internals::transient_registered_observer : public registered_observer
+{
+    std::unique_ptr<registered_observer> source;
+};
 
 #endif //SBROWSER2_OBSERVER_INTERNALS_HPP

@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_CHARACTER_DATA_HPP
 #define SBROWSER2_CHARACTER_DATA_HPP
 
-#include <web_apis/dom/nodes/node.hpp>
-#include <web_apis/dom/mixins/child_node.hpp>
-#include <web_apis/dom/mixins/non_document_type_child_node.hpp>
+#include "dom/nodes/node.hpp"
+#include "dom/mixins/child_node.hpp"
+#include "dom/mixins/non_document_type_child_node.hpp"
 namespace dom::nodes {class character_data;}
 
 #include <QtWidgets/QLabel>

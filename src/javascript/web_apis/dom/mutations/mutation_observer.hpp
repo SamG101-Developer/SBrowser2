@@ -1,11 +1,11 @@
 #ifndef SBROWSER2_MUTATION_OBSERVER_HPP
 #define SBROWSER2_MUTATION_OBSERVER_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::mutations {class mutation_observer;}
 
-#include <ext/map.hpp>
-#include <ext/vector.hpp>
+#include "ext/map.hpp"
+#include "ext/vector.hpp"
 namespace dom::mutations {class mutation_record;}
 
 

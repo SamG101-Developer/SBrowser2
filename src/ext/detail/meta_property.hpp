@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_META_PROPERTY_HPP
 #define SBROWSER2_META_PROPERTY_HPP
 
-#include <ext/set.hpp>
+#include "ext/set.hpp"
 
 #define bind_get(p) p._Meta._Getter  = [this] {return get_##p();}
 #define bind_set(p) p._Meta._Setter  = [this](auto&& _Any) {set_##p(std::forward<decltype(_Any)>(_Any)); return _Any;}
@@ -29,11 +29,11 @@ namespace ext {template <typename _Tx, bool ce_reactions = false> class property
 #include <functional>
 #include <tuple>
 
-#include <ext/boolean.hpp>
-#include <ext/keywords.hpp>
-#include <ext/number.hpp>
-#include <ext/set.hpp>
-#include <ext/type_traits.hpp>
+#include "ext/boolean.hpp"
+#include "ext/keywords.hpp"
+#include "ext/number.hpp"
+#include "ext/set.hpp"
+#include "ext/type_traits.hpp"
 
 
 template <typename _Tx, bool ce_reactions>

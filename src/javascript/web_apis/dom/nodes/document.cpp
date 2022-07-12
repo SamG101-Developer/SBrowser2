@@ -1,53 +1,46 @@
 #include "document.hpp"
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
-#include "range/v3/view/filter.hpp"
-#include "svg/elements/svg_element.hpp"
-#include "v8pp/class.hpp"
+
+#include "ext/casting.hpp"
+#include "ext/ranges.hpp"
+#include "javascript/environment/realms_2.hpp"
+
+#include "dom/detail/event_internals.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/namespace_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/cdata_section.hpp"
+#include "dom/nodes/comment.hpp"
+#include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/processing_instruction.hpp"
+#include "dom/nodes/shadow_root.hpp"
+#include "dom/other/dom_implementation.hpp"
+#include "dom/ranges/range.hpp"
+
+#include "html/detail/document_internals.hpp"
+#include "html/elements/html_body_element.hpp"
+#include "html/elements/html_head_element.hpp"
+#include "html/elements/html_html_element.hpp"
+#include "html/elements/html_script_element.hpp"
+#include "html/elements/html_title_element.hpp"
+
+#include "high_resolution_time/detail/time_internals.hpp"
+#include "infra/detail/infra_strings_internals.hpp"
+#include "svg/elements/svg_title_element.hpp"
+#include "url/url.hpp"
 
 #include <ctime>
-#include <sstream>
-#include <ext/casting.hpp>
-#include <ext/ranges.hpp>
-
 #include <iomanip>
-#include <javascript/environment/realms_2.hpp>
-
+#include <sstream>
 #include <variant>
-#include <web_apis/dom/detail/event_internals.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/namespace_internals.hpp>
-#include <web_apis/dom/detail/node_internals.hpp>
-
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/cdata_section.hpp>
-#include <web_apis/dom/nodes/comment.hpp>
-#include <web_apis/dom/nodes/document_fragment.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/processing_instruction.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
-
-#include <web_apis/dom/other/dom_implementation.hpp>
-#include <web_apis/dom/ranges/range.hpp>
-
-#include <web_apis/high_resolution_time/detail/time_internals.hpp>
-
-#include <web_apis/html/detail/document_internals.hpp>
-#include <web_apis/html/elements/html_body_element.hpp>
-#include <web_apis/html/elements/html_head_element.hpp>
-#include <web_apis/html/elements/html_html_element.hpp>
-#include <web_apis/html/elements/html_script_element.hpp>
-#include <web_apis/html/elements/html_title_element.hpp>
-
-#include <web_apis/infra/detail/infra_strings_internals.hpp>
-
-#include <web_apis/svg/elements/svg_title_element.hpp>
-
-#include <web_apis/url/url.hpp>
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
+#include <range/v3/view/filter.hpp>
 
 #include <QtCore/QPointer>
 #include <QtWidgets/QVBoxLayout>

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_PROCESSING_INSTRUCTION_HPP
 #define SBROWSER2_PROCESSING_INSTRUCTION_HPP
 
-#include <web_apis/dom/nodes/character_data.hpp>
+#include "dom/nodes/character_data.hpp"
 namespace dom::nodes {class processing_instruction;}
 
 

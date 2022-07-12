@@ -1,6 +1,6 @@
 #include "attr.hpp"
 
-#include <web_apis/dom/detail/attribute_internals.hpp>
+#include "dom/detail/attribute_internals.hpp"
 
 
 dom::nodes::attr::attr()

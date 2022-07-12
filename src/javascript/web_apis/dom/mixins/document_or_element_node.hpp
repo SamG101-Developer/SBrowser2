@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_DOCUMENT_OR_ELEMENT_NODE_HPP
 #define SBROWSER2_DOCUMENT_OR_ELEMENT_NODE_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::mixins {class document_or_element_node;}
 
-#include <ext/vector.hpp>
+#include "ext/vector.hpp"
 #include <range/v3/view/ref.hpp>
 namespace dom::nodes {class element;}
 

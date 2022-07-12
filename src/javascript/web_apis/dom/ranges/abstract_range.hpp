@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_ABSTRACT_RANGE_HPP
 #define SBROWSER2_ABSTRACT_RANGE_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::node_ranges {class abstract_range;}
 
 namespace dom::nodes {class node;}
@@ -11,7 +11,7 @@ class dom::node_ranges::abstract_range
         : public virtual web_apis::dom_object
 {
 public constructors:
-    abstract_range();
+    abstract_range() = default;
 
 public js_properties:
     ext::property<ext::boolean> collapsed;

@@ -1,7 +1,7 @@
 #include "character_data.hpp"
 
-#include <web_apis/dom/detail/text_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
+#include "dom/detail/text_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 
 
 dom::nodes::character_data::character_data()

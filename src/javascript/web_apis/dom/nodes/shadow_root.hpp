@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SHADOW_ROOT_HPP
 #define SBROWSER2_SHADOW_ROOT_HPP
 
-#include <web_apis/dom/nodes/document_fragment.hpp>
-#include <web_apis/dom/mixins/document_or_shadow_root.hpp>
+#include "dom/nodes/document_fragment.hpp"
+#include "dom/mixins/document_or_shadow_root.hpp"
 namespace dom::nodes {class shadow_root;}
 
 namespace dom::nodes {class element;}

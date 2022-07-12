@@ -1,9 +1,9 @@
 #include "shadow_internals.hpp"
 
-#include <web_apis/dom/detail/tree_internals.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
+#include "dom/detail/tree_internals.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/shadow_root.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 

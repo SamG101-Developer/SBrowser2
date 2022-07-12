@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_ABORT_CONTROLLER_HPP
 #define SBROWSER2_ABORT_CONTROLLER_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::abort {class abort_controller;}
 
 namespace dom::abort {class abort_signal;}

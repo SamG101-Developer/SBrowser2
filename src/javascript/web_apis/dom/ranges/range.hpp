@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_RANGE_HPP
 #define SBROWSER2_RANGE_HPP
 
-#include <web_apis/dom/ranges/abstract_range.hpp>
+#include "dom/ranges/abstract_range.hpp"
 namespace dom::node_ranges {class range;}
 
 namespace dom::nodes {class document_fragment;}
@@ -57,7 +57,7 @@ private cpp_properties:
     nodes::node* m_root;
 
 private cpp_accessors:
-    auto get_common_ancestor_container() const -> nodes::node*;
+    [[nodiscard]] auto get_common_ancestor_container() const -> nodes::node*;
 };
 
 

@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_ASSERT_HPP
 #define SBROWSER2_ASSERT_HPP
 
+#include "ext/boolean.hpp"
 #include <cassert>
-#include <ext/boolean.hpp>
 namespace ext {auto assert_true (bool statement) -> void;}
 namespace ext {auto assert_false(bool statement) -> void;}
 

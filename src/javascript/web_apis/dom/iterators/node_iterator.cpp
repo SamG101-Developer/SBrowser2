@@ -1,10 +1,10 @@
 #include "node_iterator.hpp"
 
-#include <web_apis/dom/detail/traversal_internals.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/other/dom_implementation.hpp>
-#include <web_apis/url/url.hpp>
+#include "dom/detail/traversal_internals.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/other/dom_implementation.hpp"
+#include "url/url.hpp"
 
 
 dom::node_iterators::node_iterator::node_iterator()

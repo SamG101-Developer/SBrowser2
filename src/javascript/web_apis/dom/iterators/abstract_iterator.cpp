@@ -1,9 +1,10 @@
 #include "abstract_iterator.hpp"
 
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/other/dom_implementation.hpp>
-#include <web_apis/url/url.hpp>
+#include "dom/iterators/node_filter.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/other/dom_implementation.hpp"
+#include "url/url.hpp"
 
 
 dom::node_iterators::abstract_iterator::abstract_iterator()

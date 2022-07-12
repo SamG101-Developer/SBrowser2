@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_XPATH_NS_RESOLVER_HPP
 #define SBROWSER2_XPATH_NS_RESOLVER_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::xpath {class xpath_ns_resolver;}
 
 

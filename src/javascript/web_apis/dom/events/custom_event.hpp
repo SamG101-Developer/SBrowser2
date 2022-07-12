@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CUSTOM_EVENT_HPP
 #define SBROWSER2_CUSTOM_EVENT_HPP
 
-#include <web_apis/dom/events/event.hpp>
+#include "dom/events/event.hpp"
 namespace dom::events {class custom_event;}
 
 
@@ -9,7 +9,7 @@ class dom::events::custom_event final
         : public event
 {
 public constructors:
-    custom_event();
+    custom_event() = default;
     custom_event(ext::string_view event_type, ext::string_any_map_view event_init = {});
 
 public js_properties:

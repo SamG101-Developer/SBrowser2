@@ -7,8 +7,8 @@
 namespace     {template <typename _Vt1, typename _Vt2> using map_internal = std::map<_Vt1, _Vt2>;}
 namespace ext {template <typename _Vt1, typename _Vt2> class map;}
 
-#include <ext/keywords.hpp>
-#include <ext/optional.hpp>
+#include "ext/keywords.hpp"
+#include "ext/optional.hpp"
 
 namespace ext {class any;}
 namespace ext {class string;}
@@ -42,7 +42,7 @@ public cpp_methods:
     {
         if (this->contains(std::forward<_Tx1>(_Key)))
             return optional<const _Tx2>{map_internal<_Tx1, _Tx2>::at(std::forward<_Tx1>(_Key))};
-        return optional<_Tx2>{null};
+        return optional<const _Tx2>{null};
     }
 };
 

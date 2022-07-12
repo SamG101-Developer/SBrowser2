@@ -3,16 +3,16 @@
 #define SBROWSER2_CONVERT_VECTOR_HPP
 
 
-#include <ext/vector.hpp>
+#include "ext/vector.hpp"
 #include <v8-container.h>
 #include <v8pp/convert.hpp>
 
 
-template <typename _Tx>
+template <typename T>
 struct v8pp::convert<ext::vector<T>>
 {
     using from_type = ext::vector<T>;
-    using to_type = v8::Local<v8::Array>;
+    using to_type = v8::Local<v8::Object>;
 
     auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() && v8_value->IsArray();}
     auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
@@ -20,10 +20,10 @@ struct v8pp::convert<ext::vector<T>>
 };
 
 
-template <typename _Tx>
+template <typename T>
 inline auto v8pp::convert<ext::vector<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector<_Tx> from v8"};
+    if (!is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector<T> from v8"};
     v8::HandleScope javascript_scope{isolate};
 
     // save the current context
@@ -47,14 +47,14 @@ inline auto v8pp::convert<ext::vector<T>>::from_v8(v8::Isolate* isolate, v8::Loc
 }
 
 
-template <typename _Tx>
+template <typename T>
 inline auto v8pp::convert<ext::vector<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 
     // save the current context
     auto v8_context      = isolate->GetCurrentContext();
-    auto v8_value_vector = v8::Array::New(isolate);
+    auto v8_value_vector = from_type::javascript_container_t::New(isolate);
 
     // iterate through the values in the cpp vector
     for (auto cpp_value_vector_index = 0; cpp_value_vector_index < cpp_value_vector.size(); ++cpp_value_vector_index)
@@ -69,7 +69,7 @@ inline auto v8pp::convert<ext::vector<T>>::to_v8(v8::Isolate* isolate, const fro
 }
 
 
-template <typename _Tx>
+template <typename T>
 struct v8pp::is_wrapped_class<ext::vector<T>> : std::false_type{};
 
 #endif //SBROWSER2_CONVERT_VECTOR_HPP

@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_TEXT_HPP
 #define SBROWSER2_TEXT_HPP
 
-#include <web_apis/dom/nodes/character_data.hpp>
-#include <web_apis/dom/mixins/slottable.hpp>
+#include "dom/nodes/character_data.hpp"
+#include "dom/mixins/slottable.hpp"
 namespace dom::nodes {class text;}
 
 

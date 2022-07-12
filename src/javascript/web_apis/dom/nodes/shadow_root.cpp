@@ -1,9 +1,9 @@
 #include "shadow_root.hpp"
 
-#include <web_apis/dom/events/event.hpp>
-#include <web_apis/dom/detail/event_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
-#include <web_apis/dom/nodes/element.hpp>
+#include "dom/events/event.hpp"
+#include "dom/detail/event_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
+#include "dom/nodes/element.hpp"
 
 
 dom::nodes::shadow_root::shadow_root()

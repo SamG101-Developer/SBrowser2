@@ -1,7 +1,8 @@
 #include "slottable.hpp"
 
-#include <ext/casting.hpp>
-#include <web_apis/dom/detail/shadow_internals.hpp>
+#include "ext/casting.hpp"
+#include "dom/nodes/node.hpp"
+#include "dom/detail/shadow_internals.hpp"
 
 
 dom::mixins::slottable::slottable()
@@ -15,7 +16,7 @@ auto dom::mixins::slottable::get_assigned_slot()
 {
 
     // find a slot for the 'base' cast version of this class
-    auto* base = ext::cross_cast<nodes::node*>(this);
+    auto* base = ext::cross_cast<const nodes::node*>(this);
     auto* slot = detail::shadow_internals::find_slot(base, true);
     return slot;
 }

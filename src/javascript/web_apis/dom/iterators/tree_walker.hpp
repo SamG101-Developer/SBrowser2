@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_TREE_WALKER_HPP
 #define SBROWSER2_TREE_WALKER_HPP
 
-#include <web_apis/dom/iterators/abstract_iterator.hpp>
+#include "dom/iterators/abstract_iterator.hpp"
 namespace dom::node_iterators {class tree_walker;}
 
 

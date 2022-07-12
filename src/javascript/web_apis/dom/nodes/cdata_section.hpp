@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CDATA_SECTION_HPP
 #define SBROWSER2_CDATA_SECTION_HPP
 
-#include <web_apis/dom/nodes/text.hpp>
+#include "dom/nodes/text.hpp"
 namespace dom::nodes {class cdata_section;}
 
 

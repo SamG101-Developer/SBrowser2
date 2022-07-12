@@ -1,9 +1,8 @@
 #ifndef SBROWSER2_NAMESPACE_INTERNALS_HPP
 #define SBROWSER2_NAMESPACE_INTERNALS_HPP
 
-#include <ext/boolean.hpp>
-#include <ext/string.hpp>
-
+#include "ext/boolean.hpp"
+#include "ext/string.hpp"
 
 namespace dom::detail::namespace_internals
 {

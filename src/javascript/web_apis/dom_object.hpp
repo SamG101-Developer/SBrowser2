@@ -1,12 +1,12 @@
 #ifndef SBROWSER2_DOM_OBJECT_HPP
 #define SBROWSER2_DOM_OBJECT_HPP
 
+#include "ext/any.hpp"
+#include "ext/custom_operator.hpp"
+#include "ext/keywords.hpp"
+#include "ext/property.hpp"
+#include "ext/string.hpp"
 #include <memory>
-#include <ext/any.hpp>
-#include <ext/custom_operator.hpp>
-#include <ext/keywords.hpp>
-#include <ext/property.hpp>
-#include <ext/string.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 namespace web_apis {class dom_object;}

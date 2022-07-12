@@ -1,16 +1,18 @@
 #include "customization_internals.hpp"
 
-#include <javascript/interop/annotations.hpp>
-#include <javascript/ecma/7_absract_operations/7_2_testing_and_comparison_operations.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/namespace_internals.hpp>
-#include <web_apis/dom/detail/shadow_internals.hpp>
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/other/dom_implementation.hpp>
+#include "javascript/interop/annotations.hpp"
+#include "javascript/ecma/7_absract_operations/7_2_testing_and_comparison_operations.hpp"
 
-#include <web_apis/html/elements/html_unknown_element.hpp>
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/namespace_internals.hpp"
+#include "dom/detail/shadow_internals.hpp"
+
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/other/dom_implementation.hpp"
+
+#include "html/elements/html_unknown_element.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 
@@ -53,7 +55,7 @@ auto dom::detail::customization_internals::create_an_element(
     auto* definition = lookup_custom_element_definition(document, namespace_, local_name, is);
 
     // case for when there is a valid definition for the parameters, and the definition's name is the same as the
-    // definitions's local name (JavaScript: ... extends ...)
+    // definition's local name (JavaScript: ... extends ...)
     if (definition && definition->name == definition->local_name)
     {
         // try to upgrade the element to the correct interface stored in the definition (ie a HTMLElement is created in
@@ -116,14 +118,14 @@ auto dom::detail::customization_internals::create_an_element(
             assert(result->namespace_uri() == namespace_internals::HTML);
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [&result] {return not result->attributes->empty();},
+                    [&result] {return !result->attributes->empty();},
                     "A custom element must have an empty 'attributes' list while being created",
                     {"The 'attribute' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects' attributes"},
                     P("Element being created", result));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [&result] {return not result->child_nodes->empty();},
+                    [&result] {return !result->child_nodes->empty();},
                     "A custom element must have an empty 'child_nodes' list while being created",
                     {"The 'child_nodes' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects; child nodes"},

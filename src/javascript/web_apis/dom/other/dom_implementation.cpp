@@ -1,12 +1,12 @@
 #include "dom_implementation.hpp"
 
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/mutation_internals.hpp>
-#include <web_apis/dom/detail/namespace_internals.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/document_type.hpp>
-#include <web_apis/dom/nodes/xml_document.hpp>
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/mutation_internals.hpp"
+#include "dom/detail/namespace_internals.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/document_type.hpp"
+#include "dom/nodes/text.hpp"
+#include "dom/nodes/xml_document.hpp"
 
 
 auto dom::other::dom_implementation::create_document_type(
@@ -35,12 +35,12 @@ auto dom::other::dom_implementation::create_document(
         const -> nodes::xml_document
 {
     // create the document instance
-    nodes::xml_document document;
+    nodes::xml_document document {};
 
     // append a document element (Element) if a qualified name was presented; create an element with 'namespace_' and
     // 'qualified_name'
     if (!qualified_name.empty())
-        detail::mutation_internals::append(&document.create_element_ns(namespace_, qualified_name), &document);
+        detail::mutation_internals::append(new nodes::element{}, &document); // &document.create_element_ns(namespace_, qualified_name)
 
     // append the 'document_type' (DocumentType) if it isn't nullptr to the document after the Element (conforms to
     // mutation algorithm constrains - Document can have an Element and DocumentType child)

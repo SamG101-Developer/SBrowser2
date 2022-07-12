@@ -2,14 +2,14 @@
 #ifndef SBROWSER2_KEYWORDS_HPP
 #define SBROWSER2_KEYWORDS_HPP
 
-#include <ext/detail/hash.hpp>
+#include "ext/detail/hash.hpp"
 
 #define _T true
 #define _F false
 
 #define try try
 #define catch_all catch (...)
-#define catch_specific (exception_t) catch(const exception_t& exception)
+#define catch_specific(exception_t) catch(const exception_t& exception)
 #define catch_other catch (...)
 
 #define string_switch(_String) switch(ext::hash(_String))

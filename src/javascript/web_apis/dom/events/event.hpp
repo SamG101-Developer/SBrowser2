@@ -1,14 +1,12 @@
 #ifndef SBROWSER2_EVENT_HPP
 #define SBROWSER2_EVENT_HPP
 
-#include <web_apis/dom_object.hpp>
-
+#include "dom_object.hpp"
 namespace dom::events {class event;}
 
-#include <ext/map.hpp>
-#include <ext/string.hpp>
-#include <ext/vector.hpp>
-
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
 namespace dom::nodes {class event_target;}
 namespace dom::detail::event_internals {struct event_path_struct;}
 
@@ -24,7 +22,7 @@ public: friends
     friend class nodes::event_target;
 
 public: constructors
-    event();
+    event() = default;
     event(ext::string_view event_type, ext::string_any_map_view event_init = {});
 
 public: js_static_constants

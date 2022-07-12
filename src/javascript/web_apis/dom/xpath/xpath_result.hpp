@@ -2,10 +2,11 @@
 #ifndef SBROWSER2_XPATH_RESULT_HPP
 #define SBROWSER2_XPATH_RESULT_HPP
 
-#include <ext/number.hpp>
-#include <ext/optional.hpp>
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::xpath {class xpath_result;}
+
+#include "ext/number.hpp"
+#include "ext/optional.hpp"
 
 
 class dom::xpath::xpath_result

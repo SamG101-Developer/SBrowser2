@@ -1,22 +1,21 @@
 #include "attribute_internals.hpp"
 
-#include <ext/type_traits.hpp>
-#include <ext/ranges.hpp>
+#include "ext/type_traits.hpp"
+#include "ext/ranges.hpp"
 
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/namespace_internals.hpp>
-#include <web_apis/dom/detail/node_internals.hpp>
-#include <web_apis/dom/detail/observer_internals.hpp>
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/namespace_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/observer_internals.hpp"
 
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/shadow_root.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/find_if.hpp>
-#include <range/v3/view/remove.hpp>
-#include <range/v3/view/replace.hpp>
+#include <range/v3/action/remove.hpp>
 #include <range/v3/view/view.hpp>
 
 
@@ -75,7 +74,7 @@ auto dom::detail::attribute_internals::remove(
 {
     // handle the attribute changes, remove 'attribute' from its 'owner_element', and set its 'owner_element' to nullptr
     handle_attributes_changes(attribute, attribute->owner_element(), attribute->value(), "");
-    *attribute->owner_element->attributes() |= ranges::views::remove(attribute);
+    *attribute->owner_element->attributes() |= ranges::actions::remove(attribute);
     return attribute;
 }
 
@@ -88,7 +87,7 @@ auto dom::detail::attribute_internals::replace(
     // handle the attribute changes, replace 'old_attribute' with 'new_attribute', switch the parent from
     // 'old_attribute' into 'new_attribute', and set the owner element of 'old_attribute' to nullptr
     handle_attributes_changes(old_attribute, old_attribute->owner_element(), old_attribute->value(), new_attribute->value());
-    *old_attribute->owner_element->attributes() |= ranges::views::replace(old_attribute, new_attribute);
+    *old_attribute->owner_element->attributes() |= ranges::actions::replace(old_attribute, new_attribute);
     new_attribute->owner_element = old_attribute->owner_element();
     old_attribute->owner_element = nullptr;
     return old_attribute;
@@ -129,7 +128,7 @@ auto dom::detail::attribute_internals::set_attribute(
     // get the (possibly existing) attribute with the same local name and namespace as 'attribute', and either return
     // 'attribute' if the 'attribute' is the same attribute as 'old_attribute', replace the 'old_attribute' with
     // 'attribute', or append the new attribute to the new owner element
-    auto* old_attribute = get_attribute_by_ns(new_owner_element, attribute->local_name(), attribute->namespace_uri());
+    auto* old_attribute = new_owner_element->get_attribute_node_ns(attribute->local_name(), attribute->namespace_uri());
     return_if (old_attribute == attribute) attribute;
 
     if (old_attribute)
@@ -157,7 +156,7 @@ auto dom::detail::attribute_internals::remove_attribute(
         // the attribute from the list, before returning the attribute
         change(attribute, "");
         remove(attribute);
-        attributes |= ranges::views::remove(attribute);
+        attributes |= ranges::actions::remove(attribute);
     }
 
     return attribute;

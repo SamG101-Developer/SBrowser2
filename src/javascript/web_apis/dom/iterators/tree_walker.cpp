@@ -1,11 +1,11 @@
 #include "tree_walker.hpp"
-#include "node_filter.hpp"
 
-#include <ext/functional.hpp>
+#include "ext/functional.hpp"
 
-#include <web_apis/dom/detail/tree_internals.hpp>
-#include <web_apis/dom/detail/traversal_internals.hpp>
-#include <web_apis/dom/nodes/node.hpp>
+#include "dom/detail/tree_internals.hpp"
+#include "dom/detail/traversal_internals.hpp"
+#include "dom/iterators/node_filter.hpp"
+#include "dom/nodes/node.hpp"
 
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/filter.hpp>

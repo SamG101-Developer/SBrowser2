@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_TRAVERSAL_INTERNALS_HPP
 #define SBROWSER2_TRAVERSAL_INTERNALS_HPP
 
-#include <ext/number.hpp>
+#include "ext/number.hpp"
 namespace dom::nodes {class node;}
 namespace dom::node_iterators {class abstract_iterator;}
 namespace dom::node_iterators {class node_iterator;}

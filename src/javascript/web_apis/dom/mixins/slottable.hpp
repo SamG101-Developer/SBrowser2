@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SLOTTABLE_HPP
 #define SBROWSER2_SLOTTABLE_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::mixins {class slottable;}
 
 namespace html::elements {class html_slot_element;}

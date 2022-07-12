@@ -1,35 +1,35 @@
 #include "range.hpp"
-#include "range/v3/algorithm/any_of.hpp"
-#include "range/v3/algorithm/for_each.hpp"
-#include "range/v3/view/filter.hpp"
-#include "range/v3/view/transform.hpp"
+
+#include "ext/boolean.hpp"
+#include "ext/casting.hpp"
+#include "ext/functional.hpp"
+#include "ext/ranges.hpp"
+
+#include "javascript/environment/realms_2.hpp"
+
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/mutation_internals.hpp"
+#include "dom/detail/range_internals.hpp"
+#include "dom/detail/text_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
+
+#include "dom/nodes/character_data.hpp"
+#include "dom/nodes/comment.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/document_type.hpp"
+#include "dom/nodes/processing_instruction.hpp"
+#include "dom/nodes/text.hpp"
+#include "dom/nodes/window.hpp"
 
 #include <memory>
 #include <tuple>
 
-#include <ext/boolean.hpp>
-#include <ext/casting.hpp>
-#include <ext/functional.hpp>
-#include <ext/ranges.hpp>
-
-#include <javascript/environment/realms_2.hpp>
-
-#include <web_apis/dom/detail/customization_internals.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/mutation_internals.hpp>
-#include <web_apis/dom/detail/range_internals.hpp>
-#include <web_apis/dom/detail/text_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
-
-#include <web_apis/dom/nodes/character_data.hpp>
-#include <web_apis/dom/nodes/comment.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/document_fragment.hpp>
-#include <web_apis/dom/nodes/document_type.hpp>
-#include <web_apis/dom/nodes/processing_instruction.hpp>
-#include <web_apis/dom/nodes/text.hpp>
-
-namespace dom::nodes {class window;}
+#include <range/v3/algorithm/any_of.hpp>
+#include <range/v3/algorithm/for_each.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/transform.hpp>
 
 
 dom::node_ranges::range::range()

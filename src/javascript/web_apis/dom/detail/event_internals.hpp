@@ -2,12 +2,12 @@
 #ifndef SBROWSER2_EVENT_INTERNALS_HPP
 #define SBROWSER2_EVENT_INTERNALS_HPP
 
+#include "ext/boolean.hpp"
+#include "ext/concepts.hpp"
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
 #include <variant>
-#include <ext/boolean.hpp>
-#include <ext/concepts.hpp>
-#include <ext/map.hpp>
-#include <ext/string.hpp>
-#include <ext/vector.hpp>
 #include <range/v3/view/any_view.hpp>
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}
@@ -69,7 +69,7 @@ namespace dom::detail::event_internals
             -> void;
 
     template <inherit<events::event> T=events::event>
-    static auto fire_event(
+    auto fire_event(
             ext::string&& e,
             nodes::event_target* target,
             ext::string_any_map&& init = {})

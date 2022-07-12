@@ -1,16 +1,18 @@
 #include "child_node.hpp"
 
-#include <ext/casting.hpp>
+#include "ext/casting.hpp"
 
-#include <dom/detail/customization_internals.hpp>
-#include <dom/detail/mutation_internals.hpp>
-#include <dom/detail/node_internals.hpp>
-#include <dom/detail/tree_internals.hpp>
+#include "dom/detail/customization_internals.hpp"
+#include "dom/detail/mutation_internals.hpp"
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
+
+#include <range/v3/range/operations.hpp>
 #include <range/v3/view/set_algorithm.hpp>
 
 
 auto dom::mixins::child_node::before(
-        type_in<nodes::node*, ext::string> auto&&... nodes)
+        type_is<nodes::node*, ext::string> auto&&... nodes)
         -> nodes::node*
 {
     ce_reactions_method_def
@@ -40,7 +42,7 @@ auto dom::mixins::child_node::before(
 
 
 auto dom::mixins::child_node::after(
-        type_in<nodes::node*, ext::string> auto&&... nodes)
+        type_is<nodes::node*, ext::string> auto&&... nodes)
         -> nodes::node*
 {
     ce_reactions_method_def
@@ -69,7 +71,7 @@ auto dom::mixins::child_node::after(
 
 
 auto dom::mixins::child_node::replace_with(
-        type_in<nodes::node*, ext::string> auto&& ...nodes)
+        type_is<nodes::node*, ext::string> auto&& ...nodes)
         -> nodes::node*
 {
     ce_reactions_method_def
@@ -90,11 +92,11 @@ auto dom::mixins::child_node::replace_with(
         else
         {
             // the 'viable_next_siblings' are all the following siblings of 'node' that aren't in 'nodes' - this is the
-            // set difference
-            auto viable_next_siblings = detail::tree_internals::all_following_siblings(base)
-                    | ranges::views::set_difference(std::forward<decltype(nodes)>(nodes)...);
+            // set difference TODO : format statement beneath
+            auto* viable_next_sibling = ranges::front(
+                    detail::tree_internals::all_following_siblings(base)
+                    | ranges::views::set_difference(std::forward<decltype(nodes)>(nodes)...));
 
-            auto* viable_next_sibling = viable_next_siblings.front();
             detail::mutation_internals::pre_insert(node, parent, viable_next_sibling);
         }
 

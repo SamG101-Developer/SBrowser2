@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_XSLT_PROCESSOR_HPP
 #define SBROWSER2_XSLT_PROCESSOR_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::xslt {class xslt_processor;}
 
 namespace dom::nodes {class document_fragment;}

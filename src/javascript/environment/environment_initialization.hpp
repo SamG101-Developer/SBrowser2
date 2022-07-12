@@ -1,11 +1,11 @@
 #ifndef SBROWSER2_ENVIRONMENT_INITIALIZATION_HPP
 #define SBROWSER2_ENVIRONMENT_INITIALIZATION_HPP
 
+#include "javascript/environment/environment_module.hpp"
+#include "javascript/interop/automatic_object_conversions/expose_v8_conversions_to_context.hpp"
+
 #include <memory>
 #include <iostream>
-
-#include <javascript/environment/environment_module.hpp>
-#include <javascript/interop/automatic_object_conversions/expose_v8_conversions_to_context.hpp>
 
 #include <v8-context.h>
 #include <v8-initialization.h>

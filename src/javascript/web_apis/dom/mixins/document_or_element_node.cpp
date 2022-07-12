@@ -1,13 +1,12 @@
 #include "document_or_element_node.hpp"
 
-#include <regex>
-#include <ext/ranges.hpp>
+#include "ext/casting.hpp"
+#include "ext/ranges.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/detail/tree_internals.hpp"
+#include "dom/nodes/element.hpp"
 
-#include <ext/casting.hpp>
-#include <ext/ranges.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
-#include <web_apis/dom/nodes/element.hpp>
+#include <regex>
 
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/filter.hpp>
@@ -23,15 +22,15 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
     // split the class names of a Node by spaces, and determine 'lower', which causes everything to be compared in
     // lowercase; if 'lower' is true, then convert the 'class_names' list into lowercase strings
     auto lower = base->owner_document->m_mode == "quirks";
-    auto class_list = class_names | ranges::views::split_string(" ");
-    class_list |= ranges::views::transform([lower](ext::string item) {if (lower) item |= ranges::views::lowercase();});
+    auto class_list = class_names | ranges::views::split_string(' ');
+    class_list |= ranges::actions::transform_if(lower, ranges::actions::lowercase);
 
     // the 'match_callback' checks if all the class list items from an element are contained in the list that was passed
     // into the function as a parameter. the element's class list is converted into lowercase if 'lower' is set
     auto match_callback = [&class_list, lower](nodes::element* element)
     {
         ext::string_vector& this_class_list = *element->class_list();
-        this_class_list |= ranges::views::transform([lower](ext::string item) {if (lower) item |= ranges::views::lowercase();});
+        this_class_list |= ranges::actions::transform_if(lower, ranges::actions::lowercase);
         return ranges::contains_all(class_list, this_class_list);
     };
 

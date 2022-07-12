@@ -1,6 +1,6 @@
 #include "abort_controller.hpp"
 
-#include <web_apis/dom/detail/aborting_internals.hpp>
+#include "dom/detail/aborting_internals.hpp"
 
 
 dom::abort::abort_controller::abort_controller():

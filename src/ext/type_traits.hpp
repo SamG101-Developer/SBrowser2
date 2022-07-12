@@ -2,12 +2,14 @@
 #ifndef SBROWSER2_TYPE_TRAITS_HPP
 #define SBROWSER2_TYPE_TRAITS_HPP
 
+
+#include "ext/boolean.hpp"
+#include "ext/concepts.hpp"
+
 #include <functional>
 #include <memory>
 #include <type_traits>
-
-#include <ext/boolean.hpp>
-#include <ext/concepts.hpp>
+#include <variant>
 
 
 // type definitions
@@ -30,6 +32,18 @@ struct ext::_unwrap_smart_pointer<_Tx> {using type = typename _Tx::pointer;};
 
 template <typename _Tx>
 struct ext::_unwrap_smart_pointer {using type = _Tx;};
+
+
+// extend variant with a new types
+namespace ext {template <typename _Old, typename ..._New> struct _extend_variant;}
+namespace ext {template <typename _Old, typename ..._New> using extend_variant = _extend_variant<_Old, _New...>;}
+namespace ext {template <typename _Old, typename ..._New> using extend_variant_t = typename _extend_variant<_Old, _New...>::type;}
+
+template <typename _Old, typename ..._New>
+struct ext::_extend_variant {using type = _Old;};
+
+template <typename ..._Old, typename ..._New>
+struct ext::_extend_variant<std::variant<_Old...>, _New...> {using type = std::variant<_Old..., _New...>;};
 
 
 #endif //SBROWSER2_TYPE_TRAITS_HPP

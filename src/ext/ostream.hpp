@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_OSTREAM_HPP
 #define SBROWSER2_OSTREAM_HPP
 
+#include "ext/map.hpp"
+#include "ext/number.hpp"
+#include "ext/vector.hpp"
 #include <ostream>
-#include <ext/map.hpp>
-#include <ext/number.hpp>
-#include <ext/vector.hpp>
 
 
 template <typename _Valty>

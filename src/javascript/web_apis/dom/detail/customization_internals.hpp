@@ -1,12 +1,12 @@
 #ifndef SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
+#include "ext/boolean.hpp"
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
 #include <queue>
 #include <stack>
-#include <ext/boolean.hpp>
-#include <ext/map.hpp>
-#include <ext/string.hpp>
-#include <ext/vector.hpp>
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}
@@ -122,12 +122,12 @@ struct dom::detail::customization_internals::custom_element_definition
     html_element_constructor_t constructor;
 
     ext::map<ext::string, lifecycle_callback_t> lifecycle_callbacks
-            {
-                    {"connectedCallback"     , [] {}}, {"disconnectedCallback"    , [] {}},
-                    {"adoptedCallback"       , [] {}}, {"attributeChangedCallback", [] {}},
-                    {"formAssociatedCallback", [] {}}, {"formDisabledCallback"    , [] {}},
-                    {"formResetCallback"     , [] {}}, {"formStateRestoreCallback", [] {}}
-            };
+    {
+            {"connectedCallback"     , [] {}}, {"disconnectedCallback"    , [] {}},
+            {"adoptedCallback"       , [] {}}, {"attributeChangedCallback", [] {}},
+            {"formAssociatedCallback", [] {}}, {"formDisabledCallback"    , [] {}},
+            {"formResetCallback"     , [] {}}, {"formStateRestoreCallback", [] {}}
+    };
 };
 
 

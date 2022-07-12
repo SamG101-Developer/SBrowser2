@@ -1,19 +1,19 @@
 #include "text_internals.hpp"
 
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/detail/mutation_internals.hpp>
-#include <web_apis/dom/detail/observer_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/mutation_internals.hpp"
+#include "dom/detail/observer_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
-#include <web_apis/dom/nodes/text.hpp>
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/text.hpp"
 
-#include <web_apis/dom/other/dom_implementation.hpp>
-#include <web_apis/dom/ranges/range.hpp>
+#include "dom/other/dom_implementation.hpp"
+#include "dom/ranges/range.hpp"
 
-#include <web_apis/url/url.hpp>
+#include "url/url.hpp"
 
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/view/filter.hpp>

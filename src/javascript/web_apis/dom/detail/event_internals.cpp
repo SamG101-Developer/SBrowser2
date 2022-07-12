@@ -1,17 +1,18 @@
 #include "event_internals.hpp"
 #include "dom/events/event.hpp"
 
-#include <ext/assert.hpp>
-#include <ext/functional.hpp>
-#include <ext/ranges.hpp>
+#include "ext/assert.hpp"
+#include "ext/functional.hpp"
+#include "ext/ranges.hpp"
 
-#include <web_apis/dom/abort/abort_signal.hpp>
-#include <web_apis/dom/nodes/shadow_root.hpp>
-#include <web_apis/dom/nodes/window.hpp>
+#include "dom/abort/abort_signal.hpp"
+#include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/window.hpp"
 
-#include <web_apis/dom/detail/shadow_internals.hpp>
-#include <web_apis/dom/detail/tree_internals.hpp>
+#include "dom/detail/shadow_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 
+#include <range/v3/action/remove.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/empty.hpp>
 #include <range/v3/view/remove_if.hpp>
@@ -48,7 +49,7 @@ auto dom::detail::event_internals::remove_all_event_listeners(
     // iterate over the event listeners, and remove each one from the event target sing the predefined removal
     // algorithm defined above (not just popping items from a list)
     for (ext::string_any_map& existing_listener: event_target->m_event_listeners)
-        event_target->remove_event_listener(existing_listener.at("type").value(), existing_listener.at("callback").value(), existing_listener);
+        event_target->remove_event_listener(existing_listener.at("type").value().to<ext::string>(), existing_listener.at("callback").value(), existing_listener);
 }
 
 
@@ -260,7 +261,7 @@ auto dom::detail::event_internals::inner_invoke(
         // if the event listener's 'once' attribute is set to true, then remove the event listener from the
         // EventTarget's listener list (not the copied range, as this won't affect the actual EventTarget)
         if (listener.at("once").value().to<bool>())
-            event->current_target()->m_event_listeners |= ranges::views::remove(listener);
+            event->current_target()->m_event_listeners |= ranges::actions::remove(listener);
 
         // type alias the callback type for convenience, and get the associated javascript realm for the listener's
         // callback function object

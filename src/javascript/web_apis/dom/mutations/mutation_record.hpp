@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_MUTATION_RECORD_HPP
 #define SBROWSER2_MUTATION_RECORD_HPP
 
-#include <web_apis/dom_object.hpp>
+#include "dom_object.hpp"
 namespace dom::mutations {class mutation_record;}
 
-#include <ext/vector.hpp>
+#include "ext/vector.hpp"
 
 
 class dom::mutations::mutation_record

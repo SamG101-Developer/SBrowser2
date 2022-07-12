@@ -1,13 +1,12 @@
 #ifndef SBROWSER2_NODE_INTERNALS_HPP
 #define SBROWSER2_NODE_INTERNALS_HPP
 
-#include <ext/string.hpp>
-#include <ext/vector.hpp>
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
 
-#include <dom/nodes/document.hpp>
-#include <dom/nodes/element.hpp>
-#include <dom/nodes/text.hpp>
-
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/text.hpp"
 
 namespace dom::detail::node_internals
 {
@@ -81,7 +80,7 @@ namespace dom::detail::node_internals
 
     auto convert_nodes_into_node(
             const nodes::document* document,
-            type_in<nodes::node*, ext::string> auto&&... nodes)
+            type_is<nodes::node*, ext::string> auto&&... nodes)
             -> nodes::node*;
 }
 

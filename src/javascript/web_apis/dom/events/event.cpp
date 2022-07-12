@@ -1,6 +1,7 @@
 #include "event.hpp"
 
-#include <web_apis/dom/detail/event_internals.hpp>
+#include "dom/detail/event_internals.hpp"
+#include "high_resolution_time/hr_time/performance.hpp"
 
 
 dom::events::event::event(
@@ -14,7 +15,7 @@ dom::events::event::event(
         , current_target(nullptr)
         , related_target(nullptr)
         , event_phase(static_cast<ushort>(NONE))
-//        , time_stamp(performance::times::dom_high_res_timestamp())
+        , time_stamp(high_resolution_time::hr_time::performance{}.now())
         , is_trusted(false)
         , touch_targets(std::make_unique<touch_targets_t>())
         , path(std::make_unique<path_t>())

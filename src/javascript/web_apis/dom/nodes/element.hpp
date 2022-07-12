@@ -1,16 +1,17 @@
 #ifndef SBROWSER2_ELEMENT_HPP
 #define SBROWSER2_ELEMENT_HPP
 
-#include <dom/nodes/node.hpp>
-#include <web_apis/dom/mixins/child_node.hpp>
-#include <web_apis/dom/mixins/document_or_element_node.hpp>
-#include <web_apis/dom/mixins/non_document_type_child_node.hpp>
-#include <web_apis/dom/mixins/parentable_node.hpp>
-#include <web_apis/dom/mixins/slottable.hpp>
+#include "dom/nodes/node.hpp"
+#include "dom/mixins/child_node.hpp"
+#include "dom/mixins/document_or_element_node.hpp"
+#include "dom/mixins/non_document_type_child_node.hpp"
+#include "dom/mixins/parentable_node.hpp"
+#include "dom/mixins/slottable.hpp"
+#include "aria/mixins/aria_mixin.hpp"
 namespace dom::nodes {class element;}
 
-#include <ext/map.hpp>
-#include <ext/vector.hpp>
+#include "ext/map.hpp"
+#include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
@@ -29,6 +30,7 @@ class dom::nodes::element
         , public mixins::non_document_type_child_node
         , public mixins::parentable_node
         , public mixins::slottable
+        , public aria::mixins::aria_mixin
 {
 public friends:
     friend auto dom::detail::customization_internals::create_an_element(

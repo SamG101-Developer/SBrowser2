@@ -1,11 +1,11 @@
 #include "traversal_internals.hpp"
 #include "ext/keywords.hpp"
 
-#include <web_apis/dom/nodes/node.hpp>
-#include <web_apis/dom/detail/exception_internals.hpp>
-#include <web_apis/dom/iterators/node_iterator.hpp>
-#include <web_apis/dom/iterators/node_filter.hpp>
-#include <web_apis/dom/iterators/tree_walker.hpp>
+#include "dom/nodes/node.hpp"
+#include "dom/detail/exception_internals.hpp"
+#include "dom/iterators/node_iterator.hpp"
+#include "dom/iterators/node_filter.hpp"
+#include "dom/iterators/tree_walker.hpp"
 
 
 auto dom::detail::traversal_internals::filter(

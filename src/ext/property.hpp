@@ -8,9 +8,9 @@ namespace ext {template <typename _Tx, bool ce_reactions> class property;}
 #include <memory>
 #include <utility>
 
-#include <ext/keywords.hpp>
-#include <ext/type_traits.hpp>
-#include <ext/detail/guard_property.hpp>
+#include "ext/keywords.hpp"
+#include "ext/type_traits.hpp"
+#include "ext/detail/guard_property.hpp"
 
 template <typename _Tx, bool ce_reactions>
 class ext::property

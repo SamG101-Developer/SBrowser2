@@ -1,13 +1,13 @@
 #include "tree_internals.hpp"
 
-#include <ext/casting.hpp>
-#include <ext/ranges.hpp>
+#include "ext/casting.hpp"
+#include "ext/ranges.hpp"
 
-#include <web_apis/dom/nodes/attr.hpp>
-#include <web_apis/dom/nodes/document.hpp>
-#include <web_apis/dom/nodes/document_type.hpp>
-#include <web_apis/dom/nodes/element.hpp>
-#include <web_apis/dom/nodes/text.hpp>
+#include "dom/nodes/attr.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/document_type.hpp"
+#include "dom/nodes/element.hpp"
+#include "dom/nodes/text.hpp"
 
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/drop_while.hpp>
@@ -45,7 +45,7 @@ auto dom::detail::tree_internals::descendants(nodes::node* node_a) -> ranges::an
 auto dom::detail::tree_internals::is_ancestor(nodes::node* node_a, nodes::node* node_b) -> ext::boolean
 {
     // 'node_a' is an ancestor of 'node_b' if it is in the ancestor() list for 'node_b'
-    if (!node_a || !node_b) return false;
+    return_if (!node_a || !node_b) false;
     auto ancestors_of_b = ancestors(node_b);
     return ranges::contains(ancestors_of_b, node_a);
 }
