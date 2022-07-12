@@ -1,8 +1,7 @@
 #include "namespace_internals.hpp"
 
-#include <ext/ranges.hpp>
-
-#include <dom/detail/exception_internals.hpp>
+#include "ext/ranges.hpp"
+#include "dom/detail/exception_internals.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 
@@ -21,11 +20,11 @@ auto dom::detail::namespace_internals::validate_and_extract(
 
     // if there is a colon in the qualified name, then there is a prefix and a local name contained in the qualified
     // name, so split the qualified name on the colon, and set the prefix and local name to the first 2 results
-    if (ranges::contains(qualified_name, ":"sv))
+    if (ranges::contains(qualified_name, ':'))
     {
-        auto split_on_colon = qualified_name | ranges::views::split_string(":");
-        prefix     = *(  split_on_colon.begin());
-        local_name = *(++split_on_colon.begin());
+        auto split_on_colon = qualified_name | ranges::views::split_string(':');
+        prefix     = *split_on_colon.begin();
+        local_name = *std::next(split_on_colon.begin());
     }
 
 
