@@ -2,13 +2,13 @@
 #ifndef SBROWSER2_CUSTOM_OPERATOR_HPP
 #define SBROWSER2_CUSTOM_OPERATOR_HPP
 
+#include "javascript/environment/realms_2.hpp"
+#include "javascript/interop/annotations.hpp"
 #include <algorithm>
 #include <cmath>
 #include <queue>
 #include <stack>
 #include <stdexcept>
-#include <javascript/environment/realms_2.hpp>
-#include <javascript/interop/annotations.hpp>
 
 
 #define custom_operator(name)                                  \
@@ -79,29 +79,40 @@ custom_operator(enforce_range)
     auto _ce_method = [&]{;
 
 
-#define ce_reactions_method_exe                                                                                              \
-    };                                                                                                                       \
-    {                                                                                                                        \
-        using _stack_t = dom::detail::customization_internals::custom_element_reactions_stack;                               \
-        JS_REALM_GET_RELEVANT(this)                                                                                          \
+#define ce_reactions_method_exe                                                                                                   \
+    };                                                                                                                            \
+    {                                                                                                                             \
+        using _stack_t = dom::detail::customization_internals::custom_element_reactions_stack;                                    \
+        JS_REALM_GET_RELEVANT(this)                                                                                               \
         auto _ce_reactions_stack = javascript::environment::realms_2::get<_stack_t>(this_relevant_global_object, "ce_reactions"); \
-        _ce_reactions_stack->emplace();                                                                                      \
-                                                                                                                             \
-        JS_EXCEPTION_HANDLER;                                                                                                \
-        auto _value = _ce_method();                                                                                          \
-        auto _queue = _ce_reactions_stack->top();                                                                            \
-        _ce_reactions_stack->pop();                                                                                          \
-                                                                                                                             \
-        if (JS_EXCEPTION_HAS_THROWN)                                                                                         \
-            JS_EXCEPTION_RETHROW;                                                                                            \
-                                                                                                                             \
-        return _value;                                                                                                       \
+        _ce_reactions_stack->emplace();                                                                                           \
+                                                                                                                                  \
+        JS_EXCEPTION_HANDLER;                                                                                                     \
+        auto _value = _ce_method();                                                                                               \
+        auto _queue = _ce_reactions_stack->top();                                                                                 \
+        _ce_reactions_stack->pop();                                                                                               \
+                                                                                                                                  \
+        if (JS_EXCEPTION_HAS_THROWN)                                                                                              \
+            JS_EXCEPTION_RETHROW;                                                                                                 \
+                                                                                                                                  \
+        return _value;                                                                                                            \
     }
 
 
 #define HTML_CONSTRUCTOR     \
     {                        \
         JS_REALM_GET_CURRENT \
+    }
+
+
+#define async_method_def(_ret_t)   \
+    std::promise<_ret_t> _promise; \
+    std::thread([](){
+
+#define async_method_exe \
+    };                   \
+    {                    \
+        return _promise; \
     }
 
 
