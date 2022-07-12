@@ -1,10 +1,8 @@
 #ifndef SBROWSER2_HASH_HPP
 #define SBROWSER2_HASH_HPP
 
-#include <string>
 
 namespace ext {constexpr auto hash(const char* str) -> size_t;}
-
 
 constexpr auto ext::hash(const char* str) -> size_t {
     const long long p = 131;
