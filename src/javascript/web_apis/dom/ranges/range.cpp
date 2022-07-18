@@ -3,6 +3,7 @@
 #include "ext/boolean.hpp"
 #include "ext/casting.hpp"
 #include "ext/functional.hpp"
+#include "ext/tuple.hpp"
 #include "ext/ranges.hpp"
 
 #include "javascript/environment/realms_2.hpp"
@@ -136,7 +137,7 @@ auto dom::node_ranges::range::insert_node(
         // child of the non-Text start container whose index is the offset (exact correct node)
         auto* reference_node = dynamic_cast<nodes::text*>(start_container())
                 ? start_container()
-                : ranges::first_where(*start_container->child_nodes(), [this](nodes::node* child_node) {return detail::tree_internals::index(child_node) == start_offset();});
+                : *ranges::first_where(*start_container()->child_nodes(), [this](nodes::node* child_node) {return detail::tree_internals::index(child_node) == start_offset();});
 
         // the 'parent_node' is the parent that the 'new_container' is going to be inserted into; if there is no
         // 'reference_node', then the parent is the start container, otherwise it's the reference node's parent node (the
@@ -148,7 +149,7 @@ auto dom::node_ranges::range::insert_node(
         // if the reference node is a Text node, set it to everything after the start offset, otherwise if the reference
         // node is the 'new_container', then set it to the next sibling, otherwise leave it as it is
         reference_node = dynamic_cast<nodes::text*>(start_container())
-                ? detail::text_internals::split(dynamic_cast<nodes::text*>(start_container()), start_offset())
+                ? &detail::text_internals::split(dynamic_cast<nodes::text*>(start_container()), start_offset())
                 : new_container == reference_node ? reference_node->next_sibling() : reference_node;
 
         // the 'new_offset' is the length of the 'parent_node' if there is no 'reference_node', otherwise it's the index of
@@ -167,7 +168,7 @@ auto dom::node_ranges::range::insert_node(
         // if the range is currently collapsed, then set the end container and offset to the 'parent_node' and the
         // 'new_offset', so that the range maintains its collapsed state
         if (collapsed())
-            std::tie(end_container, end_offset) = std::tuple(parent_node, new_offset);
+            tuplet::tie(end_container, end_offset) = tuplet::make_tuple(parent_node, new_offset);
 
         return new_container;
 
@@ -299,7 +300,7 @@ auto dom::node_ranges::range::compare_point(
             "Container can not be a DocumentType node");
 
     detail::exception_internals::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
-            [offset, length = std::move(detail::tree_internals::length(container))] {return offset > length;},
+            [offset, length = detail::tree_internals::length(container)] {return offset > length;},
             "Offset must be <= length of the node");
 
     return_if(detail::range_internals::position_relative(container, offset, start_container(), start_offset()) == detail::range_internals::BEFORE) -1;
@@ -320,7 +321,7 @@ auto dom::node_ranges::range::is_point_in_range(
             "Container can not be a DocumentType node");
 
     detail::exception_internals::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
-            [offset, length = std::move(detail::tree_internals::length(container))] {return offset > length;},
+            [offset, length = detail::tree_internals::length(container)] {return offset > length;},
             "Offset must be <= length of the node");
 
     auto is_before_end  = detail::range_internals::position_relative(container, offset, end_container()  , end_offset()  ) == detail::range_internals::BEFORE;
