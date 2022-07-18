@@ -22,6 +22,8 @@ file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 
 # link the 2nd / 3rd party libraries to the project
-target_link_libraries(${PROJECT_NAME} ext javascript web_apis)
-target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui)
-target_link_libraries(${PROJECT_NAME} magic_enum promise robin_hood::robin_hood tsl::robin_map v8pp veque range-v3)
+target_link_libraries(${PROJECT_NAME} ext javascript web_apis) # my libs
+target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui) # qt
+target_link_libraries(${PROJECT_NAME} magic_enum range-v3 v8pp) # 3rd party miscellaneous
+target_link_libraries(${PROJECT_NAME} concurrent_queue plf_stack tsl::robin_map tuplet::tuplet veque) # containers
+target_link_libraries(${PROJECT_NAME} function2 swl-variant) # other stl replacements
