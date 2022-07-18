@@ -3,9 +3,11 @@
 #include "dom/abort/abort_signal.hpp"
 #include "dom/detail/event_internals.hpp"
 
+#include <ranges/algorithms/for_each.hpp>
+
 
 auto dom::detail::aborting_internals::signal_abort(
-        abort::abort_signal* signal,
+        abort::abort_signal* const signal,
         ext::any_view reason)
         -> void
 {
@@ -13,7 +15,7 @@ auto dom::detail::aborting_internals::signal_abort(
 
     // abort the signal, execute all the abort algorithms, and clear the list of algorithms
     signal->reason = reason;
-    std::ranges::for_each(signal->m_abort_algorithms, [] (const abort::abort_signal::abort_signal_callback_t& callback) {callback();});
+    ranges::for_each(signal->m_abort_algorithms, [](auto&& callback) {callback();});
     signal->m_abort_algorithms.clear();
 
     // fire an event to notify that the signal abort has happened; the event is directed at the signal that has
@@ -23,8 +25,8 @@ auto dom::detail::aborting_internals::signal_abort(
 
 
 auto dom::detail::aborting_internals::follow_signal(
-        abort::abort_signal* following_signal,
-        abort::abort_signal* parent_signal)
+        abort::abort_signal* const following_signal,
+        abort::abort_signal* const parent_signal)
         -> void
 {
     return_if(following_signal->aborted());
