@@ -2,7 +2,9 @@
 #ifndef SBROWSER2_BODY_INTERNALS_HPP
 #define SBROWSER2_BODY_INTERNALS_HPP
 
+#include "ext/functional.hpp"
 #include "ext/number.hpp"
+#include "ext/pair.hpp"
 #include "ext/string.hpp"
 #include "../_typedefs.hpp"
 
@@ -13,7 +15,7 @@ namespace streams::readable {class readable_stream_default_reader;}
 
 namespace fetch::detail::body_internals
 {
-    using algorithm_t = std::function<void()>;
+    using algorithm_t = ext::function<void()>;
     struct internal_body;
 
     auto clone_body(
@@ -49,12 +51,12 @@ namespace fetch::detail::body_internals
 
     auto safely_extract_body(
             body_init_t object)
-            -> std::pair<internal_body, ext::string>;
+            -> ext::pair<internal_body, ext::string>;
 
     auto extract(
             body_init_t object,
             ext::boolean_view keepalive = false)
-            -> std::pair<internal_body, ext::string>;
+            -> ext::pair<internal_body, ext::string>;
 
     auto is_unusable(
             mixins::body* body)
