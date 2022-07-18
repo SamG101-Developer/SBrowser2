@@ -11,28 +11,28 @@ namespace dom::node_iterators {class tree_walker;}
 
 namespace dom::detail::traversal_internals
 {
-    enum traversal_direction {NEXT, PREVIOUS};
-    enum traversal_child {FIRST_CHILD, LAST_CHILD};
-    enum traversal_sibling {NEXT_SIBLING, PREVIOUS_SIBLING};
+    enum class traversal_direction {NEXT, PREVIOUS};
+    enum class traversal_child {FIRST_CHILD, LAST_CHILD};
+    enum class traversal_sibling {NEXT_SIBLING, PREVIOUS_SIBLING};
 
     // filtering
-    static auto filter(
+    auto filter(
             const nodes::node* node,
             node_iterators::abstract_iterator* iterator)
             -> ext::number<ushort>;
 
     // traversal
-    static auto traverse(
+    auto traverse(
             node_iterators::node_iterator* iterator,
             traversal_direction direction)
             -> nodes::node*;
 
-    static auto traverse_children(
+    auto traverse_children(
             node_iterators::tree_walker* iterator,
             traversal_child type)
             -> nodes::node*;
 
-    static auto traverse_siblings(
+    auto traverse_siblings(
             node_iterators::tree_walker* iterator,
             traversal_sibling type)
             -> nodes::node*;
