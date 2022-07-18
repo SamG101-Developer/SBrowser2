@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_DIRECTIVE_INTERNALS_HPP
 #define SBROWSER2_DIRECTIVE_INTERNALS_HPP
 
-
+#include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace content_security_policy::detail::csp_internals {class content_security_policy;}
@@ -72,7 +72,7 @@ namespace content_security_policy::detail::directive_internals
     
     auto get_fetch_directive_fallback_list(
             ext::string_view directive_name)
-            -> ext::string_vector;
+            -> ext::vector<ext::string>;
     
     auto should_fetch_directive_execute(
             ext::string_view effective_directive_name,
