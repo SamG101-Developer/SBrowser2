@@ -2,15 +2,16 @@
 #ifndef SBROWSER2_NUMBER_HPP
 #define SBROWSER2_NUMBER_HPP
 
-#include "type_traits.hpp"
-#include "string.hpp"
-namespace ext {template <primitive_numeric _Tx> class number;}
-namespace ext {template <primitive_numeric _Vt> using number_view = const number<_Vt>&;}
-namespace ext {template <bool _InclusiveLo = false, bool _InclusiveHi = false> auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> ext::boolean;}
+#include "ext/boolean.hpp"
+#include "ext/type_traits.hpp"
+#include "ext/string.hpp"
+namespace ext {template <typename _Tx> class number;}
+namespace ext {template <typename _Vt> using number_view = const number<_Vt>&;}
+namespace ext {template <bool _InclusiveLo = false, bool _InclusiveHi = false> auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> boolean;}
 namespace ext {template <typename T, typename U, typename ...V> auto min(T&& first, U&& second, V&&... values);}
 namespace ext {template <typename T, typename U, typename ...V> auto max(T&& first, U&& second, V&&... values);}
 namespace ext {template <typename T, typename U> auto round(T&& _Val, U&& _Mult);}
-namespace ext {auto is_numeric_string(string_view _Str) -> ext::boolean;}
+namespace ext {auto is_numeric_string(string_view _Str) -> boolean;}
 
 #include <algorithm>
 #include <limits>
@@ -19,28 +20,27 @@ namespace ext {auto is_numeric_string(string_view _Str) -> ext::boolean;}
 #include <type_traits>
 #include <utility>
 
-#include "ext/keywords.hpp"
 #include "ext/detail/infinity.hpp"
 
 
-template <primitive_numeric _Tx>
+template <typename _Tx> // TODO : change typename to 'primitive_number'
 class ext::number final
 {
 public aliases:
     using primitive_t = _Tx;
 
 public friends:
-    template <primitive_numeric _Vt> friend class number;
+    template <typename _Vt> friend class number;
 
 public constructors:
     number() = default;
-    template <primitive_numeric _Ty> constexpr number(_Ty _Primitive);
-    template <primitive_numeric _Ty> auto operator=(_Ty _Primitive) -> number&;
+    template <typename _Ty> constexpr number(_Ty _Primitive);
+    template <typename _Ty> auto operator=(_Ty _Primitive) -> number&;
 
-    template <primitive_numeric _Ty> explicit number(const number<_Ty>& _Other);
-    template <primitive_numeric _Ty> explicit number(number<_Ty>&& _Other) noexcept;
-    template <primitive_numeric _Ty> auto operator=(const number<_Ty>& _Other) -> number&;
-    template <primitive_numeric _Ty> auto operator=(number<_Ty>&& _Other) noexcept -> number&;
+    template <typename _Ty> explicit number(const number<_Ty>& _Other);
+    template <typename _Ty> explicit number(number<_Ty>&& _Other) noexcept;
+    template <typename _Ty> auto operator=(const number<_Ty>& _Other) -> number&;
+    template <typename _Ty> auto operator=(number<_Ty>&& _Other) noexcept -> number&;
     
 public cpp_methods:
     auto min() const -> number<_Tx> {return std::numeric_limits<_Tx>::min();}
@@ -76,8 +76,11 @@ public cpp_operators:
     auto operator==(const auto& other) const -> bool {return _Val == other;}
     auto operator<=>(const auto& other) const {return _Val <=> other;}
 
-    template <primitive_numeric _Ty> operator number<_Ty>() const {return number<_Ty>(_Val);}
-    template <primitive_numeric _Ty> constexpr operator _Ty() const {return _Val;}
+    auto operator++() -> number& {++_Val; return *this;}
+    auto operator--() -> number& {--_Val; return *this;}
+
+    template <typename _Ty> operator number<_Ty>() const {return number<_Ty>(_Val);}
+    template <typename _Ty> constexpr operator _Ty() const {return _Val;}
 
 private:
     auto operator*() const -> _Tx {return _Val;}
@@ -87,15 +90,15 @@ private cpp_properties:
 };
 
 
-template <primitive_numeric _Tx>
-template <primitive_numeric _Ty>
+template <typename _Tx>
+template <typename _Ty>
 constexpr ext::number<_Tx>::number(_Ty _Primitive)
         : _Val(_Primitive)
 {}
 
 
-template <primitive_numeric _Tx>
-template <primitive_numeric _Ty>
+template <typename _Tx>
+template <typename _Ty>
 auto ext::number<_Tx>::operator=(_Ty _Primitive) -> number&
 {
     _Val = _Primitive;
@@ -103,22 +106,22 @@ auto ext::number<_Tx>::operator=(_Ty _Primitive) -> number&
 }
 
 
-template <primitive_numeric _Tx>
-template <primitive_numeric _Ty>
+template <typename _Tx>
+template <typename _Ty>
 ext::number<_Tx>::number(const number<_Ty>& _Other)
         : _Val(*_Other)
 {}
 
 
-template <primitive_numeric _Tx>
-template <primitive_numeric _Ty>
+template <typename _Tx>
+template <typename _Ty>
 ext::number<_Tx>::number(number<_Ty>&& _Other) noexcept
         : _Val(*std::move(_Other))
 {}
 
 
-template <primitive_numeric _Tx>
-template <primitive_numeric _Ty>
+template <typename _Tx>
+template <typename _Ty>
 auto ext::number<_Tx>::operator=(const ext::number<_Ty>& _Other) -> number&
 {
     _Val = *_Other;
@@ -126,8 +129,8 @@ auto ext::number<_Tx>::operator=(const ext::number<_Ty>& _Other) -> number&
 }
 
 
-template <primitive_numeric _Tx>
-template <primitive_numeric _Ty>
+template <typename _Tx>
+template <typename _Ty>
 auto ext::number<_Tx>::operator=(number<_Ty>&& _Other) noexcept -> number&
 {
     _Val = *std::move(_Other);
@@ -137,7 +140,7 @@ auto ext::number<_Tx>::operator=(number<_Ty>&& _Other) noexcept -> number&
 
 
 template <bool _InclusiveLo, bool _InclusiveHi>
-auto ext::is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> ext::boolean
+auto ext::is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> boolean
 {
     auto _Condition1 = _InclusiveLo ? _Val >= _Lo : _Val > _Lo; // default to >
     auto _Condition2 = _InclusiveHi ? _Val <= _Hi : _Val < _Hi; // default to <
@@ -168,10 +171,10 @@ auto ext::round(T&& _Val, U&& _Mult)
 }
 
 
-auto ext::is_numeric_string(ext::string_view _Str) -> ext::boolean
+auto ext::is_numeric_string(ext::string_view _Str) -> boolean
 {
-    try {auto _Num = std::stod(_Str); return true;}
-    catch_specific (std::invalid_argument) {return false;}
+    try {auto _Num = std::stod(_Str); return ext::boolean::TRUE();}
+    catch_specific (std::invalid_argument) {return ext::boolean::FALSE();}
 }
 
 
