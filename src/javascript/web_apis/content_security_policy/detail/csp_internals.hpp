@@ -4,6 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
+#include "ext/pair.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
 namespace dom::nodes {class document;}
@@ -13,7 +14,7 @@ namespace content_security_policy::detail::csp_internals
     struct content_security_policy;
     enum disposition_t {ENFORCE, REPORT};
     enum source_t {HEADER, META};
-    using directive_t = std::pair<ext::string, ext::string_vector>;
+    using directive_t = ext::pair<ext::string, ext::vector<ext::string>>;
 
     auto contains_header_delivered_csp(
             ext::vector<content_security_policy*>& csp_list)
