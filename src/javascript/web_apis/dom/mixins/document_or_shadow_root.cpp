@@ -6,6 +6,6 @@ auto dom::mixins::document_or_shadow_root::to_v8(
         const && -> ext::any
 {
     return v8pp::class_<document_or_shadow_root>{isolate}
-        .inherit<web_apis::dom_object>()
+        .inherit<dom_object>()
         .auto_wrap_objects();
 }
