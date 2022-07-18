@@ -6,8 +6,14 @@ namespace html::elements {class html_head_element;}
 
 
 class html::elements::html_head_element
-        : public html::elements::html_element
-{};
+        : public html_element
+{
+public constructors:
+    html_head_element();
+
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+};
 
 
 #endif //SBROWSER2_HTML_HEAD_ELEMENT_HPP

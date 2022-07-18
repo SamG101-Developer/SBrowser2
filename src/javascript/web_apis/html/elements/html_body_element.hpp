@@ -6,8 +6,14 @@ namespace html::elements {class html_body_element;}
 
 
 class html::elements::html_body_element
-        : public html::elements::html_element
-{};
+        : public html_element
+{
+public constructors:
+    html_body_element();
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+};
 
 
 #endif //SBROWSER2_HTML_BODY_ELEMENT_HPP
