@@ -5,16 +5,16 @@
 
 
 dom::events::event::event(
-        ext::string_view event_type,
-        ext::string_any_map_view event_init)
+        ext::string&& event_type,
+        ext::map<ext::string, ext::any>&& event_init)
         : type(event_type)
-        , bubbles(event_init.at("bubbles").value_to_or<ext::boolean>(false))
-        , cancelable(event_init.at("cancelable").value_to_or<ext::boolean>(false))
-        , composed(event_init.at("composed").value_to_or<ext::boolean>(false))
+        , bubbles(event_init.try_emplace("bubbles", ext::boolean::FALSE()).first->second.to<ext::boolean>())
+        , cancelable(event_init.try_emplace("cancelable", ext::boolean::FALSE()).first->second.to<ext::boolean>())
+        , composed(event_init.try_emplace("composed", ext::boolean::FALSE()).first->second.to<ext::boolean>())
         , target(nullptr)
         , current_target(nullptr)
         , related_target(nullptr)
-        , event_phase(static_cast<ushort>(NONE))
+        , event_phase(std::bit_cast<ushort>(NONE))
         , time_stamp(high_resolution_time::hr_time::performance{}.now())
         , is_trusted(false)
         , touch_targets(std::make_unique<touch_targets_t>())
@@ -60,11 +60,12 @@ auto dom::events::event::composed_path()
     composed_path_vector.push_back(current_target());
 
     // create the default indexing variables for node identification in the tree
-    auto current_target_hidden_subtree_level = 1;
-    auto current_target_index                = path_vector.begin();
-    auto current_hidden_level                = 0;
-    auto max_hidden_level                    = 0;
-    auto iterator                            = path_vector.end();
+    ext::number<int> current_target_hidden_subtree_level {1};
+    ext::number<int> current_hidden_level {0};
+    ext::number<int> max_hidden_level {0};
+
+    auto** current_target_index = path_vector.begin();
+    auto** iterator             = path_vector.end();
 
     // loop from the end of the event traversal path to identify the hidden subtree level of the current target
     while (iterator != path_vector.begin())
@@ -117,11 +118,11 @@ auto dom::events::event::composed_path()
 
 
 auto dom::events::event::to_v8(
-        v8::Isolate* isolate
-        ) const && -> ext::any
+        v8::Isolate* isolate)
+        const && -> ext::any
 {
     return v8pp::class_<event>{isolate}
-            .ctor<ext::string_view, const ext::string_any_map&>()
+            .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
             .inherit<dom_object>()
             .static_("NONE", event::NONE, true)
             .static_("CAPTURING_PHASE", event::CAPTURING_PHASE, true)

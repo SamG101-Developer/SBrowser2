@@ -10,7 +10,7 @@ class dom::events::custom_event final
 {
 public constructors:
     custom_event() = default;
-    custom_event(ext::string_view event_type, ext::string_any_map_view event_init = {});
+    custom_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_properties:
     ext::property<ext::any> detail;
