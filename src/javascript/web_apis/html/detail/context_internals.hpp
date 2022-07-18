@@ -3,6 +3,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/vector.hpp"
+#include "url/url.hpp"
 #include <memory>
 namespace dom::nodes {class document;}
 namespace dom::nodes {class window_proxy;}
@@ -23,6 +24,12 @@ struct html::detail::context_internals::browsing_context
     std::unique_ptr<browsing_context> opener_browsing_context;
     ext::boolean disowned;
     ext::boolean is_closing;
+
+    std::unique_ptr<dom::nodes::document> container_document;
+
+    ext::string creator_origin;
+    url::url_object creator_url;
+    url::url_object creator_base_url;
 
     ext::vector<dom::nodes::document*> session_history {};
 };
