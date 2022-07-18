@@ -27,7 +27,7 @@ auto dom::mixins::slottable::to_v8(
         const && -> ext::any
 {
     return v8pp::class_<slottable>{isolate}
-        .inherit<web_apis::dom_object>()
+        .inherit<dom_object>()
         .var("assignedSlot", &slottable::assigned_slot, false)
         .auto_wrap_objects();
 }
