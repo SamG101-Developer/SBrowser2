@@ -99,33 +99,27 @@ struct ranges::views::drop_until_fn
 };
 
 
-struct ranges::views::transform_if_fn
+struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'transform(...)' call
 {
-    constexpr auto operator()(auto&& _PredIf, auto&& _PredTransform) const
+    template <type_is_not<::ext::boolean> _Fy0, typename _Fy1>
+    constexpr auto operator()(_Fy0&& _PredIf, _Fy1&& _PredTransform) const
     {
         // a transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
         // statement. the return type of the '_PredTransform' method must be the same as the current element type in the
         // container / view, as there is no guarantee that very element will be transformed, so some elements will be
         // left in their original form
-        return ranges::views::transform([
-                _PredIf = std::forward<decltype(_PredIf)>(_PredIf),
-                _PredTransform = std::forward<decltype(_PredTransform)>(_PredTransform)]
-                (auto&& _Elem)
-        {
-            return _PredIf() ? _PredTransform(std::forward<decltype(_Elem)>(_Elem)) : std::forward<decltype(_Elem)>(_Elem);
-        });
+        return ranges::views::transform(
+                [_PredIf = std::forward<_Fy0>(_PredIf), _PredTransform = std::forward<_Fy1>(_PredTransform)]<typename T>(T&& _Elem)
+                {return _PredIf() ? _PredTransform(std::forward<T>(_Elem)) : std::forward<T>(_Elem);});
     }
 
-    constexpr auto operator()(bool _PredIf, auto&& _PredTransform) const
+    template <typename _Fy1>
+    constexpr auto operator()(const ::ext::boolean&& _PredIf, _Fy1&& _PredTransform) const
     {
         // a transform_if adaptor works by transforming each element, if 'PredIf' is a true boolean value
-        return ranges::views::transform([
-                _PredIf,
-                _PredTransform = std::forward<decltype(_PredTransform)>(_PredTransform)]
-                (auto&& _Elem)
-        {
-            return _PredIf ? _PredTransform(std::forward<decltype(_Elem)>(_Elem)) : std::forward<decltype(_Elem)>(_Elem);
-        });
+        return ranges::views::transform(
+                [&_PredIf, _PredTransform = std::forward<_Fy1>(_PredTransform)]<typename T>(T&& _Elem)
+                {return _PredIf ? _PredTransform(std::forward<T>(_Elem)) : std::forward<T>(_Elem);});
     }
 };
 
@@ -137,7 +131,7 @@ struct ranges::views::cast_all_to_fn
     {
         // a cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
         // another type, and then removing all the instances of nullptr
-        return ranges::views::transform([](auto* pointer) {return dynamic_cast<_Tx*>(pointer);}) | ranges::views::remove(nullptr);
+        return ranges::views::transform([](auto* pointer) {return dynamic_cast<_Tx>(pointer);}) | ranges::views::remove(nullptr);
     }
 };
 
@@ -173,26 +167,25 @@ struct ranges::actions::uppercase_fn
 
 struct ranges::actions::transform_if_fn
 {
-    constexpr auto operator()(auto&& _PredIf, auto&& _PredTransform) const
+    template <typename _Fy0, typename _Fy1>
+    constexpr auto operator()(_Fy0&& _PredIf, _Fy1&& _PredTransform) const
     {
-        return ranges::actions::transform([
-                _PredIf = std::forward<decltype(_PredIf)>(_PredIf),
-                _PredTransform = std::forward<decltype(_PredTransform)>(_PredTransform)]
-                (auto&& _Elem)
-        {
-            return _PredIf() ? _PredTransform(std::forward<decltype(_Elem)>(_Elem)) : std::forward<decltype(_Elem)>(_Elem);
-        });
+        // a transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
+        // statement. the return type of the '_PredTransform' method must be the same as the current element type in the
+        // container / view, as there is no guarantee that very element will be transformed, so some elements will be
+        // left in their original form
+        return ranges::actions::transform(
+                [_PredIf = std::forward<_Fy0>(_PredIf), _PredTransform = std::forward<_Fy1>(_PredTransform)]<typename T>(T&& _Elem)
+                {return _PredIf() ? _PredTransform(std::forward<T>(_Elem)) : std::forward<T>(_Elem);});
     }
 
-    constexpr auto operator()(bool _PredIf, auto&& _PredTransform) const
+    template <typename _Fy1>
+    constexpr auto operator()(const ::ext::boolean&& _PredIf, auto&& _PredTransform) const
     {
-        return ranges::views::transform([
-                _PredIf,
-                _PredTransform = std::forward<decltype(_PredTransform)>(_PredTransform)]
-                (auto&& _Elem)
-        {
-            return _PredIf ? _PredTransform(std::forward<decltype(_Elem)>(_Elem)) : std::forward<decltype(_Elem)>(_Elem);
-        });
+        // a transform_if adaptor works by transforming each element, if 'PredIf' is a true boolean value
+        return ranges::actions::transform(
+                [&_PredIf, _PredTransform = std::forward<_Fy1>(_PredTransform)]<typename T>(T&& _Elem)
+                {return _PredIf ? _PredTransform(std::forward<T>(_Elem)) : std::forward<T>(_Elem);});
     }
 };
 
@@ -202,7 +195,7 @@ struct ranges::actions::cast_all_to_fn
 {
     constexpr auto operator()(::ext::boolean_view remove_nullptr = true) const // TODO : apply parameter
     {
-        return ranges::actions::transform([](auto* pointer) {return dynamic_cast<_Tx*>(pointer);}) | ranges::actions::remove(nullptr);
+        return ranges::actions::transform([](auto* pointer) {return dynamic_cast<_Tx>(pointer);}) | ranges::actions::remove(nullptr);
     }
 };
 
@@ -225,7 +218,7 @@ struct ranges::first_where_fn
     constexpr auto operator()(Rng1&& range1, Fx&& function) const
     {
         auto filtered = range1 | ranges::views::filter(std::forward<Fx>(function));
-        return filtered.front();
+        return filtered.begin();
     }
 };
 
@@ -236,7 +229,7 @@ struct ranges::last_where_fn
     constexpr auto operator()(Rng1&& range1, Fx&& function) const
     {
         auto filtered = range1 | ranges::views::filter(std::forward<Fx>(function));
-        return filtered.back();
+        return filtered.end();
     }
 };
 
