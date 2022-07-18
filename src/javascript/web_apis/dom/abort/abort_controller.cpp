@@ -1,5 +1,6 @@
 #include "abort_controller.hpp"
 
+#include "dom/abort/abort_signal.hpp"
 #include "dom/detail/aborting_internals.hpp"
 
 
