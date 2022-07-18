@@ -18,7 +18,8 @@ auto dom::node_iterators::node_iterator::next_node()
 {
     // visit the next node that this NodeIterator is configured to find (with the NodeFilter interface), by calling the
     // detail traversal method, with the NEXT configuration
-    return detail::traversal_internals::traverse(this, detail::traversal_internals::NEXT);
+    using enum detail::traversal_internals::traversal_direction;
+    return detail::traversal_internals::traverse(this, NEXT);
 }
 
 
@@ -27,7 +28,8 @@ auto dom::node_iterators::node_iterator::prev_node()
 {
     // visit the previous node that this NodeIterator is configured to find (with the NodeFilter interface), by calling
     // the detail traversal method, with the PREVIOUS configuration
-    return detail::traversal_internals::traverse(this, detail::traversal_internals::PREVIOUS);
+    using enum detail::traversal_internals::traversal_direction;
+    return detail::traversal_internals::traverse(this, PREVIOUS);
 }
 
 
