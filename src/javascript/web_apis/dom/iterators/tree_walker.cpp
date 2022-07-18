@@ -5,6 +5,8 @@
 #include "dom/detail/tree_internals.hpp"
 #include "dom/detail/traversal_internals.hpp"
 #include "dom/iterators/node_filter.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/element.hpp"
 #include "dom/nodes/node.hpp"
 
 #include <range/v3/view/cache1.hpp>
@@ -22,8 +24,7 @@ auto dom::node_iterators::tree_walker::parent_node()
 {
     auto current_node_ancestors = detail::tree_internals::ancestors(current_node());
     auto filtered_ancestors = current_node_ancestors
-//            | ranges::views::filter(ext::bind_back(detail::traversal_internals::filter, this))
-            | ranges::views::filter([this](nodes::node* node) {return detail::traversal_internals::filter(node, this);})
+            | ranges::views::filter(ext::bind_back(detail::traversal_internals::filter, this))
             | ranges::views::take_while(ext::bind_back(std::not_equal_to{}, root()));
 
     return *filtered_ancestors.begin();
@@ -33,7 +34,8 @@ auto dom::node_iterators::tree_walker::parent_node()
 auto dom::node_iterators::tree_walker::first_child()
         -> nodes::node*
 {
-    auto* first_child_node = detail::traversal_internals::traverse_children(this, detail::traversal_internals::FIRST_CHILD);
+    using enum detail::traversal_internals::traversal_child;
+    auto* const first_child_node = detail::traversal_internals::traverse_children(this, FIRST_CHILD);
     return first_child_node;
 }
 
@@ -41,7 +43,8 @@ auto dom::node_iterators::tree_walker::first_child()
 auto dom::node_iterators::tree_walker::last_child()
         -> nodes::node*
 {
-    auto* last_child_node = detail::traversal_internals::traverse_children(this, detail::traversal_internals::LAST_CHILD);
+    using enum detail::traversal_internals::traversal_child;
+    auto* const last_child_node = detail::traversal_internals::traverse_children(this, LAST_CHILD);
     return last_child_node;
 }
 
@@ -49,7 +52,8 @@ auto dom::node_iterators::tree_walker::last_child()
 auto dom::node_iterators::tree_walker::prev_sibling()
         -> nodes::node*
 {
-    auto* prev_sibling_node = detail::traversal_internals::traverse_siblings(this, detail::traversal_internals::PREVIOUS_SIBLING);
+    using enum detail::traversal_internals::traversal_sibling;
+    auto* const prev_sibling_node = detail::traversal_internals::traverse_siblings(this, PREVIOUS_SIBLING);
     return prev_sibling_node;
 }
 
@@ -57,7 +61,8 @@ auto dom::node_iterators::tree_walker::prev_sibling()
 auto dom::node_iterators::tree_walker::next_sibling()
         -> nodes::node*
 {
-    auto* next_sibling_node = detail::traversal_internals::traverse_siblings(this, detail::traversal_internals::NEXT_SIBLING);
+    using enum detail::traversal_internals::traversal_sibling;
+    auto* const next_sibling_node = detail::traversal_internals::traverse_siblings(this, NEXT_SIBLING);
     return next_sibling_node;
 }
 
@@ -122,13 +127,12 @@ auto dom::node_iterators::tree_walker::next_node()
         if (result == node_filter::FILTER_ACCEPT)
             return current_node = node;
 
-        auto* temporary = node;
+        const auto* temporary = node;
         // next sibling, otherwise parent node to move up tree
         while (temporary)
         {
             return_if(temporary == root()) nullptr;
-            auto* sibling = temporary->next_sibling();
-            if (sibling)
+            if (auto* const sibling = temporary->next_sibling())
             {
                 node = sibling;
                 break;
