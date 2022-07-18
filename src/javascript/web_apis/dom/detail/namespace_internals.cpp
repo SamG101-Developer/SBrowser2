@@ -9,14 +9,15 @@ using namespace std::string_view_literals;
 
 
 auto dom::detail::namespace_internals::validate_and_extract(
-        ext::string_view namespace_,
-        ext::string_view qualified_name)
-        -> std::tuple<ext::string, ext::string>
+        const ext::string_view namespace_,
+        const ext::string& qualified_name)
+        -> ext::tuple<ext::string, ext::string>
 {
     // validate the name, and initialize the prefix to the empty string, and the local name defaults to the qualified
     // name - if there is no prefix, then the local name is the whole qualified name
     validate(qualified_name);
-    ext::string prefix, local_name = qualified_name;
+    ext::string local_name = qualified_name;
+    ext::string prefix;
 
     // if there is a colon in the qualified name, then there is a prefix and a local name contained in the qualified
     // name, so split the qualified name on the colon, and set the prefix and local name to the first 2 results
@@ -55,14 +56,14 @@ auto dom::detail::namespace_internals::validate_and_extract(
 
 
 auto dom::detail::namespace_internals::html_adjust_string(
-        ext::string_view string,
-        ext::boolean_view adjust,
-        ext::boolean_view lower)
+        ext::string&& string,
+        ext::boolean&& adjust,
+        ext::boolean&& lower)
         -> ext::string
 {
     // TODO : rework so that `(ext::string)` conversion is not required
     return adjust ? lower
             ? string | ranges::views::lowercase() | ranges::to<ext::string>()
             : string | ranges::views::uppercase() | ranges::to<ext::string>()
-            : (ext::string)string;
+            : std::move(string);
 }

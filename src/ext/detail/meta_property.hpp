@@ -30,9 +30,12 @@ namespace ext {template <typename _Tx, bool ce_reactions = false> class property
 #include <tuple>
 
 #include "ext/boolean.hpp"
+#include "ext/functional.hpp"
 #include "ext/keywords.hpp"
 #include "ext/number.hpp"
+#include "ext/pair.hpp"
 #include "ext/set.hpp"
+#include "ext/tuple.hpp"
 #include "ext/type_traits.hpp"
 
 
@@ -44,7 +47,7 @@ public constructors:
     explicit meta_property(const _Tx& _That) : _Val{_That} {}
     explicit meta_property(_Tx&& _That) : _Val(std::forward<_Tx>(_That)) {};
 
-public aliases:
+public aliases: // TODO : ext::function doesn't work yet for these
     using outer_val_t = _Tx;
     using inner_val_t = unwrap_smart_pointer_t<outer_val_t>;
 
@@ -93,17 +96,18 @@ public cpp_properties:
     {
         if constexpr is_smart_property
             _Val.release();
+        static_cast<void>(_Val);
     };
 
 private cpp_methods:
-    auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>;
-    auto _IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires inherit_template<ext::number, _Tx>;
+    auto _IsValueValid(_Tx _That) const -> ext::tuple<ext::boolean, _Tx>;
+    auto _IsValueValid(_Tx _That) const -> ext::tuple<ext::boolean, _Tx> requires inherit_template<ext::number, _Tx>;
 
 public cpp_properties:
     _Tx _Val;
     ext::boolean _Locked {true};
 
-    struct {ext::boolean _Is; std::pair<int, int> _Range    ;} _Clamp;
+    struct {ext::boolean _Is; ext::pair<int, int> _Range    ;} _Clamp;
     struct {ext::boolean _Is; ext::set<_Tx>       _Allowed  ;} _Constraints;
     struct {ext::boolean _Is; qt_method_set_t     _Callbacks;} _Qt_callbacks;
 };
@@ -123,8 +127,8 @@ template <typename ..._Valty>
 auto ext::detail::meta_property<_Tx, ce_reactions>::_AttachConstraint(_Valty&&... _Allowed) -> void
 {
     // set the constraints and add the allowed values to it
-    _Constraints._Is    = true;
-    _Constraints._Range = ext::set{std::forward<_Valty>(_Allowed)...};
+    _Constraints._Is      = true;
+    _Constraints._Allowed = ext::set{std::forward<_Valty>(_Allowed)...};
 }
 
 
@@ -134,12 +138,12 @@ auto ext::detail::meta_property<_Tx, ce_reactions>::_AttachQtMethod(_Ty _Qt_obj,
 {
     // set the of qt callbacks and add the callbacks to it (can be called multiple times)
     _Qt_callbacks._Is = true;
-    _Qt_callbacks._Callbacks.emplace([this, &_Qt_obj, _Callback = std::forward<_Ty>(_Callback)] {std::mem_fn(_Callback)(_Qt_obj, _Val);});
+    _Qt_callbacks._Callbacks.emplace([this, &_Qt_obj, _Callback = std::forward<_Ty2>(_Callback)] {std::mem_fn(_Callback)(_Qt_obj, _Val);});
 }
 
 
 template <typename _Tx, bool ce_reactions>
-auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx>
+auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> ext::tuple<ext::boolean, _Tx>
 {
     // for non-arithmetic types, check that the constraints are satisfied
     return {_Constraints._Is and _Constraints._Allowed.contains(_That), _That};
@@ -147,7 +151,7 @@ auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) con
 
 
 template <typename _Tx, bool ce_reactions>
-auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> std::tuple<ext::boolean, _Tx> requires inherit_template<ext::number, _Tx>
+auto ext::detail::meta_property<_Tx, ce_reactions>::_IsValueValid(_Tx _That) const -> ext::tuple<ext::boolean, _Tx> requires inherit_template<ext::number, _Tx>
 {
     // for arithmetic types, check that the constraints are satisfied, and then clamp the value
     if (_Constraints._Is && not _Constraints._Allowed.contains(_That)) return {false, _That};

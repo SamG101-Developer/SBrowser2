@@ -3,6 +3,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
+#include "ext/tuple.hpp"
 
 namespace dom::detail::namespace_internals
 {
@@ -21,13 +22,13 @@ namespace dom::detail::namespace_internals
 
     auto validate_and_extract(
             ext::string_view namespace_,
-            ext::string_view qualified_name)
-            -> std::tuple<ext::string, ext::string>;
+            const ext::string& qualified_name)
+            -> ext::tuple<ext::string, ext::string>;
 
     auto html_adjust_string(
-            ext::string_view string,
-            ext::boolean_view adjust,
-            ext::boolean_view lower = true)
+            ext::string&& string,
+            ext::boolean&& adjust,
+            ext::boolean&& lower = ext::boolean::TRUE())
             -> ext::string;
 }
 

@@ -112,11 +112,11 @@ auto dom::nodes::node::compare_document_position(
 
 
 auto dom::nodes::node::get_root_node(
-        ext::string_any_map_view options)
+        ext::map<ext::string, ext::any>&& options)
         -> node*
 {
     // get the shadow including root node if the 'composed' option is set, otherwise get the regular root of the node
-    return options.at("composed").value_to_or<bool>(false)
+    return options.try_emplace("composed", ext::boolean::FALSE()).first->second.to<ext::boolean>()
             ? detail::shadow_internals::shadow_including_root(this)
             : detail::tree_internals::root(this);
 }
@@ -135,7 +135,7 @@ auto dom::nodes::node::has_child_nodes()
         -> ext::boolean
 {
     // this node has child nodes if the 'child_nodes' list is not empty
-    return !child_nodes->empty();
+    return !child_nodes()->empty();
 }
 
 
@@ -170,13 +170,13 @@ auto dom::nodes::node::normalize()
                 // the text node (text has shifted back to previous node) and set the starting node to the text node
                 ranges::for_each(
                         live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node;}),
-                        [&text_node, length](node_ranges::range* range) {range->start_offset += length; range->start_container = text_node;});
+                        [&text_node, length](node_ranges::range* range) {range->start_offset = range->start_offset() + length; range->start_container = text_node;});
 
                 // ranges whose ending node is current_node: increment the ending offset by the length of the text of the
                 // text node (text has shifted back to previous node) abd set the ending node to the text node
                 ranges::for_each(
                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node;}),
-                       [&text_node, length](node_ranges::range* range) {range->end_offset += length; range->end_container = text_node;});
+                       [&text_node, length](node_ranges::range* range) {range->end_offset = range->end_offset() + length; range->end_container = text_node;});
 
                 // ranges whose starting node is current_node's parent: set the starting offset to the length of the text in
                 // the text node and set the starting node to the text node TODO : why?
@@ -230,7 +230,7 @@ auto dom::nodes::node::is_equal_node(
     // node, or the children aren't equal, (child node length check has to be done so that the zip view matches the
     // children without error)
     if (not other) return false;
-    if (child_nodes->size() != other->child_nodes->size()) return false;
+    if (child_nodes()->size() != other->child_nodes()->size()) return false;
     return ranges::all_of(
             ranges::zip_view(*child_nodes(), *other->child_nodes()),
             [](auto&& compare_children) {return compare_children.first == compare_children.second;});
@@ -334,7 +334,7 @@ auto dom::nodes::node::remove_child(
 
 auto dom::nodes::node::get_previous_sibling() const -> node*
 {
-    auto* siblings = parent_node->child_nodes();
+    auto* siblings = parent_node()->child_nodes();
     auto* this_node_iter = std::ranges::find(*siblings, this);
     return this_node_iter != siblings->begin() ? *(this_node_iter - 1) : nullptr;
 }
@@ -342,7 +342,7 @@ auto dom::nodes::node::get_previous_sibling() const -> node*
 
 auto dom::nodes::node::get_next_sibling() const -> node*
 {
-    auto* siblings = parent_node->child_nodes();
+    auto* siblings = parent_node()->child_nodes();
     auto* this_node_iter = std::ranges::find(*siblings, this);
     return (this_node_iter + 1 != siblings->end()) ? *(this_node_iter + 1) : nullptr;
 }

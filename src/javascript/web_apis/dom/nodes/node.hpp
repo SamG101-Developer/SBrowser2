@@ -39,7 +39,7 @@ public js_static_constants:
 
 public js_methods:
     auto compare_document_position(node* other) -> ext::number<ushort>;
-    auto get_root_node(ext::string_any_map_view options) -> node*;
+    auto get_root_node(ext::map<ext::string, ext::any>&& options) -> node*;
     auto contains(node* other) -> ext::boolean;
     auto has_child_nodes() -> ext::boolean;
 
@@ -76,7 +76,7 @@ public js_properties:
     ext::property<node*> next_sibling;
 
 public cpp_methods:
-    virtual auto to_qt() const -> QWidget* {return m_rendered_widget;};
+    virtual auto to_qt() const -> QWidget* {return m_rendered_widget.get();};
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_properties:
@@ -96,8 +96,8 @@ protected cpp_accessors:
 private cpp_accessors:
     [[nodiscard]] auto get_is_connected() const -> bool;
     [[nodiscard]] auto get_base_uri() const -> ext::string&;
-    [[nodiscard]] auto get_first_child() const -> node* {return child_nodes->front().value_or(nullptr);}
-    [[nodiscard]] auto get_last_child() const -> node* {return child_nodes->back().value_or(nullptr);}
+    [[nodiscard]] auto get_first_child() const -> node* {return *child_nodes()->begin();}
+    [[nodiscard]] auto get_last_child() const -> node* {return *child_nodes()->end();}
     [[nodiscard]] auto get_previous_sibling() const -> node*;
     [[nodiscard]] auto get_next_sibling() const -> node*;
     [[nodiscard]] auto get_parent_element() const -> element*;

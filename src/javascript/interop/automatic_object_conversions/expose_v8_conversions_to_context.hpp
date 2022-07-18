@@ -63,7 +63,7 @@ inline auto javascript::interop::expose(v8::Isolate* isolate, environment::modul
         }
     }
 
-    local_context->Global()->SetPrivate(local_context, v8::Private::New(isolate, v8pp::to_v8(isolate, "blob_url_store")), v8pp::to_v8(isolate, ext::map<ext::string, std::pair<file_api::blob, v8::Local<v8::Object>>>{}));
+    local_context->Global()->SetPrivate(local_context, v8::Private::New(isolate, v8pp::to_v8(isolate, "blob_url_store")), v8pp::to_v8(isolate, ext::map<ext::string, ext::pair<file_api::blob, v8::Local<v8::Object>>>{}));
     return persistent_context;
 }
 

@@ -1,21 +1,25 @@
 #ifndef SBROWSER2_OBSERVER_INTERNALS_HPP
 #define SBROWSER2_OBSERVER_INTERNALS_HPP
 
+#include "ext/any.hpp"
+#include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+
 #include <memory>
+#include <v8-object.h>
 #include <v8-platform.h>
 namespace dom::mutations {class mutation_observer;}
-namespace dom::nodes {class node;}
 namespace dom::nodes {class document;}
+namespace dom::nodes {class node;}
 namespace html::elements {class html_element; class html_media_element;}
 
 
 namespace dom::detail::observer_internals
 {
-    using steps_t = std::function<void()>;
-    enum mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
+    using steps_t = ext::function<void()>;
+    enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
 
     struct registered_observer;
     struct transient_registered_observer;
@@ -55,20 +59,20 @@ namespace dom::detail::observer_internals
             -> void;
 
     auto queue_task(
-            v8::Task& task_source,
+            const v8::Task& task_source,
             steps_t&& steps,
             v8::Isolate* event_loop = nullptr,
             nodes::document* document = nullptr)
             -> void;
 
     auto queue_global_task(
-            v8::Task& task_source,
+            const v8::Task& task_source,
             v8::Local<v8::Object> global_object,
             steps_t&& steps)
             -> void;
 
     auto queue_element_task(
-            v8::Task& task_source,
+            const v8::Task& task_source,
             html::elements::html_element* element,
             steps_t&& steps)
             -> void;
@@ -83,7 +87,7 @@ namespace dom::detail::observer_internals
 struct dom::detail::observer_internals::registered_observer
 {
     std::unique_ptr<mutations::mutation_observer> observer;
-    ext::string_any_map options;
+    ext::map<ext::string, ext::any> options;
     virtual ~registered_observer() = default;
 };
 

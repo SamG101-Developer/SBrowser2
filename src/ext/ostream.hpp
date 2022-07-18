@@ -3,6 +3,7 @@
 
 #include "ext/map.hpp"
 #include "ext/number.hpp"
+#include "ext/pair.hpp"
 #include "ext/vector.hpp"
 #include <ostream>
 
@@ -28,7 +29,7 @@ std::ostream& operator<<(std::ostream& _Stream, const ext::map<_Keyty, _Valty>& 
 
 
 template <typename _Keyty, typename _Valty>
-std::ostream& operator<<(std::ostream& _Stream, const std::pair<_Keyty, _Valty>& _Pair)
+std::ostream& operator<<(std::ostream& _Stream, const ext::pair<_Keyty, _Valty>& _Pair)
 {
     _Stream << "pair<" << typeid(_Keyty).name() << ", " << typeid(_Valty).name() << "> ";
     return _Stream << "{" << _Pair.first << ": " << _Pair.second << "}";

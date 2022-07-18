@@ -22,7 +22,7 @@ namespace url {class url_object;}
 
 namespace fetch::detail::http_internals
 {
-    using algorithm_t = ext::optional<std::function<void(v8::Local<v8::Object>)>>;
+    using algorithm_t = ext::optional<ext::function<void(v8::Local<v8::Object>)>>;
     
     enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
     enum class method_t {DELETE, GET, HEAD, OPTIONS, POST, PUT};

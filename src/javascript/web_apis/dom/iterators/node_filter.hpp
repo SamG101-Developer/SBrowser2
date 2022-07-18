@@ -5,12 +5,14 @@
 #include "dom_object.hpp"
 namespace dom::node_iterators {class node_filter;}
 
+#include "ext/functional.hpp"
+
 
 class dom::node_iterators::node_filter
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public aliases:
-    using accept_callback_t = std::function<ext::number<ushort>(nodes::node*)>;
+    using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
 
 public constructors:
     node_filter();
@@ -35,7 +37,7 @@ public js_properties:
     ext::property<accept_callback_t> accept_node;
     
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
