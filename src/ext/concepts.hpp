@@ -51,6 +51,9 @@ concept range_v3_view = ranges::view_<_Tx>;
 template <typename TypeToCheck, typename ...TypesToCheckAgainst>
 concept type_is = (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
 
+template <typename TypeTpCheck, typename ...TypesToCheckAgainst>
+concept type_is_not = (!std::same_as<std::remove_cvref<TypeTpCheck>, TypesToCheckAgainst> && ...);
+
 
 // check if a type is a primitive numeric type
 template <typename _Tx>
