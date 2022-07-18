@@ -2,14 +2,15 @@
 #ifndef SBROWSER2_TYPE_TRAITS_HPP
 #define SBROWSER2_TYPE_TRAITS_HPP
 
-
+#include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
+#include "ext/number.hpp"
+#include "ext/variant.hpp"
 
 #include <functional>
 #include <memory>
 #include <type_traits>
-#include <variant>
 
 
 // type definitions
@@ -43,7 +44,36 @@ template <typename _Old, typename ..._New>
 struct ext::_extend_variant {using type = _Old;};
 
 template <typename ..._Old, typename ..._New>
-struct ext::_extend_variant<std::variant<_Old...>, _New...> {using type = std::variant<_Old..., _New...>;};
+struct ext::_extend_variant<ext::variant<_Old...>, _New...> {using type = ext::variant<_Old..., _New...>;};
+
+
+// std::hash implementations
+template <>
+struct std::hash<ext::boolean>
+{
+    constexpr auto operator()(ext::boolean_view _Keyval) const noexcept -> size_t {return std::hash<bool>{}(_Keyval);}
+};
+
+
+template <typename T>
+struct std::hash<ext::number<T>>
+{
+    constexpr auto operator()(ext::number_view<T> _Keyval) const noexcept -> size_t {return std::hash<T>{}(_Keyval);}
+};
+
+
+template <typename T>
+struct std::hash<std::function<T>>
+{
+    constexpr auto operator()(std::function<T> _Keyval) const noexcept -> size_t {return std::hash<size_t>{}(&_Keyval);}
+};
+
+
+template <>
+struct std::hash<ext::any>
+{
+    constexpr auto operator()(ext::any_view _Keyval) const noexcept -> size_t {return std::hash<size_t>{}(&_Keyval);}
+};
 
 
 #endif //SBROWSER2_TYPE_TRAITS_HPP
