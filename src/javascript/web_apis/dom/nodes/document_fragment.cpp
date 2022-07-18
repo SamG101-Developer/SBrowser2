@@ -1,7 +1,7 @@
 #include "document_fragment.hpp"
 
-#include <dom/detail/node_internals.hpp>
-#include <dom/detail/tree_internals.hpp>
+#include "dom/detail/node_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 
 
 auto dom::nodes::document_fragment::get_text_content()
