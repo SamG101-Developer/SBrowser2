@@ -1,18 +1,19 @@
 #ifndef SBROWSER2_CONVERT_MAP_LIKE_HPP
 #define SBROWSER2_CONVERT_MAP_LIKE_HPP
 
-#include <ranges>
+#include "ext/map_like.hpp"
+#include "ext/vector.hpp"
 
-#include <ext/map_like.hpp>
-#include <ext/vector.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/transform.hpp>
 #include <v8-container.h>
 #include <v8pp/convert.hpp>
 
 
 template <typename K, typename V>
-struct v8pp::convert<ext::map<K, V>>
+struct v8pp::convert<ext::map_like<K, V>>
 {
-    using from_type = ext::map<K, V>;
+    using from_type = ext::map_like<K, V>;
     using to_type   = v8::Local<v8::Object>;
 
     auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() && v8_value->IsObject();}
@@ -22,7 +23,7 @@ struct v8pp::convert<ext::map<K, V>>
 
 
 template <typename K, typename V>
-inline auto v8pp::convert<ext::map<K, V>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
+inline auto v8pp::convert<ext::map_like<K, V>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
 {
     if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::map_like<K, V> from v8"};
     v8::HandleScope javascript_scope{isolate};
@@ -34,10 +35,9 @@ inline auto v8pp::convert<ext::map<K, V>>::from_v8(v8::Isolate* isolate, v8::Loc
 
     // get the values at the non-enumerable attributes - ie object["a"] = object.a, and convert them to a cpp map
     ext::map<std::string, V> cpp_value_map;
-    std::ranges::copy(v8pp::convert<ext::vector<std::string>>::from_v8(isolate, v8_value_object_property_names)
-            | std::ranges::views::filter([v8_value_object, v8_context](auto v8_property_name) {v8_value_object->GetPropertyAttributes(v8_context, v8_property_name) & v8::PropertyAttribute::DontEnum;})
-            | std::ranges::views::transform([v8_value_object, v8_context](auto v8_property_name) {return v8pp::convert<V>::from_v8(v8_value_object->Get(v8_context, v8_property_name));})
-            , cpp_value_map);
+    v8pp::convert<ext::vector<ext::string>>::from_v8(isolate, v8_value_object_property_names)
+            | ranges::views::filter([v8_value_object, v8_context](auto v8_property_name) {v8_value_object->GetPropertyAttributes(v8_context, v8_property_name) & v8::PropertyAttribute::DontEnum;})
+            | ranges::views::transform([v8_value_object, v8_context](auto v8_property_name) {return v8pp::convert<V>::from_v8(v8_value_object->Get(v8_context, v8_property_name));});
 
     from_type cpp_value_map_like{cpp_value_map};
     return cpp_value_map_like;
@@ -45,7 +45,7 @@ inline auto v8pp::convert<ext::map<K, V>>::from_v8(v8::Isolate* isolate, v8::Loc
 
 
 template <typename K, typename V>
-inline auto v8pp::convert<ext::map<K, V>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_map_like) -> to_type
+inline auto v8pp::convert<ext::map_like<K, V>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_map_like) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 
