@@ -16,10 +16,14 @@
 #include "dom/nodes/text.hpp"
 #include "dom/other/dom_implementation.hpp"
 
+#include "html/elements/html_base_element.hpp"
+#include "html/elements/html_meta_element.hpp"
 #include "html/elements/html_title_element.hpp"
+#include "html/detail/document_internals.hpp"
 #include "html/detail/render_blocking_internals.hpp"
 
 #include "infra/detail/infra_strings_internals.hpp"
+#include "content_security_policy/detail/csp_internals.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/drop_while.hpp>
@@ -311,4 +315,52 @@ auto html::detail::html_element_internals::merge_with_next_text_node(
     text_node->append_data(next_text_node->data());
     if (next_text_node->parent_node())
         dom::detail::mutation_internals::remove(next_text_node);
+}
+
+
+auto html::detail::html_element_internals::get_elements_target(
+        const dom::nodes::element* element)
+        -> ext::string
+{
+    JS_REALM_GET_RELEVANT(element);
+    if (reflect_has_attribute_value(element, "target", element_relevant))
+        return reflect_get_attribute_value(element, "target", ext::string, element_relevant);
+
+    auto base_elements = dom::detail::tree_internals::root(element)->child_nodes
+            | ranges::views::cast_all_to<html::elements::html_base_element*>()
+            | ranges::views::filter([](html::elements::html_base_element* html_base_element) {JS_REALM_GET_RELEVANT(html_base_element) return reflect_has_attribute_value(html_base_element, "target", html_base_element_relevant);});
+
+    return !base_elements.empty() ? base_elements.front() : "";
+}
+
+
+auto html::detail::html_element_internals::set_frozen_base_url(
+        elements::html_base_element* element)
+        -> void
+{
+    auto* document = element->owner_document();
+    auto document_fallback_base_url = document_internals::fallback_base_url(document);
+    auto url_record = url::detail::url_parsing_serializing_internals::parse(element->href(), document_fallback_base_url, document->m_encoding);
+
+    element->m_frozen_base_url = content_security_policy::detail::csp_internals::is_base_allowed_for_document(url_record, document)
+            ? document_fallback_base_url
+            : url_record;
+}
+
+
+auto html::detail::html_element_internals::pragma_set_default_language(
+        elements::html_meta_element* element)
+        -> void
+{
+    JS_REALM_GET_RELEVANT(element)
+    return_if (!reflect_has_attribute_value(element, "content", element_relevant));
+    return_if (ranges::contains(element->content(), ','));
+
+    auto input = element->content();
+    auto position = ranges::find(input, ' ');
+    auto candidate = infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, ' ');
+
+    return_if(candidate.empty());
+
+    // TODO : set some value to 'candidate' <- return for now?
 }
