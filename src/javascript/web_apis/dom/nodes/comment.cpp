@@ -4,25 +4,12 @@
 #include "dom/nodes/window.hpp"
 
 
-dom::nodes::comment::comment()
+dom::nodes::comment::comment(ext::string&& new_data)
 {
     JS_REALM_GET_RELEVANT(this)
     owner_document = javascript::environment::realms_2::get<document*>(this_relevant_global_object, "associated_document");
-}
 
-
-dom::nodes::comment::comment(
-        ext::string_view new_data)
-        : comment()
-{
-    data = new_data;
-}
-
-
-auto dom::nodes::comment::get_node_name()
-        const -> ext::string
-{
-    return "#comment";
+    data = std::move(new_data);
 }
 
 
