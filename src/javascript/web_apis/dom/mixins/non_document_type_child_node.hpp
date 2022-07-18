@@ -8,7 +8,7 @@ namespace dom::nodes {class element;}
 
 
 class dom::mixins::non_document_type_child_node
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public constructors:
     non_document_type_child_node();
