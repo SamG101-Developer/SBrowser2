@@ -10,16 +10,16 @@
 
 
 auto dom::mixins::non_element_parent_node::get_element_by_id(
-        ext::string_view id)
+        const ext::string_view id)
         -> nodes::element*
 {
     // cross cast this node to a Node, get the element descendant nodes, and filter them by their id; if the element is
     // not nullptr and the id matches then add it to the matches range; return teh first matching element, otherwise
     // nullptr
-    auto* base = ext::cross_cast<nodes::node*>(this);
+    const auto* const base = ext::cross_cast<const nodes::node*>(this);
     auto matches = detail::tree_internals::descendants(base)
-            | ranges::views::cast_all_to<nodes::element>()
-            | ranges::views::filter([id](nodes::element* element) {return element && element->id() == id;});
+            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::filter([id](const nodes::element* const element) {return element && element->id() == id;});
 
     return *matches.begin(); // will be nullptr for empty list
 }
@@ -30,7 +30,7 @@ auto dom::mixins::non_element_parent_node::to_v8(
         const && -> ext::any
 {
     return v8pp::class_<non_element_parent_node>{isolate}
-        .inherit<web_apis::dom_object>()
+        .inherit<dom_object>()
         .function("getElementById", &non_element_parent_node::get_element_by_id)
         .auto_wrap_objects();
 }
