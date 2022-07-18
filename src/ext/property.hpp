@@ -44,8 +44,6 @@ public cpp_operators:
     // member access
     auto operator* ()       -> auto&;
     auto operator* () const -> const auto&;
-    auto operator->()       -> const auto&;
-    auto operator->() const -> const auto&;
 
     // getter
     auto operator()() const -> inner_val_t {return _Meta._Getter();}
@@ -97,28 +95,6 @@ auto ext::property<_Ty, ce_reactions>::operator*() const -> const auto&
     // get the internal value (internal pointer of smart pointer, or object)
     verify_lock
     return _Meta._Val;
-}
-
-
-template <typename _Ty, bool ce_reactions>
-auto ext::property<_Ty, ce_reactions>::operator->() -> const auto&
-{
-    // get the internal value (object of (smart)pointer, or address)
-    if constexpr(std::is_pointer_v<_Ty> || smart_pointer<_Ty>)
-        return _Meta._Val;
-    else
-        return &_Meta._Val;
-}
-
-
-template <typename _Ty, bool ce_reactions>
-auto ext::property<_Ty, ce_reactions>::operator->() const -> const auto&
-{
-    // get the internal value (object of (smart)pointer, or address)
-    if constexpr(std::is_pointer_v<_Ty> || smart_pointer<_Ty>)
-        return _Meta._Val;
-    else
-        return &_Meta._Val;
 }
 
 
