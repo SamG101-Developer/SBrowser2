@@ -20,45 +20,48 @@ dom::mixins::parentable_node::parentable_node()
 }
 
 
+template <type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::parentable_node::prepend(
-        type_is<nodes::node*, ext::string> auto&&... nodes)
+        T&&... nodes)
         -> nodes::node*
 {
     // parse the 'nodes' parameter, and pre insert the derived 'node' into this's child nodes, before the first node in
     // the child nodes list
     ce_reactions_method_def
-        auto* base = ext::cross_cast<nodes::node*>(this);
-        auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
-        detail::mutation_internals::pre_insert(node, base, base->child_nodes->front());
+        const auto* base = ext::cross_cast<nodes::node*>(this);
+        const auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        detail::mutation_internals::pre_insert(node, base, base->child_nodes()->front());
         return node;
     ce_reactions_method_exe
 }
 
 
+template <type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::parentable_node::append(
-        type_is<nodes::node*, ext::string> auto&&... nodes)
+        T&&... nodes)
         -> nodes::node*
 {
     // parse the 'nodes' parameter, and append the derived 'node' into this's child nodes, after the first node in the
     // child nodes list
     ce_reactions_method_def
-        auto* base = ext::cross_cast<nodes::node*>(this);
-        auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
-        detail::mutation_internals::append(node, base, base->child_nodes->front());
+        const auto* base = ext::cross_cast<nodes::node*>(this);
+        const auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        detail::mutation_internals::append(node, base, base->child_nodes()->front());
         return node;
     ce_reactions_method_exe
 }
 
 
+template <type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::parentable_node::replace_children(
-        type_is<nodes::node*, ext::string> auto&&... nodes)
+        T&&... nodes)
         -> nodes::node*
 {
     // parse the 'nodes' parameter, and replace the derived 'node' from this's child nodes, after ensuring pre insertion
     // validity of the node, at the end of the child nodes list
     ce_reactions_method_def
-        auto* base = ext::cross_cast<nodes::node*>(this);
-        auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        const auto* base = ext::cross_cast<nodes::node*>(this);
+        const auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::mutation_internals::ensure_pre_insertion_validity(node, base, nullptr);
         detail::mutation_internals::replace_all(node, base);
         return node;
@@ -67,10 +70,11 @@ auto dom::mixins::parentable_node::replace_children(
 
 
 auto dom::mixins::parentable_node::get_children()
-        const -> ranges::any_view<nodes::element*>
+        const -> ranges::any_view<nodes::element*, ranges::category::sized | ranges::category::forward>
 {
-    auto* base = ext::cross_cast<const nodes::node*>(this);
-    return *base->child_nodes() | ranges::views::cast_all_to<nodes::element>();
+    const auto* const base = ext::cross_cast<const nodes::node*>(this);
+    const auto& child_nodes = *base->child_nodes();
+    return child_nodes | ranges::views::cast_all_to<nodes::element*>();
 }
 
 
@@ -79,11 +83,9 @@ auto dom::mixins::parentable_node::to_v8(
         -> ext::any
 {
     return v8pp::class_<parentable_node>{isolate}
-            .inherit<web_apis::dom_object>()
+            .inherit<dom_object>()
             .function("prepend", &parentable_node::prepend, v8::DontEnum)
             .function("append", &parentable_node::append, v8::DontEnum)
             .function("replaceChildren", &parentable_node::replace_children, v8::DontEnum)
             .auto_wrap_objects();
-
-    v8::Local<v8::Object> v;
 }

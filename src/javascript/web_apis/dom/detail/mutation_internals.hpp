@@ -9,55 +9,55 @@ namespace dom::detail::mutation_internals
 {
     // common checks across multiple methods / validity checks
     auto common_checks(
-            nodes::node* node,
-            nodes::node* parent,
-            nodes::node* child)
+            const nodes::node* node,
+            const nodes::node* parent,
+            const nodes::node* child)
             -> void;
 
     auto ensure_pre_insertion_validity(
-            nodes::node* node,
-            nodes::node* parent,
-            nodes::node* child)
+            const nodes::node* node,
+            const nodes::node* parent,
+            const nodes::node* child)
             -> void;
 
     // pre-insertion and -removal
     auto pre_insert(
-            nodes::node* node,
-            nodes::node* parent,
-            nodes::node* child)
+            const nodes::node* node,
+            const nodes::node* parent,
+            const nodes::node* child)
             -> nodes::node*;
 
     auto pre_remove(
-            nodes::node* node,
-            nodes::node* parent)
+            const nodes::node* node,
+            const nodes::node* parent)
             -> nodes::node*;
 
     // general mutations
     auto insert(
-            nodes::node* node,
-            nodes::node* parent,
-            nodes::node* child,
+            const nodes::node* node,
+            const nodes::node* parent,
+            const nodes::node* child,
             ext::boolean_view suppress_observers_flag = false)
             -> nodes::node*;
 
     auto append(
-            nodes::node* node,
-            nodes::node* parent)
+            const nodes::node* node,
+            const nodes::node* parent)
             -> nodes::node*;
 
     auto replace(
-            nodes::node* node,
-            nodes::node* parent,
+            const nodes::node* node,
+            const nodes::node* parent,
             nodes::node* child)
             -> nodes::node*;
 
     auto replace_all(
-            nodes::node* node,
-            nodes::node* parent)
+            const nodes::node* node,
+            const nodes::node* parent)
             -> void;
 
     auto remove(
-            nodes::node* node,
+            const nodes::node* node,
             ext::boolean_view suppress_observers_flag = false)
             -> nodes::node*;
 }
