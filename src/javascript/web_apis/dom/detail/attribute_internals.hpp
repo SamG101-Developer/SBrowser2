@@ -13,7 +13,7 @@ namespace dom::detail::attribute_internals
 {
     // handle changes
     auto handle_attributes_changes(
-            nodes::attr* attribute,
+            const nodes::attr* attribute,
             nodes::element* owner_element,
             ext::string_view old_value,
             ext::string_view new_value)
@@ -45,7 +45,7 @@ namespace dom::detail::attribute_internals
             ext::string_view value = "",
             ext::string_view prefix = "",
             nodes::document* owner_document = nullptr)
-            -> nodes::attr*;
+            -> nodes::attr;
 
     auto set_attribute(
             nodes::element* new_owner_element,
@@ -53,7 +53,7 @@ namespace dom::detail::attribute_internals
             -> nodes::attr*;
 
     auto remove_attribute(
-            nodes::element* owner_element,
+            const nodes::element* owner_element,
             nodes::attr* attribute)
             -> nodes::attr*;
 
