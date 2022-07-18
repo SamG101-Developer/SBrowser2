@@ -16,7 +16,7 @@ auto dom::nodes::shadow_root::get_the_parent(
         -> event_target*
 {
     auto event_composed = event->composed();
-    auto event_root = detail::tree_internals::root(dynamic_cast<node*>(event->path->front()->invocation_target));
+    auto* event_root = detail::tree_internals::root(dynamic_cast<node*>(event->path()->front()->invocation_target));
 
     return !event_composed && event_root == this ? nullptr : host();
 }
