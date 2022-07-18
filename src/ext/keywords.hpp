@@ -7,7 +7,6 @@
 #define _T true
 #define _F false
 
-#define try try
 #define catch_all catch (...)
 #define catch_specific(exception_t) catch(const exception_t& exception)
 #define catch_other catch (...)
