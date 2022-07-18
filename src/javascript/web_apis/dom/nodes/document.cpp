@@ -87,16 +87,16 @@ dom::nodes::document::document()
 
 
 auto dom::nodes::document::create_element(
-        ext::string_view local_name,
-        ext::string_any_map_view options)
+        ext::string&& local_name,
+        ext::map<ext::string, ext::any>&& options)
         const -> element
 {
     ce_reactions_method_def
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
-        auto html_adjusted_local_name = detail::namespace_internals::html_adjust_string(local_name, m_type == "html");
+        auto html_adjusted_local_name = detail::namespace_internals::html_adjust_string(std::move(local_name), m_type == "html");
         auto html_adjusted_namespace_ = m_type == "html" || content_type() == "application/xhtml+xml" ? detail::namespace_internals::HTML : "";
-        auto is = options.at("is").value_to_or<ext::string>("");
+        auto is = options.try_emplace("is", "").first->second.to<ext::string>();
 
         // create the Element node with the html adjusted variables
         return detail::customization_internals::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
@@ -105,19 +105,19 @@ auto dom::nodes::document::create_element(
 
 
 auto dom::nodes::document::create_element_ns(
-        ext::string_view namespace_,
-        ext::string_view qualified_name,
-        ext::string_any_map_view options)
+        ext::string&& namespace_,
+        ext::string&& qualified_name,
+        ext::map<ext::string, ext::any>&& options)
         const -> element
 {
     ce_reactions_method_def
         // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
         // 'validate_and_extract(...)' method
-        auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
-        auto is = options.at("is").value_to_or<ext::string>("");
+        auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(std::move(namespace_), std::move(qualified_name));
+        auto is = options.try_emplace("is", "").first->second.to<ext::string>();
 
         // create the Element node with the html adjusted variables
-        return detail::customization_internals::create_an_element(this, local_name, namespace_, prefix, is, true);
+        return detail::customization_internals::create_an_element(this, local_name, std::move(namespace_), prefix, is, true);
     ce_reactions_method_exe
 }
 
@@ -133,19 +133,19 @@ auto dom::nodes::document::create_document_fragment()
 
 
 auto dom::nodes::document::create_text_node(
-        ext::string_view data)
+        ext::string&& data)
         const -> text
 {
     // create a Text node, and set its data and owner document to the 'data' parameter and this document
     text node;
-    node.data = data;
+    node.data = std::move(data);
     node.owner_document = const_cast<document*>(this);
     return node;
 }
 
 
 auto dom::nodes::document::create_cdata_section_node(
-        ext::string_view data)
+        ext::string&& data)
         const -> cdata_section
 {
     detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
@@ -153,49 +153,51 @@ auto dom::nodes::document::create_cdata_section_node(
             "Cannot create a CDataSection node in a HTML Document");
 
     detail::exception_internals::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
-            [data] {return ranges::contains(data, "]]>");},
+            [data = std::move(data)] {return ranges::contains(data, "]]>");},
             "Cannot create a CDataSection node with ']]>' in the data");
 
     cdata_section node;
-    node.data = data;
+    node.data = std::move(data);
     node.owner_document = const_cast<document*>(this);
     return node;
 }
 
 
 auto dom::nodes::document::create_comment(
-        ext::string_view data)
+        ext::string&& data)
         const -> comment
 {
     comment node;
-    node.data = data;
+    node.data = std::move(data);
     node.owner_document = const_cast<document*>(this);
     return node;
 }
 
 
 auto dom::nodes::document::create_processing_instruction(
-        ext::string_view target,
-        ext::string_view data)
+        ext::string&& target,
+        ext::string&& data)
         const -> processing_instruction
 {
     detail::exception_internals::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
-            [data] {return ranges::contains(data, "?>");},
+            [data = std::move(data)] {return ranges::contains(data, "?>");},
             "Cannot create a CDataSection node with '?>' in the data");
 
     processing_instruction node;
-    node.data = data;
-    node.target = target;
+    node.data = std::move(data);
+    node.target = std::move(target);
     node.owner_document = const_cast<document*>(this);
     return node;
 }
 
 
 auto dom::nodes::document::create_attribute(
-        ext::string_view local_name)
+        ext::string&& local_name)
         const -> attr
 {
-    auto html_adjusted_local_name = m_type == "html" ? local_name | ranges::views::lowercase() : local_name;
+    auto html_adjusted_local_name = m_type == "html"
+            ? local_name | ranges::views::lowercase() | ranges::to<ext::string>
+            : std::move(local_name);
 
     attr node;
     node.local_name = html_adjusted_local_name;
@@ -205,16 +207,16 @@ auto dom::nodes::document::create_attribute(
 
 
 auto dom::nodes::document::create_attribute_ns(
-        ext::string_view namespace_,
-        ext::string_view qualified_name)
+        ext::string&& namespace_,
+        ext::string&& qualified_name)
         const -> attr
 {
-    auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
+    auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(std::move(namespace_), std::move(qualified_name));
 
     attr node;
     node.local_name = std::move(local_name);
     node.prefix = std::move(prefix);
-    node.namespace_uri = namespace_;
+    node.namespace_uri = std::move(namespace_);
     node.owner_document = const_cast<document*>(this);
     return node;
 }
@@ -225,8 +227,8 @@ auto dom::nodes::document::create_range()
 {
     node_ranges::range live_range;
 
-    std::tie(live_range.start_container, live_range.start_offset) = std::make_tuple(const_cast<document*>(this), 0);
-    std::tie(live_range.end_container, live_range.end_offset) = std::make_tuple(const_cast<document*>(this), 0);
+    tuplet::tie(live_range.start_container, live_range.start_offset) = tuplet::make_tuple(const_cast<document*>(this), 0);
+    tuplet::tie(live_range.end_container, live_range.end_offset) = tuplet::make_tuple(const_cast<document*>(this), 0);
     return live_range;
 }
 
@@ -315,7 +317,7 @@ auto dom::nodes::document::get_title()
     // the title element is either the first SVGTitleElement of the document element, if the document element is an
     // SvgElement. otherwise it is the first HTMLTitleElement of this document
     auto* title_element = dynamic_cast<svg::elements::svg_element*>(document_element())
-            ? ranges::front(*document_element->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>())
+            ? ranges::front(*document_element()->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>())
             : get_m_title_element();
 
     // the value of the xxxTitleElement is the child text content of it, with the ascii whitespace stripped and
@@ -439,24 +441,25 @@ auto dom::nodes::document::set_title(
         // if there is no such element, then create the element, and insert it as the first child of the
         // 'document_element' (call insert not pre_insert, because the newly created 'title_element' can't be the first
         // child when it has just been created)
-        auto* title_element = ranges::front(*document_element->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>());
+        auto* title_element = ranges::front(*document_element()->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>());
         if (!title_element)
         {
-            title_element = detail::customization_internals::create_an_element(document_element->owner_document(), "title", SVG);
-            detail::mutation_internals::insert(title_element, document_element(), document_element->first_child());
+            title_element = detail::customization_internals::create_an_element(document_element()->owner_document(), "title", SVG);
+            detail::mutation_internals::insert(title_element, document_element(), document_element()->first_child());
         }
 
         // replace all the text in the SvgTitleElement with the new title value 'val' parameter
         detail::node_internals::string_replace_all(val, title_element);
     }
 
-    else if (document_element->namespace_uri() == HTML)
+    else if (document_element()->namespace_uri() == HTML)
     {
-        auto* title_element = get_m_title_element();
+        const auto* title_element = get_m_title_element();
         return_if(!title_element && !head());
         if (!title_element)
         {
-            title_element = dynamic_cast<html::elements::html_title_element*>(detail::customization_internals::create_an_element(document_element->owner_document(), "title", HTML));
+            auto&& new_title_element = detail::customization_internals::create_an_element(document_element()->owner_document(), "title", HTML);
+            title_element = dynamic_cast<const html::elements::html_title_element*>(&new_title_element);
             detail::mutation_internals::append(title_element, head());
         }
 
@@ -477,7 +480,7 @@ auto dom::nodes::document::set_body(
     // if there is a current HTMLBodyElement (and an implied 'document_element'), then replace it with the new
     // HTMLBodyElement
     if (body())
-        detail::mutation_internals::replace(body(), body->parent_node(), val);
+        detail::mutation_internals::replace(body(), body()->parent_node(), val);
 
     // if there is no implied HTMLBodyElement, and no 'document_element', throw a hierarchy request error, because it's
     // not possible to append the HTMLBodyElement to a non-existent 'document_element'

@@ -13,7 +13,9 @@ namespace dom::nodes {class document;}
 #include "ext/concepts.hpp"
 #include "ext/map.hpp"
 #include "ext/set.hpp"
+#include "ext/tuple.hpp"
 #include "url/url.hpp"
+#include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class attr;}
@@ -63,10 +65,10 @@ class dom::nodes::document
 {
 public aliases:
     using module_map = ext::map<
-            std::tuple<ext::string, url::url_object>,
+            ext::tuple<ext::string, url::url_object>,
             ext::string>;
 
-    using html_or_svg_script_element = std::variant<
+    using html_or_svg_script_element = ext::variant<
             std::unique_ptr<html::elements::html_script_element>,
             std::unique_ptr<svg::elements::svg_script_element>>;
 
@@ -78,15 +80,15 @@ public constructors:
 
 public js_methods:
     /* DOM */
-    [[nodiscard]] auto create_element(ext::string_view local_name, ext::string_any_map_view options = {}) const -> element;
-    [[nodiscard]] auto create_element_ns(ext::string_view namespace_, ext::string_view qualified_name, ext::string_any_map_view options) const -> element;
+    [[nodiscard]] auto create_element(ext::string&& local_name, ext::map<ext::string, ext::any>&& options = {}) const -> element;
+    [[nodiscard]] auto create_element_ns(ext::string&& namespace_, ext::string&& qualified_name, ext::map<ext::string, ext::any>&& options = {}) const -> element;
     [[nodiscard]] auto create_document_fragment() const -> document_fragment;
-    [[nodiscard]] auto create_text_node(ext::string_view data) const -> text;
-    [[nodiscard]] auto create_cdata_section_node(ext::string_view data) const -> cdata_section;
-    [[nodiscard]] auto create_comment(ext::string_view data) const -> comment;
-    [[nodiscard]] auto create_processing_instruction(ext::string_view target, ext::string_view data) const -> processing_instruction;
-    [[nodiscard]] auto create_attribute(ext::string_view local_name) const -> attr;
-    [[nodiscard]] auto create_attribute_ns(ext::string_view namespace_, ext::string_view qualified_name) const -> attr;
+    [[nodiscard]] auto create_text_node(ext::string&& data) const -> text;
+    [[nodiscard]] auto create_cdata_section_node(ext::string&& data) const -> cdata_section;
+    [[nodiscard]] auto create_comment(ext::string&& data) const -> comment;
+    [[nodiscard]] auto create_processing_instruction(ext::string&& target, ext::string&& data) const -> processing_instruction;
+    [[nodiscard]] auto create_attribute(ext::string&& local_name) const -> attr;
+    [[nodiscard]] auto create_attribute_ns(ext::string&& namespace_, ext::string&& qualified_name) const -> attr;
 
     [[nodiscard]] auto create_range() const -> node_ranges::range;
     auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::node_iterator;
@@ -146,7 +148,7 @@ public js_properties:
     ext::property<std::unique_ptr<permissions_policy::permissions_policy>> permissions_policy;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 public cpp_operators:
     virtual auto operator[](const ext::string& name) -> ranges::any_view<element*> override;
@@ -157,7 +159,7 @@ private cpp_methods:
 
 private cpp_properties:
     /* DOM */
-//    std::unique_ptr<encoding::encoding> m_encoding = nullptr;
+    // std::unique_ptr<encoding::encoding> m_encoding = nullptr;
     ext::string m_type = "xml";
     ext::string m_mode = "no-quirks";
     url::url_object m_origin;
@@ -174,6 +176,10 @@ private cpp_properties:
 
     ext::set<element*> m_render_blocking_elements;
     std::shared_ptr<html::detail::context_internals::browsing_context*> m_browsing_context;
+
+    ext::boolean m_will_declaratively_refresh;
+
+    ext::number<int> m_script_blocking_style_sheet_counter = 0;
 
 private cpp_accessors:
     /* DOM */
