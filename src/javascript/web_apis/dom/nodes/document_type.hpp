@@ -15,7 +15,7 @@ public js_methods:
     ext::property<ext::string> system_id;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
     [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return DOCUMENT_TYPE_NODE;}

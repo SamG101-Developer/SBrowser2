@@ -21,7 +21,7 @@ public js_methods:
     auto read_as_data_url(blob& blob_object) -> ext::string;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

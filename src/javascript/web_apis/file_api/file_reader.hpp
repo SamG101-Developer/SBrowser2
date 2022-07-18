@@ -34,7 +34,7 @@ public js_properties:
     ext::property<dom::other::dom_exception*> error;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
