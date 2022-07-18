@@ -17,11 +17,10 @@
 #include <range/v3/algorithm/contains.hpp>
 
 
-template <typename T>
 auto dom::detail::customization_internals::element_interface(
-        ext::string_view local_name,
-        ext::string_view namespace_)
-        -> std::unique_ptr<T>
+        const ext::string_view local_name,
+        const ext::string_view namespace_)
+        -> nodes::element&&
 {
     using namespace namespace_internals;
 
@@ -31,28 +30,30 @@ auto dom::detail::customization_internals::element_interface(
         {
             string_default:
                 return is_valid_custom_element_name(local_name)
-                        ? std::make_unique<html::elements::html_element>()
-                        : std::make_unique<html::elements::html_unknown_element>();
+                        ? std::move(html::elements::html_element{})
+                        : std::move(html::elements::html_unknown_element{});
         }
     }
 
-    return std::make_unique<nodes::element>();
+    return std::move(nodes::element{});
 }
 
 
 auto dom::detail::customization_internals::create_an_element(
-        nodes::document* document,
-        ext::string_view local_name,
-        ext::string_view namespace_,
-        ext::string_view prefix,
-        ext::string_view is,
+        const nodes::document* document,
+        const ext::string& local_name,
+        const ext::string& namespace_,
+        const ext::string& prefix,
+        const ext::string& is,
         ext::boolean_view synchronous_custom_elements_flag)
-        -> nodes::element*
+        -> nodes::element
 {
+    using enum custom_element_state_t;
+
     // create a result pointer to store the created element, and a definition struct holding private information about
     // the custom element (like an PIMPL without the pointer - uses a lookup table / dictionary instead)
-    nodes::element* result = nullptr;
-    auto* definition = lookup_custom_element_definition(document, namespace_, local_name, is);
+    auto* const definition = lookup_custom_element_definition(document, namespace_, local_name, is);
+    nodes::element&& result {};
 
     // case for when there is a valid definition for the parameters, and the definition's name is the same as the
     // definition's local name (JavaScript: ... extends ...)
@@ -63,14 +64,14 @@ auto dom::detail::customization_internals::create_an_element(
         if (synchronous_custom_elements_flag)
         {
             JS_EXCEPTION_HANDLER;
-            result = element_interface(local_name, namespace_).get();
-            result->namespace_uri = detail::namespace_internals::HTML;
-            result->prefix = prefix;
-            result->local_name = local_name;
-            result->owner_document = document;
-            result->m_custom_element_state = UNDEFINED;
-            result->m_custom_element_definition = nullptr;
-            result->m_is = is;
+            result = element_interface(local_name, namespace_);
+            result.namespace_uri = detail::namespace_internals::HTML;
+            result.prefix = prefix;
+            result.local_name = local_name;
+            result.owner_document = document;
+            result.m_custom_element_state = UNDEFINED;
+            result.m_custom_element_definition = nullptr;
+            result.m_is = is;
 
             upgrade_element(definition, result);
 
@@ -79,7 +80,7 @@ auto dom::detail::customization_internals::create_an_element(
             if (JS_EXCEPTION_HAS_THROWN)
             {
                 console::reporting::report_exception(JS_EXCEPTION_MESSAGE);
-                result->m_custom_element_state = FAILED;
+                result.m_custom_element_state = FAILED;
             }
         }
 
@@ -87,14 +88,14 @@ auto dom::detail::customization_internals::create_an_element(
             // upgrade reaction asynchronously
         else
         {
-            result = element_interface(local_name, namespace_).get();
-            result->namespace_uri = detail::namespace_internals::HTML;
-            result->prefix = prefix;
-            result->local_name = local_name;
-            result->owner_document = document;
-            result->m_custom_element_state = UNDEFINED;
-            result->m_custom_element_definition = nullptr;
-            result->m_is = is;
+            result = element_interface(local_name, namespace_);
+            result.namespace_uri = detail::namespace_internals::HTML;
+            result.prefix = prefix;
+            result.local_name = local_name;
+            result.owner_document = document;
+            result.m_custom_element_state = UNDEFINED;
+            result.m_custom_element_definition = nullptr;
+            result.m_is = is;
 
             enqueue_custom_element_upgrade_reaction(result, definition);
         }
@@ -114,48 +115,48 @@ auto dom::detail::customization_internals::create_an_element(
 
             // there must be a custom element state and a custom element definition present, as well as a html namespace
             // set to the element
-            assert(result->m_custom_element_state != NONE && result->m_custom_element_definition);
-            assert(result->namespace_uri() == namespace_internals::HTML);
+            assert(result.m_custom_element_state != NONE && result.m_custom_element_definition);
+            assert(result.namespace_uri() == namespace_internals::HTML);
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [&result] {return !result->attributes->empty();},
+                    [&result] {return !result.attributes->empty();},
                     "A custom element must have an empty 'attributes' list while being created",
                     {"The 'attribute' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects' attributes"},
-                    P("Element being created", result));
+                    P("Element being created", &result));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [&result] {return !result->child_nodes->empty();},
+                    [&result] {return !result.child_nodes->empty();},
                     "A custom element must have an empty 'child_nodes' list while being created",
                     {"The 'child_nodes' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects; child nodes"},
-                    P("Element being created", result));
+                    P("Element being created", &result));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [&result] {return result->parent_node();},
+                    [&result] {return result.parent_node();},
                     "A custom element must have null 'parent_node' while being created",
                     {
                             "The 'parent_node' might have been initialized from another thread / asynchronously",
                             "General asynchronous tree manipulation"
                     },
                     {"Check for any threads modifying the DOM tree"},
-                    P("Element being created", result), P("Parent node", result->parent_node()));
+                    P("Element being created", &result), P("Parent node", result.parent_node()));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [&result] {return result->owner_document();},
+                    [&result] {return result.owner_document();},
                     "A custom element must have an 'owner_document' initialized to the 'document' parameter",
                     {""}, {""},
-                    P("Element's owner_document", result->owner_document()), P("Document parameter", document));
+                    P("Element's owner_document", result.owner_document()), P("Document parameter", document));
 
             exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                    [result, local_name] {return result->local_name() != local_name;},
+                    [&result, local_name] {return result.local_name() != local_name;},
                     "A custom element's 'local_name' must match the 'local_name' parameter",
                     {""}, {""},
-                    P("Element's local_name", result->local_name()), P("Local name parameter", local_name));
+                    P("Element's local_name", result.local_name()), P("Local name parameter", local_name));
 
             // set the result's 'prefix', and empty the 'is' attribute
-            result->prefix = prefix;
-            result->m_is = "";
+            result.prefix = prefix;
+            result.m_is = "";
 
             // if a javascript exception has been thrown, report the exception, and create a HTMLUnknownElement as the
             // result, with a FAILED 'custom_element_state'
@@ -163,14 +164,14 @@ auto dom::detail::customization_internals::create_an_element(
             {
                 console::reporting::report_exception(JS_EXCEPTION_MESSAGE);
 
-                result = std::make_unique<html::elements::html_unknown_element>().get();
-                result->namespace_uri = namespace_internals::HTML;
-                result->prefix = prefix;
-                result->local_name = local_name;
-                result->owner_document = document;
-                result->m_custom_element_definition = nullptr;
-                result->m_custom_element_state = FAILED;
-                result->m_is = "";
+                result = html::elements::html_unknown_element{};
+                result.namespace_uri = namespace_internals::HTML;
+                result.prefix = prefix;
+                result.local_name = local_name;
+                result.owner_document = document;
+                result.m_custom_element_definition = nullptr;
+                result.m_custom_element_state = FAILED;
+                result.m_is = "";
             }
         }
 
@@ -178,14 +179,14 @@ auto dom::detail::customization_internals::create_an_element(
             // upgrade reaction asynchronously
         else
         {
-            result = std::make_unique<html::elements::html_element>().get();
-            result->namespace_uri = namespace_internals::HTML;
-            result->prefix = prefix;
-            result->local_name = local_name;
-            result->owner_document = document;
-            result->m_custom_element_definition = nullptr;
-            result->m_custom_element_state = UNDEFINED;
-            result->m_is = "";
+            result = html::elements::html_element{};
+            result.namespace_uri = namespace_internals::HTML;
+            result.prefix = prefix;
+            result.local_name = local_name;
+            result.owner_document = document;
+            result.m_custom_element_definition = nullptr;
+            result.m_custom_element_state = UNDEFINED;
+            result.m_is = "";
 
             enqueue_custom_element_upgrade_reaction(result, definition);
         }
@@ -194,31 +195,33 @@ auto dom::detail::customization_internals::create_an_element(
         // case for when there is no valid definition for the parameters (ie normal element like HTMLButtonElement)
     else
     {
-        result = element_interface(local_name, namespace_).get();
-        result->namespace_uri = namespace_;
-        result->prefix = prefix;
-        result->local_name = local_name;
-        result->owner_document = document;
-        result->m_custom_element_definition = nullptr;
-        result->m_custom_element_state = UNCUSTOMIZED;
-        result->m_is = "";
+        result = element_interface(local_name, namespace_);
+        result.namespace_uri = namespace_;
+        result.prefix = prefix;
+        result.local_name = local_name;
+        result.owner_document = document;
+        result.m_custom_element_definition = nullptr;
+        result.m_custom_element_state = UNCUSTOMIZED;
+        result.m_is = "";
 
-        // custom element state is undefined if the element is HTML and the local name is custom / there is an is value;
+        // custom element state is undefined if the element is HTML and the local name is custom / there is an is value,
         // this is because there is a valid custom ame, but no definition for it
         if (namespace_ == namespace_internals::HTML && is_valid_custom_element_name(local_name) || is)
             result->m_custom_element_state = UNDEFINED;
     }
+
+    return result;
 }
 
 
 auto dom::detail::customization_internals::upgrade_element(
-        custom_element_definition* definition,
+        custom_element_definition* const definition,
         nodes::element* element)
         -> void
 {
     // if the element is in the UNDEFINED or UNCUSTOMIZED custom element state, then return early
-    auto non_upgradable_states = {UNDEFINED, UNCUSTOMIZED};
-    if (ranges::contains(non_upgradable_states, element->m_custom_element_state)) return;
+    if (auto non_upgradable_states = {UNDEFINED, UNCUSTOMIZED};
+            ranges::contains(non_upgradable_states, element->m_custom_element_state)) return;
 
     // set the custom element definition, and default the custom element state to FAILED
     element->m_custom_element_definition = definition;
@@ -226,7 +229,7 @@ auto dom::detail::customization_internals::upgrade_element(
 
     // enqueue a callback reaction for each attribute in the element being upgraded, to call the
     // "attributeChangedCallback"
-    for (nodes::attr* attribute: *element->attributes())
+    for (const nodes::attr* const attribute: *element->attributes())
         enqueue_custom_element_callback_reaction(element, "attributeChangedCallback", attribute->local_name(), "", attribute->value(), attribute->namespace_uri());
 
     // if the element is connected, enqueue a callback reaction for the element to call the "connectedCallback" callback
@@ -248,10 +251,10 @@ auto dom::detail::customization_internals::upgrade_element(
     // the element is now PRECUSTOMIZED ie it's ready for customization now, so set the construct_result to the result
     // of invoking the constructor
     element->m_custom_element_state = PRECUSTOMIZED;
-    auto* construct_result = definition->constructor();
+    const auto&& construct_result = definition->constructor();
 
     JS_BLOCK_ENTER // throw an error if 'construction_result' is the same object as 'element'
-    auto* isolate = v8::Isolate::GetCurrent();
+    auto* const isolate = v8::Isolate::GetCurrent();
     if (javascript::ecma::SameValue(v8pp::to_v8(isolate, construct_result), v8pp::to_v8(isolate, element)))
         exception_internals::throw_v8_exception<V8_TYPE_ERROR>();
     JS_BLOCK_EXIT
@@ -281,22 +284,22 @@ auto dom::detail::customization_internals::upgrade_element(
 
 
 auto dom::detail::customization_internals::try_to_upgrade_element(
-        nodes::element* element)
+        nodes::element* const element)
         -> void
 {
     // get the definition of the element, and only if it exists, enqueue a custom element upgrade reaction for the
     // element and its definition
-    auto* definition = lookup_custom_element_definition(element->owner_document(), element->namespace_uri(), element->local_name(), element->m_is);
+    auto* const definition = lookup_custom_element_definition(element->owner_document(), element->namespace_uri(), element->local_name(), element->m_is);
     if (definition)
         enqueue_custom_element_upgrade_reaction(element, definition);
 }
 
 
 auto dom::detail::customization_internals::lookup_custom_element_definition(
-        nodes::document* document,
-        ext::string_view namespace_,
-        ext::string_view local_name,
-        ext::string_view is)
+        const nodes::document* const document,
+        const ext::string_view namespace_,
+        const ext::string_view local_name,
+        const ext::string_view is)
         -> custom_element_definition*
 {
     if (namespace_ != namespace_internals::HTML || !document->m_browsing_context)

@@ -2,7 +2,10 @@
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/functional.hpp"
 #include "ext/map.hpp"
+#include "ext/queue.hpp"
+#include "ext/stack.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <queue>
@@ -15,28 +18,27 @@ namespace html::elements {class html_unknown_element;}
 namespace dom::detail::customization_internals
 {
     // detail structs and enums
-    enum custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
+    enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     struct custom_element_reactions_stack;
     struct custom_element_definition;
     struct reaction {};
     struct upgrade_reaction : public reaction {};
     struct callback_reaction : public reaction {};
 
-    template <typename T>
     auto element_interface(
             ext::string_view local_name,
             ext::string_view namespace_)
-            -> std::unique_ptr<T>;
+            -> nodes::element&&;
 
     // custom element creation and upgrading
     auto create_an_element(
-            nodes::document* document,
-            ext::string_view local_name,
-            ext::string_view namespace_,
-            ext::string_view prefix = "",
-            ext::string_view is = "",
+            const nodes::document* document,
+            const ext::string& local_name,
+            const ext::string& namespace_,
+            const ext::string& prefix = "",
+            const ext::string& is = "",
             ext::boolean_view synchronous_custom_elements_flag = false)
-            -> nodes::element*;
+            -> nodes::element;
 
     auto upgrade_element(
             custom_element_definition* definition,
@@ -48,7 +50,7 @@ namespace dom::detail::customization_internals
             -> void;
 
     auto lookup_custom_element_definition(
-            nodes::document* document,
+            const nodes::document* document,
             ext::string_view namespace_,
             ext::string_view local_name,
             ext::string_view is)
@@ -71,7 +73,7 @@ namespace dom::detail::customization_internals
             -> void;
 
     auto enqueue_custom_element_reaction(
-            std::queue<nodes::element*>& element_queue)
+            ext::queue<nodes::element*>& element_queue)
             -> void;
 
     // custom element checks
@@ -85,7 +87,7 @@ namespace dom::detail::customization_internals
 
     // other custom element methods
     auto invoke_custom_elements_reactions(
-            std::queue<nodes::element*>& queue)
+            ext::queue<nodes::element*>& queue)
             -> void;
 
     auto is_custom(
@@ -96,9 +98,9 @@ namespace dom::detail::customization_internals
 
 struct dom::detail::customization_internals::custom_element_reactions_stack
 {
-    std::queue<nodes::element*> backup_element_queue;
-    std::queue<nodes::element*> current_element_queue() {return queues.top();};
-    std::stack<std::queue<nodes::element*>> queues;
+    ext::queue<nodes::element*> backup_element_queue;
+    ext::queue<nodes::element*> current_element_queue() {return queues.top();};
+    ext::stack<ext::queue<nodes::element*>> queues;
     ext::boolean processing_backup_element_queue_flag = false;
 
     auto operator->() -> auto {return &queues;}
@@ -107,8 +109,8 @@ struct dom::detail::customization_internals::custom_element_reactions_stack
 
 struct dom::detail::customization_internals::custom_element_definition
 {
-    using lifecycle_callback_t = std::function<void()>;
-    using html_element_constructor_t = std::function<nodes::element*()>;
+    using lifecycle_callback_t = ext::function<void()>;
+    using html_element_constructor_t = ext::function<nodes::element&&()>;
 
     ext::boolean form_associated;
     ext::boolean disable_internals;
