@@ -10,13 +10,16 @@ namespace dom::nodes {class document;}
 namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class text;}
+namespace html::elements {class html_base_element;}
 namespace html::elements {class html_element;}
+namespace html::elements {class html_meta_element;}
+namespace html::elements {class html_style_element;}
 
 
 namespace html::detail::html_element_internals
 {
-    enum directionality_t {LTR, RTL, AUTO};
-    enum bidirectional_char_t {L = 0x200e, R = 0x200f, AL = 0x061c, EN, ES, ET, AN, CS, NSM, BN, B, S, WS, ON, LRE, LRO, RLE, PDF, LRI, RLI, FSI, PDI};
+    enum class directionality_t {LTR, RTL, AUTO};
+    enum class bidirectional_char_t {L = 0x200e, R = 0x200f, AL = 0x061c, EN, ES, ET, AN, CS, NSM, BN, B, S, WS, ON, LRE, LRO, RLE, PDF, LRI, RLI, FSI, PDI};
 
     // title attribute
     auto advisory_information(
@@ -55,6 +58,32 @@ namespace html::detail::html_element_internals
 
     auto merge_with_next_text_node(
             dom::nodes::text* text_node)
+            -> void;
+
+    // target attribute (HTMLBaseElement)
+    auto get_elements_target(
+            const dom::nodes::element* element) // TODO -> change type to 'HTML_[Link/Area/Form]_Element'
+            -> ext::string;
+
+    // HTMLElement miscellaneous functions
+    auto contributes_script_blocking_style_sheet(
+            dom::nodes::element* element,
+            dom::nodes::document* document)
+            -> ext::boolean;
+
+    // HTMLBaseElement
+    auto set_frozen_base_url(
+            elements::html_base_element* element)
+            -> void;
+
+    // HTMLMetaElement
+    auto pragma_set_default_language(
+            elements::html_meta_element* element)
+            -> void;
+
+    // HTMLStyleElement
+    auto update_style_block(
+            elements::html_style_element* element)
             -> void;
 }
 
