@@ -28,19 +28,24 @@ namespace infra::detail::infra_string_internals
             ext::string& string)
             -> ext::string;
 
+    auto collect_ascii_whitespace(
+            ext::string& string,
+            ext::string::iterator& position)
+            -> void;
+
     auto is_ascii_string(
             ext::string_view string)
             -> ext::boolean;
 
     auto collect_code_points_matching(
             ext::string& string,
-            ext::string::iterator position,
+            ext::string::iterator& position,
             type_is<char> auto&&... code_points)
             -> ext::string;
 
     auto collect_code_points_not_matching(
             ext::string& string,
-            ext::string::iterator position,
+            ext::string::iterator& position,
             type_is<char> auto&&... code_points)
             -> ext::string;
 
