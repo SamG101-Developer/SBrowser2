@@ -2,6 +2,7 @@
 #define SBROWSER2_RANGE_INTERNALS_HPP
 
 #include "ext/number.hpp"
+#include "ext/tuple.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class character_data;}
@@ -17,12 +18,12 @@ namespace dom::detail::range_internals
     // containment and position checks
     auto contains(
             nodes::node* new_container,
-            node_ranges::range* range)
+            const node_ranges::range* range)
             -> ext::boolean;
 
     auto partially_contains(
             nodes::node* new_container,
-            node_ranges::range* range)
+            const node_ranges::range* range)
             -> ext::boolean;
 
     auto set_start_or_end(
@@ -44,7 +45,7 @@ namespace dom::detail::range_internals
             node_ranges::range* range,
             nodes::node* start_container,
             nodes::node* end_container)
-            -> std::tuple<nodes::node*, nodes::node*, ranges::any_view<nodes::node*>>;
+            -> ext::tuple<nodes::node*, nodes::node*, ranges::any_view<nodes::node*>>;
 
     auto copy_data(
             nodes::node* child,
@@ -69,7 +70,7 @@ namespace dom::detail::range_internals
             nodes::node* start_container,
             nodes::node* end_container,
             ext::number_view<ulong> start_offset)
-            -> std::tuple<nodes::node*, ext::number_view<ulong>>;
+            -> ext::tuple<nodes::node*, ext::number<ulong>>;
 }
 
 #endif //SBROWSER2_RANGE_INTERNALS_HPP

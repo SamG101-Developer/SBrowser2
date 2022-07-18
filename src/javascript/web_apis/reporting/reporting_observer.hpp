@@ -5,19 +5,20 @@
 #include "dom_object.hpp"
 namespace reporting {class reporting_observer;}
 
+#include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
 namespace reporting {class report;}
 
 
 class reporting::reporting_observer
-        : public web_apis::dom_object
+        : public dom_object
 {
 public aliases:
-    using reporting_observer_callback = std::function<void(const ext::string_vector&, reporting_observer*)>;
+    using reporting_observer_callback = ext::function<void(const ext::vector<ext::string>&, reporting_observer*)>;
 
 public constructors:
-    reporting_observer(reporting_observer_callback&& callback, ext::string_any_map_view options = {});
+    reporting_observer(reporting_observer_callback&& callback, ext::map<ext::string, ext::any> options = {});
 
 public js_methods:
     auto observe() -> void;

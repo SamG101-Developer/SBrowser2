@@ -5,17 +5,17 @@
 #include "dom/ranges/abstract_range.hpp"
 namespace dom::node_ranges {class static_range;}
 
-#include <ext/map.hpp>
+#include "ext/map.hpp"
 
 
 class dom::node_ranges::static_range
         : public abstract_range
 {
 public constructors:
-    static_range(ext::string_any_map_view init);
+    static_range(ext::map<ext::string, ext::any>&& init = {});
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
