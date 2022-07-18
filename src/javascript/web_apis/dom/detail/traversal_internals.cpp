@@ -9,8 +9,8 @@
 
 
 auto dom::detail::traversal_internals::filter(
-        const nodes::node* node,
-        node_iterators::abstract_iterator* iterator)
+        const nodes::node* const node,
+        node_iterators::abstract_iterator* const iterator)
         -> ext::number<ushort>
 {
     exception_internals::throw_v8_exception_formatted<INVALID_STATE_ERR>(
@@ -20,7 +20,7 @@ auto dom::detail::traversal_internals::filter(
     // get the 'node_type' of the 'node', and if the 'what_to_shot' doesn't have this bit set, then return FILTER_SKIP;
     // if there is no filter, then return FILTER_ACCEPT as everything is automatically accepted. for example, if the
     // 'what_to_show' is '000000000010', only Element nodes ('node_type' == 1) would be accepted
-    auto n = node->node_type() - 1;
+    const auto n = node->node_type() - 1;
     return_if(~(iterator->what_to_show() & (2 << n))) node_iterators::node_filter::FILTER_SKIP;
     return_if(!iterator->filter()) node_iterators::node_filter::FILTER_ACCEPT;
 
@@ -33,7 +33,7 @@ auto dom::detail::traversal_internals::filter(
     // with the 'node' as the parameter, and save the result; the result is whether to FILTER_SKIP / FILTER_REJECT /
     // FILTER_ACCEPT the node
     JS_EXCEPTION_HANDLER;
-    auto result = iterator->filter->accept_node()(node);
+    auto result = iterator->filter()->accept_node()(node);
 
     // if the method threw an exception, then set the active flag to false (processing has finished), and then rethrow
     // the error; this means that the state of the NodeIterator/TreeWalker has been adjusted for post-filtering, and the
@@ -48,14 +48,16 @@ auto dom::detail::traversal_internals::filter(
 
 
 auto dom::detail::traversal_internals::traverse_children(
-        node_iterators::tree_walker* iterator,
-        dom::detail::traversal_internals::traversal_child type)
+        node_iterators::tree_walker* const iterator,
+        const traversal_child type)
         -> nodes::node*
 {
+    using enum traversal_child;
+
     // set the 'node' to the 'iterator.current_node's first child if the type of iteration is FIRST_CHILD, otherwise the
     // last child (this is just where the iteration will begin from) - this allows for the 'node.child_nodes' to be
-    // filtered as before the rest of the tree (which is only for when the child_noeds are all rejected)
-    auto* node = type == FIRST_CHILD ? iterator->current_node->first_child() : iterator->current_node->last_child();
+    // filtered as before the rest of the tree (which is only for when the child_nodes are all rejected)
+    auto* node = type == FIRST_CHILD ? iterator->current_node()->first_child() : iterator->current_node()->last_child();
 
     // iterate until the node becomes nullptr (or a return statement is called from within the loop, for example when a
     // 'filter(...)' method call returns true
@@ -72,7 +74,7 @@ auto dom::detail::traversal_internals::traverse_children(
 
             number_case(node_iterators::node_filter::FILTER_SKIP):
             {
-                auto* child = type == FIRST_CHILD ? node->first_child() : node->last_child();
+                auto* const child = type == FIRST_CHILD ? node->first_child() : node->last_child();
                 node = child ? child : node;
                 continue_if (node == child);
                 [[fallthrough]];
@@ -86,11 +88,10 @@ auto dom::detail::traversal_internals::traverse_children(
                 while (node)
                 {
                     // move to next / previous child if it's available
-                    auto* sibling = type == FIRST_CHILD ? node->next_sibling() : node->previous_sibling();
-                    if (sibling) {node = sibling; break;}
+                    if (auto* const sibling = type == FIRST_CHILD ? node->next_sibling() : node->previous_sibling()) {node = sibling; break;}
 
                     // move to the parent if it's available
-                    auto* parent = node->parent_node();
+                    auto* const parent = node->parent_node();
                     if (!parent || parent == iterator->root() || parent == iterator->current_node()) return nullptr;
                     node = parent;
                 }
@@ -103,10 +104,12 @@ auto dom::detail::traversal_internals::traverse_children(
 
 
 auto dom::detail::traversal_internals::traverse_siblings(
-        node_iterators::tree_walker* iterator,
-        dom::detail::traversal_internals::traversal_sibling type)
+        node_iterators::tree_walker* const iterator,
+        const traversal_sibling type)
         -> nodes::node*
 {
+    using enum traversal_sibling;
+
     // set the 'node' to the 'iterator.current_node', and not it's next/previous sibling, because they are in the same
     // hierarchical level as 'node', and so will be automatically iterated to in the method; this is hwy the 'node'
     // cannot be 'iterator.root'; it doesn't have any siblings that are in the descendants of 'iterator.root'

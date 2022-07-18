@@ -17,7 +17,7 @@ namespace dom::detail::text_internals
             -> void;
 
     auto substring_data(
-            nodes::character_data* text_node,
+            const nodes::character_data* text_node,
             ext::number_view<ulong> offset,
             ext::number_view<ulong> count)
             -> ext::string;
@@ -25,7 +25,7 @@ namespace dom::detail::text_internals
     auto split(
             nodes::character_data* existing_text_node,
             ext::number_view<ulong> offset)
-            -> nodes::text*;
+            -> nodes::text;
 }
 
 
