@@ -8,7 +8,7 @@ namespace dom::mutations {class mutation_record;}
 
 
 class dom::mutations::mutation_record
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public constructors:
     mutation_record() = default;
@@ -27,7 +27,7 @@ public js_properties:
     ext::property<std::unique_ptr<ext::vector<nodes::node*>>> removed_nodes;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
