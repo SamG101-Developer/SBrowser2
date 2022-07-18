@@ -25,12 +25,12 @@
 
 
 auto dom::detail::range_internals::contains(
-        nodes::node* new_container,
-        node_ranges::range* range)
+        nodes::node* const new_container,
+        const node_ranges::range* const range)
         -> ext::boolean
 {
     // get the current length of the new container that is being checked if it is contained in the range
-    auto l = tree_internals::length(new_container);
+    const auto l = tree_internals::length(new_container);
 
     return range->m_root == tree_internals::root(new_container)
             && position_relative(new_container, 0, range->start_container(), range->start_offset()) == AFTER
@@ -39,17 +39,17 @@ auto dom::detail::range_internals::contains(
 
 
 auto dom::detail::range_internals::partially_contains(
-        nodes::node* new_container,
-        node_ranges::range* range)
+        nodes::node* const new_container,
+        const node_ranges::range* const range)
         -> ext::boolean
 {
-    return tree_internals::is_ancestor(new_container, range->start_container()) ^ tree_internals::is_ancestor(new_container, range->end_container());
+    return tree_internals::is_ancestor(new_container, range->start_container()) != tree_internals::is_ancestor(new_container, range->end_container());
 }
 
 
 auto dom::detail::range_internals::set_start_or_end(
-        node_ranges::range* range,
-        nodes::node* new_container,
+        node_ranges::range* const range,
+        nodes::node* const new_container,
         ext::number_view<ulong> new_offset,
         ext::boolean_view start) -> void
 {
@@ -61,14 +61,14 @@ auto dom::detail::range_internals::set_start_or_end(
             [new_offset, index = tree_internals::index(new_container)] {return new_offset > index;},
             "The offset must be <= the index of the container");
 
-    auto root_match = range->m_root == tree_internals::root(new_container);
+    const auto root_match = range->m_root == tree_internals::root(new_container);
 
     // set the start of the range to the 'new_container' and 'new_offset'
     if (start)
     {
         // record if the new boundary point is after the range's current end - in other words, if the new start is going
         // to be after the range's end
-        auto new_boundary_point_after_current_end = position_relative(new_container, new_offset, range->end_container(), range->end_offset()) == AFTER;
+        const auto new_boundary_point_after_current_end = position_relative(new_container, new_offset, range->end_container(), range->end_offset()) == AFTER;
 
         // if the new start is going to be after the range's end, then update the range's end to be the new start,
         // otherwise keep it the same; update the range's start to the new start (range could end up empty if the start
@@ -84,7 +84,7 @@ auto dom::detail::range_internals::set_start_or_end(
     {
         // record if the new boundary point is before the range's current start - in other words, if the new end is
         // going to be before the range's start
-        auto new_boundary_point_before_current_start = position_relative(new_container, new_offset, range->start_container(), range->start_offset()) == BEFORE;
+        const auto new_boundary_point_before_current_start = position_relative(new_container, new_offset, range->start_container(), range->start_offset()) == BEFORE;
 
         // if the new end is going to be after the range's start, then update the range's start to be the new end,
         // otherwise keep it the same; update the range's end to the new end (range could end up empty if the start and
@@ -99,11 +99,11 @@ auto dom::detail::range_internals::set_start_or_end(
 
 auto dom::detail::range_internals::get_range_containment_children(
         node_ranges::range* range,
-        nodes::node* start_container,
-        nodes::node* end_container)
-        -> std::tuple<nodes::node*, nodes::node*, ranges::any_view<nodes::node*>>
+        nodes::node* const start_container,
+        nodes::node* const end_container)
+        -> ext::tuple<nodes::node*, nodes::node*, ranges::any_view<nodes::node*>>
 {
-    auto  common_ancestor_children = *range->common_ancestor_container->child_nodes();
+    const auto common_ancestor_children = *range->common_ancestor_container->child_nodes();
 
     auto* first_partially_contained_child = !detail::tree_internals::is_ancestor(start_container, end_container)
             ? ranges::first_where(common_ancestor_children, ext::bind_back(detail::range_internals::partially_contains, static_cast<node_ranges::range*&&>(range)))
@@ -121,15 +121,15 @@ auto dom::detail::range_internals::get_range_containment_children(
 
 
 auto dom::detail::range_internals::copy_data(
-        nodes::node* child,
-        nodes::document_fragment* fragment,
-        nodes::character_data* container,
+        nodes::node* const child,
+        nodes::document_fragment* const fragment,
+        nodes::character_data* const container,
         ext::number_view<ulong> start_offset,
         ext::number_view<ulong> end_offset,
         ext::boolean_view replace)
         -> nodes::document_fragment*
 {
-    auto* clone = dynamic_cast<nodes::character_data*>(child->clone_node());
+    auto* const clone = dynamic_cast<nodes::character_data*>(child->clone_node());
     clone->data = detail::text_internals::substring_data(container, start_offset, end_offset - start_offset);
     detail::mutation_internals::append(clone, fragment);
 
@@ -139,37 +139,37 @@ auto dom::detail::range_internals::copy_data(
 
 
 auto dom::detail::range_internals::append_to_sub_fragment(
-        nodes::node* child,
-        nodes::document_fragment* fragment,
-        nodes::node* start_container,
+        nodes::node* const child,
+        nodes::document_fragment* const fragment,
+        nodes::node* const start_container,
         ext::number_view<ulong> start_offset,
-        nodes::node* end_container,
+        nodes::node* const end_container,
         ext::number_view<ulong> end_offset,
-        append_action what)
+        const append_action what)
         -> nodes::document_fragment*
 {
     return_if (!child) nullptr;
 
-    auto* clone = child->clone_node();
+    auto* const clone = child->clone_node();
     detail::mutation_internals::append(clone, fragment);
-    auto* subrange = std::make_unique<node_ranges::range>().get();
-    subrange->start_container = start_container;
-    subrange->start_offset = start_offset;
-    subrange->end_container = end_container;
-    subrange->end_offset = end_offset;
-    auto* subfragment = what == EXTRACT ? subrange->extract_contents() : subrange->clone_contents();
+    node_ranges::range subrange;
+    subrange.start_container = start_container;
+    subrange.start_offset = start_offset;
+    subrange.end_container = end_container;
+    subrange.end_offset = end_offset;
+    auto* const subfragment = what == EXTRACT ? subrange.extract_contents() : subrange.clone_contents();
     detail::mutation_internals::append(clone, subfragment);
     return subfragment;
 }
 
 
 auto dom::detail::range_internals::create_new_node_and_offset(
-        nodes::node* start_container,
-        nodes::node* end_container,
+        nodes::node* const start_container,
+        nodes::node* const end_container,
         ext::number_view<ulong> start_offset)
-        -> std::tuple<nodes::node*, ext::number_view<ulong>>
+        -> ext::tuple<nodes::node*, ext::number<ulong>>
 {
-    auto* common_ancestor = detail::tree_internals::common_ancestor(start_container, end_container);
+    auto* const common_ancestor = detail::tree_internals::common_ancestor(start_container, end_container);
 
     auto* new_node = detail::tree_internals::is_ancestor(start_container, end_container)
             ? start_container
@@ -179,5 +179,5 @@ auto dom::detail::range_internals::create_new_node_and_offset(
             ? start_offset
             : detail::tree_internals::index(common_ancestor) + 1;
 
-    return std::make_tuple(new_node, new_offset);
+    return tuplet::make_tuple(new_node, new_offset);
 }
