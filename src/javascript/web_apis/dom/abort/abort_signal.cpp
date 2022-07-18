@@ -34,7 +34,7 @@ auto dom::abort::abort_signal::timeout(
     abort_signal signal;
     JS_REALM_GET_RELEVANT(signal)
 
-    auto timeout_error_callback = [] {detail::exception_internals::throw_v8_exception<TIMEOUT_ERR>("Timeout");}
+    auto timeout_error_callback = [] {detail::exception_internals::throw_v8_exception_formatted<TIMEOUT_ERR>();};
     auto callback = [&signal_relevant_global_object, timeout_error_callback] {detail::observer_internals::queue_global_task(html::detail::task_internals::timer_task_source(), signal_relevant_global_object, timeout_error_callback);};
     html::detail::timers::run_steps_after_timeout(signal_relevant_global_object, "AbortSignal-timeout", milliseconds, callback);
 
@@ -48,8 +48,8 @@ auto dom::abort::abort_signal::throw_if_aborted()
 {
     // if the reason attribute has been set, throw a v8 exception
     detail::exception_internals::throw_v8_exception_formatted<ABORT_ERR>(
-            [this] {return reason->to<ext::boolean>();},
-            reason->to<other::dom_exception>().message());
+            [this] {return reason().to<ext::boolean>();},
+            reason().to<other::dom_exception>().message());
 }
 
 
@@ -57,7 +57,7 @@ auto dom::abort::abort_signal::get_aborted()
         const -> ext::boolean
 {
     // the signal has aborted if the reason attribute has been set
-    return reason->has_value();
+    return reason().has_value();
 }
 
 
