@@ -13,6 +13,17 @@ namespace html::detail::policy_internals {struct policy_container;}
 namespace fetch::detail::request_internals
 {
     struct internal_request;
+    enum class initiator_type_t {AUDIO, BEACON, BODY, CSS, EARLY_HINT, EMBED, FETCH, FONT, FRAME, IFRAME, IMAGE, IMG, INPUT, LINK, OBJECT, PING, SCRIPT, TRACK, VIDEO, XMLHTTPREQUEST, OTHER};
+    enum class service_workers_mode_t {ALL, NONE};
+    enum class initiator_t {DOWNLOAD, IMAGESET, MANIFEST, PREFETCH, PRERENDER, XSLT};
+    enum class destination_t {AUDIO, AUDIOWORKLET, DOCUMENT, EMBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SERVICEWORKER, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT};
+    enum class mode_t {SAME_ORIGIN, CORS, NO_CORS, NAVIGATE, WEBSOCKET, ANONYMOUS /* Should this be here -> in HTML spec */};
+    enum class credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
+    enum class cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
+    enum class redirect_t {FOLLOW, ERROR, MANUAL};
+    enum class parser_metadata_t  {PARSER_INSERTED, NOT_PARSER_INSERTED};
+    enum class response_tainting_t {BASIC, CORS, OPAQUE};
+
 
     auto is_subresource_request(
             internal_request& internal_request_object)
@@ -44,8 +55,8 @@ namespace fetch::detail::request_internals
 
     auto add_range_header_to_request(
             internal_request& internal_request_object,
-            ext::number<int> first,
-            ext::number<int> last = -1)
+            ext::number_view<int> first,
+            ext::number_view<int> last = -1)
             -> void;
 
     auto check_if_cross_origin_embedder_policy_allows_credentials(
@@ -62,17 +73,6 @@ namespace fetch::detail::request_internals
 
 struct fetch::detail::request_internals::internal_request
 {
-    enum class initiator_type_t {AUDIO, BEACON, BODY, CSS, EARLY_HINT, EMBED, FETCH, FONT, FRAME, IFRAME, IMAGE, IMG, INPUT, LINK, OBJECT, PING, SCRIPT, TRACK, VIDEO, XMLHTTPREQUEST, OTHER};
-    enum class service_workers_mode_t {ALL, NONE};
-    enum class initiator_t {DOWNLOAD, IMAGESET, MANIFEST, PREFETCH, PRERENDER, XSLT};
-    enum class destination_t {AUDIO, AUDIOWORKLET, DOCUMENT, EMBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SERVICEWORKER, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT};
-    enum class mode_t {SAME_ORIGIN, CORS, NO_CORS, NAVIGATE, WEBSOCKET};
-    enum class credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
-    enum class cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
-    enum class redirect_t {FOLLOW, ERROR, MANUAL};
-    enum class parser_metadata_t  {PARSER_INSERTED, NOT_PARSER_INSERTED};
-    enum class response_tainting_t {BASIC, CORS, OPAQUE};
-
     ext::string method = "GET";
     url::url_object url;
 
