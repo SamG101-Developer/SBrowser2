@@ -6,6 +6,7 @@
 namespace fetch {class request;}
 
 #include "ext/map.hpp"
+#include "ext/variant.hpp"
 namespace dom::abort {class abort_signal;}
 namespace fetch {class headers;}
 namespace fetch::detail::request_internals {struct internal_request;}
@@ -15,7 +16,7 @@ class fetch::request
         : public mixins::body
 {
 public constructors:
-    request(std::variant<request*, ext::string> input, ext::string_any_map_view init = {});
+    request(ext::variant<request*, ext::string> input, ext::string_any_map_view init = {});
 
 public js_methods:
     auto clone() -> request;
@@ -39,7 +40,7 @@ public js_properties: // TODO : constrain attributes
     ext::property<std::unique_ptr<dom::abort::abort_signal>> signal;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_methods:
     auto mime_type() -> ext::string;

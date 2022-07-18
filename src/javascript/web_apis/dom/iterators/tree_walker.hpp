@@ -22,7 +22,7 @@ public js_methods:
     auto prev_node() -> nodes::node*;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 public js_properties:
     ext::property<std::unique_ptr<nodes::node>> current_node;

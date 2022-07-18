@@ -24,7 +24,7 @@ public js_properties:
     ext::property<ext::boolean> pointer_before_reference_node;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_properties:
     ext::vector<nodes::node*> iterator_collection;

@@ -16,7 +16,7 @@ public constructors:
     security_policy_violation_event(ext::string_view event_type, ext::string_any_map_view event_init = {});
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

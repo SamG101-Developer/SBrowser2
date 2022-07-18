@@ -11,7 +11,7 @@ namespace dom::xpath {class xpath_result;}
 
 
 class dom::xpath::xpath_evaluator_base
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public js_methods:
     auto create_expression(ext::string expression, xpath_ns_resolver* resolver = nullptr) -> xpath_expression;
@@ -19,7 +19,7 @@ public js_methods:
     auto evaluate(ext::string_view expression, nodes::node* context_node, xpath_ns_resolver* resolver = nullptr, ext::number<ushort> type = 0, xpath_result* result = nullptr) -> xpath_result;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

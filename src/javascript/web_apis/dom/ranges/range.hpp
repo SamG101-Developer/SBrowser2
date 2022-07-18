@@ -51,7 +51,7 @@ public js_properties:
     ext::property<nodes::node*> common_ancestor_container;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_properties:
     nodes::node* m_root;

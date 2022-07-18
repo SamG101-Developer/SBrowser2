@@ -9,7 +9,7 @@ namespace dom::nodes {class document_fragment;}
 
 
 class dom::xslt::xslt_processor
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public constructors:
     xslt_processor();
@@ -26,7 +26,7 @@ public js_properties:
     auto reset() -> void;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

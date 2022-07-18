@@ -10,7 +10,7 @@ namespace dom::xpath {class xpath_result;}
 
 
 class dom::xpath::xpath_result
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public js_static_constants:
     constexpr static const ext::number<ushort> ANY_TYPE = 0;
@@ -39,7 +39,7 @@ public js_properties:
     ext::property<ext::number<ushort>> result_type;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
