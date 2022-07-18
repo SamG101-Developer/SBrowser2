@@ -5,20 +5,20 @@
 namespace dom::mixins {class document_or_element_node;}
 
 #include "ext/vector.hpp"
-#include <range/v3/view/ref.hpp>
+#include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class element;}
 
 
 class dom::mixins::document_or_element_node
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public js_methods:
-    auto get_elements_by_class_name(ext::string_view class_names) -> range_v3_view auto;
-    auto get_elements_by_tag_name(ext::string_view qualified_name) -> range_v3_view auto;
-    auto get_elements_by_tag_name_ns(ext::string_view namespace_, ext::string_view local_name) -> range_v3_view auto;
+    [[nodiscard]] auto get_elements_by_class_name(ext::string_view class_names) const -> ranges::any_view<nodes::element*>;
+    [[nodiscard]] auto get_elements_by_tag_name(ext::string_view qualified_name) const -> ranges::any_view<nodes::element*>;
+    [[nodiscard]] auto get_elements_by_tag_name_ns(ext::string_view namespace_, ext::string_view local_name) const -> ranges::any_view<nodes::element*>;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

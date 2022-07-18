@@ -9,7 +9,7 @@ namespace dom::nodes {class element;}
 
 
 class aria::mixins::aria_mixin
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public js_properties:
     ext::property<ext::string> role;
@@ -66,7 +66,7 @@ public js_properties:
     ext::property<std::unique_ptr<dom::nodes::element>> aria_error_message_element;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

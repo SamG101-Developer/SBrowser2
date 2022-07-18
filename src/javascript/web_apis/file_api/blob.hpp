@@ -5,19 +5,19 @@
 namespace file_api {class blob;}
 
 #include "ext/map.hpp"
+#include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include <future>
 #include <v8-array-buffer.h>
 #include <v8pp/convert.hpp>
-#include <promise-cpp/promise.hpp>
 namespace streams::readable {class readable_stream;}
 
 
 class file_api::blob
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public aliases:
-    using blob_part_t = std::variant<blob, ext::string_view, v8::ArrayBufferView>;
+    using blob_part_t = ext::variant<blob, ext::string_view, v8::ArrayBufferView>;
 
 public constructors:
     blob(ext::vector_view<blob_part_t> blob_parts, ext::string_any_map_view options = {});
@@ -33,7 +33,7 @@ public js_properties:
     ext::property<ext::string> type;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_properties:
     ext::string m_snapshot_state;

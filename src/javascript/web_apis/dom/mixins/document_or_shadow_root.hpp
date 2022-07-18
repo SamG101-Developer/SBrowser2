@@ -7,7 +7,7 @@ namespace dom::mixins {class document_or_shadow_root;}
 namespace dom::nodes {class element;}
 
 class dom::mixins::document_or_shadow_root
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public constructors:
     document_or_shadow_root();

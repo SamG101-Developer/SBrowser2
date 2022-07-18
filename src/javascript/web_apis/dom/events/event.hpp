@@ -12,7 +12,7 @@ namespace dom::detail::event_internals {struct event_path_struct;}
 
 
 class dom::events::event
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 private: aliases
     using touch_targets_t = ext::vector<nodes::event_target*>;
@@ -23,7 +23,7 @@ public: friends
 
 public: constructors
     event() = default;
-    event(ext::string_view event_type, ext::string_any_map_view event_init = {});
+    event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public: js_static_constants
     static constexpr unsigned short NONE            = 0;
