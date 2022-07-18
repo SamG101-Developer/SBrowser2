@@ -4,11 +4,11 @@
 
 
 dom::other::dom_exception::dom_exception(
-        ext::string_view message,
+        ext::string&& message,
         v8_custom_error_t type)
 
-        : message(message)
-        , type(static_cast<int>(type))
+        : message(std::move(message))
+        , type(std::bit_cast<int>(type))
 {
 }
 

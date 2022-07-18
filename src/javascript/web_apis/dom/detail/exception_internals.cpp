@@ -1,7 +1,10 @@
 #include "exception_internals.hpp"
 
+#include "ext/pair.hpp"
+
 #include <range/v3/algorithm/fold_left.hpp>
 #include <v8-exception.h>
+#include <v8pp/convert.hpp>
 
 
 struct exception_string_formatter
@@ -12,7 +15,7 @@ struct exception_string_formatter
     }
 
     template <typename V>
-    constexpr auto operator()(const ext::string& left, std::pair<ext::string, V>&& right) const -> ext::string
+    constexpr auto operator()(const ext::string& left, ext::pair<ext::string, V>& right) const -> ext::string
     {
         return left + right.first + ": " + std::to_string(right.second) + "\n";
     }
@@ -21,7 +24,9 @@ struct exception_string_formatter
 
 template <v8_primitive_error_t exception_type>
 auto dom::detail::exception_internals::throw_v8_exception(
-        exception_condiditional_t&& condition, ext::string_view exception_message) -> void
+        exception_condiditional_t&& condition,
+        const ext::string& exception_message)
+        -> void
 {
     if (condition())
     {
@@ -29,14 +34,14 @@ auto dom::detail::exception_internals::throw_v8_exception(
         v8::Local<v8::Value> v8_primitive_exception_object;
         switch(exception_type)
         {
-            case V8_TYPE_ERROR: v8_primitive_exception_object = v8::Exception::TypeError(exception_message);
-            case V8_RANGE_ERROR: v8_primitive_exception_object = v8::Exception::RangeError(exception_message);
-            case V8_REFERENCE_ERROR: v8_primitive_exception_object = v8::Exception::ReferenceError(exception_message);
-            case V8_SYNTAX_ERROR: v8_primitive_exception_object = v8::Exception::SyntaxError(exception_message);
-            case V8_WASM_COMPILE_ERROR: v8_primitive_exception_object = v8::Exception::WasmCompileError(exception_message);
-            case V8_WASM_LINK_ERROR: v8_primitive_exception_object = v8::Exception::WasmLinkError(exception_message);
-            case V8_WASM_RUNTIME_ERROR: v8_primitive_exception_object = v8::Exception::WasmRuntimeError(exception_message);
-            default: v8_primitive_exception_object = v8::Exception::Error(exception_message);
+            case V8_TYPE_ERROR: v8_primitive_exception_object = v8::Exception::TypeError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            case V8_RANGE_ERROR: v8_primitive_exception_object = v8::Exception::RangeError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            case V8_REFERENCE_ERROR: v8_primitive_exception_object = v8::Exception::ReferenceError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            case V8_SYNTAX_ERROR: v8_primitive_exception_object = v8::Exception::SyntaxError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            case V8_WASM_COMPILE_ERROR: v8_primitive_exception_object = v8::Exception::WasmCompileError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            case V8_WASM_LINK_ERROR: v8_primitive_exception_object = v8::Exception::WasmLinkError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            case V8_WASM_RUNTIME_ERROR: v8_primitive_exception_object = v8::Exception::WasmRuntimeError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
+            default: v8_primitive_exception_object = v8::Exception::Error(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
         }
 
         // the condition has already been asserted, so throw the exception
@@ -45,13 +50,13 @@ auto dom::detail::exception_internals::throw_v8_exception(
 }
 
 
-template <v8_custom_error_t exception_type>
+template <v8_custom_error_t exception_type, typename ...T>
 auto dom::detail::exception_internals::throw_v8_exception_formatted(
         exception_condiditional_t&& condition,
-        ext::string_view description,
-        ext::string_vector&& possible_causes,
-        ext::string_vector&& possible_fixes,
-        auto&& ...object_information)
+        const ext::string& description,
+        ext::vector<ext::string>&& possible_causes,
+        ext::vector<ext::string>&& possible_fixes,
+        T&&... object_information)
         -> void
 {
     if (condition())
@@ -75,9 +80,9 @@ auto dom::detail::exception_internals::throw_v8_exception_formatted(
 
         // bullet point the relevant information / memory addresses of objects
         exception_message += "\n\nRelevant information / memory addresses:\n";
-        ranges::fold_left(std::forward<decltype(object_information)>(object_information)..., exception_message, exception_string_formatter{});
+        ranges::fold_left(std::forward<T>(object_information)..., exception_message, exception_string_formatter{});
 
         // the 'condition' has already been asserted, so throw the exception
-        v8::Isolate::GetCurrent()->ThrowError(exception_message);
+        v8::Isolate::GetCurrent()->ThrowError(v8pp::to_v8(v8::Isolate::GetCurrent(), exception_message));
     }
 }

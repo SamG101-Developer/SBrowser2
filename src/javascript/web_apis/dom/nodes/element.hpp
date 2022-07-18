@@ -10,6 +10,8 @@
 #include "aria/mixins/aria_mixin.hpp"
 namespace dom::nodes {class element;}
 
+#include "ext/optional.hpp"
+#include "ext/queue.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
@@ -75,7 +77,7 @@ public js_methods:
     auto toggle_attribute_node(attr* attribute, ext::optional<ext::boolean> force) -> attr*;
     auto toggle_attribute_node_ns(attr* attribute, ext::optional<ext::boolean> force) -> attr*;
 
-    auto attach_shadow(ext::string_any_map_view options) -> shadow_root*;
+    auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> shadow_root*;
     auto closest(ext::string_view selectors) -> element*;
     auto matches(ext::string_view selectors) -> ext::boolean;
     
@@ -89,10 +91,10 @@ public js_properties:
     ext::property<ext::string, _T> id;
     ext::property<std::unique_ptr<shadow_root>> shadow_root_node;
     ext::property<std::unique_ptr<ext::vector<attr*>>> attributes;
-    ext::property<std::unique_ptr<ext::string_vector>> class_list;
+    ext::property<std::unique_ptr<ext::vector<ext::string>>> class_list;
 
 public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_methods:
     [[nodiscard]] auto qualified_name() const -> ext::string;
@@ -103,7 +105,7 @@ private cpp_properties:
     ext::string m_is;
     detail::customization_internals::custom_element_definition* m_custom_element_definition;
     detail::customization_internals::custom_element_state_t     m_custom_element_state;
-    std::queue<detail::customization_internals::reaction*>      m_custom_element_reaction_queue;
+    ext::queue<detail::customization_internals::reaction*>      m_custom_element_reaction_queue;
     html::detail::context_internals::browsing_context* m_nested_browsing_context;
 
 private cpp_accessors:

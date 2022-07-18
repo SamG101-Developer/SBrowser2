@@ -10,9 +10,9 @@
 
 
 auto dom::other::dom_implementation::create_document_type(
-        ext::string_view qualified_name,
-        ext::string_view public_id,
-        ext::string_view system_id)
+        ext::string&& qualified_name,
+        ext::string&& public_id,
+        ext::string&& system_id)
         const -> nodes::document_type
 {
     detail::namespace_internals::validate(qualified_name);
@@ -21,16 +21,16 @@ auto dom::other::dom_implementation::create_document_type(
     // implementation's associated document
     nodes::document_type document_type;
     document_type.owner_document = m_associated_document;
-    document_type.name = qualified_name;
-    document_type.public_id = public_id;
-    document_type.system_id = system_id;
+    document_type.name = std::move(qualified_name);
+    document_type.public_id = std::move(public_id);
+    document_type.system_id = std::move(system_id);
     return document_type;
 }
 
 
 auto dom::other::dom_implementation::create_document(
-        ext::string_view namespace_,
-        ext::string_view qualified_name,
+        ext::string&& namespace_,
+        ext::string&& qualified_name,
         nodes::document_type* document_type)
         const -> nodes::xml_document
 {
@@ -60,7 +60,7 @@ auto dom::other::dom_implementation::create_document(
 
 
 auto dom::other::dom_implementation::create_html_document(
-        ext::string_view title)
+        ext::string&& title)
         const -> nodes::document*
 {
     // create the Document frame that will hold a basic "html -> head, body" structure; the content type is set to the
@@ -79,18 +79,18 @@ auto dom::other::dom_implementation::create_html_document(
     // document->child_nodes()->at(...) - index 0 is the DocumentType node
     detail::mutation_internals::append(&doctype, &document);
     detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "html", detail::namespace_internals::HTML), &document);
-    detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "head", detail::namespace_internals::HTML), document.child_nodes->at(1).value());
+    detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "head", detail::namespace_internals::HTML), document.child_nodes()->at(1));
 
     // if there is a 'title', then add a HTMLTitleElement into the HTMLHeadElement, and a Text node into the
     // HTMLTitleElement, containing the 'title' text
     if (!title.empty())
     {
         nodes::text title_text {title}; title_text.owner_document = &document;
-        detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "title", detail::namespace_internals::HTML), document.child_nodes->at(2).value());
-        detail::mutation_internals::append(&title_text, document.child_nodes->at(3).value());
+        detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "title", detail::namespace_internals::HTML), document.child_nodes()->at(2));
+        detail::mutation_internals::append(&title_text, document.child_nodes()->at(3));
     }
 
     // add the HTMLBodyElement into the HTMLHtmlElement - this is where all the other nodes will be inserted into, as
     // the body acts as a container to the displayable elements
-    detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "body", detail::namespace_internals::HTML), document.child_nodes->at(1).value());
+    detail::mutation_internals::append(detail::customization_internals::create_an_element(&document, "body", detail::namespace_internals::HTML), document.child_nodes()->at(1));
 }

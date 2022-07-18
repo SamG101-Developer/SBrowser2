@@ -3,21 +3,21 @@
 
 #include "ext/any.hpp"
 #include "ext/custom_operator.hpp"
+#include "ext/functional.hpp"
 #include "ext/keywords.hpp"
 #include "ext/property.hpp"
 #include "ext/string.hpp"
 #include <memory>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
-namespace web_apis {class dom_object;}
 namespace dom::events {class event;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class node;}
 
-#define behaviour_method(...) std::function<void(__VA_ARGS__)>
+#define behaviour_method(...) ext::function<void(__VA_ARGS__)>
 
 
-class web_apis::dom_object
+class dom_object
 {
 public constructors:
     dom_object() = default;
@@ -68,7 +68,7 @@ public cpp_properties:
 };
 
 
-inline auto web_apis::dom_object::to_v8(v8::Isolate* isolate) const && -> ext::any
+inline auto dom_object::to_v8(v8::Isolate* isolate) const && -> ext::any
 {
     return v8pp::class_<dom_object>{isolate}.auto_wrap_objects();
 }

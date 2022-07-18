@@ -2,11 +2,13 @@
 #define SBROWSER2_EXCEPTION_INTERNALS_HPP
 
 #include "ext/casting.hpp"
+#include "ext/functional.hpp"
 #include "ext/string.hpp"
+#include "ext/tuple.hpp"
 #include "ext/vector.hpp"
 
 #define NO_CONDITION [](){return true;}
-#define P(key, val) std::make_pair(key, val)
+#define P(key, val) tuplet::pair{key, val}
 
 #define verify_parent_exists(_node)                                                   \
     detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>( \
@@ -40,21 +42,21 @@ enum v8_primitive_error_t
 
 namespace dom::detail::exception_internals
 {
-    using exception_condiditional_t = std::function<bool()>;
+    using exception_condiditional_t = ext::function<bool()>;
 
     template <v8_primitive_error_t exception_type>
     auto throw_v8_exception(
             exception_condiditional_t&& condition = NO_CONDITION,
-            ext::string_view exception_message = "")
+            const ext::string& exception_message = "")
             -> void;
 
-    template <v8_custom_error_t exception_type>
+    template <v8_custom_error_t exception_type, typename ...T>
     auto throw_v8_exception_formatted(
             exception_condiditional_t&& condition = NO_CONDITION,
-            ext::string_view description = "",
-            ext::string_vector&& possible_causes = {},
-            ext::string_vector&& possible_fixes = {},
-            auto&&... object_information)
+            const ext::string& description = "",
+            ext::vector<ext::string>&& possible_causes = {},
+            ext::vector<ext::string>&& possible_fixes = {},
+            T&&... object_information)
             -> void;
 }
 

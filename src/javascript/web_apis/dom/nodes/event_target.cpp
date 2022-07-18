@@ -15,16 +15,16 @@
 auto dom::nodes::event_target::add_event_listener(
         ext::string&& type,
         event_listener_callback_t&& callback,
-        ext::string_any_map& options)
+        ext::map<ext::string, ext::any>&& options)
         -> void
 {
     // create an event listener that is the flattened options, and insert the callback and type
-    auto event_listener = detail::event_internals::flatten_more(options);
-    event_listener.insert_or_assign("callback", std::forward<event_listener_callback_t>(callback));
-    event_listener.insert_or_assign("type"    , std::forward<ext::string              >(type    ));
+    auto event_listener = detail::event_internals::flatten_more(std::move(options));
+    event_listener.insert_or_assign("callback", std::move(callback));
+    event_listener.insert_or_assign("type"    , std::move(type));
 
     // get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map
-    auto* signal = event_listener.at("signal").value_to_or<abort::abort_signal*>(nullptr);
+    auto* signal = event_listener.try_emplace("signal", nullptr).first->second.to<abort::abort_signal*>();
 
     // return if
     //  - there is no callback - invoking the event listener would have no effect and would waste cycles;
@@ -46,11 +46,11 @@ auto dom::nodes::event_target::add_event_listener(
 auto dom::nodes::event_target::remove_event_listener(
         ext::string&& type,
         event_listener_callback_t&& callback,
-        ext::string_any_map& options)
+        ext::map<ext::string, ext::any>&& options)
         -> void
 {
     // create a dummy event listener that is the flattened options, and insert the callback and type
-    auto event_listener = detail::event_internals::flatten_more(options);
+    auto event_listener = detail::event_internals::flatten_more(std::move(options));
     event_listener.insert_or_assign("callback", std::move(callback));
     event_listener.insert_or_assign("type", type);
 
@@ -60,16 +60,15 @@ auto dom::nodes::event_target::remove_event_listener(
 
     // alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
     // capture attribute to event_listener
-    using callback_t = typename nodes::event_target::event_listener_callback_t;
-
-    auto event_listener_equality_check = [event_listener](const ext::string_any_map& existing_listener)
+    auto event_listener_equality_check = [event_listener](ext::map<ext::string, ext::any>&& e)
     {
-        return existing_listener.at("callback").has_value_and_equals(event_listener.at("callback")->to<callback_t>())
-               && existing_listener.at("type").has_value_and_equals(event_listener.at("type")->to<ext::string_view>())
-               && existing_listener.at("capture").has_value_and_equals(event_listener.at("capture")->to<ext::boolean>());
+        using callback_t = typename nodes::event_target::event_listener_callback_t;
+        return e.try_emplace("callback", nullptr).first->second.to<callback_t>() == event_listener.at("callback").to<callback_t>()
+                && e.try_emplace("type", nullptr).first->second.to<ext::string_view>() == event_listener.at("type").to<ext::string_view>()
+                && e.try_emplace("capture", nullptr).first->second.to<ext::boolean>() == event_listener.at("capture").to<ext::boolean>();
     };
 
-    m_event_listeners |= ranges::views::remove_if(event_listener_equality_check);
+    m_event_listeners |= ranges::actions::remove_if(event_listener_equality_check);
 }
 
 
@@ -103,7 +102,7 @@ auto dom::nodes::event_target::to_v8(
 {
     return v8pp::class_<event_target>{isolate}
             .ctor<>()
-            .inherit<web_apis::dom_object>()
+            .inherit<dom_object>()
             .function("addEventListener", &event_target::add_event_listener)
             .function("removeEventListener", &event_target::remove_event_listener)
             .function("dispatchEvent", &event_target::dispatch_event)

@@ -12,7 +12,7 @@ class dom::other::dom_exception
         : public virtual web_apis::dom_object
 {
 public constructors:
-    dom_exception(ext::string_view message, v8_custom_error_t type);
+    dom_exception(ext::string&& message, v8_custom_error_t type);
 
 public js_properties:
     ext::property<ext::string> message;

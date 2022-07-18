@@ -20,12 +20,12 @@ namespace fetch::detail::fetch_internals
 
     auto fetch(
             request_internals::internal_request& request_object,
-            std::function<void(ext::number<int>)>&& process_request_body_chunk_length,
-            std::function<void()>&& process_request_end_of_body = nullptr,
-            std::function<void(response_internals::internal_response&)>&& process_early_hints_response = nullptr,
-            std::function<void(response_internals::internal_response&)>&& process_response = nullptr,
-            std::function<void(response_internals::internal_response&)>&& process_response_end_of_body = nullptr,
-            std::function<void(response_internals::internal_response&, ext::string_view)>&& process_response_consume_body = nullptr,
+            ext::function<void(ext::number<int>)>&& process_request_body_chunk_length,
+            ext::function<void()>&& process_request_end_of_body = nullptr,
+            ext::function<void(response_internals::internal_response&)>&& process_early_hints_response = nullptr,
+            ext::function<void(response_internals::internal_response&)>&& process_response = nullptr,
+            ext::function<void(response_internals::internal_response&)>&& process_response_end_of_body = nullptr,
+            ext::function<void(response_internals::internal_response&, ext::string_view)>&& process_response_consume_body = nullptr,
             ext::boolean_view use_parallel_queue = false)
             -> http_internals::fetch_controller;
 

@@ -52,7 +52,7 @@ auto dom::nodes::element::has_attributes()
     // return true if the 'attributes' list of this Element is not empty; ie it must contain 1+ Attr nodes. used as
     // syntactic sugar around accessing the attributes list, and also allows it to be bound to as a parameter to another
     // function
-    return !attributes->empty();
+    return !attributes()->empty();
 }
 
 
@@ -176,8 +176,8 @@ auto dom::nodes::element::set_attribute(
     ce_reactions_method_def
         // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        auto* new_attribute = detail::attribute_internals::create(qualified_name, "", value, "", owner_document());
-        return detail::attribute_internals::set_attribute(this, new_attribute);
+        auto new_attribute = detail::attribute_internals::create(qualified_name, "", value, "", owner_document());
+        return detail::attribute_internals::set_attribute(this, &new_attribute);
     ce_reactions_method_exe
 }
 
@@ -192,8 +192,8 @@ auto dom::nodes::element::set_attribute_ns(
         // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
         auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
-        auto* new_attribute = detail::attribute_internals::create(local_name, namespace_, value, prefix, owner_document());
-        return detail::attribute_internals::set_attribute(this, new_attribute);
+        auto new_attribute = detail::attribute_internals::create(local_name, namespace_, value, prefix, owner_document());
+        return detail::attribute_internals::set_attribute(this, &new_attribute);
     ce_reactions_method_exe
 }
 
@@ -334,7 +334,7 @@ auto dom::nodes::element::toggle_attribute_node_ns(
 
 
 auto dom::nodes::element::attach_shadow(
-        ext::string_any_map_view options)
+        ext::map<ext::string, ext::any>&& options)
         -> shadow_root*
 {
     using namespace detail::namespace_internals;
@@ -359,9 +359,9 @@ auto dom::nodes::element::attach_shadow(
     auto* shadow = new shadow_root{};
     shadow->owner_document = owner_document();
     shadow->host = this;
-    shadow->mode = options.at("mode").value_to_or<ext::string>("");
-    shadow->delegates_focus = options.at("delegatesFocus").value_to_or<ext::boolean>(false);
-    shadow->slot_assignment = options.at("slotAssignment").value_to_or<ext::string>("");
+    shadow->mode = options.try_emplace("mode", "").first->second.to<ext::string>();
+    shadow->delegates_focus = options.try_emplace("delegatesFocus", ext::boolean::FALSE()).first->second.to<ext::boolean>();
+    shadow->slot_assignment = options.try_emplace("slotAssignment", "").first->second.to<ext::string>();
     shadow_root_node = shadow;
     return shadow;
 }

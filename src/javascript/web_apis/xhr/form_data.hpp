@@ -4,6 +4,7 @@
 #include "dom_object.hpp"
 namespace xhr {class form_data;}
 
+#include "ext/variant.hpp"
 #include "ext/vector.hpp"
 namespace file_api {class blob;}
 namespace file_api {class file;}
@@ -11,10 +12,10 @@ namespace html::elements {class html_form_element;}
 
 
 class xhr::form_data
-        : public web_apis::dom_object
+        : public dom_object
 {
 public aliases:
-    using form_data_entry_t = std::variant<ext::string_view, file_api::file*>;
+    using form_data_entry_t = ext::variant<ext::string_view, file_api::file*>;
 
 public constructors:
     form_data(html::elements::html_form_element* form = nullptr);
