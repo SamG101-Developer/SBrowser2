@@ -3,8 +3,11 @@
 
 
 #include "ext/map.hpp"
+#include "ext/pair.hpp"
+#include "ext/tuple.hpp"
+#include "ext/type_traits.hpp"
+#include "ext/variant.hpp"
 
-#include <variant>
 #include <v8-array-buffer.h>
 namespace fetch::detail::body_internals {struct internal_body;}
 namespace fetch::detail::fetch_internals {struct connection;}
@@ -16,18 +19,18 @@ namespace streams::readable {class readable_stream;}
 namespace fetch
 {
     // body related
-    using body_with_tuple = std::tuple<detail::body_internals::internal_body&, ext::string>;
-    using xml_http_request_body_init_t = std::variant<file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
+    using body_with_tuple = ext::tuple<detail::body_internals::internal_body&, ext::string>;
+    using xml_http_request_body_init_t = ext::variant<file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
     using body_init_t = ext::extend_variant_t<xml_http_request_body_init_t, streams::readable::readable_stream*>;
 
     // connection related
-    using network_partition_key_t = std::pair<ext::string, ext::string>;
+    using network_partition_key_t = ext::pair<ext::string, ext::string>;
     using connection_pool = ext::map<network_partition_key_t, detail::fetch_internals::connection>;
 
     // header related
     using header_name_t = ext::string_view;
     using header_value_t = ext::string_view;
-    using header_t = std::pair<ext::string, ext::string>;
+    using header_t = ext::pair<ext::string, ext::string>;
 
     using header_names_t = ext::vector<ext::string>;
     using header_values_t = ext::vector<ext::string>;
