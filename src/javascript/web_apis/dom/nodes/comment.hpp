@@ -9,15 +9,14 @@ class dom::nodes::comment final
         : public character_data
 {
 public constructors:
-    comment();
-    comment(ext::string_view new_data);
+    explicit comment(ext::string&& new_data = "");
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
     [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return COMMENT_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override;
+    [[nodiscard]] auto get_node_name() const -> ext::string override {return "#comment";}
 };
 
 
