@@ -35,7 +35,7 @@ private cpp_accessors:
     [[nodiscard]] auto get_node_name() const -> ext::string override {return "";};
     [[nodiscard]] auto get_node_value() const -> ext::string override {return data();};
     [[nodiscard]] auto get_text_content() const -> ext::string override {return data();};
-    [[nodiscard]] auto get_length() const -> ext::number<ulong> {return data->length();};
+    [[nodiscard]] auto get_length() const -> ext::number<ulong> {return data().length();};
 
     auto set_node_value(ext::string_view val) -> void override {replace_data(0, length(), val);};
     auto set_text_content(ext::string_view val) -> void override {replace_data(0, length(), val);};
