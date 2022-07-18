@@ -4,6 +4,7 @@
 #include "ext/boolean.hpp"
 #include "high_resolution_time/_typedefs.hpp"
 namespace dom::nodes {class document;}
+namespace html::elements {class html_meta_element;}
 
 namespace html::detail::document_internals
 {
@@ -11,6 +12,28 @@ namespace html::detail::document_internals
     struct document_unload_timing_info;
     
     auto is_cookie_averse_document(
+            const dom::nodes::document* document)
+            -> ext::boolean;
+
+    auto fallback_base_url(
+            const dom::nodes::document* document)
+            -> ext::string;
+
+    auto document_base_url(
+            const dom::nodes::document* document)
+            -> ext::string;
+
+    auto shared_declarative_refresh_steps(
+            const dom::nodes::document* document,
+            ext::string&& input,
+            elements::html_meta_element* meta = nullptr)
+            -> void;
+
+    auto has_stylesheet_blocking_scripts(
+            const dom::nodes::document* document)
+            -> ext::boolean;
+
+    auto has_no_stylesheet_blocking_scripts(
             const dom::nodes::document* document)
             -> ext::boolean;
 }
