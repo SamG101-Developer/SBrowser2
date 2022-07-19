@@ -2,28 +2,32 @@
 #ifndef SBROWSER2_TIME_HPP
 #define SBROWSER2_TIME_HPP
 
-namespace ext {class time;}
-
 #include "ext/keywords.hpp"
+#include "ext/number.hpp"
 #include <chrono>
 
 
-class ext::time final
+_EXT_BEGIN
+
+class time final
 {
 public cpp_static_methods:
-    template <typename _Fx> static auto time_method(_Fx&& _Pred, size_t _Limit = 1) -> long long;
+    template <typename _Fx>
+    static auto time_method(_Fx&& _Pred, _EXT number<size_t> _Limit = 1) -> _EXT number<long long>;
 };
+
+_EXT_END
 
 
 template <typename _Fx>
-auto ext::time::time_method(
+auto _EXT time::time_method(
         _Fx&& _Pred,
-        size_t _Limit)
-        -> long long
+        _EXT number<size_t> _Limit)
+        -> _EXT number<long long>
 {
     // get the time before and after execution of a method - there is the option to loop the method
     auto _Start = std::chrono::high_resolution_clock::now();
-    for (auto _Idx = 0; _Idx < _Limit; ++_Idx) _Pred();
+    for (_EXT number<size_t> _Idx = 0; _Idx < _Limit; ++_Idx) _Pred();
     auto _Stop = std::chrono::high_resolution_clock::now();
 
     // calculate the duration taken, cast to microseconds, and return the raw value

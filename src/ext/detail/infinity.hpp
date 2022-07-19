@@ -2,14 +2,16 @@
 #ifndef SBROWSER2_INFINITY_HPP
 #define SBROWSER2_INFINITY_HPP
 
-namespace ext::detail {template <typename _Tx> class infinity;}
 
+#include "ext/keywords.hpp"
 #include <limits>
 #include <type_traits>
 
 
+_EXT_DETAIL_BEGIN
+
 template <typename _Tx>
-class ext::detail::infinity final
+class infinity final
 {
 public:
     infinity() = default;
@@ -26,6 +28,9 @@ public:
 private:
     bool _Positive;
 };
+
+
+_EXT_DETAIL_END
 
 
 #endif //SBROWSER2_INFINITY_HPP

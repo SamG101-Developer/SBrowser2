@@ -2,7 +2,11 @@
 #ifndef SBROWSER2_KEYWORDS_HPP
 #define SBROWSER2_KEYWORDS_HPP
 
-#include "ext/detail/hash.hpp"
+#define _EXT ::ext::
+#define _EXT_BEGIN namespace ext {
+#define _EXT_END } // namespace ext
+#define _EXT_DETAIL_BEGIN namespace ext::detail {
+#define _EXT_DETAIL_END } // namespace ext::detail
 
 #define _T true
 #define _F false
@@ -11,12 +15,12 @@
 #define catch_specific(exception_t) catch(const exception_t& exception)
 #define catch_other catch (...)
 
-#define string_switch(_String) switch(ext::hash(_String))
-#define string_case(_String) case(ext::hash(_String))
+#define string_switch(_String) switch(std::hash<size_t>{}(_String))
+#define string_case(_String) case(std::hash<size_t>{}(_String))
 #define string_default default
 
-#define number_switch(_Number) switch((decltype(ext::number{_Number})::primitive_t)_Number)
-#define number_case(_Number) case((decltype(ext::number{_Number})::primitive_t)_Number)
+#define number_switch(_Number) switch((decltype(_EXT number{_Number})::primitive_t)_Number)
+#define number_case(_Number) case((decltype(_EXT number{_Number})::primitive_t)_Number)
 #define number_default default
 
 #define friends

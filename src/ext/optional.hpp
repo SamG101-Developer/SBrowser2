@@ -2,17 +2,14 @@
 #ifndef SBROWSER2_OPTIONAL_HPP
 #define SBROWSER2_OPTIONAL_HPP
 
-namespace ext {template <typename _Base> class optional;}
-
 #include "ext/keywords.hpp"
 #include <optional>
 
-namespace ext {class any;}
-namespace ext {auto null = std::nullopt;}
 
+_EXT_BEGIN
 
 template <typename _Tx>
-class ext::optional final
+class optional final
 {
 public constructors:
     optional() = default;
@@ -31,18 +28,18 @@ public constructors:
     auto operator=(const std::nullopt_t&) -> optional& {_Opt.reset();}
 
 public cpp_methods:
-    [[nodiscard]] constexpr auto empty() const -> ext::boolean {return not _Opt.has_value();}
-    [[nodiscard]] constexpr auto has_value() const -> ext::boolean {return _Opt.has_value();}
+    [[nodiscard]] constexpr auto empty() const -> _EXT boolean {return not _Opt.has_value();}
+    [[nodiscard]] constexpr auto has_value() const -> _EXT boolean {return _Opt.has_value();}
 
     constexpr auto value() const;
     constexpr auto value_or(auto&& _Other) const;
     constexpr auto not_value_or(auto&& _Other) const;
-    template <typename _Tx1> constexpr auto value_to_or(_Tx1&& _Other) const -> _Tx1 requires (type_is<_Tx, ext::any>);
+    template <typename _Tx1> constexpr auto value_to_or(_Tx1&& _Other) const -> _Tx1 requires (type_is<_Tx, _EXT any>);
 
-    auto has_value_and_equals(auto&& _Other) const -> ext::boolean {return has_value() && value() == _Other;}
-    auto has_value_and_not_equals(auto&& _Other) const -> ext::boolean {return has_value() && value() != _Other;}
-    auto empty_or_equals(auto&& _Other) const -> ext::boolean {return empty() || value() == _Other;}
-    auto empty_or_not_equals(auto&& _Other) const -> ext::boolean {return empty() || value() != _Other;}
+    auto has_value_and_equals(auto&& _Other) const -> _EXT boolean {return has_value() && value() == _Other;}
+    auto has_value_and_not_equals(auto&& _Other) const -> _EXT boolean {return has_value() && value() != _Other;}
+    auto empty_or_equals(auto&& _Other) const -> _EXT boolean {return empty() || value() == _Other;}
+    auto empty_or_not_equals(auto&& _Other) const -> _EXT boolean {return empty() || value() != _Other;}
     
 public cpp_operators:
     auto operator->() const -> auto {return value();}
@@ -52,22 +49,27 @@ private cpp_properties:
 };
 
 
+constexpr std::nullopt_t null {std::nullopt_t::_Tag{}};
+
+_EXT_END
+
+
 template <typename _Ty>
-constexpr auto ext::optional<_Ty>::value() const
+constexpr auto _EXT optional<_Ty>::value() const
 {
     return _Opt.value();
 }
 
 
 template <typename _Ty>
-constexpr auto ext::optional<_Ty>::value_or(auto&& _Other) const
+constexpr auto _EXT optional<_Ty>::value_or(auto&& _Other) const
 {
     return _Opt.value_or(std::forward<_Ty>(_Other));
 }
 
 
 template <typename _Ty>
-constexpr auto ext::optional<_Ty>::not_value_or(auto&& _Other) const
+constexpr auto _EXT optional<_Ty>::not_value_or(auto&& _Other) const
 {
     return empty() ? null : std::forward<_Ty>(_Other);
 }
@@ -75,7 +77,7 @@ constexpr auto ext::optional<_Ty>::not_value_or(auto&& _Other) const
 
 template <typename _Ty>
 template <typename _Ty1>
-constexpr auto ext::optional<_Ty>::value_to_or(_Ty1&& _Other) const -> _Ty1 requires (type_is<_Ty, ext::any>)
+constexpr auto _EXT optional<_Ty>::value_to_or(_Ty1&& _Other) const -> _Ty1 requires (type_is<_Ty, _EXT any>)
 {
     return empty() ? std::forward<_Ty1>(_Other) : value().template to<_Ty1>();
 }

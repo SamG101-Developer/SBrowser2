@@ -3,20 +3,14 @@
 
 #include "ext/boolean.hpp"
 #include <cassert>
-namespace ext {auto assert_true (bool statement) -> void;}
-namespace ext {auto assert_false(bool statement) -> void;}
 
 
-auto ext::assert_true(bool statement) -> void
-{
-    assert(statement);
-}
+_EXT_BEGIN
 
+auto assert_true(bool statement) -> void {assert(statement);}
+auto assert_false(bool statement) -> void {assert(!statement);}
 
-auto ext::assert_false(bool statement) -> void
-{
-    assert(!statement);
-}
+_EXT_END
 
 
 #endif //SBROWSER2_ASSERT_HPP

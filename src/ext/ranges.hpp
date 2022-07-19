@@ -1,6 +1,8 @@
 #ifndef SBROWSER2_RANGES_HPP
 #define SBROWSER2_RANGES_HPP
 
+// TODO : add constraints to range views / actions / algorithms, like in range-v3 library
+
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
@@ -70,7 +72,7 @@ struct ranges::views::split_string_fn
         // this produces a range of ranges: splitting "hello world" by a " " becomes {{"h", "e", "l", "l", "o"}, {"0",
         // "o", "r", "l", "d"}}, with each item a character from the string, so using the transform adaptor, convert
         // each subrange into a string, to get {"hello", "world"}
-        return ranges::views::split(delimiter) | ranges::views::transform([](range_v3_view auto&& sub_range) {return sub_range | ranges::to<::ext::string>();});
+        return ranges::views::split(delimiter) | ranges::views::transform([](range_v3_view auto&& sub_range) {return sub_range | ranges::to<_EXT string>();});
     }
 };
 
@@ -101,7 +103,7 @@ struct ranges::views::drop_until_fn
 
 struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'transform(...)' call
 {
-    template <type_is_not<::ext::boolean> _Fy0, typename _Fy1>
+    template <type_is_not<_EXT boolean> _Fy0, typename _Fy1>
     constexpr auto operator()(_Fy0&& _PredIf, _Fy1&& _PredTransform) const
     {
         // a transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
@@ -114,9 +116,9 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
     }
 
     template <typename _Fy1>
-    constexpr auto operator()(const ::ext::boolean&& _PredIf, _Fy1&& _PredTransform) const
+    constexpr auto operator()(const _EXT boolean&& _PredIf, _Fy1&& _PredTransform) const
     {
-        // a transform_if adaptor works by transforming each element, if 'PredIf' is a true boolean value
+        // a transform_if adaptor works by transforming each element, if '_PredIf' is a true boolean value
         return ranges::views::transform(
                 [&_PredIf, _PredTransform = std::forward<_Fy1>(_PredTransform)]<typename T>(T&& _Elem)
                 {return _PredIf ? _PredTransform(std::forward<T>(_Elem)) : std::forward<T>(_Elem);});
@@ -127,7 +129,7 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
 template <typename _Tx>
 struct ranges::views::cast_all_to_fn
 {
-    constexpr auto operator()(::ext::boolean_view remove_nullptr = true) const // TODO : apply parameter
+    constexpr auto operator()(_EXT boolean_view remove_nullptr = true) const // TODO : apply parameter
     {
         // a cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
         // another type, and then removing all the instances of nullptr
@@ -180,7 +182,7 @@ struct ranges::actions::transform_if_fn
     }
 
     template <typename _Fy1>
-    constexpr auto operator()(const ::ext::boolean&& _PredIf, auto&& _PredTransform) const
+    constexpr auto operator()(const _EXT boolean&& _PredIf, auto&& _PredTransform) const
     {
         // a transform_if adaptor works by transforming each element, if 'PredIf' is a true boolean value
         return ranges::actions::transform(
@@ -193,7 +195,7 @@ struct ranges::actions::transform_if_fn
 template <typename _Tx>
 struct ranges::actions::cast_all_to_fn
 {
-    constexpr auto operator()(::ext::boolean_view remove_nullptr = true) const // TODO : apply parameter
+    constexpr auto operator()(_EXT boolean_view remove_nullptr = true) const // TODO : apply parameter
     {
         return ranges::actions::transform([](auto* pointer) {return dynamic_cast<_Tx>(pointer);}) | ranges::actions::remove(nullptr);
     }

@@ -3,15 +3,9 @@
 #define SBROWSER2_NUMBER_HPP
 
 #include "ext/boolean.hpp"
-#include "ext/type_traits.hpp"
 #include "ext/string.hpp"
-namespace ext {template <typename _Tx> class number;}
-namespace ext {template <typename _Vt> using number_view = const number<_Vt>&;}
-namespace ext {template <bool _InclusiveLo = false, bool _InclusiveHi = false> auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> boolean;}
-namespace ext {template <typename T, typename U, typename ...V> auto min(T&& first, U&& second, V&&... values);}
-namespace ext {template <typename T, typename U, typename ...V> auto max(T&& first, U&& second, V&&... values);}
-namespace ext {template <typename T, typename U> auto round(T&& _Val, U&& _Mult);}
-namespace ext {auto is_numeric_string(string_view _Str) -> boolean;}
+#include "ext/detail/infinity.hpp"
+#include "boolean.hpp"
 
 #include <algorithm>
 #include <limits>
@@ -20,11 +14,11 @@ namespace ext {auto is_numeric_string(string_view _Str) -> boolean;}
 #include <type_traits>
 #include <utility>
 
-#include "ext/detail/infinity.hpp"
 
+_EXT_BEGIN
 
 template <typename _Tx> // TODO : change typename to 'primitive_number'
-class ext::number final
+class number final
 {
 public aliases:
     using primitive_t = _Tx;
@@ -90,16 +84,22 @@ private cpp_properties:
 };
 
 
+template <typename _Vt>
+using number_view = const number<_Vt>&;
+
+_EXT_END
+
+
 template <typename _Tx>
 template <typename _Ty>
-constexpr ext::number<_Tx>::number(_Ty _Primitive)
+constexpr _EXT number<_Tx>::number(_Ty _Primitive)
         : _Val(_Primitive)
 {}
 
 
 template <typename _Tx>
 template <typename _Ty>
-auto ext::number<_Tx>::operator=(_Ty _Primitive) -> number&
+auto _EXT number<_Tx>::operator=(_Ty _Primitive) -> number&
 {
     _Val = _Primitive;
     return *this;
@@ -108,21 +108,21 @@ auto ext::number<_Tx>::operator=(_Ty _Primitive) -> number&
 
 template <typename _Tx>
 template <typename _Ty>
-ext::number<_Tx>::number(const number<_Ty>& _Other)
+_EXT number<_Tx>::number(const _EXT number<_Ty>& _Other)
         : _Val(*_Other)
 {}
 
 
 template <typename _Tx>
 template <typename _Ty>
-ext::number<_Tx>::number(number<_Ty>&& _Other) noexcept
+_EXT number<_Tx>::number(_EXT number<_Ty>&& _Other) noexcept
         : _Val(*std::move(_Other))
 {}
 
 
 template <typename _Tx>
 template <typename _Ty>
-auto ext::number<_Tx>::operator=(const ext::number<_Ty>& _Other) -> number&
+auto _EXT number<_Tx>::operator=(const _EXT number<_Ty>& _Other) -> number&
 {
     _Val = *_Other;
     return *this;
@@ -131,16 +131,17 @@ auto ext::number<_Tx>::operator=(const ext::number<_Ty>& _Other) -> number&
 
 template <typename _Tx>
 template <typename _Ty>
-auto ext::number<_Tx>::operator=(number<_Ty>&& _Other) noexcept -> number&
+auto _EXT number<_Tx>::operator=(_EXT number<_Ty>&& _Other) noexcept -> number&
 {
     _Val = *std::move(_Other);
     return *this;
 }
 
 
+_EXT_BEGIN
 
 template <bool _InclusiveLo, bool _InclusiveHi>
-auto ext::is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> boolean
+auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> _EXT boolean
 {
     auto _Condition1 = _InclusiveLo ? _Val >= _Lo : _Val > _Lo; // default to >
     auto _Condition2 = _InclusiveHi ? _Val <= _Hi : _Val < _Hi; // default to <
@@ -149,33 +150,36 @@ auto ext::is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> boolean
 
 
 template <typename T, typename U, typename ...V>
-auto ext::min(T&& first, U&& second, V&&... values)
+auto min(T&& _Val0, U&& _Val1, V&&... _Vals)
 {
-    if constexpr(sizeof...(values) == 0) return first < second ? first : number{second};
-    else return min(min(std::forward<T>(first), std::forward<U>(second)), std::forward<V>(values)...);
+    if constexpr(sizeof...(_Vals) == 0) return _Val0 < _Val1 ? _Val0 : number{_Val1};
+    else return _EXT min(_EXT min(std::forward<T>(_Val0), std::forward<U>(_Val1)), std::forward<V>(_Vals)...);
 }
 
 
 template <typename T, typename U, typename ...V>
-auto ext::max(T&& first, U&& second, V&&... values)
+auto max(T&& _Val0, U&& _Val1, V&&... _Vals)
 {
-    if constexpr(sizeof...(values) == 0) return first > second ? first : number{second};
-    else return max(max(std::forward<T>(first), std::forward<U>(second)), std::forward<V>(values)...);
+    if constexpr(sizeof...(_Vals) == 0) return _Val0 > _Val1 ? _Val0 : number{_Val1};
+    else return _EXT max(_EXT max(std::forward<T>(_Val0), std::forward<U>(_Val1)), std::forward<V>(_Vals)...);
 }
 
 
 template <typename T, typename U>
-auto ext::round(T&& _Val, U&& _Mult)
+auto round(T&& _Val, U&& _Mult)
 {
     return std::round(std::move(_Val / _Mult)) * std::forward<U>(_Mult);
 }
 
 
-auto ext::is_numeric_string(ext::string_view _Str) -> boolean
+auto is_numeric_string(const _EXT string& _Str) -> _EXT boolean
 {
-    try {auto _Num = std::stod(_Str); return ext::boolean::TRUE();}
-    catch_specific (std::invalid_argument) {return ext::boolean::FALSE();}
+    try {auto _Num = std::stod(_Str); return _EXT boolean::TRUE();}
+    catch_specific (std::invalid_argument) {return _EXT boolean::FALSE();}
 }
+
+
+_EXT_END
 
 
 #endif //SBROWSER2_NUMBER_HPP

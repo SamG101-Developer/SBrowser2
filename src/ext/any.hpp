@@ -2,21 +2,22 @@
 #ifndef SBROWSER2_ANY_HPP
 #define SBROWSER2_ANY_HPP
 
-namespace ext {class any;}
-namespace ext {using any_view = const any&;}
-
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/concepts.hpp"
 #include "ext/keywords.hpp"
 #include <any>
 
 
+_EXT_BEGIN class any; _EXT_END
+
 template <typename _Tx>
-concept not_any = !type_is<_Tx, ext::any>;
+concept not_any = !type_is<_Tx, _EXT any>;
 
 
-class ext::any final
+_EXT_BEGIN
+
+class any final
 {
 public constructors:
     any() = default;
@@ -33,9 +34,9 @@ public constructors:
 
 public cpp_methods:
     [[nodiscard]] auto type() const -> const type_info& {return _Any.type();}
-    [[nodiscard]] auto is_numeric() const -> ext::boolean {return _IsNumeric;}
-    [[nodiscard]] auto is_empty() const -> ext::boolean {return not _Any.has_value();}
-    [[nodiscard]] auto has_value() const -> ext::boolean {return _Any.has_value();}
+    [[nodiscard]] auto is_numeric() const -> _EXT boolean {return _IsNumeric;}
+    [[nodiscard]] auto is_empty() const -> _EXT boolean {return not _Any.has_value();}
+    [[nodiscard]] auto has_value() const -> _EXT boolean {return _Any.has_value();}
     template <typename _Ty> auto to() const -> _Ty {return std::any_cast<_Ty>(_Any);};
 
 public cpp_operators:
@@ -44,28 +45,33 @@ public cpp_operators:
 
 private cpp_properties:
     std::any _Any;
-    ext::boolean _IsNumeric;
+    _EXT boolean _IsNumeric;
 };
 
 
-ext::any::any(auto&& _Val) noexcept
+using any_view = const _EXT any&;
+
+_EXT_END
+
+
+_EXT any::any(auto&& _Val) noexcept
         : _Any(std::forward<decltype(_Val)>(_Val))
-        , _IsNumeric(inherit_template<ext::number, decltype(_Val)>)
+        , _IsNumeric(inherit_template<_EXT number, decltype(_Val)>)
 {}
 
 
-auto ext::any::operator=(const auto& _Val) -> ext::any&
+auto _EXT any::operator=(const auto& _Val) -> _EXT any&
 {
     _Any = _Val;
-    _IsNumeric = inherit_template<ext::number, decltype(_Val)>;
+    _IsNumeric = inherit_template<_EXT number, decltype(_Val)>;
     return *this;
 }
 
 
-auto ext::any::operator=(auto&& _Val) noexcept -> any&
+auto _EXT any::operator=(auto&& _Val) noexcept -> any&
 {
     _Any = std::forward<decltype(_Val)>(_Val);
-    _IsNumeric = inherit_template<ext::number, decltype(_Val)>;
+    _IsNumeric = inherit_template<_EXT number, decltype(_Val)>;
     return *this;
 }
 

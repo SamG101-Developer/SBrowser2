@@ -9,7 +9,7 @@
 
 
 template <typename _Valty>
-std::ostream& operator<<(std::ostream& _Stream, const ext::vector<_Valty>& _Vector)
+std::ostream& operator<<(std::ostream& _Stream, const _EXT vector<_Valty>& _Vector)
 {
     _Stream << "Vector<" << typeid(_Valty).name() << "> " << "[" << _Vector.size() << "] [";
     for (auto _Iter = _Vector.begin(); _Iter != _Vector.end(); ++_Iter)
@@ -19,7 +19,7 @@ std::ostream& operator<<(std::ostream& _Stream, const ext::vector<_Valty>& _Vect
 
 
 template <typename _Keyty, typename _Valty>
-std::ostream& operator<<(std::ostream& _Stream, const ext::map<_Keyty, _Valty>& _Map)
+std::ostream& operator<<(std::ostream& _Stream, _EXT map_view<_Keyty, _Valty> _Map)
 {
     _Stream << "Map<" << typeid(_Keyty).name() << ", " << typeid(_Valty).name() << "> " << "[" << _Map.size() << "] {";
     for (auto _Iter = _Map.begin(); _Iter != _Map.end(); ++_Iter)
@@ -29,7 +29,7 @@ std::ostream& operator<<(std::ostream& _Stream, const ext::map<_Keyty, _Valty>& 
 
 
 template <typename _Keyty, typename _Valty>
-std::ostream& operator<<(std::ostream& _Stream, const ext::pair<_Keyty, _Valty>& _Pair)
+std::ostream& operator<<(std::ostream& _Stream, const _EXT pair<_Keyty, _Valty>& _Pair)
 {
     _Stream << "pair<" << typeid(_Keyty).name() << ", " << typeid(_Valty).name() << "> ";
     return _Stream << "{" << _Pair.first << ": " << _Pair.second << "}";
@@ -37,7 +37,7 @@ std::ostream& operator<<(std::ostream& _Stream, const ext::pair<_Keyty, _Valty>&
 
 
 template <primitive_numeric _Tx>
-auto operator<<(std::ostream& _Out, const ext::number<_Tx>& _Val) -> std::ostream&
+auto operator<<(std::ostream& _Out, const _EXT number<_Tx>& _Val) -> std::ostream&
 {
     return _Out << typeid(_Val).name() << ": " << static_cast<_Tx>(_Val) << std::endl;
 }
