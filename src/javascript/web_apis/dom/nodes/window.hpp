@@ -4,11 +4,14 @@
 #include "dom/nodes/event_target.hpp"
 namespace dom::nodes {class window;}
 
+namespace dom::nodes {class document;}
+
 
 class dom::nodes::window final
         : public event_target
 {
-
+public js_properties:
+    std::unique_ptr<document> document;
 };
 
 
