@@ -25,7 +25,6 @@ public js_properties:
     ext::property<ext::string, _T> referrer;
     ext::property<ext::boolean, _T> disabled;
 
-    ext::property<ext::vector<ext::string>*> rel_list;
     ext::property<ext::vector<ext::string>*> sizes;
     ext::property<ext::vector<ext::string>*> blocking;
 
