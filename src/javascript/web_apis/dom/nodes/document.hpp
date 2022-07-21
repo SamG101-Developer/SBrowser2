@@ -14,9 +14,9 @@ namespace dom::nodes {class document;}
 #include "ext/map.hpp"
 #include "ext/set.hpp"
 #include "ext/tuple.hpp"
-#include "url/url.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
+#include "url/url.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
@@ -38,7 +38,10 @@ namespace html::detail::policy_internals {struct policy_container;}
 namespace html::detail::context_internals {struct browsing_context;}
 namespace html::detail::document_internals {struct document_load_timing_info;}
 namespace html::detail::document_internals {struct document_unload_timing_info;}
+namespace html::detail::link_internals {struct preload_entry;}
+namespace html::detail::link_internals {struct preload_key;}
 
+namespace html::detail::image_internals {struct available_image;}
 namespace html::elements {class html_body_element;}
 namespace html::elements {class html_head_element;}
 namespace html::elements {class html_html_element;}
@@ -50,6 +53,7 @@ namespace html::elements {class html_title_element;}
 namespace html::elements {class html_element;}
 namespace html::other {class location;}
 
+namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy;}
 namespace svg::elements {class svg_script_element;}
 
@@ -113,7 +117,7 @@ public js_methods:
 
 public js_properties:
     /* DOM */
-    ext::property<std::unique_ptr<url::url_object>> url;
+    ext::property<url::url_object> url;
     ext::property<ext::string> compat_mode;
     ext::property<ext::string> character_set;
     ext::property<ext::string> content_type;
@@ -154,8 +158,8 @@ public cpp_operators:
     virtual auto operator[](const ext::string& name) -> ranges::any_view<element*> override;
 
 private cpp_methods:
-    auto get_m_html_element() const -> html::elements::html_html_element*;
-    auto get_m_title_element() const -> html::elements::html_title_element*;
+    [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
+    [[nodiscard]] auto get_m_title_element() const -> html::elements::html_title_element*;
 
 private cpp_properties:
     /* DOM */
@@ -175,11 +179,20 @@ private cpp_properties:
     html::detail::document_internals::document_unload_timing_info& m_unload_timing_info;
 
     ext::set<element*> m_render_blocking_elements;
-    std::shared_ptr<html::detail::context_internals::browsing_context*> m_browsing_context;
+    std::unique_ptr<html::detail::context_internals::browsing_context*> m_browsing_context;
 
     ext::boolean m_will_declaratively_refresh;
 
     ext::number<int> m_script_blocking_style_sheet_counter = 0;
+
+    ext::map<html::detail::link_internals::preload_key*, html::detail::link_internals::preload_entry*> m_preloaded_resources;
+
+    std::unique_ptr<intersection_observer::intersection_observer> m_lazy_load_intersection_observer;
+
+    ext::map<html::detail::image_internals::available_image*, std::byte[]> m_list_of_available_images;
+
+    ext::boolean m_iframe_load_in_progress_flag;
+    ext::boolean m_mute_iframe_flag;
 
 private cpp_accessors:
     /* DOM */
@@ -198,14 +211,14 @@ private cpp_accessors:
     /* HTML */
     [[nodiscard]] auto get_last_modified() const -> ext::string;
     [[nodiscard]] auto get_cookie() const -> ext::string;
-    auto get_body() const -> html::elements::html_body_element*;
-    auto get_head() const -> html::elements::html_head_element*;
-    auto get_title() const -> ext::string;
-    auto get_images() const -> ranges::any_view<html::elements::html_image_element*>;
-    auto get_links() const -> ranges::any_view<html::elements::html_link_element*>;
-    auto get_forms() const -> ranges::any_view<html::elements::html_form_element*>;
-    auto get_scripts() const -> ranges::any_view<html::elements::html_script_element*>;
-    auto get_dir() const -> ext::string;
+    [[nodiscard]] auto get_body() const -> html::elements::html_body_element*;
+    [[nodiscard]] auto get_head() const -> html::elements::html_head_element*;
+    [[nodiscard]] auto get_title() const -> ext::string;
+    [[nodiscard]] auto get_images() const -> ranges::any_view<html::elements::html_image_element*>;
+    [[nodiscard]] auto get_links() const -> ranges::any_view<html::elements::html_link_element*>;
+    [[nodiscard]] auto get_forms() const -> ranges::any_view<html::elements::html_form_element*>;
+    [[nodiscard]] auto get_scripts() const -> ranges::any_view<html::elements::html_script_element*>;
+    [[nodiscard]] auto get_dir() const -> ext::string;
 
     auto set_ready_state(ext::string_view val) -> void;
     auto set_cookie(ext::string_view val) -> void;
