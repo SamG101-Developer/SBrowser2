@@ -9,7 +9,7 @@ enum v8_custom_error_t;
 
 
 class dom::other::dom_exception
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public constructors:
     dom_exception(ext::string&& message, v8_custom_error_t type);
@@ -20,6 +20,9 @@ public js_properties:
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+
+public cpp_operators:
+    operator std::exception_ptr() const;
 };
 
 
