@@ -26,4 +26,4 @@ target_link_libraries(${PROJECT_NAME} ext javascript web_apis) # my libs
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui) # qt
 target_link_libraries(${PROJECT_NAME} magic_enum range-v3 v8pp) # 3rd party miscellaneous
 target_link_libraries(${PROJECT_NAME} concurrent_queue plf_stack tsl::robin_map tuplet::tuplet veque) # containers
-target_link_libraries(${PROJECT_NAME} function2 swl-variant) # other stl replacements
+target_link_libraries(${PROJECT_NAME} function2 swl-variant thread-pool) # other stl replacements
