@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_REFERRER_POLICY_HPP
 #define SBROWSER2_REFERRER_POLICY_HPP
 
-namespace referrer_policy {enum referrer_policy;}
+namespace referrer_policy {enum referrer_policy_t;}
 
 
-enum referrer_policy::referrer_policy
+enum referrer_policy::referrer_policy_t
 {
     NO_POLICY,
     NO_REFERRER,
