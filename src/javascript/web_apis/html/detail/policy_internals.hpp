@@ -5,7 +5,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace content_security_policy::detail::csp_internals {struct content_security_policy;}
-namespace referrer_policy {enum referrer_policy;}
+namespace referrer_policy {enum referrer_policy_t;}
 namespace url {class url_object;}
 
 
@@ -27,7 +27,7 @@ struct html::detail::policy_internals::policy_container
 {
     ext::vector<content_security_policy::detail::csp_internals::content_security_policy> csp_list;
     std::unique_ptr<embedder_policy> embedder_policy;
-    referrer_policy::referrer_policy referrer_policy;
+    referrer_policy::referrer_policy_t referrer_policy;
 };
 
 
