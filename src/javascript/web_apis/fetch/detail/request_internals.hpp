@@ -9,6 +9,7 @@
 namespace fetch {class headers;}
 namespace fetch {class request;}
 namespace html::detail::policy_internals {struct policy_container;}
+namespace referrer_policy {enum referrer_policy_t;}
 
 namespace fetch::detail::request_internals
 {
@@ -17,6 +18,7 @@ namespace fetch::detail::request_internals
     enum class service_workers_mode_t {ALL, NONE};
     enum class initiator_t {DOWNLOAD, IMAGESET, MANIFEST, PREFETCH, PRERENDER, XSLT};
     enum class destination_t {AUDIO, AUDIOWORKLET, DOCUMENT, EMBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SERVICEWORKER, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT};
+    enum class referrer_t {NO_REFERRER, CLIENT};
     enum class mode_t {SAME_ORIGIN, CORS, NO_CORS, NAVIGATE, WEBSOCKET, ANONYMOUS /* Should this be here -> in HTML spec */};
     enum class credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
     enum class cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
@@ -99,6 +101,8 @@ struct fetch::detail::request_internals::internal_request
     ext::string origin {"client"};
 
     std::unique_ptr<html::detail::policy_internals::policy_container> policy_container;
+    ext::variant<referrer_t, url::url_object> referrer = referrer_t::CLIENT;
+    referrer_policy::referrer_policy_t referrer_policy;
     mode_t mode {mode_t::NO_CORS};
     ext::boolean use_cors_preflight_flag;
 
