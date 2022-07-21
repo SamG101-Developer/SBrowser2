@@ -174,8 +174,15 @@ auto round(T&& _Val, U&& _Mult)
 
 auto is_numeric_string(const _EXT string& _Str) -> _EXT boolean
 {
-    try {auto _Num = std::stod(_Str); return _EXT boolean::TRUE();}
+    try {static_cast<void>(std::stod(_Str)); return _EXT boolean::TRUE();}
     catch_specific (std::invalid_argument) {return _EXT boolean::FALSE();}
+}
+
+
+template <typename _Ty>
+auto to_string(_EXT number_view<_Ty> _Num)
+{
+    return std::to_string((_Ty)_Num);
 }
 
 
