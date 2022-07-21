@@ -23,7 +23,7 @@ public cpp_operators:
     auto operator[](const number<size_t>& _Idx) -> optional<_Tx&> {return _LinkedContainer->at(_Idx);};
 
 private cpp_properties:
-    std::shared_ptr<_EXT vector<_Tx>> _LinkedContainer;
+    std::unique_ptr<_EXT vector<_Tx>> _LinkedContainer;
 
 private cpp_accessors:
     [[nodiscard]] auto get_length() const -> _EXT number<size_t> {return _LinkedContainer->size();};
