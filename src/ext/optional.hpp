@@ -43,6 +43,8 @@ public cpp_methods:
     
 public cpp_operators:
     auto operator->() const -> auto {return value();}
+    template <typename _Ty> // TODO : constrain against ext::optional<_Tx>
+    auto operator==(_Ty&& _Other) const -> ext::boolean {return has_value_and_equals(std::forward<_Ty>(_Other));}
 
 private cpp_properties:
     std::optional<_Tx> _Opt;
