@@ -18,9 +18,17 @@ namespace html::detail::miscellaneous_internals
             -> fetch::detail::request_internals::internal_request;
 
     auto parse_url(
-            const ext::string& url,
+            const ext::string& url_string,
             const dom::nodes::document* document)
             -> ext::pair<ext::string, url::url_object>;
+
+    auto serialize_url(
+            const url::url_object& url_record)
+            -> ext::string;
+
+    auto matches_about_blank(
+            const url::url_object& url_record)
+            -> ext::boolean;
 }
 
 
