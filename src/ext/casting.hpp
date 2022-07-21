@@ -2,6 +2,7 @@
 #ifndef SBROWSER2_CASTING_HPP
 #define SBROWSER2_CASTING_HPP
 
+#include "ext/assert.hpp"
 
 _EXT_BEGIN
 
@@ -22,7 +23,7 @@ auto cross_cast(auto* _Pointer) -> _Ty
     // if a type C inherits A, B, and A* object = new C{}, the type can be cast from A* -> B*, ie the type has been
     // "cross" cast to a sibling level superclass. throws an error is the cast was unsuccessful
     auto* cross_cast_pointer = dynamic_cast<_Ty>(_Pointer);
-    assert(cross_cast_pointer);
+    ext::assert_true(cross_cast_pointer);
     return cross_cast_pointer;
 }
 
