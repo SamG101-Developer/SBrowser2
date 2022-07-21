@@ -225,7 +225,7 @@ auto dom::detail::observer_internals::queue_global_task(
 
 auto dom::detail::observer_internals::queue_element_task(
         const v8::Task& task_source,
-        html::elements::html_element* const element,
+        const html::elements::html_element* const element,
         steps_t&& steps)
         -> void
 {

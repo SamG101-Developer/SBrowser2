@@ -73,12 +73,12 @@ namespace dom::detail::observer_internals
 
     auto queue_element_task(
             const v8::Task& task_source,
-            html::elements::html_element* element,
+            const html::elements::html_element* element,
             steps_t&& steps)
             -> void;
 
     auto queue_media_element_task(
-            html::elements::html_media_element* element,
+            const html::elements::html_media_element* element,
             steps_t&& steps)
             -> void;
 }
