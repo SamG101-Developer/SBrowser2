@@ -1,5 +1,6 @@
 #include "html_element_internals.hpp"
 
+#include "ext/casting.hpp"
 #include "ext/functional.hpp"
 #include "ext/ranges.hpp"
 
@@ -7,8 +8,10 @@
 
 #include "dom/mixins/slottable.hpp"
 #include "dom/detail/customization_internals.hpp"
+#include "dom/detail/event_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/namespace_internals.hpp"
+#include "dom/detail/observer_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/document.hpp"
@@ -16,16 +19,36 @@
 #include "dom/nodes/text.hpp"
 #include "dom/other/dom_implementation.hpp"
 
-#include "html/elements/html_base_element.hpp"
-#include "html/elements/html_meta_element.hpp"
-#include "html/elements/html_title_element.hpp"
+#include "html/detail/context_internals.hpp"
 #include "html/detail/document_internals.hpp"
 #include "html/detail/render_blocking_internals.hpp"
+#include "html/detail/lazy_loading_internals.hpp"
+#include "html/detail/miscellaneous_internals.hpp"
+#include "html/detail/policy_internals.hpp"
+#include "html/detail/task_internals.hpp"
+#include "html/elements/html_base_element.hpp"
+#include "html/elements/html_body_element.hpp"
+#include "html/elements/html_dlist_element.hpp"
+#include "html/elements/html_iframe_element.hpp"
+#include "html/elements/html_meta_element.hpp"
+#include "html/elements/html_olist_element.hpp"
+#include "html/elements/html_time_element.hpp"
+#include "html/elements/html_title_element.hpp"
+#include "html/mixins/html_hyperlink_element_utils.hpp"
 
-#include "infra/detail/infra_strings_internals.hpp"
+#include "fetch/detail/body_internals.hpp"
+#include "fetch/detail/http_internals.hpp"
+#include "fetch/detail/request_internals.hpp"
+#include "fetch/detail/response_internals.hpp"
+
 #include "content_security_policy/detail/csp_internals.hpp"
+#include "infra/detail/infra_strings_internals.hpp"
+#include "intersection_observer/detail/algorithm_internals.hpp"
+#include "referrer_policy/referrer_policy.hpp"
 
+#include <magic_enum.hpp>
 #include <range/v3/algorithm/any_of.hpp>
+#include <range/v3/range/operations.hpp>
 #include <range/v3/view/drop_while.hpp>
 
 
@@ -85,6 +108,9 @@ auto html::detail::html_element_internals::directionality(
         dom::nodes::element* element)
         -> directionality_t
 {
+    using enum bidirectional_char_t;
+    using enum directionality_t;
+
     // create a boolean to check is the attribute exists (set in javascript block, so define the variable outside the
     // block
     ext::boolean has_ltr_attribute;
@@ -186,9 +212,12 @@ auto html::detail::html_element_internals::directionality_of_attribute(
         ext::string_view attribute)
         -> directionality_t
 {
+    using enum bidirectional_char_t;
+    using enum directionality_t;
+
     // create the list of directionality-capable attributes, ie attributes that can have text with a specific
     // directionality (maps attribute name to valid element local names)
-    ext::map<ext::string, ext::string_vector> directionality_capable_attributes
+    ext::map<ext::string_view, ext::vector<ext::string>> directionality_capable_attributes
     {
         {"abbr", {"th"}},
         {"alt", {"area", "img"}},
@@ -278,7 +307,7 @@ auto html::detail::html_element_internals::rendered_text_fragment(
         // and append it to the fragment node; this adds the new Text node to the DocumentFragment
         if (!text.empty())
         {
-            dom::nodes::text text_node {text};
+            dom::nodes::text text_node {std::move(text)};
             text_node.owner_document = document;
             dom::detail::mutation_internals::append(&text_node, fragment);
         }
@@ -290,7 +319,7 @@ auto html::detail::html_element_internals::rendered_text_fragment(
             if (*position == char(0x00d) && *std::next(position) == 0x000a) ++position;
             ++position;
 
-            auto* element = dom::detail::customization_internals::create_an_element(document, "br", HTML);
+            auto&& element = dom::detail::customization_internals::create_an_element(document, "br", HTML);
             dom::detail::mutation_internals::append(element, fragment);
         }
     }
@@ -334,6 +363,57 @@ auto html::detail::html_element_internals::get_elements_target(
 }
 
 
+auto html::detail::html_element_internals::contact_information(
+        dom::nodes::element* element)
+        -> ext::span<dom::nodes::element*>
+{
+    auto local_names = {"article", "body"};
+
+    // if the 'element' is an article or body element, then get all the descendant's of the 'element' that are article
+    // elements, excluding any elements that have an article or body ancestor element, that is a descendant of the
+    // 'element'
+    if (ranges::contains(local_names, element->local_name()))
+        return dom::detail::tree_internals::descendants(element)
+                | ranges::views::cast_all_to<dom::nodes::element*>()
+                | ranges::views::filter([](dom::nodes::element* descendant) {return descendant->local_name() == "article";})
+                | ranges::views::filter([local_names, element](dom::nodes::element* descendant)
+                {
+                    auto ancestors = dom::detail::tree_internals::ancestors(descendant);
+                    auto clamped = ranges::subrange(ranges::find(ancestors, element), ancestors.end());
+                    auto filtered = clamped | ranges::views::filter([local_names](dom::nodes::element* ancestor) {return ranges::contains(local_names, ancestor->local_name());});
+                    return !filtered.empty();
+                });
+
+    // if the 'element' has ancestors that are article or body nodes, then return the contact information of the closest
+    // ancestor article or body node
+    if (auto element_ancestors = dom::detail::tree_internals::ancestors(element) | ranges::views::cast_all_to<dom::nodes::element*>();
+            ranges::any_of(element_ancestors, [local_names](dom::nodes::element* ancestor) {return ranges::contains(local_names, ancestor->local_name());}))
+
+        return contact_information(ranges::back(element_ancestors
+                | ranges::views::remove(element)
+                | ranges::views::filter([local_names](dom::nodes::element* ancestor) {return ranges::contains(local_names, ancestor->local_name());})));
+
+    // if the 'element's document has a HTMLBodyElement, then return the contact information for this HTMLBodyElement
+    if (auto* html_body_element = element->owner_document()->body())
+        return contact_information(html_body_element);
+
+    // otherwise, there is no contact information for this node
+    return {};
+}
+
+
+auto html::detail::html_element_internals::ordinal_value(
+        elements::html_element* owner_element)
+        -> ext::number<int>
+{
+    auto* html_olist_owner_element = dynamic_cast<elements::html_olist_element*>(owner_element);
+    ext::number<int> i = 1;
+    ext::number<int> numbering = html_olist_owner_element ? starting_value(html_olist_owner_element) : 1;
+
+    // TODO
+}
+
+
 auto html::detail::html_element_internals::set_frozen_base_url(
         elements::html_base_element* element)
         -> void
@@ -363,4 +443,260 @@ auto html::detail::html_element_internals::pragma_set_default_language(
     return_if(candidate.empty());
 
     // TODO : set some value to 'candidate' <- return for now?
+}
+
+
+auto html::detail::html_element_internals::starting_value(
+        elements::html_olist_element* element)
+        -> ext::number<long>
+{
+    JS_REALM_GET_RELEVANT(element)
+    if (reflect_has_attribute_value(element, "start", element_relevant))
+        return element->start();
+
+    return element->reversed() ? ranges::size(element->children() | ranges::views::cast_all_to<elements::html_olist_element*>()) : 1;
+}
+
+
+auto html::detail::html_element_internals::name_value_groups(
+        elements::html_dlist_element* element)
+        -> name_value_groups_t
+{
+    // create the 'groups' which is a list of pairs, a 'current' pair, and a 'seen_dd' boolean, defaulted to false
+    name_value_groups_t groups;
+    name_value_group_t current;
+    auto seen_dd = ext::boolean::FALSE();
+
+    // create the 'child' and 'grand_child' pointers; initialize the 'child' to the first child of the 'element', and
+    // the 'grand_child' is set to nullptr (cast as a Node)
+    auto* child = element->first_child();
+    auto* grand_child = static_cast<dom::nodes::node*>(nullptr);
+
+    // continue iterating until all the child nodes of 'element' have been visited (next sibling of the last child is
+    // nullptr (not an error), so the loop will finish smoothly)
+    while (child)
+    {
+        // the HTMLDivElement means to check for grand-children
+        if (auto* cast_child = dynamic_cast<dom::nodes::element*>(child); cast_child->local_name() == "div")
+        {
+            // initialize the 'grand_child' to the first child of the 'child', continue iterating until all the child
+            // nodes of 'child' have been visited (all the grandchildren whose parent is 'child')
+            grand_child = child->first_child();
+            while (grand_child)
+            {
+                // process the element and move onto the next grandchild (if it's not nullptr)
+                process_dt_dd_element(grand_child, groups, current, seen_dd);
+                grand_child = grand_child->next_sibling();
+            }
+        }
+
+        // process the element and move onto the next child (if it's not nullptr)
+        else
+        {
+            process_dt_dd_element(child, groups, current, seen_dd);
+            child = child->next_sibling();
+        }
+    }
+}
+
+
+auto html::detail::html_element_internals::process_dt_dd_element(
+        dom::nodes::node* node,
+        name_value_groups_t& groups,
+        name_value_group_t& current,
+        ext::boolean& seen_dd)
+        -> void
+{
+    // cast the child to a HTMLElement (required for dom::nodes::element::local_name, as well as being the type required
+    // for the group(s)
+    auto* cast_child = dynamic_cast<elements::html_element*>(node);
+
+    // handle the case where the 'cast_child' is a "dt" element
+    if (cast_child->local_name() == "dt")
+    {
+        // if a "dd" element has already been seen (and there is therefore elements in the value section of 'current',
+        // then push 'current' into 'groups', set 'seen_dd' to false, and push 'cast_child' into the name section of a
+        // new group
+        if (seen_dd)
+        {
+            groups.push_back(current);
+            current = name_value_group_t{};
+            seen_dd = ext::boolean::FALSE();
+        }
+
+        current.first.push_back(cast_child);
+    }
+
+    // handle the case where the 'cast_child' is a "dd" element
+    else if (cast_child->local_name() == "dd")
+    {
+        // push 'cast_child' to the value section of the 'groups', and set 'seen_dd' to true - this means that when the
+        // next "dt" element is found, this "dd" element will be the last in the 'current' group, and the 'current'
+        // group will be pushed to 'groups'
+        current.second.push_back(cast_child);
+        seen_dd = ext::boolean::TRUE();
+    }
+}
+
+
+auto html::detail::html_element_internals::date_time_value(
+        elements::html_time_element* element)
+        -> ext::string
+{
+
+    // if the element still has the 'date_time' attribute, then return it, otherwise return the child text content of
+    // the element, which represents the date time instead
+    JS_REALM_GET_RELEVANT(element)
+    return reflect_has_attribute_value(element, "dateTime", element_relevant)
+            ? element->date_time()
+            : dom::detail::tree_internals::child_text_content(element);
+}
+
+
+auto html::detail::html_element_internals::set_url(
+        mixins::html_hyperlink_element_utils* element)
+        -> void
+{
+    // if the element doesn't still have the 'href' attribute, then return an empty url object, otherwise parse the url
+    // internal attribute of the element relative to the element's document, and set the element url to the new url
+    // record that has been generated
+    JS_REALM_GET_RELEVANT(element)
+    element->m_url = !reflect_has_attribute_value(element, "href", element_relevant)
+            ? url::url_object{}
+            : miscellaneous_internals::parse_url(element->m_url, ext::cross_cast<dom::nodes::element*>(element)->owner_document()).second;
+}
+
+
+auto html::detail::html_element_internals::reinitialize_url(
+        mixins::html_hyperlink_element_utils* element)
+        -> void
+{
+    // don't do anything if the url h=exists and has a "blob" scheme, otherwise for any other normal url is "http(s)"
+    // urls etc, call the 'set_url(...)' function
+    return_if (element->m_url && element->m_url->scheme() == "blob") // TODO : && ..._has_opaque_path(element->m_url)
+    set_url(element);
+}
+
+
+auto html::detail::html_element_internals::update_href(
+        mixins::html_hyperlink_element_utils* element)
+        -> void
+{
+    // set the element's href attribute to the serialization of the elements url internal attribute
+    element->href = miscellaneous_internals::serialize_url(element->m_url);
+}
+
+
+auto html::detail::html_element_internals::process_iframe_attributes(
+        elements::html_iframe_element* element,
+        ext::boolean_view initial_insertion)
+        -> void
+{
+    auto navigate_to_srcdoc_resource = [&element]
+    {
+        fetch::detail::response_internals::internal_response response
+        {
+            .url_list = {"abort:srcdoc"},
+            .header_list = {{"Content-Type", "text/html"}},
+            .body = fetch::detail::body_internals::internal_body {.source = element->srcdoc()};
+        };
+        navigate_iframe_or_frame(element, response);
+    };
+
+    if (!element->srcdoc().empty())
+    {
+        element->m_current_navigation_lazy_loaded = ext::boolean::FALSE();
+        if (lazy_loading_internals::will_lazy_load_element_steps(element))
+        {
+            element->m_lazy_load_resumption_steps = std::move(navigate_to_srcdoc_resource);
+            element->m_current_navigation_lazy_loaded = ext::boolean::TRUE();
+            lazy_loading_internals::start_intersection_observing_lazy_loading_element(element);
+            return;
+        }
+
+        navigate_to_srcdoc_resource();
+    }
+    else
+        shared_attribute_processing_steps_for_iframe_and_frame_elements(element, initial_insertion);
+}
+
+
+auto html::detail::html_element_internals::shared_attribute_processing_steps_for_iframe_and_frame_elements(
+        elements::html_iframe_element* element,
+        ext::boolean_view initial_insertion)
+        -> void
+{
+    auto navigate_to_resource = [&element](fetch::detail::request_internals::internal_request& resource)
+    {
+        navigate_iframe_or_frame(element, resource);
+    };
+
+    url::url_object url_record {"about:blank"};
+
+    JS_REALM_GET_RELEVANT(element)
+    if (reflect_has_attribute_value(element, "src", element_relevant) && !element->src().empty())
+        url_record = miscellaneous_internals::parse_url(element->src(), element->owner_document()).second;
+
+    return_if (ranges::any_of(
+            context_internals::ancestor_browsing_contexts(element->m_nested_browsing_context),
+            [&url_record](context_internals::browsing_context* context) {return context->active_document()->url() == url_record;}));
+
+    if (miscellaneous_internals::matches_about_blank(url_record) && initial_insertion)
+    {
+        // TODO : update history
+        iframe_load_event_steps(element);
+        return;
+    }
+
+    fetch::detail::request_internals::internal_request resource
+    {
+        .url = url_record,
+        .referrer_policy = magic_enum::enum_cast<referrer_policy::referrer_policy_t>(element->referrer_policy())
+    };
+
+    if (element->local_name() == "iframe")
+        element->m_current_navigation_lazy_loaded = ext::boolean::FALSE();
+
+    if (element->local_name() == "iframe" && lazy_loading_internals::will_lazy_load_element_steps(element))
+    {
+        element->m_lazy_load_resumption_steps = ext::bind_front(std::move(navigate_to_resource), resource);
+        element->m_current_navigation_lazy_loaded = ext::boolean::TRUE();
+        lazy_loading_internals::start_intersection_observing_lazy_loading_element(element);
+        return;
+    }
+
+    navigate_to_resource(resource);
+}
+
+
+template <type_is<fetch::detail::response_internals::internal_response, fetch::detail::request_internals::internal_request> T>
+auto html::detail::html_element_internals::navigate_iframe_or_frame(
+        const elements::html_iframe_element* element,
+        T&& resource)
+        -> void
+{
+    ext::string history_handling = document_internals::completely_loaded(element->m_nested_browsing_context->active_document())
+            ? "replace"
+            : "default";
+
+    auto* document = element->owner_document(); JS_REALM_GET_RELEVANT(document)
+    dom::detail::observer_internals::queue_element_task(task_internals::networking_task_source(), element, [&resource, &document_relevant_global_object]
+    {
+        fetch::detail::http_internals::report_timing(resource, document_relevant_global_object);
+    });
+
+    // TODO : finish
+}
+
+
+auto html::detail::html_element_internals::iframe_load_event_steps(
+        const elements::html_iframe_element* element)
+        -> void
+{
+    ext::assert_true(element->m_nested_browsing_context);
+    auto child_document = element->m_nested_browsing_context->active_document();
+    return_if(child_document->m_mute_iframe_flag);
+    child_document->m_mute_iframe_flag = ext::boolean::TRUE();
+    dom::detail::event_internals::fire_event("load", element);
+    child_document->m_mute_iframe_flag = ext::boolean::FALSE();
 }
