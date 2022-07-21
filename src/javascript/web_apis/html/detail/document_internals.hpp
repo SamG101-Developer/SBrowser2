@@ -36,6 +36,14 @@ namespace html::detail::document_internals
     auto has_no_stylesheet_blocking_scripts(
             const dom::nodes::document* document)
             -> ext::boolean;
+
+    auto completely_loaded(
+            const dom::nodes::document* document)
+            -> ext::boolean;
+
+    auto completely_finish_loading(
+            const dom::nodes::document* document)
+            -> void;
 }
 
 
