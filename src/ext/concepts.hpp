@@ -8,13 +8,16 @@
 template <template <typename> typename _BaseMixin, typename _Derived>
 concept inherit_template = requires(_Derived _Obj)
 {
-    []<typename _Ty>(const _BaseMixin<_Ty>&){}(_Obj);
+    []<typename _Ty>(const _BaseMixin<_Ty>&){}(_Obj); // TODO : forward?
 };
 
 
 // check if a class is a base of another class
 template <typename _Base, typename _Derived>
-concept inherit = std::derived_from<_Base, _Derived>;
+concept inherit = requires
+{
+    requires std::is_base_of_v<_Base, _Derived>;
+};
 
 
 // check if a type is iterable ie does it have .begin() and .end() iterator access
