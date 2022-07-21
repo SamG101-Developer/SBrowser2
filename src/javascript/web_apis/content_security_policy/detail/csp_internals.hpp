@@ -3,8 +3,9 @@
 #define SBROWSER2_CSP_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include "ext/string.hpp"
 #include "ext/pair.hpp"
+#include "ext/set.hpp"
+#include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
 namespace dom::nodes {class document;}
@@ -20,6 +21,15 @@ namespace content_security_policy::detail::csp_internals
             ext::vector<content_security_policy*>& csp_list)
             -> ext::boolean;
 
+    auto strongest_metadata(
+            ext::set<ext::string>& metadata_list)
+            -> ext::string_view;
+
+    auto bytes_match_metadata_list(
+            ext::string bytes,
+            ext::set<ext::string>& metadata_list)
+            -> ext::boolean;
+
     auto serialize_csp(
             content_security_policy& csp_policy)
             -> ext::string;
@@ -27,6 +37,10 @@ namespace content_security_policy::detail::csp_internals
     auto serialize_csp_list(
             ext::vector<content_security_policy*> csp_list)
             -> ext::string;
+
+    auto parse_metadata(
+            ext::string_view metadata)
+            -> ext::set<ext::string>;
 
     auto parse_csp(
             ext::string_view string,
