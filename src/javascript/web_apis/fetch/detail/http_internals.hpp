@@ -138,7 +138,7 @@ struct fetch::detail::http_internals::fetch_timing_info
     high_resolution_time::dom_high_res_time_stamp end_time{0};
 
     connection_timing_info* final_connection_timing_info = nullptr;
-    ext::string_vector server_timing_headers{};
+    ext::vector<ext::string> server_timing_headers{};
 };
 
 
