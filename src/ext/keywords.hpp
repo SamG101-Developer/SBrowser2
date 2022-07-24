@@ -15,8 +15,8 @@
 #define catch_specific(exception_t) catch(const exception_t& exception)
 #define catch_other catch (...)
 
-#define string_switch(_String) switch(std::hash<size_t>{}(_String))
-#define string_case(_String) case(std::hash<size_t>{}(_String))
+#define string_switch(_String) switch(std::hash<std::string>{}(_String))
+#define string_case(_String) case(std::hash<std::string>{}(_String))
 #define string_default default
 
 #define number_switch(_Number) switch((decltype(_EXT number{_Number})::primitive_t)_Number)
