@@ -13,8 +13,8 @@ namespace dom::nodes {class document;}
 namespace content_security_policy::detail::csp_internals
 {
     struct content_security_policy;
-    enum disposition_t {ENFORCE, REPORT};
-    enum source_t {HEADER, META};
+    enum class disposition_t {ENFORCE, REPORT};
+    enum class source_t {HEADER, META};
     using directive_t = ext::pair<ext::string, ext::vector<ext::string>>;
 
     auto contains_header_delivered_csp(
