@@ -33,8 +33,10 @@ struct html::detail::policy_internals::policy_container
 
 struct html::detail::policy_internals::embedder_policy
 {
-    embedder_policy_value_t value = embedder_policy_value_t::UNSAFE_NONE;
-    embedder_policy_value_t report_only_value = embedder_policy_value_t::UNSAFE_NONE;
+    using enum embedder_policy_value_t;
+
+    embedder_policy_value_t value = UNSAFE_NONE;
+    embedder_policy_value_t report_only_value = UNSAFE_NONE;
     ext::string reporting_endpoint = "";
     ext::string report_only_reporting_endpoint = "";
 };
@@ -42,8 +44,10 @@ struct html::detail::policy_internals::embedder_policy
 
 struct html::detail::policy_internals::cross_origin_opener_policy
 {
-    cross_origin_opener_policy_value_t value = cross_origin_opener_policy_value_t::UNSAFE_NONE;
-    cross_origin_opener_policy_value_t report_only_value = cross_origin_opener_policy_value_t::UNSAFE_NONE;
+    using enum cross_origin_opener_policy_value_t;
+
+    cross_origin_opener_policy_value_t value = UNSAFE_NONE;
+    cross_origin_opener_policy_value_t report_only_value = UNSAFE_NONE;
     ext::string reporting_endpoint = "";
     ext::string report_only_reporting_endpoint = "";
 };
