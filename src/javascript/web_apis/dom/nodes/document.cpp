@@ -30,6 +30,7 @@
 
 #include "high_resolution_time/detail/time_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
+#include "permissions_policy/permissions_policy.hpp"
 #include "svg/elements/svg_title_element.hpp"
 #include "url/url.hpp"
 
@@ -53,6 +54,7 @@ dom::nodes::document::document()
         , content_type{"application/xml"}
         , ready_state{"complete"}
         , current_script{nullptr}
+        , permissions_policy{std::make_unique<permissions_policy::permissions_policy_object>()}
 {
     bind_get(compat_mode);
     bind_get(character_set);
@@ -77,6 +79,7 @@ dom::nodes::document::document()
 
     JS_REALM_GET_SURROUNDING(this)
     m_origin = javascript::environment::realms_2::get<ext::string>(this_surrounding_global_object, "origin");
+    permissions_policy()->m_associated_node = this;
 
     auto rendered_widget = QPointer<QScrollArea>{};
     rendered_widget->setWidget(QPointer<QWidget>{});

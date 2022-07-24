@@ -33,7 +33,7 @@ namespace dom::node_iterators {class node_iterator;}
 namespace dom::node_iterators {class tree_walker;}
 namespace dom::other {class dom_implementation;}
 
-namespace html::detail::policy_internals {struct cross_origin_opener_policy_value_t;}
+namespace html::detail::policy_internals {enum class cross_origin_opener_policy_value_t;}
 namespace html::detail::policy_internals {struct policy_container;}
 namespace html::detail::context_internals {struct browsing_context;}
 namespace html::detail::document_internals {struct document_load_timing_info;}
@@ -54,7 +54,8 @@ namespace html::elements {class html_element;}
 namespace html::other {class location;}
 
 namespace intersection_observer {class intersection_observer;}
-namespace permissions_policy {class permissions_policy;}
+namespace permissions_policy {class permissions_policy_object;}
+namespace permissions_policy::detail::policy_internals {struct internal_permissions_policy;}
 namespace svg::elements {class svg_script_element;}
 
 
@@ -149,7 +150,7 @@ public js_properties:
     ext::property<ext::string> visibility_state;
 
     /* PERMISSIONS_POLICY */
-    ext::property<std::unique_ptr<permissions_policy::permissions_policy>> permissions_policy;
+    ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
@@ -166,12 +167,12 @@ private cpp_properties:
     // std::unique_ptr<encoding::encoding> m_encoding = nullptr;
     ext::string m_type = "xml";
     ext::string m_mode = "no-quirks";
-    url::url_object m_origin;
+    ext::string m_origin;
 
     /* HTML */
     std::unique_ptr<html::detail::policy_internals::policy_container> m_policy_container;
     std::unique_ptr<html::detail::policy_internals::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
-    std::unique_ptr<permissions_policy::permissions_policy> m_permissions_policy;
+    std::unique_ptr<permissions_policy::detail::policy_internals::internal_permissions_policy> m_permissions_policy;
     module_map m_module_map;
     ext::boolean m_is_initial = false;
 
