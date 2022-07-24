@@ -96,7 +96,7 @@ struct fetch::detail::response_internals::internal_response
     ext::number<int> status;
     ext::string status_message;
 
-    header_t header_list;
+    headers_t header_list;
     std::unique_ptr<detail::body_internals::internal_body> body;
 
     cache_t cache_state;
