@@ -11,7 +11,7 @@ class dom::nodes::window final
         : public event_target
 {
 public js_properties:
-    std::unique_ptr<document> document;
+    ext::property<std::unique_ptr<document>> document;
 };
 
 
