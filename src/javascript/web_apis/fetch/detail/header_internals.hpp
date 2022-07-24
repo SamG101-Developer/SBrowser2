@@ -11,10 +11,33 @@
 
 namespace fetch::detail::header_internals
 {
-    enum header_value_object_type_t {DICT, LIST, ITEM};
+    enum header_value_object_t {DICT, LIST, ITEM};
 
+    DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(header_value_object_t, header_value_variable, void*);
+    ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(header_value_variable, DICT, ext::map<header_value_t COMMA header_values_t>);
+    ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(header_value_variable, LIST, ext::vector<header_value_t>);
+    ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(header_value_variable, ITEM, header_value_t);
+
+    template <header_value_object_t T>
     auto get_structured_field_value(
-            header_value_object_type_t type,
+            header_name_t header_name,
+            const headers_t& headers)
+            -> header_value_variable_t<T>;
+
+    template <>
+    auto get_structured_field_value<DICT>(
+            header_name_t header_name,
+            const headers_t& headers)
+            -> ext::map<header_value_t, header_values_t>;
+
+    template <>
+    auto get_structured_field_value<LIST>(
+            header_name_t header_name,
+            const headers_t& headers)
+            -> ext::vector<header_value_t>;
+
+    template <>
+    auto get_structured_field_value<ITEM>(
             header_name_t header_name,
             const headers_t& headers)
             -> header_value_t;

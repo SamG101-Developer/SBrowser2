@@ -23,7 +23,7 @@
 
 
 auto fetch::detail::header_internals::get_structured_field_value(
-        header_value_object_type_t type,
+        header_value_object_t type,
         header_name_t header_name,
         const headers_t& headers)
         -> header_value_t
@@ -34,8 +34,8 @@ auto fetch::detail::header_internals::get_structured_field_value(
     auto value = get_header_value(header_name, headers);
     return_if(value.empty()) value;
 
-    // parse the value into the correct type and return it (variant return type of a string, dictionary or list).
-    // parsing similar to loading a json.loads
+    // parse the value into the correct type and return it (variant return type of string, dictionary or list). parsing
+    // similar to loading a json.loads
     auto parsed_value = parse_structured_value(value, type);
     return parsed_value;
 }
