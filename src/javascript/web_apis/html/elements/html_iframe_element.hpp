@@ -7,6 +7,7 @@
 namespace html::elements {class html_iframe_element;}
 
 namespace dom::nodes {class window_proxy;}
+namespace permissions_policy {class permissions_policy_object;}
 
 
 class html::elements::html_iframe_element
@@ -20,6 +21,7 @@ public js_methods:
     auto get_svg_document() -> dom::nodes::document*;
 
 public js_properties:
+    /* HTML */
     ext::property<ext::string, _T> src;
     ext::property<ext::string, _T> srcdoc;
     ext::property<ext::string, _T> name;
@@ -34,6 +36,9 @@ public js_properties:
 
     ext::property<dom::nodes::document*> content_document;
     ext::property<dom::nodes::window_proxy*> content_window;
+
+    /* PERMISSIONS_POLICY */
+    ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
