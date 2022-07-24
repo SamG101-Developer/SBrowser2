@@ -28,12 +28,12 @@ namespace fetch
     using connection_pool = ext::map<network_partition_key_t, detail::fetch_internals::connection>;
 
     // header related
-    using header_name_t = ext::string_view;
-    using header_value_t = ext::string_view;
-    using header_t = ext::pair<ext::string, ext::string>;
+    using header_name_t = ext::string;
+    using header_value_t = ext::string;
+    using header_t = ext::pair<header_name_t, header_value_t>;
 
-    using header_names_t = ext::vector<ext::string>;
-    using header_values_t = ext::vector<ext::string>;
+    using header_names_t = ext::vector<header_name_t>;
+    using header_values_t = ext::vector<header_value_t>;
     using headers_t = ext::vector<header_t*>;
 
     enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
