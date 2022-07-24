@@ -44,6 +44,11 @@ namespace html::detail::document_internals
     auto completely_finish_loading(
             const dom::nodes::document* document)
             -> void;
+
+    auto allowed_to_use(
+            dom::nodes::document* document,
+            ext::string_view feature)
+            -> ext::boolean;
 }
 
 
