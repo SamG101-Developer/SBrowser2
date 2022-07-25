@@ -22,7 +22,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_methods:
-    auto m_default_origin() const -> ext::string;
+    [[nodiscard]] auto m_default_origin() const -> ext::string;
 
 private cpp_properties:
     dom::nodes::node* m_associated_node;
