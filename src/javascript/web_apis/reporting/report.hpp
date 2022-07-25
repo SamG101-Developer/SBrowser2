@@ -9,7 +9,7 @@ namespace reporting {class report_body;}
 
 
 class reporting::report
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public js_methods:
     auto to_json() const -> ext::string override;
@@ -18,6 +18,9 @@ public js_properties:
     ext::property<ext::string> type;
     ext::property<ext::string> url;
     ext::property<std::unique_ptr<report_body>> body;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 
