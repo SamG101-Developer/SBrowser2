@@ -3,8 +3,8 @@
 
 #include "ext/boolean.hpp"
 #include "permissions_policy/_typedefs.hpp"
-namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
+namespace html::elements {class html_iframe_element;}
 
 namespace permissions_policy::detail::policy_internals
 {
@@ -16,10 +16,10 @@ namespace permissions_policy::detail::policy_internals
 
     auto observable_policy(
             dom::nodes::node* node)
-            -> internal_permissions_policy&;
+            -> internal_permissions_policy;
 
     auto declared_origin(
-            dom::nodes::element* element)
+            html::elements::html_iframe_element* element)
             -> ext::string;
 }
 
