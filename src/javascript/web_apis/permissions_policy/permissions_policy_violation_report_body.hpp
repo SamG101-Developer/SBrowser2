@@ -14,7 +14,10 @@ public js_properties:
     ext::property<ext::string> source_file;
     ext::property<ext::string> disposition;
     ext::property<ext::number<long>> line_number;
-    ext::property<ext::number<long>> file_number;
+    ext::property<ext::number<long>> column_number;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 
