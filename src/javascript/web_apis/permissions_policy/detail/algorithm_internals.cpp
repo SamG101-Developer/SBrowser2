@@ -35,19 +35,19 @@ auto permissions_policy::detail::algorithm_internals::is_valid_feature(
 
 auto permissions_policy::detail::algorithm_internals::process_response_body(
         const fetch::detail::response_internals::internal_response& response,
-        ext::string_view origin)
+        ext::string&& origin)
         -> declared_policy_t
 {
     using enum fetch::detail::header_internals::header_value_object_t;
     auto parsed_header = fetch::detail::header_internals::get_structured_field_value<DICT>("Permissions-Policy", response.header_list);
-    auto policy = construct_policy_from_dictionary_and_origin(parsed_header, origin);
+    auto policy = construct_policy_from_dictionary_and_origin(parsed_header, std::move(origin));
     return policy;
 }
 
 
 auto permissions_policy::detail::algorithm_internals::construct_policy_from_dictionary_and_origin(
         ext::map_view<ext::string, ext::vector<ext::string>> dictionary,
-        ext::string_view origin)
+        ext::string&& origin)
         -> declared_policy_t
 {
     declared_policy_t policy;
@@ -75,7 +75,7 @@ auto permissions_policy::detail::algorithm_internals::construct_policy_from_dict
                 // origin provided is allowed to use teh feature
                 if (element == "self")
                 {
-                    allowlist.insert(origin);
+                    allowlist.insert(std::move(origin));
                     continue;
                 }
 
@@ -97,9 +97,9 @@ auto permissions_policy::detail::algorithm_internals::construct_policy_from_dict
 
 
 auto permissions_policy::detail::algorithm_internals::parse_policy_directive(
-        const ext::string& value,
-        const ext::string& origin,
-        const ext::string& target_origin)
+        ext::string&& value,
+        ext::string&& origin,
+        ext::string&& target_origin)
         -> policy_directive_t
 {
     policy_directive_t directive;
@@ -160,11 +160,16 @@ auto permissions_policy::detail::algorithm_internals::process_permissions_policy
 
 auto permissions_policy::detail::algorithm_internals::create_permissions_policy_for_browsing_context(
         html::detail::context_internals::browsing_context& context,
-        ext::string_view origin)
+        ext::string&& origin)
         -> policy_internals::internal_permissions_policy
 {
+    auto policy_definition_method = [origin = std::move(origin), &context](feature_t feature) mutable
+    {
+        return ext::make_pair(feature, define_inherited_policy_for_feature_in_browsing_context(feature, std::move(origin), context));
+    };
+
     auto inherited_policy = magic_enum::enum_entries<feature_t>() | ranges::views::keys
-            | ranges::views::transform([origin, &context](feature_t feature) {return ext::make_pair(feature, define_inherited_policy_for_feature_in_browsing_context(feature, origin, context));})
+            | ranges::views::transform(policy_definition_method)
             | ranges::to<inherited_policy_t>;
 
     policy_internals::internal_permissions_policy policy {.inherited_policy = inherited_policy};
@@ -172,15 +177,34 @@ auto permissions_policy::detail::algorithm_internals::create_permissions_policy_
 }
 
 
+auto permissions_policy::detail::algorithm_internals::create_permissions_policy_for_feature_in_container_at_origin(
+        const allowable_element auto* allowable_element,
+        ext::string&& origin)
+        -> policy_internals::internal_permissions_policy
+{
+    auto policy_definition_method = [origin = std::move(origin), allowable_element](feature_t feature) mutable
+    {
+        return ext::make_pair(feature, define_inherited_policy_for_feature_in_container_at_origin(feature, allowable_element, std::move(origin)));
+    };
+
+    auto inherited_policy = magic_enum::enum_entries<feature_t>() | ranges::views::keys
+            | ranges::views::transform(policy_definition_method)
+            | ranges::to<inherited_policy_t>;
+    
+    policy_internals::internal_permissions_policy policy {.inherited_policy = inherited_policy};
+    return policy;
+}
+
+
 auto permissions_policy::detail::algorithm_internals::create_permissions_policy_for_browsing_context_from_response(
         html::detail::context_internals::browsing_context& context,
-        ext::string_view origin,
+        ext::string&& origin,
         fetch::detail::response_internals::internal_response& response)
         -> policy_internals::internal_permissions_policy
 {
     using enum inherited_policy_value_t;
-    auto policy = create_permissions_policy_for_browsing_context(context, origin);
-    auto declared_policy = process_response_body(response, origin);
+    auto policy = create_permissions_policy_for_browsing_context(context, std::move(origin));
+    auto declared_policy = process_response_body(response, std::move(origin));
 
     policy.declared_policy = declared_policy
             | ranges::views::filter([&policy](auto&& pair) {return policy.inherited_policy.at(pair.first) == ENABLED;})
@@ -192,7 +216,7 @@ auto permissions_policy::detail::algorithm_internals::create_permissions_policy_
 
 auto permissions_policy::detail::algorithm_internals::define_inherited_policy_for_feature_in_browsing_context(
         feature_t feature,
-        ext::string_view origin,
+        ext::string&& origin,
         html::detail::context_internals::browsing_context& context)
         -> inherited_policy_value_t
 {
@@ -243,7 +267,7 @@ auto permissions_policy::detail::algorithm_internals::is_feature_enabled_in_docu
 auto permissions_policy::detail::algorithm_internals::generate_report_for_violation_of_permissions_policy_on_settings(
         feature_t feature,
         v8::Local<v8::Object> settings,
-        ext::string_view group)
+        ext::string&& group)
         -> void
 {
     using disposition_t = content_security_policy::detail::csp_internals::disposition_t;
