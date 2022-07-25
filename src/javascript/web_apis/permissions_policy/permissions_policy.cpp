@@ -98,5 +98,19 @@ auto permissions_policy::permissions_policy_object::m_default_origin()
     // an Element, otherwise an empty string
     return is_document_node
             ? dynamic_cast<dom::nodes::document*>(m_associated_node)->m_origin
-            : detail::policy_internals::declared_origin(dynamic_cast<dom::nodes::element*>(m_associated_node));
+            : detail::policy_internals::declared_origin(dynamic_cast<html::elements::html_iframe_element*>(m_associated_node));
+}
+
+
+auto permissions_policy::permissions_policy_object::to_v8(
+        v8::Isolate* isolate)
+        const&& -> ext::any
+{
+    return v8pp::class_<permissions_policy_object>{isolate}
+        .inherit<dom_object>()
+        .function("allowsFeature", &permissions_policy_object::allows_feature)
+        .function("features", &permissions_policy_object::features)
+        .function("allowedFeatures", &permissions_policy_object::allowed_features)
+        .function("getAllowlistForFeature", &permissions_policy_object::get_allowlist_for_feature)
+        .auto_wrap_objects();
 }
