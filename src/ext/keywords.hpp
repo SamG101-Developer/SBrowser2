@@ -7,6 +7,8 @@
 #define _EXT_END } // namespace ext
 #define _EXT_DETAIL_BEGIN namespace ext::detail {
 #define _EXT_DETAIL_END } // namespace ext::detail
+#define _EXT_SHORTHAND_BEGIN namespace ext::shorthand {
+#define _EXT_SHORTHAND_END } // namespace ext::shorthand
 
 #define _T true
 #define _F false
@@ -45,6 +47,8 @@
 #define break_if(condition) if (condition) break
 #define continue_if(condition) if (condition) continue
 #define for_if(if_statement, for_statement) if (if_statement) for (for_statement)
+
+#define constexpr_return_if(condition) if constexpr(condition) return
 
 
 #endif //SBROWSER2_KEYWORDS_HPP
