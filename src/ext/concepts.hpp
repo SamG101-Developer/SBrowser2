@@ -2,6 +2,7 @@
 #define SBROWSER2_CONCEPTS_HPP
 
 #include <range/v3/range/concepts.hpp>
+#include <type_traits>
 
 
 // check if a templated class is a base of another class (don't need template type to check)
@@ -54,6 +55,9 @@ concept range_v3_view = ranges::view_<_Tx>;
 template <typename TypeToCheck, typename ...TypesToCheckAgainst>
 concept type_is = (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
 
+template <typename _TypeToCheck, template <typename> typename ..._TemplatedTypesToCheckAgainst>
+concept type_is_any_specialization = (inherit_template<_TemplatedTypesToCheckAgainst, _TypeToCheck> || ...);
+
 template <typename TypeTpCheck, typename ...TypesToCheckAgainst>
 concept type_is_not = (!std::same_as<std::remove_cvref<TypeTpCheck>, TypesToCheckAgainst> && ...);
 
@@ -66,6 +70,11 @@ concept primitive_numeric = std::integral<_Tx> || std::floating_point<_Tx>;
 // check if a type is callable
 template <typename _Tx>
 concept callable = std::invocable<_Tx>;
+
+
+// check if a type is iterator-like
+template <typename _Tx>
+concept iterator_like = std::is_pointer_v<std::remove_pointer_t<_Tx>>;
 
 
 #endif //SBROWSER2_CONCEPTS_HPP
