@@ -23,6 +23,8 @@
 #include <range/v3/view/take_while.hpp>
 #include <range/v3/view/transform.hpp>
 
+namespace ranges::views {enum filter_compare_t {EQ, NE, LT, LE, GT, GE};}
+
 namespace ranges::views {struct lowercase_fn;}
 namespace ranges::views {struct uppercase_fn;}
 namespace ranges::views {struct split_string_fn;}
@@ -30,6 +32,7 @@ namespace ranges::views {struct take_until_fn;}
 namespace ranges::views {struct drop_until_fn;}
 namespace ranges::views {struct transform_if_fn;}
 namespace ranges::views {template <typename _Tx> struct cast_all_to_fn;}
+namespace ranges::views {template <filter_compare_t comparison> struct filter_eq_fn;}
 
 namespace ranges::actions {struct lowercase_fn;}
 namespace ranges::actions {struct uppercase_fn;}
@@ -134,6 +137,44 @@ struct ranges::views::cast_all_to_fn
         // a cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
         // another type, and then removing all the instances of nullptr
         return ranges::views::transform([](auto* pointer) {return dynamic_cast<_Tx>(pointer);}) | ranges::views::remove(nullptr);
+    }
+};
+
+
+template <ranges::views::filter_compare_t comparison>
+struct ranges::views::filter_eq_fn
+{
+    // TODO : make sure that T is an attribute of V below? (does this static check already exist?)
+    template <typename T, typename U>
+    constexpr auto operator()(T&& attribute, U&& value) const
+    {
+        // a filter that allows for comparison of an attribute or method call from each object in the range; for
+        // example, the first line is simplified into the second line (syntactic sugar)
+        //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;}
+        //      elements = node->children() | ranges::views::filter_eq(&node::node_type, node::ELEMENT_NODE);
+        constexpr_return_if(comparison == EQ) ranges::views::filter(
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
+                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) == std::forward<U>(value);});
+
+        else constexpr_return_if(comparison == NE) ranges::views::filter(
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
+                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) != std::forward<U>(value);});
+
+        else constexpr_return_if(comparison == LT) ranges::views::filter(
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
+                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) < std::forward<U>(value);});
+
+        else constexpr_return_if(comparison == LE) ranges::views::filter(
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
+                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) <= std::forward<U>(value);});
+
+        else constexpr_return_if(comparison == GT) ranges::views::filter(
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
+                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) > std::forward<U>(value);});
+
+        else constexpr_return_if(comparison == GE) ranges::views::filter(
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
+                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) >= std::forward<U>(value);});
     }
 };
 
@@ -243,6 +284,7 @@ namespace ranges::views {constexpr take_until_fn take_until;}
 namespace ranges::views {constexpr drop_until_fn drop_until;}
 namespace ranges::views {constexpr transform_if_fn transform_if;}
 namespace ranges::views {template <typename _Tx> constexpr cast_all_to_fn<_Tx> cast_all_to;}
+namespace ranges::views {template <filter_compare_t comparison> constexpr filter_eq_fn<comparison> filter_eq;}
 
 namespace ranges::actions {constexpr lowercase_fn lowercase;}
 namespace ranges::actions {constexpr uppercase_fn uppercase;}
