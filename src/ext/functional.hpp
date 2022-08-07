@@ -13,8 +13,7 @@
 
 _EXT_BEGIN
 
-template <typename ..._Valty>
-using function = fu2::function<_Valty...>;
+using namespace fu2;
 
 // bind arguments to the back of a method, so that when the partial-method is called with arguments, they will the front
 // n arguments (using because std::bind_back isn't available yet on MSVC)
