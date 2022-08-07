@@ -3,6 +3,8 @@
 #define SBROWSER2_CASTING_HPP
 
 #include "ext/assert.hpp"
+class dom_object;
+
 
 _EXT_BEGIN
 
@@ -26,6 +28,26 @@ auto cross_cast(auto* _Pointer) -> _Ty
     ext::assert_true(cross_cast_pointer);
     return cross_cast_pointer;
 }
+
+
+template <typename _Ty>
+auto dom_cast(dom_object* _Pointer) -> _Ty
+{
+    return dynamic_cast<_Ty>(_Pointer);
+}
+
+template <typename ..._Valty>
+auto dom_multi_cast(dom_object* _Pointer) -> bool
+{
+    return multi_cast<_Valty...>(_Pointer);
+}
+
+template <typename _Ty>
+auto dom_cross_cast(dom_object* _Pointer) -> _Ty
+{
+    return cross_cast<_Ty>(_Pointer);
+}
+
 
 _EXT_END
 
