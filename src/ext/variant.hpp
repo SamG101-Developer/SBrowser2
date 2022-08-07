@@ -11,7 +11,7 @@ template <typename ..._Valty>
 using variant = swl::variant<_Valty...>;
 
 template <typename ..._Valty>
-using variant_view = const variant<_Valty...>&;
+using variant_view = const variant<std::reference_wrapper<_Valty>...>&;
 
 _EXT_END
 
