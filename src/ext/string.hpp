@@ -20,7 +20,11 @@ using string_view32 = std::u32string_view;
 _EXT_END
 
 
-using sv = _EXT string_view;
+_EXT_SHORTHAND_BEGIN
+
+using sv = string_view;
+
+_EXT_SHORTHAND_END
 
 
 #endif //SBROWSER2_STRING_HPP
