@@ -50,5 +50,7 @@
 
 #define constexpr_return_if(condition) if constexpr(condition) return
 
+#define _EXT_NODISCARD [[nodiscard]]
+
 
 #endif //SBROWSER2_KEYWORDS_HPP
