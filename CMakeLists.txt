@@ -9,6 +9,7 @@ set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
 include_directories(src)
 include_directories(src/javascript)
+include_directories(src/javascript/web_apis)
 
 file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 
@@ -75,12 +76,16 @@ FetchContent_Declare(VectorReplacement
         GIT_REPOSITORY "https://github.com/Shmoopty/veque.git"
         GIT_TAG "origin/master")
 
-FetchContent_Declare(V8PP
-        GIT_REPOSITORY "https://github.com/pmed/v8pp.git"
-        GIT_TAG "origin/master")
-
 FetchContent_Declare(MagicEnum
         GIT_REPOSITORY "https://github.com/Neargye/magic_enum.git"
+        GIT_TAG "origin/master")
+
+FetchContent_Declare(UUIDs
+        GIT_REPOSITORY "https://github.com/mariusbancila/stduuid.git"
+        GIT_TAG "origin/master")
+
+FetchContent_Declare(V8PP
+        GIT_REPOSITORY "https://github.com/pmed/v8pp.git"
         GIT_TAG "origin/master")
 
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
@@ -92,7 +97,7 @@ file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8.redist-v143-x64.10.0.139.9" DESTIN
 FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
         QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement StreamsReplacement
-        ThreadReplacement TupleReplacement VariantReplacement VectorReplacement V8PP MagicEnum)
+        ThreadReplacement TupleReplacement VariantReplacement VectorReplacement MagicEnum UUIDs V8PP)
 
 
 add_library(plf_stack INTERFACE)
@@ -104,4 +109,4 @@ target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorrepla
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro cppfs function2::function2 tsl::robin_map
         concurrentqueue effolkronium_random range-v3::range-v3 ctre::ctre plf_stack fmt::fmt
-        thread_pool tuplet::tuplet v8pp swl-variant veque)
+        thread_pool tuplet::tuplet swl-variant veque stduuid magic_enum::magic_enum v8pp)
