@@ -15,8 +15,8 @@ public constructors:
     auto operator=(bool other) -> boolean& {internal_boolean = other; return *this;}
 
 public cpp_methods:
-    static auto FALSE() -> _EXT boolean {return _EXT boolean{false};};
-    static auto TRUE () -> _EXT boolean {return _EXT boolean{true };};
+    static auto FALSE_() -> boolean {return boolean{false};};
+    static auto TRUE_ () -> boolean {return boolean{true };};
 
 public cpp_properties:
     operator bool() const {return internal_boolean;}
