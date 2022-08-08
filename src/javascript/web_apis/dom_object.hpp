@@ -7,9 +7,11 @@
 #include "ext/keywords.hpp"
 #include "ext/property.hpp"
 #include "ext/string.hpp"
+
 #include <memory>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
+
 namespace dom::events {class event;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class node;}
