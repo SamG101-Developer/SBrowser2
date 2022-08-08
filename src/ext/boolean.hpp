@@ -11,19 +11,19 @@ _EXT_BEGIN
 class boolean final
 {
 public constructors:
-    constexpr boolean(bool _Other = false) : _Boolean(_Other) {}
-    auto operator=(bool _Other) -> boolean& {_Boolean = _Other; return *this;}
+    constexpr boolean(bool _Other = false) : internal_boolean(_Other) {}
+    auto operator=(bool _Other) -> boolean& {internal_boolean = _Other; return *this;}
 
 public cpp_methods:
     static auto FALSE() -> _EXT boolean {return _EXT boolean{false};};
     static auto TRUE () -> _EXT boolean {return _EXT boolean{true };};
 
 public cpp_properties:
-    operator bool() const {return _Boolean;}
-    auto operator !() const -> bool {return _Boolean ^ true;}
+    operator bool() const {return internal_boolean;}
+    auto operator !() const -> bool {return internal_boolean ^ true;}
 
 private cpp_properties:
-    bool _Boolean;
+    bool internal_boolean;
 };
 
 using boolean_view = const boolean&;
