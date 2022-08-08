@@ -8,11 +8,11 @@
 
 _EXT_BEGIN
 
-template <iterator_like _Tx>
+template <iterator_like T>
 class view
 {
 public aliases:
-    using iterator = _Tx;
+    using iterator = T;
     using reverse_iterator = std::reverse_iterator<iterator>;
     using pointer = std::remove_pointer_t<iterator>;
     using reference = std::remove_pointer_t<pointer>&;
@@ -25,21 +25,21 @@ public aliases:
 
 public constructors:
     view(iterator* begin, iterator* end)
-            : _Begin{begin}
-            , _End{end}
-            , _Size{std::distance(begin, end)}
+            : fixed_begin{begin}
+            , fixed_end{end}
+            , fixed_size{std::distance(begin, end)}
     {}
 
     view(iterator* begin, size_type size)
-            : _Begin{begin}
-            , _End{std::next(begin, size)}
-            , _Size{size}
+            : fixed_begin{begin}
+            , fixed_end{std::next(begin, size)}
+            , fixed_size{size}
     {}
 
     view(view&& other) noexcept
-            : _Begin(std::move(other.begin()))
-            , _End(std::move(other.end()))
-            , _Size(std::move(other.size()))
+            : fixed_begin(std::move(other.begin()))
+            , fixed_end(std::move(other.end()))
+            , fixed_size(std::move(other.size()))
     {}
 
     view(const view&) = delete;
@@ -47,27 +47,27 @@ public constructors:
     auto operator=(view&&) noexcept = delete;
 
 public cpp_methods:
-    auto data() -> iterator {return _Begin;}
-    auto empty() -> bool {return _Size == 0;}
-    auto size() -> size_type {return _Size;}
+    auto data() -> iterator {return fixed_begin;}
+    auto empty() -> bool {return fixed_size == 0;}
+    auto size() -> size_type {return fixed_size;}
 
-    auto begin() -> iterator {return _Begin;}
-    auto rbegin() -> reverse_iterator {return std::reverse_iterator{_Begin};}
-    auto front() -> element_type {return *_Begin;}
+    auto begin() -> iterator {return fixed_begin;}
+    auto rbegin() -> reverse_iterator {return std::reverse_iterator{fixed_begin};}
+    auto front() -> element_type {return *fixed_begin;}
 
-    auto end() -> iterator {return _End;}
-    auto rend() -> reverse_iterator {return reverse_iterator{_End};}
-    auto back() -> element_type {return *_End;}
+    auto end() -> iterator {return fixed_end;}
+    auto rend() -> reverse_iterator {return reverse_iterator{fixed_end};}
+    auto back() -> element_type {return *fixed_end;}
 
-    auto first(size_type count) -> view<iterator> {return view{_Begin, count};}
-    auto last(size_type count) -> view<iterator> {return view{std::prev(_End, count), count};}
-    auto subspan() -> view<iterator> {return view{_Begin, _End};}
-    auto subspan(size_type offset, size_type count) {return view{std::next(_Begin, offset), count};}
+    auto first(size_type count) -> view<iterator> {return view{fixed_begin, count};}
+    auto last(size_type count) -> view<iterator> {return view{std::prev(fixed_end, count), count};}
+    auto subspan() -> view<iterator> {return view{fixed_begin, fixed_end};}
+    auto subspan(size_type offset, size_type count) {return view{std::next(fixed_begin, offset), count};}
 
 private cpp_properties:
-    iterator _Begin;
-    iterator _End;
-    size_type _Size;
+    const iterator fixed_begin;
+    const iterator fixed_end;
+    const size_type fixed_size;
 };
 
 _EXT_END

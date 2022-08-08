@@ -5,6 +5,7 @@
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
+#include "ext/functional.hpp"
 #include "ext/keywords.hpp"
 #include "ext/number.hpp"
 #include "ext/variant.hpp"
@@ -43,37 +44,37 @@ using ulonglong = unsigned long long;
 
 _EXT_BEGIN
 
-template <typename _Tx>
+template <typename T>
 struct _unwrap_smart_pointer;
 
-template <smart_pointer _Tx>
-struct _unwrap_smart_pointer<_Tx> {using type = typename _Tx::pointer;};
+template <smart_pointer T>
+struct _unwrap_smart_pointer<T> {using type = typename T::pointer;};
 
-template <typename _Tx>
-struct _unwrap_smart_pointer {using type = _Tx;};
+template <typename T>
+struct _unwrap_smart_pointer {using type = T;};
 
-template <typename _Tx>
-using unwrap_smart_pointer = _unwrap_smart_pointer<_Tx>;
+template <typename T>
+using unwrap_smart_pointer = _unwrap_smart_pointer<std::remove_cvref_t<T>>;
 
-template <typename _Tx>
-using unwrap_smart_pointer_t = typename unwrap_smart_pointer<_Tx>::type;
+template <typename T>
+using unwrap_smart_pointer_t = typename unwrap_smart_pointer<T>::type;
 
 
 // extend variant with a new types
-template <typename _Old, typename ..._New>
+template <typename Old, typename ...New>
 struct _extend_variant;
 
-template <typename _Old, typename ..._New>
-struct _extend_variant {using type = _Old;};
+template <typename Old, typename ...New>
+struct _extend_variant {using type = Old;};
 
-template <typename ..._Old, typename ..._New>
-struct _extend_variant<_EXT variant<_Old...>, _New...> {using type = _EXT variant<_Old..., _New...>;};
+template <typename ...Old, typename ...New>
+struct _extend_variant<variant<Old...>, New...> {using type = variant<Old..., New...>;};
 
-template <typename _Old, typename ..._New>
-using extend_variant = _extend_variant<_Old, _New...>;
+template <typename Old, typename ...New>
+using extend_variant = _extend_variant<Old, New...>;
 
-template <typename _Old, typename ..._New>
-using extend_variant_t = typename _extend_variant<_Old, _New...>::type;
+template <typename Old, typename ...New>
+using extend_variant_t = typename _extend_variant<Old, New...>::type;
 
 _EXT_END
 
@@ -85,28 +86,35 @@ _STD_BEGIN
 template <>
 struct hash<_EXT boolean>
 {
-    constexpr auto operator()(_EXT boolean_view _Keyval) const noexcept -> size_t {return _STD hash<bool>{}(_Keyval);}
+    constexpr auto operator()(_EXT boolean_view value) const noexcept -> size_t {return _STD hash<bool>{}(static_cast<bool>(value));}
 };
 
 
 template <typename T>
 struct hash<_EXT number<T>>
 {
-    constexpr auto operator()(_EXT number_view<T> _Keyval) const noexcept -> size_t {return _STD hash<T>{}(_Keyval);}
+    constexpr auto operator()(_EXT number_view<T> value) const noexcept -> size_t {return _STD hash<T>{}(static_cast<T>(value));}
 };
 
 
 template <typename T>
-struct hash<std::function<T>> // TODO -> ext::function<T...> once its ready for implementation
+struct hash<_STD function<T>> // TODO -> ext::function<T...> once its ready for implementation
 {
-    constexpr auto operator()(std::function<T> _Keyval) const noexcept -> size_t {return _STD hash<size_t>{}(&_Keyval);}
+    constexpr auto operator()(std::function<T> value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+};
+
+
+template <typename ...Ts>
+struct hash<_EXT function<Ts...>>
+{
+    constexpr auto operator()(_EXT function_view<Ts...> value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
 };
 
 
 template <>
 struct hash<_EXT any>
 {
-    constexpr auto operator()(_EXT any_view _Keyval) const noexcept -> size_t {return _STD hash<size_t>{}(&_Keyval);}
+    constexpr auto operator()(_EXT any_view value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
 };
 
 _STD_END

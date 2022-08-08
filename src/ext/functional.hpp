@@ -2,7 +2,6 @@
 #define SBROWSER2_FUNCTIONAL_HPP
 
 #include "ext/tuple.hpp"
-#include "ext/type_traits.hpp"
 #include <function2/function2.hpp>
 
 
@@ -17,11 +16,11 @@ using namespace fu2;
 
 // bind arguments to the back of a method, so that when the partial-method is called with arguments, they will the front
 // n arguments (using because std::bind_back isn't available yet on MSVC)
-template <typename Function, typename ...Ts>
+template <typename F, typename ...Ts>
 struct bind_back
 {
 public:
-    explicit bind_back(const Function& function, Ts&&... fixed_args)
+    explicit bind_back(const F& function, Ts&&... fixed_args)
             : m_function{function}
             , m_back_args{tuplet::make_tuple(std::forward<Ts>(fixed_args)...)}
     {
@@ -39,18 +38,18 @@ public:
     }
 
 private:
-    const Function& m_function;
+    const F& m_function;
     tuple<Ts...> m_back_args;
 };
 
 
 // bind arguments to the front of a method, so that when the partial-method is called with arguments, they will the back
 // n arguments (using because std::bind_back isn't available yet on MSVC, so conform with ext::bind_back)
-template <typename Function, typename ...Ts>
+template <typename F, typename ...Ts>
 struct bind_front
 {
 public:
-    explicit bind_front(const Function& function, Ts&&... fixed_args)
+    explicit bind_front(const F& function, Ts&&... fixed_args)
             : m_function{function}
             , m_front_args{tuplet::make_tuple(std::forward<Ts>(fixed_args)...)}
     {
@@ -68,7 +67,7 @@ public:
     }
 
 private:
-    const Function& m_function;
+    const F& m_function;
     tuple<Ts...> m_front_args;
 };
 

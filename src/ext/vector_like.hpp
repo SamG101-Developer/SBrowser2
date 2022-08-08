@@ -10,33 +10,34 @@
 
 _EXT_BEGIN
 
-
 template <typename T>
 class vector_like
 {
 public cpp_operators:
-    virtual auto operator[](const number<size_t>& _Idx) -> T& = 0;
+    virtual auto operator[](const number<size_t>& index) -> T& = 0;
 };
 
-template <typename _Tx>
-class vector_like_linked : public vector_like<_Tx>
+
+template <typename T>
+class vector_like_linked : public vector_like<T>
 {
 public constructors:
-    explicit vector_like_linked(vector<_Tx>* _Container) : _LinkedContainer{_Container} {bind_get(length);};
+    explicit vector_like_linked(vector<T>* container)
+            : linked_vector{container}
+    {bind_get(length);}
 
 public cpp_properties:
     property<number<size_t>> length;
 
 public cpp_operators:
-    auto operator[](const number<size_t>& _Idx) -> _Tx& {return _LinkedContainer->at(_Idx);};
+    auto operator[](const number<size_t>& index) -> T& {return linked_vector->at(index);}
 
 private cpp_properties:
-    std::unique_ptr<vector<_Tx>> _LinkedContainer;
+    std::unique_ptr<vector<T>> linked_vector;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_length() const -> number<size_t> {return _LinkedContainer->size();};
+    [[nodiscard]] auto get_length() const -> number<size_t> {return linked_vector->size();}
 };
-
 
 _EXT_END
 

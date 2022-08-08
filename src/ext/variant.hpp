@@ -7,11 +7,11 @@
 
 _EXT_BEGIN
 
-template <typename ..._Valty>
-using variant = swl::variant<_Valty...>;
+template <typename ...Ts>
+using variant = swl::variant<Ts...>;
 
-template <typename ..._Valty>
-using variant_view = const variant<std::reference_wrapper<_Valty>...>&;
+template <typename ...Ts>
+using variant_view = const variant<std::reference_wrapper<Ts>...>&;
 
 _EXT_END
 
