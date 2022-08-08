@@ -6,48 +6,48 @@
 
 
 // check if a templated class is a base of another class (don't need template type to check)
-template <template <typename> typename _BaseMixin, typename _Derived>
-concept inherit_template = requires(_Derived _Obj)
+template <template <typename> typename BaseMixin, typename Derived>
+concept inherit_template = requires(Derived object)
 {
-    []<typename _Ty>(const _BaseMixin<_Ty>&){}(_Obj); // TODO : forward?
+    []<typename T>(const BaseMixin<T>&){}(object); // TODO : forward?
 };
 
 
 // check if a class is a base of another class
-template <typename _Base, typename _Derived>
+template <typename Base, typename Derived>
 concept inherit = requires
 {
-    requires std::is_base_of_v<_Base, _Derived>;
+    requires std::is_base_of_v<Base, Derived>;
 };
 
 
 // check if a type is iterable ie does it have .begin() and .end() iterator access
-template <typename _Tx>
-concept iterable = requires (_Tx _Obj)
+template <typename T>
+concept iterable = requires (T object)
 {
-    _Obj.begin(); _Obj.end();
+    object.begin(); object.end();
 };
 
 
 // check if a type is a smart pointer
-template <typename _Tx>
-concept smart_pointer = requires (_Tx _Obj)
+template <typename T>
+concept smart_pointer = requires (T object)
 {
-    _Obj.get() == &*_Obj;
+    object.get() == &*object;
 };
 
 
-// check if a pointer can be dynamically cast to another pointer TODO : _`Tx* ...` and `<_Tx1*>` ?
-template <typename _Tx, typename _Tx1>
-concept dynamically_castable_to = requires (_Tx _PtrL)
+// check if a pointer can be dynamically cast to another pointer
+template <typename From, typename To>
+concept dynamically_castable_to = requires (From pointer)
 {
-    dynamic_cast<_Tx1>(_PtrL);
+    dynamic_cast<To>(pointer);
 };
 
 
 // check if a type is a range_v3 type
-template <typename _Tx>
-concept range_v3_view = ranges::view_<_Tx>;
+template <typename T>
+concept range_v3_view = ranges::view_<T>;
 
 
 // check if a type(s) is in a list of types, works for parameter pack too; checks if all arguments are of a certain
@@ -55,26 +55,29 @@ concept range_v3_view = ranges::view_<_Tx>;
 template <typename TypeToCheck, typename ...TypesToCheckAgainst>
 concept type_is = (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
 
-template <typename _TypeToCheck, template <typename> typename ..._TemplatedTypesToCheckAgainst>
-concept type_is_any_specialization = (inherit_template<_TemplatedTypesToCheckAgainst, _TypeToCheck> || ...);
+template <typename TypeToCheck, template <typename> typename ...TemplatedTypesToCheckAgainst>
+concept type_is_any_specialization = (inherit_template<TemplatedTypesToCheckAgainst, TypeToCheck> || ...);
 
 template <typename TypeTpCheck, typename ...TypesToCheckAgainst>
 concept type_is_not = (!std::same_as<std::remove_cvref<TypeTpCheck>, TypesToCheckAgainst> && ...);
 
 
 // check if a type is a primitive numeric type
-template <typename _Tx>
-concept primitive_numeric = std::integral<_Tx> || std::floating_point<_Tx>;
+template <typename T>
+concept primitive_numeric = std::integral<T> || std::floating_point<T>;
 
 
 // check if a type is callable
-template <typename _Tx>
-concept callable = std::invocable<_Tx>;
+template <typename T>
+concept callable = requires (T&& object)
+{
+    std::invocable<T> || object.operator();
+};
 
 
 // check if a type is iterator-like
-template <typename _Tx>
-concept iterator_like = std::is_pointer_v<std::remove_pointer_t<_Tx>>;
+template <typename T>
+concept iterator_like = std::is_pointer_v<std::remove_pointer_t<T>>;
 
 
 #endif //SBROWSER2_CONCEPTS_HPP

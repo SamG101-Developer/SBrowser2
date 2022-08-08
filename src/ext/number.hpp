@@ -17,172 +17,168 @@
 
 _EXT_BEGIN
 
-template <typename _Tx> // TODO : change typename to 'primitive_number'
+template <typename T> // TODO : change typename to 'primitive_number'
 class number final
 {
 public aliases:
-    using primitive_t = _Tx;
+    using primitive_t = T;
 
 public friends:
-    template <typename _Vt> friend class number;
+    template <typename U> friend class number;
 
 public constructors:
     number() = default;
-    template <typename _Ty> constexpr number(_Ty _Primitive);
-    template <typename _Ty> auto operator=(_Ty _Primitive) -> number&;
+    template <typename U> constexpr number(U primitive);
+    template <typename U> auto operator=(U primitive) -> number&;
 
-    template <typename _Ty> explicit number(const number<_Ty>& _Other);
-    template <typename _Ty> explicit number(number<_Ty>&& _Other) noexcept;
-    template <typename _Ty> auto operator=(const number<_Ty>& _Other) -> number&;
-    template <typename _Ty> auto operator=(number<_Ty>&& _Other) noexcept -> number&;
+    template <typename U> explicit number(const number<U>& other);
+    template <typename U> explicit number(number<U>&& other) noexcept;
+    template <typename U> auto operator=(const number<U>& other) -> number&;
+    template <typename U> auto operator=(number<U>&& other) noexcept -> number&;
     
 public cpp_methods:
-    auto min() const -> number<_Tx> {return std::numeric_limits<_Tx>::min();}
-    auto max() const -> number<_Tx> {return std::numeric_limits<_Tx>::max();}
+    auto min() const -> number<T> {return std::numeric_limits<T>::min();}
+    auto max() const -> number<T> {return std::numeric_limits<T>::max();}
 
 public cpp_static_methods:
-    static auto INF() -> detail::infinity<_Tx> {return detail::infinity<_Tx>{};};
+    static auto INF() -> detail::infinity<T> {return detail::infinity<T>{};};
 
 public cpp_operators:
     // conversion operators
-    explicit operator std::string() const {return std::to_string(_Val);}
+    explicit operator std::string() const {return std::to_string(internal_number);}
 
-    auto operator+(auto&& other) const {return number{_Val + std::forward<_Tx>(other)};}
-    auto operator-(auto&& other) const {return number{_Val - std::forward<_Tx>(other)};}
-    auto operator*(auto&& other) const {return number{_Val * std::forward<_Tx>(other)};}
-    auto operator/(auto&& other) const {return number{_Val / std::forward<_Tx>(other)};}
-    auto operator%(auto&& other) const {return number{_Val % std::forward<_Tx>(other)};}
-    auto operator|(auto&& other) const {return number{_Val | std::forward<_Tx>(other)};}
-    auto operator&(auto&& other) const {return number{_Val & std::forward<_Tx>(other)};}
-    auto operator<<(auto&& other) const {return number{_Val << std::forward<_Tx>(other)};}
-    auto operator>>(auto&& other) const {return number{_Val >> std::forward<_Tx>(other)};}
+    auto operator+(auto&& other) const {return number{internal_number + std::forward<T>(other)};}
+    auto operator-(auto&& other) const {return number{internal_number - std::forward<T>(other)};}
+    auto operator*(auto&& other) const {return number{internal_number * std::forward<T>(other)};}
+    auto operator/(auto&& other) const {return number{internal_number / std::forward<T>(other)};}
+    auto operator%(auto&& other) const {return number{internal_number % std::forward<T>(other)};}
+    auto operator|(auto&& other) const {return number{internal_number | std::forward<T>(other)};}
+    auto operator&(auto&& other) const {return number{internal_number & std::forward<T>(other)};}
+    auto operator<<(auto&& other) const {return number{internal_number << std::forward<T>(other)};}
+    auto operator>>(auto&& other) const {return number{internal_number >> std::forward<T>(other)};}
 
-    auto operator+=(auto&& other) {_Val += std::forward<_Tx>(other); return *this;}
-    auto operator-=(auto&& other) {_Val -= std::forward<_Tx>(other); return *this;}
-    auto operator*=(auto&& other) {_Val *= std::forward<_Tx>(other); return *this;}
-    auto operator/=(auto&& other) {_Val /= std::forward<_Tx>(other); return *this;}
-    auto operator%=(auto&& other) {_Val %= std::forward<_Tx>(other); return *this;}
-    auto operator|=(auto&& other) {_Val |= std::forward<_Tx>(other); return *this;}
-    auto operator&=(auto&& other) {_Val &= std::forward<_Tx>(other); return *this;}
-    auto operator<<=(auto&& other) {_Val <<= std::forward<_Tx>(other); return *this;}
-    auto operator>>=(auto&& other) {_Val >>= std::forward<_Tx>(other); return *this;}
+    auto operator+=(auto&& other) {internal_number += std::forward<T>(other); return *this;}
+    auto operator-=(auto&& other) {internal_number -= std::forward<T>(other); return *this;}
+    auto operator*=(auto&& other) {internal_number *= std::forward<T>(other); return *this;}
+    auto operator/=(auto&& other) {internal_number /= std::forward<T>(other); return *this;}
+    auto operator%=(auto&& other) {internal_number %= std::forward<T>(other); return *this;}
+    auto operator|=(auto&& other) {internal_number |= std::forward<T>(other); return *this;}
+    auto operator&=(auto&& other) {internal_number &= std::forward<T>(other); return *this;}
+    auto operator<<=(auto&& other) {internal_number <<= std::forward<T>(other); return *this;}
+    auto operator>>=(auto&& other) {internal_number >>= std::forward<T>(other); return *this;}
 
-    auto operator==(const auto& other) const -> bool {return _Val == other;}
-    auto operator<=>(const auto& other) const {return _Val <=> other;}
+    auto operator==(const auto& other) const -> bool {return internal_number == other;}
+    auto operator<=>(const auto& other) const {return internal_number <=> other;}
 
-    auto operator++() -> number& {++_Val; return *this;}
-    auto operator--() -> number& {--_Val; return *this;}
+    auto operator++() -> number& {++internal_number; return *this;}
+    auto operator--() -> number& {--internal_number; return *this;}
 
-    template <typename _Ty> operator number<_Ty>() const {return number<_Ty>(_Val);}
-    template <typename _Ty> constexpr operator _Ty() const {return _Val;}
+    template <typename U> operator number<U>() const {return number<U>(internal_number);}
+    template <typename U> constexpr operator U() const {return internal_number;}
 
 private:
-    auto operator*() const -> _Tx {return _Val;}
+    auto operator*() const -> T {return internal_number;}
 
 private cpp_properties:
-    _Tx _Val;
+    T internal_number;
 };
 
 
-template <typename _Vt>
-using number_view = const number<_Vt>&;
-
-_EXT_END
+template <typename U>
+using number_view = const number<U>&;
 
 
-template <typename _Tx>
-template <typename _Ty>
-constexpr _EXT number<_Tx>::number(_Ty _Primitive)
-        : _Val(_Primitive)
+template <typename T>
+template <typename U>
+constexpr number<T>::number(U primitive)
+        : internal_number(primitive)
 {}
 
 
-template <typename _Tx>
-template <typename _Ty>
-auto _EXT number<_Tx>::operator=(_Ty _Primitive) -> number&
+template <typename T>
+template <typename U>
+auto number<T>::operator=(U primitive) -> number&
 {
-    _Val = _Primitive;
+    internal_number = primitive;
     return *this;
 }
 
 
-template <typename _Tx>
-template <typename _Ty>
-_EXT number<_Tx>::number(const _EXT number<_Ty>& _Other)
-        : _Val(*_Other)
+template <typename T>
+template <typename U>
+number<T>::number(const number<U>& other)
+        : internal_number(*other)
 {}
 
 
-template <typename _Tx>
-template <typename _Ty>
-_EXT number<_Tx>::number(_EXT number<_Ty>&& _Other) noexcept
-        : _Val(*std::move(_Other))
+template <typename T>
+template <typename U>
+number<T>::number(number<U>&& other) noexcept
+        : internal_number(*std::move(other))
 {}
 
 
-template <typename _Tx>
-template <typename _Ty>
-auto _EXT number<_Tx>::operator=(const _EXT number<_Ty>& _Other) -> number&
+template <typename T>
+template <typename U>
+auto number<T>::operator=(const number<U>& other) -> number&
 {
-    _Val = *_Other;
+    internal_number = *other;
     return *this;
 }
 
 
-template <typename _Tx>
-template <typename _Ty>
-auto _EXT number<_Tx>::operator=(_EXT number<_Ty>&& _Other) noexcept -> number&
+template <typename T>
+template <typename U>
+auto number<T>::operator=(number<U>&& other) noexcept -> number&
 {
-    _Val = *std::move(_Other);
+    internal_number = *std::move(other);
     return *this;
 }
 
 
-_EXT_BEGIN
-
-template <bool _InclusiveLo, bool _InclusiveHi>
-auto is_between(auto&& _Val, auto&& _Lo, auto&& _Hi) -> _EXT boolean
+template <bool InclusiveLo, bool InclusiveHi>
+auto is_between(auto&& value, auto&& lo, auto&& hi) -> boolean
 {
-    auto _Condition1 = _InclusiveLo ? _Val >= _Lo : _Val > _Lo; // default to >
-    auto _Condition2 = _InclusiveHi ? _Val <= _Hi : _Val < _Hi; // default to <
-    return _Condition1 && _Condition2;
+    auto condition1 = InclusiveLo ? value >= lo : value > lo; // default to >
+    auto condition2 = InclusiveHi ? value <= hi : value < hi; // default to <
+    return condition1 && condition2;
 }
 
 
 template <typename T, typename U, typename ...V>
-auto min(T&& _Val0, U&& _Val1, V&&... _Vals)
+auto min(T&& value0, U&& value1, V&&... values)
 {
-    if constexpr(sizeof...(_Vals) == 0) return _Val0 < _Val1 ? _Val0 : number{_Val1};
-    else return _EXT min(_EXT min(std::forward<T>(_Val0), std::forward<U>(_Val1)), std::forward<V>(_Vals)...);
+    if constexpr(sizeof...(values) == 0) return value0 < value1 ? value0 : number{value1};
+    else return min(min(std::forward<T>(value0), std::forward<U>(value1)), std::forward<V>(values)...);
 }
 
 
 template <typename T, typename U, typename ...V>
-auto max(T&& _Val0, U&& _Val1, V&&... _Vals)
+auto max(T&& value0, U&& value1, V&&... values)
 {
-    if constexpr(sizeof...(_Vals) == 0) return _Val0 > _Val1 ? _Val0 : number{_Val1};
-    else return _EXT max(_EXT max(std::forward<T>(_Val0), std::forward<U>(_Val1)), std::forward<V>(_Vals)...);
+    if constexpr(sizeof...(values) == 0) return value0 > value1 ? value0 : number{value1};
+    else return max(max(std::forward<T>(value0), std::forward<U>(value1)), std::forward<V>(values)...);
 }
 
 
 template <typename T, typename U>
-auto round(T&& _Val, U&& _Mult)
+auto round(T&& value, U&& multiplier)
 {
-    return std::round(std::move(_Val / _Mult)) * std::forward<U>(_Mult);
+    return std::round(std::move(value / multiplier)) * std::forward<U>(multiplier);
 }
 
 
-auto is_numeric_string(const _EXT string& _Str) -> _EXT boolean
+auto is_numeric_string(const string& string) -> boolean
 {
-    try {static_cast<void>(std::stod(_Str)); return _EXT boolean::TRUE();}
-    catch_specific (std::invalid_argument) {return _EXT boolean::FALSE();}
+    try {static_cast<void>(std::stod(string)); return boolean::TRUE();}
+    catch_specific (std::invalid_argument) {return boolean::FALSE();}
 }
 
 
-template <typename _Ty>
-auto to_string(_EXT number_view<_Ty> _Num)
+template <typename U>
+auto to_string(number_view<U> number)
 {
-    return std::to_string((_Ty)_Num);
+    return std::to_string((U)number);
 }
 
 

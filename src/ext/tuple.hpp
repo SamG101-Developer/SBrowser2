@@ -13,8 +13,8 @@ _EXT_BEGIN
 
 using namespace tuplet;
 
-template <typename ..._Valty>
-using tuple_view = const tuple<std::reference_wrapper<_Valty>...>&;
+template <typename ...Ts>
+using tuple_view = const tuple<std::reference_wrapper<Ts>...>&;
 
 //template <typename ...Types>
 //using tuple_iterator = variant<Types...>*;

@@ -11,8 +11,8 @@ _EXT_BEGIN
 class boolean final
 {
 public constructors:
-    constexpr boolean(bool _Other = false) : internal_boolean(_Other) {}
-    auto operator=(bool _Other) -> boolean& {internal_boolean = _Other; return *this;}
+    constexpr boolean(bool other = false) : internal_boolean(other) {}
+    auto operator=(bool other) -> boolean& {internal_boolean = other; return *this;}
 
 public cpp_methods:
     static auto FALSE() -> _EXT boolean {return _EXT boolean{false};};
@@ -31,7 +31,9 @@ using boolean_view = const boolean&;
 _EXT_END
 
 
-using bv = _EXT boolean_view;
+_EXT_SHORTHAND_BEGIN
+using bv = boolean_view;
+_EXT_DETAIL_END
 
 
 #endif //SBROWSER2_BOOLEAN_HPP

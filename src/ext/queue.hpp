@@ -11,20 +11,26 @@ _EXT_BEGIN
 
 using namespace Concurrency;
 
-template <typename _Vt>
-using queue = concurrent_queue<_Vt>;
+template <typename T>
+using queue = concurrent_queue<T>;
 
+
+#define queue_view_iterator typename queue<T>::iterator
 
 // an `ext::queue_view<T>` is a view whose iterator is the iterator of an `ext::queue<T>` with template arguments. it
 // differs from the base `ext::view<T>` because there is a custom constructor that converts the normal `ext::queue<T>`
 // to the 'ext::queue_view<T>`
-template <typename _Tx>
-struct queue_view : public view<typename queue<_Tx>::iterator>
+template <typename T>
+struct queue_view : public view<queue_view_iterator>
 {
-    using view<typename queue<_Tx>::iterator>::view;
+    using view<queue_view_iterator>::view;
 
-    explicit queue_view(const queue<_Tx>& other)
-            : view<typename queue<_Tx>::iterator>{other.unsafe_begin(), other.unsafe_end()}
+    explicit queue_view(queue<T>&& other)
+            : view<queue_view_iterator>{std::move(other.unsafe_begin()), std::move(other.unsafe_end())}
+    {}
+
+    explicit queue_view(const queue<T>& other)
+            : view<queue_view_iterator>{other.unsafe_begin(), other.unsafe_end()}
     {}
 };
 

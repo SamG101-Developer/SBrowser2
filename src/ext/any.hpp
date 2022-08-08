@@ -14,8 +14,8 @@ _EXT_BEGIN
 
 class any;
 
-template <typename _Tx>
-concept not_any = !type_is<_Tx, any>;
+template <typename T>
+concept not_any = !type_is<T, any>;
 
 
 /**
@@ -42,7 +42,7 @@ public cpp_methods:
     [[nodiscard]] auto is_arithmetic_type() const -> boolean;
     [[nodiscard]] auto is_empty() const -> boolean;
     [[nodiscard]] auto has_value() const -> boolean;
-    template <typename _Ty> auto to() const -> _Ty;
+    template <typename T> auto to() const -> T;
 
 public cpp_operators:
     auto operator==(const any& other) const -> bool;
@@ -114,10 +114,10 @@ auto any::has_value() const -> boolean
 }
 
 
-template <typename _Ty>
-auto any::to() const -> _Ty
+template <typename T>
+auto any::to() const -> T
 {
-    return std::any_cast<_Ty>(internal_any);
+    return std::any_cast<T>(internal_any);
 }
 
 

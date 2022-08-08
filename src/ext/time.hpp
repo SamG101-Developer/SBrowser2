@@ -12,28 +12,29 @@ _EXT_BEGIN
 class time final
 {
 public cpp_static_methods:
-    template <typename _Fx>
-    static auto time_method(_Fx&& _Pred, _EXT number<size_t> _Limit = 1) -> _EXT number<long long>;
+    template <typename F>
+    static auto time_method(F&& predicate, number<size_t> limit = 1) -> number<long long>;
 };
 
-_EXT_END
 
-
-template <typename _Fx>
-auto _EXT time::time_method(
-        _Fx&& _Pred,
-        _EXT number<size_t> _Limit)
-        -> _EXT number<long long>
+template <typename F>
+auto time::time_method(
+        F&& predicate,
+        number<size_t> limit)
+        -> number<long long>
 {
     // get the time before and after execution of a method - there is the option to loop the method
-    auto _Start = std::chrono::high_resolution_clock::now();
-    for (_EXT number<size_t> _Idx = 0; _Idx < _Limit; ++_Idx) _Pred();
-    auto _Stop = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
+    for (number<size_t> index = 0; index < limit; ++index) predicate();
+    auto stop = std::chrono::high_resolution_clock::now();
 
     // calculate the duration taken, cast to microseconds, and return the raw value
-    auto _Duration = std::chrono::duration_cast<std::chrono::microseconds>(_Stop - _Start);
-    return _Duration.count();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    return duration.count();
 }
+
+
+_EXT_END
 
 
 #endif //SBROWSER2_TIME_HPP

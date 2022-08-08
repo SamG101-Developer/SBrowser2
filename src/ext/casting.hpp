@@ -2,52 +2,53 @@
 #ifndef SBROWSER2_CASTING_HPP
 #define SBROWSER2_CASTING_HPP
 
-#include "ext/assert.hpp"
+#include "ext/assertion.hpp"
 class dom_object;
 
 
 _EXT_BEGIN
 
-template <typename ..._Valty>
-auto multi_cast(auto* _Pointer) -> bool
+template <typename ...Ts>
+auto multi_cast(auto* pointer) -> bool
 {
-    // check if the pointer can be cast into any of the types in _Valty parameter pack - the function returns a boolean
+    // check if the pointer can be cast into any of the types in Ts parameter pack - the function returns a boolean
     // rather than a cast pointer, because it could return a cast into any successful type, so it is more used for yes/
     // no the pointer is this type, as opposed to using the functionality of a dynamically cast type
-    return ((dynamic_cast<_Valty>(_Pointer)) || ...);
+    return ((dynamic_cast<Ts>(pointer)) || ...);
 }
 
 
-template <typename _Ty>
-auto cross_cast(auto* _Pointer) -> _Ty
+template <typename T>
+auto cross_cast(auto* pointer) -> T
 {
     // syntactic sugar for a dynamic cast from one superclass to a sibling-level superclass of an object - for example,
     // if a type C inherits A, B, and A* object = new C{}, the type can be cast from A* -> B*, ie the type has been
     // "cross" cast to a sibling level superclass. throws an error is the cast was unsuccessful
-    auto* cross_cast_pointer = dynamic_cast<_Ty>(_Pointer);
-    ext::assert_true(cross_cast_pointer);
+    auto* cross_cast_pointer = dynamic_cast<T>(pointer);
+    ASSERT(cross_cast_pointer, "cross-casting must be successful", pointer);
     return cross_cast_pointer;
 }
 
 
-template <typename _Ty>
-auto dom_cast(dom_object* _Pointer) -> _Ty
+template <typename T>
+auto dom_cast(dom_object* pointer) -> T
 {
-    return dynamic_cast<_Ty>(_Pointer);
+    return dynamic_cast<T>(pointer);
 }
 
-template <typename ..._Valty>
-auto dom_multi_cast(dom_object* _Pointer) -> bool
+
+template <typename ...Ts>
+auto dom_multi_cast(dom_object* pointer) -> bool
 {
-    return multi_cast<_Valty...>(_Pointer);
+    return multi_cast<Ts...>(pointer);
 }
 
-template <typename _Ty>
-auto dom_cross_cast(dom_object* _Pointer) -> _Ty
-{
-    return cross_cast<_Ty>(_Pointer);
-}
 
+template <typename T>
+auto dom_cross_cast(dom_object* pointer) -> T
+{
+    return cross_cast<T>(pointer);
+}
 
 _EXT_END
 

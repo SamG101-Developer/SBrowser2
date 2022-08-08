@@ -9,17 +9,22 @@ _EXT_BEGIN
 
 using namespace plf;
 
+#define stack_view_iterator typename stack<T>::pointer
 
 // an `ext::stack_view<T>` is a view whose iterator is the iterator of an `ext::stack<T>` with template arguments. it
 // differs from the base `ext::view<T>` because there is a custom constructor that converts the normal `ext::stack<T>`
 // to the 'ext::stack_view<T>`
-template <typename _Tx>
-struct stack_view : public view<_Tx>
+template <typename T>
+struct stack_view : public view<stack_view_iterator>
 {
-    using view<typename stack<_Tx>::iterator>::view;
+    using view<stack_view_iterator>::view;
 
-    explicit stack_view(const stack<_Tx>& other)
-            : view<typename stack<_Tx>::iterator>{&other.top(), other.size()}
+    explicit stack_view(stack<T>&& other)
+            : view<stack_view_iterator>{&std::move(other.top()), other.size()}
+    {}
+
+    explicit stack_view(const stack<T>& other)
+            : view<stack_view_iterator>{&other.top(), other.size()}
     {}
 };
 

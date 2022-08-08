@@ -8,27 +8,27 @@
 
 _EXT_BEGIN
 
-template <typename T, typename U>
-using pair_view = const pair<std::reference_wrapper<T>, std::reference_wrapper<U>>&;
+template <typename Key, typename Val>
+using pair_view = const pair<std::reference_wrapper<Key>, std::reference_wrapper<Val>>&;
 
-template <typename _Vt0, typename _Vt1>
-constexpr auto make_pair(_Vt0&& _First, _Vt1&& _Second)
+template <typename Key, typename Val>
+constexpr auto make_pair(Key&& key, Val&& val)
 {
     return ext::pair<
-            std::remove_cvref_t<_Vt0>,
-            std::remove_cvref_t<_Vt1>
-            >{std::forward<_Vt0>(_First), std::forward<_Vt1>(_Second)};
+            std::remove_cvref_t<Key>,
+            std::remove_cvref_t<Val>
+            >{std::forward<Key>(key), std::forward<Val>(val)};
 }
 
-auto pair_key_matches = []<typename _Ty0, typename _Ty1>(const pair<_Ty0, _Ty1>& _Pair, _Ty0&& _Key) -> ext::boolean
+auto pair_key_matches = []<typename T, typename U>(const pair<T, U>& pair, T&& key) -> ext::boolean
 {
-    return _Pair.first == std::forward<_Ty0>(_Key);
+    return pair.first == std::forward<T>(key);
 };
 
 
-auto pair_val_matches = []<typename _Ty0, typename _Ty1>(const pair<_Ty0, _Ty1>& _Pair, _Ty1&& _Val) -> ext::boolean
+auto pair_val_matches = []<typename T, typename U>(const pair<T, U>& pair, U&& val) -> ext::boolean
 {
-    return _Pair.second == std::forward<_Ty0>(_Val);
+    return pair.second == std::forward<U>(val);
 };
 
 _EXT_END

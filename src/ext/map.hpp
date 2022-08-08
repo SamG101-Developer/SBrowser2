@@ -10,21 +10,31 @@ _EXT_BEGIN
 
 using namespace tsl;
 
-template <typename _Vt0, typename _Vt1>
-using map = tsl::robin_map<_Vt0, _Vt1>;
+template <typename K, typename V>
+using map = tsl::robin_map<K, V>;
 
 
-// an `ext::map_view<K, V>` is a view whose iterator is the iterator of an `ext::map<K, V>` with template arguments. it
-// differs from the base `ext::view<T>` because there is a custom constructor that converts the normal `ext::map<K, V>`
-// to the 'ext::map_view<K, V>`
-template <typename _Vt0, typename _Vt1>
-class map_view : public view<typename map<_Vt0, _Vt1>::iterator>
+#define map_view_iterator typename map<K, V>::iterator
+
+/**
+ * An `ext::map_view<K, V>` is a view whose iterator is the iterator of an `ext::map<K, V>` with template arguments. It
+ * differs from the base `ext::view<T>` because there is a custom constructor that converts the normal `ext::map<K, V>`
+ * to the 'ext::map_view<K, V>`.
+ * @tparam K The type that the keys of the map are
+ * @tparam V The type that the vals of the map are
+ */
+template <typename K, typename V>
+class map_view : public view<map_view_iterator>
 {
 public constructors:
-    using view<typename map<_Vt0, _Vt1>::iterator>::view;
+    using view<map_view_iterator>::view;
 
-    explicit map_view(const map<_Vt0, _Vt1>& other)
-            : view<typename map<_Vt0, _Vt1>::iterator>{other.begin(), other.end()}
+    explicit map_view(map<K, V>&& other)
+            : view<map_view_iterator>{std::move(other.begin()), std::move(other.end())}
+    {}
+
+    explicit map_view(const map<K, V>& other)
+            : view<map_view_iterator>{other.begin(), other.end()}
     {}
 };
 
