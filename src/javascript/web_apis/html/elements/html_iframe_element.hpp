@@ -6,6 +6,7 @@
 #include "html/mixins/lazy_loadable.hpp"
 namespace html::elements {class html_iframe_element;}
 
+namespace dom::nodes {class document;}
 namespace dom::nodes {class window_proxy;}
 namespace permissions_policy {class permissions_policy_object;}
 
@@ -44,7 +45,13 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
-    ext::boolean m_current_navigation_lazy_loaded;
+    ext::boolean m_current_navigation_lazy_loaded = ext::boolean::FALSE();
+
+private cpp_accessors:
+    auto get_content_document() const -> dom::nodes::document*;
+    auto get_content_window() const -> dom::nodes::window_proxy*;
+    auto set_sandbox(ext::string_view val) -> void;
+    auto set_loading(ext::string_view val) -> void;
 };
 
 
