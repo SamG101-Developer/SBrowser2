@@ -51,7 +51,7 @@ inline auto v8pp::convert<ext::any>::to_v8(v8::Isolate* isolate, const from_type
     if (cpp_value.is_empty()) return javascript_scope.Escape(v8::Undefined(isolate));
     if (cpp_value.type() == typeid(void)) return javascript_scope.Escape(v8::Null(isolate));
     if (cpp_value.type() == typeid(ext::boolean)) return javascript_scope.Escape(convert<ext::boolean>::to_v8(isolate, cpp_value.to<ext::boolean>()));
-    if (cpp_value.is_numeric()) return javascript_scope.Escape(convert<ext::number<double>>::to_v8(isolate, cpp_value.to<ext::number<double>>())); // TODO : Number()/BigInt()?
+    if (cpp_value.is_arithmetic_type()) return javascript_scope.Escape(convert<ext::number<double>>::to_v8(isolate, cpp_value.to<ext::number<double>>())); // TODO : Number()/BigInt()?
     if (cpp_value.type() == typeid(ext::string)) return javascript_scope.Escape(convert<ext::string>::to_v8(isolate, cpp_value.to<ext::string>()));
     if (/* TODO : SYMBOL */ false);
     if (/* TODO : Object */ false);
