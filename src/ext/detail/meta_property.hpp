@@ -67,6 +67,7 @@ public cpp_methods:
 
     auto _AttachClamp(_Tx&& _Low, _Tx&& _High) -> void requires std::is_arithmetic_v<_Tx>;
     template <typename ..._Valty> auto _AttachConstraint(_Valty&&... _Allowed) -> void;
+    template <typename _Ty, size_t N> auto _AttachEnumConstraint(std::array<_Ty, N>&& _Allowed) -> void;
     template <typename _Ty, typename _Ty2> auto _AttachQtMethod(_Ty _Qt_obj, _Ty2&& _Callback) -> void;
 
 public cpp_properties:
