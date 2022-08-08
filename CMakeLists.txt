@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0")
+set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
 include_directories(src)
 include_directories(src/javascript)
@@ -52,7 +53,7 @@ FetchContent_Declare(RegexReplacement
 
 FetchContent_Declare(StackReplacement
         GIT_REPOSITORY "https://github.com/mattreecebentley/plf_stack.git"
-        GIT_TAG "origin/master")
+        GIT_TAG "origin/master" CONFIGURE_COMMAND "" BUILD_COMMAND "")
 
 FetchContent_Declare(StreamsReplacement
         GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
@@ -82,17 +83,25 @@ FetchContent_Declare(MagicEnum
         GIT_REPOSITORY "https://github.com/Neargye/magic_enum.git"
         GIT_TAG "origin/master")
 
-set(third_party_libraries
+add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
+
+file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8-v143-x64.10.0.139.9" DESTINATION "${CMAKE_BINARY_DIR}/_deps/v8pp-build")
+file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8.redist-v143-x64.10.0.139.9" DESTINATION "${CMAKE_BINARY_DIR}/_deps/v8pp-build")
+
+
+FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
         QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement StreamsReplacement
         ThreadReplacement TupleReplacement VariantReplacement VectorReplacement V8PP MagicEnum)
 
 
-FetchContent_MakeAvailable(${third_party_libraries})
+add_library(plf_stack INTERFACE)
+target_include_directories(plf_stack INTERFACE ${CMAKE_BINARY_DIR}/_deps/stackreplacement-src)
 
-add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
+add_library(veque INTERFACE)
+target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorreplacement-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert::assert cppcoro filesystem::filesystem function2::function2 tsl::robin_map
-        concurrent_queue::concurrent_queue effolkronium_random range-v3::range-v3 ctre::ctre plf::stack fmt::fmt
-        bs::thread_pool tuplet::tuplet v8pp swl-variant veque)
+        assert cppcoro cppfs function2::function2 tsl::robin_map
+        concurrentqueue effolkronium_random range-v3::range-v3 ctre::ctre plf_stack fmt::fmt
+        thread_pool tuplet::tuplet v8pp swl-variant veque)
