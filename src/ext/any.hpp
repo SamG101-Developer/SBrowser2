@@ -103,6 +103,7 @@ auto any::is_arithmetic_type() const -> boolean
 
 auto any::is_empty() const -> boolean
 {
+    // the `any` object is empty if it doesn't have a value (check with internal `std::any` object)
     return !internal_any.has_value();
 }
 
