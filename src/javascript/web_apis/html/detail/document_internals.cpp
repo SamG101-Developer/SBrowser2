@@ -1,5 +1,6 @@
 #include "document_internals.hpp"
 
+#include "ext/boolean.hpp"
 #include "ext/ranges.hpp"
 #include "javascript/environment/reflection.hpp"
 
@@ -12,6 +13,11 @@
 
 #include "infra/detail/code_points_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
+
+#include "permissions_policy/_typedefs.hpp"
+#include "permissions_policy/detail/algorithm_internals.hpp"
+
+#include <magic_enum.hpp>
 
 
 auto html::detail::document_internals::is_cookie_averse_document(
@@ -189,4 +195,20 @@ auto html::detail::document_internals::has_no_stylesheet_blocking_scripts(
         -> ext::boolean
 {
     return !has_stylesheet_blocking_scripts(document);
+}
+
+
+auto html::detail::document_internals::allowed_to_use(
+        dom::nodes::document* document,
+        ext::string_view feature)
+        -> ext::boolean
+{
+    using feature_t = permissions_policy::detail::feature_t;
+    using enum permissions_policy::detail::inherited_policy_value_t;
+
+    return_if(!document->m_browsing_context) ext::boolean::FALSE();
+    return permissions_policy::detail::algorithm_internals::is_feature_enabled_in_document_for_origin(
+            magic_enum::enum_cast<feature_t>(feature).value(),
+            document,
+            document->m_origin) == ENABLED;
 }
