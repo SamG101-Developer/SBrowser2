@@ -8,7 +8,7 @@
 
 _EXT_BEGIN
 
-template <iterator_like T>
+template <typename T>
 class view
 {
 public aliases:
@@ -24,6 +24,12 @@ public aliases:
     using size_type = size_t;
 
 public constructors:
+    view()
+            : fixed_begin(nullptr)
+            , fixed_end(nullptr)
+            , fixed_size(0)
+    {};
+
     view(iterator* begin, iterator* end)
             : fixed_begin{begin}
             , fixed_end{end}
