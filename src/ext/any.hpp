@@ -28,7 +28,7 @@ public constructors:
     any() = default;
     ~any() = default;
 
-    any(const any&) = delete;
+    any(const any&) = default;
     any(any&&) noexcept = default;
     auto operator=(const any&) -> any& = delete;
     auto operator=(any&&) noexcept -> any& = default;
