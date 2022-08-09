@@ -3,6 +3,7 @@
 #define SBROWSER2_MEDIA_STREAM_TRACK_HPP
 
 #include "dom/nodes/event_target.hpp"
+#include "mediacapture_main/mixins/constrainable.hpp"
 namespace mediacapture::main {class media_stream_track;}
 
 #include <future>
@@ -10,6 +11,7 @@ namespace mediacapture::detail::source_internals {template <inherit<main::media_
 
 class mediacapture::main::media_stream_track
         : public dom::nodes::event_target
+        , public mixins::constrainable
 {
 public constructors:
     media_stream_track();
@@ -19,12 +21,8 @@ private constructors:
     media_stream_track(detail::source_internals::media_stream_track_source<T>& source, ext::boolean_view tie_source_to_context = true);
 
 public js_methods:
-    auto clone() const -> media_stream_track*;
+    auto clone() const -> media_stream_track;
     auto stop() -> void;
-    auto get_capabilities() const -> ext::map<ext::string, ext::any>;
-    auto get_constraints() const -> ext::map<ext::string, ext::any>;
-    auto get_settings() const -> ext::map<ext::string, ext::any>;
-    auto apply_constraints(ext::map_view<ext::string, ext::any> constraints = {}) -> std::promise<void>;
 
 public js_properties:
     ext::property<ext::string> kind;
@@ -35,8 +33,15 @@ public js_properties:
     ext::property<ext::boolean> muted;
     ext::property<ext::string> ready_state;
 
+    ext::property<ext::string> device_id;
+    ext::property<ext::string> facing_mode;
+    ext::property<ext::string> group_id;
+
 private cpp_properties:
-    // TODO : detail::...source attribute (templated though?)
+    detail::source_internals::media_stream_track_source<media_stream_track>& m_source;
+
+private cpp_accessors:
+    auto set_muted(ext::boolean_view val) -> void;
 };
 
 
