@@ -36,6 +36,10 @@ FetchContent_Declare(HashMapSetReplacement
         GIT_REPOSITORY "https://github.com/Tessil/robin-map.git"
         GIT_TAG "origin/master")
 
+FetchContent_Declare(OptionalReplacement
+        GIT_REPOSITORY "https://github.com/TartanLlama/optional.git"
+        GIT_TAG "origin/master")
+
 FetchContent_Declare(QueueReplacement
         GIT_REPOSITORY "https://github.com/cameron314/concurrentqueue.git"
         GIT_TAG "origin/master")
@@ -96,8 +100,8 @@ file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8.redist-v143-x64.10.0.139.9" DESTIN
 
 FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
-        QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement StreamsReplacement
-        ThreadReplacement TupleReplacement VariantReplacement VectorReplacement MagicEnum UUIDs V8PP)
+        OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
+        StreamsReplacement ThreadReplacement TupleReplacement VariantReplacement VectorReplacement MagicEnum UUIDs V8PP)
 
 
 add_library(plf_stack INTERFACE)
@@ -110,6 +114,6 @@ add_library(veque INTERFACE)
 target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorreplacement-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro cppfs function2::function2 tsl::robin_map concurrentqueue effolkronium_random range-v3::range-v3
-        ctre::ctre plf_stack fmt::fmt bs_thread_pool tuplet::tuplet swl-variant veque magic_enum::magic_enum stduuid
-        v8pp)
+        assert cppcoro cppfs function2::function2 tsl::robin_map optional concurrentqueue effolkronium_random
+        range-v3::range-v3 ctre::ctre plf_stack fmt::fmt bs_thread_pool tuplet::tuplet swl-variant veque
+        magic_enum::magic_enum stduuid v8pp)
