@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_REALMS_2_HPP
 #define SBROWSER2_REALMS_2_HPP
 
+#include "ext/boolean.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_nullptr_t.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_number_integer.hpp"
@@ -58,7 +59,12 @@
     auto object ## _associated_global_object = object ## _relevant_global_object;
 
 
-namespace javascript::environment::realms_2 {
+namespace javascript::environment::realms_2
+{
+    auto has(
+            v8::Local<v8::Object> global,
+            ext::string_view cpp_attribute)
+            -> ext::boolean;
 
     template <typename T>
     auto get(
@@ -76,6 +82,15 @@ namespace javascript::environment::realms_2 {
 
 
 // TODO : isolate as variables in methods (reduce code duplication with calling ...->GetIsolate()
+auto javascript::environment::realms_2::has(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> ext::boolean
+{
+    auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
+    auto v8_exists = global->HasPrivate(global->GetIsolate()->GetCurrentContext(), v8_private_attribute).FromJust();
+    auto cpp_exists = v8_exists;
+    return cpp_exists;
+}
+
+
 template <typename T>
 auto javascript::environment::realms_2::get(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> T
 {
