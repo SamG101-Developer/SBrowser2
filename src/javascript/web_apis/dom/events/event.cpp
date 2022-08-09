@@ -8,9 +8,9 @@ dom::events::event::event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : type(event_type)
-        , bubbles(event_init.try_emplace("bubbles", ext::boolean::FALSE()).first->second.to<ext::boolean>())
-        , cancelable(event_init.try_emplace("cancelable", ext::boolean::FALSE()).first->second.to<ext::boolean>())
-        , composed(event_init.try_emplace("composed", ext::boolean::FALSE()).first->second.to<ext::boolean>())
+        , bubbles(event_init.try_emplace("bubbles", ext::boolean::FALSE_()).first->second.to<ext::boolean>())
+        , cancelable(event_init.try_emplace("cancelable", ext::boolean::FALSE_()).first->second.to<ext::boolean>())
+        , composed(event_init.try_emplace("composed", ext::boolean::FALSE_()).first->second.to<ext::boolean>())
         , target(nullptr)
         , current_target(nullptr)
         , related_target(nullptr)
