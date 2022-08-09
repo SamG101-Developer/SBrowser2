@@ -13,10 +13,13 @@ class mediacapture::main::mixins::constrainable
         : public virtual dom_object
 {
 public js_methods:
-    auto get_capabilities() const -> ext::map<ext::string, ext::any>;
-    auto get_constraints() const -> ext::map<ext::string, ext::any>;
-    auto get_settings() const -> ext::map<ext::string, ext::any>;
+    _EXT_NODISCARD auto get_capabilities() const -> ext::map<ext::string, ext::any>;
+    _EXT_NODISCARD auto get_constraints() const -> ext::map<ext::string, ext::any>;
+    _EXT_NODISCARD auto get_settings() const -> ext::map<ext::string, ext::any>;
     auto apply_constraints(ext::map_view<ext::string, ext::any> constraints = {}) -> std::promise<void>;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected js_slots:
     ext::map<ext::string, ext::any> s_capabilities;
