@@ -5,6 +5,8 @@
 #include "ext/view.hpp"
 #include <tsl/robin_map.h>
 
+#define map_view_iterator typename _EXT map<K, V>::iterator
+
 
 _EXT_BEGIN
 
@@ -12,9 +14,6 @@ using namespace tsl;
 
 template <typename K, typename V>
 using map = tsl::robin_map<K, V>;
-
-
-#define map_view_iterator typename map<K, V>::iterator
 
 /**
  * An `ext::map_view<K, V>` is a view whose iterator is the iterator of an `ext::map<K, V>` with template arguments. It
