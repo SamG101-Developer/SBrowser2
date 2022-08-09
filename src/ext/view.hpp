@@ -2,6 +2,7 @@
 #define SBROWSER2_SRC_EXT_VIEW_HPP
 
 #include "ext/concepts.hpp"
+#include "ext/keywords.hpp"
 #include <iterator>
 #include <span>
 
