@@ -8,10 +8,9 @@
 #include <range/v3/view/filter.hpp>
 
 
-template <inherit<mediacapture::main::media_stream_track> T>
 auto mediacapture::detail::source_internals::initialize_underlying_source(
         main::media_stream_track* track,
-        media_stream_track_source<T>& source)
+        media_stream_track_source& source)
         -> void
 {
     track->m_source = source;
@@ -21,20 +20,19 @@ auto mediacapture::detail::source_internals::initialize_underlying_source(
 }
 
 
-template <inherit<mediacapture::main::media_stream_track> T>
 auto mediacapture::detail::source_internals::tie_track_source_to_context(
-        media_stream_track_source<T>& source)
+        media_stream_track_source& source)
         -> void
 {
     // get the relevant JavaScript realm of the source, and extract the set of sources in the media_stream_track_sources
     // slot of the global object
     JS_REALM_GET_RELEVANT(source)
-    auto sources = javascript::environment::realms_2::get<ext::set<media_stream_track_source<T>>&>(
+    auto sources = javascript::environment::realms_2::get<ext::set<media_stream_track_source>*>(
             source_relevant_global_object, "[[media_stream_track_sources]]");
 
     // insert the source into the sources set - this is what ties the source back to the context; it is bound into the
     // slot in the global object, which is unique to a JavaScript context
-    sources.insert(source);
+    sources->insert(source);
 }
 
 
@@ -43,7 +41,7 @@ auto mediacapture::detail::source_internals::stop_all_sources(
         -> void
 {
     // extract the set of sources in the media_stream_track_sources slot of the 'global_object'
-    auto sources = javascript::environment::realms_2::get<ext::set<media_stream_track_source<main::media_stream_track>>&>(
+    auto sources = javascript::environment::realms_2::get<ext::set<media_stream_track_source>*>(
             global_object, "[[media_stream_track_sources]]");
 
     // the filter checks if the relevant JavaScript realm's global object is the global object that was passed into this
@@ -59,7 +57,7 @@ auto mediacapture::detail::source_internals::stop_all_sources(
             (int, int){for (auto* source: sources | ranges::views::filter(std::move(filter))) /* TODO : stop the source */ ;};
 
     ext::thread_pool pool{5};
-    pool.parallelize_loop(sources.size(), loop).wait();
+    pool.parallelize_loop(sources->size(), loop).wait();
 }
 
 
