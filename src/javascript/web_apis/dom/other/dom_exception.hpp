@@ -12,6 +12,7 @@ class dom::other::dom_exception
         : public virtual dom_object
 {
 public constructors:
+    dom_exception() = default;
     dom_exception(ext::string&& message, v8_custom_error_t type);
 
 public js_properties:
