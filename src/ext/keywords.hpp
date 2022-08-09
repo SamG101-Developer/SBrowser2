@@ -52,5 +52,13 @@
 
 #define _EXT_NODISCARD [[nodiscard]]
 
+#define DISALLOW_COPY(type)     \
+    type(const type&) = delete; \
+    auto operator=(const type&) -> type& = delete
+
+#define ALLOW_MOVE(type)             \
+    type(type&&) noexcept = default; \
+    auto operator=(type&&) noexcept -> type& = default
+
 
 #endif //SBROWSER2_KEYWORDS_HPP
