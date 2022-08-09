@@ -26,12 +26,12 @@ public constructors:
     [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
     explicit property(const property& _Other) = default;
 
-    explicit property(property&& _Other) noexcept = delete;
+    explicit property(property&& _Other) noexcept = default;
 
     [[deprecated("Check if this CTor should be used, or if operator=(_Tx) should be used")]]
     auto operator=(const property& _Other) -> property& = default;
 
-    auto operator=(property&& _Other) noexcept -> property& = delete;
+    auto operator=(property&& _Other) noexcept -> property& = default;
 
     // assign a starting value for the property
     property(const outer_val_t& _OtherToCopy) requires is_dumb_property : _Meta(_OtherToCopy) {} // set new object (const ref)
