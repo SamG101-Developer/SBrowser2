@@ -103,10 +103,13 @@ FetchContent_MakeAvailable(
 add_library(plf_stack INTERFACE)
 target_include_directories(plf_stack INTERFACE ${CMAKE_BINARY_DIR}/_deps/stackreplacement-src)
 
+add_library(bs_thread_pool INTERFACE)
+target_include_directories(bs_thread_pool INTERFACE ${CMAKE_BINARY_DIR}/_deps/threadreplacement-src)
+
 add_library(veque INTERFACE)
 target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorreplacement-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro cppfs function2::function2 tsl::robin_map
-        concurrentqueue effolkronium_random range-v3::range-v3 ctre::ctre plf_stack fmt::fmt
-        thread_pool tuplet::tuplet swl-variant veque stduuid magic_enum::magic_enum v8pp)
+        assert cppcoro cppfs function2::function2 tsl::robin_map concurrentqueue effolkronium_random range-v3::range-v3
+        ctre::ctre plf_stack fmt::fmt bs_thread_pool tuplet::tuplet swl-variant veque magic_enum::magic_enum stduuid
+        v8pp)
