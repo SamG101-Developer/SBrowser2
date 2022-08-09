@@ -21,7 +21,7 @@ auto dom::mixins::child_node::before(
         // not possible to insert nodes into a nullptr parent
         const auto* const base = ext::cross_cast<const nodes::node*>(this);
         auto* const parent = base->parent_node();
-        return_if(!parent);
+        return_if(!parent) static_cast<nodes::node*>(nullptr);
 
         // the 'viable_previous_siblings' are all the preceding siblings of 'node' that aren't in 'nodes' - this is the
         // set difference. convert the 'nodes' into a single Node
@@ -52,7 +52,7 @@ auto dom::mixins::child_node::after(
         // not possible to insert nodes into a nullptr parent
         const auto* const base = ext::cross_cast<const nodes::node*>(this);
         auto* const parent = base->parent_node();
-        return_if(!parent);
+        return_if(!parent) static_cast<nodes::node*>(nullptr);
 
         // the 'viable_next_siblings' are all the following siblings of 'node' that aren't in 'nodes' - this is the set
         // difference. convert the 'nodes' into a single Node
@@ -82,7 +82,7 @@ auto dom::mixins::child_node::replace_with(
         // not possible to replace nodes into a nullptr parent
         const auto* const base = ext::cross_cast<const nodes::node*>(this);
         auto* const parent = base->parent_node();
-        return_if(!parent);
+        return_if(!parent) static_cast<nodes::node*>(nullptr);
 
         // convert the 'nodes' into a single Node
         auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
