@@ -7,6 +7,10 @@
 #include "ext/functional.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
+
+#include <v8-local-handle.h>
+#include <v8-object.h>
+
 namespace mediacapture::main {class media_stream_track;}
 
 namespace mediacapture::detail::source_internals
@@ -36,7 +40,7 @@ struct mediacapture::detail::source_internals::media_stream_track_source
 {
     using source_type = T;
     ext::function<void(main::media_stream_track*)> source_specific_construction_steps;
-    ext::function<void(media_stream_track_source&, ext::set<main::media_stream_track*>)> source_specific_cloning_steps;
+    ext::function<void(main::media_stream_track*, main::media_stream_track*)> source_specific_cloning_steps;
 
     ext::string label;
     ext::boolean muted;
