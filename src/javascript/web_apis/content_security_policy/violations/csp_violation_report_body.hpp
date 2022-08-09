@@ -9,6 +9,9 @@ namespace content_security_policy::violations {class csp_violation_report_body;}
 class content_security_policy::violations::csp_violation_report_body
         : reporting::report_body
 {
+public constructors:
+    DOM_CTORS(csp_violation_report_body);
+
 public js_properties:
     ext::property<ext::string> document_url;
     ext::property<ext::string> referrer;

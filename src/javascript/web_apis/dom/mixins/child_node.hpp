@@ -11,6 +11,7 @@ class dom::mixins::child_node
         : public virtual dom_object
 {
 public constructors:
+    using dom_object::dom_object;
     child_node();
 
 public js_methods:

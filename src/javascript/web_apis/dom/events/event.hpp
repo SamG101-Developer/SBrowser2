@@ -22,14 +22,15 @@ public: friends
     friend class nodes::event_target;
 
 public: constructors
+    DOM_CTORS(event);
     event() = default;
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public: js_static_constants
-    static constexpr unsigned short NONE            = 0;
+    static constexpr unsigned short NONE = 0;
     static constexpr unsigned short CAPTURING_PHASE = 1;
-    static constexpr unsigned short AT_TARGET       = 2;
-    static constexpr unsigned short BUBBLING_PHASE  = 3;
+    static constexpr unsigned short AT_TARGET = 2;
+    static constexpr unsigned short BUBBLING_PHASE = 3;
 
 public: js_methods
     auto stop_propagation() -> void;
@@ -53,18 +54,18 @@ public: js_properties
     ext::property<ext::boolean> is_trusted;
 
     ext::property<std::unique_ptr<touch_targets_t>> touch_targets;
-    ext::property<std::unique_ptr<path_t         >> path;
+    ext::property<std::unique_ptr<path_t>> path;
 
 public: cpp_methods
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private: cpp_properties
-    bool m_stop_propagation_flag           = false;
+    bool m_stop_propagation_flag = false;
     bool m_stop_immediate_propagation_flag = false;
-    bool m_canceled_flag                   = false;
-    bool m_in_passive_listener_flag        = false;
-    bool m_initialized_flag                = true;
-    bool m_dispatch_flag                   = false;
+    bool m_canceled_flag = false;
+    bool m_in_passive_listener_flag = false;
+    bool m_initialized_flag = true;
+    bool m_dispatch_flag = false;
 };
 
 

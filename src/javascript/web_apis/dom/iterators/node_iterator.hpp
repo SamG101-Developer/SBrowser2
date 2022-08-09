@@ -13,6 +13,7 @@ class dom::node_iterators::node_iterator
         : public abstract_iterator
 {
 public constructors:
+    DOM_CTORS(node_iterator);
     node_iterator();
 
 public js_methods:

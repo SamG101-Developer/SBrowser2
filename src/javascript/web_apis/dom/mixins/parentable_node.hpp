@@ -16,6 +16,7 @@ class dom::mixins::parentable_node
         : public virtual dom_object
 {
 public constructors:
+    DOM_CTORS(parentable_node);
     parentable_node();
 
 public js_methods:

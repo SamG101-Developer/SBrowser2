@@ -10,7 +10,8 @@ class dom::mixins::document_or_shadow_root
         : public virtual dom_object
 {
 public constructors:
-    document_or_shadow_root();
+    DOM_CTORS(document_or_shadow_root);
+    document_or_shadow_root() = default;
 
 public js_properties:
     /* HTML */

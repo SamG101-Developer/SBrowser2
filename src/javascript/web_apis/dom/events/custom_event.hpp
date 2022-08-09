@@ -9,6 +9,7 @@ class dom::events::custom_event final
         : public event
 {
 public constructors:
+    DOM_CTORS(custom_event);
     custom_event() = default;
     custom_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 

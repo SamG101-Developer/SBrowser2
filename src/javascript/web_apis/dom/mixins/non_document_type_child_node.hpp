@@ -11,6 +11,7 @@ class dom::mixins::non_document_type_child_node
         : public virtual dom_object
 {
 public constructors:
+    DOM_CTORS(non_document_type_child_node);
     non_document_type_child_node();
 
 public js_properties:

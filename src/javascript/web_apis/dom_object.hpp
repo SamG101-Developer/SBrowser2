@@ -18,16 +18,18 @@ namespace dom::nodes {class node;}
 
 #define behaviour_method(...) ext::function<void(__VA_ARGS__)>
 
+#define DOM_CTORS(type) \
+    DISALLOW_COPY(type); \
+    ALLOW_MOVE(type)
+
 
 class dom_object
 {
 public constructors:
     dom_object() = default;
-    dom_object(const dom_object&) = default;
-    dom_object(dom_object&&) noexcept = default;
-    auto operator=(const dom_object&) -> dom_object& = default;
-    auto operator=(dom_object&&) noexcept -> dom_object& = default;
     virtual ~dom_object() = default;
+
+    DOM_CTORS(dom_object);
 
 public cpp_methods:
     virtual auto to_v8(v8::Isolate* isolate) const && -> ext::any = 0;

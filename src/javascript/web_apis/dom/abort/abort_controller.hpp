@@ -11,6 +11,7 @@ class dom::abort::abort_controller
         : public virtual dom_object
 {
 public constructors:
+    DOM_CTORS(abort_controller);
     abort_controller();
 
 public js_methods:

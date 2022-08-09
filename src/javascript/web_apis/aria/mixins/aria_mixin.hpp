@@ -11,6 +11,9 @@ namespace dom::nodes {class element;}
 class aria::mixins::aria_mixin
         : public virtual dom_object
 {
+public constructors:
+    DOM_CTORS(aria_mixin);
+
 public js_properties:
     ext::property<ext::string> role;
     ext::property<ext::string> aria_atomic;

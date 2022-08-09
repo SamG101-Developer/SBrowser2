@@ -7,7 +7,7 @@ namespace reporting {class report_body;}
 
 
 class reporting::report_body
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public js_methods:
     auto to_json() const -> ext::string override;

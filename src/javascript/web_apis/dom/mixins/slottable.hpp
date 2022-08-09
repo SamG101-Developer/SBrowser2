@@ -14,6 +14,7 @@ public friends:
     friend class html::elements::html_slot_element;
 
 public constructors:
+    DOM_CTORS(slottable);
     slottable();
 
 public js_properties:

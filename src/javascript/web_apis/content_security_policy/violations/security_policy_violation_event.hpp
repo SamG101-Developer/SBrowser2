@@ -12,8 +12,9 @@ class content_security_policy::violations::security_policy_violation_event
         , public csp_violation_report_body
 {
 public constructors:
+    DOM_CTORS(security_policy_violation_event);
     security_policy_violation_event() = default;
-    security_policy_violation_event(ext::string_view event_type, ext::string_any_map_view event_init = {});
+    security_policy_violation_event(ext::string_view event_type, ext::map<ext::string, ext::any> event_init = {});
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

@@ -13,6 +13,7 @@ class dom::node_iterators::abstract_iterator
         : public virtual dom_object
 {
 public constructors:
+    DOM_CTORS(abstract_iterator);
     abstract_iterator();
 
 public js_properties:

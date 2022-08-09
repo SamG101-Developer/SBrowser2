@@ -25,6 +25,7 @@ public friends:
     friend auto detail::aborting_internals::follow_signal(abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;
 
 public constructors:
+    DOM_CTORS(abort_signal);
     abort_signal();
 
 public js_methods:

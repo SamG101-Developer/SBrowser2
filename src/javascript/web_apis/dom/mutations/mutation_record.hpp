@@ -11,6 +11,7 @@ class dom::mutations::mutation_record
         : public virtual dom_object
 {
 public constructors:
+    DOM_CTORS(mutation_record);
     mutation_record() = default;
 
 public js_properties:

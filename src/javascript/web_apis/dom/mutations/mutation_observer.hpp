@@ -18,6 +18,7 @@ public aliases:
     using mutation_callback_t = ext::function<void(const ext::vector<mutation_record*>&, mutation_observer*)>;
 
 public constructors:
+    DOM_CTORS(mutation_observer);
     mutation_observer() = default;
     mutation_observer(mutation_callback_t&& callback);
 

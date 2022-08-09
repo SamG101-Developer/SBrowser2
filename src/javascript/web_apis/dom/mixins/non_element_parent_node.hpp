@@ -10,6 +10,9 @@ namespace dom::nodes {class element;}
 class dom::mixins::non_element_parent_node
         : public virtual dom_object
 {
+public constructors:
+    DOM_CTORS(non_element_parent_node);
+
 public js_methods:
     auto get_element_by_id(ext::string_view id) -> nodes::element*;
 

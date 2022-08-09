@@ -18,16 +18,15 @@ class dom::nodes::event_target
         : public virtual dom_object
 {
 private aliases:
-    // TODO : parameters optional (in v8::Function conversion?)
-    using event_listener_callback_t = ext::function<void(ext::string, events::event*)>;
+    using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
 
 public constructors:
+    DOM_CTORS(event_target);
     event_target() = default;
-    ~event_target() override {m_event_listeners.clear();};
 
 public js_methods:
     auto    add_event_listener(ext::string&& type, event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
-    auto remove_event_listener(ext::string&& e, event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
+    auto remove_event_listener(ext::string&& type, event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
     auto dispatch_event(events::event* event) -> ext::boolean;
 
 public cpp_methods:

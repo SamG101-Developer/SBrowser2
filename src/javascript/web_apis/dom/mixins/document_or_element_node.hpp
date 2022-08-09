@@ -12,6 +12,9 @@ namespace dom::nodes {class element;}
 class dom::mixins::document_or_element_node
         : public virtual dom_object
 {
+public constructors:
+    DOM_CTORS(document_or_element_node);
+
 public js_methods:
     [[nodiscard]] auto get_elements_by_class_name(ext::string_view class_names) const -> ranges::any_view<nodes::element*>;
     [[nodiscard]] auto get_elements_by_tag_name(ext::string_view qualified_name) const -> ranges::any_view<nodes::element*>;

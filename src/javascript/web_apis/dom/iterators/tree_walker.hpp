@@ -10,6 +10,7 @@ class dom::node_iterators::tree_walker
         : public abstract_iterator
 {
 public constructors:
+    DOM_CTORS(tree_walker);
     tree_walker();
 
 public js_methods:
