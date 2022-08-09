@@ -30,8 +30,18 @@ auto cross_cast(auto* pointer) -> T
 }
 
 
+_EXT_END
+
+
 template <typename T>
 auto dom_cast(dom_object* pointer) -> T
+{
+    return dynamic_cast<T>(pointer);
+}
+
+
+template <typename T>
+auto dom_cast(const dom_object* pointer) -> T
 {
     return dynamic_cast<T>(pointer);
 }
@@ -40,17 +50,29 @@ auto dom_cast(dom_object* pointer) -> T
 template <typename ...Ts>
 auto dom_multi_cast(dom_object* pointer) -> bool
 {
-    return multi_cast<Ts...>(pointer);
+    return _EXT multi_cast<Ts...>(pointer);
+}
+
+
+template <typename ...Ts>
+auto dom_multi_cast(const dom_object* pointer) -> bool
+{
+    return _EXT multi_cast<Ts...>(pointer);
 }
 
 
 template <typename T>
 auto dom_cross_cast(dom_object* pointer) -> T
 {
-    return cross_cast<T>(pointer);
+    return _EXT cross_cast<T>(pointer);
 }
 
-_EXT_END
+
+template <typename T>
+auto dom_cross_cast(const dom_object* pointer) -> T
+{
+    return _EXT cross_cast<T>(pointer);
+}
 
 
 #endif //SBROWSER2_CASTING_HPP
