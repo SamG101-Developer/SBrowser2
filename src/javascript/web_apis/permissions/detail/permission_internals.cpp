@@ -18,13 +18,13 @@ auto permissions::detail::permission_internals::get_current_permission_state(
 {
     // create a mock 'permissions_descriptor' dictionary, with the "name" set the 'name' parameter. return the
     // permission state for this 'permissions_descriptor', and the settings object
-    ext::map<ext::string, ext::any> permissions_descriptor {{"name", std::move(name)}};
+    permissions_descriptor_t permissions_descriptor {{"name", std::move(name)}};
     return permission_state(std::move(permissions_descriptor), environment_settings_object);
 }
 
 
 auto permissions::detail::permission_internals::permission_state(
-        ext::map<ext::string, ext::any>&& permission_descriptor,
+        permissions_descriptor_t&& permission_descriptor,
         ext::optional<v8::Local<v8::Object>> environment_settings_object)
         -> permission_state_t
 {
@@ -38,7 +38,7 @@ auto permissions::detail::permission_internals::permission_state(
     // get the feature (permission whose state is to be determined) from the 'permission_descriptor' map, and convert
     // it to the enum value from the 'permissions_policy' api
     using permissions_policy::detail::feature_t;
-    auto feature_string = permission_descriptor.at("name").to<ext::string>();
+    auto feature_string = permission_descriptor.at("name").to<powerful_feature_t>().name;
     auto feature = magic_enum::enum_cast<feature_t>(std::move(feature_string));
 
     // if the feature exists, and the current global object has an associated document, then if teh document isn't
@@ -55,19 +55,26 @@ auto permissions::detail::permission_internals::permission_state(
 
 
 auto permissions::detail::permission_internals::request_permission_to_use(
-        ext::map<ext::string, ext::any>&& permission_descriptor)
+        permissions_descriptor_t&& permission_descriptor)
         -> permission_state_t
 {
+    // get the current permission state of the 'permission_descriptor'; if it isn't PROMPT, then the permission has
+    // already been GRANTED / DENIED, so return, otherwise return the vlaue tat is returned from a user interaction with
+    // the popup that is generated
     auto current_state = permission_state(std::move(permission_descriptor), ext::nullopt);
     return_if(current_state != permission_state_t::PROMPT) current_state;
-    return_if(gui::javascript_interop::permission_request_popup(permission_descriptor.at("name").to<ext::string>())) permission_state_t::GRANTED;
+    return_if(gui::javascript_interop::permission_request_popup(permission_descriptor.at("name").to<powerful_feature_t>().name)) permission_state_t::GRANTED;
     return permission_state_t::DENIED;
 }
 
 
-permissions::detail::permission_internals::powerful_feature_t::powerful_feature_t()
+auto permissions::detail::permission_internals::default_permission_query_algorithm(
+        permissions::detail::permissions_descriptor_t&& permission_descriptor,
+        permissions::detail::permissions_result_t* status) -> void
 {
-    permission_query_algorithm =
-            [](permissions_descriptor_type&& permission_descriptor, permissions_result_type* status) mutable
-            {status->state = (ext::string)magic_enum::enum_name(permission_state(std::move(permission_descriptor), ext::nullopt));};
+    // get the permission state of the 'permission_descriptor', and set the state of the PermissionStatus object to the
+    // permission state
+    auto state = permission_state(std::move(permission_descriptor), ext::nullopt);
+    auto state_string = magic_enum::enum_name(state);
+    status->state = (ext::string)state_string;
 }
