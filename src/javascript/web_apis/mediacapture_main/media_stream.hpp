@@ -23,9 +23,9 @@ public js_properties:
     ext::property<ext::string> id;
 
 public js_methods:
-    _EXT_NODISCARD auto get_tracks() const -> ranges::any_view<media_stream_track*>;
-    _EXT_NODISCARD auto get_audio_tracks() const -> ranges::any_view<media_stream_track*>;
-    _EXT_NODISCARD auto get_video_tracks() const -> ranges::any_view<media_stream_track*>;
+    _EXT_NODISCARD auto get_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;
+    _EXT_NODISCARD auto get_audio_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;
+    _EXT_NODISCARD auto get_video_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;
 
     _EXT_NODISCARD auto get_track_by_id(ext::string_view track_id) const -> media_stream_track*;
     auto add_track(media_stream_track* track) -> void;
