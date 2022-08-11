@@ -31,13 +31,13 @@ public constructors:
             , fixed_size(0)
     {};
 
-    view(iterator* begin, iterator* end)
+    view(const iterator begin, const iterator end)
             : fixed_begin{begin}
             , fixed_end{end}
             , fixed_size{std::distance(begin, end)}
     {}
 
-    view(iterator* begin, size_type size)
+    view(const iterator begin, size_type size)
             : fixed_begin{begin}
             , fixed_end{std::next(begin, size)}
             , fixed_size{size}
@@ -70,6 +70,8 @@ public cpp_methods:
     auto last(size_type count) -> view<iterator> {return view{std::prev(fixed_end, count), count};}
     auto subspan() -> view<iterator> {return view{fixed_begin, fixed_end};}
     auto subspan(size_type offset, size_type count) {return view{std::next(fixed_begin, offset), count};}
+
+    auto at(size_type where) -> element_type {return *std::next(fixed_begin, where);}
 
 private cpp_properties:
     const iterator fixed_begin;
