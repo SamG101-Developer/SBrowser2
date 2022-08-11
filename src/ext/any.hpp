@@ -43,6 +43,7 @@ public cpp_methods:
     [[nodiscard]] auto is_empty() const -> boolean;
     [[nodiscard]] auto has_value() const -> boolean;
     template <typename T> auto to() const -> T;
+    template <typename T> auto try_to() const -> ext::boolean;
 
 public cpp_operators:
     auto operator==(const any& other) const -> bool;
@@ -118,6 +119,22 @@ template <typename T>
 auto any::to() const -> T
 {
     return std::any_cast<T>(internal_any);
+}
+
+
+template <typename T>
+auto any::try_to() const -> ext::boolean
+{
+    try
+    {
+        auto try_cast = to<T>();
+        static_cast<void>(try_cast);
+        return ext::boolean::TRUE_();
+    }
+    catch (const std::bad_any_cast& exception)
+    {
+        return ext::boolean::FALSE_();
+    }
 }
 
 
