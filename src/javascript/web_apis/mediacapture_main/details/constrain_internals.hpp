@@ -4,7 +4,9 @@
 
 #include "ext/any.hpp"
 #include "ext/map.hpp"
+#include "ext/set.hpp"
 #include "ext/string.hpp"
+#include "ext/vector.hpp"
 #include <future>
 namespace mediacapture::main::mixins {class constrainable;}
 
@@ -29,6 +31,16 @@ namespace mediacapture::detail::constrain_internals
             main::mixins::constrainable* object,
             ext::map<ext::string, ext::any>&& new_constrains)
             -> ext::map<ext::string, ext::any>;
+
+    auto get_user_media_specific_failure_allowed(
+            ext::vector<ext::string>&&)
+            -> ext::boolean;
+
+    const ext::set<ext::string> allowed_constraints
+    {
+        "width", "height", "aspect_ratio", "frame_rate", "facing_mode", "resize_mode", "sample_rate", "sample_size",
+        "echo_cancellation", "auto_gain_control", "noise_suppression", "latency", "channel_count", "device_id", "group"
+    };
 };
 
 
