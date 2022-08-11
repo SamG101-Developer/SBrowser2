@@ -19,6 +19,9 @@ auto ui_events::wheel_event::to_v8(
     return v8pp::class_<wheel_event>{isolate}
             .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
             .inherit<mouse_event>()
+            .static_("DOM_DELTA_PIXEL", wheel_event::DOM_DELTA_PIXEL, true)
+            .static_("DOM_DELTA_LINE", wheel_event::DOM_DELTA_LINE, true)
+            .static_("DOM_DELTA_PAGE", wheel_event::DOM_DELTA_PAGE, true)
             .var("deltaX", &wheel_event::delta_x, true)
             .var("deltaY", &wheel_event::delta_y, true)
             .var("deltaZ", &wheel_event::delta_z, true)
