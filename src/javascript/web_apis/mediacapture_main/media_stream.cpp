@@ -1,5 +1,6 @@
 #include "media_stream.hpp"
 
+#include "ext/functional.hpp"
 #include "ext/uuid.hpp"
 #include "ext/ranges.hpp"
 
@@ -8,6 +9,8 @@
 #include <range/v3/action/remove.hpp>
 #include <range/v3/view/any_view.hpp>
 
+
+using namespace std::string_literals;
 
 mediacapture::main::media_stream::media_stream()
         : m_track_set{}
@@ -19,7 +22,9 @@ mediacapture::main::media_stream::media_stream(
         mediacapture::main::media_stream* stream)
         : media_stream{}
 {
-    // set the track set to the track set of the MediaStream parameter
+    // set the track set to the track set of the MediaStream parameter - this is a modified copy constructor that takes
+    // a pointer (all DomObjects are used as pointers, but saved on created on the stack), and copies the track set into
+    // this MediaStream object
     m_track_set = stream->m_track_set;
 }
 
@@ -28,7 +33,8 @@ mediacapture::main::media_stream::media_stream(
         ext::vector<media_stream_track*>&& tracks)
         : media_stream{}
 {
-    // set the track set to the track set parameter
+    // set the track set to the 'track' parameter - the parameter is a vector, but the iterators are moved into the set
+    // being stored by this MediaStream object
     m_track_set = ext::set<media_stream_track*>{
         std::make_move_iterator(tracks.begin()),
         std::make_move_iterator(tracks.end())};
@@ -36,30 +42,32 @@ mediacapture::main::media_stream::media_stream(
 
 
 auto mediacapture::main::media_stream::get_tracks()
-        const -> ranges::any_view<media_stream_track*>
+        const -> ranges::any_view<media_stream_track*, ranges::category::forward>
 {
     // return a live range to the track set
-    return ranges::any_view<media_stream_track*>{m_track_set};
+    return ranges::any_view<media_stream_track*, ranges::category::forward>{m_track_set};
 }
 
 
 auto mediacapture::main::media_stream::get_audio_tracks()
-        const -> ranges::any_view<media_stream_track*>
+        const -> ranges::any_view<media_stream_track*, ranges::category::forward>
 {
-    // return live range of the track set whose kind is "audio"
+    // return live range of the track set whose kind is "audio" (the predicate formula is to `invoke` the property to
+    // get its value)
     using enum ranges::views::filter_compare_t;
     return m_track_set
-            | ranges::views::filter_eq<EQ>(&media_stream_track::kind, "audio");
+            | ranges::views::filter_eq<EQ>(&media_stream_track::kind, "audio"s, ext::invoke{});
 }
 
 
 auto mediacapture::main::media_stream::get_video_tracks()
-        const -> ranges::any_view<media_stream_track*>
+        const -> ranges::any_view<media_stream_track*, ranges::category::forward>
 {
-    // return live range of the track set whose kind is "video"
+    // return live range of the track set whose kind is "video" (the predicate formula is to `invoke` the property to
+    // get its value)
     using enum ranges::views::filter_compare_t;
     return m_track_set
-            | ranges::views::filter_eq<EQ>(&media_stream_track::kind, "video");
+            | ranges::views::filter_eq<EQ>(&media_stream_track::kind, "video"s, ext::invoke{});
 }
 
 
@@ -71,9 +79,9 @@ auto mediacapture::main::media_stream::get_track_by_id(
     // tracks, then a nullptr is returned, mapping to a Null object in JavaScript
     using enum ranges::views::filter_compare_t;
     auto matching_tracks = m_track_set
-            | ranges::views::filter_eq<EQ>(&media_stream_track::id, track_id);
+            | ranges::views::filter_eq<EQ>(&media_stream_track::id, track_id, ext::invoke{});
 
-    return matching_tracks.begin();
+    return matching_tracks.front();
 }
 
 
