@@ -5,7 +5,7 @@
 #include "ext/view.hpp"
 #include <tsl/robin_map.h>
 
-#define map_view_iterator typename _EXT map<K, V>::iterator
+#define map_view_iterator typename map<K, V>::iterator
 
 
 _EXT_BEGIN
