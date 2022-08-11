@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_MEDIA_DEVICES_HPP
 #define SBROWSER2_MEDIA_DEVICES_HPP
 
-#include "dom_object.hpp"
+#include "dom/nodes/event_target.hpp"
 namespace mediacapture::main {class media_devices;}
 
 #include "ext/any.hpp"
@@ -15,7 +15,7 @@ namespace mediacapture::main {class media_stream;}
 
 
 class mediacapture::main::media_devices
-        : public virtual dom_object
+        : public dom::nodes::event_target
 {
 public js_methods:
     auto enumerate_devices() -> std::promise<ext::vector<media_device_info*>>;
