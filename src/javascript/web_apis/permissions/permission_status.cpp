@@ -15,7 +15,7 @@ permissions::permission_status::permission_status()
 
 
 permissions::permission_status::permission_status(
-        ext::map<ext::string, ext::any>&& permission_descriptor)
+        detail::permissions_descriptor_t&& permission_descriptor)
 {
     using permissions_policy::detail::feature_t;
 
