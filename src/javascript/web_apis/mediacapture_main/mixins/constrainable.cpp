@@ -36,7 +36,7 @@ auto mediacapture::main::mixins::constrainable::get_settings()
     return base->ready_state() == "ended"
             ? ext::map<ext::string, ext::any>{
                 {"deviceId", base->device_id()},
-                {"facingMode", base->facing_mode},
+                {"facingMode", base->facing_mode()},
                 {"groupId", base->group_id()}}
             : s_settings;
 }
