@@ -5,9 +5,11 @@
 
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
+#include "ext/functional.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 
+#include <functional>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/action.hpp>
 #include <range/v3/action/remove.hpp>
@@ -31,6 +33,7 @@ namespace ranges::views {struct uppercase_fn;}
 namespace ranges::views {struct split_string_fn;}
 namespace ranges::views {struct take_until_fn;}
 namespace ranges::views {struct drop_until_fn;}
+namespace ranges::views {struct transform_to_attr_fn;}
 namespace ranges::views {struct transform_if_fn;}
 namespace ranges::views {template <typename T> struct cast_all_to_fn;}
 namespace ranges::views {template <filter_compare_t Comparison> struct filter_eq_fn;}
@@ -111,6 +114,21 @@ struct ranges::views::drop_until_fn
 };
 
 
+struct ranges::views::transform_to_attr_fn
+{
+    template <typename T>
+    constexpr auto operator()(T&& attribute) const
+    {
+        // transform a container of objects into an attribute belonging to that object - syntactic sugar for
+        //      ranges::views::transform(nodes, [](dom::nodes::node* node) {return node->text_content();})
+        //      ranges::views::transform_to_attr(nodes, &node::text_content);
+        return ranges::views::transform(
+                [attribute = std::forward<T>(attribute)]<typename U>
+                (U&& element) {return std::mem_fn(std::forward<const T>(attribute))(std::forward<U>(element))();});
+    }
+};
+
+
 struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'transform(...)' call
 {
     template <typename F0, typename F1>
@@ -152,36 +170,36 @@ template <ranges::views::filter_compare_t Comparison>
 struct ranges::views::filter_eq_fn
 {
     // TODO : make sure that T is an attribute of V below? (does this static check already exist?)
-    template <typename T, typename U>
-    constexpr auto operator()(T&& attribute, U&& value) const
+    template <typename T, typename U, typename F>
+    constexpr auto operator()(T&& attribute, U&& value, F&& predicate = _EXT identity{}) const
     {
         // a filter that allows for comparison of an attribute or method call from each object in the range; for
         // example, the first line is simplified into the second line (syntactic sugar)
         //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;}
         //      elements = node->children() | ranges::views::filter_eq(&node::node_type, node::ELEMENT_NODE);
         constexpr_return_if(Comparison == EQ) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
-                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) == std::forward<U>(value);});
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) == std::forward<U>(value);});
 
         else constexpr_return_if(Comparison == NE) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
-                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) != std::forward<U>(value);});
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) != std::forward<U>(value);});
 
         else constexpr_return_if(Comparison == LT) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
-                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) < std::forward<U>(value);});
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) < std::forward<U>(value);});
 
         else constexpr_return_if(Comparison == LE) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
-                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) <= std::forward<U>(value);});
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) <= std::forward<U>(value);});
 
         else constexpr_return_if(Comparison == GT) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
-                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) > std::forward<U>(value);});
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) > std::forward<U>(value);});
 
         else constexpr_return_if(Comparison == GE) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value)]<typename V>
-                (V&& candidate) {return std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate)) >= std::forward<U>(value);});
+                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) >= std::forward<U>(value);});
     }
 };
 
@@ -291,6 +309,7 @@ namespace ranges::views {constexpr lowercase_fn lowercase;}
 namespace ranges::views {constexpr uppercase_fn uppercase;}
 namespace ranges::views {constexpr take_until_fn take_until;}
 namespace ranges::views {constexpr drop_until_fn drop_until;}
+namespace ranges::views {constexpr transform_to_attr_fn transform_to_attr;}
 namespace ranges::views {constexpr transform_if_fn transform_if;}
 namespace ranges::views {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
 namespace ranges::views {template <filter_compare_t Comparison> constexpr filter_eq_fn<Comparison> filter_eq;}
