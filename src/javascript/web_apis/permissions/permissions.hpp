@@ -5,6 +5,8 @@
 #include "dom_object.hpp"
 namespace permissions {class permission;}
 
+#include "_typedefs.hpp"
+#include "ext/map.hpp"
 #include <future>
 namespace permissions {class permission_status;}
 
@@ -13,7 +15,7 @@ class permissions::permission
         : public virtual dom_object
 {
 public js_properties:
-    auto query(dom_object* permission_description) -> ext::property<std::promise<permission_status*>>;
+    auto query(detail::permissions_descriptor_t&& permission_descriptor) -> std::promise<permission_status*>;
 };
 
 
