@@ -1,5 +1,7 @@
 #include "html_image_element.hpp"
 
+#include "ext/threading.hpp"
+
 #include "javascript/environment/reflection.hpp"
 
 #include "dom/detail/exception_internals.hpp"
@@ -9,8 +11,6 @@
 
 #include "html/detail/image_internals.hpp"
 #include "html/detail/miscellaneous_internals.hpp"
-
-#include <BS_thread_pool.hpp>
 
 
 html::elements::html_image_element::html_image_element()
@@ -58,7 +58,7 @@ auto html::elements::html_image_element::decode()
         {
             // run the loop (which can wait for a bit of time) in a separate thread - this is because the waiting
             // process would otherwise block the main thread
-            BS::thread_pool pool;
+            ext::thread_pool pool {10};
             pool.push_task([this, &promise]
             {
                 // save the data of the image, so that the loop can check if the current requests image data has
