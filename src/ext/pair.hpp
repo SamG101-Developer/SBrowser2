@@ -20,15 +20,33 @@ constexpr auto make_pair(Key&& key, Val&& val)
             >{std::forward<Key>(key), std::forward<Val>(val)};
 }
 
-auto pair_key_matches = []<typename T, typename U>(const pair<T, U>& pair, T&& key) -> ext::boolean
+struct pair_key_matches
 {
-    return pair.first == std::forward<T>(key);
+    template <typename T, typename U>
+    constexpr auto operator()(const pair<T, U>& pair, T&& key) const -> ext::boolean
+    {
+        return pair.first == std::forward<T>(key);
+    }
 };
 
 
-auto pair_val_matches = []<typename T, typename U>(const pair<T, U>& pair, U&& val) -> ext::boolean
+struct pair_val_matches
 {
-    return pair.second == std::forward<U>(val);
+    template <typename T, typename U>
+    constexpr auto operator()(const pair<T, U>& pair, U&& val) const -> ext::boolean
+    {
+        return pair.second == std::forward<U>(val);
+    }
+};
+
+
+struct identity_pair
+{
+    template <typename T, typename U>
+    constexpr auto operator()(const pair<T, U>& pair) const -> ext::boolean
+    {
+        return pair.first == pair.second;
+    }
 };
 
 _EXT_END
