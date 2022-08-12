@@ -1,13 +1,19 @@
 #ifndef SBROWSER2_SRC_EXT_STACK_HPP
 #define SBROWSER2_SRC_EXT_STACK_HPP
 
+#include "ext/vector.hpp"
 #include "ext/view.hpp"
+#include <stack>
 #include <plf_stack.h>
 
 
 _EXT_BEGIN
 
-using namespace plf;
+//using namespace plf;
+
+template <typename T, typename C = vector<T>>
+using stack = std::stack<T, C>;
+
 
 #define stack_view_iterator typename stack<T>::pointer
 
