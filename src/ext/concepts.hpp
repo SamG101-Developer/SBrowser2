@@ -14,7 +14,7 @@ concept inherit_template = requires(Derived object)
 
 
 // check if a class is a base of another class
-template <typename Base, typename Derived>
+template <typename Derived, typename Base>
 concept inherit = requires
 {
     requires std::is_base_of_v<Base, Derived>;
