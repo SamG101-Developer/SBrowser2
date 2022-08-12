@@ -15,9 +15,13 @@ public constructors:
     input_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_properties:
+    /* UI_EVENTS */
     ext::property<ext::string> data;
     ext::property<ext::string> input_type;
     ext::property<ext::boolean> is_composing;
+
+    /* INPUT_EVENTS */
+    // TODO
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
