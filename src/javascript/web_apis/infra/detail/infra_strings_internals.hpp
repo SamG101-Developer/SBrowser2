@@ -49,6 +49,26 @@ namespace infra::detail::infra_string_internals
             type_is<char> auto&&... code_points)
             -> ext::string;
 
+    auto is_code_unit_prefix(
+            ext::string_view potential_prefix,
+            ext::string_view string)
+            -> ext::boolean;
+
+    auto is_code_unit_suffix(
+            ext::string_view potential_suffix,
+            ext::string_view string)
+            -> ext::boolean;
+
+    auto is_code_unit_substring(
+            ext::string_view potential_substring,
+            ext::string_view string)
+            -> ext::boolean;
+
+    auto is_code_unit_less_than(
+            ext::string_view string0,
+            ext::string_view string1)
+            -> ext::boolean;
+
     struct byte_less_than_fn
     {
         constexpr auto operator()(ext::string_view a, ext::string_view b) const -> ext::boolean
