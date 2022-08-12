@@ -1,8 +1,9 @@
 #include "event_internals.hpp"
 #include "dom/events/event.hpp"
 
-#include "ext/assert.hpp"
+#include "ext/assertion.hpp"
 #include "ext/functional.hpp"
+#include "ext/hashing.hpp"
 #include "ext/ranges.hpp"
 
 #include "dom/abort/abort_signal.hpp"
@@ -309,7 +310,66 @@ auto dom::detail::event_internals::fire_event(
         ext::map<ext::string, ext::any>&& init)
         -> ext::boolean
 {
+    using namespace std::string_literals;
     // create a new event of type T, setting the event type and options, and then dispatch it to 'target'
+    string_switch(e)
+    {
+        string_case("pointerover"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", true);
+            break;
+
+        string_case("pointerenter"):
+            init.insert_or_assign("bubbles", false);
+            init.insert_or_assign("cancelable", false);
+            break;
+
+        string_case("pointerdown"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", true);
+            break;
+
+        string_case("pointermove"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", true);
+            break;
+
+        string_case("pointerrawupdate"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", false);
+            break;
+
+        string_case("pointerup"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", true);
+            break;
+
+        string_case("pointercancel"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", false);
+            break;
+
+        string_case("pointerout"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", true);
+            break;
+
+        string_case("pointerleave"):
+            init.insert_or_assign("bubbles", false);
+            init.insert_or_assign("cancelable", false);
+            break;
+
+        string_case("gotpointercapture"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", false);
+            break;
+
+        string_case("lostpointercapture"):
+            init.insert_or_assign("bubbles", true);
+            init.insert_or_assign("cancelable", false);
+            break;
+    }
+
     T event {std::move(e), std::move(init)};
     return dispatch(&event, target);
 }
