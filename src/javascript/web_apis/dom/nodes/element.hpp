@@ -15,12 +15,13 @@ namespace dom::nodes {class element;}
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
+using namespace ext::shorthand;
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail::customization_internals {struct custom_element_definition;}
 namespace dom::detail::customization_internals {struct reaction;}
 namespace dom::detail::customization_internals {enum custom_element_state_t;}
-namespace dom::detail::customization_internals {auto create_an_element(nodes::document*, sv, sv, sv, sv, bv) -> nodes::element*;}
+namespace dom::detail::customization_internals {auto create_an_element(nodes::document*, sv, sv, sv, sv, bv) -> nodes::element;}
 namespace dom::detail::customization_internals {auto upgrade_element(custom_element_definition*, nodes::element*) -> void;}
 namespace html::detail::context_internals {struct browsing_context;}
 
@@ -38,7 +39,7 @@ public friends:
     friend auto dom::detail::customization_internals::create_an_element(
             nodes::document* document, ext::string_view local_name, ext::string_view namespace_,
             ext::string_view prefix, ext::string_view is, ext::boolean_view synchronous_custom_elements_flag)
-            -> nodes::element*;
+            -> nodes::element;
 
     friend auto dom::detail::customization_internals::upgrade_element(
             detail::customization_internals::custom_element_definition* definition, nodes::element* element)
@@ -49,6 +50,7 @@ public constructors:
     ~element() override;
 
 public js_methods:
+    /* DOM */
     [[nodiscard]] auto has_attributes() const -> ext::boolean;
     [[nodiscard]] auto get_attribute_names() const -> ranges::any_view<ext::string>;
 
@@ -80,6 +82,11 @@ public js_methods:
     auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> shadow_root*;
     auto closest(ext::string_view selectors) -> element*;
     auto matches(ext::string_view selectors) -> ext::boolean;
+
+    /* PointerEvents */
+    auto set_pointer_capture(ext::number_view<long> pointer_id) -> void;
+    auto release_pointer_capture(ext::number_view<long> pointer_id) -> void;
+    auto has_pointer_capture(ext::number_view<long> pointer_id) -> ext::boolean;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;
