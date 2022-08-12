@@ -76,7 +76,18 @@ using extend_variant = _extend_variant<Old, New...>;
 template <typename Old, typename ...New>
 using extend_variant_t = typename _extend_variant<Old, New...>::type;
 
+
+// other
+
+template <typename T, typename F = std::less<T>>
+auto three_way_compare(T&& lhs, T&& rhs, F&& lt_predicate = std::less<T>{}) -> ext::boolean
+{
+    if (lhs == rhs) return 0;
+    return lt_predicate(std::forward<T>(lhs), std::forward<T>(rhs)) ? -1 : 1;
+}
+
 _EXT_END
+
 
 
 // std::hash implementations
