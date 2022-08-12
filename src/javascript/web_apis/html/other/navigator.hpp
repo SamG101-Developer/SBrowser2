@@ -32,6 +32,9 @@ public js_properties:
     /* PERMISSIONS */
     ext::property<permissions::permission*> permissions;
 
+    /* POINTER_EVENTS */
+    ext::property<ext::number<long>> max_touch_points;
+
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP
