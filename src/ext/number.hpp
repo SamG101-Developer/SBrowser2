@@ -30,6 +30,7 @@ public constructors:
     number() = default;
     template <typename U> constexpr number(U primitive);
     template <typename U> auto operator=(U primitive) -> number&;
+    ~number() {internal_number = 0;}
 
     template <typename U> explicit number(const number<U>& other);
     template <typename U> explicit number(number<U>&& other) noexcept;
@@ -148,7 +149,7 @@ auto is_between(auto&& value, auto&& lo, auto&& hi) -> boolean
 template <typename T, typename U, typename ...V>
 auto min(T&& value0, U&& value1, V&&... values)
 {
-    if constexpr(sizeof...(values) == 0) return value0 < value1 ? value0 : number{value1};
+    if constexpr(sizeof...(values) == 0) return value0 < value1 ? value0 : number<U>{value1};
     else return min(min(std::forward<T>(value0), std::forward<U>(value1)), std::forward<V>(values)...);
 }
 
@@ -156,7 +157,7 @@ auto min(T&& value0, U&& value1, V&&... values)
 template <typename T, typename U, typename ...V>
 auto max(T&& value0, U&& value1, V&&... values)
 {
-    if constexpr(sizeof...(values) == 0) return value0 > value1 ? value0 : number{value1};
+    if constexpr(sizeof...(values) == 0) return value0 > value1 ? value0 : number<U>{value1};
     else return max(max(std::forward<T>(value0), std::forward<U>(value1)), std::forward<V>(values)...);
 }
 
@@ -170,8 +171,8 @@ auto round(T&& value, U&& multiplier)
 
 auto is_numeric_string(const string& string) -> boolean
 {
-    try {static_cast<void>(std::stod(string)); return boolean::TRUE();}
-    catch_specific (std::invalid_argument) {return boolean::FALSE();}
+    try {static_cast<void>(std::stod(string)); return boolean::TRUE_();}
+    catch_specific (std::invalid_argument) {return boolean::FALSE_();}
 }
 
 
