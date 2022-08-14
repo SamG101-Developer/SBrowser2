@@ -29,8 +29,8 @@ public js_properties:
     ext::property<ext::number<long>> twist;
     ext::property<ext::number<double>> altitude_angle;
     ext::property<ext::number<double>> azimuth_angle;
-    ext::property<ext::number<ext::string>> pointer_type;
-    ext::property<ext::number<ext::boolean>> is_primary;
+    ext::property<ext::string> pointer_type;
+    ext::property<ext::boolean> is_primary;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

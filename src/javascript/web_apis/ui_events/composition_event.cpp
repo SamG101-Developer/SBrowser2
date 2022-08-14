@@ -5,7 +5,7 @@ ui_events::composition_event::composition_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : ui_event(std::move(event_type), std::move(event_init))
-        , data(event_init.try_emplace("data", "").first->second.to<ext::string>())
+        , SET_PROPERTY_FROM_OPTIONS(event_init, data, "")
 {}
 
 

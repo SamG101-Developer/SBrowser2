@@ -7,8 +7,8 @@ ui_events::ui_event::ui_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : dom::events::event(std::move(event_type), std::move(event_init))
-        , view{event_init.try_emplace("view", nullptr).first->second.to<dom::nodes::window*>()}
-        , detail{event_init.try_emplace("detail", 0).first->second.to<ext::number<long>>()}
+        , SET_PROPERTY_FROM_OPTIONS(event_init, view, nullptr)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, detail, 0)
 {}
 
 

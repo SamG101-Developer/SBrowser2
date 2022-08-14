@@ -6,7 +6,7 @@ dom::events::custom_event::custom_event(
         ext::map<ext::string, ext::any>&& event_init)
 
         : event(std::move(event_type), std::move(event_init))
-        , detail(event_init.try_emplace("detail", 0).first->second)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, detail, 0)
 {
     // create a custom event
 }

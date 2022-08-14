@@ -11,18 +11,18 @@ pointer_events::pointer_event::pointer_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : ui_events::mouse_event{std::move(event_type), std::move(event_init)}
-        , pointer_id{event_init.try_emplace("pointerId", 0).first->second.to<ext::number<long>>()}
-        , width{event_init.try_emplace("width", 1).first->second.to<ext::number<double>>()}
-        , height{event_init.try_emplace("height", 1).first->second.to<ext::number<double>>()}
-        , pressure{event_init.try_emplace("pressure", 0).first->second.to<ext::number<float>>()}
-        , tangential_pressure{event_init.try_emplace("tangentialPressure", 0).first->second.to<ext::number<float>>()}
-        , tilt_x{event_init.try_emplace("tiltX").first->second.to<ext::number<long>>()}
-        , tilt_y{event_init.try_emplace("tiltY").first->second.to<ext::number<long>>()}
-        , twist{event_init.try_emplace("twist", 0).first->second.to<ext::number<long>>()}
-        , altitude_angle{event_init.try_emplace("altitudeAngle").first->second.to<ext::number<double>>()}
-        , azimuth_angle{event_init.try_emplace("azimuthAngle").first->second.to<ext::number<double>>()}
-        , pointer_type{event_init.try_emplace("pointerType", "").first->second.to<ext::number<ext::string>>()}
-        , is_primary{event_init.try_emplace("isPrimary", false).first->second.to<ext::number<ext::boolean>>()}
+        , SET_PROPERTY_FROM_OPTIONS(event_init, pointer_id, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, width, 1.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, height, 1.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, pressure, 0.0f)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, tangential_pressure, 0.0f)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, tilt_x, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, tilt_y, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, twist, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, altitude_angle, 0.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, azimuth_angle, 0.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, pointer_type, "")
+        , SET_PROPERTY_FROM_OPTIONS(event_init, is_primary, false)
         , m_coalesced_events{event_init.try_emplace("coalescedEvents").first->second.to<ext::vector<pointer_event*>*>()}
         , m_predicted_events{event_init.try_emplace("predictedEvents").first->second.to<ext::vector<pointer_event*>*>()}
 {

@@ -5,11 +5,11 @@ ui_events::keyboard_event::keyboard_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : mixins::modifier_event{std::move(event_type), std::move(event_init)}
-        , key{event_init.try_emplace("key", "").first->second.to<ext::string>()}
-        , code{event_init.try_emplace("code", "").first->second.to<ext::string>()}
-        , location{event_init.try_emplace("location", 0).first->second.to<ext::number<ulong>>()}
-        , repeat{event_init.try_emplace("repeat", ext::boolean::FALSE_()).first->second.to<ext::boolean>()}
-        , is_composing{event_init.try_emplace("isComposing", ext::boolean::FALSE_()).first->second.to<ext::boolean>()}
+        , SET_PROPERTY_FROM_OPTIONS(event_init, key, "")
+        , SET_PROPERTY_FROM_OPTIONS(event_init, code, "")
+        , SET_PROPERTY_FROM_OPTIONS(event_init, location, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, repeat, false)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, is_composing, false)
 {}
 
 

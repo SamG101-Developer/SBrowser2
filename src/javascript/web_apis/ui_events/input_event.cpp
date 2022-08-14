@@ -7,9 +7,9 @@ ui_events::input_event::input_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : ui_event(std::move(event_type), std::move(event_init))
-        , data{event_init.try_emplace("data", "").first->second.to<ext::string>()}
-        , input_type{event_init.try_emplace("inputType", "").first->second.to<ext::string>()}
-        , is_composing{event_init.try_emplace("isComposing", ext::boolean::FALSE_()).first->second.to<ext::boolean>()}
+        , SET_PROPERTY_FROM_OPTIONS(event_init, data, "")
+        , SET_PROPERTY_FROM_OPTIONS(event_init, input_type, "")
+        , SET_PROPERTY_FROM_OPTIONS(event_init, is_composing, false)
 {}
 
 
