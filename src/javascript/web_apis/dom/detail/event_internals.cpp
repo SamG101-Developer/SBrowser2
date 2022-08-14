@@ -2,6 +2,7 @@
 #include "dom/events/event.hpp"
 
 #include "ext/assertion.hpp"
+#include "ext/concepts.hpp"
 #include "ext/functional.hpp"
 #include "ext/hashing.hpp"
 #include "ext/ranges.hpp"
@@ -12,6 +13,8 @@
 
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
+
+#include "indexed_db/events/idb_version_change_event.hpp"
 
 #include <range/v3/action/remove.hpp>
 #include <range/v3/algorithm/any_of.hpp>
@@ -315,59 +318,65 @@ auto dom::detail::event_internals::fire_event(
     string_switch(e)
     {
         string_case("pointerover"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", true);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", true);
             break;
 
         string_case("pointerenter"):
-            init.insert_or_assign("bubbles", false);
-            init.insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", false);
+            init.template insert_or_assign("cancelable", false);
             break;
 
         string_case("pointerdown"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", true);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", true);
             break;
 
         string_case("pointermove"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", true);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", true);
             break;
 
         string_case("pointerrawupdate"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", false);
             break;
 
         string_case("pointerup"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", true);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", true);
             break;
 
         string_case("pointercancel"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", false);
             break;
 
         string_case("pointerout"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", true);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", true);
             break;
 
         string_case("pointerleave"):
-            init.insert_or_assign("bubbles", false);
-            init.insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", false);
+            init.template insert_or_assign("cancelable", false);
             break;
 
         string_case("gotpointercapture"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", false);
             break;
 
         string_case("lostpointercapture"):
-            init.insert_or_assign("bubbles", true);
-            init.insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", false);
             break;
+    }
+
+    if constexpr (type_is<T, indexed_db::events::idb_version_change_event>)
+    {
+        init.template insert_or_assign("bubbles", false);
+        init.template insert_or_assign("cancelable", false);
     }
 
     T event {std::move(e), std::move(init)};
