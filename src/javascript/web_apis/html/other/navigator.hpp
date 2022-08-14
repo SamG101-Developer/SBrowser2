@@ -2,6 +2,7 @@
 #define SBROWSER2_NAVIGATOR_HPP
 
 #include "dom_object.hpp"
+#include "storage/mixins/navigator_storage.hpp"
 namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
@@ -12,6 +13,8 @@ namespace permissions {class permission;}
 
 
 class html::other::navigator
+        : public virtual dom_object
+        , public storage::mixins::navigator_storage
 {
 private aliases:
     using navigator_user_media_success_callback = ext::function<void(mediacapture::main::media_stream*)>;
