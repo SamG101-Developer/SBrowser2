@@ -14,7 +14,7 @@ namespace html::detail::miscellaneous_internals
             url::url_object& url,
             fetch::detail::request_internals::destination_t destination,
             fetch::detail::request_internals::mode_t cors_attribute_state,
-            ext::boolean&& same_origin_fallback_flag = ext::boolean::FALSE())
+            ext::boolean&& same_origin_fallback_flag = false)
             -> fetch::detail::request_internals::internal_request;
 
     auto parse_url(
