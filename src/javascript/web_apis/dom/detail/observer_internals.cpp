@@ -120,7 +120,7 @@ auto dom::detail::observer_internals::queue_mutation_record(
             // 'interested_observers' map
             auto options = registered->options;
             if (type == ATTRIBUTES && options.try_emplace("attributes").second && (ranges::contains(options.at("attributeFilter").value_to_or<ext::string_vector>({}), name) || namespace_)
-                || node != target && options.try_emplace("subtree", true).first->second.to<ext::boolean>() == ext::boolean::FALSE()
+                || node != target && options.try_emplace("subtree", true).first->second.to<ext::boolean>() == false
                 || type == CHILD_LIST && options.try_emplace("childList", true).first->second.to<ext::boolean>() == ext::boolean::FALSE()
                 || type == ATTRIBUTES && options.try_emplace("attributes", true).first->second.to<ext::boolean>() == ext::boolean::FALSE()
                 || type == CHARACTER_DATA && options.try_emplace("characterData", true).first->second.to<ext::boolean>() == ext::boolean::FALSE())
