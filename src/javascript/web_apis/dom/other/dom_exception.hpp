@@ -17,7 +17,7 @@ public constructors:
 
 public js_properties:
     ext::property<ext::string> message;
-    ext::property<int> type;
+    ext::property<v8_custom_error_t> type;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
