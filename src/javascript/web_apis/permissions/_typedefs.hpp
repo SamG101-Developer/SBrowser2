@@ -1,5 +1,5 @@
-#ifndef SBROWSER2__TYPEDEFS_HPP
-#define SBROWSER2__TYPEDEFS_HPP
+#ifndef SBROWSER2_PERMISSIONS__TYPEDEFS_HPP
+#define SBROWSER2_PERMISSIONS__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
 #include "ext/map.hpp"
@@ -16,4 +16,4 @@ namespace permissions::detail
     using extra_permission_data_t = permission_state_t;
 }
 
-#endif //SBROWSER2__TYPEDEFS_HPP
+#endif //SBROWSER2_PERMISSIONS__TYPEDEFS_HPP
