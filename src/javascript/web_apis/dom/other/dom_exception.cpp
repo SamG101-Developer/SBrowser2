@@ -8,7 +8,7 @@ dom::other::dom_exception::dom_exception(
         v8_custom_error_t type)
 
         : message(std::move(message))
-        , type(std::bit_cast<int>(type))
+        , type(type)
 {
 }
 
