@@ -10,6 +10,8 @@
 
 #include "indexed_db/idb_open_request.hpp"
 #include "indexed_db/detail/algorithm_internals.hpp"
+#include "indexed_db/detail/database_internals.hpp"
+#include "indexed_db/detail/ecma_binding_internals.hpp"
 
 #include "storage/detail/storage_internals.hpp"
 
@@ -164,4 +166,28 @@ auto indexed_db::idb_factory::databases()
 }
 
 
-indexed_db::idb_factory::
+auto indexed_db::idb_factory::cmp(
+        const ext::any& first,
+        const ext::any& second)
+        -> ext::number<short>
+{
+    // create an exception handler, as converting keys to values can throw JavaScript errors
+    JS_EXCEPTION_HANDLER;
+
+    // convert the first argument 'a'
+    auto a = detail::ecma_binding_internals::convert_key_to_value(first.to<detail::any_key_t>());
+    dom::detail::exception_internals::throw_v8_exception_formatted<DATA_ERR>(
+            [&] {JS_EXCEPTION_HAS_THROWN;},
+            "Invalid first argument (not convertible to a value", {}, {},
+            P("First argument", first));
+
+    // convert the second argument 'b'
+    auto b = detail::ecma_binding_internals::convert_key_to_value(second.to<detail::any_key_t>());
+    dom::detail::exception_internals::throw_v8_exception_formatted<DATA_ERR>(
+            [&] {JS_EXCEPTION_HAS_THROWN;},
+            "Invalid second argument (not convertible to a value", {}, {},
+            P("Second argument", second));
+
+    // return a comparison of the two records (containing the key and created value)
+    return detail::database_internals::compare_two_keys(a, b);
+}
