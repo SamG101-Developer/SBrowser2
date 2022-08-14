@@ -7,7 +7,9 @@
 #include "ext/concepts.hpp"
 #include "ext/functional.hpp"
 #include "ext/keywords.hpp"
+#include "ext/map.hpp"
 #include "ext/number.hpp"
+#include "ext/tuple.hpp"
 #include "ext/variant.hpp"
 
 #include <functional>
@@ -118,7 +120,7 @@ struct hash<_STD function<T>> // TODO -> ext::function<T...> once its ready for 
 template <typename ...Ts>
 struct hash<_EXT function<Ts...>>
 {
-    constexpr auto operator()(_EXT function_view<Ts...> value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+    constexpr auto operator()(const _EXT function<Ts...>& value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
 };
 
 
@@ -126,6 +128,20 @@ template <>
 struct hash<_EXT any>
 {
     constexpr auto operator()(_EXT any_view value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+};
+
+
+template <typename K, typename V>
+struct hash<_EXT map<K, V>>
+{
+    constexpr auto operator()(const _EXT map<K, V>& value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+};
+
+
+template <typename ...Ts>
+struct hash<_EXT tuple<Ts...>>
+{
+    constexpr auto operator()(const _EXT tuple<Ts...>& value) const noexcept -> size_t {return 0;} // TODO _STD hash<size_t>{}(&value);}
 };
 
 _STD_END
