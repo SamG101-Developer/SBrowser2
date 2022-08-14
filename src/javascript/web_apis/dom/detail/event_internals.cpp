@@ -1,13 +1,14 @@
 #include "event_internals.hpp"
-#include "dom/events/event.hpp"
 
 #include "ext/assertion.hpp"
 #include "ext/concepts.hpp"
 #include "ext/functional.hpp"
 #include "ext/hashing.hpp"
+#include "ext/keywords.hpp"
 #include "ext/ranges.hpp"
 
 #include "dom/abort/abort_signal.hpp"
+#include "dom/events/event.hpp"
 #include "dom/nodes/shadow_root.hpp"
 #include "dom/nodes/window.hpp"
 
@@ -15,7 +16,10 @@
 #include "dom/detail/tree_internals.hpp"
 
 #include "indexed_db/events/idb_version_change_event.hpp"
+#include "pointer_events/pointer_event.hpp"
+#include "touch_events/touch_event.hpp"
 
+#include <fmt/format.h>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/empty.hpp>
@@ -314,62 +318,86 @@ auto dom::detail::event_internals::fire_event(
         -> ext::boolean
 {
     using namespace std::string_literals;
-    // create a new event of type T, setting the event type and options, and then dispatch it to 'target'
+
     string_switch(e)
     {
         string_case("pointerover"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", true);
-            break;
-
-        string_case("pointerenter"):
-            init.template insert_or_assign("bubbles", false);
-            init.template insert_or_assign("cancelable", false);
-            break;
-
         string_case("pointerdown"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", true);
-            break;
-
         string_case("pointermove"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", true);
-            break;
-
-        string_case("pointerrawupdate"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", false);
-            break;
-
         string_case("pointerup"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", true);
-            break;
-
-        string_case("pointercancel"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", false);
-            break;
-
         string_case("pointerout"):
             init.template insert_or_assign("bubbles", true);
             init.template insert_or_assign("cancelable", true);
             break;
 
+        string_case("pointerenter"):
         string_case("pointerleave"):
+        string_case("load"):
+        string_case("unload"):
+        string_case("abort"):
+        string_case("error"):
             init.template insert_or_assign("bubbles", false);
             init.template insert_or_assign("cancelable", false);
             break;
 
+        string_case("pointerrawupdate"):
+        string_case("pointercancel"):
         string_case("gotpointercapture"):
+        string_case("lostpointercapture"):
+        string_case("select"):
             init.template insert_or_assign("bubbles", true);
             init.template insert_or_assign("cancelable", false);
             break;
 
-        string_case("lostpointercapture"):
+        string_case("touchcancel"):
+            init.template insert_or_assign("cancelable", false);
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("composed", true);
+            break;
+
+        string_case("blur"):
+        string_case("focus"):
+        string_case("mouseenter"):
+        string_case("mouseleave"):
+            init.template insert_or_assign("bubbles", false);
+            init.template insert_or_assign("cancelable", false);
+            init.template insert_or_assign("composed", true);
+            break;
+
+        string_case("focusin"):
+        string_case("focusout"):
+        string_case("input"):
+        string_case("compositionupdate"):
+        string_case("compositionend"):
             init.template insert_or_assign("bubbles", true);
             init.template insert_or_assign("cancelable", false);
+            init.template insert_or_assign("composed", true);
+            break;
+
+        string_case("auxclick"):
+        string_case("click"):
+        string_case("contextmenu"):
+        string_case("dblclick"):
+        string_case("mousedown"):
+        string_case("mousemove"):
+        string_case("mouseout"):
+        string_case("mouseover"):
+        string_case("mouseup"):
+        string_case("beforeinput"):
+        string_case("keydown"):
+        string_case("keyup"):
+        string_case("compositionstart"):
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("cancelable", true);
+            init.template insert_or_assign("composed", true);
+            break;
+
+        string_case("wheel"):
+        string_case("touchstart"):
+        string_case("touchend"):
+        string_case("touchmove"):
+            init.template insert_or_assign("bubbles", true);
+            init.template insert_or_assign("composed", true);
             break;
     }
 
@@ -379,6 +407,7 @@ auto dom::detail::event_internals::fire_event(
         init.template insert_or_assign("cancelable", false);
     }
 
+    // create a new event of type T, setting the event type and options, and then dispatch it to 'target'
     T event {std::move(e), std::move(init)};
     return dispatch(&event, target);
 }
