@@ -27,7 +27,7 @@ namespace indexed_db::detail::ecma_binding_internals
 
     auto convert_key_to_value(
             const any_key_t& key)
-            -> ext::any;
+            -> record_t;
 
     auto convert_value_to_key(
             const ext::any key)
