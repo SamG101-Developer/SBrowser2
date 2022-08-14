@@ -9,8 +9,12 @@ namespace ext {template <typename _Tx, bool ce_reactions> class property;}
 #include <utility>
 
 #include "ext/keywords.hpp"
+#include "ext/streams.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/detail/guard_property.hpp"
+
+#define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::inner_val_t>())
+#define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::inner_val_t>())
 
 template <typename _Tx, bool ce_reactions>
 class ext::property
