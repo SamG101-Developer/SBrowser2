@@ -19,7 +19,7 @@ public js_methods:
     auto open(const ext::string& name, const ext::number<ulonglong>& version) -> idb_open_request;
     auto delete_database(const ext::string& name) -> idb_open_request;
     auto databases() -> std::promise<ext::vector<ext::map<ext::string, ext::any>>>;
-    auto cmp(const ext::any& first, const any& second) -> ext::number<short>;
+    auto cmp(const ext::any& first, const ext::any& second) -> ext::number<short>;
 };
 
 
