@@ -2,7 +2,11 @@
 
 #include "permissions/permission_status.hpp"
 #include "permissions_policy/_typedefs.hpp"
+
 #include "html/detail/document_internals.hpp"
+
+#include "storage/_typedefs.hpp"
+#include "storage/detail/storage_internals.hpp"
 
 #include "gui/javascript_interop/registry.hpp"
 
@@ -13,13 +17,15 @@
 
 auto permissions::detail::permission_internals::get_current_permission_state(
         ext::string&& name,
-        v8::Local<v8::Object> environment_settings_object)
+        ext::optional<v8::Local<v8::Object>> environment_settings_object)
         -> permission_state_t
 {
+    JS_REALM_GET_CURRENT
+
     // create a mock 'permissions_descriptor' dictionary, with the "name" set the 'name' parameter. return the
     // permission state for this 'permissions_descriptor', and the settings object
     permissions_descriptor_t permissions_descriptor {{"name", std::move(name)}};
-    return permission_state(std::move(permissions_descriptor), environment_settings_object);
+    return permission_state(std::move(permissions_descriptor), environment_settings_object.value_or(current_global_object));
 }
 
 
@@ -77,4 +83,21 @@ auto permissions::detail::permission_internals::default_permission_query_algorit
     auto state = permission_state(std::move(permission_descriptor), ext::nullopt);
     auto state_string = magic_enum::enum_name(state);
     status->state = (ext::string)state_string;
+}
+
+
+permissions::detail::permission_internals::powerful_feature_t::powerful_feature_t(
+        ext::string&& powerful_feature_name)
+        : name(powerful_feature_name)
+{
+    if (name == "persistent-storage")
+        permission_revocation_algorithm =
+                [powerful_feature_name = std::move(powerful_feature_name)] mutable
+        {
+            return_if (get_current_permission_state(std::move(powerful_feature_name), ext::nullopt) == permission_state_t::GRANTED);
+
+            JS_REALM_GET_CURRENT
+            decltype(auto) shelf = storage::detail::storage_internals::obtain_local_storage_shelf(current_global_object);
+            shelf->bucket_map.emplace("default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
+        };
 }

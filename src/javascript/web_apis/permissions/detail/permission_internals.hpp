@@ -20,7 +20,7 @@ namespace permissions::detail::permission_internals
 
     auto get_current_permission_state(
             ext::string&& name,
-            v8::Local<v8::Object> environment_settings_object)
+            ext::optional<v8::Local<v8::Object>> environment_settings_object)
             -> permission_state_t;
 
     auto permission_state(
@@ -52,6 +52,8 @@ namespace permissions::detail::permission_internals
 
 struct permissions::detail::permission_internals::powerful_feature_t
 {
+    powerful_feature_t(ext::string&& powerful_feature_name);
+
     ext::string name;
 
     ext::number<long double> permission_life; // TODO : steps when it expires
@@ -60,7 +62,8 @@ struct permissions::detail::permission_internals::powerful_feature_t
     auto permission_state_constraints() -> permissions_descriptor_t;
     auto extra_permissions_data_constraints() -> permissions_descriptor_t;
     auto permission_query_algorithm(permissions_descriptor_t&& permission_descriptor, permissions_result_t* status) -> void;
-    auto permission_revocation_algorithm() -> void;
+
+    ext::function<void()> permission_revocation_algorithm;
 };
 
 
