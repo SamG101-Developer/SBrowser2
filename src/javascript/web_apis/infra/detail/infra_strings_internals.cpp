@@ -9,8 +9,10 @@
 #include <functional>
 #include <regex>
 
-#include <range/v3/view/zip.hpp>
 #include <range/v3/algorithm/all_of.hpp>
+#include <range/v3/algorithm/ends_with.hpp>
+#include <range/v3/algorithm/starts_with.hpp>
+#include <range/v3/view/zip.hpp>
 
 using namespace std::string_literals;
 
@@ -78,7 +80,7 @@ auto infra::detail::infra_string_internals::is_code_unit_prefix(
         ext::string_view string)
         -> ext::boolean
 {
-    return string.compare(0, potential_prefix.size(), potential_prefix) == 0;
+    return ranges::starts_with(string, potential_prefix);
 }
 
 
@@ -87,7 +89,7 @@ auto infra::detail::infra_string_internals::is_code_unit_suffix(
         ext::string_view string)
         -> ext::boolean
 {
-    return string.compare(string.size() - potential_suffix.size(), potential_suffix.size(), potential_suffix) == 0;
+    return ranges::ends_with(string, potential_suffix);
 }
 
 
@@ -98,7 +100,8 @@ auto infra::detail::infra_string_internals::is_code_unit_less_than(
 {
     if (is_code_unit_prefix(string0, string1)) return false;
     if (is_code_unit_prefix(string1, string0)) return true;
-    auto difference_iterator = ranges::first_where(ranges::views::zip(string0, string1), ext::identity_pair{});
-    auto difference_index = ranges::distance(string0.begin(), difference_iterator);
-    return string0[difference_index] < string1[difference_index];
+
+    for (auto&& pair: ranges::views::zip(string0, string1))
+        return_if (pair.first != pair.second) pair.first < pair.second;
+    return false;
 }

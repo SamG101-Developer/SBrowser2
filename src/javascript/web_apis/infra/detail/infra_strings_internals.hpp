@@ -7,8 +7,6 @@
 #include "ext/number.hpp"
 #include "ext/string.hpp"
 
-#include <range/v3/algorithm/starts_with.hpp>
-#include <range/v3/view/zip.hpp>
 
 namespace infra::detail::infra_string_internals
 {
@@ -68,22 +66,6 @@ namespace infra::detail::infra_string_internals
             ext::string_view string0,
             ext::string_view string1)
             -> ext::boolean;
-
-    struct byte_less_than_fn
-    {
-        constexpr auto operator()(ext::string_view a, ext::string_view b) const -> ext::boolean
-        {
-            return_if (ranges::starts_with(a, b)) false;
-            return_if (ranges::starts_with(b, a)) true;
-
-            for (const auto& pair: ranges::views::zip(a, b))
-            {
-                return_if (pair.first != pair.second) char(pair.first) < char(pair.second);
-            }
-        }
-    };
-
-    constexpr byte_less_than_fn byte_less_than;
 }
 
 
