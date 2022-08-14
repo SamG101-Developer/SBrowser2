@@ -20,7 +20,7 @@ namespace indexed_db::detail::database_internals
     auto compare_two_keys(
             const record_t& a,
             const record_t& b)
-            -> ext::number<int>;
+            -> ext::number<short>;
 
     auto is_key_path_valid(
             const key_path_t& key_path)

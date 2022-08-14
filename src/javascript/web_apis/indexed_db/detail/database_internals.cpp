@@ -17,7 +17,7 @@
 auto indexed_db::detail::database_internals::compare_two_keys(
         const record_t& a,
         const record_t& b)
-        -> ext::number<int>
+        -> ext::number<short>
 {
     // how to handle two records whose keys are different types (obviously their values can't be compared becuase they
     // are different types - auto casting might be unwanted behaviour for JavaScipt)
