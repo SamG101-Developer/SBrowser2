@@ -51,6 +51,7 @@
 #define constexpr_return_if(condition) if constexpr(condition) return
 
 #define _EXT_NODISCARD [[nodiscard]]
+#define _EXT_FALLTHOUGH [[fallthrough]]
 
 #define DISALLOW_COPY(type)     \
     type(const type&) = delete; \
