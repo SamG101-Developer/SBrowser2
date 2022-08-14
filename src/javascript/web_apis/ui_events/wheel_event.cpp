@@ -4,11 +4,11 @@
 ui_events::wheel_event::wheel_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
-        : mouse_event(std::move(event_type), std::move(event_init))
-        , delta_x{event_init.try_emplace("delta_x", 0.0).first->second.to<ext::number<double>>()}
-        , delta_y{event_init.try_emplace("delta_y", 0.0).first->second.to<ext::number<double>>()}
-        , delta_z{event_init.try_emplace("delta_z", 0.0).first->second.to<ext::number<double>>()}
-        , delta_mode{event_init.try_emplace("delta_mode", 0).first->second.to<ext::number<ulong>>()}
+        : mouse_event{std::move(event_type), std::move(event_init)}
+        , SET_PROPERTY_FROM_OPTIONS(event_init, delta_x, 0.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, delta_y, 0.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, delta_z, 0.0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, delta_mode, 0)
 {}
 
 
