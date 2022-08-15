@@ -62,7 +62,7 @@ auto streams::readable::readable_stream::get_reader(
 {
     return !options.contains("mode")
             ? detail::abstract_operations_internals::acquire_readable_stream_default_reader(this)
-            : detail::sbatract_operations_internals::acquire_readable_stream_byob_reader(this);
+            : detail::abstract_operations_internals::acquire_readable_stream_byob_reader(this);
 
 }
 
