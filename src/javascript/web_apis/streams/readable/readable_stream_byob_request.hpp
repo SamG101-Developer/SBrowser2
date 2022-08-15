@@ -12,9 +12,12 @@ namespace streams::readable {class readable_byte_stream_controller;}
 class streams::readable::readable_stream_byob_request
         : public virtual dom_object
 {
+public constructors:
+    readable_stream_byob_request();
+
 public js_methods:
-    auto response(const ext::number<ulonglong>& bytes_written) -> void;
-    auto response_with_new_view(v8::Local<v8::ArrayBufferView> view) -> void;
+    auto respond(const ext::number<ulonglong>& bytes_written) -> void;
+    auto respond_with_new_view(v8::Local<v8::ArrayBufferView> view) -> void;
 
 public js_properties:
     ext::property<v8::ArrayBufferView> view;
@@ -22,6 +25,9 @@ public js_properties:
 private js_slots:
     readable_byte_stream_controller* s_controller;
     v8::ArrayBufferView s_view;
+
+private cpp_accessors:
+    auto get_view() const -> v8::ArrayBufferView;
 };
 
 
