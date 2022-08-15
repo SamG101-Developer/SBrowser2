@@ -4,7 +4,8 @@
 
 #include "streams/_typedefs.hpp"
 #include "streams/readable/readable_stream.hpp"
-#include "v8-array-buffer.h"
+
+#include <v8-array-buffer.h>
 
 
 auto streams::readable::readable_byte_stream_controller::close()
