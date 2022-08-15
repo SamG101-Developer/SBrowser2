@@ -1,4 +1,5 @@
 #pragma once
+#include "ext/concepts.hpp"
 #ifndef SBROWSER2_NUMBER_HPP
 #define SBROWSER2_NUMBER_HPP
 
@@ -75,7 +76,7 @@ public cpp_operators:
     auto operator--() -> number& {--internal_number; return *this;}
 
     template <typename U> operator number<U>() const {return number<U>(internal_number);}
-    template <typename U> constexpr operator U() const {return internal_number;}
+    template <primitive_numeric U> constexpr operator U() const {return internal_number;}
 
 private:
     auto operator*() const -> T {return internal_number;}
