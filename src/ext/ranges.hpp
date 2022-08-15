@@ -42,6 +42,7 @@ namespace ranges::actions {struct lowercase_fn;}
 namespace ranges::actions {struct uppercase_fn;}
 namespace ranges::actions {struct transform_if_fn;}
 namespace ranges::actions {template <typename T> struct cast_all_to_fn;}
+namespace ranges::actions {struct replace_fn;}
 
 namespace ranges {struct contains_all_fn;}
 namespace ranges {struct first_where_fn;}
@@ -269,6 +270,18 @@ struct ranges::actions::cast_all_to_fn
 };
 
 
+struct ranges::actions::replace_fn
+{
+    template <typename T>
+    constexpr auto operator()(T&& old_value, T&& new_value) const
+    {
+        return ranges::actions::transform(
+                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value)]<typename U> mutable
+                (U&& current_value) {return current_value == old_value ? std::forward<T>(new_value) : std::forward<U>(current_value);});
+    }
+};
+
+
 /* ALGORITHMS */
 struct ranges::contains_all_fn
 {
@@ -318,6 +331,7 @@ namespace ranges::actions {constexpr lowercase_fn lowercase;}
 namespace ranges::actions {constexpr uppercase_fn uppercase;}
 namespace ranges::actions {constexpr transform_if_fn transform_if;}
 namespace ranges::actions {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
+namespace ranges::actions {constexpr replace_fn replace;}
 
 namespace ranges {constexpr contains_all_fn contains_all;}
 namespace ranges {constexpr first_where_fn first_where;}
