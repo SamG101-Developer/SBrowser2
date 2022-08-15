@@ -7,6 +7,7 @@ namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
 namespace dom::other {class dom_exception;}
+namespace clipboard {class clipboard;}
 namespace mediacapture::main {class media_devices;}
 namespace mediacapture::main {class media_stream;}
 namespace permissions {class permission;}
@@ -30,14 +31,16 @@ public js_methods:
 
 public js_properties:
     /* MEDIACAPTURE_MAIN */
-    ext::property<mediacapture::main::media_devices*> media_devices;
+    ext::property<std::unique_ptr<mediacapture::main::media_devices>> media_devices;
 
     /* PERMISSIONS */
-    ext::property<permissions::permission*> permissions;
+    ext::property<std::unique_ptr<permissions::permission>> permissions;
 
     /* POINTER_EVENTS */
     ext::property<ext::number<long>> max_touch_points;
 
+    /* CLIPBOARD */
+    ext::property<std::unique_ptr<clipboard::clipboard>> clipboard;
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP
