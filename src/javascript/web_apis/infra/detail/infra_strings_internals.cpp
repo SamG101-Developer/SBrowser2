@@ -19,7 +19,7 @@ using namespace std::string_literals;
 
 auto infra::detail::infra_string_internals::strip_newlines(
         ext::string& string)
-        -> ext::string
+        -> ext::string&
 {
     using namespace code_points_internals::literals;
 
@@ -31,7 +31,7 @@ auto infra::detail::infra_string_internals::strip_newlines(
 
 auto infra::detail::infra_string_internals::normalize_newlines(
         ext::string& string)
-        -> ext::string
+        -> ext::string&
 {
     using namespace code_points_internals::literals;
 
@@ -45,7 +45,7 @@ auto infra::detail::infra_string_internals::normalize_newlines(
 
 auto infra::detail::infra_string_internals::strip_leading_and_trailing_ascii_whitespace(
         ext::string& string)
-        -> ext::string
+        -> ext::string&
 {
     // remove all the leading and trailing space code points
     string = std::regex_replace(string, std::regex("^\\s+|\\s+$"), "");
@@ -55,7 +55,7 @@ auto infra::detail::infra_string_internals::strip_leading_and_trailing_ascii_whi
 
 auto infra::detail::infra_string_internals::strip_and_collapse_ascii_whitespace(
         ext::string& string)
-        -> ext::string
+        -> ext::string&
 {
     // remove all the leading and trailing space code points, and then replace all the double space code point with
     // single space code points

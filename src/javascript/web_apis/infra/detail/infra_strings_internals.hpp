@@ -12,19 +12,27 @@ namespace infra::detail::infra_string_internals
 {
     auto strip_newlines(
             ext::string& string)
-            -> ext::string;
+            -> ext::string&;
 
     auto normalize_newlines(
             ext::string& string)
-            -> ext::string;
+            -> ext::string&;
+
+    auto strip_leading_ascii_whitespace(
+            ext::string& string)
+            -> ext::string&;
+
+    auto strip_trailing_ascii_whitespace(
+            ext::string& string)
+            -> ext::string&;
 
     auto strip_leading_and_trailing_ascii_whitespace(
             ext::string& string)
-            -> ext::string;
+            -> ext::string&;
 
     auto strip_and_collapse_ascii_whitespace(
             ext::string& string)
-            -> ext::string;
+            -> ext::string&;
 
     auto collect_ascii_whitespace(
             ext::string& string,
