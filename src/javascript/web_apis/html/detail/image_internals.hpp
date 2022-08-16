@@ -5,21 +5,15 @@
 #include "ext/optional.hpp"
 #include "ext/tuple.hpp"
 #include "url/url.hpp"
-#include <cstddef>
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(fetch)
 namespace html::elements {class html_element;}
 namespace html::elements {class html_image_element;}
 namespace html::elements {class html_link_element;}
-namespace fetch::detail::request_internals {enum class mode_t;}
 
 
-namespace html::detail::image_internals
+namespace html::detail
 {
-    struct image_request;
-    struct available_image;
-    struct image_source;
-
-    enum class state_t {UNAVAILABLE, PARTIALLY_AVAILABLE, COMPLETELY_AVAILABLE, BROKEN};
-
     auto decode(
             elements::html_image_element* element)
             -> void;
@@ -42,7 +36,7 @@ namespace html::detail::image_internals
 
     auto update_image_data(
             elements::html_image_element* element,
-            ext::boolean_view restart_animation_flag = false)
+            ext::boolean&& restart_animation_flag = false)
             -> void;
 
     auto abort_image_request(
@@ -94,7 +88,7 @@ namespace html::detail::image_internals
 }
 
 
-struct html::detail::image_internals::image_request
+struct html::detail::image_request
 {
     state_t state{state_t::UNAVAILABLE};
     url::url_object url;
@@ -104,19 +98,19 @@ struct html::detail::image_internals::image_request
 };
 
 
-struct html::detail::image_internals::available_image
+struct html::detail::available_image
 {
-    ext::tuple<ext::string, fetch::detail::request_internals::mode_t, url::url_object> key;
+    ext::tuple<ext::string, fetch::detail::mode_t, url::url_object> key;
     ext::boolean ignore_higher_layer_caching_flag;
 
-    auto operator==(const ext::tuple<ext::string, fetch::detail::request_internals::mode_t, url::url_object>& other) const -> ext::boolean
+    auto operator==(const ext::tuple<ext::string, fetch::detail::mode_t, url::url_object>& other) const -> ext::boolean
     {
         return key == other;
     }
 };
 
 
-struct html::detail::image_internals::image_source
+struct html::detail::image_source
 {
     url::url_object url_record;
     ext::string width_descriptor;

@@ -12,11 +12,11 @@ dom::abort::abort_controller::abort_controller():
 
 
 auto dom::abort::abort_controller::abort(
-        ext::any_view reason)
+        const ext::any& reason)
         const -> void
 {
     // abort the signal with the reason
-    detail::aborting_internals::signal_abort(signal(), reason);
+    detail::signal_abort(signal(), reason);
 }
 
 

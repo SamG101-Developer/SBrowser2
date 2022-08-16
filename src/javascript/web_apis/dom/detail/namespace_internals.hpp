@@ -5,7 +5,7 @@
 #include "ext/string.hpp"
 #include "ext/tuple.hpp"
 
-namespace dom::detail::namespace_internals
+namespace dom::detail
 {
     inline static constexpr const char* HTML   = "http://www.w3.org/1999/xhtml";
     inline static constexpr const char* MATHML = "http://www.w3.org/1998/Math/MathML";

@@ -15,11 +15,11 @@ dom::node_ranges::static_range::static_range(
     start_offset    = init.try_emplace("startOffset", 0).first->second.to<ext::number<ulong>>();
     end_offset      = init.try_emplace("endOffset", 0).first->second.to<ext::number<ulong>>();
 
-    detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+    detail::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
             [this] {return ext::multi_cast<nodes::document_type*, nodes::attr*>(start_container());},
             "Start container can not be a DocumentType or Attribute node");
 
-    detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+    detail::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
             [this] {return ext::multi_cast<nodes::document_type*, nodes::attr*>(end_container());},
             "End container can not be a DocumentType or Attribute node");
 }

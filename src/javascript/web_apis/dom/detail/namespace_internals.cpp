@@ -8,7 +8,7 @@
 using namespace std::string_view_literals;
 
 
-auto dom::detail::namespace_internals::validate_and_extract(
+auto dom::detail::validate_and_extract(
         const ext::string_view namespace_,
         const ext::string& qualified_name)
         -> ext::tuple<ext::string, ext::string>
@@ -33,20 +33,20 @@ auto dom::detail::namespace_internals::validate_and_extract(
     // namespace and prefix can't both be empty, and certain variables have to conform to certain constraints,
     // especially concerning xml / xmlns prefixing
 
-    exception_internals::throw_v8_exception_formatted<NAMESPACE_ERR>(
+    throw_v8_exception_formatted<NAMESPACE_ERR>(
             [prefix, namespace_] {return prefix.empty() && namespace_.empty();},
             "Prefix and namespace must not both be empty");
 
-    exception_internals::throw_v8_exception_formatted<NAMESPACE_ERR>(
-            [prefix, namespace_] {return prefix == "xml" && namespace_ == namespace_internals::XML;},
+    throw_v8_exception_formatted<NAMESPACE_ERR>(
+            [prefix, namespace_] {return prefix == "xml" && namespace_ == XML;},
             "Prefix and namespace must match (xml prefix)");
 
-    exception_internals::throw_v8_exception_formatted<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name] {return (prefix == "xmlns" || qualified_name == "xmlns") && namespace_ != namespace_internals::XMLNS;},
+    throw_v8_exception_formatted<NAMESPACE_ERR>(
+            [prefix, namespace_, qualified_name] {return (prefix == "xmlns" || qualified_name == "xmlns") && namespace_ != XMLNS;},
             "Prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
-    exception_internals::throw_v8_exception_formatted<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name] {return (prefix != "xmlns" && qualified_name != "xmlns") && namespace_ == namespace_internals::XMLNS;},
+    throw_v8_exception_formatted<NAMESPACE_ERR>(
+            [prefix, namespace_, qualified_name] {return (prefix != "xmlns" && qualified_name != "xmlns") && namespace_ == XMLNS;},
             "prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
     // return the prefix and local name - namespace_ and qualified name don't change, so they can be got from wherever
@@ -55,7 +55,7 @@ auto dom::detail::namespace_internals::validate_and_extract(
 }
 
 
-auto dom::detail::namespace_internals::html_adjust_string(
+auto dom::detail::html_adjust_string(
         ext::string&& string,
         ext::boolean&& adjust,
         ext::boolean&& lower)

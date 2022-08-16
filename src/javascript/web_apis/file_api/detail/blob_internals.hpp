@@ -8,7 +8,7 @@
 #include "url/url.hpp"
 namespace file_api {class blob;}
 
-namespace file_api::detail::blob_internals
+namespace file_api::detail
 {
     auto get_stream(
             blob& blob_object)
@@ -16,7 +16,7 @@ namespace file_api::detail::blob_internals
 
     auto process_blob_parts(
             ext::vector<typename blob::blob_part_t>,
-            ext::string_any_map_view options)
+            ext::map<ext::string, ext::any>&& options)
             -> ext::string;
 
     auto convert_line_endings_to_native(

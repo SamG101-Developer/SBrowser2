@@ -22,9 +22,9 @@ dom::node_iterators::tree_walker::tree_walker()
 auto dom::node_iterators::tree_walker::parent_node()
         -> nodes::node*
 {
-    auto current_node_ancestors = detail::tree_internals::ancestors(current_node());
+    auto current_node_ancestors = detail::ancestors(current_node());
     auto filtered_ancestors = current_node_ancestors
-            | ranges::views::filter(ext::bind_back(detail::traversal_internals::filter, this))
+            | ranges::views::filter(ext::bind_back(detail::filter, this))
             | ranges::views::take_while(ext::bind_back(std::not_equal_to{}, root()));
 
     return *filtered_ancestors.begin();
@@ -34,8 +34,8 @@ auto dom::node_iterators::tree_walker::parent_node()
 auto dom::node_iterators::tree_walker::first_child()
         -> nodes::node*
 {
-    using enum detail::traversal_internals::traversal_child;
-    auto* const first_child_node = detail::traversal_internals::traverse_children(this, FIRST_CHILD);
+    using detail::traversal_child_t;
+    auto* const first_child_node = detail::traverse_children(this, traversal_child_t::FIRST_CHILD);
     return first_child_node;
 }
 
@@ -43,8 +43,8 @@ auto dom::node_iterators::tree_walker::first_child()
 auto dom::node_iterators::tree_walker::last_child()
         -> nodes::node*
 {
-    using enum detail::traversal_internals::traversal_child;
-    auto* const last_child_node = detail::traversal_internals::traverse_children(this, LAST_CHILD);
+    using detail::traversal_child_t;
+    auto* const last_child_node = detail::traverse_children(this, traversal_child_t::LAST_CHILD);
     return last_child_node;
 }
 
@@ -52,8 +52,8 @@ auto dom::node_iterators::tree_walker::last_child()
 auto dom::node_iterators::tree_walker::prev_sibling()
         -> nodes::node*
 {
-    using enum detail::traversal_internals::traversal_sibling;
-    auto* const prev_sibling_node = detail::traversal_internals::traverse_siblings(this, PREVIOUS_SIBLING);
+    using detail::traversal_sibling_t;
+    auto* const prev_sibling_node = detail::traverse_siblings(this, traversal_sibling_t::PREVIOUS_SIBLING);
     return prev_sibling_node;
 }
 
@@ -61,8 +61,8 @@ auto dom::node_iterators::tree_walker::prev_sibling()
 auto dom::node_iterators::tree_walker::next_sibling()
         -> nodes::node*
 {
-    using enum detail::traversal_internals::traversal_sibling;
-    auto* const next_sibling_node = detail::traversal_internals::traverse_siblings(this, NEXT_SIBLING);
+    using detail::traversal_sibling_t;
+    auto* const next_sibling_node = detail::traverse_siblings(this, traversal_sibling_t::NEXT_SIBLING);
     return next_sibling_node;
 }
 
@@ -77,13 +77,13 @@ auto dom::node_iterators::tree_walker::prev_node()
         while (sibling)
         {
             node = sibling;
-            auto result = detail::traversal_internals::filter(node, this);
+            auto result = detail::filter(node, this);
 
             // while the filter 'result' is FILTER_ACCEPT / FILTER_SKIP, and 'node' has child nodes, set 'node' to its
             // last child; 'node' will end up as either a rejected node, or the right-most n-level child of the original
             // 'sibling'
             while (result != node_filter::FILTER_REJECT && node->has_child_nodes())
-                result = detail::traversal_internals::filter(node = node->last_child(), this);
+                result = detail::filter(node = node->last_child(), this);
 
             // if the final node child that wasn't rejected and doesn't have any child nodes was accepted (not skipped),
             // then set it to the current node and return it - the previous node is the first accepted n-level last
@@ -101,7 +101,7 @@ auto dom::node_iterators::tree_walker::prev_node()
         // its parent, and begin checking nodes again (as long as the parent exists and the node isn't 'root', as the
         // parent would be outside the subtree rooted at 'root'); also check the parent first before its siblings
         if (!node->parent_node() || node == root()) return nullptr;
-        if (detail::traversal_internals::filter(node = node->parent_node(), this) == node_filter::FILTER_ACCEPT)
+        if (detail::filter(node = node->parent_node(), this) == node_filter::FILTER_ACCEPT)
             return current_node = node;
     }
 }
@@ -118,7 +118,7 @@ auto dom::node_iterators::tree_walker::next_node()
         // while the filter 'result' is FILTER_ACCEPT / FILTER_SKIP, and 'node' has child nodes, set 'node' to its
         // first child; 'node' will end up as either a rejected node, or the left-most n-level child of 'node'
         while (result != node_filter::FILTER_REJECT && node->has_child_nodes())
-            result = detail::traversal_internals::filter(node = node->first_child(), this);
+            result = detail::filter(node = node->first_child(), this);
 
         // if the final node child that wasn't rejected and doesn't have any child nodes was accepted (not skipped),
         // then set it to the current node and return it - the next node is the first accepted n-level first child
@@ -140,7 +140,7 @@ auto dom::node_iterators::tree_walker::next_node()
             temporary = temporary->parent_node();
         }
 
-        result = detail::traversal_internals::filter(node, this);
+        result = detail::filter(node, this);
         if (result == node_filter::FILTER_ACCEPT)
             return current_node = node;
     }

@@ -9,7 +9,7 @@ namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
 
 
-namespace dom::detail::attribute_internals
+namespace dom::detail
 {
     // handle changes
     auto handle_attributes_changes(

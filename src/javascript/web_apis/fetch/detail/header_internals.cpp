@@ -22,11 +22,11 @@
 #include <range/v3/view/transform.hpp>
 
 
-auto fetch::detail::header_internals::get_structured_field_value(
-        header_value_object_t type,
-        header_name_t header_name,
+template <header_value_object_t T>
+auto fetch::detail::get_structured_field_value(
+        const header_name_t& header_name,
         const headers_t& headers)
-        -> header_value_t
+        -> header_value_variable_t<T>
 {
     // get the raw header value from the 'headers', as a string - this could be a string, string representation of a
     // dictionary, or a string representation of a list; the value is parsed into the correct format (string /
@@ -41,7 +41,7 @@ auto fetch::detail::header_internals::get_structured_field_value(
 }
 
 
-auto fetch::detail::header_internals::set_structured_field_value(
+auto fetch::detail::set_structured_field_value(
         const header_t& header,
         const headers_t& headers)
         -> void
@@ -54,9 +54,9 @@ auto fetch::detail::header_internals::set_structured_field_value(
 }
 
 
-auto fetch::detail::header_internals::header_list_contains_header(
+auto fetch::detail::header_list_contains_header(
         const headers_t& headers,
-        header_name_t header_name)
+        const header_name_t& header_name)
         -> ext::boolean
 {
     // 'headers' contains the 'head_name' if any of the pairs in the 'headers' list have the first part of the pair set
@@ -65,8 +65,8 @@ auto fetch::detail::header_internals::header_list_contains_header(
 }
 
 
-auto fetch::detail::header_internals::get_header_value(
-        const header_name_t header_name,
+auto fetch::detail::get_header_value(
+        const const header_name_t& header_name,
         const headers_t& headers)
         -> header_value_t
 {
@@ -90,8 +90,8 @@ auto fetch::detail::header_internals::get_header_value(
 }
 
 
-auto fetch::detail::header_internals::get_decode_split_value(
-        const header_name_t header_name,
+auto fetch::detail::get_decode_split_value(
+        const const header_name_t& header_name,
         const headers_t& headers)
         -> header_names_t
 {
@@ -143,9 +143,9 @@ auto fetch::detail::header_internals::get_decode_split_value(
 }
 
 
-auto fetch::detail::header_internals::append_header(
+auto fetch::detail::append_header(
         const header_t& header,
-        const headers_t& headers)
+        headers_t& headers)
         -> void
 {
     // append the 'header' to the end of the 'headers' list
@@ -153,8 +153,8 @@ auto fetch::detail::header_internals::append_header(
 }
 
 
-auto fetch::detail::header_internals::delete_header(
-        const header_name_t header_name,
+auto fetch::detail::delete_header(
+        const header_name_t& header_name,
         headers_t& headers)
         -> void
 {
@@ -170,9 +170,9 @@ auto fetch::detail::header_internals::delete_header(
 }
 
 
-auto fetch::detail::header_internals::set_header(
+auto fetch::detail::set_header(
         const header_t& header,
-        const headers_t& headers)
+        headers_t& headers)
         -> void
 {
     auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase() | ranges::to<ext::string>, header.second);
@@ -197,7 +197,7 @@ auto fetch::detail::header_internals::set_header(
 }
 
 
-auto fetch::detail::header_internals::combine_header(
+auto fetch::detail::combine_header(
         const header_t& header,
         const headers_t& headers)
         -> void
@@ -223,27 +223,27 @@ auto fetch::detail::header_internals::combine_header(
 }
 
 
-auto fetch::detail::header_internals::convert_header_names_to_sorted_lowercase_set(
+auto fetch::detail::convert_header_names_to_sorted_lowercase_set(
         const header_names_t& header_names)
         -> header_names_t
 {
     // transform the 'header_names' to lowercase strings, using the infra 'byte_less_than' functor as the sorting
     // method; object is still a range
     auto sorted_lowercase_header_names = ranges::sort(
-            header_names | ranges::views::transform([](const header_name_t header_name) {header_name | ranges::views::lowercase() | ranges::to<ext::string>;}),
-            infra::detail::infra_string_internals::byte_less_than);
+            header_names | ranges::views::transform([](const header_name_t& header_name) {header_name | ranges::views::lowercase() | ranges::to<ext::string>;}),
+            infra::detail::infra_string_internals::is_code_unit_less_than);
 
     // return the range converted to list of strings (header names)
-    return sorted_lowercase_header_names | ranges::to<ext::string_vector>;
+    return sorted_lowercase_header_names | ranges::to<ext::vector<ext::string>>;
 }
 
 
-auto fetch::detail::header_internals::sort_and_combine(
+auto fetch::detail::sort_and_combine(
         const headers_t& headers)
         -> headers_t
 {
     headers_t formatted_headers;
-    auto sorted_lowercase_header_names = convert_header_names_to_sorted_lowercase_set(headers | ranges::views::keys | ranges::to<ext::string_vector>);
+    auto sorted_lowercase_header_names = convert_header_names_to_sorted_lowercase_set(headers | ranges::views::keys | ranges::to<ext::vector<ext::string>>);
     for (ext::string_view header_name: sorted_lowercase_header_names)
     {
         auto header_value = get_header_value(header_name, headers);
@@ -255,14 +255,14 @@ auto fetch::detail::header_internals::sort_and_combine(
 }
 
 
-auto fetch::detail::header_internals::is_cors_safelisted_request_header(
+auto fetch::detail::is_cors_safelisted_request_header(
         const header_t& header)
         -> ext::boolean
 {
     return_if (header.second.size() > 123) false;
     auto lowercase_header_name = header.first | ranges::views::lowercase() | ranges::to<ext::string>;
 
-    string_switch(lowercase_header_name.c_str())
+    string_switch(lowercase_header_name)
     {
         string_case("accept"):
             return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;

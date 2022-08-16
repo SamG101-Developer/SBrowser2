@@ -15,19 +15,22 @@ class clipboard::clipboard_item
         : public virtual dom_object
 {
 public constructors:
-    clipboard_item(ext::any&& clipboard_item, v8::Local<v8::Context> realm);
     clipboard_item(ext::map<ext::string, detail::clipboard_item_data_t>&& items, ext::map<ext::string, ext::any>&& options = {});
 
 public js_methods:
-    auto get_type(ext::string_view type) -> std::promise<file_api::blob*>;
+    auto get_type(ext::string&& type) -> std::promise<file_api::blob*>;
 
 public js_properties:
     ext::property<detail::presentation_style_t> presentation_style;
     ext::property<ext::vector<ext::string>> types;
 
 private cpp_properties:
-    ext::any m_clipboard_item;
+    detail::clipboard_item_t m_clipboard_item;
     ext::vector<ext::string> m_types_array;
+
+private cpp_accessors:
+    auto get_presentation_style() const -> detail::presentation_style_t;
+    auto get_types() const -> ext::vector<ext::string>;
 };
 
 

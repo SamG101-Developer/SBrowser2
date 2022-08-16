@@ -3,18 +3,16 @@
 #define SBROWSER2_TRAVERSAL_INTERNALS_HPP
 
 #include "ext/number.hpp"
+#include "ext/type_traits.hpp"
+#include "dom/_typedefs.hpp"
 namespace dom::nodes {class node;}
 namespace dom::node_iterators {class abstract_iterator;}
 namespace dom::node_iterators {class node_iterator;}
 namespace dom::node_iterators {class tree_walker;}
 
 
-namespace dom::detail::traversal_internals
+namespace dom::detail
 {
-    enum class traversal_direction {NEXT, PREVIOUS};
-    enum class traversal_child {FIRST_CHILD, LAST_CHILD};
-    enum class traversal_sibling {NEXT_SIBLING, PREVIOUS_SIBLING};
-
     // filtering
     auto filter(
             const nodes::node* node,
@@ -24,17 +22,17 @@ namespace dom::detail::traversal_internals
     // traversal
     auto traverse(
             node_iterators::node_iterator* iterator,
-            traversal_direction direction)
+            traversal_direction_t direction)
             -> nodes::node*;
 
     auto traverse_children(
             node_iterators::tree_walker* iterator,
-            traversal_child type)
+            traversal_child_t type)
             -> nodes::node*;
 
     auto traverse_siblings(
             node_iterators::tree_walker* iterator,
-            traversal_sibling type)
+            traversal_sibling_t type)
             -> nodes::node*;
 }
 

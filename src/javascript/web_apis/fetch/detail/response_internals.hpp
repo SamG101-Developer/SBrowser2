@@ -12,77 +12,75 @@ namespace fetch::detail::http_internals {class fetch_params;}
 namespace fetch::detail::http_internals {class response_body_info;}
 namespace service_workers::detail::service_worker_internals {struct service_worker_timing;}
 
-namespace fetch::detail::response_internals
+namespace fetch::detail
 {
-    struct internal_response;
-    
     auto serialize_response_url_for_reporting(
-            internal_response& internal_response_object)
+            response_t& internal_response_object)
             -> ext::string;
 
     auto is_aborted_network_error(
-            internal_response& internal_response_object)
+            response_t& internal_response_object)
             -> ext::boolean;
 
     auto is_network_error(
-            internal_response& internal_response_object)
+            response_t& internal_response_object)
             -> ext::boolean;
 
     auto appropriate_network_error(
             http_internals::fetch_params& params)
-            -> internal_response;
+            -> response_t;
 
     auto basic_filtered_response(
-            internal_response& internal_response_object)
-            -> const internal_response;
+            response_t& internal_response_object)
+            -> const response_t;
 
     auto cors_filtered_response(
-            internal_response& internal_response_object)
-            -> const internal_response;
+            response_t& internal_response_object)
+            -> const response_t;
 
     auto opaque_filtered_response(
-            internal_response& internal_response_object)
-            -> const internal_response;
+            response_t& internal_response_object)
+            -> const response_t;
 
     auto opaque_redirect_filtered_response(
-            internal_response& internal_response_object)
-            -> const internal_response;
+            response_t& internal_response_object)
+            -> const response_t;
 
     auto clone_response(
-            internal_response& internal_response_object)
-            -> internal_response;
+            response_t& internal_response_object)
+            -> response_t;
 
     auto is_fresh_response(
-            internal_response& response_object)
+            response_t& response_object)
             -> ext::boolean;
 
     auto is_stale_while_revalidate_response(
-            internal_response& internal_response_object)
+            response_t& internal_response_object)
             -> ext::boolean;
 
     auto is_stale_response(
-            internal_response& internal_response_object)
+            response_t& internal_response_object)
             -> ext::boolean;
 
     auto location_url(
-            internal_response& internal_response_object)
+            response_t& internal_response_object)
             -> url::url_object;
 
     auto create_response(
-            internal_response& internal_response_object,
+            response_t& internal_response_object,
             header_guard_t header_guard,
             v8::Local<v8::Context> realm)
             -> response;
 
     auto initialize_response(
             response& response_object,
-            ext::string_any_map_view init,
-            body_internals::internal_body& internal_body_object)
+            ext::map<ext::string, ext::any>&& init,
+            body_t& internal_body_object)
             -> void;
 }
 
 
-struct fetch::detail::response_internals::internal_response
+struct fetch::detail::response_t
 {
     enum class type_t {BASIC, CORS, DEFAULT, ERROR, OPAQUE, OPAQUE_REDIRECT};
     enum class cache_t {LOCAL, VALIDATED};
@@ -90,14 +88,14 @@ struct fetch::detail::response_internals::internal_response
     type_t type {type_t::DEFAULT};
     ext::boolean aborted_flag;
 
-    ext::vector<url::url_object> url_list;
+    ext::vector<url::url_object>& url_list;
     auto associated_url() -> url::url_object;
 
     ext::number<int> status;
     ext::string status_message;
 
-    headers_t header_list;
-    std::unique_ptr<detail::body_internals::internal_body> body;
+    headers_t& header_list;
+    body_t& body;
 
     cache_t cache_state;
     header_names_t cors_exposed_header_name_list;

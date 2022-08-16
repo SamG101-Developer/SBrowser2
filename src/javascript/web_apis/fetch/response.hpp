@@ -5,7 +5,7 @@
 #include "mixins/body.hpp"
 namespace fetch {class response;}
 
-#include "_typedefs.hpp"
+#include "fetch/_typedefs.hpp"
 
 
 class fetch::response
@@ -16,8 +16,8 @@ public constructors:
 
 public js_methods:
     auto error() -> response;
-    auto redirect(ext::string_view url, ext::number_view<ushort> status = 302);
-    auto json(ext::any_view data, ext::string_any_map_view init = {});
+    auto redirect(ext::string_view url, const ext::number<ushort>& status = 302);
+    auto json(const ext::any& data, ext::map<ext::string, ext::any>&& init = {});
 
     auto clone() -> response;
 
@@ -28,7 +28,7 @@ public js_properties:
     ext::property<ext::number<ushort>> status;
     ext::property<ext::boolean> ok;
     ext::property<ext::string> status_text;
-    ext::property<headers_t> headers;
+    ext::property<detail::headers_t> headers;
 };
 
 

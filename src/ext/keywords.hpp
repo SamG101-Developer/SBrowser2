@@ -10,8 +10,15 @@
 #define _EXT_SHORTHAND_BEGIN namespace ext::shorthand {
 #define _EXT_SHORTHAND_END } // namespace ext::shorthand
 
-#define _T true
-#define _F false
+#define COMMA ,
+#define HASH #
+#define SLASH /
+
+#define STRINGIFY(x) #x
+#define EXPAND(x) x
+#define STRINGIFY_MACRO(x) STRINGIFY(x)
+#define CONCAT(n1, n2) STRINGIFY_MACRO(EXPAND(n1)EXPAND(n2))
+#define USE_INNER_TYPES(api) CONCAT(api, /_typedefs.hpp)
 
 #define catch_all catch (...)
 #define catch_specific(exception_t) catch(const exception_t& exception)

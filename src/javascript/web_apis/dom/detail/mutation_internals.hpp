@@ -1,11 +1,17 @@
 #ifndef SBROWSER2_MUTATION_INTERNALS_HPP
 #define SBROWSER2_MUTATION_INTERNALS_HPP
 
+#include <memory>
+#include "ext/any.hpp"
 #include "ext/boolean.hpp"
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "dom/_typedefs.hpp"
 namespace dom::nodes {class node;}
+namespace dom::mutations {class mutation_observer;}
 
 
-namespace dom::detail::mutation_internals
+namespace dom::detail
 {
     // common checks across multiple methods / validity checks
     auto common_checks(
@@ -37,7 +43,7 @@ namespace dom::detail::mutation_internals
             const nodes::node* node,
             const nodes::node* parent,
             const nodes::node* child,
-            ext::boolean_view suppress_observers_flag = false)
+            const ext::boolean& suppress_observers_flag = false)
             -> nodes::node*;
 
     auto append(
@@ -58,9 +64,24 @@ namespace dom::detail::mutation_internals
 
     auto remove(
             const nodes::node* node,
-            ext::boolean_view suppress_observers_flag = false)
+            const ext::boolean& suppress_observers_flag = false)
             -> nodes::node*;
 }
+
+
+struct dom::detail::registered_observer_t
+{
+    std::unique_ptr<mutations::mutation_observer> observer;
+    ext::map<ext::string, ext::any> options;
+    virtual registered_observer_t() = default;
+};
+
+
+struct dom::detail::transient_registered_observer_t : public registered_observer_t
+{
+    std::unique_ptr<registered_observer_t> source;
+};
+
 
 
 #endif //SBROWSER2_MUTATION_INTERNALS_HPP

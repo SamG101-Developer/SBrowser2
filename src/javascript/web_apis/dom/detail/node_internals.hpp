@@ -8,7 +8,7 @@
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/text.hpp"
 
-namespace dom::detail::node_internals
+namespace dom::detail
 {
     // node manipulation
     template <typename T>

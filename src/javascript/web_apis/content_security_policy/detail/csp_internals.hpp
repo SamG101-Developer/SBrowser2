@@ -8,17 +8,13 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
+#include "content_security_policy/_typedefs.hpp"
 namespace dom::nodes {class document;}
 
-namespace content_security_policy::detail::csp_internals
+namespace content_security_policy::detail
 {
-    struct content_security_policy;
-    enum class disposition_t {ENFORCE, REPORT};
-    enum class source_t {HEADER, META};
-    using directive_t = ext::pair<ext::string, ext::vector<ext::string>>;
-
     auto contains_header_delivered_csp(
-            ext::vector<content_security_policy*>& csp_list)
+            ext::vector<content_security_policy_t*>& csp_list)
             -> ext::boolean;
 
     auto strongest_metadata(
@@ -31,11 +27,11 @@ namespace content_security_policy::detail::csp_internals
             -> ext::boolean;
 
     auto serialize_csp(
-            content_security_policy& csp_policy)
+            content_security_policy_t& csp_policy)
             -> ext::string;
 
     auto serialize_csp_list(
-            ext::vector<content_security_policy*> csp_list)
+            ext::vector<content_security_policy_t*> csp_list)
             -> ext::string;
 
     auto parse_metadata(
@@ -46,32 +42,23 @@ namespace content_security_policy::detail::csp_internals
             ext::string_view string,
             ext::string_view source,
             ext::string_view disposition)
-            -> content_security_policy;
+            -> content_security_policy_t;
 
     auto parse_csp_list(
             ext::string_view string,
             ext::string_view source,
             ext::string_view disposition)
-            -> ext::vector<content_security_policy*>;
+            -> ext::vector<content_security_policy_t*>;
 
     auto parse_responses_csp(
             ext::string_view response)
-            -> content_security_policy;
+            -> content_security_policy_t;
 
     auto is_base_allowed_for_document(
             url::url_object& base,
             dom::nodes::document* document)
             -> ext::string;
 }
-
-
-struct content_security_policy::detail::csp_internals::content_security_policy
-{
-    ext::vector<directive_t> directive_set;
-    disposition_t disposition;
-    source_t source;
-    ext::string self_origin;
-};
 
 
 #endif //SBROWSER2_CSP_INTERNALS_HPP

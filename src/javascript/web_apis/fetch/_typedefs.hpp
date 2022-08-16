@@ -9,23 +9,50 @@
 #include "ext/variant.hpp"
 
 #include <v8-array-buffer.h>
-namespace fetch::detail::body_internals {struct internal_body;}
-namespace fetch::detail::fetch_internals {struct connection;}
 namespace file_api {class blob;}
 namespace xhr {class form_data;}
 namespace streams::readable {class readable_stream;}
 
 
-namespace fetch
+namespace fetch::detail
 {
+    enum class net_connection_setting_t {NO, YES, YES_AND_DEDICATED};
+    enum class header_value_object_t {DICT, LIST, ITEM};
+    enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
+    enum class method_t {DELETE, GET, HEAD, OPTIONS, POST, PUT};
+    enum class initiator_type_t {AUDIO, BEACON, BODY, CSS, EARLY_HINT, EMBED, FETCH, FONT, FRAME, IFRAME, IMAGE, IMG, INPUT, LINK, OBJECT, PING, SCRIPT, TRACK, VIDEO, XMLHTTPREQUEST, OTHER};
+    enum class service_workers_mode_t {ALL, NONE};
+    enum class initiator_t {DOWNLOAD, IMAGESET, MANIFEST, PREFETCH, PRERENDER, XSLT};
+    enum class destination_t {AUDIO, AUDIOWORKLET, DOCUMENT, EMBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SERVICEWORKER, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT};
+    enum class referrer_t {NO_REFERRER, CLIENT};
+    enum class mode_t {SAME_ORIGIN, CORS, NO_CORS, NAVIGATE, WEBSOCKET, ANONYMOUS /* Should this be here -> in HTML spec */};
+    enum class credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
+    enum class cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
+    enum class redirect_t {FOLLOW, ERROR, MANUAL};
+    enum class parser_metadata_t  {PARSER_INSERTED, NOT_PARSER_INSERTED};
+    enum class response_tainting_t {BASIC, CORS, OPAQUE};
+
+    struct body_t;
+    struct connection_t;
+    struct cache_entry_t;
+    struct connection_timing_info_t;
+    struct fetch_controller_t;
+    struct fetch_timing_info_t;
+    struct fetch_params_t;
+    struct fetch_record_t;
+    struct fetch_group_t;
+    struct response_body_info_t;
+    struct request_t;
+    struct response_t;
+
     // body related
-    using body_with_tuple = ext::tuple<detail::body_internals::internal_body&, ext::string>;
+    using body_with_tuple = ext::tuple<body_t&, ext::string>;
     using xml_http_request_body_init_t = ext::variant<file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
     using body_init_t = ext::extend_variant_t<xml_http_request_body_init_t, streams::readable::readable_stream*>;
 
     // connection related
     using network_partition_key_t = ext::pair<ext::string, ext::string>;
-    using connection_pool = ext::map<network_partition_key_t, detail::fetch_internals::connection>;
+    using connection_pool = ext::map<network_partition_key_t, connection_t*>;
 
     // header related
     using header_name_t = ext::string;

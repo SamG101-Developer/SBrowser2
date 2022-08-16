@@ -8,12 +8,12 @@
 #include "dom/iterators/tree_walker.hpp"
 
 
-auto dom::detail::traversal_internals::filter(
+auto dom::detail::filter(
         const nodes::node* const node,
         node_iterators::abstract_iterator* const iterator)
         -> ext::number<ushort>
 {
-    exception_internals::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    throw_v8_exception_formatted<INVALID_STATE_ERR>(
             [iterator] {return iterator->m_active_flag;},
             "NodeIterator/TreeWalker must be inactive to start filtering");
 
@@ -47,9 +47,9 @@ auto dom::detail::traversal_internals::filter(
 }
 
 
-auto dom::detail::traversal_internals::traverse_children(
+auto dom::detail::traverse_children(
         node_iterators::tree_walker* const iterator,
-        const traversal_child type)
+        const traversal_child_t type)
         -> nodes::node*
 {
     using enum traversal_child;
@@ -75,7 +75,7 @@ auto dom::detail::traversal_internals::traverse_children(
             number_case(node_iterators::node_filter::FILTER_SKIP):
             {
                 auto* const child = type == FIRST_CHILD ? node->first_child() : node->last_child();
-                node = child ? child : node;
+                node = child ?: node;
                 continue_if (node == child);
                 [[fallthrough]];
             }
@@ -103,9 +103,9 @@ auto dom::detail::traversal_internals::traverse_children(
 }
 
 
-auto dom::detail::traversal_internals::traverse_siblings(
+auto dom::detail::traverse_siblings(
         node_iterators::tree_walker* const iterator,
-        const traversal_sibling type)
+        const traversal_sibling_t type)
         -> nodes::node*
 {
     using enum traversal_sibling;

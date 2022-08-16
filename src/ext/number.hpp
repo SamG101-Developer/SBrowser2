@@ -31,7 +31,7 @@ public constructors:
     number() = default;
     template <typename U> constexpr number(U primitive);
     template <typename U> auto operator=(U primitive) -> number&;
-    ~number() {internal_number = 0;}
+    constexpr ~number() {internal_number = 0;}
 
     template <typename U> explicit number(const number<U>& other);
     template <typename U> explicit number(number<U>&& other) noexcept;
@@ -84,10 +84,6 @@ private:
 private cpp_properties:
     T internal_number;
 };
-
-
-template <typename U>
-using number_view = const number<U>&;
 
 
 template <typename T>
@@ -178,13 +174,17 @@ auto is_numeric_string(const string& string) -> boolean
 
 
 template <typename U>
-auto to_string(number_view<U> number)
+auto to_string(const number<U>& number)
 {
     return std::to_string((U)number);
 }
 
-
 _EXT_END
+
+
+_EXT_SHORTHAND_BEGIN
+template <typename T> using nv = const number<T>&;
+_EXT_SHORTHAND_END
 
 
 #endif //SBROWSER2_NUMBER_HPP

@@ -13,11 +13,8 @@
 namespace fetch::detail::http_internals {struct connection_timing_info;}
 namespace fetch::detail::request_internals {struct internal_request;}
 
-namespace fetch::detail::connection_internals
+namespace fetch::detail
 {
-    enum class net_connection_setting_t {NO, YES, YES_AND_DEDICATED};
-    struct connection;
-
     auto resolve_origin(
             const network_partition_key_t&,
             ext::string_view origin)
@@ -25,28 +22,28 @@ namespace fetch::detail::connection_internals
 
     auto clamp_and_coarsen_connection_timing_information(
             http_internals::connection_timing_info& timing_information,
-            high_resolution_time::dom_high_res_time_stamp default_start_time,
+            high_resolution_time::dom_high_res_time_stamp_t default_start_time,
             ext::boolean cross_origin_isolated_capability)
             -> http_internals::connection_timing_info;
 
     auto obtain_connection(
             const network_partition_key_t& key,
             const url::url_object& url,
-            ext::boolean_view credentials,
+            const ext::boolean& credentials,
             net_connection_setting_t new_ = net_connection_setting_t::NO,
-            ext::boolean_view http3_only = false)
-            -> connection;
+            const ext::boolean& http3_only = false)
+            -> connection_t;
 
     auto create_connection(
             const network_partition_key_t& key,
             ext::string_view origin,
             ext::string_view proxy,
             http_internals::connection_timing_info& timing_info,
-            ext::boolean_view http3_only = false)
-            -> connection;
+            const ext::boolean& http3_only = false)
+            -> connection_t;
 
     auto record_timing_information(
-            const connection& connection)
+            const connection_t& connection)
             -> void;
 
     auto determine_network_partition_key(
@@ -71,7 +68,7 @@ namespace fetch::detail::connection_internals
 }
 
 
-struct fetch::detail::connection_internals::connection
+struct fetch::detail::connection_t
 {
     network_partition_key_t key;
     ext::string origin;

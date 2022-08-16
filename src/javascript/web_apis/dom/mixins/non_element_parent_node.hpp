@@ -12,6 +12,7 @@ class dom::mixins::non_element_parent_node
 {
 public constructors:
     DOM_CTORS(non_element_parent_node);
+    non_element_parent_node() = default;
 
 public js_methods:
     auto get_element_by_id(ext::string_view id) -> nodes::element*;

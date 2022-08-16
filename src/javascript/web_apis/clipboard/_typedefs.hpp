@@ -2,6 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
 
 #include <future>
+#include "mimesniff/_typedefs.hpp"
 #include "ext/any.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
@@ -20,13 +21,13 @@ namespace clipboard::detail
 
 struct clipboard::detail::representation_t
 {
-    ext::string mime_type;
+    mimesniff::detail::mime_type_t mime_type;
     clipboard_item_data_t data;
 };
 
 struct clipboard::detail::clipboard_item_t
 {
-    ext::vector<clipboard_item_t> list_of_representations;
+    ext::vector<representation_t> list_of_representations;
     presentation_style_t presentation_style;
 };
 

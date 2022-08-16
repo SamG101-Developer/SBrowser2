@@ -14,15 +14,10 @@ namespace dom::nodes {class element;}
 #include "ext/queue.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
+#include "dom/_typedefs.hpp"
 #include <range/v3/view/any_view.hpp>
-using namespace ext::shorthand;
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
-namespace dom::detail::customization_internals {struct custom_element_definition;}
-namespace dom::detail::customization_internals {struct reaction;}
-namespace dom::detail::customization_internals {enum custom_element_state_t;}
-namespace dom::detail::customization_internals {auto create_an_element(nodes::document*, sv, sv, sv, sv, bv) -> nodes::element;}
-namespace dom::detail::customization_internals {auto upgrade_element(custom_element_definition*, nodes::element*) -> void;}
 namespace html::detail::context_internals {struct browsing_context;}
 
 
@@ -35,16 +30,6 @@ class dom::nodes::element
         , public mixins::slottable
         , public aria::mixins::aria_mixin
 {
-public friends:
-    friend auto dom::detail::customization_internals::create_an_element(
-            nodes::document* document, ext::string_view local_name, ext::string_view namespace_,
-            ext::string_view prefix, ext::string_view is, ext::boolean_view synchronous_custom_elements_flag)
-            -> nodes::element;
-
-    friend auto dom::detail::customization_internals::upgrade_element(
-            detail::customization_internals::custom_element_definition* definition, nodes::element* element)
-            -> void;
-
 public constructors:
     element();
     ~element() override;
@@ -110,9 +95,9 @@ protected cpp_methods:
 
 private cpp_properties:
     ext::string m_is;
-    detail::customization_internals::custom_element_definition* m_custom_element_definition;
-    detail::customization_internals::custom_element_state_t     m_custom_element_state;
-    ext::queue<detail::customization_internals::reaction*>      m_custom_element_reaction_queue;
+    detail::custom_element_definition_t* m_custom_element_definition;
+    detail::custom_element_state_t m_custom_element_state;
+    ext::queue<detail::reaction_t*> m_custom_element_reaction_queue;
     html::detail::context_internals::browsing_context* m_nested_browsing_context;
 
 private cpp_accessors:

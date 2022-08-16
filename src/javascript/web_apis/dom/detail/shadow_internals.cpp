@@ -8,7 +8,7 @@
 #include <range/v3/algorithm/contains.hpp>
 
 
-auto dom::detail::shadow_internals::is_connected(
+auto dom::detail::is_connected(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -18,7 +18,7 @@ auto dom::detail::shadow_internals::is_connected(
 }
 
 
-auto dom::detail::shadow_internals::is_slot(
+auto dom::detail::is_slot(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -28,7 +28,7 @@ auto dom::detail::shadow_internals::is_slot(
 }
 
 
-auto dom::detail::shadow_internals::is_slottable(
+auto dom::detail::is_slottable(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -38,7 +38,7 @@ auto dom::detail::shadow_internals::is_slottable(
 }
 
 
-auto dom::detail::shadow_internals::is_assigned(
+auto dom::detail::is_assigned(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -47,7 +47,7 @@ auto dom::detail::shadow_internals::is_assigned(
 }
 
 
-auto dom::detail::shadow_internals::is_root_shadow_root(
+auto dom::detail::is_root_shadow_root(
         const nodes::node* const node_a)
         -> nodes::shadow_root*
 {
@@ -56,7 +56,7 @@ auto dom::detail::shadow_internals::is_root_shadow_root(
 }
 
 
-auto dom::detail::shadow_internals::is_shadow_root(
+auto dom::detail::is_shadow_root(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -65,7 +65,7 @@ auto dom::detail::shadow_internals::is_shadow_root(
 }
 
 
-auto dom::detail::shadow_internals::is_shadow_host(
+auto dom::detail::is_shadow_host(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -75,7 +75,7 @@ auto dom::detail::shadow_internals::is_shadow_host(
 }
 
 
-auto dom::detail::shadow_internals::shadow_including_descendants(
+auto dom::detail::shadow_including_descendants(
         const nodes::node* node_a)
         -> ranges::any_view<nodes::node*>
 {
@@ -85,7 +85,7 @@ auto dom::detail::shadow_internals::shadow_including_descendants(
 }
 
 
-auto dom::detail::shadow_internals::is_shadow_including_descendant(
+auto dom::detail::is_shadow_including_descendant(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -98,7 +98,7 @@ auto dom::detail::shadow_internals::is_shadow_including_descendant(
 }
 
 
-auto dom::detail::shadow_internals::is_shadow_including_ancestor(
+auto dom::detail::is_shadow_including_ancestor(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -109,7 +109,7 @@ auto dom::detail::shadow_internals::is_shadow_including_ancestor(
 }
 
 
-auto dom::detail::shadow_internals::is_host_including_ancestor(
+auto dom::detail::is_host_including_ancestor(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean

@@ -5,7 +5,7 @@
 namespace dom::abort {class abort_signal;}
 
 
-namespace dom::detail::aborting_internals
+namespace dom::detail
 {
     auto signal_abort(
             abort::abort_signal* signal,

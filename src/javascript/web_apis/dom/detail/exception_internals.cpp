@@ -23,7 +23,7 @@ struct exception_string_formatter
 
 
 template <v8_primitive_error_t exception_type>
-auto dom::detail::exception_internals::throw_v8_exception(
+auto dom::detail::throw_v8_exception(
         exception_condiditional_t&& condition,
         const ext::string& exception_message)
         -> void
@@ -51,7 +51,7 @@ auto dom::detail::exception_internals::throw_v8_exception(
 
 
 template <v8_custom_error_t exception_type, typename ...T>
-auto dom::detail::exception_internals::throw_v8_exception_formatted(
+auto dom::detail::throw_v8_exception_formatted(
         exception_condiditional_t&& condition,
         const ext::string& description,
         ext::vector<ext::string>&& possible_causes,

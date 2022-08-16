@@ -7,8 +7,8 @@ namespace dom::events {class event;}
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include "dom/_typedefs.hpp"
 namespace dom::nodes {class event_target;}
-namespace dom::detail::event_internals {struct event_path_struct;}
 
 
 class dom::events::event
@@ -16,7 +16,7 @@ class dom::events::event
 {
 private: aliases
     using touch_targets_t = ext::vector<nodes::event_target*>;
-    using path_t          = ext::vector<detail::event_internals::event_path_struct*>;
+    using path_t          = ext::vector<detail::event_path_struct_t*>;
 
 public: friends
     friend class nodes::event_target;

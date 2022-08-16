@@ -31,13 +31,15 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
     // into the function as a parameter. the element's class list is converted into lowercase if 'lower' is set
     auto match_callback = [&class_list, lower](const nodes::element* const element)
     {
-        auto this_class_list = *element->class_list() | ranges::views::transform_if(std::move(lower), ranges::actions::lowercase);
+        auto this_class_list = *element->class_list()
+                | ranges::views::transform_if(std::move(lower), ranges::actions::lowercase);
+
         return ranges::contains_all(class_list, this_class_list);
     };
 
     // filter the elements by applying the 'match_callback' onto each Element; if all the Element's class list items are
     // in the 'class_names' parameter, then keep the element, otherwise discard it
-    auto matches = detail::tree_internals::descendants(base)
+    auto matches = detail::descendants(base)
             | ranges::views::cast_all_to<nodes::element*>()
             | ranges::views::filter(match_callback);
 
@@ -70,7 +72,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
     // filter the elements by applying the 'match_callback' onto each Element; if the Element's qualified name equals
     // the 'qualified_name' parameter, then keep the element, otherwise discard it
     using f_t = ext::function<bool(nodes::element*)>;
-    auto matches = detail::tree_internals::descendants(base)
+    auto matches = detail::descendants(base)
             | ranges::views::cast_all_to<nodes::element*>()
             | ranges::views::filter(match_callback);
 
@@ -98,7 +100,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
 
     // filter the elements by applying the 'match_callback' onto each Element; if the Element's namespace and local name
     // equal the 'namespace_' and 'local_name' parameters, then keep the element, otherwise discard it
-    auto matches = detail::tree_internals::descendants(base)
+    auto matches = detail::descendants(base)
             | ranges::views::cast_all_to<nodes::element>()
             | ranges::views::filter(match_callback);
 
@@ -111,7 +113,7 @@ auto dom::mixins::document_or_element_node::to_v8(
         const && -> ext::any
 {
     return v8pp::class_<document_or_element_node>{isolate}
-        .inherit<web_apis::dom_object>()
+        .inherit<dom_object>()
         .function("getElementsByClassName", &document_or_element_node::get_elements_by_class_name)
         .function("getElementsByTagName", &document_or_element_node::get_elements_by_tag_name)
         .function("getElementsByTagNameNS", &document_or_element_node::get_elements_by_tag_name_ns)

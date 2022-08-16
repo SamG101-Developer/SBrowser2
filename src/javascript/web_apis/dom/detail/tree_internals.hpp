@@ -10,7 +10,7 @@
 namespace dom::nodes {class node;}
 namespace dom::nodes {class text;}
 
-namespace dom::detail::tree_internals
+namespace dom::detail
 {
     // ancestors and descendants
     auto root(

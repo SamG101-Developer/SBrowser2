@@ -6,6 +6,7 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include "dom/_typedefs.hpp"
 
 #include <memory>
 #include <v8-object.h>
@@ -16,13 +17,8 @@ namespace dom::nodes {class node;}
 namespace html::elements {class html_element; class html_media_element;}
 
 
-namespace dom::detail::observer_internals
+namespace dom::detail
 {
-    using steps_t = ext::function<void()>;
-    enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
-
-    struct registered_observer;
-    struct transient_registered_observer;
 
     // notifications
     auto notify_mutation_observers()
@@ -83,18 +79,5 @@ namespace dom::detail::observer_internals
             -> void;
 }
 
-
-struct dom::detail::observer_internals::registered_observer
-{
-    std::unique_ptr<mutations::mutation_observer> observer;
-    ext::map<ext::string, ext::any> options;
-    virtual ~registered_observer() = default;
-};
-
-
-struct dom::detail::observer_internals::transient_registered_observer : public registered_observer
-{
-    std::unique_ptr<registered_observer> source;
-};
 
 #endif //SBROWSER2_OBSERVER_INTERNALS_HPP

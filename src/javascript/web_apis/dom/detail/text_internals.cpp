@@ -19,19 +19,19 @@
 #include <range/v3/view/filter.hpp>
 
 
-auto dom::detail::text_internals::replace_data(
+auto dom::detail::replace_data(
         nodes::character_data* text_node,
-        ext::number_view<ulong> offset,
-        ext::number_view<ulong> count,
+        const ext::number<ulong>& offset,
+        const ext::number<ulong>& count,
         const ext::string_view data) -> void
 {
-    using enum observer_internals::mutation_type_t;
+    using detail::mutation_type_t;
 
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
     // 'offset', as replacing from an offset that si greater than the length of the Text is impossible
     auto length = tree_internals::length(text_node);
 
-    exception_internals::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
             [length, offset] {return offset > length;},
             "The 'offset' must be less than the length of the node",
             {"Length of the node is smaller than it should be", "Offset is too big"},
@@ -46,7 +46,7 @@ auto dom::detail::text_internals::replace_data(
 
     // queue a CHARACTER_DATA mutation record for the Text node's data changing, and replace the data inside the Text
     // node
-    detail::observer_internals::queue_mutation_record(CHARACTER_DATA, text_node, "", "", text_node->data(), {}, {}, nullptr, nullptr);
+    queue_mutation_record(mutation_type_t::CHARACTER_DATA, text_node, "", "", text_node->data(), {}, {}, nullptr, nullptr);
     text_node->data = text_node->data().replace(offset, adjusted_count, data);
 
     // get the live ranges from the surrounding realm, because these need to be updated for the mutations in the Text
@@ -85,17 +85,17 @@ auto dom::detail::text_internals::replace_data(
 }
 
 
-auto dom::detail::text_internals::substring_data(
+auto dom::detail::substring_data(
         const nodes::character_data* const text_node,
-        ext::number_view<ulong> offset,
-        ext::number_view<ulong> count)
+        const ext::number<ulong>& offset,
+        const ext::number<ulong>& count)
         -> ext::string
 {
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
     // 'offset', as substringing from an offset that si greater than the length of the Text is impossible
     auto length = tree_internals::length(text_node);
 
-    exception_internals::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
             [length, offset] {return offset > length;},
             "The 'offset' must be less than the length of the node",
             {"Length of the node is smaller than it should be", "Offset is too big"},
@@ -110,16 +110,16 @@ auto dom::detail::text_internals::substring_data(
 }
 
 
-auto dom::detail::text_internals::split(
+auto dom::detail::split(
         nodes::character_data* const existing_text_node,
-        ext::number_view<ulong> offset)
+        const ext::number<ulong>& offset)
         -> nodes::text
 {
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
     // 'offset', as substringing from an offset that si greater than the length of the Text is impossible
     auto length = tree_internals::length(existing_text_node);
 
-    exception_internals::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
             [length, offset] {return offset > length;},
             "The 'offset' must be less than the length of the node",
             {"Length of the node is smaller than it should be", "Offset is too big"},
@@ -135,7 +135,7 @@ auto dom::detail::text_internals::split(
     auto* const parent = existing_text_node->parent_node();
     if (parent)
     {
-        mutation_internals::insert(&new_text_node, parent, existing_text_node->next_sibling());
+        insert(&new_text_node, parent, existing_text_node->next_sibling());
 
         JS_REALM_GET_SURROUNDING(existing_text_node)
         const auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(existing_text_node_surrounding_global_object, "live_ranges");

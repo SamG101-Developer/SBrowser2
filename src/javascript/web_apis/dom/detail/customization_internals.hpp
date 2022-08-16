@@ -8,23 +8,14 @@
 #include "ext/stack.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include <queue>
-#include <stack>
+#include "dom/_typedefs.hpp"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}
 namespace html::elements {class html_unknown_element;}
 
-namespace dom::detail::customization_internals
+namespace dom::detail
 {
-    // detail structs and enums
-    enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
-    struct custom_element_reactions_stack;
-    struct custom_element_definition;
-    struct reaction {};
-    struct upgrade_reaction : public reaction {};
-    struct callback_reaction : public reaction {};
-
     auto element_interface(
             ext::string_view local_name,
             ext::string_view namespace_)
@@ -37,11 +28,11 @@ namespace dom::detail::customization_internals
             const ext::string& namespace_,
             const ext::string& prefix = "",
             const ext::string& is = "",
-            ext::boolean_view synchronous_custom_elements_flag = false)
+            const ext::boolean& synchronous_custom_elements_flag = false)
             -> nodes::element;
 
     auto upgrade_element(
-            custom_element_definition* definition,
+            custom_element_definition_t* definition,
             nodes::element* element)
             -> void;
 
@@ -54,7 +45,7 @@ namespace dom::detail::customization_internals
             ext::string_view namespace_,
             ext::string_view local_name,
             ext::string_view is)
-            -> custom_element_definition*;
+            -> custom_element_definition_t*;
 
     // enqueue methods for custom elements
     auto enqueue_element_on_appropriate_element_queue(
@@ -69,7 +60,7 @@ namespace dom::detail::customization_internals
 
     auto enqueue_custom_element_upgrade_reaction(
             nodes::element* element,
-            custom_element_definition* definition)
+            custom_element_definition_t* definition)
             -> void;
 
     auto enqueue_custom_element_reaction(
@@ -96,7 +87,7 @@ namespace dom::detail::customization_internals
 }
 
 
-struct dom::detail::customization_internals::custom_element_reactions_stack
+struct dom::detail::custom_element_reactions_stack_t
 {
     ext::queue<nodes::element*> backup_element_queue;
     ext::queue<nodes::element*> current_element_queue() {return queues.top();};
@@ -107,7 +98,7 @@ struct dom::detail::customization_internals::custom_element_reactions_stack
 };
 
 
-struct dom::detail::customization_internals::custom_element_definition
+struct dom::detail::custom_element_definition_t
 {
     using lifecycle_callback_t = ext::function<void()>;
     using html_element_constructor_t = ext::function<nodes::element&&()>;

@@ -17,7 +17,7 @@ auto dom::mixins::slottable::get_assigned_slot()
 
     // find a slot for the 'base' cast version of this class
     auto* base = ext::cross_cast<const nodes::node*>(this);
-    auto* slot = detail::shadow_internals::find_slot(base, true);
+    auto* slot = detail::find_slot(base, true);
     return slot;
 }
 

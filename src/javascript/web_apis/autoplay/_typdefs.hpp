@@ -1,0 +1,10 @@
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AUTOPLAY__TYPDEFS_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AUTOPLAY__TYPDEFS_HPP
+
+namespace autoplay::detail
+{
+    enum class autoplay_policy {ALLOWED, ALLOWED_MUTED, DISALLOWED};
+    enum class autoplay_policy_media_type_t {MEDIA_ELEMENT, AUDIO_CONTEXT};
+}
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AUTOPLAY__TYPDEFS_HPP

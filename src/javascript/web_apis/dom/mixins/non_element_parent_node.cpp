@@ -17,7 +17,7 @@ auto dom::mixins::non_element_parent_node::get_element_by_id(
     // not nullptr and the id matches then add it to the matches range; return teh first matching element, otherwise
     // nullptr
     const auto* const base = ext::cross_cast<const nodes::node*>(this);
-    auto matches = detail::tree_internals::descendants(base)
+    auto matches = detail::descendants(base)
             | ranges::views::cast_all_to<nodes::element*>()
             | ranges::views::filter([id](const nodes::element* const element) {return element && element->id() == id;});
 

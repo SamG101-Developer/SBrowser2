@@ -6,37 +6,24 @@
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
 #include "ext/map.hpp"
-#include "ext/span.hpp"
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
+#include "ext/type_traits.hpp"
+#include "dom/_typedefs.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}
 
 
-namespace dom::detail::event_internals
+namespace dom::detail
 {
-    struct event_path_struct
-    {
-        nodes::event_target* invocation_target      = nullptr;
-        nodes::event_target* shadow_adjusted_target = nullptr;
-        nodes::event_target* related_target         = nullptr;
-
-        ext::span<nodes::event_target*> touch_targets;
-        ext::boolean invocation_target_in_shadow_tree;
-        ext::boolean root_of_closed_tree;
-        ext::boolean slot_in_closed_tree;
-
-        auto operator==(const event_path_struct&) const -> bool = default;
-    };
-
     auto flatten_more(
-            ext::variant<ext::boolean, ext::map<ext::string, ext::any>> options)
+            event_listener_options_t options)
             -> ext::map<ext::string, ext::any>;
 
     auto flatten(
-            ext::variant<ext::boolean, ext::map<ext::string, ext::any>> options)
+            event_listener_options_t options)
             -> ext::boolean;
 
     auto remove_all_event_listeners(
@@ -53,21 +40,21 @@ namespace dom::detail::event_internals
             nodes::event_target* invocation_target,
             const nodes::event_target* shadow_adjusted_target,
             const nodes::event_target* related_target,
-            ext::span<nodes::event_target*> touch_targets,
-            ext::boolean_view slot_in_closed_tree)
+            ext::vector_view<nodes::event_target*> touch_targets,
+            const ext::boolean& slot_in_closed_tree)
             -> void;
 
     auto invoke(
-            event_path_struct* s,
+            event_path_struct_t* s,
             events::event* event,
-            uchar phase)
+            const ext::number<uchar>& phase)
             -> void;
 
     auto inner_invoke(
             events::event* event,
-            ext::span<ext::map<ext::string, ext::any>> event_listeners,
-            uchar phase,
-            ext::boolean_view invocation_target_in_shadow_tree)
+            ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
+            const ext::number<uchar>& phase,
+            const ext::boolean& invocation_target_in_shadow_tree)
             -> void;
 
     template <inherit<events::event> T=events::event>
@@ -77,6 +64,22 @@ namespace dom::detail::event_internals
             ext::map<ext::string, ext::any>&& init = {})
             -> ext::boolean;
 }
+
+
+struct dom::detail::event_path_struct_t
+{
+    nodes::event_target* invocation_target      = nullptr;
+    nodes::event_target* shadow_adjusted_target = nullptr;
+    nodes::event_target* related_target         = nullptr;
+
+    ext::vector_view<nodes::event_target*> touch_targets;
+    ext::boolean invocation_target_in_shadow_tree;
+    ext::boolean root_of_closed_tree;
+    ext::boolean slot_in_closed_tree;
+
+    auto operator==(const event_path_struct_t&) const -> bool = default;
+};
+
 
 
 #endif //SBROWSER2_EVENT_INTERNALS_HPP

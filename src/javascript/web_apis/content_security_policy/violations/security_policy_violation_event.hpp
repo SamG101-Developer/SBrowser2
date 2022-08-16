@@ -2,7 +2,6 @@
 #ifndef SBROWSER2_SECURITY_POLICY_VIOLATION_EVENT_HPP
 #define SBROWSER2_SECURITY_POLICY_VIOLATION_EVENT_HPP
 
-
 #include "content_security_policy/violations/csp_violation_report_body.hpp"
 #include "dom/events/event.hpp"
 namespace content_security_policy::violations {class security_policy_violation_event;}

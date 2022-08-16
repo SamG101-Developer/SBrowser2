@@ -26,13 +26,11 @@ private cpp_properties:
     bool internal_boolean;
 };
 
-using boolean_view = const boolean&;
-
 _EXT_END
 
 
 _EXT_SHORTHAND_BEGIN
-using bv = boolean_view;
+using bv = const boolean&;
 _EXT_DETAIL_END
 
 

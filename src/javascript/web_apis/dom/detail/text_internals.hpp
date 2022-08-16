@@ -3,28 +3,29 @@
 
 #include "ext/number.hpp"
 #include "ext/string.hpp"
+#include "ext/type_traits.hpp"
 namespace dom::nodes {class character_data;}
 namespace dom::nodes {class text;}
 
 
-namespace dom::detail::text_internals
+namespace dom::detail
 {
     auto replace_data(
             nodes::character_data* text_node,
-            ext::number_view<ulong> offset,
-            ext::number_view<ulong> count,
+            const ext::number<ulong>& offset,
+            const ext::number<ulong>& count,
             ext::string_view data)
             -> void;
 
     auto substring_data(
             const nodes::character_data* text_node,
-            ext::number_view<ulong> offset,
-            ext::number_view<ulong> count)
+            const ext::number<ulong>& offset,
+            const ext::number<ulong>& count)
             -> ext::string;
 
     auto split(
             nodes::character_data* existing_text_node,
-            ext::number_view<ulong> offset)
+            const ext::number<ulong>& offset)
             -> nodes::text;
 }
 

@@ -28,8 +28,8 @@
 #include <range/v3/view/reverse.hpp>
 #include <range/v3/view/slice.hpp>
 
-auto dom::detail::event_internals::flatten_more(
-        ext::variant<ext::boolean, ext::map<ext::string, ext::any>> options)
+auto dom::detail::flatten_more(
+        event_listener_options_t options)
         -> ext::map<ext::string, ext::any>
 {
     // return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
@@ -39,8 +39,8 @@ auto dom::detail::event_internals::flatten_more(
 }
 
 
-auto dom::detail::event_internals::flatten(
-        ext::variant<ext::boolean, ext::map<ext::string, ext::any>> options)
+auto dom::detail::flatten(
+        event_listener_options_t options)
         -> ext::boolean
 {
     // return the boolean if a boolean value is being stored in the variant, otherwise the capture option of the map
@@ -50,7 +50,7 @@ auto dom::detail::event_internals::flatten(
 }
 
 
-auto dom::detail::event_internals::remove_all_event_listeners(
+auto dom::detail::remove_all_event_listeners(
         nodes::event_target* const event_target)
         -> void
 {
@@ -65,7 +65,7 @@ auto dom::detail::event_internals::remove_all_event_listeners(
 }
 
 
-auto dom::detail::event_internals::dispatch(
+auto dom::detail::dispatch(
         events::event* const event,
         nodes::event_target* const target)
         -> ext::boolean
@@ -101,7 +101,7 @@ auto dom::detail::event_internals::dispatch(
             // too. the slot is in a closed tree if the mode of the ShadowRoot is "closed" TODO : why
             if (shadow_internals::is_assigned(parent_node))
             {
-                ext::assert_true(shadow_internals::is_slot(parent_node));
+                ASSERT(shadow_internals::is_slot(parent_node));
                 slot_in_closed_tree = shadow_internals::is_root_shadow_root(parent_node)->mode() == "closed";
             }
 
@@ -142,7 +142,7 @@ auto dom::detail::event_internals::dispatch(
         // the 'clear_targets_struct' is the last struct in the event path with a shadow adjusted target; if the target,
         // related target, or any touch targets of this struct are nodes who have ShadowRoot roots, then the target and
         // related target of the event have to be cleared once the event has finished traversing its path
-        auto* clear_targets_struct = ranges::last_where(*event->path(), [](event_path_struct* const s) {return s->shadow_adjusted_target;});
+        auto* clear_targets_struct = ranges::last_where(*event->path(), [](event_path_struct_t* const s) {return s->shadow_adjusted_target;});
         auto  clear_targets_list = clear_targets_struct->touch_targets + ext::vector<nodes::event_target*>{clear_targets_struct->shadow_adjusted_target, clear_targets_struct->related_target};
         clear_targets = ranges::any_of(
                 clear_targets_list | ranges::views::cast_all_to<nodes::node>(),
@@ -200,13 +200,13 @@ auto dom::detail::event_internals::dispatch(
 }
 
 
-auto dom::detail::event_internals::append_to_event_path(
+auto dom::detail::append_to_event_path(
         events::event* const event,
         nodes::event_target* const invocation_target,
         const nodes::event_target* const shadow_adjusted_target,
         const nodes::event_target* const related_target,
-        ext::span<nodes::event_target*> touch_targets,
-        ext::boolean_view slot_in_closed_tree)
+        ext::vector_view<nodes::event_target*> touch_targets,
+        const ext::boolean& slot_in_closed_tree)
         -> void
 {
     // the 'invocation_target' is in the shadow tree if it has a ShadowRoot root node, and the 'invocation_target' is
@@ -215,7 +215,7 @@ auto dom::detail::event_internals::append_to_event_path(
     const ext::boolean root_of_closed_tree = dynamic_cast<nodes::shadow_root*>(invocation_target)->mode() == "closed";
 
     // emplace a new 'event_path_struct' into the event's path, casting the range to a vector
-    event_path_struct s
+    event_path_struct_t s
     {
         .invocation_target = invocation_target,
         .shadow_adjusted_target = shadow_adjusted_target,
@@ -230,17 +230,17 @@ auto dom::detail::event_internals::append_to_event_path(
 }
 
 
-auto dom::detail::event_internals::invoke(
-        event_path_struct* const s,
+auto dom::detail::invoke(
+        event_path_struct_t* const s,
         events::event* const event,
-        const uchar phase)
+        const ext::number<uchar>& phase)
         -> void
 {
     // the viable structs are the struct in the event path that are inclusively preceding 's', and have a shadow
     // adjusted target set
     auto viable_structs =
             ranges::subrange(event->path()->begin(), ranges::find(*event->path(), s))
-            | ranges::views::filter([](event_path_struct* const viable_s) {return viable_s->shadow_adjusted_target;});
+            | ranges::views::filter([](event_path_struct_t* const viable_s) {return viable_s->shadow_adjusted_target;});
 
     // set the target to the 'viable_struct''s shadow adjusted target, and copy the related and touch targets from the
     // 's'. if the event's strop propagation flag has been set, then return early and don't invoke the callback, as the
@@ -257,20 +257,20 @@ auto dom::detail::event_internals::invoke(
 }
 
 
-auto dom::detail::event_internals::inner_invoke(
+auto dom::detail::inner_invoke(
         events::event* const event,
-        ext::span<ext::map<ext::string, ext::any>> event_listeners,
-        const uchar phase,
-        ext::boolean_view invocation_target_in_shadow_tree)
+        ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
+        const ext::number<uchar>& phase,
+        const ext::boolean& invocation_target_in_shadow_tree)
         -> void
 {
     // loop through all the event listeners that have the same type as the event, and that match the capture or bubbling
     // phase of the event ie a 'capturing' listener can only be invoked for an event in the 'CAPTURING_PHASE', and a
     // listener whose 'capturing' attribute is set to false can only be invoked for an event in the 'BUBBLING_PHASE'
-    for (ext::map_view<ext::string, ext::any> listener: event_listeners
-            | ranges::views::filter([event](ext::map_view<ext::string, ext::any> listener) {return listener.at("type").to<ext::string>() == event->type();})
-            | ranges::views::filter([phase](ext::map_view<ext::string, ext::any> listener) {return listener.at("capture").to<ext::boolean>() && phase == events::event::CAPTURING_PHASE;})
-            | ranges::views::filter([phase](ext::map_view<ext::string, ext::any> listener) {return !listener.at("capture").to<ext::boolean>() && phase == events::event::BUBBLING_PHASE;}))
+    for (const auto& listener: event_listeners
+            | ranges::views::filter([event](const auto& listener) {return listener.at("type").template to<ext::string>() == event->type();})
+            | ranges::views::filter([phase](const auto& listener) {return listener.at("capture").template to<ext::boolean>() && phase == events::event::CAPTURING_PHASE;})
+            | ranges::views::filter([phase](const auto& listener) {return !listener.at("capture").template to<ext::boolean>() && phase == events::event::BUBBLING_PHASE;}))
     {
         // if the event listener's 'once' attribute is set to true, then remove the event listener from the
         // EventTarget's listener list (not the copied range, as this won't affect the actual EventTarget)
@@ -311,7 +311,7 @@ auto dom::detail::event_internals::inner_invoke(
 
 
 template <inherit<dom::events::event> T>
-auto dom::detail::event_internals::fire_event(
+auto dom::detail::fire_event(
         ext::string&& e,
         nodes::event_target* target,
         ext::map<ext::string, ext::any>&& init)

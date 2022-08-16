@@ -3,19 +3,17 @@
 
 #include "ext/boolean.hpp"
 #include "ext/pair.hpp"
-#include "ext/span.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
+#include "html/_typedefs.hpp"
 #include <memory>
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}
 namespace html::detail::policy_internals {struct policy_container;}
 
-namespace html::detail::context_internals
+namespace html::detail
 {
-    struct browsing_context;
-    enum class history_handling_behaviour_t {DEFAULT, /* TODO */};
 
     auto is_still_on_initial(
             browsing_context* context)
@@ -24,14 +22,14 @@ namespace html::detail::context_internals
     auto choose_browsing_context(
             ext::string_view name,
             browsing_context* context,
-            ext::boolean_view noopener = false)
+            ext::boolean&& noopener = false)
             -> ext::pair<browsing_context*, ext::string>;
 
     template <callable F>
     auto navigate(
             browsing_context* context,
             browsing_context* source_context = nullptr,
-            ext::boolean_view exceptions_enabled = ext::boolean::FALSE(),
+            ext::boolean&& exceptions_enabled = false,
             history_handling_behaviour_t history_handling_behaviour = history_handling_behaviour_t::DEFAULT,
             html::detail::policy_internals::policy_container* history_policy_container = nullptr,
             ext::string_view navigation_type = "",
@@ -50,11 +48,11 @@ namespace html::detail::context_internals
 
     auto ancestor_browsing_contexts(
             browsing_context* context_a)
-            -> ext::span<browsing_context*>;
+            -> ext::vector<browsing_context*>;
 }
 
 
-struct html::detail::context_internals::browsing_context
+struct html::detail::browsing_context
 {
     std::unique_ptr<dom::nodes::window_proxy> window_proxy;
     std::unique_ptr<browsing_context> opener_browsing_context;

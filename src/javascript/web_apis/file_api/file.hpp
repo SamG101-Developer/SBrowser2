@@ -10,7 +10,7 @@ class file_api::file
         : public blob
 {
 public constructors:
-    file(ext::vector_view<blob_part_t> file_bits, ext::string_view file_name, ext::string_any_map_view options = {});
+    file(ext::vector_view<blob_part_t> file_bits, ext::string_view file_name, ext::map<ext::string, ext::any>&& options = {});
 
 public js_properties:
     ext::property<ext::string> name;

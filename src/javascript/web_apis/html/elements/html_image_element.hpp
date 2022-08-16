@@ -6,10 +6,8 @@
 namespace html::elements {class html_image_element;}
 
 #include <future>
+#include USE_INNER_TYPES(html)
 namespace dom::nodes {class window_proxy;}
-namespace html::detail::image_internals {struct image_request;}
-namespace html::detail::image_internals {struct image_source;}
-namespace html::detail::image_internals {auto update_image_data(elements::html_image_element* element, ext::boolean_view restart_animation_flag) -> void;}
 
 #define _IMAGES_SUPPORTED 1 /* TODO : move to another file where all MACRO configs are stored */
 
@@ -18,12 +16,6 @@ class html::elements::html_image_element
         : public html_element
         , public mixins::lazy_loadable
 {
-public friends:
-    friend auto detail::image_internals::update_image_data(
-            elements::html_image_element* element,
-            ext::boolean_view restart_animation_flag)
-            -> void;
-
 public constructors:
     html_image_element();
 
@@ -31,24 +23,24 @@ public js_methods:
     auto decode() -> std::promise<void>;
 
 public js_properties:
-    ext::property<ext::string, _T> alt;
-    ext::property<ext::string, _T> src;
-    ext::property<ext::string, _T> srcset;
-    ext::property<ext::string, _T> sizes;
-    ext::property<ext::string, _T> cross_origin;
-    ext::property<ext::string, _T> use_map;
-    ext::property<ext::string, _T> referrer_policy;
-    ext::property<ext::string, _T> loading;
-    ext::property<ext::string, _T> decoding;
+    ext::property<ext::string, true> alt;
+    ext::property<ext::string, true> src;
+    ext::property<ext::string, true> srcset;
+    ext::property<ext::string, true> sizes;
+    ext::property<ext::string, true> cross_origin;
+    ext::property<ext::string, true> use_map;
+    ext::property<ext::string, true> referrer_policy;
+    ext::property<ext::string, true> loading;
+    ext::property<ext::string, true> decoding;
     ext::property<ext::string, _F> current_src;
 
-    ext::property<ext::number<ulong>, _T> width;
-    ext::property<ext::number<ulong>, _T> height;
-    ext::property<ext::number<ulong>, _F> natural_width;
-    ext::property<ext::number<ulong>, _F> natural_height;
+    ext::property<ext::number<ulong>, true> width;
+    ext::property<ext::number<ulong>, true> height;
+    ext::property<ext::number<ulong>, false> natural_width;
+    ext::property<ext::number<ulong>, false> natural_height;
 
-    ext::property<ext::boolean, _T> is_map;
-    ext::property<ext::boolean, _F> complete;
+    ext::property<ext::boolean, true> is_map;
+    ext::property<ext::boolean, false> complete;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

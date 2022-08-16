@@ -2,7 +2,7 @@
 
 
 dom::node_iterators::node_filter::node_filter()
-        : accept_node([](nodes::node* node) {return FILTER_ACCEPT;})
+        : accept_node([](const nodes::node* node) {return FILTER_ACCEPT;})
 {}
 
 

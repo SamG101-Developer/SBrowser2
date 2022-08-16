@@ -3,7 +3,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_MIMETYPE_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/number.hpp"
 #include "ext/optional.hpp"
+#include "ext/set.hpp"
 #include "mimesniff/_typedefs.hpp"
 
 namespace mimesniff::detail::mimetype_internals
@@ -67,6 +69,21 @@ namespace mimesniff::detail::mimetype_internals
     auto is_json_mime_type(
             const mime_type_t& mime_type)
             -> ext::boolean;
+
+    auto supplied_mime_type_detection_algorithm(
+            const resource_t& resource)
+            -> mime_type_t;
+
+    auto read_resource_header(
+            const resource_t& resource)
+            -> resource_header_t;
+
+    auto parse_vint(
+            char* sequence,
+            ext::number<size_t> length,
+            ext::number<size_t> iter)
+            -> std::tuple<ext::number<int>, ext::number<int>>;
+
 };
 
 

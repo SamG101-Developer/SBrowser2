@@ -52,7 +52,7 @@
 #include <range/v3/view/drop_while.hpp>
 
 
-auto html::detail::html_element_internals::advisory_information(
+auto html::detail::advisory_information(
         dom::nodes::element* element)
         -> ext::string
 {
@@ -73,25 +73,27 @@ auto html::detail::html_element_internals::advisory_information(
 }
 
 
-auto html::detail::html_element_internals::determine_language(
+auto html::detail::determine_language(
         dom::nodes::element* element)
         -> ext::string
 {
-    using namespace dom::detail::namespace_internals;
-
     // TODO : this is an incorrect implementation
     // the closest ancestor to the 'html_element' whose 'xml:lang' attribute is set, or 'lang' attribute is set, and
     // the element is a HTMLxxx element, is the language that is used,
-    auto ancestors = dom::detail::tree_internals::ancestors(element);
+    auto ancestors = dom::detail::ancestors(element);
     auto valid_ancestors = ancestors
             | ranges::views::cast_all_to<elements::html_element*>()
-            | ranges::views::filter([](elements::html_element* element) {return element->lang() && element->namespace_uri() == XML || element->lang() && dynamic_cast<elements::html_element*>(element);});
+            | ranges::views::filter([](elements::html_element* element)
+            {
+                return element->lang() && element->namespace_uri() == dom::detail::XML
+                || element->lang() && dynamic_cast<elements::html_element*>(element);
+            });
 
     return valid_ancestors.front() ? valid_ancestors.front()->lang() : "";
 }
 
 
-auto html::detail::html_element_internals::translate_enabled(
+auto html::detail::translate_enabled(
         dom::nodes::element* element)
         -> ext::boolean
 {
@@ -104,7 +106,7 @@ auto html::detail::html_element_internals::translate_enabled(
 }
 
 
-auto html::detail::html_element_internals::directionality(
+auto html::detail::directionality(
         dom::nodes::element* element)
         -> directionality_t
 {
@@ -128,7 +130,7 @@ auto html::detail::html_element_internals::directionality(
 
     // if the attribute isn't set, but the HTMLElement is a document element, then return LTR (document element
     // directionality defaults to LTR if unspecified)
-    if (!has_ltr_attribute && dom::detail::tree_internals::is_document_element(element))
+    if (!has_ltr_attribute && dom::detail::is_document_element(element))
         return LTR;
 
     // if the HTMLElement's 'dir' attribute is set to "ltr" then use the attribute, and return LTR
@@ -151,7 +153,7 @@ auto html::detail::html_element_internals::directionality(
 
         // if there is no text, but the HTMLTextAreaElement is a document element, then return LTR (document element
         // directionality defaults to LTR if unspecified)
-        if (!html_text_area_element->text().empty() || dom::detail::tree_internals::is_document_element(html_text_area_element))
+        if (!html_text_area_element->text().empty() || dom::detail::is_document_element(html_text_area_element))
             return LTR;
 
         // otherwise, return the directionality of the parent element - this is because if there is one RTL condition in
@@ -171,10 +173,10 @@ auto html::detail::html_element_internals::directionality(
 
         // get all the descendant text nodes of the non-HTMLTextAreaElement who don't have blacklisted-type element
         // ancestors, and join their data together into one string
-        auto text_nodes_data = dom::detail::tree_internals::descendant_text_nodes(html_element)
+        auto text_nodes_data = dom::detail::descendant_text_nodes(html_element)
                 | ranges::views::remove_if([&black_list_element_types](dom::nodes::text* text_node)
                 {
-                    auto ancestor_local_names = dom::detail::tree_internals::ancestors(text_node)
+                    auto ancestor_local_names = dom::detail::ancestors(text_node)
                             | ranges::views::cast_all_to<dom::nodes::element>()
                             | ranges::views::transform([](dom::nodes::element* element) {return element->local_name();});
                     return ranges::any_of(ancestor_local_names, ext::bind_back(ranges::contains, std::move(black_list_element_types)));
@@ -194,7 +196,7 @@ auto html::detail::html_element_internals::directionality(
 
         // if there is no directionality-defining character, but the HTMLTextAreaElement is a document element, then
         // return LTR (document element directionality defaults to LTR if unspecified)
-        if (dom::detail::tree_internals::is_document_element(html_element))
+        if (dom::detail::is_document_element(html_element))
             return LTR;
 
         // if the element isn't a document element, then return the directionality of the parent element
@@ -207,7 +209,7 @@ auto html::detail::html_element_internals::directionality(
 }
 
 
-auto html::detail::html_element_internals::directionality_of_attribute(
+auto html::detail::directionality_of_attribute(
         dom::nodes::element* element,
         ext::string_view attribute)
         -> directionality_t
@@ -262,7 +264,7 @@ auto html::detail::html_element_internals::directionality_of_attribute(
 }
 
 
-auto html::detail::html_element_internals::rendered_text_collection_steps(
+auto html::detail::rendered_text_collection_steps(
         dom::nodes::node* node)
         -> ranges::any_view<ext::string>
 {
@@ -281,13 +283,11 @@ auto html::detail::html_element_internals::rendered_text_collection_steps(
 
 
 
-auto html::detail::html_element_internals::rendered_text_fragment(
+auto html::detail::rendered_text_fragment(
         ext::string_view input,
         dom::nodes::document* document)
         -> dom::nodes::document_fragment*
 {
-    using namespace dom::detail::namespace_internals;
-
     // create an ext::string copy of the 'input' string_view, and set the 'text' string to an empty string; the
     // 'fragment' is a new DocumentFragment, and the 'position' currently points to the first item in the 'input_copy'
     // string
@@ -309,7 +309,7 @@ auto html::detail::html_element_internals::rendered_text_fragment(
         {
             dom::nodes::text text_node {std::move(text)};
             text_node.owner_document = document;
-            dom::detail::mutation_internals::append(&text_node, fragment);
+            dom::detail::append(&text_node, fragment);
         }
 
         // if there are more newlines following the newline that the data is split on, then add a new <br> element to
@@ -319,8 +319,8 @@ auto html::detail::html_element_internals::rendered_text_fragment(
             if (*position == char(0x00d) && *std::next(position) == 0x000a) ++position;
             ++position;
 
-            auto&& element = dom::detail::customization_internals::create_an_element(document, "br", HTML);
-            dom::detail::mutation_internals::append(element, fragment);
+            auto&& element = dom::detail::create_an_element(document, "br", dom::detail::HTML);
+            dom::detail::append(element, fragment);
         }
     }
 
@@ -330,7 +330,7 @@ auto html::detail::html_element_internals::rendered_text_fragment(
 }
 
 
-auto html::detail::html_element_internals::merge_with_next_text_node(
+auto html::detail::merge_with_next_text_node(
         dom::nodes::text* text_node)
         -> void
 {
@@ -343,11 +343,11 @@ auto html::detail::html_element_internals::merge_with_next_text_node(
     // from its parent
     text_node->append_data(next_text_node->data());
     if (next_text_node->parent_node())
-        dom::detail::mutation_internals::remove(next_text_node);
+        dom::detail::remove(next_text_node);
 }
 
 
-auto html::detail::html_element_internals::get_elements_target(
+auto html::detail::get_elements_target(
         const dom::nodes::element* element)
         -> ext::string
 {
@@ -355,7 +355,7 @@ auto html::detail::html_element_internals::get_elements_target(
     if (reflect_has_attribute_value(element, "target", element_relevant))
         return reflect_get_attribute_value(element, "target", ext::string, element_relevant);
 
-    auto base_elements = dom::detail::tree_internals::root(element)->child_nodes
+    auto base_elements = dom::detail::root(element)->child_nodes
             | ranges::views::cast_all_to<html::elements::html_base_element*>()
             | ranges::views::filter([](html::elements::html_base_element* html_base_element) {JS_REALM_GET_RELEVANT(html_base_element) return reflect_has_attribute_value(html_base_element, "target", html_base_element_relevant);});
 
@@ -363,9 +363,9 @@ auto html::detail::html_element_internals::get_elements_target(
 }
 
 
-auto html::detail::html_element_internals::contact_information(
+auto html::detail::contact_information(
         dom::nodes::element* element)
-        -> ext::span<dom::nodes::element*>
+        -> ext::vector<dom::nodes::element*>
 {
     auto local_names = {"article", "body"};
 
@@ -373,12 +373,12 @@ auto html::detail::html_element_internals::contact_information(
     // elements, excluding any elements that have an article or body ancestor element, that is a descendant of the
     // 'element'
     if (ranges::contains(local_names, element->local_name()))
-        return dom::detail::tree_internals::descendants(element)
+        return dom::detail::descendants(element)
                 | ranges::views::cast_all_to<dom::nodes::element*>()
                 | ranges::views::filter([](dom::nodes::element* descendant) {return descendant->local_name() == "article";})
                 | ranges::views::filter([local_names, element](dom::nodes::element* descendant)
                 {
-                    auto ancestors = dom::detail::tree_internals::ancestors(descendant);
+                    auto ancestors = dom::detail::ancestors(descendant);
                     auto clamped = ranges::subrange(ranges::find(ancestors, element), ancestors.end());
                     auto filtered = clamped | ranges::views::filter([local_names](dom::nodes::element* ancestor) {return ranges::contains(local_names, ancestor->local_name());});
                     return !filtered.empty();
@@ -386,7 +386,7 @@ auto html::detail::html_element_internals::contact_information(
 
     // if the 'element' has ancestors that are article or body nodes, then return the contact information of the closest
     // ancestor article or body node
-    if (auto element_ancestors = dom::detail::tree_internals::ancestors(element) | ranges::views::cast_all_to<dom::nodes::element*>();
+    if (auto element_ancestors = dom::detail::ancestors(element) | ranges::views::cast_all_to<dom::nodes::element*>();
             ranges::any_of(element_ancestors, [local_names](dom::nodes::element* ancestor) {return ranges::contains(local_names, ancestor->local_name());}))
 
         return contact_information(ranges::back(element_ancestors
@@ -402,7 +402,7 @@ auto html::detail::html_element_internals::contact_information(
 }
 
 
-auto html::detail::html_element_internals::ordinal_value(
+auto html::detail::ordinal_value(
         elements::html_element* owner_element)
         -> ext::number<int>
 {
@@ -414,7 +414,7 @@ auto html::detail::html_element_internals::ordinal_value(
 }
 
 
-auto html::detail::html_element_internals::set_frozen_base_url(
+auto html::detail::set_frozen_base_url(
         elements::html_base_element* element)
         -> void
 {
@@ -422,13 +422,13 @@ auto html::detail::html_element_internals::set_frozen_base_url(
     auto document_fallback_base_url = document_internals::fallback_base_url(document);
     auto url_record = url::detail::url_parsing_serializing_internals::parse(element->href(), document_fallback_base_url, document->m_encoding);
 
-    element->m_frozen_base_url = content_security_policy::detail::csp_internals::is_base_allowed_for_document(url_record, document)
+    element->m_frozen_base_url = content_security_policy::detail::is_base_allowed_for_document(url_record, document)
             ? document_fallback_base_url
             : url_record;
 }
 
 
-auto html::detail::html_element_internals::pragma_set_default_language(
+auto html::detail::pragma_set_default_language(
         elements::html_meta_element* element)
         -> void
 {
@@ -446,7 +446,7 @@ auto html::detail::html_element_internals::pragma_set_default_language(
 }
 
 
-auto html::detail::html_element_internals::starting_value(
+auto html::detail::starting_value(
         elements::html_olist_element* element)
         -> ext::number<long>
 {
@@ -458,7 +458,7 @@ auto html::detail::html_element_internals::starting_value(
 }
 
 
-auto html::detail::html_element_internals::name_value_groups(
+auto html::detail::name_value_groups(
         elements::html_dlist_element* element)
         -> name_value_groups_t
 {
@@ -500,7 +500,7 @@ auto html::detail::html_element_internals::name_value_groups(
 }
 
 
-auto html::detail::html_element_internals::process_dt_dd_element(
+auto html::detail::process_dt_dd_element(
         dom::nodes::node* node,
         name_value_groups_t& groups,
         name_value_group_t& current,
@@ -521,7 +521,7 @@ auto html::detail::html_element_internals::process_dt_dd_element(
         {
             groups.push_back(current);
             current = name_value_group_t{};
-            seen_dd = ext::boolean::FALSE();
+            seen_dd = false;
         }
 
         current.first.push_back(cast_child);
@@ -534,12 +534,12 @@ auto html::detail::html_element_internals::process_dt_dd_element(
         // next "dt" element is found, this "dd" element will be the last in the 'current' group, and the 'current'
         // group will be pushed to 'groups'
         current.second.push_back(cast_child);
-        seen_dd = ext::boolean::TRUE();
+        seen_dd = true;
     }
 }
 
 
-auto html::detail::html_element_internals::date_time_value(
+auto html::detail::date_time_value(
         elements::html_time_element* element)
         -> ext::string
 {
@@ -549,11 +549,11 @@ auto html::detail::html_element_internals::date_time_value(
     JS_REALM_GET_RELEVANT(element)
     return reflect_has_attribute_value(element, "dateTime", element_relevant)
             ? element->date_time()
-            : dom::detail::tree_internals::child_text_content(element);
+            : dom::detail::child_text_content(element);
 }
 
 
-auto html::detail::html_element_internals::set_url(
+auto html::detail::set_url(
         mixins::html_hyperlink_element_utils* element)
         -> void
 {
@@ -567,7 +567,7 @@ auto html::detail::html_element_internals::set_url(
 }
 
 
-auto html::detail::html_element_internals::reinitialize_url(
+auto html::detail::reinitialize_url(
         mixins::html_hyperlink_element_utils* element)
         -> void
 {
@@ -578,7 +578,7 @@ auto html::detail::html_element_internals::reinitialize_url(
 }
 
 
-auto html::detail::html_element_internals::update_href(
+auto html::detail::update_href(
         mixins::html_hyperlink_element_utils* element)
         -> void
 {
@@ -587,29 +587,29 @@ auto html::detail::html_element_internals::update_href(
 }
 
 
-auto html::detail::html_element_internals::process_iframe_attributes(
+auto html::detail::process_iframe_attributes(
         elements::html_iframe_element* element,
-        ext::boolean_view initial_insertion)
+        ext::boolean&& initial_insertion)
         -> void
 {
     auto navigate_to_srcdoc_resource = [&element]
     {
-        fetch::detail::response_internals::internal_response response
+        fetch::detail::response_t response
         {
             .url_list = {"abort:srcdoc"},
             .header_list = {{"Content-Type", "text/html"}},
-            .body = fetch::detail::body_internals::internal_body {.source = element->srcdoc()};
+            .body = fetch::detail::body_t {.source = element->srcdoc()};
         };
         navigate_iframe_or_frame(element, response);
     };
 
     if (!element->srcdoc().empty())
     {
-        element->m_current_navigation_lazy_loaded = ext::boolean::FALSE();
+        element->m_current_navigation_lazy_loaded = false;
         if (lazy_loading_internals::will_lazy_load_element_steps(element))
         {
             element->m_lazy_load_resumption_steps = std::move(navigate_to_srcdoc_resource);
-            element->m_current_navigation_lazy_loaded = ext::boolean::TRUE();
+            element->m_current_navigation_lazy_loaded = true;
             lazy_loading_internals::start_intersection_observing_lazy_loading_element(element);
             return;
         }
@@ -621,12 +621,12 @@ auto html::detail::html_element_internals::process_iframe_attributes(
 }
 
 
-auto html::detail::html_element_internals::shared_attribute_processing_steps_for_iframe_and_frame_elements(
+auto html::detail::shared_attribute_processing_steps_for_iframe_and_frame_elements(
         elements::html_iframe_element* element,
-        ext::boolean_view initial_insertion)
+        ext::boolean&& initial_insertion)
         -> void
 {
-    auto navigate_to_resource = [&element](fetch::detail::request_internals::internal_request& resource)
+    auto navigate_to_resource = [&element](fetch::detail::request_t& resource)
     {
         navigate_iframe_or_frame(element, resource);
     };
@@ -638,7 +638,7 @@ auto html::detail::html_element_internals::shared_attribute_processing_steps_for
         url_record = miscellaneous_internals::parse_url(element->src(), element->owner_document()).second;
 
     return_if (ranges::any_of(
-            context_internals::ancestor_browsing_contexts(element->m_nested_browsing_context),
+            ancestor_browsing_contexts(element->m_nested_browsing_context),
             [&url_record](context_internals::browsing_context* context) {return context->active_document()->url() == url_record;}));
 
     if (miscellaneous_internals::matches_about_blank(url_record) && initial_insertion)
@@ -648,19 +648,19 @@ auto html::detail::html_element_internals::shared_attribute_processing_steps_for
         return;
     }
 
-    fetch::detail::request_internals::internal_request resource
+    fetch::detail::request_t resource
     {
         .url = url_record,
         .referrer_policy = magic_enum::enum_cast<referrer_policy::referrer_policy_t>(element->referrer_policy())
     };
 
     if (element->local_name() == "iframe")
-        element->m_current_navigation_lazy_loaded = ext::boolean::FALSE();
+        element->m_current_navigation_lazy_loaded = false;
 
     if (element->local_name() == "iframe" && lazy_loading_internals::will_lazy_load_element_steps(element))
     {
         element->m_lazy_load_resumption_steps = ext::bind_front(std::move(navigate_to_resource), resource);
-        element->m_current_navigation_lazy_loaded = ext::boolean::TRUE();
+        element->m_current_navigation_lazy_loaded = true;
         lazy_loading_internals::start_intersection_observing_lazy_loading_element(element);
         return;
     }
@@ -669,8 +669,8 @@ auto html::detail::html_element_internals::shared_attribute_processing_steps_for
 }
 
 
-template <type_is<fetch::detail::response_internals::internal_response, fetch::detail::request_internals::internal_request> T>
-auto html::detail::html_element_internals::navigate_iframe_or_frame(
+template <type_is<fetch::detail::response_t, fetch::detail::request_t> T>
+auto html::detail::navigate_iframe_or_frame(
         const elements::html_iframe_element* element,
         T&& resource)
         -> void
@@ -689,14 +689,14 @@ auto html::detail::html_element_internals::navigate_iframe_or_frame(
 }
 
 
-auto html::detail::html_element_internals::iframe_load_event_steps(
+auto html::detail::iframe_load_event_steps(
         const elements::html_iframe_element* element)
         -> void
 {
-    ext::assert_true(element->m_nested_browsing_context);
+    ASSERT(element->m_nested_browsing_context);
     auto child_document = element->m_nested_browsing_context->active_document();
     return_if(child_document->m_mute_iframe_flag);
-    child_document->m_mute_iframe_flag = ext::boolean::TRUE();
-    dom::detail::event_internals::fire_event("load", element);
-    child_document->m_mute_iframe_flag = ext::boolean::FALSE();
+    child_document->m_mute_iframe_flag = true;
+    dom::detail::fire_event("load", element);
+    child_document->m_mute_iframe_flag = false;
 }

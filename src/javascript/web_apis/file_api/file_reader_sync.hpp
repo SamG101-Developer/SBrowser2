@@ -9,7 +9,7 @@ namespace file_api {class blob;}
 
 
 class file_api::file_reader_sync
-        : public virtual web_apis::dom_object
+        : public virtual dom_object
 {
 public constructors:
     file_reader_sync();

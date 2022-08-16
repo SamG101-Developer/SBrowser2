@@ -24,7 +24,7 @@
 #include <range/v3/view/map.hpp>
 
 
-auto html::detail::image_internals::is_available(
+auto html::detail::is_available(
         image_request& request)
         -> ext::boolean
 {
@@ -35,7 +35,7 @@ auto html::detail::image_internals::is_available(
 }
 
 
-auto html::detail::image_internals::determine_density_corrected_intrinsic_width_and_height(
+auto html::detail::determine_density_corrected_intrinsic_width_and_height(
         elements::html_image_element* element)
         -> void
 {
@@ -49,9 +49,9 @@ auto html::detail::image_internals::determine_density_corrected_intrinsic_width_
 }
 
 
-auto html::detail::image_internals::update_image_data(
+auto html::detail::update_image_data(
         elements::html_image_element* element,
-        ext::boolean_view restart_animation_flag)
+        ext::boolean&& restart_animation_flag)
         -> void
 {
     using enum state_t;
@@ -210,7 +210,7 @@ auto html::detail::image_internals::update_image_data(
 }
 
 
-auto html::detail::image_internals::abort_image_request(
+auto html::detail::abort_image_request(
         image_request& request)
         -> void
 {
@@ -219,7 +219,7 @@ auto html::detail::image_internals::abort_image_request(
 }
 
 
-auto html::detail::image_internals::upgrade_pending_request_to_current_request(
+auto html::detail::upgrade_pending_request_to_current_request(
         elements::html_image_element* element)
         -> void
 {
@@ -231,7 +231,7 @@ auto html::detail::image_internals::upgrade_pending_request_to_current_request(
 }
 
 
-auto html::detail::image_internals::select_image_source(
+auto html::detail::select_image_source(
         elements::html_image_element* element)
         -> ext::tuple<url::url_object, double>
 {
@@ -241,7 +241,7 @@ auto html::detail::image_internals::select_image_source(
 }
 
 
-auto html::detail::image_internals::select_image_source_from_source_set(
+auto html::detail::select_image_source_from_source_set(
         ext::set<image_source*>& source_set)
         -> ext::tuple<url::url_object, double>
 {
@@ -251,7 +251,7 @@ auto html::detail::image_internals::select_image_source_from_source_set(
 }
 
 
-auto html::detail::image_internals::create_source_set(
+auto html::detail::create_source_set(
         const ext::string& default_source,
         const ext::string& src_set,
         const ext::string& sizes)
@@ -269,7 +269,7 @@ auto html::detail::image_internals::create_source_set(
 }
 
 
-auto html::detail::image_internals::update_source_set(
+auto html::detail::update_source_set(
         type_is<elements::html_image_element*, elements::html_link_element*> auto* element)
         -> void
 {

@@ -10,8 +10,6 @@ namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::detail::context_internals {struct browsing_context;}
 namespace html::elements {class html_element;}
-namespace fetch::detail::request_internals {struct internal_request;}
-namespace fetch::detail::response_internals {struct internal_response;}
 namespace permissions_policy::detail::policy_internals {struct internal_permissions_policy;}
 namespace url {class url_object;}
 

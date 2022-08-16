@@ -20,7 +20,7 @@
 #include <magic_enum.hpp>
 
 
-auto html::detail::document_internals::is_cookie_averse_document(
+auto html::detail::is_cookie_averse_document(
         const dom::nodes::document* document)
         -> ext::boolean
 {
@@ -31,7 +31,7 @@ auto html::detail::document_internals::is_cookie_averse_document(
 }
 
 
-auto html::detail::document_internals::fallback_base_url(
+auto html::detail::fallback_base_url(
         const dom::nodes::document* document)
         -> ext::string
 {
@@ -42,11 +42,11 @@ auto html::detail::document_internals::fallback_base_url(
 }
 
 
-auto html::detail::document_internals::document_base_url(
+auto html::detail::document_base_url(
         const dom::nodes::document* document)
         -> ext::string
 {
-    auto html_base_element_descendants = dom::detail::tree_internals::descendants(document)
+    auto html_base_element_descendants = dom::detail::descendants(document)
             | ranges::views::cast_all_to<elements::html_base_element*>()
             | ranges::views::filter([](elements::html_base_element* element) {JS_REALM_GET_RELEVANT(element) return reflect_has_attribute_value(element, "href", element_relevant);});
 
@@ -56,7 +56,7 @@ auto html::detail::document_internals::document_base_url(
 }
 
 
-auto html::detail::document_internals::shared_declarative_refresh_steps(
+auto html::detail::shared_declarative_refresh_steps(
         const dom::nodes::document* document,
         ext::string&& input,
         elements::html_meta_element* meta) -> void
@@ -180,7 +180,7 @@ auto html::detail::document_internals::shared_declarative_refresh_steps(
 }
 
 
-auto html::detail::document_internals::has_stylesheet_blocking_scripts(
+auto html::detail::has_stylesheet_blocking_scripts(
         const dom::nodes::document* document)
         -> ext::boolean
 {
@@ -190,7 +190,7 @@ auto html::detail::document_internals::has_stylesheet_blocking_scripts(
 }
 
 
-auto html::detail::document_internals::has_no_stylesheet_blocking_scripts(
+auto html::detail::has_no_stylesheet_blocking_scripts(
         const dom::nodes::document* document)
         -> ext::boolean
 {
@@ -198,7 +198,7 @@ auto html::detail::document_internals::has_no_stylesheet_blocking_scripts(
 }
 
 
-auto html::detail::document_internals::allowed_to_use(
+auto html::detail::allowed_to_use(
         dom::nodes::document* document,
         ext::string_view feature)
         -> ext::boolean

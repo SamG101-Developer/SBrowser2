@@ -82,7 +82,7 @@ custom_operator(enforce_range)
 #define ce_reactions_method_exe                                                                                                   \
     };                                                                                                                            \
     {                                                                                                                             \
-        using _stack_t = dom::detail::customization_internals::custom_element_reactions_stack;                                    \
+        using _stack_t = dom::detail::custom_element_reactions_stack_t;                                                           \
         JS_REALM_GET_RELEVANT(this)                                                                                               \
         auto _ce_reactions_stack = javascript::environment::realms_2::get<_stack_t>(this_relevant_global_object, "ce_reactions"); \
         _ce_reactions_stack->emplace();                                                                                           \

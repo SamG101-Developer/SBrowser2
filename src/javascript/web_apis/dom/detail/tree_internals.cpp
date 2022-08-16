@@ -17,7 +17,7 @@
 #include <range/v3/view/take_while.hpp>
 
 
-auto dom::detail::tree_internals::root(
+auto dom::detail::root(
         const nodes::node* const node_a)
         -> nodes::node*
 {
@@ -26,7 +26,7 @@ auto dom::detail::tree_internals::root(
 }
 
 
-auto dom::detail::tree_internals::ancestors(
+auto dom::detail::ancestors(
         const nodes::node* node_a)
         -> ranges::any_view<nodes::node*> // TODO : not live, needs to be
 {
@@ -37,7 +37,7 @@ auto dom::detail::tree_internals::ancestors(
 }
 
 
-auto dom::detail::tree_internals::descendants(
+auto dom::detail::descendants(
         const nodes::node* const node_a)
         -> ranges::any_view<nodes::node*> // TODO : not live, needs to be
 {
@@ -48,7 +48,7 @@ auto dom::detail::tree_internals::descendants(
 }
 
 
-auto dom::detail::tree_internals::is_ancestor(
+auto dom::detail::is_ancestor(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -60,7 +60,7 @@ auto dom::detail::tree_internals::is_ancestor(
 }
 
 
-auto dom::detail::tree_internals::is_descendant(
+auto dom::detail::is_descendant(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -70,7 +70,7 @@ auto dom::detail::tree_internals::is_descendant(
 }
 
 
-auto dom::detail::tree_internals::is_sibling(
+auto dom::detail::is_sibling(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -80,7 +80,7 @@ auto dom::detail::tree_internals::is_sibling(
 }
 
 
-auto dom::detail::tree_internals::is_preceding(
+auto dom::detail::is_preceding(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -90,7 +90,7 @@ auto dom::detail::tree_internals::is_preceding(
 }
 
 
-auto dom::detail::tree_internals::is_following(
+auto dom::detail::is_following(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> ext::boolean
@@ -100,7 +100,7 @@ auto dom::detail::tree_internals::is_following(
 }
 
 
-auto dom::detail::tree_internals::index(
+auto dom::detail::index(
         const nodes::node* const node_a)
         -> ext::number<ulong>
 {
@@ -111,7 +111,7 @@ auto dom::detail::tree_internals::index(
 }
 
 
-auto dom::detail::tree_internals::length(
+auto dom::detail::length(
         const nodes::node* const node_a)
         -> ext::number<ulong>
 {
@@ -122,7 +122,7 @@ auto dom::detail::tree_internals::length(
 
 
 template <typename T>
-auto dom::detail::tree_internals::all_following(
+auto dom::detail::all_following(
         const nodes::node* const node_a)
         -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>
 {
@@ -134,7 +134,7 @@ auto dom::detail::tree_internals::all_following(
 
 
 template <typename T>
-auto dom::detail::tree_internals::all_preceding(
+auto dom::detail::all_preceding(
         const nodes::node* const node_a)
         -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>
 {
@@ -146,7 +146,7 @@ auto dom::detail::tree_internals::all_preceding(
 
 
 template <typename T>
-auto dom::detail::tree_internals::all_preceding_siblings(
+auto dom::detail::all_preceding_siblings(
         const nodes::node* const node_a)
         -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>
 {
@@ -158,7 +158,7 @@ auto dom::detail::tree_internals::all_preceding_siblings(
 
 
 template <typename T>
-auto dom::detail::tree_internals::all_following_siblings(
+auto dom::detail::all_following_siblings(
         const nodes::node* const node_a)
         -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>
 {
@@ -169,7 +169,7 @@ auto dom::detail::tree_internals::all_following_siblings(
 }
 
 
-auto dom::detail::tree_internals::is_element_node(
+auto dom::detail::is_element_node(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -177,7 +177,7 @@ auto dom::detail::tree_internals::is_element_node(
 }
 
 
-auto dom::detail::tree_internals::is_text_node(
+auto dom::detail::is_text_node(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -185,7 +185,7 @@ auto dom::detail::tree_internals::is_text_node(
 }
 
 
-auto dom::detail::tree_internals::is_exclusive_text_node(
+auto dom::detail::is_exclusive_text_node(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -193,7 +193,7 @@ auto dom::detail::tree_internals::is_exclusive_text_node(
 }
 
 
-auto dom::detail::tree_internals::is_document_type_node(
+auto dom::detail::is_document_type_node(
         const nodes::node* const node_a)
         -> ext::boolean
 {
@@ -201,7 +201,7 @@ auto dom::detail::tree_internals::is_document_type_node(
 }
 
 
-auto dom::detail::tree_internals::contiguous_text_nodes(
+auto dom::detail::contiguous_text_nodes(
         const nodes::node* const node_a)
         -> ranges::any_view<nodes::text*>
 {
@@ -214,39 +214,39 @@ auto dom::detail::tree_internals::contiguous_text_nodes(
     // previous consecutive text nodes as a range (adjacent to 'node_a')
     auto previous_consecutive_text_nodes = sibling_nodes | ranges::views::reverse
             | ranges::views::drop_while([&node_a](const nodes::node* const sibling) {return sibling != node_a;})
-            | ranges::views::cast_all_to<nodes::text>(false)
+            | ranges::views::cast_all_to<nodes::text*>(false)
             | ranges::views::take_while([](const nodes::text* const sibling_text_node) -> bool {return sibling_text_node;})
             | ranges::views::reverse;
 
     // next consecutive text nodes as a range (adjacent to 'node_a')
     auto next_consecutive_text_nodes = sibling_nodes
             | ranges::views::drop_while([&node_a](const nodes::node* const sibling) {return sibling != node_a;})
-            | ranges::views::cast_all_to<nodes::text>(false)
+            | ranges::views::cast_all_to<nodes::text*>(false)
             | ranges::views::take_while([](const nodes::text* const sibling_text_node) -> bool {return sibling_text_node;});
 
     return ranges::views::concat(previous_consecutive_text_nodes, current_text_node, next_consecutive_text_nodes);
 }
 
 
-auto dom::detail::tree_internals::descendant_text_nodes(
+auto dom::detail::descendant_text_nodes(
         const nodes::node* const node_a)
         -> ranges::any_view<nodes::text*>
 {
     const auto descendant_nodes = descendants(node_a);
-    return descendant_nodes | ranges::views::cast_all_to<nodes::text>();
+    return descendant_nodes | ranges::views::cast_all_to<nodes::text*>();
 }
 
 
-auto dom::detail::tree_internals::child_text_nodes(
+auto dom::detail::child_text_nodes(
         const nodes::node* const node_a)
         -> ranges::any_view<nodes::text*>
 {
     const auto child_nodes = *node_a->parent_node()->child_nodes();
-    return child_nodes | ranges::views::cast_all_to<nodes::text>();
+    return child_nodes | ranges::views::cast_all_to<nodes::text*>();
 }
 
 
-auto dom::detail::tree_internals::descendant_text_content(
+auto dom::detail::descendant_text_content(
         const nodes::node* const node_a)
         -> ext::string
 {
@@ -256,7 +256,7 @@ auto dom::detail::tree_internals::descendant_text_content(
 }
 
 
-auto dom::detail::tree_internals::child_text_content(
+auto dom::detail::child_text_content(
         const nodes::node* const node_a)
         -> ext::string
 {
@@ -266,7 +266,7 @@ auto dom::detail::tree_internals::child_text_content(
 }
 
 
-auto dom::detail::tree_internals::common_ancestor(
+auto dom::detail::common_ancestor(
         const nodes::node* const node_a,
         const nodes::node* const node_b)
         -> nodes::node*
@@ -276,7 +276,7 @@ auto dom::detail::tree_internals::common_ancestor(
 }
 
 
-auto dom::detail::tree_internals::is_document_element(
+auto dom::detail::is_document_element(
         const nodes::node* const node_a)
         -> ext::boolean
 {

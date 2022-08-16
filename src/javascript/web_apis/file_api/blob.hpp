@@ -5,6 +5,7 @@
 namespace file_api {class blob;}
 
 #include "ext/map.hpp"
+#include "ext/optional.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include <future>
@@ -20,7 +21,7 @@ public aliases:
     using blob_part_t = ext::variant<blob, ext::string_view, v8::ArrayBufferView>;
 
 public constructors:
-    blob(ext::vector_view<blob_part_t> blob_parts, ext::string_any_map_view options = {});
+    blob(ext::vector_view<blob_part_t> blob_parts, ext::map<ext::string, ext::any>&& options = {});
 
 public js_methods:
     auto slice(ext::optional<ext::number<longlong>> start, ext::optional<ext::number<longlong>> end, ext::optional<ext::string> content_type) -> blob;

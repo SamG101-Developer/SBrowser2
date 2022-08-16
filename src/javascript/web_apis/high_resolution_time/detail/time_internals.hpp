@@ -8,41 +8,41 @@
 #include <v8-object.h>
 namespace high_resolution_time::hr_time {class performance;}
 
-namespace high_resolution_time::detail::time_internals
+namespace high_resolution_time::detail
 {
     auto get_time_origin_timestamp(
             v8::Local<v8::Object> global_object)
-            -> dom_high_res_time_stamp;
+            -> dom_high_res_time_stamp_t;
 
     auto coarsen_time(
-            dom_high_res_time_stamp time_stamp,
-            ext::boolean_view cross_origin_isolated_capability = false)
-            -> dom_high_res_time_stamp;
+            const dom_high_res_time_stamp_t& time_stamp,
+            ext::boolean&& cross_origin_isolated_capability = false)
+            -> dom_high_res_time_stamp_t;
 
     auto relative_high_resolution_time(
-            dom_high_res_time_stamp time_stamp,
+            const dom_high_res_time_stamp_t& time_stamp,
             v8::Local<v8::Object> global_object)
-            -> dom_high_res_time_stamp;
+            -> dom_high_res_time_stamp_t;
 
     auto relative_high_resolution_coarse_time(
-            dom_high_res_time_stamp coarse_time,
+            const dom_high_res_time_stamp_t& coarse_time,
             v8::Local<v8::Object> global_object)
-            -> dom_high_res_time_stamp;
+            -> dom_high_res_time_stamp_t;
 
     auto current_high_resolution_time(
             v8::Local<v8::Object> global_object)
-            -> dom_high_res_time_stamp;
+            -> dom_high_res_time_stamp_t;
 
     auto coarsen_shared_current_time(
-            ext::boolean_view cross_origin_isolated_capability = false)
-            -> dom_high_res_time_stamp;
+            ext::boolean&& cross_origin_isolated_capability = false)
+            -> dom_high_res_time_stamp_t;
 
     auto unsafe_shared_current_time()
-            -> dom_high_res_time_stamp;
+            -> dom_high_res_time_stamp_t;
 
     auto epoch_relative_time_stamp(
-            ext::optional<epoch_time_stamp> time_stamp)
-            -> epoch_time_stamp;
+            const ext::optional<epoch_time_stamp_t>& time_stamp)
+            -> epoch_time_stamp_t;
 }
 
 

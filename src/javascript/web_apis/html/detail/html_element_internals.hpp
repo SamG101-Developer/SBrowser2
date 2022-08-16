@@ -6,17 +6,18 @@
 #include "ext/concepts.hpp"
 #include "ext/number.hpp"
 #include "ext/pair.hpp"
-#include "ext/span.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
+
+#include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(html)
+
 namespace dom::nodes {class node;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class text;}
-namespace fetch::detail::request_internals {class internal_request;}
-namespace fetch::detail::response_internals {class internal_response;}
 namespace html::elements {class html_base_element;}
 namespace html::elements {class html_div_element;} // TODO : make this a #include in .cpp file
 namespace html::elements {class html_dlist_element;}
@@ -29,14 +30,8 @@ namespace html::elements {class html_time_element;}
 namespace html::mixins {class html_hyperlink_element_utils;}
 
 
-namespace html::detail::html_element_internals
+namespace html::detail
 {
-    enum class directionality_t {LTR, RTL, AUTO};
-    enum class bidirectional_char_t: char32_t {L = 0x200e, R = 0x200f, AL = 0x061c, EN, ES, ET, AN, CS, NSM, BN, B, S, WS, ON, LRE, LRO, RLE, PDF, LRI, RLI, FSI, PDI};
-
-    using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
-    using name_value_groups_t = ext::vector<name_value_group_t>;
-
     // title attribute
     auto advisory_information(
             dom::nodes::element* element)
@@ -89,7 +84,7 @@ namespace html::detail::html_element_internals
 
     auto contact_information(
             dom::nodes::element* element)
-            -> ext::span<dom::nodes::element*>;
+            -> ext::vector_view<dom::nodes::element*>;
 
     auto list_owner(
             dom::nodes::element* element)
@@ -122,12 +117,12 @@ namespace html::detail::html_element_internals
     // HTMLDListElement
     auto name_value_groups(
             elements::html_dlist_element* element)
-            -> name_value_groups_t ;
+            -> name_value_groups_t;
 
     auto process_dt_dd_element(
             dom::nodes::node* node,
-            name_value_groups_t & groups,
-            name_value_group_t & current,
+            name_value_groups_t& groups,
+            name_value_group_t& current,
             ext::boolean& seen_dd)
             -> void;
 
@@ -156,15 +151,15 @@ namespace html::detail::html_element_internals
     // HTMLIFrameElement
     auto process_iframe_attributes(
             elements::html_iframe_element* element,
-            ext::boolean_view initial_insertion = false)
+            ext::boolean&& initial_insertion = false)
             -> void;
 
     auto shared_attribute_processing_steps_for_iframe_and_frame_elements(
             elements::html_iframe_element* element,
-            ext::boolean_view initial_insertion = false)
+            ext::boolean&& initial_insertion = false)
             -> void;
 
-    template <type_is<fetch::detail::response_internals::internal_response, fetch::detail::request_internals::internal_request> T>
+    template <type_is<fetch::detail::response_t, fetch::detail::request_t> T>
     auto navigate_iframe_or_frame(
             const elements::html_iframe_element* element,
             T&& resource)

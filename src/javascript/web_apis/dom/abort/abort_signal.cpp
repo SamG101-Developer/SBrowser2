@@ -7,14 +7,14 @@
 
 
 dom::abort::abort_signal::abort_signal()
-        : reason{ext::null}
+        : reason{ext::nullopt}
 {
     // create an abort signal
 }
 
 
 auto dom::abort::abort_signal::abort(
-        ext::optional<ext::any> reason)
+        const ext::optional<ext::any>& reason)
         -> abort_signal
 {
     // create a signal, mark it as aborted by giving it a reason, and return it
@@ -25,18 +25,16 @@ auto dom::abort::abort_signal::abort(
 
 
 auto dom::abort::abort_signal::timeout(
-        ext::number_view<ulonglong> milliseconds)
+        const ext::number<ulonglong>& milliseconds)
         -> abort_signal
 {
-    enforce_range milliseconds;
-
     // create a signal, and abort it after a timer has executed (TODO https://dom.spec.whatwg.org/#dom-abortsignal-timeout)
     abort_signal signal;
     JS_REALM_GET_RELEVANT(signal)
 
-    auto timeout_error_callback = [] {detail::exception_internals::throw_v8_exception_formatted<TIMEOUT_ERR>();};
-    auto callback = [&signal_relevant_global_object, timeout_error_callback] {detail::observer_internals::queue_global_task(html::detail::task_internals::timer_task_source(), signal_relevant_global_object, timeout_error_callback);};
-    html::detail::timers::run_steps_after_timeout(signal_relevant_global_object, "AbortSignal-timeout", milliseconds, callback);
+    auto timeout_error_callback = [] {detail::throw_v8_exception_formatted<TIMEOUT_ERR>();};
+    auto callback = [&signal_relevant_global_object, timeout_error_callback] {detail::queue_global_task(html::detail::timer_task_source(), signal_relevant_global_object, timeout_error_callback);};
+    html::detail::run_steps_after_timeout(signal_relevant_global_object, "AbortSignal-timeout", milliseconds, callback);
 
     // return the signal
     return signal;
@@ -47,7 +45,7 @@ auto dom::abort::abort_signal::throw_if_aborted()
         -> void
 {
     // if the reason attribute has been set, throw a v8 exception
-    detail::exception_internals::throw_v8_exception_formatted<ABORT_ERR>(
+    detail::throw_v8_exception_formatted<ABORT_ERR>(
             [this] {return reason().to<ext::boolean>();},
             reason().to<other::dom_exception>().message());
 }

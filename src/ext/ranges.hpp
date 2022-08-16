@@ -145,7 +145,7 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
     }
 
     template <typename F1>
-    constexpr auto operator()(_EXT boolean_view predicate_if, F1&& predicate_transform) const
+    constexpr auto operator()(_EXT boolean&& predicate_if, F1&& predicate_transform) const
     {
         // a transform_if adaptor works by transforming each element, if '_PredIf' is a true boolean value
         return ranges::views::transform(
@@ -158,7 +158,7 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
 template <typename T>
 struct ranges::views::cast_all_to_fn
 {
-    constexpr auto operator()(_EXT boolean_view remove_nullptr = true) const // TODO : apply parameter
+    constexpr auto operator()(_EXT boolean&& remove_nullptr = true) const // TODO : apply parameter
     {
         // a cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
         // another type, and then removing all the instances of nullptr
@@ -249,7 +249,7 @@ struct ranges::actions::transform_if_fn // TODO : optimize so if isn't in for 't
     }
 
     template <typename F1>
-    constexpr auto operator()(_EXT boolean_view predicate_if, F1&& predicate_transform) const
+    constexpr auto operator()(_EXT boolean&& predicate_if, F1&& predicate_transform) const
     {
         // a transform_if adaptor works by transforming each element, if '_PredIf' is a true boolean value
         return ranges::actions::transform(
@@ -259,11 +259,10 @@ struct ranges::actions::transform_if_fn // TODO : optimize so if isn't in for 't
 };
 
 
-
 template <typename T>
 struct ranges::actions::cast_all_to_fn
 {
-    constexpr auto operator()(_EXT boolean_view remove_nullptr = true) const // TODO : apply parameter
+    constexpr auto operator()(_EXT boolean&& remove_nullptr = true) const // TODO : apply parameter
     {
         return ranges::actions::transform([](auto* pointer) {return dynamic_cast<T>(pointer);}) | ranges::actions::remove(nullptr);
     }
@@ -276,8 +275,8 @@ struct ranges::actions::replace_fn
     constexpr auto operator()(T&& old_value, T&& new_value) const
     {
         return ranges::actions::transform(
-                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value)]<typename U> mutable
-                (U&& current_value) {return current_value == old_value ? std::forward<T>(new_value) : std::forward<U>(current_value);});
+                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value)]<typename U>
+                (U&& current_value) mutable {return current_value == old_value ? std::forward<T>(new_value) : std::forward<U>(current_value);});
     }
 };
 

@@ -8,7 +8,9 @@
 #include "dom/detail/tree_internals.hpp"
 #include "dom/mutations/mutation_observer.hpp"
 #include "dom/mutations/mutation_record.hpp"
+#include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/other/dom_implementation.hpp"
 
 #include <magic_enum.hpp>
 #include <range/v3/action/remove_if.hpp>
@@ -17,7 +19,7 @@
 namespace html::elements {class html_slot_element;}
 
 
-auto dom::detail::observer_internals::notify_mutation_observers() -> void
+auto dom::detail::notify_mutation_observers() -> void
 {
     // set the 'mutation_observer_microtask_queued' variable to false, and get the 'notify_set' (MutationObserver set),
     // and the signal set (HTMLSlotElement set). clear the 'signal_set' in the environment (clone is saved locally)
@@ -46,8 +48,8 @@ auto dom::detail::observer_internals::notify_mutation_observers() -> void
         // TODO : why?
         for (const nodes::node* const node: *mo->m_node_list)
             *node->m_registered_observer_list
-                    |= ranges::actions::cast_all_to<transient_registered_observer*>()
-                    | ranges::actions::remove_if([mo](const transient_registered_observer* const observer) {return observer->observer.get() == mo;});
+                    |= ranges::actions::cast_all_to<transient_registered_observer_t*>()
+                    | ranges::actions::remove_if([mo](const transient_registered_observer_t* const observer) {return observer->observer.get() == mo;});
 
         // if there are any MutationRecords from the JavaScript environment, call 'mo''s callback with the list of
         // records, reporting any exceptions that are caught during the process
@@ -63,11 +65,11 @@ auto dom::detail::observer_internals::notify_mutation_observers() -> void
 
     // fire a "slotchange" event at every slot in the JavaScript environment list TODO : why
     for (const html::elements::html_slot_element* const slot: signal_set)
-        event_internals::fire_event(slot, "slotchange", {{"bubbles", true}});
+        fire_event(slot, "slotchange", {{"bubbles", true}});
 }
 
 
-auto dom::detail::observer_internals::queue_microtask(
+auto dom::detail::queue_microtask(
         steps_t&& steps,
         v8::Isolate* event_loop,
         nodes::document* document)
@@ -91,7 +93,7 @@ auto dom::detail::observer_internals::queue_microtask(
 }
 
 
-auto dom::detail::observer_internals::queue_mutation_record(
+auto dom::detail::queue_mutation_record(
         const mutation_type_t type,
         nodes::node* target,
         const ext::string_view name,
@@ -114,7 +116,7 @@ auto dom::detail::observer_internals::queue_mutation_record(
     // iterate each MutationObserver for each node
     for (nodes::node* node: nodes)
     {
-        for (registered_observer* registered: *node->m_registered_observer_list)
+        for (registered_observer_t* registered: *node->m_registered_observer_list)
         {
             // if the conditions based on the 'type' and 'options' dictionary are valid, then modify the
             // 'interested_observers' map
@@ -153,7 +155,7 @@ auto dom::detail::observer_internals::queue_mutation_record(
 }
 
 
-auto dom::detail::observer_internals::queue_tree_mutation_record(
+auto dom::detail::queue_tree_mutation_record(
         nodes::node* const target,
         const ext::vector<nodes::node*>& added_nodes,
         const ext::vector<nodes::node*>& removed_nodes,
@@ -171,7 +173,7 @@ auto dom::detail::observer_internals::queue_tree_mutation_record(
 }
 
 
-auto dom::detail::observer_internals::queue_mutation_observer_microtask() -> void
+auto dom::detail::queue_mutation_observer_microtask() -> void
 {
     JS_REALM_GET_SURROUNDING(nullptr)
 
@@ -185,7 +187,7 @@ auto dom::detail::observer_internals::queue_mutation_observer_microtask() -> voi
 }
 
 
-auto dom::detail::observer_internals::queue_task(
+auto dom::detail::queue_task(
         const v8::Task& task_source,
         steps_t&& steps,
         v8::Isolate* event_loop,
@@ -208,7 +210,7 @@ auto dom::detail::observer_internals::queue_task(
 }
 
 
-auto dom::detail::observer_internals::queue_global_task(
+auto dom::detail::queue_global_task(
         const v8::Task& task_source,
         const v8::Local<v8::Object> global_object,
         steps_t&& steps)
@@ -223,7 +225,7 @@ auto dom::detail::observer_internals::queue_global_task(
 }
 
 
-auto dom::detail::observer_internals::queue_element_task(
+auto dom::detail::queue_element_task(
         const v8::Task& task_source,
         const html::elements::html_element* const element,
         steps_t&& steps)

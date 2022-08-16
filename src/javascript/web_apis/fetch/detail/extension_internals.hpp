@@ -13,7 +13,7 @@ namespace fetch::detail::request_internals {class internal_request;}
 namespace fetch::detail::response_internals {class internal_response;}
 namespace html::detail::policy_internals {enum class embedder_policy_value_t;}
 
-namespace fetch::detail::extension_internals
+namespace fetch::detail
 {
     auto append_request_origin_header(
             request_internals::internal_request& request_object)
@@ -64,14 +64,14 @@ namespace fetch::detail::extension_internals
             ext::string_view origin,
             html::detail::policy_internals::embedder_policy_value_t embedder_policy_value,
             response_internals::internal_response& response_object,
-            ext::boolean_view for_navigation)
+            const ext::boolean& for_navigation)
             -> void;
 
     auto queue_cross_origin_embedder_corp_violation_report(
             response_internals::internal_response& response_object,
             v8::Local<v8::Object> settings_object,
             ext::string_view destination,
-            ext::boolean_view report_only)
+            const ext::boolean& report_only)
             -> void;
 }
 

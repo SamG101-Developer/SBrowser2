@@ -17,11 +17,11 @@ auto content_security_policy::detail::csp_internals::parse_csp(
         ext::string_view string,
         ext::string_view source,
         ext::string_view disposition)
-        -> content_security_policy
+        -> content_security_policy_t
 {
     // create a new ContentSecurityPolicy, and assign the 'source' and 'disposition' attributes by casting the string
     // values to enum attributes of the respective types
-    content_security_policy csp;
+    content_security_policy_t csp;
     csp.source = magic_enum::enum_cast<source_t>(source).value();
     csp.disposition = magic_enum::enum_cast<disposition_t>(disposition).value();
 
@@ -56,11 +56,11 @@ auto content_security_policy::detail::csp_internals::parse_csp_list(
         ext::string_view string,
         ext::string_view source,
         ext::string_view disposition)
-        -> ext::vector<content_security_policy*>
+        -> ext::vector<content_security_policy_t*>
 {
     // create an empty list of ContentSecurityPolicies that will be filled and returned by parsing
     // ContentSecurityPolicies individually
-    ext::vector<content_security_policy*> content_security_policies {};
+    ext::vector<content_security_policy_t*> content_security_policies {};
 
     // iterate through the 'string', split on commas
     for (auto token: string | ranges::views::split_string(','))

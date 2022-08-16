@@ -15,7 +15,7 @@ public constructors:
     abort_controller();
 
 public js_methods:
-    auto abort(ext::any_view reason) const -> void;
+    auto abort(const ext::any& reason) const -> void;
 
 public js_properties:
     ext::property<std::unique_ptr<abort_signal>> signal;

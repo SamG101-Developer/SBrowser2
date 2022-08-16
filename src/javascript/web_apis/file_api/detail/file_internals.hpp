@@ -10,7 +10,7 @@ namespace file_api {class blob;}
 namespace file_api {class file;}
 namespace file_api {class file_reader;}
 
-namespace file_api::detail::file_internals
+namespace file_api::detail
 {
     auto read_operation(
             file& file_object,

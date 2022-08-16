@@ -21,16 +21,14 @@ public aliases:
 
 public friends:
     friend class nodes::event_target;
-    friend auto detail::aborting_internals::signal_abort(abort::abort_signal* signal, ext::any_view reason) -> void;
-    friend auto detail::aborting_internals::follow_signal(abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;
 
 public constructors:
     DOM_CTORS(abort_signal);
     abort_signal();
 
 public js_methods:
-    static auto abort(ext::optional<ext::any> reason) -> abort_signal;
-    static auto timeout(ext::number_view<ulonglong> milliseconds) -> abort_signal;
+    static auto abort(const ext::optional<ext::any>& reason) -> abort_signal;
+    static auto timeout(const ext::number<ulonglong>& milliseconds) -> abort_signal;
     auto throw_if_aborted() -> void;
 
 public js_properties:

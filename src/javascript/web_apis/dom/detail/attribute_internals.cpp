@@ -19,33 +19,33 @@
 #include <range/v3/view/view.hpp>
 
 
-auto dom::detail::attribute_internals::handle_attributes_changes(
+auto dom::detail::handle_attributes_changes(
         const nodes::attr* const attribute,
         nodes::element* const owner_element,
         ext::string_view old_value,
         ext::string_view new_value)
         -> void
 {
-    using enum observer_internals::mutation_type_t;
-    using enum customization_internals::custom_element_state_t;
+    using detail::mutation_type_t;
+    using detail::custom_element_state_t;
 
     // get common variables
     auto local_name = attribute->local_name();
     auto namespace_ = attribute->namespace_uri();
 
     // queue a mutation record describing the change in the attribute
-    observer_internals::queue_mutation_record(ATTRIBUTES, owner_element, local_name, namespace_, old_value, {}, {}, nullptr, nullptr);
+    observer_internals::queue_mutation_record(mutation_type_t::ATTRIBUTES, owner_element, local_name, namespace_, old_value, {}, {}, nullptr, nullptr);
 
     // if the element is custom, enqueue a custom element reaction
-    if (owner_element->m_custom_element_state == CUSTOM)
-        customization_internals::enqueue_custom_element_callback_reaction(owner_element, "attributeCallbackChanged", local_name, old_value, new_value, namespace_);
+    if (owner_element->m_custom_element_state == custom_element_state_t::CUSTOM)
+        enqueue_custom_element_callback_reaction(owner_element, "attributeCallbackChanged", local_name, old_value, new_value, namespace_);
 
     // notify the node to execute its attribute-change behaviour steps
     owner_element->m_dom_behaviour.attribute_change_steps(local_name, old_value, new_value, namespace_);
 }
 
 
-auto dom::detail::attribute_internals::change(
+auto dom::detail::change(
         nodes::attr* const attribute,
         ext::string_view new_value)
         -> nodes::attr*
@@ -57,7 +57,7 @@ auto dom::detail::attribute_internals::change(
 }
 
 
-auto dom::detail::attribute_internals::append(
+auto dom::detail::append(
         nodes::attr* const attribute,
         nodes::element* const new_owner_element)
         -> nodes::attr*
@@ -71,7 +71,7 @@ auto dom::detail::attribute_internals::append(
 }
 
 
-auto dom::detail::attribute_internals::remove(
+auto dom::detail::remove(
         nodes::attr* attribute)
         -> nodes::attr*
 {
@@ -82,7 +82,7 @@ auto dom::detail::attribute_internals::remove(
 }
 
 
-auto dom::detail::attribute_internals::replace(
+auto dom::detail::replace(
         nodes::attr* old_attribute,
         nodes::attr* new_attribute)
         -> nodes::attr*
@@ -97,7 +97,7 @@ auto dom::detail::attribute_internals::replace(
 }
 
 
-auto dom::detail::attribute_internals::create(
+auto dom::detail::create(
         ext::string_view local_name,
         ext::string_view namespace_,
         ext::string_view value,
@@ -116,7 +116,7 @@ auto dom::detail::attribute_internals::create(
 }
 
 
-auto dom::detail::attribute_internals::set_attribute(
+auto dom::detail::set_attribute(
         nodes::element* const new_owner_element,
         nodes::attr* const attribute)
         -> nodes::attr*
@@ -146,7 +146,7 @@ auto dom::detail::attribute_internals::set_attribute(
 }
 
 
-auto dom::detail::attribute_internals::remove_attribute(
+auto dom::detail::remove_attribute(
         const nodes::element* const owner_element,
         nodes::attr* attribute)
         -> dom::nodes::attr*
@@ -165,7 +165,7 @@ auto dom::detail::attribute_internals::remove_attribute(
 }
 
 
-auto dom::detail::attribute_internals::toggle_attribute(
+auto dom::detail::toggle_attribute(
         nodes::element* const owner_element,
         nodes::attr* attribute,
         const ext::optional<ext::boolean> force,
@@ -188,7 +188,7 @@ auto dom::detail::attribute_internals::toggle_attribute(
 }
 
 
-auto dom::detail::attribute_internals::set_existing_attribute_value(
+auto dom::detail::set_existing_attribute_value(
         nodes::attr* const attribute,
         ext::string_view value)
         -> void

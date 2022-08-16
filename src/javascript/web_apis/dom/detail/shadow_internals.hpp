@@ -10,7 +10,7 @@ namespace dom::nodes {class shadow_root;}
 namespace html::elements {class html_slot_element;}
 
 
-namespace dom::detail::shadow_internals
+namespace dom::detail
 {
     // shadow checks
     auto is_connected(

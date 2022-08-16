@@ -55,9 +55,6 @@ private cpp_properties:
 };
 
 
-using any_view = const any&;
-
-
 template <not_any T>
 any::any(T&& value) noexcept
         : internal_any(std::forward<T>(value))

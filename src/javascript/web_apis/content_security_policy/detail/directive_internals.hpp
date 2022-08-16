@@ -12,7 +12,7 @@ namespace html::detail::context_internals {struct browsing_context;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 
-namespace content_security_policy::detail::directive_internals
+namespace content_security_policy::detail
 {
     auto pre_request_check(
             ext::string_view directive,

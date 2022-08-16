@@ -17,9 +17,6 @@
 #include <type_traits>
 
 
-#define COMMA ,
-
-
 #define DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(_TemplateParameter_t, _Name, _DefaultType) \
     template <_TemplateParameter_t T>                                                                   \
     struct _Name {using type = _DefaultType;};                                                          \
@@ -99,35 +96,35 @@ _STD_BEGIN
 template <>
 struct hash<_EXT boolean>
 {
-    constexpr auto operator()(_EXT boolean_view value) const noexcept -> size_t {return _STD hash<bool>{}(static_cast<bool>(value));}
+    constexpr auto operator()(const _EXT boolean& value) const noexcept -> size_t {return value ? 1 : 0;}
 };
 
 
 template <typename T>
 struct hash<_EXT number<T>>
 {
-    constexpr auto operator()(_EXT number_view<T> value) const noexcept -> size_t {return _STD hash<T>{}(static_cast<T>(value));}
+    constexpr auto operator()(const _EXT number<T>& value) const noexcept -> size_t {return _STD hash<T>{}(static_cast<T>(value));}
 };
 
 
 template <typename T>
 struct hash<_STD function<T>> // TODO -> ext::function<T...> once its ready for implementation
 {
-    constexpr auto operator()(std::function<T> value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+    constexpr auto operator()(std::function<T> value) const noexcept -> size_t {return _STD hash<size_t>{}(static_cast<size_t>(&value));}
 };
 
 
 template <typename ...Ts>
 struct hash<_EXT function<Ts...>>
 {
-    constexpr auto operator()(const _EXT function<Ts...>& value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+    constexpr auto operator()(const _EXT function<Ts...>& value) const noexcept -> size_t {return _STD hash<size_t>{}(static_cast<size_t>(&value));}
 };
 
 
 template <>
 struct hash<_EXT any>
 {
-    constexpr auto operator()(_EXT any_view value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
+    constexpr auto operator()(const _EXT any& value) const noexcept -> size_t {return _STD hash<size_t>{}(static_cast<size_t>(&value));}
 };
 
 

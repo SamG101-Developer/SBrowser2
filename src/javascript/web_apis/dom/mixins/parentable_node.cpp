@@ -29,8 +29,8 @@ auto dom::mixins::parentable_node::prepend(
     // the child nodes list
     ce_reactions_method_def
         const auto* base = ext::cross_cast<nodes::node*>(this);
-        const auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
-        detail::mutation_internals::pre_insert(node, base, base->child_nodes()->front());
+        const auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        detail::pre_insert(node, base, base->child_nodes()->front());
         return node;
     ce_reactions_method_exe
 }
@@ -45,8 +45,8 @@ auto dom::mixins::parentable_node::append(
     // child nodes list
     ce_reactions_method_def
         const auto* base = ext::cross_cast<nodes::node*>(this);
-        const auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
-        detail::mutation_internals::append(node, base, base->child_nodes()->front());
+        const auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        detail::append(node, base, base->child_nodes()->front());
         return node;
     ce_reactions_method_exe
 }
@@ -61,9 +61,9 @@ auto dom::mixins::parentable_node::replace_children(
     // validity of the node, at the end of the child nodes list
     ce_reactions_method_def
         const auto* base = ext::cross_cast<nodes::node*>(this);
-        const auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
-        detail::mutation_internals::ensure_pre_insertion_validity(node, base, nullptr);
-        detail::mutation_internals::replace_all(node, base);
+        const auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        detail::ensure_pre_insertion_validity(node, base, nullptr);
+        detail::replace_all(node, base);
         return node;
     ce_reactions_method_exe
 }

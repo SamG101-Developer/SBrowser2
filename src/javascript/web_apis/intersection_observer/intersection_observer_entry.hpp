@@ -17,7 +17,7 @@ public constructors:
     intersection_observer_entry(ext::map<ext::string, ext::any>&& init);
 
 public js_properties:
-    ext::property<high_resolution_time::dom_high_res_time_stamp> time;
+    ext::property<high_resolution_time::dom_high_res_time_stamp_t> time;
     ext::property<geometry::dom_rect_readonly*> root_bounds;
     ext::property<geometry::dom_rect_readonly*> bounding_client_rect;
     ext::property<geometry::dom_rect_readonly*> intersection_rect;

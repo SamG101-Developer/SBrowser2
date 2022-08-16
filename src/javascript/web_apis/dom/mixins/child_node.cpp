@@ -25,17 +25,17 @@ auto dom::mixins::child_node::before(
 
         // the 'viable_previous_siblings' are all the preceding siblings of 'node' that aren't in 'nodes' - this is the
         // set difference. convert the 'nodes' into a single Node
-        auto viable_previous_siblings = detail::tree_internals::all_preceding_siblings(base)
+        auto viable_previous_siblings = detail::all_preceding_siblings(base)
                 | ranges::views::set_difference(std::forward<T>(nodes)...);
 
         auto* viable_previous_sibling = viable_previous_siblings.front();
-        auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
 
         // if 'viable_previous_sibling' is nullptr, adjust it to be the 'parent''s first child, so that the 'node' be
         // inserted as the first child for the 'parent'; otherwise set it to its next sibling, so 'node' is inserted
         // into the correct place
         viable_previous_sibling = !viable_previous_sibling ? parent->first_child() : viable_previous_sibling->next_sibling();
-        detail::mutation_internals::pre_insert(node, parent, viable_previous_sibling);
+        detail::pre_insert(node, parent, viable_previous_sibling);
 
         return node;
     ce_reactions_method_exe
@@ -56,16 +56,16 @@ auto dom::mixins::child_node::after(
 
         // the 'viable_next_siblings' are all the following siblings of 'node' that aren't in 'nodes' - this is the set
         // difference. convert the 'nodes' into a single Node
-        auto viable_next_siblings = detail::tree_internals::all_following_siblings(base)
+        auto viable_next_siblings = detail::all_following_siblings(base)
                 | ranges::views::set_difference(std::forward<T>(nodes)...);
 
         auto* viable_next_sibling = viable_next_siblings.front();
-        auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
 
         // the 'viable_next_sibling' doesn't need adjusting, because if it nullptr, then the insertion algorithm will
         // detect the iterator as ...::end(), meaning that the 'node' will get appended, so 'node' is inserted into the
         // correct place anyway
-        detail::mutation_internals::pre_insert(node, parent, viable_next_sibling);
+        detail::pre_insert(node, parent, viable_next_sibling);
 
         return node;
     ce_reactions_method_exe
@@ -85,20 +85,20 @@ auto dom::mixins::child_node::replace_with(
         return_if(!parent) static_cast<nodes::node*>(nullptr);
 
         // convert the 'nodes' into a single Node
-        auto* node = detail::node_internals::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
         
         // if the 'parent' matches the node's parent, replace this node with 'node', otherwise insert 'node' into
         // 'parent', before the determined 'viable_next_sibling'
         if (base->parent_node() == parent)
-            detail::mutation_internals::replace(base, parent, node);
+            detail::replace(base, parent, node);
         else
         {
             // the 'viable_next_siblings' are all the following siblings of 'node' that aren't in 'nodes' - this is the
             // set difference
-            auto next_siblings = detail::tree_internals::all_following_siblings(base);
+            auto next_siblings = detail::all_following_siblings(base);
             auto* viable_next_sibling = ranges::front(next_siblings | ranges::views::set_difference(std::forward<T>(nodes)...));
 
-            detail::mutation_internals::pre_insert(node, parent, viable_next_sibling);
+            detail::pre_insert(node, parent, viable_next_sibling);
         }
 
         return node;
@@ -117,7 +117,7 @@ auto dom::mixins::child_node::remove()
         return_if(!parent) static_cast<nodes::node*>(nullptr);
 
         // remove this node from the DOM tree
-        detail::mutation_internals::remove(base);
+        detail::remove(base);
 
         return static_cast<nodes::node*>(nullptr);
     ce_reactions_method_exe

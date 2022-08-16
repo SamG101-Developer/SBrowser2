@@ -4,18 +4,16 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "url/url.hpp"
-namespace fetch::detail::request_internals {class internal_request;}
-namespace fetch::detail::request_internals {enum class destination_t;}
-namespace fetch::detail::request_internals {enum class mode_t;}
+#include USE_INNER_TYPES(fetch)
 
 namespace html::detail::miscellaneous_internals
 {
     auto create_potential_cors_request(
             url::url_object& url,
-            fetch::detail::request_internals::destination_t destination,
-            fetch::detail::request_internals::mode_t cors_attribute_state,
+            fetch::detail::destination_t destination,
+            fetch::detail::mode_t cors_attribute_state,
             ext::boolean&& same_origin_fallback_flag = false)
-            -> fetch::detail::request_internals::internal_request;
+            -> fetch::detail::request_t;
 
     auto parse_url(
             const ext::string& url_string,

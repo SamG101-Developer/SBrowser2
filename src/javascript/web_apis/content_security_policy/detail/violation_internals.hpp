@@ -9,28 +9,26 @@
 
 #include "url/url.hpp"
 
+#include "content_security_policy/_typedefs.hpp"
+
 #include <v8-local-handle.h>
 #include <v8-object.h>
 namespace dom::nodes {class element;}
 namespace fetch::detail::request_internals {struct internal_request;}
 namespace fetch::detail::response_internals {struct internal_response;}
-namespace content_security_policy::detail::csp_internals {enum disposition_t;}
-namespace content_security_policy::detail::csp_internals {struct content_security_policy;}
 
-namespace content_security_policy::detail::violation_internals
+namespace content_security_policy::detail
 {
-    struct violation;
-
     auto create_violation_object(
             v8::Local<v8::Object> global_object,
-            csp_internals::content_security_policy& csp,
+            content_security_policy_t& csp,
             ext::string_view directive)
-            -> violation;
+            -> violation_t;
 
     auto create_violation_object(
             fetch::detail::request_internals::internal_request& internal_request_object,
-            csp_internals::content_security_policy& csp)
-            -> violation;
+            content_security_policy_t& csp)
+            -> violation_t;
 
     auto report_content_security_policy_violations(
             fetch::detail::request_internals::internal_request& request)
@@ -47,27 +45,9 @@ namespace content_security_policy::detail::violation_internals
 
     auto does_request_violate_policy(
             fetch::detail::request_internals::internal_request& request,
-            csp_internals::content_security_policy& csp)
+            content_security_policy_t& csp)
             -> ext::boolean;
 }
-
-
-struct content_security_policy::detail::violation_internals::violation
-{
-    v8::Local<v8::Object> global_object;
-    url::url_object url;
-    ext::number<int> status;
-    ext::string resource;
-    ext::string referrer;
-    csp_internals::content_security_policy& csp;
-    csp_internals::disposition_t disposition;
-    ext::string effective_directive;
-    url::url_object source_file;
-    ext::number<int> line_number;
-    ext::number<int> column_number;
-    dom::nodes::element* element;
-    ext::string sample;
-};
 
 
 #endif //SBROWSER2_VIOLATION_INTERNALS_HPP

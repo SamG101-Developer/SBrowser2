@@ -13,10 +13,9 @@
 namespace fetch::mixins {class body;}
 namespace streams::readable {class readable_stream_default_reader;}
 
-namespace fetch::detail::body_internals
+namespace fetch::detail
 {
     using algorithm_t = ext::function<void()>;
-    struct internal_body;
 
     auto clone_body(
             internal_body& body_object)
@@ -55,7 +54,7 @@ namespace fetch::detail::body_internals
 
     auto extract(
             body_init_t object,
-            ext::boolean_view keepalive = false)
+            const ext::boolean& keepalive = false)
             -> ext::pair<internal_body, ext::string>;
 
     auto is_unusable(
@@ -75,7 +74,7 @@ namespace fetch::detail::body_internals
 }
 
 
-struct fetch::detail::body_internals::internal_body
+struct fetch::detail::body_t
 {
     streams::readable::readable_stream* stream;
     ext::string source;

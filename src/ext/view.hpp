@@ -53,6 +53,10 @@ public constructors:
     auto operator=(const view&) = delete;
     auto operator=(view&&) noexcept = delete;
 
+public cpp_operators:
+    auto operator==(const view<T>&) const -> bool = default;
+    auto operator<=>(const view<T>&) const = default;
+
 public cpp_methods:
     auto data() -> iterator {return fixed_begin;}
     auto empty() -> bool {return fixed_size == 0;}

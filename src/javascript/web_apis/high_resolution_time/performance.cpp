@@ -4,33 +4,33 @@
 #include "high_resolution_time/detail/time_internals.hpp"
 
 
-high_resolution_time::hr_time::performance::performance()
+high_resolution_time::performance::performance()
 {
     bind_get(time_origin);
 }
 
 
-auto high_resolution_time::hr_time::performance::now()
-        -> dom_high_res_time_stamp
+auto high_resolution_time::performance::now()
+        -> detail::dom_high_res_time_stamp_t
 {
     // the time at 'now()' is the current high resolution time returned from the detail method, with the global object
     // set to the relevant global object of this Performance class
     JS_REALM_GET_RELEVANT(this)
-    return detail::time_internals::current_high_resolution_time(this_relevant_global_object);
+    return detail::current_high_resolution_time(this_relevant_global_object);
 }
 
 
-auto high_resolution_time::hr_time::performance::get_time_origin()
-        const -> dom_high_res_time_stamp
+auto high_resolution_time::performance::get_time_origin()
+        const -> detail::dom_high_res_time_stamp_t
 {
     // the 'time_origin' of this Performance class will always be the value returned from the detail method which gets
     // the value from the global object, set to the relevant global object of the Performance class
     JS_REALM_GET_RELEVANT(this)
-    return detail::time_internals::get_time_origin_timestamp(this_relevant_global_object);
+    return detail::get_time_origin_timestamp(this_relevant_global_object);
 }
 
 
-auto high_resolution_time::hr_time::performance::to_v8(
+auto high_resolution_time::performance::to_v8(
         v8::Isolate* isolate)
         const && -> ext::any
 {

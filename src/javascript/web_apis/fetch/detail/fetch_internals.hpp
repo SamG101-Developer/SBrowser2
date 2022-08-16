@@ -14,10 +14,8 @@
 #include "response_internals.hpp"
 
 
-namespace fetch::detail::fetch_internals
+namespace fetch::detail
 {
-    struct cache_entry;
-
     auto fetch(
             request_internals::internal_request& request_object,
             ext::function<void(ext::number<int>)>&& process_request_body_chunk_length,
@@ -26,12 +24,12 @@ namespace fetch::detail::fetch_internals
             ext::function<void(response_internals::internal_response&)>&& process_response = nullptr,
             ext::function<void(response_internals::internal_response&)>&& process_response_end_of_body = nullptr,
             ext::function<void(response_internals::internal_response&, ext::string_view)>&& process_response_consume_body = nullptr,
-            ext::boolean_view use_parallel_queue = false)
+            const ext::boolean& use_parallel_queue = false)
             -> http_internals::fetch_controller;
 
     auto main_fetch(
             http_internals::fetch_params& fetch_params_object,
-            ext::boolean_view recursive = false)
+            ext::boolean&& recursive = false)
             -> response_internals::internal_response;
 
     auto fetch_response_handover(
@@ -45,7 +43,7 @@ namespace fetch::detail::fetch_internals
 
     auto http_fetch(
             http_internals::fetch_params& fetch_params_object,
-            ext::boolean_view make_cors_preflight = false)
+            ext::boolean&& make_cors_preflight = false)
             -> response_internals::internal_response;
 
     auto http_redirect_fetch(
@@ -60,14 +58,14 @@ namespace fetch::detail::fetch_internals
 
     auto http_network_or_cache_fetch(
             http_internals::fetch_params& fetch_params_object,
-            ext::boolean_view is_authentication_fetch = false,
-            ext::boolean_view is_new_connection_fetch = false)
+            ext::boolean&& is_authentication_fetch = false,
+            ext::boolean&& is_new_connection_fetch = false)
             -> response_internals::internal_response;
 
     auto http_network_fetch(
             http_internals::fetch_params& fetch_params_object,
-            ext::boolean_view include_credentials = false,
-            ext::boolean_view force_new_connection = false)
+            ext::boolean&& include_credentials = false,
+            ext::boolean&& force_new_connection = false)
             -> response_internals::internal_response;
 
     auto cors_preflight_request(
@@ -76,7 +74,7 @@ namespace fetch::detail::fetch_internals
 
     auto create_a_new_cache_entry(
             request_internals::internal_request& request_object,
-            ext::number_view<int> max_age,
+            const ext::number<int>& max_age,
             ext::string_view method,
             header_name_t header_name)
             -> cache_entry;
@@ -96,7 +94,7 @@ namespace fetch::detail::fetch_internals
 // TODO : WindowOrWorkerGlobalScope with a fetch(...) method https://fetch.spec.whatwg.org/#fetch-method
 
 
-struct fetch::detail::fetch_internals::cache_entry
+struct fetch::detail::cache_entry_t
 {
     network_partition_key_t key;
     ext::string byte_serialized_origin;
