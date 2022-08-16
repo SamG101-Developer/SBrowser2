@@ -97,12 +97,12 @@ auto dom::nodes::document::create_element(
     ce_reactions_method_def
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
-        auto html_adjusted_local_name = detail::namespace_internals::html_adjust_string(std::move(local_name), m_type == "html");
-        auto html_adjusted_namespace_ = m_type == "html" || content_type() == "application/xhtml+xml" ? detail::namespace_internals::HTML : "";
+        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), m_type == "html");
+        auto html_adjusted_namespace_ = m_type == "html" || content_type() == "application/xhtml+xml" ? detail::HTML : "";
         auto is = options.try_emplace("is", "").first->second.to<ext::string>();
 
         // create the Element node with the html adjusted variables
-        return detail::customization_internals::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
+        return detail::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
     ce_reactions_method_exe
 }
 
@@ -116,11 +116,11 @@ auto dom::nodes::document::create_element_ns(
     ce_reactions_method_def
         // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
         // 'validate_and_extract(...)' method
-        auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(std::move(namespace_), std::move(qualified_name));
+        auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
         auto is = options.try_emplace("is", "").first->second.to<ext::string>();
 
         // create the Element node with the html adjusted variables
-        return detail::customization_internals::create_an_element(this, local_name, std::move(namespace_), prefix, is, true);
+        return detail::create_an_element(this, local_name, std::move(namespace_), prefix, is, true);
     ce_reactions_method_exe
 }
 
@@ -151,11 +151,11 @@ auto dom::nodes::document::create_cdata_section_node(
         ext::string&& data)
         const -> cdata_section
 {
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [this] {return m_type == "html";},
             "Cannot create a CDataSection node in a HTML Document");
 
-    detail::exception_internals::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
+    detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
             [data = std::move(data)] {return ranges::contains(data, "]]>");},
             "Cannot create a CDataSection node with ']]>' in the data");
 
@@ -182,7 +182,7 @@ auto dom::nodes::document::create_processing_instruction(
         ext::string&& data)
         const -> processing_instruction
 {
-    detail::exception_internals::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
+    detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
             [data = std::move(data)] {return ranges::contains(data, "?>");},
             "Cannot create a CDataSection node with '?>' in the data");
 
@@ -214,7 +214,7 @@ auto dom::nodes::document::create_attribute_ns(
         ext::string&& qualified_name)
         const -> attr
 {
-    auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(std::move(namespace_), std::move(qualified_name));
+    auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
 
     attr node;
     node.local_name = std::move(local_name);
@@ -238,17 +238,17 @@ auto dom::nodes::document::create_range()
 
 auto dom::nodes::document::import_node(
         node* new_node,
-        ext::boolean_view deep)
+        ext::boolean&& deep)
         -> node*
 {
     ce_reactions_method_def
-        detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+        detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*, nodes::shadow_root*>(new_node);},
                 "Node being imported cannot be a Document or ShadowRoot");
 
         // to import a node, a clone of the node is made, with the Document set tot this node; the node is basically copied
         // into this Document
-        return detail::node_internals::clone(new_node, this, true);
+        return detail::clone(new_node, this, true);
     ce_reactions_method_exe
 }
 
@@ -258,17 +258,17 @@ auto dom::nodes::document::adopt_node(
         -> node*
 {
     ce_reactions_method_def
-        detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+        detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*>(new_node);},
                 "Node being imported cannot be a Document");
 
-        detail::exception_internals::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
+        detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                 [new_node] {return ext::multi_cast<nodes::shadow_root*>(new_node);},
                 "Node being imported cannot be a ShadowRoot");
 
         // to adopt a node, the node is moved, not copied, from its current Document node to this Document Node; no cloning
         // takes place
-        return detail::node_internals::adopt(new_node, this);
+        return detail::adopt(new_node, this);
     ce_reactions_method_exe
 }
 
@@ -290,11 +290,11 @@ auto dom::nodes::document::get_cookie()
 {
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
     // return the empty string instead.
-    return_if (html::detail::document_internals::is_cookie_averse_document(this)) "";
+    return_if (html::detail::is_cookie_averse_document(this)) "";
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
-    detail::exception_internals::throw_v8_exception_formatted<SECURITY_ERR>(
+    detail::throw_v8_exception_formatted<SECURITY_ERR>(
             [this] {return m_origin.is_opaque();},
             "Can not get the cookie of a Document whose origin is opaque");
 
@@ -325,7 +325,7 @@ auto dom::nodes::document::get_title()
 
     // the value of the xxxTitleElement is the child text content of it, with the ascii whitespace stripped and
     // collapsed from the string
-    auto value = detail::tree_internals::child_text_content(title_element);
+    auto value = detail::child_text_content(title_element);
     value = infra::detail::infra_string_internals::strip_and_collapse_ascii_whitespace(value);
     return value;
 }
@@ -347,7 +347,7 @@ auto dom::nodes::document::get_images()
 {
     // the HTMLImageElements in this Document are all the HTMLImageElements that are descendants of this Document (live
     // collection)
-    return detail::tree_internals::descendants(this)
+    return detail::descendants(this)
             | ranges::views::cast_all_to<html::elements::html_image_element>();
 }
 
@@ -357,7 +357,7 @@ auto dom::nodes::document::get_links()
 {
     // the HTMLLinkElements in this Document are all the HTMLLinkElements that are descendants of this Document (live
     // collection), and have their href attribute set
-    return detail::tree_internals::descendants(this)
+    return detail::descendants(this)
             | ranges::views::cast_all_to<html::elements::html_link_element>()
             | ranges::views::filter([](html::elements::html_link_element* element) {return element->href();});
 }
@@ -368,7 +368,7 @@ auto dom::nodes::document::get_forms()
 {
     // the HTMLFormElements in this Document are all the HTMLFormElements that are descendants of this Document (live
     // collection)
-    return detail::tree_internals::descendants(this)
+    return detail::descendants(this)
             | ranges::views::cast_all_to<html::elements::html_form_element>();
 }
 
@@ -378,7 +378,7 @@ auto dom::nodes::document::get_scripts()
 {
     // the HTMLScriptElements in this Document are all the HTMLScriptElements that are descendants of this Document
     // (live collection)
-    return detail::tree_internals::descendants(this)
+    return detail::descendants(this)
             | ranges::views::cast_all_to<html::elements::html_script_element>();
 }
 
@@ -399,11 +399,11 @@ auto dom::nodes::document::set_cookie(
 {
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
     // return the empty string instead.
-    return_if (html::detail::document_internals::is_cookie_averse_document(this));
+    return_if (html::detail::is_cookie_averse_document(this));
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
-    detail::exception_internals::throw_v8_exception_formatted<SECURITY_ERR>(
+    detail::throw_v8_exception_formatted<SECURITY_ERR>(
             [this] {return m_origin.is_opaque();},
             "Can not get the cookie of a Document whose origin is opaque");
 
@@ -420,14 +420,15 @@ auto dom::nodes::document::set_ready_state(
     if (/* TODO : HTML parser association */ false)
     {
         JS_REALM_GET_RELEVANT(this)
-        auto now = high_resolution_time::detail::time_internals::current_high_resolution_time(this_relevant_global_object);
+        auto now = high_resolution_time::detail::current_high_resolution_time(this_relevant_global_object);
         if (val == "complete" && m_load_timing_info.dom_complete_time == 0)
             m_load_timing_info.dom_complete_time = now;
 
         if (val == "interactive" && m_load_timing_info.dom_interactive_time == 0)
             m_load_timing_info.dom_interactive_time = now;
     }
-    detail::event_internals::fire_event("readystatechange", this);
+    
+    detail::fire_event("readystatechange", this);
 }
 
 
@@ -435,7 +436,7 @@ auto dom::nodes::document::set_title(
         ext::string_view val)
         -> void
 {
-    using namespace detail::namespace_internals;
+    using namespace detail;
 
     // if the document element is an SvgTitleElement, handle the title updating steps for the SVG namespace
     if (dynamic_cast<svg::elements::svg_element*>(document_element()))
@@ -447,12 +448,12 @@ auto dom::nodes::document::set_title(
         auto* title_element = ranges::front(*document_element()->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>());
         if (!title_element)
         {
-            title_element = detail::customization_internals::create_an_element(document_element()->owner_document(), "title", SVG);
-            detail::mutation_internals::insert(title_element, document_element(), document_element()->first_child());
+            title_element = detail::create_an_element(document_element()->owner_document(), "title", SVG);
+            detail::insert(title_element, document_element(), document_element()->first_child());
         }
 
         // replace all the text in the SvgTitleElement with the new title value 'val' parameter
-        detail::node_internals::string_replace_all(val, title_element);
+        detail::string_replace_all(val, title_element);
     }
 
     else if (document_element()->namespace_uri() == HTML)
@@ -461,13 +462,13 @@ auto dom::nodes::document::set_title(
         return_if(!title_element && !head());
         if (!title_element)
         {
-            auto&& new_title_element = detail::customization_internals::create_an_element(document_element()->owner_document(), "title", HTML);
+            auto&& new_title_element = detail::create_an_element(document_element()->owner_document(), "title", HTML);
             title_element = dynamic_cast<const html::elements::html_title_element*>(&new_title_element);
-            detail::mutation_internals::append(title_element, head());
+            detail::append(title_element, head());
         }
 
         // replace all the text in the HtmlTitleElement with the new title value 'val' parameter
-        detail::node_internals::string_replace_all(val, title_element);
+        detail::string_replace_all(val, title_element);
     }
 }
 
@@ -483,16 +484,16 @@ auto dom::nodes::document::set_body(
     // if there is a current HTMLBodyElement (and an implied 'document_element'), then replace it with the new
     // HTMLBodyElement
     if (body())
-        detail::mutation_internals::replace(body(), body()->parent_node(), val);
+        detail::replace(body(), body()->parent_node(), val);
 
     // if there is no implied HTMLBodyElement, and no 'document_element', throw a hierarchy request error, because it's
     // not possible to append the HTMLBodyElement to a non-existent 'document_element'
-    detail::exception_internals::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
+    detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
             [this] {return !document_element();},
             "Document must have a document element, if a new HTMLBodyElement is being added to the Document");
 
     // append the HTMLBodyElement to this Document's 'document_element'
-    detail::mutation_internals::append(val, document_element());
+    detail::append(val, document_element());
 }
 
 
@@ -511,7 +512,7 @@ auto dom::nodes::document::get_m_title_element()
 {
     // the HTMLTitleElement of a Document is the first HTMLTitleElement in the Document's descendants; if there isn't
     // one, then nullptr is returned, as the de-referenced begin() iterator
-    return ranges::front(detail::tree_internals::descendants(this) | ranges::views::cast_all_to<html::elements::html_title_element*>());
+    return ranges::front(detail::descendants(this) | ranges::views::cast_all_to<html::elements::html_title_element*>());
 }
 
 
@@ -521,7 +522,7 @@ auto dom::nodes::document::operator[](
 {
     // return all descendant element in this tree whose name attribute (only present on certain element interfaces) is
     // equal to the 'name' parameter; TODO: named_element mixin with property `name` -> cast all, filter, and cast back
-    return detail::tree_internals::descendants(this)
+    return detail::descendants(this)
             | ranges::views::filter([name](element* descendant) {return descendant->name() == name;});
 }
 

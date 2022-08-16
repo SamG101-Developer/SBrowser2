@@ -5,8 +5,8 @@
 #include "ext/pair.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
-#include "html/_typedefs.hpp"
 #include <memory>
+#include USE_INNER_TYPES(html)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}

@@ -12,7 +12,7 @@ public constructors:
     html_title_element();
 
 public js_properties:
-    ext::property<ext::string, _T> text;
+    ext::property<ext::string, true> text;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

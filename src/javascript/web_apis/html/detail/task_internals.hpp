@@ -4,7 +4,7 @@
 
 #include <v8-platform.h>
 
-namespace html::detail::task_internals
+namespace html::detail
 {
     auto timer_task_source()
             -> v8::Task&;

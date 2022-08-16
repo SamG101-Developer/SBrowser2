@@ -18,7 +18,7 @@ public js_properties:
     ext::property<ext::string> prefix;
     ext::property<ext::string> local_name;
     ext::property<ext::string> name;
-    ext::property<ext::string, _T> value;
+    ext::property<ext::string, true> value;
     ext::property<std::unique_ptr<element>> owner_element;
 
 public cpp_methods:

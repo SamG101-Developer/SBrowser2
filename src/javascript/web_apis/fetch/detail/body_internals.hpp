@@ -6,10 +6,10 @@
 #include "ext/number.hpp"
 #include "ext/pair.hpp"
 #include "ext/string.hpp"
-#include "../_typedefs.hpp"
 
 #include <v8-object.h>
 #include <v8-array-buffer.h>
+#include USE_INNER_TYPES(fetch)
 namespace fetch::mixins {class body;}
 namespace streams::readable {class readable_stream_default_reader;}
 

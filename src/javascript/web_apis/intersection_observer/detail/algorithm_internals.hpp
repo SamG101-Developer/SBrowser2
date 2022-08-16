@@ -1,8 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_DETAIL_ALGORITHM_INTERNALS_HPP
 
+#include "ext/boolean.hpp"
 #include "ext/map.hpp"
-#include "intersection_observer/_typedefs.hpp"
+#include "ext/string.hpp"
+#include USE_INNER_TYPES(intersection_observer)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace intersection_observers {class intersection_observer;}

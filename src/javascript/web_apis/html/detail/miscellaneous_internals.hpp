@@ -6,7 +6,7 @@
 #include "url/url.hpp"
 #include USE_INNER_TYPES(fetch)
 
-namespace html::detail::miscellaneous_internals
+namespace html::detail
 {
     auto create_potential_cors_request(
             url::url_object& url,

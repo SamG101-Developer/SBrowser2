@@ -2,13 +2,11 @@
 
 #include "dom/detail/exception_internals.hpp"
 
-#include "streams/_typedefs.hpp"
-
 
 streams::readable::readable_stream_default_reader::readable_stream_default_reader(
         streams::readable::readable_stream* stream)
 {
-    detail::abstract_operations_internals::set_up_readable_stream_default_reader(this, stream);
+    detail::set_up_readable_stream_default_reader(this, stream);
 }
 
 
@@ -16,7 +14,7 @@ auto streams::readable::readable_stream_default_reader::read(
         v8::Local<v8::ArrayBufferView> view)
         -> std::promise<ext::map<ext::string, ext::any>>
 {
-    dom::detail::exception_internals::throw_v8_exception<V8_TYPE_ERROR>(
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [this] {return !s_stream;},
             "Can not read with a ReadableStreamDefaultReader if the [[stream]] slot is empty");
 
@@ -28,7 +26,7 @@ auto streams::readable::readable_stream_default_reader::read(
         .error_steps = [&promise](const detail::error_t& error) {promise.set_exception(error);}
     };
 
-    detail::abstract_operations_internals::readable_stream_default_reader_read(this, std::move(read_request));
+    detail::readable_stream_default_reader_read(this, std::move(read_request));
     return promise;
 }
 
@@ -37,5 +35,5 @@ auto streams::readable::readable_stream_default_reader::release_lock()
         -> void
 {
     return_if (!s_stream);
-    detail::abstract_operations_internals::readable_stream_default_reader_release(this);
+    detail::readable_stream_default_reader_release(this);
 }

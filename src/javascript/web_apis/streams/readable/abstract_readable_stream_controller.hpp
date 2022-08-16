@@ -5,10 +5,10 @@
 #include "dom_object.hpp"
 namespace streams::readable {class abstract_readable_stream_controller;}
 
-#include "streams/_typedefs.hpp"
 #include "ext/queue.hpp"
 #include <future>
 #include <v8-forward.h>
+#include USE_INNER_TYPES(streams)
 namespace streams::readable {class readable_stream;}
 
 class streams::readable::abstract_readable_stream_controller

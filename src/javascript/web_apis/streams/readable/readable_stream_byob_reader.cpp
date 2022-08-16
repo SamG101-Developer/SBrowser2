@@ -2,13 +2,11 @@
 
 #include "dom/detail/exception_internals.hpp"
 
-#include "streams/_typedefs.hpp"
-
 
 streams::readable::readable_stream_byob_reader::readable_stream_byob_reader(
         streams::readable::readable_stream* stream)
 {
-    detail::abstract_operations_internals::set_up_readable_stream_byob_reader(this, stream);
+    detail::set_up_readable_stream_byob_reader(this, stream);
 }
 
 
@@ -31,7 +29,7 @@ auto streams::readable::readable_stream_byob_reader::read(
         .error_steps = [&promise](const detail::error_t& error) {promise.set_exception(error);}
     };
 
-    detail::abstract_operations_internals::readbale_stream_byob_reader_read(this, view, std::move(read_into_request));
+    detail::readable_stream_byob_reader_read(this, view, std::move(read_into_request));
     return promise;
 }
 
@@ -40,5 +38,5 @@ auto streams::readable::readable_stream_byob_reader::release_lock()
         -> void
 {
     return_if (!s_stream);
-    detail::abstract_operations_internals::readable_stream_byob_reader_release(this);
+    detail::readable_stream_byob_reader_release(this);
 }

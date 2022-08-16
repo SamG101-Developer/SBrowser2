@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace indexed_db {class idb_database;}
 
-#include "indexed_db/_typedefs.hpp"
+#include USE_INNER_TYPES(indexed_db)
 namespace indexed_db {class idb_transaction;}
 namespace indexed_db {class idb_object_store;}
 

@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace permissions {class permission_status;}
 
-#include "_typedefs.hpp"
+#include USE_INNER_TYPES(permissions)
 
 class permissions::permission_status
         : public dom::nodes::event_target

@@ -7,9 +7,9 @@
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
 
-#include "../_typedefs.hpp"
-#include "high_resolution_time/_typedefs.hpp"
 #include "url/url.hpp"
+#include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(high_resolution_time)
 namespace fetch::detail::http_internals {struct connection_timing_info;}
 namespace fetch::detail::request_internals {struct internal_request;}
 

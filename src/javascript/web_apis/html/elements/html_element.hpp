@@ -22,21 +22,21 @@ public js_methods:
     auto attach_internals() -> other::element_internals;
 
 public js_properties:
-    ext::property<ext::string, _T> title;
-    ext::property<ext::string, _T> lang;
-    ext::property<ext::string, _T> translate;
-    ext::property<ext::string, _T> dir;
+    ext::property<ext::string, true> title;
+    ext::property<ext::string, true> lang;
+    ext::property<ext::string, true> translate;
+    ext::property<ext::string, true> dir;
 
-    ext::property<ext::string, _F> access_key_label;
-    ext::property<ext::string, _T> access_key;
-    ext::property<ext::string, _T> autocapitalize;
-    ext::property<ext::string, _T> inner_text;
-    ext::property<ext::string, _T> outer_text;
+    ext::property<ext::string, false> access_key_label;
+    ext::property<ext::string, true> access_key;
+    ext::property<ext::string, true> autocapitalize;
+    ext::property<ext::string, true> inner_text;
+    ext::property<ext::string, true> outer_text;
 
-    ext::property<ext::boolean, _T> hidden;
-    ext::property<ext::boolean, _T> inert;
-    ext::property<ext::boolean, _T> draggable;
-    ext::property<ext::boolean, _T> spellcheck;
+    ext::property<ext::boolean, true> hidden;
+    ext::property<ext::boolean, true> inert;
+    ext::property<ext::boolean, true> draggable;
+    ext::property<ext::boolean, true> spellcheck;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

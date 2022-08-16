@@ -10,7 +10,7 @@ auto dom::nodes::document_fragment::get_text_content()
     // the text content of a DocumentFragment is the descendant text content of it; this is because the DocumentFragment
     // is effectively a Range of elements, including Text nodes, so it makes sense that the text content of the
     // container (DocumentFragment) is the entire text content that it is containing
-    return detail::tree_internals::descendant_text_content(this);
+    return detail::descendant_text_content(this);
 }
 
 
@@ -21,7 +21,7 @@ auto dom::nodes::document_fragment::set_text_content(
     // setting the text content of a DocumentFragment has to replace the text that the 'text_content' getter gets; in
     // this case it's the descendant text content of the DocumentFragment. this is done by replacing all the text under
     // the node
-    detail::node_internals::string_replace_all(val, this);
+    detail::string_replace_all(val, this);
 }
 
 

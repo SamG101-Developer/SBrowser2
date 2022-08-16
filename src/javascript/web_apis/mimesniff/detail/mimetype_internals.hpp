@@ -6,7 +6,7 @@
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
-#include "mimesniff/_typedefs.hpp"
+#include USE_INNER_TYPES(mimesniff)
 
 namespace mimesniff::detail::mimetype_internals
 {

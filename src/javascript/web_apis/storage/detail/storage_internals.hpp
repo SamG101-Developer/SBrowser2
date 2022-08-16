@@ -6,11 +6,11 @@
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
-#include "storage/_typedefs.hpp"
+#include USE_INNER_TYPES(streams)
 
 #include <v8-forward.h>
 
-namespace storage::detail::storage_internals
+namespace storage::detail
 {
     auto equal_storage_keys(
             const storage_key_t& key_a,

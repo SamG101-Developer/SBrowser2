@@ -8,7 +8,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
-#include "content_security_policy/_typedefs.hpp"
+#include USE_INNER_TYPES(content_security_policy)
 namespace dom::nodes {class document;}
 
 namespace content_security_policy::detail

@@ -12,7 +12,7 @@ public constructors:
     html_li_element();
 
 public js_properties:
-    ext::property<ext::number<long>, _T> value;
+    ext::property<ext::number<long>, true> value;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

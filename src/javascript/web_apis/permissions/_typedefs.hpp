@@ -10,7 +10,7 @@ namespace permissions {class permission_status;}
 namespace permissions::detail
 {
     enum class permission_state_t {DENIED, GRANTED, PROMPT};
-
+    struct powerful_feature_t;
     using permissions_descriptor_t = ext::map<ext::string, ext::any>;
     using permissions_result_t = permission_status;
     using extra_permission_data_t = permission_state_t;

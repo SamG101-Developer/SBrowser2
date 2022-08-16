@@ -44,7 +44,7 @@
 #include "content_security_policy/detail/csp_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 #include "intersection_observer/detail/algorithm_internals.hpp"
-#include "referrer_policy/referrer_policy.hpp"
+#include "referrer_policy/_typedefs.hpp"
 
 #include <magic_enum.hpp>
 #include <range/v3/algorithm/any_of.hpp>

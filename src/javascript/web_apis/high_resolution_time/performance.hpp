@@ -3,7 +3,7 @@
 #define SBROWSER2_PERFORMANCE_HPP
 
 #include "dom/nodes/event_target.hpp"
-#include "high_resolution_time/_typedefs.hpp"
+#include USE_INNER_TYPES(high_resolution_time)
 namespace high_resolution_time {class performance;}
 
 

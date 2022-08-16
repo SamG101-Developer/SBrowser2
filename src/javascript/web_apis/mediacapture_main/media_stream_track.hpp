@@ -7,7 +7,7 @@
 namespace mediacapture::main {class media_stream_track;}
 
 #include <future>
-namespace mediacapture::detail::source_internals {struct media_stream_track_source;}
+#include USE_INNER_TYPES(mediacapture_main)
 
 class mediacapture::main::media_stream_track
         : public dom::nodes::event_target
@@ -17,7 +17,7 @@ public constructors:
     media_stream_track() = delete;
 
 private constructors:
-    media_stream_track(detail::source_internals::media_stream_track_source& source, ext::boolean_view tie_source_to_context = true);
+    media_stream_track(detail::media_stream_track_source& source, ext::boolean&& tie_source_to_context = true);
 
 public js_methods:
     auto clone() const -> media_stream_track;
@@ -40,10 +40,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
-    detail::source_internals::media_stream_track_source& m_source;
+    detail::media_stream_track_source& m_source;
 
 private cpp_accessors:
-    auto set_muted(ext::boolean_view val) -> void;
+    auto set_muted(ext::boolean&& val) -> void;
 };
 
 

@@ -3,9 +3,9 @@
 #define SBROWSER2_TIME_INTERNALS_HPP
 
 #include "ext/optional.hpp"
-#include "high_resolution_time/_typedefs.hpp"
 #include <v8-local-handle.h>
 #include <v8-object.h>
+#include USE_INNER_TYPES(high_resolution_time)
 namespace high_resolution_time::hr_time {class performance;}
 
 namespace high_resolution_time::detail

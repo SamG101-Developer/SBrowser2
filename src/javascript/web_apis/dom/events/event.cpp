@@ -1,7 +1,9 @@
 #include "event.hpp"
 
 #include "dom/detail/event_internals.hpp"
-#include "high_resolution_time/hr_time/performance.hpp"
+#include "high_resolution_time/performance.hpp"
+
+#include <range/v3/range/operations.hpp>
 
 
 dom::events::event::event(
@@ -15,7 +17,7 @@ dom::events::event::event(
         , current_target(nullptr)
         , related_target(nullptr)
         , event_phase(std::bit_cast<ushort>(NONE))
-        , time_stamp(high_resolution_time::hr_time::performance{}.now())
+        , time_stamp(high_resolution_time::performance{}.now())
         , is_trusted(false)
         , touch_targets(std::make_unique<touch_targets_t>())
         , path(std::make_unique<path_t>())
@@ -70,10 +72,11 @@ auto dom::events::event::composed_path()
     // loop from the end of the event traversal path to identify the hidden subtree level of the current target
     while (iterator != path_vector.begin())
     {
-        if ((*iterator)->root_of_closed_tree) ++current_target_hidden_subtree_level;
-        if ((*iterator)->invocation_target == current_target()) {current_target_index = iterator; break;}
-        if ((*iterator)->slot_in_closed_tree) --current_target_hidden_subtree_level;
-        --iterator;
+        auto* path_struct = *iterator;
+        if (path_struct->root_of_closed_tree) ++current_target_hidden_subtree_level;
+        if (path_struct->invocation_target == current_target()) {current_target_index = iterator; break;}
+        if (path_struct->slot_in_closed_tree) --current_target_hidden_subtree_level;
+        ranges::advance(iterator, -1);
     }
 
     // set the current and max hidden subtree level to the target's hidden subtree level, and the index to the target
@@ -84,14 +87,15 @@ auto dom::events::event::composed_path()
     // loop from the target to the beginning of the event path, prepending nodes that are in less hidden subtree levels
     while (iterator != path_vector.begin())
     {
-        if ((*iterator)->root_of_closed_tree) ++current_hidden_level;
-        if (current_hidden_level <= max_hidden_level) composed_path_vector.push_front((*iterator)->invocation_target);
-        if ((*iterator)->slot_in_closed_tree)
+        auto* path_struct = *iterator;
+        if (path_struct->root_of_closed_tree) ++current_hidden_level;
+        if (current_hidden_level <= max_hidden_level) composed_path_vector.push_front(path_struct->invocation_target);
+        if (path_struct->slot_in_closed_tree)
         {
             --current_hidden_level;
             max_hidden_level = std::min(max_hidden_level, current_hidden_level);
         }
-        --iterator;
+        ranges::advance(iterator, -1);;
     }
 
     // set the current and max hidden subtree level to the target's hidden subtree level, and the index to the target
@@ -102,14 +106,15 @@ auto dom::events::event::composed_path()
     // loop from the target to the end of the event path, appending nodes that are in less hidden subtree levels
     while (iterator != path_vector.end())
     {
-        if ((*iterator)->slot_in_closed_tree) ++current_hidden_level;
-        if (current_hidden_level <= max_hidden_level) composed_path_vector.push_back((*iterator)->invocation_target);
-        if ((*iterator)->slot_in_closed_tree)
+        auto* path_struct = *iterator;
+        if (path_struct->slot_in_closed_tree) ++current_hidden_level;
+        if (current_hidden_level <= max_hidden_level) composed_path_vector.push_back(path_struct->invocation_target);
+        if (path_struct->slot_in_closed_tree)
         {
             --current_hidden_level;
             max_hidden_level = std::min(max_hidden_level, current_hidden_level);
         }
-        ++iterator;
+        ranges::advance(iterator, 1);;
     }
 
     // return the generated composed path

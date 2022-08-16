@@ -1,6 +1,5 @@
 #include "idb_factory.hpp"
 
-#include "_typedefs.hpp"
 #include "ext/threading.hpp"
 
 #include "dom/detail/event_internals.hpp"

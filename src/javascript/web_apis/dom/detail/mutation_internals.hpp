@@ -6,7 +6,7 @@
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
-#include "dom/_typedefs.hpp"
+#include USE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
 namespace dom::mutations {class mutation_observer;}
 

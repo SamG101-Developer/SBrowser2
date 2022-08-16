@@ -12,7 +12,7 @@ auto html::elements::html_head_element::to_v8(
         const&& -> ext::any
 {
     return v8pp::class_<html_head_element>{isolate}
-        .ctor<>()
-        .inherit<html_element>()
-        .auto_wrap_objects();
+            .ctor<>()
+            .inherit<html_element>()
+            .auto_wrap_objects();
 }

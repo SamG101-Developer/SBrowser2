@@ -17,14 +17,12 @@
 
 #include "html/detail/document_internals.hpp"
 
-#include "mediacapture_main/_typedefs.hpp"
 #include "mediacapture_main/details/source_internals.hpp"
 #include "mediacapture_main/media_device_info.hpp"
 #include "mediacapture_main/media_devices.hpp"
 #include "mediacapture_main/media_stream.hpp"
 #include "mediacapture_main/media_stream_track.hpp"
 
-#include "permissions/_typedefs.hpp"
 #include "permissions/detail/permission_internals.hpp"
 
 #include <range/v3/action/remove_if.hpp>

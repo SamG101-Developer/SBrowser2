@@ -5,9 +5,9 @@
 #include "streams/readable/abstract_readable_stream_reader.hpp"
 namespace streams::readable {class readable_stream_byob_reader;}
 
-#include "streams/_typedefs.hpp"
 #include <future>
 #include <v8-forward.h>
+#include USE_INNER_TYPES(streams)
 namespace streams::readable {class readable_stream;}
 
 

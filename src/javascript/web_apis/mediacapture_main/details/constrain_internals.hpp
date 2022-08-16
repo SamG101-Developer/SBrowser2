@@ -8,39 +8,39 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <future>
+#include USE_INNER_TYPES(mediacapture_main)
 namespace mediacapture::main::mixins {class constrainable;}
 
 namespace mediacapture::detail::constrain_internals
 {
     auto apply_constrains_template_algorithm(
             main::mixins::constrainable* object,
-            ext::map<ext::string, ext::any>&& new_constraints = {})
+            constraints_t&& new_constraints = {})
             -> std::promise<void>;
 
     auto apply_constrains_algorithm(
             main::mixins::constrainable* object,
-            ext::map<ext::string, ext::any>&& new_constraints = {})
+            constraints_t&& new_constraints = {})
             -> ext::string;
 
     auto fitness_distance(
-            ext::map<ext::string, ext::any>&& settings,
-            ext::map<ext::string, ext::any>&& constraint_set)
+            settings_t&& settings,
+            constraints_t&& constraint_set)
             -> ext::number<double>;
 
     auto select_settings(
             main::mixins::constrainable* object,
-            ext::map<ext::string, ext::any>&& new_constrains)
+            constraints_t&& new_constrains)
             -> ext::map<ext::string, ext::any>;
 
     auto get_user_media_specific_failure_allowed(
             ext::vector<ext::string>&&)
             -> ext::boolean;
 
-    const ext::set<ext::string> allowed_constraints
-    {
+    const ext::set<ext::string> allowed_constraints {
         "width", "height", "aspect_ratio", "frame_rate", "facing_mode", "resize_mode", "sample_rate", "sample_size",
-        "echo_cancellation", "auto_gain_control", "noise_suppression", "latency", "channel_count", "device_id", "group"
-    };
+        "echo_cancellation", "auto_gain_control", "noise_suppression", "latency", "channel_count", "device_id",
+        "group"};
 };
 
 

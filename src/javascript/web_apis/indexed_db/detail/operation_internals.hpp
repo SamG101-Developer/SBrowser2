@@ -7,7 +7,7 @@
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
 #include "ext/vector.hpp"
-#include "indexed_db/_typedefs.hpp"
+#include USE_INNER_TYPES(indexed_db)
 
 namespace indexed_db {class idb_cursor;}
 namespace indexed_db {class idb_object_store;}

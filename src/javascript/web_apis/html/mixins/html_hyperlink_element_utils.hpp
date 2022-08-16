@@ -13,17 +13,17 @@ public constructors:
     html_hyperlink_element_utils();
 
 public js_properties:
-    ext::property<ext::string, _F> origin;
-    ext::property<ext::string, _T> href;
-    ext::property<ext::string, _T> protocol;
-    ext::property<ext::string, _T> username;
-    ext::property<ext::string, _T> password;
-    ext::property<ext::string, _T> host;
-    ext::property<ext::string, _T> hostname;
-    ext::property<ext::string, _T> port;
-    ext::property<ext::string, _T> pathname;
-    ext::property<ext::string, _T> search;
-    ext::property<ext::string, _T> hash;
+    ext::property<ext::string, false> origin;
+    ext::property<ext::string, true> href;
+    ext::property<ext::string, true> protocol;
+    ext::property<ext::string, true> username;
+    ext::property<ext::string, true> password;
+    ext::property<ext::string, true> host;
+    ext::property<ext::string, true> hostname;
+    ext::property<ext::string, true> port;
+    ext::property<ext::string, true> pathname;
+    ext::property<ext::string, true> search;
+    ext::property<ext::string, true> hash;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

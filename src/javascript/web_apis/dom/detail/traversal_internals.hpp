@@ -4,7 +4,7 @@
 
 #include "ext/number.hpp"
 #include "ext/type_traits.hpp"
-#include "dom/_typedefs.hpp"
+#include USE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
 namespace dom::node_iterators {class abstract_iterator;}
 namespace dom::node_iterators {class node_iterator;}

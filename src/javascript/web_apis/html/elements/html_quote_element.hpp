@@ -12,7 +12,7 @@ public constructors:
     html_quote_element();
 
 public js_properties:
-    ext::property<ext::string, _T> cite;
+    ext::property<ext::string, true> cite;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

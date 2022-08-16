@@ -53,13 +53,13 @@ auto mediacapture::main::media_devices::enumerate_devices()
 
 
 auto mediacapture::main::media_devices::get_user_media(
-        ext::map<ext::string, ext::any>&& constraints)
+        detail::constraints_t&& constraints)
         -> std::promise<media_stream*>
 {
     // the 'requested_media_types' are the constraints' keys whose corresponding values are either [boolean and TRUE, or
     // a dictionary, converted into a set of strings
     auto requested_media_types = constraints
-            | ranges::views::filter([](ext::any_view value) {return value.try_to<ext::map<ext::string, ext::any>>() || value.try_to<ext::boolean>() && value.to<ext::boolean>() == ext::boolean::TRUE_();})
+            | ranges::views::filter([](const ext::any& value) {return value.try_to<ext::map<ext::string, ext::any>>() || value.try_to<ext::boolean>() && value.to<ext::boolean>() == ext::boolean::TRUE_();})
             | ranges::views::keys
             | ranges::to<ext::set<ext::string>>;
 
@@ -78,7 +78,7 @@ auto mediacapture::main::media_devices::get_user_media(
 
     // if the Document isn't fully active, then reject the promise with an "invalid_state_error" DOMException, and
     // return it
-    if (!dom::detail::node_internals::is_document_fully_active(document))
+    if (!dom::detail::is_document_fully_active(document))
     {
         std::promise<media_stream*> promise;
         promise.set_exception(dom::other::dom_exception{"Document must be fully active", INVALID_STATE_ERROR});
@@ -87,14 +87,14 @@ auto mediacapture::main::media_devices::get_user_media(
 
     // return the result of the permission_failure lambda if the 'requested_media_types' contains the "audio" or "video"
     // keyword, and the Document isn't allowed to use that feature
-    return_if (ranges::contains(requested_media_types, "audio") && !html::detail::document_internals::allowed_to_use(document, "audio")) permission_failure();
-    return_if (ranges::contains(requested_media_types, "video") && !html::detail::document_internals::allowed_to_use(document, "video")) permission_failure();
+    return_if (ranges::contains(requested_media_types, "audio") && !html::detail::allowed_to_use(document, "audio")) permission_failure();
+    return_if (ranges::contains(requested_media_types, "video") && !html::detail::allowed_to_use(document, "video")) permission_failure();
 
     ext::thread_pool pool{1};
     pool.push_task(
             [document, requested_media_types = std::move(requested_media_types)] mutable
             {
-                while (!dom::detail::node_internals::is_document_fully_active(document) /* TODO : and wait for Document to have focus */) continue;
+                while (!dom::detail::is_document_fully_active(document) /* TODO : and wait for Document to have focus */) continue;
                 ext::set<ext::string> final_set;
 
                 for (ext::string_view kind: requested_media_types)

@@ -7,7 +7,7 @@ namespace dom::events {class event;}
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "dom/_typedefs.hpp"
+#include USE_INNER_TYPES(dom)
 namespace dom::nodes {class event_target;}
 
 

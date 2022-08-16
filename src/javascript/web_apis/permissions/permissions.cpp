@@ -8,8 +8,6 @@
 #include "permissions/detail/permission_internals.hpp"
 #include "permissions/permission_status.hpp"
 
-#include "permissions_policy/_typedefs.hpp"
-
 #include <magic_enum.hpp>
 #include <v8pp/convert.hpp>
 
@@ -25,7 +23,8 @@ auto permissions::permission::query(
     // get the feature as a string and cast as the enum (leave in the optional state, as following behaviour relies on
     // the state of the `optional<feature_t>` type
     using permissions_policy::detail::feature_t;
-    using detail::permission_internals::powerful_feature_t;
+    using permissions::detail::powerful_feature_t;
+
     auto feature_string = permission_descriptor.at("name").to<powerful_feature_t>().name;
     auto feature = magic_enum::enum_cast<feature_t>(feature_string);
 

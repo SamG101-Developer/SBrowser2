@@ -7,7 +7,7 @@ namespace clipboard {class clipboard_item;}
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "clipboard/_typedefs.hpp"
+#include USE_INNER_TYPES(clipboard)
 namespace file_api {class blob;}
 
 

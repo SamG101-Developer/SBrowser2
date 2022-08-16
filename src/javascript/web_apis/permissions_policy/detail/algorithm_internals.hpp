@@ -4,13 +4,13 @@
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
 #include "ext/property.hpp"
-#include "permissions_policy/_typedefs.hpp"
 #include <v8-object.h>
+#include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(permissions_policy)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
-namespace html::detail::context_internals {struct browsing_context;}
 namespace html::elements {class html_element;}
-namespace permissions_policy::detail::policy_internals {struct internal_permissions_policy;}
 namespace url {class url_object;}
 
 /*
@@ -24,11 +24,11 @@ namespace permissions_policy::detail::algorithm_internals
     concept allowable_element = requires
     {
         requires std::is_base_of_v<html::elements::html_element, T>;
-        {T::allow} -> std::same_as<ext::property<ext::string, _T>&>;
+        {T::allow} -> std::same_as<ext::property<ext::string, true>&>;
     };
 
     auto is_valid_feature(
-            ext::string_view feature_name)
+            const feature_name_t& feature_name)
             -> ext::boolean;
 
     auto default_allowlist(
@@ -41,12 +41,12 @@ namespace permissions_policy::detail::algorithm_internals
             -> ext::boolean;
 
     auto process_response_body(
-            const fetch::detail::response_internals::internal_response& response,
+            const fetch::detail::response_t& response,
             ext::string&& origin)
             -> declared_policy_t;
 
     auto construct_policy_from_dictionary_and_origin(
-            ext::map_view<ext::string, ext::vector<ext::string>> dictionary,
+            ext::map_view<feature_name_t, ext::vector<ext::string>> dictionary,
             ext::string&& origin)
             -> declared_policy_t;
 
@@ -61,25 +61,25 @@ namespace permissions_policy::detail::algorithm_internals
             -> container_policy_t;
 
     auto create_permissions_policy_for_browsing_context(
-            html::detail::context_internals::browsing_context& context,
+            html::detail::browsing_context& context,
             ext::string&& origin)
-            -> policy_internals::internal_permissions_policy;
+            -> internal_permissions_policy_t;
     
     auto create_permissions_policy_for_feature_in_container_at_origin(
             const allowable_element auto* allowable_element,
             ext::string&& origin)
-            -> policy_internals::internal_permissions_policy;
+            -> internal_permissions_policy_t;
 
     auto create_permissions_policy_for_browsing_context_from_response(
-            html::detail::context_internals::browsing_context& context,
+            html::detail::browsing_context& context,
             ext::string&& origin,
-            fetch::detail::response_internals::internal_response& response)
-            -> policy_internals::internal_permissions_policy;
+            fetch::detail::response_t& response)
+            -> internal_permissions_policy_t;
 
     auto define_inherited_policy_for_feature_in_browsing_context(
             feature_t feature,
             ext::string&& origin,
-            html::detail::context_internals::browsing_context& context)
+            html::detail::browsing_context& context)
             -> inherited_policy_value_t;
 
     auto define_inherited_policy_for_feature_in_container_at_origin(
@@ -102,7 +102,7 @@ namespace permissions_policy::detail::algorithm_internals
 
     auto should_request_be_allowed_to_use_feature(
             feature_t feature,
-            fetch::detail::request_internals::internal_request& request)
+            fetch::detail::request_t& request)
             -> ext::boolean;
 }
 

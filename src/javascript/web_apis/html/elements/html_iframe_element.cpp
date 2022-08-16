@@ -7,7 +7,7 @@
 #include "html/detail/lazy_loading_internals.hpp"
 
 #include "permissions_policy/permissions_policy.hpp"
-#include "referrer_policy/referrer_policy.hpp"
+#include "referrer_policy/_typedefs.hpp"
 
 #include <magic_enum.hpp>
 
@@ -20,13 +20,10 @@ html::elements::html_iframe_element::html_iframe_element()
     bind_set(sandbox);
     bind_set(loading);
 
-    referrer_policy._Meta._AttachEnumConstraint(std::move(magic_enum::enum_names<referrer_policy::referrer_policy_t>()));
-    loading._Meta._AttachEnumConstraint(stsd::move(magic_enum::enum_names<detail::lazy_loading_internals::lazy_loading_t>()));
-
     m_dom_behaviour.insertion_steps = [this]
     {
-        detail::context_internals::create_new_nested_browsing_context(this);
-        detail::html_element_internals::process_iframe_attributes(this, ext::boolean::TRUE());
+        detail::create_new_nested_browsing_context(this);
+        detail::process_iframe_attributes(this, true);
     };
 
     permissions_policy()->m_associated_node = this;
@@ -62,15 +59,14 @@ auto html::elements::html_iframe_element::set_sandbox(
 
 
 auto html::elements::html_iframe_element::set_loading(
-        ext::string_view val)
+        detail::lazy_loading_t val)
         -> void
 {
-    using lazy_loading_t = detail::lazy_loading_internals::lazy_loading_t;
-    using enum detail::lazy_loading_internals::lazy_loading_t;
+    using detail::lazy_loading_t;
 
     // there is a special case for the "Eager" case where there are lazy load resumption steps: run the steps and then
     // reset them to an empty method that doesn't do anything (like a one-shot function)
-    if (magic_enum::enum_cast<lazy_loading_t>(val).value() == EAGER && !m_lazy_load_resumption_steps.empty())
+    if (val == lazy_loading_t::EAGER && !m_lazy_load_resumption_steps.empty())
     {
         m_lazy_load_resumption_steps();
         m_lazy_load_resumption_steps = [] {};

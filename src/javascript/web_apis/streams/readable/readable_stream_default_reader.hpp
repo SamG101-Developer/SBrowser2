@@ -5,8 +5,8 @@
 #include "streams/readable/abstract_readable_stream_reader.hpp"
 namespace streams::readable {class readable_stream_default_reader;}
 
-#include "streams/_typedefs.hpp"
 #include "ext/vector.hpp"
+#include USE_INNER_TYPES(streams)
 namespace streams::readable {class readable_stream;}
 
 

@@ -10,6 +10,7 @@ namespace mediacapture::main {class media_devices;}
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <future>
+#include USE_INNER_TYPES(mediacapture_main)
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}
 
@@ -19,8 +20,8 @@ class mediacapture::main::media_devices
 {
 public js_methods:
     auto enumerate_devices() -> std::promise<ext::vector<media_device_info*>>;
-    auto get_user_media(ext::map<ext::string, ext::any>&& constraints = {}) -> std::promise<media_stream*>;
-    auto get_supported_constraints() -> ext::map<ext::string, ext::any>;
+    auto get_user_media(detail::constraints_t&& constraints = {}) -> std::promise<media_stream*>;
+    auto get_supported_constraints() -> detail::constraints_t;
 };
 
 

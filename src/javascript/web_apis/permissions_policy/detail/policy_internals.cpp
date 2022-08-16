@@ -13,8 +13,8 @@
 #include <range/v3/view/map.hpp>
 
 
-auto permissions_policy::detail::policy_internals::is_empty_permissions_policy(
-        const internal_permissions_policy& policy)
+auto permissions_policy::detail::is_empty_permissions_policy(
+        const internal_permissions_policy_t& policy)
         -> ext::boolean
 {
     using enum inherited_policy_value_t;
@@ -26,9 +26,9 @@ auto permissions_policy::detail::policy_internals::is_empty_permissions_policy(
 }
 
 
-auto permissions_policy::detail::policy_internals::observable_policy(
+auto permissions_policy::detail::observable_policy(
         dom::nodes::node* node)
-        -> internal_permissions_policy // NOTE: intentional copy
+        -> internal_permissions_policy_t // NOTE: intentional copy
 {
     if (auto* document_node = dynamic_cast<dom::nodes::document*>(node))
         return *document_node->m_permissions_policy;
@@ -36,17 +36,17 @@ auto permissions_policy::detail::policy_internals::observable_policy(
     else if (auto* element_node = dynamic_cast<html::elements::html_iframe_element*>(node))
         return detail::algorithm_internals::create_permissions_policy_for_feature_in_container_at_origin(element_node, declared_origin(element_node));
 
-    return internal_permissions_policy{};
+    return internal_permissions_policy_t{};
 }
 
 
-auto permissions_policy::detail::policy_internals::declared_origin(
+auto permissions_policy::detail::declared_origin(
         html::elements::html_iframe_element* element)
         -> ext::string
 {
     // TODO : sandboxing
 
-    auto element_src_url_object = html::detail::miscellaneous_internals::parse_url(element->src(), element->owner_document());
+    auto element_src_url_object = html::detail::parse_url(element->src(), element->owner_document());
 
     return_if(!element->sandbox().empty() && ranges::contains(element->sandbox(), "allow-same-origin")) {}; // TODO : unique opaque origin
     return_if(!element->srcdoc().empty()) element->owner_document()->m_origin;

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_RESOURCE_INTERNALS_HPP
 
 
-#include "mimesniff/_typedefs.hpp"
+#include USE_INNER_TYPES(mimesniff)
 
 namespace mimesniff::detail::resource_internals
 {

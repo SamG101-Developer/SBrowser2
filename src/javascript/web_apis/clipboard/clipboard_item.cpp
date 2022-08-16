@@ -2,12 +2,8 @@
 
 #include "ext/ranges.hpp"
 
-#include "clipboard/_typedefs.hpp"
-
 #include "dom/detail/exception_internals.hpp"
-
 #include "file_api/blob.hpp"
-
 #include "mimesniff/detail/mimetype_internals.hpp"
 
 #include <range/v3/algorithm/contains.hpp>

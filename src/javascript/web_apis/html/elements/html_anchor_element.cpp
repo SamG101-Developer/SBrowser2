@@ -26,8 +26,8 @@ html::elements::html_anchor_element::html_anchor_element()
         hyperlink_suffix = char(0x003f) + ext::to_string(x) + char(0x002c) + ext::to_string(y);
 
         reflect_has_attribute_value(this, "download", this_relevant) && !download().empty() // TODO : or expressed preference to download
-                ? detail::link_internals::download_hyperlink(this, hyperlink_suffix)
-                : detail::link_internals::follow_hyperlink(this, hyperlink_suffix)
+                ? detail::download_hyperlink(this, hyperlink_suffix)
+                : detail::follow_hyperlink(this, hyperlink_suffix)
     };
 
     HTML_CONSTRUCTOR
@@ -37,7 +37,7 @@ html::elements::html_anchor_element::html_anchor_element()
 auto html::elements::html_anchor_element::get_text()
         const -> ext::string
 {
-    return dom::detail::tree_internals::descendant_text_content(this);
+    return dom::detail::descendant_text_content(this);
 }
 
 
@@ -45,7 +45,7 @@ auto html::elements::html_anchor_element::set_text(
         ext::string_view val)
         -> void
 {
-    return dom::detail::node_internals::string_replace_all(val, this);
+    return dom::detail::string_replace_all(val, this);
 }
 
 

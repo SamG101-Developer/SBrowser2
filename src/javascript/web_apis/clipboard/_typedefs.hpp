@@ -2,11 +2,11 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
 
 #include <future>
-#include "mimesniff/_typedefs.hpp"
 #include "ext/any.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "ext/variant.hpp"
+#include USE_INNER_TYPES(mimesniff)
 namespace file_api {class blob;}
 
 namespace clipboard::detail

@@ -6,7 +6,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
-#include "../_typedefs.hpp"
+#include USE_INNER_TYPES(fetch)
 namespace fetch {class response;}
 namespace fetch::detail::http_internals {class fetch_params;}
 namespace fetch::detail::http_internals {class response_body_info;}

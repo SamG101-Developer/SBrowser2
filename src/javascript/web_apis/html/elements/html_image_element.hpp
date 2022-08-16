@@ -32,7 +32,7 @@ public js_properties:
     ext::property<ext::string, true> referrer_policy;
     ext::property<ext::string, true> loading;
     ext::property<ext::string, true> decoding;
-    ext::property<ext::string, _F> current_src;
+    ext::property<ext::string, false> current_src;
 
     ext::property<ext::number<ulong>, true> width;
     ext::property<ext::number<ulong>, true> height;

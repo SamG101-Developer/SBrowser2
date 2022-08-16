@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_PROPERTY_HPP
 #define SBROWSER2_PROPERTY_HPP
 
-namespace ext {template <typename _Tx, bool ce_reactions> class property;}
+namespace ext {template <typename T, bool ce_reactions> class property;}
 
 #include <iostream>
 #include <memory>
@@ -16,11 +16,11 @@ namespace ext {template <typename _Tx, bool ce_reactions> class property;}
 #define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::inner_val_t>())
 #define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::inner_val_t>())
 
-template <typename _Tx, bool ce_reactions>
+template <typename T, bool ce_reactions>
 class ext::property
 {
 public aliases:
-    using outer_val_t = _Tx;                                 // unique_ptr<node>, node*, etc
+    using outer_val_t = T;                                   // unique_ptr<node>, node*, etc
     using inner_val_t = unwrap_smart_pointer_t<outer_val_t>; // node*           , node*, etc
 
 public constructors:
@@ -28,18 +28,18 @@ public constructors:
     ~property() {_Meta._Deleter();};
 
     [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
-    explicit property(const property& _Other) = default;
+    explicit property(const property& other) = default;
 
-    explicit property(property&& _Other) noexcept = default;
+    explicit property(property&& other) noexcept = default;
 
-    [[deprecated("Check if this CTor should be used, or if operator=(_Tx) should be used")]]
-    auto operator=(const property& _Other) -> property& = default;
+    [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
+    auto operator=(const property& other) -> property& = default;
 
-    auto operator=(property&& _Other) noexcept -> property& = default;
+    auto operator=(property&& other) noexcept -> property& = default;
 
     // assign a starting value for the property
-    property(const outer_val_t& _OtherToCopy) requires is_dumb_property : _Meta(_OtherToCopy) {} // set new object (const ref)
-    property(outer_val_t&& _OtherToMove) noexcept requires is_dumb_property : _Meta(std::forward<outer_val_t>(_OtherToMove)) {} // set new object (movable)
+    property(const outer_val_t& other_to_copy) requires is_dumb_property : _Meta(other_to_copy) {} // set new object (const ref)
+    property(outer_val_t&& other_to_move) noexcept requires is_dumb_property : _Meta(std::forward<outer_val_t>(other_to_move)) {} // set new object (movable)
 
     property(outer_val_t&& _OtherSmartPointerToMove) noexcept requires is_smart_property {_Meta._Val = std::move(_OtherSmartPointerToMove);} // set unique_ptr to a new unique pointer
     property(inner_val_t   _OtherRawPointerToLink) requires is_smart_property {_Meta._Val.reset(_OtherRawPointerToLink);}
@@ -53,11 +53,11 @@ public cpp_operators:
     auto operator()() const -> inner_val_t {return _Meta._Getter();}
 
     // setter
-    auto operator=(const outer_val_t& _OtherToCopy)
-            -> inner_val_t {return _Meta._Setter(_OtherToCopy);}
+    auto operator=(const outer_val_t& other_to_copy)
+            -> inner_val_t {return _Meta._Setter(other_to_copy);}
 
-    auto operator=(outer_val_t&& _OtherToMove) noexcept
-            -> inner_val_t {return _Meta._Setter(std::forward<outer_val_t>(_OtherToMove));}
+    auto operator=(outer_val_t&& other_to_move) noexcept
+            -> inner_val_t {return _Meta._Setter(std::forward<outer_val_t>(other_to_move));}
 
     auto operator=(dynamically_castable_to<inner_val_t> auto _OtherPtr)
             -> inner_val_t requires (is_smart_property) {return _Meta._Setter((inner_val_t)_OtherPtr);}
@@ -67,20 +67,20 @@ public cpp_operators:
 
     // auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
 
-    auto operator+(auto&& _Other) const -> auto {return _Meta._Val + std::forward<_Tx>(_Other);}
-    auto operator-(auto&& _Other) const -> auto {return _Meta._Val - std::forward<_Tx>(_Other);}
-    auto operator*(auto&& _Other) const -> auto {return _Meta._Val * std::forward<_Tx>(_Other);}
-    auto operator/(auto&& _Other) const -> auto {return _Meta._Val / std::forward<_Tx>(_Other);}
-    auto operator%(auto&& _Other) const -> auto {return _Meta._Val % std::forward<_Tx>(_Other);}
+    auto operator+(auto&& _Other) const -> auto {return _Meta._Val + std::forward<T>(_Other);}
+    auto operator-(auto&& _Other) const -> auto {return _Meta._Val - std::forward<T>(_Other);}
+    auto operator*(auto&& _Other) const -> auto {return _Meta._Val * std::forward<T>(_Other);}
+    auto operator/(auto&& _Other) const -> auto {return _Meta._Val / std::forward<T>(_Other);}
+    auto operator%(auto&& _Other) const -> auto {return _Meta._Val % std::forward<T>(_Other);}
 
-    auto operator+=(auto&& _Other) -> property& {_Meta._Val += std::forward<_Tx>(_Other); return *this;}
-    auto operator-=(auto&& _Other) -> property& {_Meta._Val -= std::forward<_Tx>(_Other); return *this;}
-    auto operator*=(auto&& _Other) -> property& {_Meta._Val *= std::forward<_Tx>(_Other); return *this;}
-    auto operator/=(auto&& _Other) -> property& {_Meta._Val /= std::forward<_Tx>(_Other); return *this;}
-    auto operator%=(auto&& _Other) -> property& {_Meta._Val %= std::forward<_Tx>(_Other); return *this;}
+    auto operator+=(auto&& _Other) -> property& {_Meta._Val += std::forward<T>(_Other); return *this;}
+    auto operator-=(auto&& _Other) -> property& {_Meta._Val -= std::forward<T>(_Other); return *this;}
+    auto operator*=(auto&& _Other) -> property& {_Meta._Val *= std::forward<T>(_Other); return *this;}
+    auto operator/=(auto&& _Other) -> property& {_Meta._Val /= std::forward<T>(_Other); return *this;}
+    auto operator%=(auto&& _Other) -> property& {_Meta._Val %= std::forward<T>(_Other); return *this;}
 
 public cpp_properties:
-    detail::meta_property<_Tx, ce_reactions> _Meta;
+    detail::meta_property<T, ce_reactions> _Meta;
 };
 
 

@@ -12,9 +12,9 @@ public constructors:
     html_style_element();
 
 public js_properties:
-    ext::property<bool, _F> disabled;
-    ext::property<ext::string, _T> media;
-    ext::property<ext::vector<ext::string>*, _F> blocking;
+    ext::property<bool, false> disabled;
+    ext::property<ext::string, true> media;
+    ext::property<ext::vector<ext::string>*, false> blocking;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

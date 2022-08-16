@@ -4,7 +4,7 @@
 #include "ext/boolean.hpp"
 namespace dom::nodes {class node;}
 
-namespace html::detail::scripting_internals
+namespace html::detail
 {
     auto is_scripting_enabled(
             dom::nodes::node* node)

@@ -4,34 +4,28 @@
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-namespace content_security_policy::detail::csp_internals {struct content_security_policy;}
-namespace referrer_policy {enum referrer_policy_t;}
+#include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(referrer_policy)
 namespace url {class url_object;}
 
 
-namespace html::detail::policy_internals
+namespace html::detail
 {
-    enum class embedder_policy_value_t {UNSAFE_NONE, REQUIRE_CORP, CREDENTIALLESS};
-    enum class cross_origin_opener_policy_value_t{UNSAFE_NONE, SAME_ORIGIN_ALLOW_POPUPS, SAME_ORIGIN, SAME_ORIGIN_PLUS_COEP};
-
-    struct policy_container;
-    struct embedder_policy;
-    struct cross_origin_opener_policy;
-
     auto clone_policy_container(policy_container* container) -> policy_container*;
     auto requires_storing_policy_container_in_history(url::url_object& url);
 }
 
 
-struct html::detail::policy_internals::policy_container
+struct html::detail::policy_container
 {
-    ext::vector<content_security_policy::detail::csp_internals::content_security_policy> csp_list;
+    ext::vector<content_security_policy::detail::content_security_policy_t> csp_list;
     std::unique_ptr<embedder_policy> embedder_policy;
-    referrer_policy::referrer_policy_t referrer_policy;
+    referrer_policy::detail::referrer_policy_t referrer_policy;
 };
 
 
-struct html::detail::policy_internals::embedder_policy
+struct html::detail::embedder_policy
 {
     using enum embedder_policy_value_t;
 
@@ -42,7 +36,7 @@ struct html::detail::policy_internals::embedder_policy
 };
 
 
-struct html::detail::policy_internals::cross_origin_opener_policy
+struct html::detail::cross_origin_opener_policy
 {
     using enum cross_origin_opener_policy_value_t;
 

@@ -42,7 +42,7 @@ namespace dom::nodes {class window;}
 dom::nodes::node::node()
         : child_nodes(std::make_unique<ext::vector<node*>>())
         , parent_node(nullptr)
-        , m_registered_observer_list{std::make_unique<ext::vector<detail::observer_internals::registered_observer*>>()}
+        , m_registered_observer_list{std::make_unique<ext::vector<detail::registered_observer_t*>>()}
 {
     bind_get(node_name);
     bind_get(node_value);
@@ -87,11 +87,11 @@ auto dom::nodes::node::compare_document_position(
     }
 
     // the nodes are disconnected when a node is null, or they belong to different trees
-    if (!node_1 or !node_2 || detail::tree_internals::root(node_1) != detail::tree_internals::root(node_2))
+    if (!node_1 or !node_2 || detail::root(node_1) != detail::root(node_2))
         return DOCUMENT_POSITION_DISCONNECTED | DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC | (node_1 < node_2 ? DOCUMENT_POSITION_PRECEDING : DOCUMENT_POSITION_FOLLOWING);
 
     // the other node contains this node, if it is an ancestor, and not an attribute node
-    if (detail::tree_internals::is_ancestor(node_1, node_2) and !attr_1)
+    if (detail::is_ancestor(node_1, node_2) and !attr_1)
         return DOCUMENT_POSITION_CONTAINS | DOCUMENT_POSITION_PRECEDING;
 
     // the other node contains this node, if it is the owner element of this node (an attribute)
@@ -99,7 +99,7 @@ auto dom::nodes::node::compare_document_position(
         return DOCUMENT_POSITION_CONTAINS | DOCUMENT_POSITION_PRECEDING;
 
     // the other node is contained by this node, if it is a descendant, and not an attribute node
-    if (detail::tree_internals::is_descendant(node_1, node_2) and !attr_2)
+    if (detail::is_descendant(node_1, node_2) and !attr_2)
         return DOCUMENT_POSITION_CONTAINED_BY | DOCUMENT_POSITION_FOLLOWING;
 
     // the other node is contained by this node, if it is the attribute of this node (an element)
@@ -107,7 +107,7 @@ auto dom::nodes::node::compare_document_position(
         return DOCUMENT_POSITION_CONTAINED_BY | DOCUMENT_POSITION_FOLLOWING;
 
     // the other node is preceding this node if is comes before it in the tree, otherwise it is following it
-    return detail::tree_internals::is_preceding(node_1, node_2) ? DOCUMENT_POSITION_PRECEDING : DOCUMENT_POSITION_FOLLOWING;
+    return detail::is_preceding(node_1, node_2) ? DOCUMENT_POSITION_PRECEDING : DOCUMENT_POSITION_FOLLOWING;
 }
 
 
@@ -116,9 +116,9 @@ auto dom::nodes::node::get_root_node(
         -> node*
 {
     // get the shadow including root node if the 'composed' option is set, otherwise get the regular root of the node
-    return options.try_emplace("composed", ext::boolean::FALSE()).first->second.to<ext::boolean>()
-            ? detail::shadow_internals::shadow_including_root(this)
-            : detail::tree_internals::root(this);
+    return options.try_emplace("composed", false).first->second.to<ext::boolean>()
+            ? detail::shadow_including_root(this)
+            : detail::root(this);
 }
 
 
@@ -127,7 +127,7 @@ auto dom::nodes::node::contains(
         -> ext::boolean
 {
     // this node contains 'other' if 'other' is a descendant of this node
-    return detail::tree_internals::is_descendant(other, this);
+    return detail::is_descendant(other, this);
 }
 
 
@@ -143,19 +143,19 @@ auto dom::nodes::node::normalize()
         -> node*
 {
     ce_reactions_method_def
-        for (nodes::text* text_node: detail::tree_internals::descendant_text_nodes(this))
+        for (nodes::text* text_node: detail::descendant_text_nodes(this))
         {
             // if the length of the text node (ie the length of the text) is 0 then remove the text node
-            auto length = dom::detail::tree_internals::length(text_node);
+            auto length = dom::detail::length(text_node);
             continue_if(length <= 0ul);
 
             // combine the text from the next consecutive text nodes into the text node
-            auto data = dom::detail::tree_internals::contiguous_text_nodes(text_node)
+            auto data = dom::detail::contiguous_text_nodes(text_node)
                         | ranges::views::transform([](nodes::text* contiguous_text_node) {return contiguous_text_node->data();})
                         | ranges::to<ext::string>();
 
             // replace the data in this node with the combined data from the contiguous nodes
-            detail::text_internals::replace_data(text_node, 0, length, data);
+            detail::replace_data(text_node, 0, length, data);
 
             // get the current node as the next text node (whose text has been combined into the text node's text)
             auto* current_node = text_node->next_sibling();
@@ -164,7 +164,7 @@ auto dom::nodes::node::normalize()
             auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(this_surrounding_global_object, "live_ranges");
 
             // iterate by incrementing the current_node to the next sibling
-            while (detail::tree_internals::is_exclusive_text_node(current_node))
+            while (detail::is_exclusive_text_node(current_node))
             {
                 // ranges whose starting node is current_node: increment the starting offset by the length of the text of
                 // the text node (text has shifted back to previous node) and set the starting node to the text node
@@ -192,13 +192,13 @@ auto dom::nodes::node::normalize()
 
                 // increment the length by the current_node's length (so that the next current_node's offset can be
                 // incremented further as needed to be, and set the current node to the next sibling
-                length += detail::tree_internals::length(current_node);
+                length += detail::length(current_node);
                 current_node = current_node->next_sibling();
             }
 
             ranges::for_each(
-                    dom::detail::tree_internals::contiguous_text_nodes(text_node),
-                    [](node* contiguous_text_node) {detail::mutation_internals::remove(contiguous_text_node);});
+                    dom::detail::contiguous_text_nodes(text_node),
+                    [](node* contiguous_text_node) {detail::remove(contiguous_text_node);});
         }
 
         return this; // TODO : what to return
@@ -207,17 +207,17 @@ auto dom::nodes::node::normalize()
 
 
 auto dom::nodes::node::clone_node(
-        ext::boolean_view deep)
+        ext::boolean&& deep)
         -> node*
 {
     ce_reactions_method_def
         // throw an error if there is an attempt to clone a shadow node
-        detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-                [this] {return detail::shadow_internals::is_shadow_root(this);},
+        detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+                [this] {return detail::is_shadow_root(this);},
                 "Cannot clone a ShadowRoot node");
 
         // clone the node and return it
-        return detail::node_internals::clone(this, nullptr, deep);
+        return detail::clone(this, nullptr, std::move(deep));
     ce_reactions_method_exe
 }
 
@@ -242,7 +242,7 @@ auto dom::nodes::node::is_default_namespace(
         -> ext::boolean
 {
     // the namespace is the default namespace if it matches locating an empty namespace for this noed
-    return namespace_ == detail::node_internals::locate_a_namespace(this, "");
+    return namespace_ == detail::locate_a_namespace(this, "");
 }
 
 
@@ -252,11 +252,11 @@ auto dom::nodes::node::lookup_prefix(
 {
     // element node: return the lookup for the element
     if (auto* element_cast = dynamic_cast<element*>(this))
-        return detail::node_internals::locate_a_namespace_prefix(element_cast, namespace_);
+        return detail::locate_a_namespace_prefix(element_cast, namespace_);
 
     // document node: return the lookup for the document element
     if (auto* document_cast = dynamic_cast<document*>(this))
-        return detail::node_internals::locate_a_namespace_prefix(document_cast->document_element(), namespace_);
+        return detail::locate_a_namespace_prefix(document_cast->document_element(), namespace_);
 
     // document type node: return empty string
     if (auto* document_type_cast = dynamic_cast<document_type*>(this))
@@ -268,11 +268,11 @@ auto dom::nodes::node::lookup_prefix(
 
     // attribute node: return the lookup for the owner element
     if (auto* attribute_cast = dynamic_cast<attr*>(this))
-        return detail::node_internals::locate_a_namespace_prefix(attribute_cast->owner_element(), namespace_);
+        return detail::locate_a_namespace_prefix(attribute_cast->owner_element(), namespace_);
 
     // default: return the lookup for the parent element if it exists, otherwise empty string
     return parent_element()
-           ? detail::node_internals::locate_a_namespace_prefix(parent_element(), namespace_)
+           ? detail::locate_a_namespace_prefix(parent_element(), namespace_)
            : "";
 }
 
@@ -282,7 +282,7 @@ auto dom::nodes::node::lookup_namespace_uri(
         -> ext::string
 {
     // lookup the namespace with the prefix
-    return detail::node_internals::locate_a_namespace(this, prefix);
+    return detail::locate_a_namespace(this, prefix);
 }
 
 
@@ -293,7 +293,7 @@ auto dom::nodes::node::insert_before(
 {
     // insert 'new_node' into 'this->child_nodes', directly before 'child' node
     ce_reactions_method_def
-        return detail::mutation_internals::pre_insert(new_node, this, child);
+        return detail::pre_insert(new_node, this, child);
     ce_reactions_method_exe
 }
 
@@ -304,7 +304,7 @@ auto dom::nodes::node::append_child(
 {
     // append 'new_node' to 'this->child_nodes', at the end
     ce_reactions_method_def
-        return detail::mutation_internals::append(new_node, this);
+        return detail::append(new_node, this);
     ce_reactions_method_exe
 }
 
@@ -316,7 +316,7 @@ auto dom::nodes::node::replace_child(
 {
     // replace 'old_node' with 'new_node' in 'this->child_nodes'
     ce_reactions_method_def
-        return detail::mutation_internals::replace(new_node, old_node, this);
+        return detail::replace(new_node, old_node, this);
     ce_reactions_method_exe
 }
 
@@ -327,7 +327,7 @@ auto dom::nodes::node::remove_child(
 {
     // remove 'old_node' from 'this->child_nodes'
     ce_reactions_method_def
-        return detail::mutation_internals::pre_remove(old_node, this);
+        return detail::pre_remove(old_node, this);
     ce_reactions_method_exe
 }
 

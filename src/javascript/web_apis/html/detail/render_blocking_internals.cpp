@@ -10,7 +10,7 @@
 #include <range/v3/action/remove.hpp>
 
 
-auto html::detail::render_blocking_internals::allows_adding_render_blocking_elements(
+auto html::detail::allows_adding_render_blocking_elements(
         dom::nodes::document* document)
         -> ext::boolean
 {
@@ -20,7 +20,7 @@ auto html::detail::render_blocking_internals::allows_adding_render_blocking_elem
 }
 
 
-auto html::detail::render_blocking_internals::is_render_blocked(
+auto html::detail::is_render_blocked(
         dom::nodes::document* document)
         -> ext::boolean
 {
@@ -29,12 +29,12 @@ auto html::detail::render_blocking_internals::is_render_blocked(
     // rendering taking too long (or freezing etc)
     JS_REALM_GET_RELEVANT(document)
     auto document_allows  = !document->m_render_blocking_elements.empty() || allows_adding_render_blocking_elements(document);
-    auto render_timed_out = high_resolution_time::detail::time_internals::current_high_resolution_time(document_relevant_global_object);
+    auto render_timed_out = high_resolution_time::detail::current_high_resolution_time(document_relevant_global_object);
     return document_allows && render_timed_out;
 }
 
 
-auto html::detail::render_blocking_internals::is_render_blocking(
+auto html::detail::is_render_blocking(
         dom::nodes::element* element)
         -> ext::boolean
 {
@@ -47,7 +47,7 @@ auto html::detail::render_blocking_internals::is_render_blocking(
 }
 
 
-auto html::detail::render_blocking_internals::block_rendering(
+auto html::detail::block_rendering(
         dom::nodes::element* element)
         -> ext::boolean
 {
@@ -59,7 +59,7 @@ auto html::detail::render_blocking_internals::block_rendering(
 }
 
 
-auto html::detail::render_blocking_internals::unblock_rendering(
+auto html::detail::unblock_rendering(
         dom::nodes::element* element)
         -> ext::boolean
 {

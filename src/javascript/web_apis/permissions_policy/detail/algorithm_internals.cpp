@@ -14,7 +14,6 @@
 #include "fetch/detail/response_internals.hpp"
 
 #include "content_security_policy/detail/csp_internals.hpp"
-#include "permissions_policy/_typedefs.hpp"
 #include "permissions_policy/detail/policy_internals.hpp"
 #include "permissions_policy/permissions_policy_violation_report_body.hpp"
 
@@ -24,7 +23,7 @@
 
 
 auto permissions_policy::detail::algorithm_internals::is_valid_feature(
-        ext::string_view feature_name)
+        const feature_name_t& feature_name)
         -> ext::boolean
 {
     // a feature name is valid if it maps to a feature in the 'feature_t' enum class. use a 'enum_contains' check from
@@ -34,19 +33,20 @@ auto permissions_policy::detail::algorithm_internals::is_valid_feature(
 
 
 auto permissions_policy::detail::algorithm_internals::process_response_body(
-        const fetch::detail::response_internals::internal_response& response,
+        const fetch::detail::response_t& response,
         ext::string&& origin)
         -> declared_policy_t
 {
-    using enum fetch::detail::header_internals::header_value_object_t;
-    auto parsed_header = fetch::detail::header_internals::get_structured_field_value<DICT>("Permissions-Policy", response.header_list);
+    using enum fetch::detail::header_value_object_t;
+    
+    auto parsed_header = fetch::detail::get_structured_field_value<DICT>("Permissions-Policy", response.header_list);
     auto policy = construct_policy_from_dictionary_and_origin(parsed_header, std::move(origin));
     return policy;
 }
 
 
 auto permissions_policy::detail::algorithm_internals::construct_policy_from_dictionary_and_origin(
-        ext::map_view<ext::string, ext::vector<ext::string>> dictionary,
+        ext::map_view<feature_name_t, ext::vector<ext::string>> dictionary,
         ext::string&& origin)
         -> declared_policy_t
 {
@@ -113,7 +113,7 @@ auto permissions_policy::detail::algorithm_internals::parse_policy_directive(
         continue_if(!is_valid_feature(feature_name));
 
         auto feature = magic_enum::enum_cast<feature_t>(feature_name).value();
-        auto target_list = ext::span<ext::string>(ranges::next(tokens.begin()), tokens.end());
+        auto target_list = ext::vector_view<ext::string>(ranges::next(tokens.begin()), tokens.end());
         allowlist_t allowlist;
 
         if (ranges::contains(target_list, "*"))
@@ -159,9 +159,9 @@ auto permissions_policy::detail::algorithm_internals::process_permissions_policy
 
 
 auto permissions_policy::detail::algorithm_internals::create_permissions_policy_for_browsing_context(
-        html::detail::context_internals::browsing_context& context,
+        html::detail::browsing_context& context,
         ext::string&& origin)
-        -> policy_internals::internal_permissions_policy
+        -> internal_permissions_policy_t
 {
     auto policy_definition_method = [origin = std::move(origin), &context](feature_t feature) mutable
     {
@@ -172,7 +172,7 @@ auto permissions_policy::detail::algorithm_internals::create_permissions_policy_
             | ranges::views::transform(policy_definition_method)
             | ranges::to<inherited_policy_t>;
 
-    policy_internals::internal_permissions_policy policy {.inherited_policy = inherited_policy};
+    internal_permissions_policy_t policy {.inherited_policy = inherited_policy};
     return policy;
 }
 
@@ -180,7 +180,7 @@ auto permissions_policy::detail::algorithm_internals::create_permissions_policy_
 auto permissions_policy::detail::algorithm_internals::create_permissions_policy_for_feature_in_container_at_origin(
         const allowable_element auto* allowable_element,
         ext::string&& origin)
-        -> policy_internals::internal_permissions_policy
+        -> internal_permissions_policy_t
 {
     auto policy_definition_method = [origin = std::move(origin), allowable_element](feature_t feature) mutable
     {
@@ -191,16 +191,16 @@ auto permissions_policy::detail::algorithm_internals::create_permissions_policy_
             | ranges::views::transform(policy_definition_method)
             | ranges::to<inherited_policy_t>;
     
-    policy_internals::internal_permissions_policy policy {.inherited_policy = inherited_policy};
+    internal_permissions_policy_t policy {.inherited_policy = inherited_policy};
     return policy;
 }
 
 
 auto permissions_policy::detail::algorithm_internals::create_permissions_policy_for_browsing_context_from_response(
-        html::detail::context_internals::browsing_context& context,
+        html::detail::browsing_context& context,
         ext::string&& origin,
-        fetch::detail::response_internals::internal_response& response)
-        -> policy_internals::internal_permissions_policy
+        fetch::detail::response_t& response)
+        -> internal_permissions_policy_t
 {
     using enum inherited_policy_value_t;
     auto policy = create_permissions_policy_for_browsing_context(context, std::move(origin));
@@ -217,7 +217,7 @@ auto permissions_policy::detail::algorithm_internals::create_permissions_policy_
 auto permissions_policy::detail::algorithm_internals::define_inherited_policy_for_feature_in_browsing_context(
         feature_t feature,
         ext::string&& origin,
-        html::detail::context_internals::browsing_context& context)
+        html::detail::browsing_context& context)
         -> inherited_policy_value_t
 {
     using enum inherited_policy_value_t;
@@ -242,7 +242,7 @@ auto permissions_policy::detail::algorithm_internals::define_inherited_policy_fo
     return_if(container_policy.contains(feature)) magic_enum::enum_value<inherited_policy_value_t>(allow_list_origin_matches(container_policy.at(feature), allowlist_t{std::move(origin)}));
 
     return_if(default_allowlist(feature) == allowlist_t{"*"}) ENABLED;
-    return_if(default_allowlist(feature) == allowlist_t{"self"} && html::detail::miscellaneous_internals::same_origin(origin, context_container->owner_document()->m_origin)) ENABLED;
+    return_if(default_allowlist(feature) == allowlist_t{"self"} && html::detail::same_origin(origin, context_container->owner_document()->m_origin)) ENABLED;
     return DISABLED;
 }
 
@@ -259,7 +259,7 @@ auto permissions_policy::detail::algorithm_internals::is_feature_enabled_in_docu
     return_if(policy.inherited_policy.at(feature) == DISABLED) DISABLED;
     return_if(policy.declared_policy.contains(feature)) magic_enum::enum_value<inherited_policy_value_t>(allow_list_origin_matches(policy.declared_policy.at(feature), allowlist_t{std::move(origin)}));
     return_if(default_allowlist(feature) == allowlist_t{"*"}) ENABLED;
-    return_if(default_allowlist(feature) == allowlist_t{"self"} && html::detail::miscellaneous_internals::same_origin(origin, document->m_origin)) ENABLED;
+    return_if(default_allowlist(feature) == allowlist_t{"self"} && html::detail::same_origin(origin, document->m_origin)) ENABLED;
     return DISABLED;
 }
 
@@ -270,7 +270,7 @@ auto permissions_policy::detail::algorithm_internals::generate_report_for_violat
         ext::string&& group)
         -> void
 {
-    using disposition_t = content_security_policy::detail::csp_internals::disposition_t;
+    using disposition_t = content_security_policy::detail::disposition_t;
 
     permissions_policy::permissions_policy_violation_report_body body;
     body.feature_id = ext::string{magic_enum::enum_name(feature)};
@@ -278,19 +278,19 @@ auto permissions_policy::detail::algorithm_internals::generate_report_for_violat
 
     // TODO : other attributes
     group = group.empty() ? "default" : group;
-    reporting::detail::reporting_internals::queue_report(body, "permissions-policy-violation", group, settings);
+    reporting::detail::queue_report(body, "permissions-policy-violation", group, settings);
 }
 
 
 auto permissions_policy::detail::algorithm_internals::should_request_be_allowed_to_use_feature(
         feature_t feature,
-        fetch::detail::request_internals::internal_request& request)
+        fetch::detail::request_t& request)
         -> ext::boolean
 {
     using enum inherited_policy_value_t;
 
     auto* window = v8pp::from_v8<dom::nodes::window*>(request.window->GetIsolate(), request.window);
-    return_if(!window) ext::boolean::FALSE();
+    return_if(!window) false;
 
     auto* document = window->document();
     return is_feature_enabled_in_document_for_origin(feature, document, std::move(request.origin)) == ENABLED;

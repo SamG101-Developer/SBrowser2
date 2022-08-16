@@ -9,10 +9,9 @@
 
 #include "url/url.hpp"
 
-#include "content_security_policy/_typedefs.hpp"
-
 #include <v8-local-handle.h>
 #include <v8-object.h>
+#include USE_INNER_TYPES(content_security_policy)
 namespace dom::nodes {class element;}
 namespace fetch::detail::request_internals {struct internal_request;}
 namespace fetch::detail::response_internals {struct internal_response;}

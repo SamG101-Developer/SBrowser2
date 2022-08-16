@@ -11,10 +11,10 @@ public constructors:
     html_meta_element();
 
 public js_properties:
-    ext::property<ext::string, _T> name;
-    ext::property<ext::string, _T> http_equiv;
-    ext::property<ext::string, _T> content;
-    ext::property<ext::string, _T> media;
+    ext::property<ext::string, true> name;
+    ext::property<ext::string, true> http_equiv;
+    ext::property<ext::string, true> content;
+    ext::property<ext::string, true> media;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

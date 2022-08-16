@@ -5,9 +5,9 @@
 
 #include "ext/optional.hpp"
 #include "ext/variant.hpp"
-#include "indexed_db/_typedefs.hpp"
-#include "storage/_typedefs.hpp"
 #include <v8-forward.h>
+#include USE_INNER_TYPES(indexed_db)
+#include USE_INNER_TYPES(storage)
 namespace dom::other {class dom_exception;}
 namespace indexed_db {class idb_request;}
 namespace indexed_db {class idb_transaction;}

@@ -12,18 +12,18 @@ public constructors:
     html_link_element();
 
 public js_properties:
-    ext::property<ext::string, _T> href;
-    ext::property<ext::string, _T> cross_origin;
-    ext::property<ext::string, _T> rel;
-    ext::property<ext::string, _T> as;
-    ext::property<ext::string, _T> media;
-    ext::property<ext::string, _T> integrity;
-    ext::property<ext::string, _T> hreflang;
-    ext::property<ext::string, _T> type;
-    ext::property<ext::string, _T> image_srcset;
-    ext::property<ext::string, _T> image_sizes;
-    ext::property<ext::string, _T> referrer;
-    ext::property<ext::boolean, _T> disabled;
+    ext::property<ext::string, true> href;
+    ext::property<ext::string, true> cross_origin;
+    ext::property<ext::string, true> rel;
+    ext::property<ext::string, true> as;
+    ext::property<ext::string, true> media;
+    ext::property<ext::string, true> integrity;
+    ext::property<ext::string, true> hreflang;
+    ext::property<ext::string, true> type;
+    ext::property<ext::string, true> image_srcset;
+    ext::property<ext::string, true> image_sizes;
+    ext::property<ext::string, true> referrer;
+    ext::property<ext::boolean, true> disabled;
 
     ext::property<ext::vector<ext::string>*> sizes;
     ext::property<ext::vector<ext::string>*> blocking;

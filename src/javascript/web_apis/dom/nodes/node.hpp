@@ -8,9 +8,9 @@ namespace dom::nodes {class node;}
 #include "ext/map.hpp"
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
+#include USE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
-namespace dom::detail::observer_internals {struct registered_observer;}
 
 
 class dom::nodes::node
@@ -45,7 +45,7 @@ public js_methods:
     auto has_child_nodes() -> ext::boolean;
 
     auto normalize() -> node*;
-    auto clone_node(ext::boolean_view deep = false) -> node*;
+    auto clone_node(ext::boolean&& deep = false) -> node*;
     auto is_equal_node(node* other) -> ext::boolean;
 
     auto is_default_namespace(ext::string_view namespace_) -> ext::boolean;
@@ -59,9 +59,9 @@ public js_methods:
 
 public js_properties:
     ext::property<ext::number<ushort>> node_type;
-    ext::property<ext::string, _T> node_name;
-    ext::property<ext::string, _T> node_value;
-    ext::property<ext::string, _T> text_content;
+    ext::property<ext::string, true> node_name;
+    ext::property<ext::string, true> node_value;
+    ext::property<ext::string, true> text_content;
 
     ext::property<ext::string> base_uri;
     ext::property<ext::boolean> is_connected;
@@ -82,7 +82,7 @@ public cpp_methods:
 
 protected cpp_properties:
     QPointer<QWidget> m_rendered_widget;
-    std::unique_ptr<ext::vector<detail::observer_internals::registered_observer*>> m_registered_observer_list;
+    std::unique_ptr<ext::vector<detail::registered_observer_t*>> m_registered_observer_list;
 
 protected cpp_accessors:
     _EXT_NODISCARD virtual auto get_node_type() const -> ext::number<ushort> = 0;

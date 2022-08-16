@@ -6,10 +6,8 @@
 #include "ext/string.hpp"
 namespace dom::nodes {class element;}
 
-namespace html::detail::lazy_loading_internals
+namespace html::detail
 {
-    enum class lazy_loading_t {EAGER, LAZY};
-
     auto will_lazy_load_element_steps(
             const dom::nodes::element* element)
             -> ext::boolean;

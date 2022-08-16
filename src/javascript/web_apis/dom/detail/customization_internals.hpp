@@ -8,7 +8,7 @@
 #include "ext/stack.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "dom/_typedefs.hpp"
+#include USE_INNER_TYPES(dom)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}

@@ -16,7 +16,7 @@ auto storage::storage_manager::persisted()
     // that will be returned
     JS_REALM_GET_RELEVANT(this);
     std::promise<ext::boolean> promise;
-    auto shelf = detail::storage_internals::obtain_local_storage_shelf(this_relevant_global_object);
+    auto shelf = detail::obtain_local_storage_shelf(this_relevant_global_object);
 
     // if the shelf is a failure, reject the promise with a JavaScript TypeError, and effectively return (else-statement
     // is skipped obviously)
@@ -35,7 +35,7 @@ auto storage::storage_manager::persisted()
                     // if the shelf's default storage bucket's mode is PERSISTENT
                     using enum detail::storage_bucket_mode_t;
                     auto persisted = shelf.bucket_map.at("default").mode == PERSISTENT;
-                    dom::detail::observer_internals::queue_microtask(
+                    dom::detail::queue_microtask(
                             [&promise, persisted]
                             {promise.set_value(persisted);});
                 });
@@ -53,7 +53,7 @@ auto storage::storage_manager::persist()
     // that will be returned
     JS_REALM_GET_RELEVANT(this);
     std::promise<ext::boolean> promise;
-    auto shelf = detail::storage_internals::obtain_local_storage_shelf(this_relevant_global_object);
+    auto shelf = detail::obtain_local_storage_shelf(this_relevant_global_object);
 
     // if the shelf is a failure, reject the promise with a JavaScript TypeError, and effectively return (else-statement
     // is skipped obviously)
@@ -66,15 +66,15 @@ auto storage::storage_manager::persist()
         // task queuing TODO : is this the case?)
         ext::thread_pool pool{1};
         pool.push_task(
-                [&promise, shelf = std::move(*shelf)]
+                [&promise, &shelf = *shelf]
                 {
-                    using permissions::detail::permission_internals::powerful_feature_t;
-                    using enum detail::storage_bucket_mode_t;
+                    using permissions::detail::powerful_feature_t;
+                    using enum storage::detail::storage_bucket_mode_t;
                     using enum permissions::detail::permission_state_t;
 
                     // get the permission for the "persistent-storage" powerful feature, by constructing a dummy
                     // powerful feature with the right name, and requesting permission to use it
-                    auto permission = permissions::detail::permission_internals::request_permission_to_use(
+                    auto permission = permissions::detail::request_permission_to_use(
                             {{"name", powerful_feature_t{.name="persistent-storage"}}});
 
                     // get the default bucket from the storage shelf
@@ -94,7 +94,7 @@ auto storage::storage_manager::persist()
 
                         // queue a microtask that will set the value of the promise to 'persisted', which is determined by
                         // if the shelf's default storage bucket's mode is PERSISTENT
-                        dom::detail::observer_internals::queue_microtask(
+                        dom::detail::queue_microtask(
                                 [&promise, persisted]
                                 {promise.set_value(persisted);});
                     }
@@ -113,7 +113,7 @@ auto storage::storage_manager::estimate()
     // that will be returned
     JS_REALM_GET_RELEVANT(this);
     std::promise<storage_estimate_t> promise;
-    auto shelf = detail::storage_internals::obtain_local_storage_shelf(this_relevant_global_object);
+    auto shelf = detail::obtain_local_storage_shelf(this_relevant_global_object);
 
     // if the shelf is a failure, reject the promise with a JavaScript TypeError, and effectively return (else-statement
     // is skipped obviously)
@@ -138,13 +138,13 @@ auto storage::storage_manager::estimate()
                     // if an exception was thrown from JavaScript when trying to access these members, then queue a task
                     // to reject the promise with a JavaScript TypeError
                     if (JS_EXCEPTION_HAS_THROWN)
-                        dom::detail::observer_internals::queue_microtask(
+                        dom::detail::queue_microtask(
                                 [&promise]
                                 {promise.set_exception();}); // TODO : JavaScript TypeError
 
                     // otherwise, queue a task to resolve the promise with the created 'dictionary'
                     else
-                        dom::detail::observer_internals::queue_microtask(
+                        dom::detail::queue_microtask(
                                 [&promise, dictionary = std::move(dictionary)] mutable
                                 {promise.set_value(std::move(dictionary));});
                 });

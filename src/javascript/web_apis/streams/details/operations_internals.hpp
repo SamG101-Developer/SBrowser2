@@ -7,7 +7,7 @@ namespace streams {class readable_stream;}
 namespace streams {class readable_stream_byob_reader;}
 namespace streams {class readable_stream_default_reader;}
 
-namespace streams::detail::operations_internals
+namespace streams::detail
 {
     auto acquire_readable_stream_stream_byob_reader(
             readable_stream* stream)

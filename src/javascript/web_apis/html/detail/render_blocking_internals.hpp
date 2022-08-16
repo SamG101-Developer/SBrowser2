@@ -5,13 +5,12 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class document;}
 namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 
-namespace html::detail::render_blocking_internals
+namespace html::detail
 {
     auto allows_adding_render_blocking_elements(
             dom::nodes::document* document)

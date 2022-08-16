@@ -6,7 +6,7 @@
 #include "ext/vector.hpp"
 #include "url/url.hpp"
 
-#include "fetch/_typedefs.hpp"
+#include USE_INNER_TYPES(fetch)
 
 namespace fetch::detail
 {

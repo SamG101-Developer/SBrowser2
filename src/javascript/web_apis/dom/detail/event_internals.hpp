@@ -10,7 +10,7 @@
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include "ext/type_traits.hpp"
-#include "dom/_typedefs.hpp"
+#include USE_INNER_TYPES(dom)
 #include <range/v3/view/any_view.hpp>
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}

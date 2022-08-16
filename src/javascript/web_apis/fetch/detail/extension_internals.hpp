@@ -5,7 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 #include "ext/string.hpp"
-#include "../_typedefs.hpp"
+#include USE_INNER_TYPES(fetch)
 
 #include <v8-object.h>
 

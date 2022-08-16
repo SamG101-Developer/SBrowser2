@@ -10,7 +10,7 @@
 
 
 auto mediacapture::main::mixins::constrainable::get_capabilities()
-        const -> ext::map<ext::string, ext::any>
+        const -> detail::capabilities_t
 {
     // get the data in the [[capabilities]] internal slot
     return s_capabilities;
@@ -18,7 +18,7 @@ auto mediacapture::main::mixins::constrainable::get_capabilities()
 
 
 auto mediacapture::main::mixins::constrainable::get_constraints()
-        const -> ext::map<ext::string, ext::any>
+        const -> detail::constraints_t
 {
     // get the data in the [[constraints]] internal slot
     return s_constraints;
@@ -26,7 +26,7 @@ auto mediacapture::main::mixins::constrainable::get_constraints()
 
 
 auto mediacapture::main::mixins::constrainable::get_settings()
-        const -> ext::map<ext::string, ext::any>
+        const -> detail::settings_t
 {
     // get the base MediaStreamTrack object from this mixin
     auto* base = dom_cross_cast<const main::media_stream_track*>(this);
@@ -43,7 +43,7 @@ auto mediacapture::main::mixins::constrainable::get_settings()
 
 
 auto mediacapture::main::mixins::constrainable::apply_constraints(
-        ext::map_view<ext::string, ext::any> constraints)
+        detail::constraints_t&& constraints)
         -> std::promise<void>
 {
     // get the base MediaStreamTrack object from this mixin

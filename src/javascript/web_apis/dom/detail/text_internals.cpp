@@ -57,13 +57,13 @@ auto dom::detail::replace_data(
     // ranges whose start container is the Text node and whose start offset is in the data that was replaced: set the
     // start offset to the offset of the data being replaced
     ranges::for_each(
-            live_ranges | ranges::views::filter([text_node, offset, adjusted_count](const node_ranges::range* const range) {return range->start_container() == text_node && ext::is_between<_F, _T>(range->start_offset(), offset, offset + adjusted_count);}),
+            live_ranges | ranges::views::filter([text_node, offset, adjusted_count](const node_ranges::range* const range) {return range->start_container() == text_node && ext::is_between<_F, true>(range->start_offset(), offset, offset + adjusted_count);}),
             [offset](node_ranges::range* const live_range) {live_range->start_offset = offset;});
 
     // ranges whose end container is the Text node and whose end offset is in the data that was replaced: set the end
     // offset to the offset of the data being replaced
     ranges::for_each(
-            live_ranges | ranges::views::filter([text_node, offset, adjusted_count](const node_ranges::range* const range) {return range->end_container() == text_node && ext::is_between<_F, _T>(range->end_offset(), offset, offset + adjusted_count);}),
+            live_ranges | ranges::views::filter([text_node, offset, adjusted_count](const node_ranges::range* const range) {return range->end_container() == text_node && ext::is_between<_F, true>(range->end_offset(), offset, offset + adjusted_count);}),
             [offset](node_ranges::range* const live_range) {live_range->end_offset = offset;});
 
     // ranges whose start container is the Text node and whose start offset is after the data that was replaced:

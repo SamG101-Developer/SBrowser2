@@ -2,21 +2,19 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERMISSIONS_POLICY_DETAIL_POLICY_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include "permissions_policy/_typedefs.hpp"
+#include USE_INNER_TYPES(permissions_policy)
 namespace dom::nodes {class node;}
 namespace html::elements {class html_iframe_element;}
 
-namespace permissions_policy::detail::policy_internals
+namespace permissions_policy::detail
 {
-    struct internal_permissions_policy;
-
     auto is_empty_permissions_policy(
-            const internal_permissions_policy& policy)
+            const internal_permissions_policy_t& policy)
             -> ext::boolean;
 
     auto observable_policy(
             dom::nodes::node* node)
-            -> internal_permissions_policy;
+            -> internal_permissions_policy_t;
 
     auto declared_origin(
             html::elements::html_iframe_element* element)
@@ -24,7 +22,7 @@ namespace permissions_policy::detail::policy_internals
 }
 
 
-struct permissions_policy::detail::policy_internals::internal_permissions_policy
+struct permissions_policy::detail::internal_permissions_policy_t
 {
     inherited_policy_t inherited_policy;
     declared_policy_t declared_policy;

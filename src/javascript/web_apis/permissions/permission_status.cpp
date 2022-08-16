@@ -3,7 +3,6 @@
 #include "ext/assertion.hpp"
 
 #include "permissions/detail/permission_internals.hpp"
-#include "permissions_policy/_typedefs.hpp"
 
 #include <magic_enum.hpp>
 
@@ -21,7 +20,8 @@ permissions::permission_status::permission_status(
 
     // make sure that the feature is supported by checking if the optional value resulting from tehe num case oholds a
     // value or not
-    using detail::permission_internals::powerful_feature_t;
+    using permissions::detail::powerful_feature_t;
+
     ASSERT(
             magic_enum::enum_cast<feature_t>(permission_descriptor.at("name").to<powerful_feature_t>().name).has_value(),
             "Feature must be supported",

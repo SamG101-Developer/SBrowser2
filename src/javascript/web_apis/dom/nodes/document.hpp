@@ -18,6 +18,8 @@ namespace dom::nodes {class document;}
 #include "ext/vector.hpp"
 #include "url/url.hpp"
 #include <range/v3/view/any_view.hpp>
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(permissions_policy)
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
 namespace dom::nodes {class comment;}
@@ -33,14 +35,6 @@ namespace dom::node_iterators {class node_iterator;}
 namespace dom::node_iterators {class tree_walker;}
 namespace dom::other {class dom_implementation;}
 
-namespace html::detail::policy_internals {enum class cross_origin_opener_policy_value_t;}
-namespace html::detail::policy_internals {struct policy_container;}
-namespace html::detail::context_internals {struct browsing_context;}
-namespace html::detail::document_internals {struct document_load_timing_info;}
-namespace html::detail::document_internals {struct document_unload_timing_info;}
-namespace html::detail::link_internals {struct preload_entry;}
-namespace html::detail::link_internals {struct preload_key;}
-
 namespace html::detail::image_internals {struct available_image;}
 namespace html::elements {class html_body_element;}
 namespace html::elements {class html_head_element;}
@@ -55,7 +49,6 @@ namespace html::other {class location;}
 
 namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
-namespace permissions_policy::detail::policy_internals {struct internal_permissions_policy;}
 namespace svg::elements {class svg_script_element;}
 
 
@@ -99,7 +92,7 @@ public js_methods:
     auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::node_iterator;
     auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::tree_walker;
 
-    auto import_node(node* new_node, ext::boolean_view deep = false) -> node*;
+    auto import_node(node* new_node, ext::boolean&& deep = false) -> node*;
     auto adopt_node(node* new_node) -> node*;
 
     /* HTML */
@@ -110,11 +103,11 @@ public js_methods:
     auto write_ln(type_is<ext::string> auto&&... text) -> void;
 
     auto has_focus() -> ext::boolean;
-    auto queryCommandEnabled(ext::string_view commandId) -> ext::boolean;
-    auto queryCommandIndeterm(ext::string_view commandId) -> ext::boolean;
-    auto queryCommandState(ext::string_view commandId) -> ext::boolean;
-    auto queryCommandSupported(ext::string_view commandId) -> ext::boolean;
-    auto queryCommandValue(ext::string_view commandId) -> ext::boolean;
+    auto query_command_enabled(ext::string_view command_id) -> ext::boolean;
+    auto query_command_indeterm(ext::string_view command_id) -> ext::boolean;
+    auto query_command_state(ext::string_view command_id) -> ext::boolean;
+    auto query_command_supported(ext::string_view command_id) -> ext::boolean;
+    auto query_command_value(ext::string_view command_id) -> ext::boolean;
 
 public js_properties:
     /* DOM */
@@ -133,11 +126,11 @@ public js_properties:
     ext::property<ext::string> cookie;
     ext::property<ext::string> last_modified;
     ext::property<ext::string> ready_state;
-    ext::property<ext::string, _T> title;
-    ext::property<ext::string, _T> dir;
+    ext::property<ext::string, true> title;
+    ext::property<ext::string, true> dir;
 
-    ext::property<std::unique_ptr<html::elements::html_body_element>, _T> body;
-    ext::property<std::unique_ptr<html::elements::html_head_element>, _T> head;
+    ext::property<std::unique_ptr<html::elements::html_body_element>, true> body;
+    ext::property<std::unique_ptr<html::elements::html_head_element>, true> head;
     ext::property<ranges::any_view<html::elements::html_image_element*>> images;
     ext::property<ranges::any_view<html::elements::html_link_element*>> links;
     ext::property<ranges::any_view<html::elements::html_form_element*>> forms;
@@ -156,7 +149,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 public cpp_operators:
-    virtual auto operator[](const ext::string& name) -> ranges::any_view<element*> override;
+    auto operator[](const ext::string& name) -> ranges::any_view<element*> override;
 
 private cpp_methods:
     [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
@@ -170,23 +163,23 @@ private cpp_properties:
     ext::string m_origin;
 
     /* HTML */
-    std::unique_ptr<html::detail::policy_internals::policy_container> m_policy_container;
-    std::unique_ptr<html::detail::policy_internals::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
-    std::unique_ptr<permissions_policy::detail::policy_internals::internal_permissions_policy> m_permissions_policy;
+    std::unique_ptr<html::detail::policy_container_t> m_policy_container;
+    std::unique_ptr<html::detail::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
+    std::unique_ptr<permissions_policy::detail::internal_permissions_policy_t> m_permissions_policy;
     module_map m_module_map;
     ext::boolean m_is_initial = false;
 
-    html::detail::document_internals::document_load_timing_info& m_load_timing_info;
-    html::detail::document_internals::document_unload_timing_info& m_unload_timing_info;
+    html::detail::document_load_timing_info_t& m_load_timing_info;
+    html::detail::document_unload_timing_info_t& m_unload_timing_info;
 
     ext::set<element*> m_render_blocking_elements;
-    std::unique_ptr<html::detail::context_internals::browsing_context*> m_browsing_context;
+    std::unique_ptr<html::detail::browsing_context_t*> m_browsing_context;
 
     ext::boolean m_will_declaratively_refresh;
 
     ext::number<int> m_script_blocking_style_sheet_counter = 0;
 
-    ext::map<html::detail::link_internals::preload_key*, html::detail::link_internals::preload_entry*> m_preloaded_resources;
+    ext::map<html::detail::preload_key_t*, html::detail::preload_entry_t*> m_preloaded_resources;
 
     std::unique_ptr<intersection_observer::intersection_observer> m_lazy_load_intersection_observer;
 

@@ -18,11 +18,11 @@ public constructors:
     character_data();
 
 public js_methods:
-    [[nodiscard]] auto substring_data(ext::number_view<ulong> offset, ext::number_view<ulong> count) const -> ext::string;
+    [[nodiscard]] auto substring_data(ext::number<ulong>& offset, ext::number<ulong>& count) const -> ext::string;
     auto append_data(ext::string_view new_data) -> void;
-    auto insert_data(ext::number_view<ulong> offset, ext::string_view new_data) -> void;
-    auto delete_data(ext::number_view<ulong> offset, ext::number_view<ulong> count) -> void;
-    auto replace_data(ext::number_view<ulong> offset, ext::number_view<ulong> count, ext::string_view new_data) -> void;
+    auto insert_data(ext::number<ulong>& offset, ext::string_view new_data) -> void;
+    auto delete_data(ext::number<ulong>& offset, ext::number<ulong>& count) -> void;
+    auto replace_data(ext::number<ulong>& offset, ext::number<ulong>& count, ext::string_view new_data) -> void;
 
 public js_properties:
     ext::property<ext::string> data;

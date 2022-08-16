@@ -1,11 +1,7 @@
 #include "permission_internals.hpp"
 
 #include "permissions/permission_status.hpp"
-#include "permissions_policy/_typedefs.hpp"
-
 #include "html/detail/document_internals.hpp"
-
-#include "storage/_typedefs.hpp"
 #include "storage/detail/storage_internals.hpp"
 
 #include "gui/javascript_interop/registry.hpp"
@@ -15,7 +11,7 @@
 #include <magic_enum.hpp>
 
 
-auto permissions::detail::permission_internals::get_current_permission_state(
+auto permissions::detail::get_current_permission_state(
         ext::string&& name,
         ext::optional<v8::Local<v8::Object>> environment_settings_object)
         -> permission_state_t
@@ -29,7 +25,7 @@ auto permissions::detail::permission_internals::get_current_permission_state(
 }
 
 
-auto permissions::detail::permission_internals::permission_state(
+auto permissions::detail::permission_state(
         permissions_descriptor_t&& permission_descriptor,
         ext::optional<v8::Local<v8::Object>> environment_settings_object)
         -> permission_state_t
@@ -52,7 +48,7 @@ auto permissions::detail::permission_internals::permission_state(
     if (feature.has_value() && javascript::environment::realms_2::has(current_global_object, "associated_document"))
     {
         auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(current_global_object, "associated_document");
-        return_if(!html::detail::document_internals::allowed_to_use(document, std::move(feature_string))) permission_state_t::DENIED;
+        return_if(!html::detail::allowed_to_use(document, std::move(feature_string))) permission_state_t::DENIED;
     }
 
     // TODO : previous calls?
@@ -60,7 +56,7 @@ auto permissions::detail::permission_internals::permission_state(
 }
 
 
-auto permissions::detail::permission_internals::request_permission_to_use(
+auto permissions::detail::request_permission_to_use(
         permissions_descriptor_t&& permission_descriptor)
         -> permission_state_t
 {
@@ -74,7 +70,7 @@ auto permissions::detail::permission_internals::request_permission_to_use(
 }
 
 
-auto permissions::detail::permission_internals::default_permission_query_algorithm(
+auto permissions::detail::default_permission_query_algorithm(
         permissions::detail::permissions_descriptor_t&& permission_descriptor,
         permissions::detail::permissions_result_t* status) -> void
 {
@@ -86,7 +82,7 @@ auto permissions::detail::permission_internals::default_permission_query_algorit
 }
 
 
-permissions::detail::permission_internals::powerful_feature_t::powerful_feature_t(
+permissions::detail::powerful_feature_t::powerful_feature_t(
         ext::string&& powerful_feature_name)
         : name(powerful_feature_name)
 {

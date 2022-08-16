@@ -7,24 +7,25 @@ namespace mediacapture::main::mixins {class constrainable;}
 
 #include <future>
 #include "ext/map.hpp"
+#include USE_INNER_TYPES(mediacapture_main)
 
 
 class mediacapture::main::mixins::constrainable
         : public virtual dom_object
 {
 public js_methods:
-    _EXT_NODISCARD auto get_capabilities() const -> ext::map<ext::string, ext::any>;
-    _EXT_NODISCARD auto get_constraints() const -> ext::map<ext::string, ext::any>;
-    _EXT_NODISCARD auto get_settings() const -> ext::map<ext::string, ext::any>;
-    auto apply_constraints(ext::map_view<ext::string, ext::any> constraints = {}) -> std::promise<void>;
+    _EXT_NODISCARD auto get_capabilities() const -> detail::capabilities_t;
+    _EXT_NODISCARD auto get_constraints() const -> detail::constraints_t;
+    _EXT_NODISCARD auto get_settings() const -> detail::settings_t;
+    auto apply_constraints(detail::constraints_t&& constraints = {}) -> std::promise<void>;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected js_slots:
-    ext::map<ext::string, ext::any> s_capabilities;
-    ext::map<ext::string, ext::any> s_constraints;
-    ext::map<ext::string, ext::any> s_settings;
+    detail::capabilities_t s_capabilities;
+    detail::constraints_t s_constraints;
+    detail::settings_t s_settings;
 };
 
 

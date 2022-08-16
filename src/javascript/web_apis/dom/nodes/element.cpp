@@ -145,7 +145,7 @@ auto dom::nodes::element::get_attribute_node(
 {
     // get the Attr node by matching each Attr (in the 'attributes' list) 's qualified name against the 'qualified_name'
     // parameter; nullptr is returned if there is no matching Attr node. the qualified name has to be html adjusted
-    auto html_adjusted_qualified_name = detail::namespace_internals::html_adjust_string(qualified_name, detail::node_internals::is_html(this));
+    auto html_adjusted_qualified_name = detail::html_adjust_string(qualified_name, detail::is_html(this));
     auto match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return attribute->name() == html_adjusted_qualified_name;};
     auto match_attribute = ranges::first_where(*attributes(), match_algorithm);
     return match_attribute;
@@ -176,8 +176,8 @@ auto dom::nodes::element::set_attribute(
     ce_reactions_method_def
         // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        auto new_attribute = detail::attribute_internals::create(qualified_name, "", value, "", owner_document());
-        return detail::attribute_internals::set_attribute(this, &new_attribute);
+        auto new_attribute = detail::create(qualified_name, "", value, "", owner_document());
+        return detail::set_attribute(this, &new_attribute);
     ce_reactions_method_exe
 }
 
@@ -191,9 +191,9 @@ auto dom::nodes::element::set_attribute_ns(
     ce_reactions_method_def
         // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        auto [prefix, local_name] = detail::namespace_internals::validate_and_extract(namespace_, qualified_name);
-        auto new_attribute = detail::attribute_internals::create(local_name, namespace_, value, prefix, owner_document());
-        return detail::attribute_internals::set_attribute(this, &new_attribute);
+        auto [prefix, local_name] = detail::validate_and_extract(namespace_, qualified_name);
+        auto new_attribute = detail::create(local_name, namespace_, value, prefix, owner_document());
+        return detail::set_attribute(this, &new_attribute);
     ce_reactions_method_exe
 }
 
@@ -206,7 +206,7 @@ auto dom::nodes::element::set_attribute_node(
         // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
         // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
         // changing the Attr value
-        return detail::attribute_internals::set_attribute(this, attribute);
+        return detail::set_attribute(this, attribute);
     ce_reactions_method_exe
 }
 
@@ -219,7 +219,7 @@ auto dom::nodes::element::set_attribute_node_ns(
         // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
         // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
         // changing the Attr value
-        return detail::attribute_internals::set_attribute(this, attribute);
+        return detail::set_attribute(this, attribute);
     ce_reactions_method_exe
 }
 
@@ -235,7 +235,7 @@ auto dom::nodes::element::remove_attribute(
         // find the Attr node in this 'attributes' list by the 'qualified_name' that is going to be removed (can be nullptr
         // if the Attr doesn't exist in this Element), and remove it by calling the internal method
         auto* existing_attribute = get_attribute_node(qualified_name);
-        return detail::attribute_internals::remove_attribute(this, existing_attribute);
+        return detail::remove_attribute(this, existing_attribute);
     ce_reactions_method_exe
 }
 
@@ -249,7 +249,7 @@ auto dom::nodes::element::remove_attribute_ns(
         // find the Attr node in this 'attributes' list by the 'local_name' and 'namespace_' that is going to be removed
         // (can be nullptr if the Attr doesn't exist in this Element), and remove it by calling the internal method
         auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
-        return detail::attribute_internals::remove_attribute(this, existing_attribute);
+        return detail::remove_attribute(this, existing_attribute);
     ce_reactions_method_exe
 }
 
@@ -261,7 +261,7 @@ auto dom::nodes::element::remove_attribute_node(
     ce_reactions_method_def
         // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
         // deletion, and removal from this 'attributes' list
-        return detail::attribute_internals::remove_attribute(this, attribute);
+        return detail::remove_attribute(this, attribute);
     ce_reactions_method_exe
 }
 
@@ -273,7 +273,7 @@ auto dom::nodes::element::remove_attribute_node_ns(
     ce_reactions_method_def
         // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
         // deletion, and removal from this 'attributes' list
-        return detail::attribute_internals::remove_attribute(this, attribute);
+        return detail::remove_attribute(this, attribute);
     ce_reactions_method_exe
 }
 
@@ -288,7 +288,7 @@ auto dom::nodes::element::toggle_attribute(
 {
     ce_reactions_method_def
         auto* existing_attribute = get_attribute_node(qualified_name);
-        return detail::attribute_internals::toggle_attribute(this, existing_attribute, std::move(force), qualified_name);
+        return detail::toggle_attribute(this, existing_attribute, std::move(force), qualified_name);
     ce_reactions_method_exe
 }
 
@@ -301,7 +301,7 @@ auto dom::nodes::element::toggle_attribute_ns(
 {
     ce_reactions_method_def
         auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
-        return detail::attribute_internals::toggle_attribute(this, existing_attribute, std::move(force), local_name, namespace_);
+        return detail::toggle_attribute(this, existing_attribute, std::move(force), local_name, namespace_);
     ce_reactions_method_exe
 }
 
@@ -313,7 +313,7 @@ auto dom::nodes::element::toggle_attribute_node(
 {
     ce_reactions_method_def
         return_if(!attribute) static_cast<attr*>(nullptr);
-        return detail::attribute_internals::toggle_attribute(this, attribute, std::move(force));
+        return detail::toggle_attribute(this, attribute, std::move(force));
     ce_reactions_method_exe
 }
 
@@ -325,7 +325,7 @@ auto dom::nodes::element::toggle_attribute_node_ns(
 {
     ce_reactions_method_def
         return_if(!attribute) static_cast<attr*>(nullptr);
-        return detail::attribute_internals::toggle_attribute(this, attribute, std::move(force));
+        return detail::toggle_attribute(this, attribute, std::move(force));
     ce_reactions_method_exe
 }
 
@@ -337,24 +337,24 @@ auto dom::nodes::element::attach_shadow(
         ext::map<ext::string, ext::any>&& options)
         -> shadow_root*
 {
-    using namespace detail::namespace_internals;
+    using namespace detail;
 
     ext::string shadow_attachable_local_names[] {"article", "aside", "blockquote", "body", "div", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "main", "nav", "p", "section", "span"};
-    auto valid_custom = detail::customization_internals::is_valid_custom_element_name(local_name());
+    auto valid_custom = detail::is_valid_custom_element_name(local_name());
     auto valid_local  = ranges::contains(shadow_attachable_local_names, local_name());
-    auto definition = detail::customization_internals::lookup_custom_element_definition(owner_document(), namespace_uri(), local_name(), m_is);
+    auto definition = detail::lookup_custom_element_definition(owner_document(), namespace_uri(), local_name(), m_is);
 
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [this] {return namespace_uri() != HTML;});
 
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [valid_local, valid_custom] {return !(valid_local || valid_custom);});
 
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [valid_custom, definition] {return valid_custom && definition && definition->disable_shadow;});
 
-    detail::exception_internals::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [this] {return detail::shadow_internals::is_shadow_host(this);});
+    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [this] {return detail::is_shadow_host(this);});
 
     auto* shadow = new shadow_root{};
     shadow->owner_document = owner_document();

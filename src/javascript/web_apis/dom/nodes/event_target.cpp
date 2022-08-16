@@ -19,9 +19,9 @@ auto dom::nodes::event_target::add_event_listener(
         -> void
 {
     // create an event listener that is the flattened options, and insert the callback and type
-    auto event_listener = detail::event_internals::flatten_more(std::move(options));
+    auto event_listener = detail::flatten_more(std::move(options));
     event_listener.insert_or_assign("callback", std::move(callback));
-    event_listener.insert_or_assign("type"    , std::move(type));
+    event_listener.insert_or_assign("type", std::move(type));
 
     // get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map
     auto* signal = event_listener.try_emplace("signal", nullptr).first->second.to<abort::abort_signal*>();
@@ -50,7 +50,7 @@ auto dom::nodes::event_target::remove_event_listener(
         -> void
 {
     // create a dummy event listener that is the flattened options, and insert the callback and type
-    auto event_listener = detail::event_internals::flatten_more(std::move(options));
+    auto event_listener = detail::flatten_more(std::move(options));
     event_listener.insert_or_assign("callback", std::move(callback));
     event_listener.insert_or_assign("type", type);
 
@@ -77,13 +77,13 @@ auto dom::nodes::event_target::dispatch_event(
         -> ext::boolean
 {
     // if the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
-    detail::exception_internals::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
             [event] {return event->m_dispatch_flag || not event->m_initialized_flag;},
             "Event must be initialized and not dispatched in order be dispatched");
 
     // set the event trusted to false (manual dispatch), and dispatch the event through the tree
     event->is_trusted = ext::boolean::FALSE_();
-    return detail::event_internals::dispatch(event, this);
+    return detail::dispatch(event, this);
 }
 
 

@@ -2,11 +2,11 @@
 #ifndef SBROWSER2_MATCHING_INTERNALS_HPP
 #define SBROWSER2_MATCHING_INTERNALS_HPP
 
-#include "content_security_policy/_typedefs.hpp"
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "url/url.hpp"
+#include USE_INNER_TYPES(content_security_policy)
 namespace dom::nodes {class element;}
 namespace fetch {class request;}
 

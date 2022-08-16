@@ -18,7 +18,7 @@ auto dom::nodes::attr::set_value(
         -> void
 {
     // overwrite the current value in this attribute class with the new value
-    detail::attribute_internals::set_existing_attribute_value(this, val);
+    detail::set_existing_attribute_value(this, val);
 }
 
 

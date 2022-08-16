@@ -14,7 +14,6 @@
 #include "infra/detail/code_points_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 
-#include "permissions_policy/_typedefs.hpp"
 #include "permissions_policy/detail/algorithm_internals.hpp"
 
 #include <magic_enum.hpp>

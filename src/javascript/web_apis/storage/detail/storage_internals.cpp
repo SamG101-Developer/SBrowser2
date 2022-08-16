@@ -3,7 +3,7 @@
 #include "ext/functional.hpp"
 #include "ext/type_traits.hpp"
 
-#include "storage/_typedefs.hpp"
+#include USE_INNER_TYPES(streams)
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/filter.hpp>
@@ -12,32 +12,32 @@
 using namespace std::string_literals;
 
 
-auto storage::detail::storage_internals::equal_storage_keys(
+auto storage::detail::equal_storage_keys(
         const storage_key_t& key_a,
         const storage_key_t& key_b)
         -> ext::boolean
 {
     // two storage keys are equal if their origins are equal, and because the keys are the origins, the keys are used as
     // the parameter to the 'same_origin(...)' check
-    return html::detail::origin_internals::same_origin(key_a, key_b);
+    return html::detail::same_origin(key_a, key_b);
 }
 
 
-auto storage::detail::storage_internals::obtain_storage_key(
+auto storage::detail::obtain_storage_key(
         v8::Local<v8::Object> environment)
         -> ext::optional<storage_key_t>
 {
     // get the key for non-storage purposes, and if the returned key (which is an origin) is an opaque origin, or the
     // use has disabled the storage from being usable to the browser, then return a failure
     auto key = obtain_storage_key_for_non_storage_purposes(environment);
-    return_if (html::detail::origin_internals::is_opaque_origin(key)) ext::nullopt;
+    return_if (html::detail::is_opaque_origin(key)) ext::nullopt;
     return_if (false /* TODO : storage disabled */) ext::nullopt;
 
     return key;
 }
 
 
-auto storage::detail::storage_internals::obtain_storage_key_for_non_storage_purposes(
+auto storage::detail::obtain_storage_key_for_non_storage_purposes(
         v8::Local<v8::Object> environment)
         -> ext::optional<storage_key_t>
 {
@@ -45,7 +45,7 @@ auto storage::detail::storage_internals::obtain_storage_key_for_non_storage_purp
 }
 
 
-auto storage::detail::storage_internals::obtain_storage_shelf(
+auto storage::detail::obtain_storage_shelf(
         storage_shed_t& storage_shed,
         v8::Local<v8::Object> environment,
         storage_type_t type)
@@ -64,7 +64,7 @@ auto storage::detail::storage_internals::obtain_storage_shelf(
 }
 
 
-auto storage::detail::storage_internals::obtain_local_storage_shelf(
+auto storage::detail::obtain_local_storage_shelf(
         v8::Local<v8::Object> environment)
         -> ext::optional<storage_shelf_t>
 {
@@ -74,7 +74,7 @@ auto storage::detail::storage_internals::obtain_local_storage_shelf(
 }
 
 
-auto storage::detail::storage_internals::obtain_storage_bottle_map(
+auto storage::detail::obtain_storage_bottle_map(
         storage_type_t type,
         v8::Local<v8::Object> environment,
         const storage_identifier_t& identifier)
@@ -103,7 +103,7 @@ auto storage::detail::storage_internals::obtain_storage_bottle_map(
 }
 
 
-auto storage::detail::storage_internals::obtain_local_storage_bottle_map(
+auto storage::detail::obtain_local_storage_bottle_map(
         v8::Local<v8::Object> environment,
         const storage_identifier_t& identifier)
         -> ext::optional<storage_bottle_t::proxy_map_t>
@@ -113,7 +113,7 @@ auto storage::detail::storage_internals::obtain_local_storage_bottle_map(
 }
 
 
-auto storage::detail::storage_internals::obtain_session_storage_bottle_map(
+auto storage::detail::obtain_session_storage_bottle_map(
         v8::Local<v8::Object> environment,
         const storage_identifier_t& identifier)
         -> ext::optional<storage_bottle_t::proxy_map_t>
@@ -123,7 +123,7 @@ auto storage::detail::storage_internals::obtain_session_storage_bottle_map(
 }
 
 
-auto storage::detail::storage_internals::create_storage_shelf(
+auto storage::detail::create_storage_shelf(
         storage_type_t type)
         -> storage_shelf_t
 {
@@ -133,7 +133,7 @@ auto storage::detail::storage_internals::create_storage_shelf(
 }
 
 
-auto storage::detail::storage_internals::create_storage_bucket(
+auto storage::detail::create_storage_bucket(
         storage_type_t type)
         -> storage_bucket_t
 {

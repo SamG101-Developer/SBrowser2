@@ -12,9 +12,9 @@ public constructors:
     html_olist_element();
 
 public js_properties:
-    ext::property<ext::boolean, _T> reversed;
-    ext::property<ext::number<long>, _T> start;
-    ext::property<ext::string, _T> type;
+    ext::property<ext::boolean, true> reversed;
+    ext::property<ext::number<long>, true> start;
+    ext::property<ext::string, true> type;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

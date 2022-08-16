@@ -10,10 +10,9 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
-#include "high_resolution_time/_typedefs.hpp"
-#include "fetch/_typedefs.hpp"
-
 #include <v8-forward.h>
+#include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(high_resolution_time)
 namespace url {class url_object;}
 
 namespace fetch::detail

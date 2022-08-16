@@ -1,6 +1,7 @@
 #include "readable_stream_generic_reader.hpp"
 
 #include "dom/detail/exception_internals.hpp"
+#include "streams/details/operations_internals.hpp"
 
 
 streams::mixins::readable_stream_generic_reader::readable_stream_generic_reader()
@@ -14,11 +15,11 @@ auto streams::mixins::readable_stream_generic_reader::cancel(
         T&& reason)
         -> std::promise<void>
 {
-    dom::detail::exception_internals::throw_v8_exception<V8_TYPE_ERROR>(
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [this] {return !s_stream;},
             "Can not cancel a reader whose owner (ReadableStream) is null");
 
-    return detail::abstract_operations::readbale_steam_reader_generic_cancel(this, std::forward<T>(reason))
+    return detail::readbale_steam_reader_generic_cancel(this, std::forward<T>(reason))
 }
 
 

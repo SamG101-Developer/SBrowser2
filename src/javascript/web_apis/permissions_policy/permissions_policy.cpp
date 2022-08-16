@@ -17,18 +17,18 @@
 
 
 auto permissions_policy::permissions_policy_object::allows_feature(
-        ext::string&& feature,
+        detail::feature_name_t&& feature,
         ext::string&& origin)
         -> ext::boolean
 {
     // if the origin is empty, then set it to the default origin, which is dependent on whether the associated node is an
     // Element of Document. the policy is teh observable policy for the correctly cast associated node
     origin = origin ?: m_default_origin();
-    auto policy = detail::policy_internals::observable_policy(m_associated_node);
+    auto policy = detail::observable_policy(m_associated_node);
 
     using enum detail::inherited_policy_value_t;
     auto feature_enum = magic_enum::enum_cast<detail::feature_t>(std::move(feature));
-    return_if(!feature_enum.has_value()) ext::boolean::FALSE();
+    return_if(!feature_enum.has_value()) false;
     return policy.inherited_policy.at(*feature_enum) == ENABLED;
 }
 
@@ -52,12 +52,12 @@ auto permissions_policy::permissions_policy_object::allowed_features()
     using enum detail::inherited_policy_value_t;
 
     auto origin = m_default_origin();
-    auto policy = detail::policy_internals::observable_policy(m_associated_node);
+    auto policy = detail::observable_policy(m_associated_node);
 
     // filter the features to only allow the ENABLED features, then take the feature names from the pairs, and get their
     // string forms; finally convert the range back into a set of strings and return them
     return policy.inherited_policy
-            | ranges::views::filter(ext::bind_back(ext::pair_val_matches, ENABLED))
+            | ranges::views::filter(ext::bind_back(ext::pair_val_matches{}, ENABLED))
             | ranges::views::keys
             | ranges::views::transform(magic_enum::enum_name<detail::feature_t>)
             | ranges::to<ext::set<ext::string>>;
@@ -65,13 +65,13 @@ auto permissions_policy::permissions_policy_object::allowed_features()
 
 
 auto permissions_policy::permissions_policy_object::get_allowlist_for_feature(
-        ext::string&& feature)
+        detail::feature_name_t&& feature)
         -> ext::set<ext::string>
 {
     using enum detail::inherited_policy_value_t;
 
     auto origin = m_default_origin();
-    auto policy = detail::policy_internals::observable_policy(m_associated_node);
+    auto policy = detail::observable_policy(m_associated_node);
 
     // return an empty set if the feature doesn't exist, or the value is disabled in the policy
     auto feature_enum = magic_enum::enum_cast<detail::feature_t>(std::move(feature));
@@ -81,7 +81,7 @@ auto permissions_policy::permissions_policy_object::get_allowlist_for_feature(
     auto allowlist = policy.declared_policy.at(*feature_enum);
     return ranges::contains(allowlist, "*")
             ? allowlist
-            : allowlist | ranges::views::transform(html::detail::miscellaneous_internals::serialize_origin) | ranges::to<detail::allowlist_t>;
+            : allowlist | ranges::views::transform(html::detail::serialize_origin) | ranges::to<detail::allowlist_t>;
 }
 
 
@@ -92,13 +92,13 @@ auto permissions_policy::permissions_policy_object::m_default_origin()
     // as this is a more expensive operation than checking the 'node_type' of the associated node
     auto is_document_node = m_associated_node->node_type() == dom::nodes::node::DOCUMENT_NODE;
     auto is_element_node = m_associated_node->node_type() == dom::nodes::node::ELEMENT_NODE;
-    ext::assert_true(is_document_node || is_element_node);
+    ASSERT(is_document_node || is_element_node);
 
     // return the document's origin if the associated node is a Document, the declared origin if the associated node is
     // an Element, otherwise an empty string
     return is_document_node
             ? dynamic_cast<dom::nodes::document*>(m_associated_node)->m_origin
-            : detail::policy_internals::declared_origin(dynamic_cast<html::elements::html_iframe_element*>(m_associated_node));
+            : detail::declared_origin(dynamic_cast<html::elements::html_iframe_element*>(m_associated_node));
 }
 
 

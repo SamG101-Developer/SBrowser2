@@ -14,8 +14,8 @@ namespace dom::nodes {class element;}
 #include "ext/queue.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
-#include "dom/_typedefs.hpp"
 #include <range/v3/view/any_view.hpp>
+#include USE_INNER_TYPES(dom)
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace html::detail::context_internals {struct browsing_context;}
@@ -31,6 +31,7 @@ class dom::nodes::element
         , public aria::mixins::aria_mixin
 {
 public constructors:
+    DOM_CTOR(element)
     element();
     ~element() override;
 
@@ -78,9 +79,9 @@ public js_properties:
     ext::property<ext::string> prefix;
     ext::property<ext::string> local_name;
     ext::property<ext::string> tag_name;
-    ext::property<ext::string, _T> class_name;
-    ext::property<ext::string, _T> slot;
-    ext::property<ext::string, _T> id;
+    ext::property<ext::string, true> class_name;
+    ext::property<ext::string, true> slot;
+    ext::property<ext::string, true> id;
     ext::property<std::unique_ptr<shadow_root>> shadow_root_node;
     ext::property<std::unique_ptr<ext::vector<attr*>>> attributes;
     ext::property<std::unique_ptr<ext::vector<ext::string>>> class_list;

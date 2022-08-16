@@ -5,9 +5,9 @@
 #include "dom_object.hpp"
 namespace permissions {class permission;}
 
-#include "_typedefs.hpp"
 #include "ext/map.hpp"
 #include <future>
+#include USE_INNER_TYPES(permissions)
 namespace permissions {class permission_status;}
 
 

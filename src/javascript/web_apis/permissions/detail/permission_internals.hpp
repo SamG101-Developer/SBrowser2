@@ -1,5 +1,4 @@
 #pragma once
-#include "permissions_policy/_typedefs.hpp"
 #ifndef SBROWSER2_PERMISSION_INTERNALS_HPP
 #define SBROWSER2_PERMISSION_INTERNALS_HPP
 
@@ -9,15 +8,14 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 
-#include "permissions/_typedefs.hpp"
+#include USE_INNER_TYPES(permissions)
+#include USE_INNER_TYPES(permissions_policy)
 
 #include <v8-object.h>
 namespace permissions {class permission_status;}
 
-namespace permissions::detail::permission_internals
+namespace permissions::detail
 {
-    struct powerful_feature_t;
-
     auto get_current_permission_state(
             ext::string&& name,
             ext::optional<v8::Local<v8::Object>> environment_settings_object)
@@ -34,7 +32,7 @@ namespace permissions::detail::permission_internals
 
     auto prompt_user_to_choose(
             permissions_descriptor_t&& permission_descriptor,
-            ext::boolean_view allow_multiple = ext::boolean::FALSE_())
+            ext::boolean&& allow_multiple = false)
             -> ext::variant<ext::vector<permissions_policy::detail::feature_t>, permission_state_t>;
 
     auto extra_permissions_data()
@@ -50,7 +48,7 @@ namespace permissions::detail::permission_internals
 };
 
 
-struct permissions::detail::permission_internals::powerful_feature_t
+struct permissions::detail::powerful_feature_t
 {
     powerful_feature_t(ext::string&& powerful_feature_name);
 

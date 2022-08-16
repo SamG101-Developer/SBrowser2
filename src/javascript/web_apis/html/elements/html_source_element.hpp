@@ -12,13 +12,13 @@ public constructors:
     html_source_element();
 
 public js_properties:
-    ext::property<ext::string, _T> src;
-    ext::property<ext::string, _T> type;
-    ext::property<ext::string, _T> srcset;
-    ext::property<ext::string, _T> sizes;
-    ext::property<ext::string, _T> media;
-    ext::property<ext::number<ulong>, _T> width;
-    ext::property<ext::number<ulong>, _T> height;
+    ext::property<ext::string, true> src;
+    ext::property<ext::string, true> type;
+    ext::property<ext::string, true> srcset;
+    ext::property<ext::string, true> sizes;
+    ext::property<ext::string, true> media;
+    ext::property<ext::number<ulong>, true> width;
+    ext::property<ext::number<ulong>, true> height;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

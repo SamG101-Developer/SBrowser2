@@ -16,8 +16,8 @@ auto html::elements::html_base_element::get_href() const -> ext::string
     auto* document = owner_document();
     auto& url = *href;
 
-    auto url_record = url::detail::parsing_serializing_internals::::parse(detail::document_internals::fallback_base_url(document), document->m_encoding);
+    auto url_record = url::detail::parse(detail::document_internals::fallback_base_url(document), document->m_encoding);
     return !url_record
             ? url
-            : url::detail::parsing_serializing_internals::serialize(url_record);
+            : url::detail::serialize(url_record);
 }

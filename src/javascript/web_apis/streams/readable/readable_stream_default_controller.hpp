@@ -9,7 +9,7 @@ namespace streams::readable {class readable_stream_default_controller;}
 #include "ext/functional.hpp"
 #include "ext/number.hpp"
 #include "ext/queue.hpp"
-#include "streams/_typedefs.hpp"
+#include USE_INNER_TYPES(streams)
 
 class streams::readable::readable_stream_default_controller
         : public abstract_readable_stream_controller

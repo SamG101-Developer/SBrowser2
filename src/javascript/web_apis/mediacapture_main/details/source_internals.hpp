@@ -10,13 +10,12 @@
 
 #include <v8-local-handle.h>
 #include <v8-object.h>
+#include USE_INNER_TYPES(mediacapture_main)
 
 namespace mediacapture::main {class media_stream_track;}
 
-namespace mediacapture::detail::source_internals
+namespace mediacapture::detail
 {
-    struct media_stream_track_source;
-
     auto initialize_underlying_source(
             main::media_stream_track* track,
             media_stream_track_source& source)
@@ -32,7 +31,7 @@ namespace mediacapture::detail::source_internals
 };
 
 
-struct mediacapture::detail::source_internals::media_stream_track_source
+struct mediacapture::detail::media_stream_track_source
 {
     ext::string source_type;
     ext::function<void(const main::media_stream_track*)> source_specific_construction_steps;

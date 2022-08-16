@@ -8,9 +8,9 @@
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
 
-#include "indexed_db/_typedefs.hpp"
-#include "storage/_typedefs.hpp"
 #include <v8-forward.h>
+#include USE_INNER_TYPES(indexed_db)
+#include USE_INNER_TYPES(storage)
 
 namespace indexed_db {class idb_open_request;}
 namespace indexed_db {class idb_transaction;}

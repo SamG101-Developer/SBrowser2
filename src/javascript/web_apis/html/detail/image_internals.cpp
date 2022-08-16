@@ -16,7 +16,7 @@
 #include "html/elements/html_image_element.hpp"
 #include "html/elements/html_source_element.hpp"
 
-#include "referrer_policy/referrer_policy.hpp"
+#include "referrer_policy/_typedefs.hpp"
 
 #include <magic_enum.hpp>
 #include <range/v3/algorithm/contains.hpp>
@@ -54,10 +54,7 @@ auto html::detail::update_image_data(
         ext::boolean&& restart_animation_flag)
         -> void
 {
-    using enum state_t;
-    using enum fetch::detail::request_internals::mode_t;
-
-    if (!dom::detail::node_internals::is_document_fully_active(element->owner_document()))
+    if (!dom::detail::is_document_fully_active(element->owner_document()))
     {
         /*
          * TODO : continue running in a thread (move next steps into a lambda and call from .push task in a thread pool)
@@ -101,7 +98,7 @@ auto html::detail::update_image_data(
         // steps for when the url is invalid, ie a parsing failure, because the url record evaluates to a false boolean
         if (!url_record)
         {
-            auto cross_origin = magic_enum::enum_cast<fetch::detail::request_internals::mode_t>(element->cross_origin());
+            auto cross_origin = magic_enum::enum_cast<fetch::detail::mode_t>(element->cross_origin());
             auto key = tuplet::make_tuple(url_string, cross_origin, cross_origin != NO_CORS ? element->owner_document()->m_origin : url::url_object(""));
             if (ranges::contains(element->owner_document()->m_list_of_available_images | ranges::views::keys, key))
             {
@@ -113,22 +110,22 @@ auto html::detail::update_image_data(
                 abort_image_request(*element->m_current_request);
                 abort_image_request(*element->m_pending_request);
                 element->m_current_request = std::make_unique<image_request>(
-                        COMPLETELY_AVAILABLE,
+                        state_t::COMPLETELY_AVAILABLE,
                         {}, {1}, {},
                         element->owner_document()->m_list_of_available_images.at(matching_key));
                 element->m_current_request.reset();
 
-                prepare_image_for_presentation(*element->current_request, element);
+                prepare_image_for_presentation(*element->m_current_request, element);
                 element->m_current_request->current_pixel_density = selected_pixel_density;
 
-                dom::detail::observer_internals::queue_element_task(
+                dom::detail::queue_element_task(
                         detail::task_internals::dom_manipulation_task_source(),
                         element,
                         [&restart_animation_flag, &element, &url_record]
                         {
                             if (restart_animation_flag) restart_animation(element);
                             element->m_current_request->url = url_record;
-                            dom::detail::event_internals::fire_event("load", element);
+                            dom::detail::fire_event("load", element);
                         });
 
                 // TODO : abort an algorithm
@@ -136,7 +133,7 @@ auto html::detail::update_image_data(
         }
     }
 
-    dom::detail::observer_internals::queue_microtask([&element, &restart_animation_flag]
+    dom::detail::queue_microtask([&element, &restart_animation_flag]
     {
         // TODO : return if this algorithm is already running
         auto [selected_source, selected_pixel_density] = select_image_source(element);
@@ -147,12 +144,12 @@ auto html::detail::update_image_data(
             abort_image_request(*element->m_pending_request);
             element->m_pending_request.reset();
 
-            dom::detail::observer_internals::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element]
+            dom::detail::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element]
             {
                 element->m_current_request->url = "";
                 JS_REALM_GET_RELEVANT(element)
                 if (reflect_has_attribute_value(element, "src", element_relevant) || uses_srcset_or_picture(element))
-                    dom::detail::event_internals::fire_event("error", element);
+                    dom::detail::fire_event("error", element);
             });
 
             return;
@@ -167,10 +164,10 @@ auto html::detail::update_image_data(
             element->m_current_request->state = BROKEN;
             element->m_pending_request.reset();
 
-            dom::detail::observer_internals::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element]
+            dom::detail::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element]
             {
                 element->m_current_request->url = selected_source;
-                dom::detail::event_internals::fire_event("error", element);
+                dom::detail::fire_event("error", element);
             });
             return;
         }
@@ -180,7 +177,7 @@ auto html::detail::update_image_data(
         {
             abort_image_request(*element->m_pending_request);
             if (restart_animation_flag)
-                dom::detail::observer_internals::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element] {restart_animation(element);});
+                dom::detail::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element] {restart_animation(element);});
             return;
         }
 
@@ -193,9 +190,9 @@ auto html::detail::update_image_data(
                 : element->m_pending_request.reset(&new_image_request);
 
         JS_REALM_GET_RELEVANT(element)
-        using destination_t = fetch::detail::request_internals::destination_t;
-        using initiator_t = fetch::detail::request_internals::initiator_t;
-        auto request = miscellaneous_internals::create_potential_cors_request(url_record, destination_t::IMAGE, magic_enum::enum_cast<fetch::detail::request_internals::mode_t>(element->cross_origin()));
+        using destination_t = fetch::detail::destination_t;
+        using initiator_t = fetch::detail::initiator_t;
+        auto request = miscellaneous_internals::create_potential_cors_request(url_record, destination_t::IMAGE, magic_enum::enum_cast<fetch::detail::mode_t>(element->cross_origin()));
         request.client = element_relevant_global_object;
         request.initiator = uses_srcset_or_picture(element) ? initiator_t::IMAGESET : static_cast<initiator_t>(NULL);
         request.referrer_policy = magic_enum::enum_cast<referrer_policy::referrer_policy_t>(element->referrer_policy());
@@ -236,7 +233,7 @@ auto html::detail::select_image_source(
         -> ext::tuple<url::url_object, double>
 {
     update_source_set(element);
-    return_if (element->m_source_set.empty()) tuplet::make_tuple("", -1.0);
+    return_if (element->m_source_set.empty()) ext::make_tuple("", -1.0);
     return select_image_source_from_source_set(element->m_source_set);
 }
 
@@ -247,7 +244,7 @@ auto html::detail::select_image_source_from_source_set(
 {
     source_set |= ranges::actions::unique([](image_source* left, image_source* right) {return left->pixel_density_descriptor == right->pixel_density_descriptor;});
     auto selected_source = *source_set.begin(); // TODO : *begin()?
-    return tuplet::make_tuple(selected_source->url_record, selected_source->pixel_density_descriptor); // TODO : correct attributes?Magnesium
+    return ext::make_tuple(selected_source->url_record, selected_source->pixel_density_descriptor); // TODO : correct attributes?Magnesium
 }
 
 
@@ -276,7 +273,7 @@ auto html::detail::update_source_set(
     element->m_source_set = {};
     auto is_element_image = element->local_name() == "image";
     auto elements = is_element_image && element->parent_node()->local_name() == "picture"
-            ? ext::span<dom::nodes::element*>{element}
+            ? ext::vector<dom::nodes::element*>{element}
             : *element->children();
 
     for (dom::nodes::element* child: elements)

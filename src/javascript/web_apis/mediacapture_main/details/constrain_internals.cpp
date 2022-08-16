@@ -12,7 +12,7 @@
 
 auto mediacapture::detail::constrain_internals::apply_constrains_template_algorithm(
         main::mixins::constrainable* object,
-        ext::map<ext::string, ext::any>&& new_constraints)
+        constraints_t&& new_constraints)
         -> std::promise<void>
 {
     // create the promise object, and create a thread pool with 1 thread in (wil only need the 1 extra thread for this
@@ -30,7 +30,7 @@ auto mediacapture::detail::constrain_internals::apply_constrains_template_algori
         auto successful_settings = object->s_settings;
 
         // queue a microtask that handles setting the promise value
-        dom::detail::observer_internals::queue_microtask(
+        dom::detail::queue_microtask(
                 [object, &promise, failed_constraint = std::move(failed_constraint),
                         successful_settings = std::move(successful_settings),
                         new_constraints = std::move(new_constraints)] mutable
@@ -55,7 +55,7 @@ auto mediacapture::detail::constrain_internals::apply_constrains_template_algori
 
 auto mediacapture::detail::constrain_internals::apply_constrains_algorithm(
         main::mixins::constrainable* object,
-        ext::map<ext::string, ext::any>&& new_constraints)
+        constraints_t&& new_constraints)
         -> ext::string
 {
     auto successful_settings = select_settings(object, std::move(new_constraints));
