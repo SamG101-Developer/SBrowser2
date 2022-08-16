@@ -21,9 +21,6 @@
 #include "dom/nodes/text.hpp"
 #include "dom/ranges/range.hpp"
 
-#include <queue>
-#include <stack>
-
 #include <range/v3/to_container.hpp>
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/for_each.hpp>
