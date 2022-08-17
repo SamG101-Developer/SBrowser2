@@ -19,11 +19,11 @@ namespace html::detail
             -> void;
 
     auto is_available(
-            image_request& request)
+            image_request_t& request)
             -> ext::boolean;
 
     auto is_fully_decodable(
-            image_request& request)
+            image_request_t& request)
             -> ext::boolean;
 
     auto determine_density_corrected_intrinsic_width_and_height(
@@ -40,7 +40,7 @@ namespace html::detail
             -> void;
 
     auto abort_image_request(
-            image_request& request)
+            image_request_t& request)
             -> void;
 
     auto upgrade_pending_request_to_current_request(
@@ -48,7 +48,7 @@ namespace html::detail
             -> void;
 
     auto prepare_image_for_presentation(
-            image_request& request,
+            image_request_t& request,
             elements::html_image_element* element)
             -> void;
 
@@ -57,14 +57,14 @@ namespace html::detail
             -> ext::tuple<url::url_object, double>;
 
     auto select_image_source_from_source_set(
-            ext::set<image_source*>& source_set)
+            ext::set<image_source_t*>& source_set)
             -> ext::tuple<url::url_object, double>;
 
     auto create_source_set(
             const ext::string& default_source,
             const ext::string& src_set,
             const ext::string& sizes)
-            -> ext::set<image_source*>;
+            -> ext::set<image_source_t*>;
 
     auto update_source_set(
             type_is<elements::html_image_element*, elements::html_link_element*> auto* element)
@@ -72,15 +72,15 @@ namespace html::detail
 
     auto parse_source_set_attribute(
             ext::string_view src_set)
-            -> ext::set<image_source*>;
+            -> ext::set<image_source_t*>;
 
     auto parse_sizes_attribute(
             ext::string_view sizes)
             -> ext::number<double>;
 
     auto normalize_source_densities(
-            ext::set<image_source*>& source_set)
-            -> ext::set<image_source*>&;
+            ext::set<image_source_t*>& source_set)
+            -> ext::set<image_source_t*>&;
 
     auto restart_animation(
             elements::html_image_element* element)
@@ -88,7 +88,7 @@ namespace html::detail
 }
 
 
-struct html::detail::image_request
+struct html::detail::image_request_t
 {
     state_t state{state_t::UNAVAILABLE};
     url::url_object url;
@@ -98,7 +98,7 @@ struct html::detail::image_request
 };
 
 
-struct html::detail::available_image
+struct html::detail::available_image_t
 {
     ext::tuple<ext::string, fetch::detail::mode_t, url::url_object> key;
     ext::boolean ignore_higher_layer_caching_flag;
@@ -110,7 +110,7 @@ struct html::detail::available_image
 };
 
 
-struct html::detail::image_source
+struct html::detail::image_source_t
 {
     url::url_object url_record;
     ext::string width_descriptor;

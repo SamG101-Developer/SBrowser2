@@ -7,6 +7,7 @@ namespace html::elements {class html_image_element;}
 
 #include <future>
 #include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(referrer_policy)
 namespace dom::nodes {class window_proxy;}
 
 #define _IMAGES_SUPPORTED 1 /* TODO : move to another file where all MACRO configs are stored */
@@ -29,8 +30,8 @@ public js_properties:
     ext::property<ext::string, true> sizes;
     ext::property<ext::string, true> cross_origin;
     ext::property<ext::string, true> use_map;
-    ext::property<ext::string, true> referrer_policy;
-    ext::property<ext::string, true> loading;
+    ext::property<referrer_policy::detail::referrer_policy_t, true> referrer_policy;
+    ext::property<detail::lazy_loading_t, true> loading;
     ext::property<ext::string, true> decoding;
     ext::property<ext::string, false> current_src;
 
@@ -47,11 +48,11 @@ public cpp_methods:
 
 private cpp_properties:
     std::unique_ptr<html_image_element> m_dimension_attribute_source;
-    std::unique_ptr<detail::image_internals::image_request> m_current_request;
-    std::unique_ptr<detail::image_internals::image_request> m_pending_request;
+    std::unique_ptr<detail::image_request_t> m_current_request;
+    std::unique_ptr<detail::image_request_t> m_pending_request;
 
     ext::string m_last_selected_source;
-    ext::set<html::detail::image_internals::image_source*> m_source_set;
+    ext::set<html::detail::image_source_t*> m_source_set;
     ext::number<int> m_source_size;
 
 private cpp_accessors:
@@ -63,7 +64,7 @@ private cpp_accessors:
     auto get_natural_height() const -> ext::number<ulong>;
     auto get_complete() const -> ext::boolean;
 
-    auto set_loading(ext::string_view val) -> void;
+    auto set_loading(detail::lazy_loading_t val) -> void;
 };
 
 

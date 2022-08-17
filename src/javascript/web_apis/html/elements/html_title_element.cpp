@@ -25,7 +25,7 @@ auto html::elements::html_title_element::set_text(
 {
     // to set the 'text' of a HTMLTitleElement, all the string content beneath this element is replaced with the new
     // 'val' text
-    dom::detail::node_internals::string_replace_all(val, this);
+    dom::detail::string_replace_all(val, this);
 }
 
 

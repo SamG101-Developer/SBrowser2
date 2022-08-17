@@ -4,6 +4,9 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_link_element;}
 
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(referrer_policy)
+
 
 class html::elements::html_link_element
         : public html_element
@@ -14,7 +17,7 @@ public constructors:
 public js_properties:
     ext::property<ext::string, true> href;
     ext::property<ext::string, true> cross_origin;
-    ext::property<ext::string, true> rel;
+    ext::property<detail::rel_t, true> rel;
     ext::property<ext::string, true> as;
     ext::property<ext::string, true> media;
     ext::property<ext::string, true> integrity;
@@ -22,7 +25,7 @@ public js_properties:
     ext::property<ext::string, true> type;
     ext::property<ext::string, true> image_srcset;
     ext::property<ext::string, true> image_sizes;
-    ext::property<ext::string, true> referrer;
+    ext::property<referrer_policy::detail::referrer_policy_t, true> referrer;
     ext::property<ext::boolean, true> disabled;
 
     ext::property<ext::vector<ext::string>*> sizes;

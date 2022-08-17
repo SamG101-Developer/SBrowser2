@@ -7,6 +7,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0 -std=c++latest")
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
+set(QT_VER 6.3.1)
+set(QT_COMPONENTS Core Widgets Gui)
+
 include_directories(src)
 include_directories(src/javascript)
 include_directories(src/javascript/web_apis)
@@ -58,7 +61,7 @@ FetchContent_Declare(RegexReplacement
 
 FetchContent_Declare(StackReplacement
         GIT_REPOSITORY "https://github.com/mattreecebentley/plf_stack.git"
-        GIT_TAG "origin/master" CONFIGURE_COMMAND "" BUILD_COMMAND "")
+        GIT_TAG "origin/master")
 
 FetchContent_Declare(StreamsReplacement
         GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
@@ -88,6 +91,10 @@ FetchContent_Declare(MagicEnum
         GIT_REPOSITORY "https://github.com/Neargye/magic_enum.git"
         GIT_TAG "origin/master")
 
+FetchContent_Declare(Qt
+        GIT_REPOSITORY https://github.com/SamG101-Developer/Qt6WindowsBinaries.git
+        GIT_TAG "origin/master")
+
 FetchContent_Declare(UUIDs
         GIT_REPOSITORY "https://github.com/mariusbancila/stduuid.git"
         GIT_TAG "origin/master")
@@ -95,6 +102,8 @@ FetchContent_Declare(UUIDs
 FetchContent_Declare(V8PP
         GIT_REPOSITORY "https://github.com/pmed/v8pp.git"
         GIT_TAG "origin/master")
+
+find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
 
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 
@@ -106,7 +115,7 @@ FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
         OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
         StreamsReplacement ThreadReplacement TupleReplacement VariantReplacement VectorReplacement DateTime MagicEnum
-        UUIDs V8PP)
+        Qt UUIDs V8PP)
 
 
 add_library(plf_stack INTERFACE)
@@ -121,4 +130,4 @@ target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorrepla
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro cppfs function2::function2 tsl::robin_map optional concurrentqueue effolkronium_random
         range-v3::range-v3 ctre::ctre plf_stack fmt::fmt bs_thread_pool tuplet::tuplet swl-variant veque asap
-        magic_enum::magic_enum stduuid v8pp)
+        magic_enum::magic_enum stduuid v8pp Qt6::Core Qt6::Widgets Qt6::Gui)

@@ -9,15 +9,15 @@ namespace html::mixins {class html_or_svg_element;}
 
 
 class html::mixins::html_or_svg_element
-        : public web_apis::dom_object
+        : public virtual dom_object
 {
 public js_methods:
-    auto focus(ext::string_any_map_view options = {}) -> void;
+    auto focus(ext::map<ext::string, ext::any>&& options = {}) -> void;
     auto blur();
 
 public js_properties:
     ext::property<ext::string> nonce;
-    ext::property<ext::string_string_map> dataset;
+    ext::property<ext::map<ext::string, ext::any>> dataset;
 
     ext::property<ext::boolean> autofocus;
     ext::property<ext::number<long>> tabIndex;

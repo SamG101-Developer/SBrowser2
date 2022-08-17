@@ -24,9 +24,6 @@
 #include "dom/nodes/text.hpp"
 #include "dom/nodes/window.hpp"
 
-#include <memory>
-#include <tuple>
-
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/view/filter.hpp>

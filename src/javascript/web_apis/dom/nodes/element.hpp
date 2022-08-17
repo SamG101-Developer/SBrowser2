@@ -31,7 +31,7 @@ class dom::nodes::element
         , public aria::mixins::aria_mixin
 {
 public constructors:
-    DOM_CTOR(element)
+    DOM_CTORS(element);
     element();
     ~element() override;
 
@@ -70,9 +70,9 @@ public js_methods:
     auto matches(ext::string_view selectors) -> ext::boolean;
 
     /* PointerEvents */
-    auto set_pointer_capture(ext::number_view<long> pointer_id) -> void;
-    auto release_pointer_capture(ext::number_view<long> pointer_id) -> void;
-    auto has_pointer_capture(ext::number_view<long> pointer_id) -> ext::boolean;
+    auto set_pointer_capture(const ext::number<long> pointer_id) -> void;
+    auto release_pointer_capture(const ext::number<long> pointer_id) -> void;
+    auto has_pointer_capture(const ext::number<long> pointer_id) -> ext::boolean;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;

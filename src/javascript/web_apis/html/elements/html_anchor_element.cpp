@@ -27,7 +27,7 @@ html::elements::html_anchor_element::html_anchor_element()
 
         reflect_has_attribute_value(this, "download", this_relevant) && !download().empty() // TODO : or expressed preference to download
                 ? detail::download_hyperlink(this, hyperlink_suffix)
-                : detail::follow_hyperlink(this, hyperlink_suffix)
+                : detail::follow_hyperlink(this, hyperlink_suffix);
     };
 
     HTML_CONSTRUCTOR
