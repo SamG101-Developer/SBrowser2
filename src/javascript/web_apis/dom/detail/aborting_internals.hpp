@@ -9,7 +9,7 @@ namespace dom::detail
 {
     auto signal_abort(
             abort::abort_signal* signal,
-            ext::any_view reason)
+            const ext::any& reason)
             -> void;
 
     auto follow_signal(

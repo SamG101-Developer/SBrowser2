@@ -12,6 +12,10 @@ namespace clipboard {class clipboard_item;}
 class clipboard::clipboard
         : public dom::nodes::event_target
 {
+public constructors:
+    DOM_CTORS(clipboard);
+    clipboard() = default;
+    
 public js_methods:
     auto read() -> std::promise<ext::vector<clipboard_item*>>;
     auto read_text() -> std::promise<ext::string>;

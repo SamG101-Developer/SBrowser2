@@ -21,11 +21,11 @@ struct vector_view : public view<vector_view_iterator>
 {
     using view<vector_view_iterator>::view;
 
-    vector_view(vector<T>&& other)
+    explicit vector_view(vector<T>&& other)
             : view<vector_view_iterator>(std::move(other.begin()), std::move(other.end()))
     {}
 
-    vector_view(const vector<T>& other)
+    explicit vector_view(const vector<T>& other)
             : view<vector_view_iterator>{other.begin(), other.end()}
     {}
 };

@@ -2,158 +2,223 @@
 #ifndef SBROWSER2_PROPERTY_HPP
 #define SBROWSER2_PROPERTY_HPP
 
-namespace ext {template <typename T, bool ce_reactions> class property;}
-
-#include <iostream>
 #include <memory>
-#include <utility>
-
-#include "ext/keywords.hpp"
 #include "ext/streams.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/detail/guard_property.hpp"
+#include "ext/detail/meta_property.hpp"
+namespace ext {template <typename T> class property;}
 
-#define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::inner_val_t>())
-#define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::inner_val_t>())
 
-template <typename T, bool ce_reactions>
-class ext::property
+/**
+ * Property class for specialized for the std::unique_ptr<T> type. Differences include how the copy constructor and
+ * dereference operator work (std::unique_ptr<T> can not be copied)
+ * @tparam T Underlying type in the std::unique_ptr<T> of the property
+ */
+template <typename T>
+class ext::property<std::unique_ptr<T>>: private detail::lockable
 {
-public aliases:
-    using outer_val_t = T;                                   // unique_ptr<node>, node*, etc
-    using inner_val_t = unwrap_smart_pointer_t<outer_val_t>; // node*           , node*, etc
+public:
+    // Access to the value type (std::unique_ptr<T>'s pointer type)
+    friend struct ::access_meta;
+    using value_t = typename std::unique_ptr<T>::pointer;
 
-public constructors:
+    // Default constructor
     property() = default;
-    ~property() {_Meta._Deleter();};
 
-    [[deprecated("Check if this CTor should be used, or if operator()() should be used")]]
-    explicit property(const property& other) = default;
+    // Copy constructor (involves the unique_ptr semantics)
+    property(const property& other)
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value.reset(other.m_meta.m_value.get());
+    }
 
-    explicit property(property&& other) noexcept = default;
+    // Move constructor
+    property(property&& other) noexcept
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+    }
 
-    [[deprecated("Check if this CTor should be used, or if operator=(T) should be used")]]
-    auto operator=(const property& other) -> property& = default;
+    // Copy value constructor
+    explicit property(const value_t& other)
+    {m_meta.m_value.reset(other);}
 
-    auto operator=(property&& other) noexcept -> property& = default;
+    // Move value constructor
+    explicit property(value_t&& other)
+    {m_meta.m_value.reset(std::move(other));}
 
-    // assign a starting value for the property
-    property(const outer_val_t& other_to_copy) requires is_dumb_property : _Meta(other_to_copy) {} // set new object (const ref)
-    property(outer_val_t&& other_to_move) noexcept requires is_dumb_property : _Meta(std::forward<outer_val_t>(other_to_move)) {} // set new object (movable)
+    // Special nullptr_t constructor
+    explicit property(std::nullptr_t&&)
+    {m_meta.m_value = nullptr;}
 
-    property(outer_val_t&& _OtherSmartPointerToMove) noexcept requires is_smart_property {_Meta._Val = std::move(_OtherSmartPointerToMove);} // set unique_ptr to a new unique pointer
-    property(inner_val_t   _OtherRawPointerToLink) requires is_smart_property {_Meta._Val.reset(_OtherRawPointerToLink);}
+    // Destructor calls the deleter
+    ~property()
+    {m_meta.m_deleter();}
 
-public cpp_operators:
-    // member access
-    auto operator* ()       -> auto&;
-    auto operator* () const -> const auto&;
+    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
+    // property)
+    auto operator=(const property&) -> property& = delete;
+    auto operator=(property&&) noexcept -> property& = delete;
 
-    // getter
-    auto operator()() const -> inner_val_t {return _Meta._Getter();}
+    // Getter and setter operators for the property (because T is a std::unique_ptr<T>, a raw pointer is used as the
+    // type of variable for the setter's parameter and the getters return type
+    auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
+    auto operator=(const value_t& value) -> value_t {return m_meta.m_setter(value);}
+    auto operator=(value_t&& value) -> value_t {return m_meta.m_setter(std::move(value));}
 
-    // setter
-    auto operator=(const outer_val_t& other_to_copy)
-            -> inner_val_t {return _Meta._Setter(other_to_copy);}
+    // Dereferencing accesses the inner value type of the property (for custom getters and setters), so move the
+    // std::unique_ptr out of the meta property to the return value. Check the property is unlocked before accessing the
+    // internal value
+    auto operator*() -> auto&& {assert(!m_locked); return std::move(m_meta.m_value);}
+    auto operator*() const -> const auto&& {assert(!m_locked); return std::move(m_meta.m_value);}
 
-    auto operator=(outer_val_t&& other_to_move) noexcept
-            -> inner_val_t {return _Meta._Setter(std::forward<outer_val_t>(other_to_move));}
-
-    auto operator=(dynamically_castable_to<inner_val_t> auto _OtherPtr)
-            -> inner_val_t requires (is_smart_property) {return _Meta._Setter((inner_val_t)_OtherPtr);}
-
-    auto operator=(std::nullptr_t)
-            -> inner_val_t requires (is_smart_property) {return _Meta._Setter(nullptr);}
-
-    // auto operator=(inner_val_t _OtherRawPointerToLink) -> void requires is_smart_property {_Meta._Setter(_OtherRawPointerToLink);}
-
-    auto operator+(auto&& _Other) const -> auto {return _Meta._Val + std::forward<T>(_Other);}
-    auto operator-(auto&& _Other) const -> auto {return _Meta._Val - std::forward<T>(_Other);}
-    auto operator*(auto&& _Other) const -> auto {return _Meta._Val * std::forward<T>(_Other);}
-    auto operator/(auto&& _Other) const -> auto {return _Meta._Val / std::forward<T>(_Other);}
-    auto operator%(auto&& _Other) const -> auto {return _Meta._Val % std::forward<T>(_Other);}
-
-    auto operator+=(auto&& _Other) -> property& {_Meta._Val += std::forward<T>(_Other); return *this;}
-    auto operator-=(auto&& _Other) -> property& {_Meta._Val -= std::forward<T>(_Other); return *this;}
-    auto operator*=(auto&& _Other) -> property& {_Meta._Val *= std::forward<T>(_Other); return *this;}
-    auto operator/=(auto&& _Other) -> property& {_Meta._Val /= std::forward<T>(_Other); return *this;}
-    auto operator%=(auto&& _Other) -> property& {_Meta._Val %= std::forward<T>(_Other); return *this;}
-
-public cpp_properties:
-    detail::meta_property<T, ce_reactions> _Meta;
+private:
+    detail::meta_property<std::unique_ptr<T>> m_meta;
 };
 
 
-template <typename _Ty, bool ce_reactions>
-auto ext::property<_Ty, ce_reactions>::operator*() -> auto&
+/**
+ * Property class for basic type T (non-specialized). It contain teh copy and move semantics, the setting and getting of
+ * the value inside the property, and the dereferencing
+ * @tparam T Underlying type of the property
+ */
+template <typename T>
+class ext::property : private detail::lockable
 {
-    // get the internal value (internal pointer of smart pointer, or object)
-    verify_lock
-    return _Meta._Val;
-}
+public:
+    // Access to the value type
+    friend struct ::access_meta;
+    using value_t = T;
+
+    // Default constructor
+    property() = default;
+
+    // Copy constructor
+    property(const property& other)
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value = other.m_meta.m_value;
+    }
+
+    // Move constructor
+    property(property&& other) noexcept
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+    }
+
+    // Copy value constructor
+    explicit property(const value_t& other)
+    {m_meta.m_value = other;}
+
+    // Move value constructor
+    explicit property(value_t&& other)
+    {m_meta.m_value = std::move(other);}
+
+    // Destructor calls the deleter
+    ~property()
+    {m_meta.m_deleter();}
+
+    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
+    // property)
+    auto operator=(const property&) -> property& = delete;
+    auto operator=(property&&) noexcept -> property& = delete;
+
+    // Getter and setter operators for the property
+    auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
+    auto operator=(const value_t& value) -> value_t {return m_meta.m_setter(value);}
+    auto operator=(value_t&& value) -> value_t {return m_meta.m_setter(std::move(value));}
+
+    // Dereferencing accesses the inner value type of the property (for custom getters and setters)
+    auto operator*() -> auto& {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() const -> const auto& {assert(!m_locked); return m_meta.m_value;}
+
+private:
+    detail::meta_property<value_t> m_meta;
+};
 
 
-template <typename _Ty, bool ce_reactions>
-auto ext::property<_Ty, ce_reactions>::operator*() const -> const auto&
+/**
+ * The access_meta class contains a group of static methods that are all friends to the property and meta_property
+ * class, and can therefore mutate the contents of them - this includes settings custom getter/setter/deleter method,
+ * as well as locking and unlocking internal values of the property
+ */
+struct access_meta
 {
-    // get the internal value (internal pointer of smart pointer, or object)
-    verify_lock
-    return _Meta._Val;
-}
+    // Bind a new getter method to the property
+    template <typename T>
+    static auto bind_getter(ext::property<T>& property, typename decltype(property.m_meta)::getter_t&& getter) -> void
+    {property.m_meta.m_getter = std::move(getter);};
+
+    // Bind a new setter method to the property
+    template <typename T>
+    static auto bind_setter(ext::property<T>& property, typename decltype(property.m_meta)::setter_t&& setter) -> void
+    {property.m_meta.m_setter = std::move(setter);};
+
+    // Bind a new deleter method to the property
+    template <typename T>
+    static auto bind_deleter(ext::property<T>& property, typename decltype(property.m_meta)::deleter_t&& deleter) -> void
+    {property.m_meta.m_deleter = std::move(deleter);};
+
+    // Unlock access to a property's internal value
+    template <typename T>
+    static auto unlock(ext::property<T>& property)
+    {property.unlock();}
+
+    // Lock access to a property's internal value
+    template <typename T>
+    static auto lock(ext::property<T>& property)
+    {property.lock();}
+};
 
 
-template <typename _Ty2, typename _Ty1>
-inline auto p_static_cast(ext::property<_Ty1>& _That) -> _Ty2
+/**
+ * The property guard gives a method temporary access to the internal value stored by a property - this is used when
+ * custom getters and setters need to access the internal value pre-/post-mutation
+ * @tparam T Underlying type of the property
+ */
+template <typename T>
+struct property_guard
 {
-    // apply a dynamic_cast to a property's value
-    property_guard(_That);
-    return dynamic_cast<_Ty2>(*_That);
-}
+public:
+    // The constructor of the property guard unlocks the property, allowing code after its declaration to access the
+    // internal value of the property
+    explicit property_guard(ext::property<T>& property): m_property(property)
+    {access_meta::unlock(m_property);};
+
+    // The destructor of the property guard re-locks the property, so that code in other sections (after the accessor is
+    // called) can not access the internal value of the property (destructor called after accessor returns)
+    ~property_guard()
+    {access_meta::lock(m_property);}
+
+private:
+    // Reference to the property being unlocked and re-locked
+    ext::property<T>& m_property;
+};
+
+// Wrapper around access_meta::bind_getter, with a lambda wrapper
+#define bind_get(property) access_meta::bind_getter(property, [this] {return get_##property();})
+
+// Wrapper around access_meta::bind_setter, with a lambda wrapper and perfect forwarding
+#define bind_set(property) access_meta::bind_setter(property, [this]<typename T>(T&& val) mutable {set_##property(std::forward<T>(val)); return std::forward<T>(val);})
+
+// Wrapper around access_meta::bind_deleter, with a lambda wrapper
+#define bind_del(property) access_meta::bind_deleter(property, [this] {del_##property();})
+
+// Wrapper around property_guard, with a const_cast<T>, so that it works in const getter methods too
+#define guard_property(property) property_guard guard##_property{const_cast<std::remove_const_t<decltype(property)>&>(property)}
 
 
-template <typename _Ty2, typename _Ty1>
-inline auto p_dynamic_cast(ext::property<_Ty1>& _That) -> _Ty2
-{
-    // apply a static_cast to a property's value
-    property_guard(_That);
-    return static_cast<_Ty2>(*_That);
-}
+#define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::value_t>())
+#define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::value_t>())
 
-
-template <typename _Ty2, typename _Ty1>
-inline auto p_const_cast(ext::property<_Ty1>& _That) -> _Ty2
-{
-    // apply a const_cast to a property's value
-    property_guard(_That);
-    return const_cast<_Ty2>(*_That);
-}
-
-
-template <typename _Ty2, typename _Ty1>
-inline auto p_reinterpret_cast(ext::property<_Ty1>& _That) -> _Ty2
-{
-    // apply a reinterpret_cast to a property's value
-    property_guard(_That);
-    return reinterpret_cast<_Ty2>(*_That);
-}
-
-
-template <typename _Ty2, typename _Ty1>
-inline auto p_any_cast(ext::property<_Ty1>& _That) -> _Ty2
-{
-    // apply an any_cast to a property's value
-    property_guard(_That);
-    return (*_That).template to<_Ty2>();
-}
-
-
-template <typename _Ty2, typename _Ty1>
-inline auto p_bit_cast(ext::property<_Ty1>& _That) -> _Ty2
-{
-    // apply a bit_cast to a property's value
-    property_guard(_That);
-    return std::bit_cast<_Ty2>(*_That);
-}
 
 
 #endif //SBROWSER2_PROPERTY_HPP

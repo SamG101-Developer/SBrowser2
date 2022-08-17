@@ -8,19 +8,19 @@
 
 auto dom::detail::signal_abort(
         abort::abort_signal* const signal,
-        ext::any_view reason)
+        const ext::any& reason)
         -> void
 {
     return_if(signal->aborted());
 
     // abort the signal, execute all the abort algorithms, and clear the list of algorithms
     signal->reason = reason;
-    ranges::for_each(signal->m_abort_algorithms, std::invoke);
+    ranges::for_each(signal->m_abort_algorithms, ext::invoke{});
     signal->m_abort_algorithms.clear();
 
     // fire an event to notify that the signal abort has happened; the event is directed at the signal that has
     // been aborted
-    event_internals::fire_event("Abort", signal);
+    fire_event("Abort", signal);
 }
 
 

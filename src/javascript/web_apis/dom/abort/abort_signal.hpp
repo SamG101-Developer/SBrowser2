@@ -8,8 +8,8 @@ namespace dom::abort {class abort_signal;}
 #include "ext/functional.hpp"
 #include "ext/optional.hpp"
 namespace dom::nodes {class event_target;}
-namespace dom::detail::aborting_internals {auto signal_abort(abort::abort_signal* signal, ext::any_view reason) -> void;}
-namespace dom::detail::aborting_internals {auto follow_signal(abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;}
+namespace dom::detail {auto signal_abort(abort::abort_signal*, const ext::any&) -> void;}
+namespace dom::detail {auto follow_signal(abort::abort_signal*, abort::abort_signal*) -> void;}
 
 
 class dom::abort::abort_signal final
@@ -21,6 +21,12 @@ public aliases:
 
 public friends:
     friend class nodes::event_target;
+
+    friend auto dom::detail::signal_abort(
+            abort::abort_signal* signal, const ext::any& reason) -> void;
+
+    friend auto dom::detail::follow_signal(
+            abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;
 
 public constructors:
     DOM_CTORS(abort_signal);

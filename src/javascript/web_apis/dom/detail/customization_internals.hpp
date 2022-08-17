@@ -19,17 +19,17 @@ namespace dom::detail
     auto element_interface(
             ext::string_view local_name,
             ext::string_view namespace_)
-            -> nodes::element&&;
+            -> nodes::element*;
 
     // custom element creation and upgrading
     auto create_an_element(
-            const nodes::document* document,
+            nodes::document* document,
             const ext::string& local_name,
             const ext::string& namespace_,
             const ext::string& prefix = "",
             const ext::string& is = "",
             const ext::boolean& synchronous_custom_elements_flag = false)
-            -> nodes::element;
+            -> nodes::element*;
 
     auto upgrade_element(
             custom_element_definition_t* definition,
@@ -101,7 +101,7 @@ struct dom::detail::custom_element_reactions_stack_t
 struct dom::detail::custom_element_definition_t
 {
     using lifecycle_callback_t = ext::function<void()>;
-    using html_element_constructor_t = ext::function<nodes::element&&()>;
+    using html_element_constructor_t = ext::function<nodes::element*()>;
 
     ext::boolean form_associated;
     ext::boolean disable_internals;

@@ -19,11 +19,11 @@ namespace dom::nodes {class event_target;}
 namespace dom::detail
 {
     auto flatten_more(
-            event_listener_options_t options)
+            event_listener_options_t&& options)
             -> ext::map<ext::string, ext::any>;
 
     auto flatten(
-            event_listener_options_t options)
+            event_listener_options_t&& options)
             -> ext::boolean;
 
     auto remove_all_event_listeners(
@@ -38,9 +38,9 @@ namespace dom::detail
     auto append_to_event_path(
             events::event* event,
             nodes::event_target* invocation_target,
-            const nodes::event_target* shadow_adjusted_target,
-            const nodes::event_target* related_target,
-            ext::vector_view<nodes::event_target*> touch_targets,
+            nodes::event_target* shadow_adjusted_target,
+            nodes::event_target* related_target,
+            ext::vector<nodes::event_target*>&& touch_targets,
             const ext::boolean& slot_in_closed_tree)
             -> void;
 
@@ -72,7 +72,7 @@ struct dom::detail::event_path_struct_t
     nodes::event_target* shadow_adjusted_target = nullptr;
     nodes::event_target* related_target         = nullptr;
 
-    ext::vector_view<nodes::event_target*> touch_targets;
+    ext::vector<nodes::event_target*>&& touch_targets;
     ext::boolean invocation_target_in_shadow_tree;
     ext::boolean root_of_closed_tree;
     ext::boolean slot_in_closed_tree;

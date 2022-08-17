@@ -59,9 +59,9 @@ public js_methods:
 
 public js_properties:
     ext::property<ext::number<ushort>> node_type;
-    ext::property<ext::string, true> node_name;
-    ext::property<ext::string, true> node_value;
-    ext::property<ext::string, true> text_content;
+    ext::property<ext::string> node_name; // TODO CE_REACTIONS
+    ext::property<ext::string> node_value; // TODO CE_REACTIONS
+    ext::property<ext::string> text_content; // TODO CE_REACTIONS
 
     ext::property<ext::string> base_uri;
     ext::property<ext::boolean> is_connected;

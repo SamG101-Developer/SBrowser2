@@ -16,8 +16,13 @@ namespace dom::nodes {class element;}
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 #include USE_INNER_TYPES(dom)
+
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
+namespace dom::detail {auto handle_attributes_changes(const nodes::attr*, nodes::element*, const ext::string&, const ext::string&) -> void;}
+namespace dom::detail {auto create_an_element(nodes::document*, const ext::string&, const ext::string&, const ext::string&, const ext::string&, const ext::boolean&) -> nodes::element*;}
+namespace dom::detail {auto upgrade_element(custom_element_definition_t* const, nodes::element*) -> void;}
+namespace dom::detail {auto try_to_upgrade_element(nodes::element* const element) -> void;}
 namespace html::detail::context_internals {struct browsing_context;}
 
 
@@ -30,6 +35,22 @@ class dom::nodes::element
         , public mixins::slottable
         , public aria::mixins::aria_mixin
 {
+public friends:
+    friend auto dom::detail::handle_attributes_changes(
+            const nodes::attr* attribute, nodes::element* owner_element, const ext::string& old_value,
+            const ext::string& new_value) -> void;
+
+    friend auto dom::detail::create_an_element(
+            nodes::document* document, const ext::string& local_name, const ext::string& namespace_,
+            const ext::string& prefix, const ext::string& is, const ext::boolean& synchronous_custom_elements_flag)
+            -> nodes::element*;
+
+    friend auto dom::detail::upgrade_element(
+            detail::custom_element_definition_t* definition, nodes::element* element) -> void;
+
+    friend auto dom::detail::try_to_upgrade_element(
+            nodes::element* element) -> void;
+
 public constructors:
     DOM_CTORS(element);
     element();
@@ -79,9 +100,9 @@ public js_properties:
     ext::property<ext::string> prefix;
     ext::property<ext::string> local_name;
     ext::property<ext::string> tag_name;
-    ext::property<ext::string, true> class_name;
-    ext::property<ext::string, true> slot;
-    ext::property<ext::string, true> id;
+    ext::property<ext::string> class_name; // TODO CE_REACTIONS
+    ext::property<ext::string> slot; // TODO CE_REACTIONS
+    ext::property<ext::string> id; // TODO CE_REACTIONS
     ext::property<std::unique_ptr<shadow_root>> shadow_root_node;
     ext::property<std::unique_ptr<ext::vector<attr*>>> attributes;
     ext::property<std::unique_ptr<ext::vector<ext::string>>> class_list;

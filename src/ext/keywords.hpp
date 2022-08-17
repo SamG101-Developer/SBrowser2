@@ -70,7 +70,7 @@
 
 #define ALLOW_MOVE(type)             \
     type(type&&) noexcept = default; \
-    auto operator=(type&&) noexcept -> type& = default
+    auto operator=(type&&) noexcept -> type& = delete
 
 
 #endif //SBROWSER2_KEYWORDS_HPP

@@ -21,9 +21,9 @@
 
 auto dom::detail::handle_attributes_changes(
         const nodes::attr* const attribute,
-        nodes::element* const owner_element,
-        ext::string_view old_value,
-        ext::string_view new_value)
+        nodes::element* owner_element,
+        const ext::string& old_value,
+        const ext::string& new_value)
         -> void
 {
     using detail::mutation_type_t;
@@ -34,7 +34,7 @@ auto dom::detail::handle_attributes_changes(
     auto namespace_ = attribute->namespace_uri();
 
     // queue a mutation record describing the change in the attribute
-    observer_internals::queue_mutation_record(mutation_type_t::ATTRIBUTES, owner_element, local_name, namespace_, old_value, {}, {}, nullptr, nullptr);
+    queue_mutation_record(mutation_type_t::ATTRIBUTES, owner_element, local_name, namespace_, old_value, {}, {}, nullptr, nullptr);
 
     // if the element is custom, enqueue a custom element reaction
     if (owner_element->m_custom_element_state == custom_element_state_t::CUSTOM)
@@ -98,10 +98,10 @@ auto dom::detail::replace(
 
 
 auto dom::detail::create(
-        ext::string_view local_name,
-        ext::string_view namespace_,
-        ext::string_view value,
-        ext::string_view prefix,
+        const ext::string& local_name,
+        const ext::string& namespace_,
+        const ext::string& value,
+        const ext::string& prefix,
         nodes::document* const owner_document)
         -> nodes::attr
 {
@@ -123,7 +123,7 @@ auto dom::detail::set_attribute(
 {
     // check that the attribute isn't being used by another element at the moment (can only be set to the element that
     // it is already in, or to a nullptr element)
-    exception_internals::throw_v8_exception_formatted<INUSE_ATTRIBUTE_ERR>(
+    throw_v8_exception_formatted<INUSE_ATTRIBUTE_ERR>(
             [&attribute, &new_owner_element] {return attribute->owner_element() && attribute->owner_element() != new_owner_element;},
             "The Attribute node's owner_element must be either Null or equal to the new owner element (attribute is"
             "currently in use for another element node at the moment");

@@ -11,22 +11,39 @@ namespace dom::nodes {class event_target;}
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include USE_INNER_TYPES(dom)
 namespace dom::events {class event;}
+
+namespace dom::detail {auto remove_all_event_listeners(nodes::event_target*) -> void;}
+namespace dom::detail {auto dispatch(events::event*, nodes::event_target*) -> ext::boolean;}
+namespace dom::detail {auto invoke(event_path_struct_t*, events::event*, const ext::number<uchar>&) -> void;}
+namespace dom::detail {auto inner_invoke(events::event*, ext::vector_view<ext::map<ext::string, ext::any>>, const ext::number<uchar>&, const ext::boolean&) -> void;}
 
 
 class dom::nodes::event_target
         : public virtual dom_object
 {
-private aliases:
-    using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
+public friends:
+    friend auto dom::detail::remove_all_event_listeners(
+            event_target* event_target) -> void;
+
+    friend auto dom::detail::dispatch(
+            events::event* event, nodes::event_target* target) -> ext::boolean;
+
+    friend auto dom::detail::invoke(
+            detail::event_path_struct_t* s, events::event* event, const ext::number<uchar>& phase) -> void;
+
+    friend auto dom::detail::inner_invoke(
+            events::event* event, ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
+            const ext::number<uchar>& phase, const ext::boolean& invocation_target_in_shadow_tree) -> void;
 
 public constructors:
     DOM_CTORS(event_target);
     event_target() = default;
 
 public js_methods:
-    auto    add_event_listener(ext::string&& type, event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
-    auto remove_event_listener(ext::string&& type, event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
+    auto    add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
+    auto remove_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
     auto dispatch_event(events::event* event) -> ext::boolean;
 
 public cpp_methods:

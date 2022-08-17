@@ -17,7 +17,7 @@ clipboard::clipboard_item::clipboard_item(
     bind_get(presentation_style);
     bind_get(types);
 
-    dom::detail::exception_internals::throw_v8_exception<V8_TYPE_ERROR>(
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [items = std::move(items)] {return items.empty();},
             "Items can not be en empty dictionary");
 
@@ -30,11 +30,11 @@ clipboard::clipboard_item::clipboard_item(
     {
         auto mime_type = mimesniff::detail::mimetype_internals::parse_mime_type(key);
 
-        dom::detail::exception_internals::throw_v8_exception<V8_TYPE_ERROR>(
+        dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
                 [&mime_type] {return !mime_type.has_value();},
                 "Failure whilst parsing the mime type");
 
-        dom::detail::exception_internals::throw_v8_exception<V8_TYPE_ERROR>(
+        dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
                 [this, &mime_type] {return ranges::contains(m_clipboard_item.list_of_representations | ranges::views::transform_to_attr(&detail::representation_t::mime_type), mime_type);},
                 "Items can not be en empty dictionary");
 
@@ -53,7 +53,7 @@ auto clipboard::clipboard_item::get_type(
 
     auto mime_type = mimesniff::detail::mimetype_internals::parse_mime_type(std::move(type));
 
-    dom::detail::exception_internals::throw_v8_exception<V8_TYPE_ERROR>(
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [&mime_type] {return !mime_type.has_value();},
             "Failure whilst parsing the mime type");
 

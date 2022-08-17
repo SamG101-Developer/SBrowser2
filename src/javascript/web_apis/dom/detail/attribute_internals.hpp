@@ -15,8 +15,8 @@ namespace dom::detail
     auto handle_attributes_changes(
             const nodes::attr* attribute,
             nodes::element* owner_element,
-            ext::string_view old_value,
-            ext::string_view new_value)
+            const ext::string& old_value,
+            const ext::string& new_value)
             -> void;
 
     // general mutations to attributes
@@ -40,10 +40,10 @@ namespace dom::detail
             -> nodes::attr*;
 
     auto create(
-            ext::string_view local_name,
-            ext::string_view namespace_ = "",
-            ext::string_view value = "",
-            ext::string_view prefix = "",
+            const ext::string& local_name,
+            const ext::string& namespace_ = "",
+            const ext::string& value = "",
+            const ext::string& prefix = "",
             nodes::document* owner_document = nullptr)
             -> nodes::attr;
 

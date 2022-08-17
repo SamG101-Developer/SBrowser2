@@ -1,6 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP
 
+#include "ext/functional.hpp"
+#include "ext/string.hpp"
+namespace dom::events {class event;}
 
 namespace dom::detail
 {
@@ -27,6 +30,8 @@ namespace dom::detail
     enum class traversal_direction_t {NEXT, PREVIOUS};
     enum class traversal_child_t {FIRST_CHILD, LAST_CHILD};
     enum class traversal_sibling_t {NEXT_SIBLING, PREVIOUS_SIBLING};
+
+    using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
 }
 
 

@@ -1,5 +1,6 @@
 #include "event_internals.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/assertion.hpp"
 #include "ext/concepts.hpp"
 #include "ext/functional.hpp"
@@ -20,6 +21,7 @@
 #include "touch_events/touch_event.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/to_container.hpp>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/empty.hpp>
@@ -29,24 +31,24 @@
 #include <range/v3/view/slice.hpp>
 
 auto dom::detail::flatten_more(
-        event_listener_options_t options)
+        event_listener_options_t&& options)
         -> ext::map<ext::string, ext::any>
 {
     // return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
-    return swl::holds_alternative<ext::boolean>(options)
-           ? ext::map<ext::string, ext::any>{std::make_pair("capture", swl::get<ext::boolean>(options))}
-           : swl::get<ext::map<ext::string, ext::any>>(options);
+    return ext::holds_alternative<ext::boolean>(std::move(options))
+           ? ext::map<ext::string, ext::any>{std::make_pair("capture", ext::get<ext::boolean>(std::move(options)))}
+           : ext::get<ext::map<ext::string, ext::any>>(std::move(options));
 }
 
 
 auto dom::detail::flatten(
-        event_listener_options_t options)
+        event_listener_options_t&& options)
         -> ext::boolean
 {
     // return the boolean if a boolean value is being stored in the variant, otherwise the capture option of the map
-    return swl::holds_alternative<ext::boolean>(options)
-           ? swl::get<ext::boolean>(options)
-           : swl::get<ext::map<ext::string, ext::any>>(options).at("capture").to<ext::boolean>();
+    return ext::holds_alternative<ext::boolean>(std::move(options))
+           ? ext::get<ext::boolean>(std::move(options))
+           : ext::get<ext::map<ext::string, ext::any>>(options).at("capture").to<ext::boolean>();
 }
 
 
@@ -56,11 +58,10 @@ auto dom::detail::remove_all_event_listeners(
 {
     // iterate over the event listeners, and remove each one from the event target sing the predefined removal
     // algorithm defined above (not just popping items from a list)
-    using callback_t = typename nodes::event_target::event_listener_callback_t;
     for (ext::map<ext::string, ext::any>& existing_listener: event_target->m_event_listeners)
         event_target->remove_event_listener(
                 existing_listener.at("type").to<ext::string>(),
-                existing_listener.at("callback").to<callback_t>(),
+                existing_listener.at("callback").to<detail::event_listener_callback_t>(),
                 std::move(existing_listener));
 }
 
@@ -73,7 +74,7 @@ auto dom::detail::dispatch(
     event->m_dispatch_flag = true;
     const auto is_activation_event = event->type() == "click"; // && dynamic_cast<ui_events::events::mouse_event*>(event)
     nodes::event_target* activation_target = is_activation_event ? target : nullptr;
-    const nodes::event_target* related_target = detail::shadow_internals::retarget(event->related_target(), target);
+    const nodes::event_target* related_target = detail::retarget(event->related_target(), target);
     ext::boolean clear_targets = false;
 
     if (target != related_target || target == event->related_target())
@@ -88,30 +89,31 @@ auto dom::detail::dispatch(
         {
             // the related target is the event's related target, transformed to be retargeted against the current parent
             // node
-            related_target = shadow_internals::retarget(event->related_target(), parent);
+            related_target = retarget(event->related_target(), parent);
 
             // the 'slot_in_closed_tree' always defaults to false, and can be changed if the 'parent' is an assigned
             // slottable. the touch targets are the event's touch targets, transformed to be retargeted against the
             // current parent
-            auto slot_in_closed_tree = ext::boolean::FALSE();
+            auto slot_in_closed_tree = false;
             auto touch_targets = *event->touch_targets()
-                    | ranges::views::transform(ext::bind_back(shadow_internals::retarget, std::move(parent)));
+                    | ranges::views::transform(ext::bind_back{retarget, std::move(parent)})
+                    | ranges::to<ext::vector<nodes::event_target*>>;
 
             // if the 'parent' is assigned (and implicitly therefore a slottable), then assert that the parent is a slot
             // too. the slot is in a closed tree if the mode of the ShadowRoot is "closed" TODO : why
-            if (shadow_internals::is_assigned(parent_node))
+            if (is_assigned(parent_node))
             {
-                ASSERT(shadow_internals::is_slot(parent_node));
-                slot_in_closed_tree = shadow_internals::is_root_shadow_root(parent_node)->mode() == "closed";
+                ASSERT(is_slot(parent_node));
+                slot_in_closed_tree = is_root_shadow_root(parent_node)->mode() == "closed";
             }
 
             // if the parent is a Window object, or the root of 'target' is a shadow including ancestor of the current
             // 'parent' (not necessarily the parent of 'target'), then append a struct to the event's path, where the
             // shadow adjusted target is nullptr, because the 'target' is attached to a tree that the 'parent' isn't
-            if (dynamic_cast<nodes::window*>(parent) || shadow_internals::is_shadow_including_ancestor(tree_internals::root(dynamic_cast<nodes::node*>(target)), parent_node))
+            if (dynamic_cast<nodes::window*>(parent) || is_shadow_including_ancestor(root(dynamic_cast<nodes::node*>(target)), parent_node))
             {
                 activation_target = is_activation_event && !activation_target && event->bubbles() ? parent : activation_target;
-                append_to_event_path(event, parent, nullptr, related_target, touch_targets, slot_in_closed_tree);
+                append_to_event_path(event, parent, nullptr, related_target, std::move(touch_targets), slot_in_closed_tree);
             }
 
             // if the 'parent' is the 'related_target', then set the 'parent', and its Node cast to nullptr; this will
@@ -128,25 +130,25 @@ auto dom::detail::dispatch(
             else
             {
                 activation_target = is_activation_event && !activation_target ? target : activation_target;
-                append_to_event_path(event, parent, target, related_target, touch_targets, slot_in_closed_tree);
+                append_to_event_path(event, parent, target, related_target, std::move(touch_targets), slot_in_closed_tree);
             }
 
             // set the 'parent_event_target' to the next parent, determined by executing the EventTarget's
             // 'get_the_parent(...)' method; do this by setting the underlying value of the pointer, as this will
             // automatically update the 'parent_node' object, which is holding a Node cast of the parent
             if (parent)
-                *parent = *parent->get_the_parent(event);
+                parent = parent->get_the_parent(event);
 
         } while (parent); // iterate until the parent is nullptr (parent is the related target)
 
         // the 'clear_targets_struct' is the last struct in the event path with a shadow adjusted target; if the target,
         // related target, or any touch targets of this struct are nodes who have ShadowRoot roots, then the target and
         // related target of the event have to be cleared once the event has finished traversing its path
-        auto* clear_targets_struct = ranges::last_where(*event->path(), [](event_path_struct_t* const s) {return s->shadow_adjusted_target;});
+        auto* clear_targets_struct = *ranges::last_where(*event->path(), [](event_path_struct_t* const s) {return s->shadow_adjusted_target;});
         auto  clear_targets_list = clear_targets_struct->touch_targets + ext::vector<nodes::event_target*>{clear_targets_struct->shadow_adjusted_target, clear_targets_struct->related_target};
         clear_targets = ranges::any_of(
                 clear_targets_list | ranges::views::cast_all_to<nodes::node>(),
-                [](nodes::node* node) {return shadow_internals::is_root_shadow_root(node);});
+                [](nodes::node* node) {return is_root_shadow_root(node);});
 
         // for the capturing phase, the event traverses from the top-most node (root), to the target node - the event
         // path is reversed and iterated over, invoking each listener in the capturing phase. the event phase is set to
@@ -203,15 +205,15 @@ auto dom::detail::dispatch(
 auto dom::detail::append_to_event_path(
         events::event* const event,
         nodes::event_target* const invocation_target,
-        const nodes::event_target* const shadow_adjusted_target,
-        const nodes::event_target* const related_target,
-        ext::vector_view<nodes::event_target*> touch_targets,
+        nodes::event_target* shadow_adjusted_target,
+        nodes::event_target* related_target,
+        ext::vector<nodes::event_target*>&& touch_targets,
         const ext::boolean& slot_in_closed_tree)
         -> void
 {
     // the 'invocation_target' is in the shadow tree if it has a ShadowRoot root node, and the 'invocation_target' is
     // the root of a closed tree if it is a "closed" ShadowRoot node itself
-    const ext::boolean invocation_target_in_shadow_tree = shadow_internals::is_root_shadow_root(dynamic_cast<nodes::node*>(invocation_target));
+    const ext::boolean invocation_target_in_shadow_tree = is_root_shadow_root(dynamic_cast<nodes::node*>(invocation_target));
     const ext::boolean root_of_closed_tree = dynamic_cast<nodes::shadow_root*>(invocation_target)->mode() == "closed";
 
     // emplace a new 'event_path_struct' into the event's path, casting the range to a vector
@@ -220,7 +222,7 @@ auto dom::detail::append_to_event_path(
         .invocation_target = invocation_target,
         .shadow_adjusted_target = shadow_adjusted_target,
         .related_target = related_target,
-        .touch_targets = touch_targets,
+        .touch_targets = std::move(touch_targets),
         .invocation_target_in_shadow_tree = invocation_target_in_shadow_tree,
         .root_of_closed_tree = root_of_closed_tree,
         .slot_in_closed_tree = slot_in_closed_tree
@@ -238,9 +240,9 @@ auto dom::detail::invoke(
 {
     // the viable structs are the struct in the event path that are inclusively preceding 's', and have a shadow
     // adjusted target set
-    auto viable_structs =
-            ranges::subrange(event->path()->begin(), ranges::find(*event->path(), s))
-            | ranges::views::filter([](event_path_struct_t* const viable_s) {return viable_s->shadow_adjusted_target;});
+    using enum ranges::views::filter_compare_t;
+    auto viable_structs = ranges::subrange(event->path()->begin(), ranges::find(*event->path(), s))
+            | ranges::views::filter_eq<NE>(&event_path_struct_t::shadow_adjusted_target, nullptr, ext::identity{});
 
     // set the target to the 'viable_struct''s shadow adjusted target, and copy the related and touch targets from the
     // 's'. if the event's strop propagation flag has been set, then return early and don't invoke the callback, as the
@@ -251,9 +253,9 @@ auto dom::detail::invoke(
     return_if(event->m_stop_propagation_flag);
 
     // call 'inner_invoke(...)' with the event, a range copy of the event's listeners, the phase (capturing / bubbling),
-    // and if the invoation target is in a shadow tree or not
-    auto listeners = ranges::ref_view(event->current_target()->m_event_listeners);
-    inner_invoke(event, listeners, phase, s->invocation_target_in_shadow_tree);
+    // and if the invocation target is in a shadow tree or not
+    decltype(auto) listeners = event->current_target()->m_event_listeners;
+    inner_invoke(event, ext::vector_view{listeners}, phase, s->invocation_target_in_shadow_tree);
 }
 
 
@@ -279,8 +281,7 @@ auto dom::detail::inner_invoke(
 
         // type alias the callback type for convenience, and get the associated javascript realm for the listener's
         // callback function object
-        using callback_t = typename nodes::event_target::event_listener_callback_t;
-        auto javascript_callback = v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at("callback").value().to<callback_t>());
+        auto javascript_callback = v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at("callback").to<detail::event_listener_callback_t>());
         JS_REALM_GET_ASSOCIATED(javascript_callback)
 
         // if the global object for the associated realm is a Window object, then save its 'current_event' attribute,
@@ -296,8 +297,8 @@ auto dom::detail::inner_invoke(
         // event type and event object, and then unset the passive listener flag in the event object, as there isn't a
         // known passive listener whose callback is currently executing
         event->m_in_passive_listener_flag = listener.at("passive").to<ext::boolean>();
-        listener.at("callback").to<callback_t>()("handleEvent", event);
-        event->m_in_passive_listener_flag = ext::boolean::FALSE();
+        listener.at("callback").to<detail::event_listener_callback_t>()("handleEvent", event);
+        event->m_in_passive_listener_flag = false;
 
         // restore the current event back to the Window associated global object
         if (auto* global = v8pp::from_v8<nodes::window*>(javascript_callback_associated_agent, javascript_callback_associated_global_object))

@@ -15,6 +15,7 @@ class clipboard::clipboard_item
         : public virtual dom_object
 {
 public constructors:
+    DOM_CTORS(clipboard_item);
     clipboard_item(ext::map<ext::string, detail::clipboard_item_data_t>&& items, ext::map<ext::string, ext::any>&& options = {});
 
 public js_methods:

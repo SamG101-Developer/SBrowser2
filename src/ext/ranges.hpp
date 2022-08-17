@@ -9,7 +9,6 @@
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 
-#include <functional>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/action.hpp>
 #include <range/v3/action/remove.hpp>
