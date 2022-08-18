@@ -1,4 +1,5 @@
 #pragma once
+#include "ext/concepts.hpp"
 #ifndef SBROWSER2_PROPERTY_HPP
 #define SBROWSER2_PROPERTY_HPP
 
@@ -7,6 +8,11 @@
 #include "ext/detail/meta_property.hpp"
 namespace ext {template <typename T> class property;}
 
+#define FORWARD_INNER_VALUE_OPERATOR(op)      \
+    template <typename V>                     \
+    auto operator op (V&& val)                \
+    {m_meta.m_value op std::forward<V>(val);} \
+// TODO : <, > etc
 
 /**
  * Property class for specialized for the std::unique_ptr<T> type. Differences include how the copy constructor and
@@ -140,8 +146,83 @@ public:
     auto operator*() -> auto& {assert(!m_locked); return m_meta.m_value;}
     auto operator*() const -> const auto& {assert(!m_locked); return m_meta.m_value;}
 
+    FORWARD_INNER_VALUE_OPERATOR(+=)
+    FORWARD_INNER_VALUE_OPERATOR(-=)
+    FORWARD_INNER_VALUE_OPERATOR(*=)
+    FORWARD_INNER_VALUE_OPERATOR(/=)
+    FORWARD_INNER_VALUE_OPERATOR(%=)
+
 private:
     detail::meta_property<value_t> m_meta;
+};
+
+
+template <template <typename> typename T, typename U> requires (!type_is<T<U>, std::unique_ptr<U>>)
+class ext::property<T<U>> : private detail::lockable
+{
+public:
+    // Access to the value type
+    friend struct ::access_meta;
+    template <typename V> using value_t = T<V>;
+
+    // Default constructor
+    property() = default;
+
+    // Copy constructor
+    template <typename V>
+    property(const property<value_t<V>>& other)
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value = other.m_meta.m_value;
+    }
+
+    template <typename V>
+    property(property<value_t<V>>&& other)
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+    }
+
+    // Copy value constructor
+    template <typename V>
+    explicit property(const value_t<V>& other)
+    {m_meta.m_value = other;}
+
+    // Move value constructor
+    template <typename V>
+    explicit property(value_t<V>&& other)
+    {m_meta.m_value = std::move(other);}
+
+    // Destructor calls deleter
+    ~property()
+    {m_meta.m_deleter();}
+
+    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
+    // property)
+    auto operator=(const property&) -> property& = delete;
+    auto operator=(property&&) noexcept -> property& = delete;
+
+    // Getter and setter operators for the property
+    auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
+    template <typename V> auto operator=(const value_t<V>& value) -> value_t<U> {return m_meta.m_setter((value_t<U>)value);}
+    template <typename V> auto operator=(value_t<V>&& value) -> value_t<U> {return m_meta.m_setter((value_t<U>)std::move(value));}
+
+    // Dereferencing accesses the inner value type of the property (for custom getters and setters)
+    auto operator*() -> auto& {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() const -> const auto& {assert(!m_locked); return m_meta.m_value;}
+
+    FORWARD_INNER_VALUE_OPERATOR(+=)
+    FORWARD_INNER_VALUE_OPERATOR(-=)
+    FORWARD_INNER_VALUE_OPERATOR(*=)
+    FORWARD_INNER_VALUE_OPERATOR(/=)
+    FORWARD_INNER_VALUE_OPERATOR(%=)
+
+private:
+    detail::meta_property<value_t<U>> m_meta;
 };
 
 
