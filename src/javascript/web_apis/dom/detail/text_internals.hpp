@@ -14,7 +14,7 @@ namespace dom::detail
             nodes::character_data* text_node,
             const ext::number<ulong>& offset,
             const ext::number<ulong>& count,
-            ext::string_view data)
+            const ext::string& data)
             -> void;
 
     auto substring_data(

@@ -23,7 +23,7 @@ auto dom::detail::replace_data(
         nodes::character_data* text_node,
         const ext::number<ulong>& offset,
         const ext::number<ulong>& count,
-        const ext::string_view data) -> void
+        const ext::string& data) -> void
 {
     using detail::mutation_type_t;
 
