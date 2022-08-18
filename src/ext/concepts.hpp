@@ -64,7 +64,7 @@ concept type_is_not = (!std::same_as<std::remove_cvref<TypeTpCheck>, TypesToChec
 
 // check if a type is a primitive numeric type
 template <typename T>
-concept primitive_numeric = std::integral<T> || std::floating_point<T>;
+concept arithmetic = std::integral<T> || std::floating_point<T>;
 
 
 // check if a type is callable

@@ -1,138 +1,106 @@
 #pragma once
-#include "ext/concepts.hpp"
 #ifndef SBROWSER2_NUMBER_HPP
 #define SBROWSER2_NUMBER_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/concepts.hpp"
 #include "ext/string.hpp"
-#include "ext/detail/infinity.hpp"
-#include "boolean.hpp"
+#include <stdexcept>
 
-#include <algorithm>
-#include <limits>
-#include <ostream>
-#include <string>
-#include <type_traits>
-#include <utility>
+#define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                                                      \
+    template <arithmetic T, arithmetic U>                                                                                      \
+    constexpr auto operator op (const _EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<std::common_type_t<T, U>> \
+    {return {*lhs op *rhs};}                                                                                                   \
+                                                                                                                               \
+    template <arithmetic T, arithmetic U>                                                                                      \
+    constexpr auto operator op (const _EXT number<T>& lhs, const U& rhs) -> _EXT number<std::common_type_t<T, U>>              \
+    {return {*lhs op rhs};}                                                                                                    \
+                                                                                                                               \
+    template <arithmetic T, arithmetic U>                                                                                      \
+    constexpr auto operator op (const T& lhs, const _EXT number<U>& rhs) -> T                                                  \
+    {return {lhs op *rhs};}                                                                                                    \
+                                                                                                                               \
+    template <arithmetic T, arithmetic U>                                                                                      \
+    constexpr auto operator op##=(_EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<T>&                           \
+    {*lhs op##= *rhs; return lhs;}                                                                                             \
+                                                                                                                               \
+    template <arithmetic T, arithmetic U>                                                                                      \
+    constexpr auto operator op##=(_EXT number<T>& lhs, const U& rhs) -> _EXT number<T>&                                        \
+    {*lhs op##= rhs; return lhs;}                                                                                              \
+                                                                                                                               \
+    template <arithmetic T, arithmetic U>                                                                                      \
+    constexpr auto operator op##=(T& lhs, const _EXT number<U>& rhs) -> T&                                                     \
+    {lhs op##= *rhs; return lhs;}                                                                                              \
+
+
+#define DEFINE_BINARY_NUMBER_COMPARISON(op)                                                   \
+    template <arithmetic T, arithmetic U>                                                     \
+    constexpr auto operator op (const ext::number<T>& lhs, const ext::number<U>& rhs) -> bool \
+    {return {*lhs op *rhs};}                                                                  \
+                                                                                              \
+    template <arithmetic T, arithmetic U>                                                     \
+    constexpr auto operator op (const ext::number<T>& lhs, const U& rhs) -> bool              \
+    {return {*lhs op rhs};}                                                                   \
+                                                                                              \
+    template <arithmetic T, arithmetic U>                                                     \
+    constexpr auto operator op (const T& lhs, const ext::number<U>& rhs) -> bool              \
+    {return {lhs op *rhs};}                                                                   \
+
 
 
 _EXT_BEGIN
 
-template <typename T> // TODO : change typename to 'primitive_number'
+template <arithmetic T>
 class number final
 {
-public aliases:
-    using primitive_t = T;
+public:
+    template <arithmetic U>
+    friend class _EXT number;
 
-public friends:
-    template <typename U> friend class number;
+    using value_t = T;
 
-public constructors:
     number() = default;
-    template <typename U> constexpr number(U primitive);
-    template <typename U> auto operator=(U primitive) -> number&;
-    constexpr ~number() {internal_number = 0;}
+    number(const number&) = default;
+    number(number&&) noexcept = default;
+    auto operator=(const number&) -> number& = default;
+    auto operator=(number&&) noexcept -> number& = default;
 
-    template <typename U> explicit number(const number<U>& other);
-    template <typename U> explicit number(number<U>&& other) noexcept;
-    template <typename U> auto operator=(const number<U>& other) -> number&;
-    template <typename U> auto operator=(number<U>&& other) noexcept -> number&;
-    
-public cpp_methods:
-    auto min() const -> number<T> {return std::numeric_limits<T>::min();}
-    auto max() const -> number<T> {return std::numeric_limits<T>::max();}
+    constexpr number(T val): n(val) {}
+    auto operator=(T val) -> number& {n = val; return *this;}
 
-public cpp_static_methods:
-    static auto INF() -> detail::infinity<T> {return detail::infinity<T>{};};
+    template <arithmetic U>
+    operator number<U>()
+    {return {static_cast<U>(n)};}
 
-public cpp_operators:
-    // conversion operators
-    explicit operator std::string() const {return std::to_string(internal_number);}
-
-    auto operator+(auto&& other) const {return number{internal_number + std::forward<T>(other)};}
-    auto operator-(auto&& other) const {return number{internal_number - std::forward<T>(other)};}
-    auto operator*(auto&& other) const {return number{internal_number * std::forward<T>(other)};}
-    auto operator/(auto&& other) const {return number{internal_number / std::forward<T>(other)};}
-    auto operator%(auto&& other) const {return number{internal_number % std::forward<T>(other)};}
-    auto operator|(auto&& other) const {return number{internal_number | std::forward<T>(other)};}
-    auto operator&(auto&& other) const {return number{internal_number & std::forward<T>(other)};}
-    auto operator<<(auto&& other) const {return number{internal_number << std::forward<T>(other)};}
-    auto operator>>(auto&& other) const {return number{internal_number >> std::forward<T>(other)};}
-
-    auto operator+=(auto&& other) {internal_number += std::forward<T>(other); return *this;}
-    auto operator-=(auto&& other) {internal_number -= std::forward<T>(other); return *this;}
-    auto operator*=(auto&& other) {internal_number *= std::forward<T>(other); return *this;}
-    auto operator/=(auto&& other) {internal_number /= std::forward<T>(other); return *this;}
-    auto operator%=(auto&& other) {internal_number %= std::forward<T>(other); return *this;}
-    auto operator|=(auto&& other) {internal_number |= std::forward<T>(other); return *this;}
-    auto operator&=(auto&& other) {internal_number &= std::forward<T>(other); return *this;}
-    auto operator<<=(auto&& other) {internal_number <<= std::forward<T>(other); return *this;}
-    auto operator>>=(auto&& other) {internal_number >>= std::forward<T>(other); return *this;}
-
-    auto operator==(const auto& other) const -> bool {return internal_number == other;}
-    auto operator<=>(const auto& other) const {return internal_number <=> other;}
-
-    auto operator++() -> number& {++internal_number; return *this;}
-    auto operator--() -> number& {--internal_number; return *this;}
-
-    template <typename U> operator number<U>() const {return number<U>(internal_number);}
-    template <primitive_numeric U> constexpr operator U() const {return internal_number;}
+    auto operator*() -> T& {return n;}
+    auto operator*() const -> const T& {return n;}
 
 private:
-    auto operator*() const -> T {return internal_number;}
-
-private cpp_properties:
-    T internal_number;
+    T n;
 };
 
-
-template <typename T>
-template <typename U>
-constexpr number<T>::number(U primitive)
-        : internal_number(primitive)
-{}
+_EXT_END
 
 
-template <typename T>
-template <typename U>
-auto number<T>::operator=(U primitive) -> number&
-{
-    internal_number = primitive;
-    return *this;
-}
+DEFINE_BINARY_NUMBER_OPERATOR(+)
+DEFINE_BINARY_NUMBER_OPERATOR(-)
+DEFINE_BINARY_NUMBER_OPERATOR(*)
+DEFINE_BINARY_NUMBER_OPERATOR(/)
+DEFINE_BINARY_NUMBER_OPERATOR(%)
+DEFINE_BINARY_NUMBER_OPERATOR(&)
+DEFINE_BINARY_NUMBER_OPERATOR(|)
+DEFINE_BINARY_NUMBER_OPERATOR(^)
+DEFINE_BINARY_NUMBER_OPERATOR(<<)
+DEFINE_BINARY_NUMBER_OPERATOR(>>)
+
+DEFINE_BINARY_NUMBER_COMPARISON(<)
+DEFINE_BINARY_NUMBER_COMPARISON(<=)
+DEFINE_BINARY_NUMBER_COMPARISON(>)
+DEFINE_BINARY_NUMBER_COMPARISON(>=)
+DEFINE_BINARY_NUMBER_COMPARISON(==)
+DEFINE_BINARY_NUMBER_COMPARISON(!=)
 
 
-template <typename T>
-template <typename U>
-number<T>::number(const number<U>& other)
-        : internal_number(*other)
-{}
-
-
-template <typename T>
-template <typename U>
-number<T>::number(number<U>&& other) noexcept
-        : internal_number(*std::move(other))
-{}
-
-
-template <typename T>
-template <typename U>
-auto number<T>::operator=(const number<U>& other) -> number&
-{
-    internal_number = *other;
-    return *this;
-}
-
-
-template <typename T>
-template <typename U>
-auto number<T>::operator=(number<U>&& other) noexcept -> number&
-{
-    internal_number = *std::move(other);
-    return *this;
-}
-
+_EXT_BEGIN
 
 template <bool InclusiveLo, bool InclusiveHi>
 auto is_between(auto&& value, auto&& lo, auto&& hi) -> boolean
@@ -146,7 +114,7 @@ auto is_between(auto&& value, auto&& lo, auto&& hi) -> boolean
 template <typename T, typename U, typename ...V>
 auto min(T&& value0, U&& value1, V&&... values)
 {
-    if constexpr(sizeof...(values) == 0) return value0 < value1 ? value0 : number<U>{value1};
+    if constexpr(sizeof...(values) == 0) return value0 < value1 ? value0 : value1;
     else return min(min(std::forward<T>(value0), std::forward<U>(value1)), std::forward<V>(values)...);
 }
 
@@ -154,7 +122,7 @@ auto min(T&& value0, U&& value1, V&&... values)
 template <typename T, typename U, typename ...V>
 auto max(T&& value0, U&& value1, V&&... values)
 {
-    if constexpr(sizeof...(values) == 0) return value0 > value1 ? value0 : number<U>{value1};
+    if constexpr(sizeof...(values) == 0) return value0 > value1 ? value0 : value1;
     else return max(max(std::forward<T>(value0), std::forward<U>(value1)), std::forward<V>(values)...);
 }
 
