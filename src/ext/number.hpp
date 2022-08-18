@@ -2,6 +2,7 @@
 #ifndef SBROWSER2_NUMBER_HPP
 #define SBROWSER2_NUMBER_HPP
 
+#include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
 #include "ext/string.hpp"
 #include <stdexcept>
@@ -58,17 +59,22 @@ public:
 
     using value_t = T;
 
+    constexpr number(T val): n(val) {}
     number() = default;
     number(const number&) = default;
     number(number&&) noexcept = default;
     auto operator=(const number&) -> number& = default;
     auto operator=(number&&) noexcept -> number& = default;
 
-    constexpr number(T val): n(val) {}
-    auto operator=(T val) -> number& {n = val; return *this;}
+    auto operator=(T val) -> number&
+    {n = val; return *this;}
 
     template <arithmetic U>
-    operator number<U>()
+    auto operator=(const ext::number<U>& val)
+    {n = *val;}
+
+    template <arithmetic U>
+    operator number<U>() const
     {return {static_cast<U>(n)};}
 
     auto operator*() -> T& {return n;}
@@ -102,11 +108,11 @@ DEFINE_BINARY_NUMBER_COMPARISON(!=)
 
 _EXT_BEGIN
 
-template <bool InclusiveLo, bool InclusiveHi>
-auto is_between(auto&& value, auto&& lo, auto&& hi) -> boolean
+template <bool IncludeLo, bool IncludeHi, typename T, typename U, typename V>
+auto is_between(T&& value, U&& lo, V&& hi) -> boolean
 {
-    auto condition1 = InclusiveLo ? value >= lo : value > lo; // default to >
-    auto condition2 = InclusiveHi ? value <= hi : value < hi; // default to <
+    auto condition1 = IncludeLo ? value >= lo : value > lo; // default to >
+    auto condition2 = IncludeHi ? value <= hi : value < hi; // default to <
     return condition1 && condition2;
 }
 
