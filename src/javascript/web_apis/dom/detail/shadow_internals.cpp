@@ -34,7 +34,7 @@ auto dom::detail::is_slottable(
 {
     // 'node_a' is slottable if it has inherited the slottable<T> mixin (element node or text node at present, but could
     // change, so check for the mixin as a base class)
-    return node_a && dynamic_cast<const mixins::slottable*>(node_a) != nullptr;
+    return node_a && dynamic_cast<const mixins::slottable*>(node_a);
 }
 
 
@@ -52,7 +52,7 @@ auto dom::detail::is_root_shadow_root(
         -> nodes::shadow_root*
 {
     // 'node_a''s root is a shadow root if it can be cast to the dom::nodes::shadow_root class
-    return node_a ? dynamic_cast<nodes::shadow_root*>(tree_internals::root(node_a)) : nullptr;
+    return node_a ? dynamic_cast<nodes::shadow_root*>(root(node_a)) : nullptr;
 }
 
 
@@ -61,7 +61,7 @@ auto dom::detail::is_shadow_root(
         -> ext::boolean
 {
     // 'node_a' is a shadow root if it can be cast to the dom::nodes::shadow_root class
-    return node_a && dynamic_cast<const nodes::shadow_root*>(node_a) != nullptr;
+    return node_a && dynamic_cast<const nodes::shadow_root*>(node_a);
 }
 
 
@@ -80,8 +80,8 @@ auto dom::detail::shadow_including_descendants(
         -> ranges::any_view<nodes::node*>
 {
     // 'node_a''s shadow including descendants are the TODO
-    const auto descendants = tree_internals::descendants(node_a);
-    return descendants;
+    const auto shadow_including_descendants = descendants(node_a);
+    return shadow_including_descendants;
 }
 
 
@@ -94,7 +94,7 @@ auto dom::detail::is_shadow_including_descendant(
     // 'node_a''s shadow root's host is a shadow including descendant of the 'node_b' (ie bridge up from the shadow tree
     // into the next tree)
     if (!node_a || !node_b) return false;
-    return ranges::contains(shadow_including_descendants(node_b), node_a) || is_shadow_including_descendant(is_root_shadow_root(node_a)->host, node_b);
+    return ranges::contains(shadow_including_descendants(node_b), node_a) || is_shadow_including_descendant(is_root_shadow_root(node_a)->host(), node_b);
 }
 
 
@@ -114,5 +114,5 @@ auto dom::detail::is_host_including_ancestor(
         const nodes::node* const node_b)
         -> ext::boolean
 {
-    return tree_internals::is_descendant(node_a, node_b) || is_shadow_including_ancestor(node_a, is_root_shadow_root(node_b)->host);
+    return is_descendant(node_a, node_b) || is_shadow_including_ancestor(node_a, is_root_shadow_root(node_b)->host());
 }

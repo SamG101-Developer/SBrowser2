@@ -19,7 +19,7 @@ namespace dom::detail
             -> dom::nodes::node* requires std::is_base_of_v<T, nodes::node>;
 
     auto adopt(
-            nodes::node* node,
+            const nodes::node* node,
             const nodes::document* document)
             -> nodes::node*;
 

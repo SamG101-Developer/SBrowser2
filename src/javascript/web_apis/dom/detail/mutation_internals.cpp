@@ -48,7 +48,8 @@ auto dom::detail::common_checks(
                     "Check where shadow trees are attached, and if 'parent' is in the host tree",
                     "Check where shadow trees are attached, and if 'child' is in the new shadow tree"
             },
-            P("Node", node), P("Parent", parent));
+            P("Node", node),
+            P("Parent", parent));
 
     // if the child has a parent that doesn't equal parent, then throw a not found error
     throw_v8_exception_formatted<NOT_FOUND_ERR>(
@@ -65,7 +66,10 @@ auto dom::detail::common_checks(
                     "Check that the arguments are in the correct order",
                     "Check that no other threads are updating objects' parent"
             },
-            P("Node", node), P("Parent", parent), P("Child", child), P("Child's parent", child->parent_node()));
+            P("Node", node),
+            P("Parent", parent),
+            P("Child", child),
+            P("Child's parent", child->parent_node()));
 
     // if the node is not a document fragment, document, element, text node, processing instruction or comment node, then throw a hierarchy request error
     throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -199,7 +203,7 @@ auto dom::detail::insert(
     // special case for DocumentFragment nodes: all tof it's child nodes need to be re-inserted; otherwise, for any
     // other element extending Node, the single 'child' will be inserted. if there are no children to insert, then
     // return from the method early
-    const auto nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<nodes::node*>{node};
+    const auto nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
     const auto count = nodes.size();
     if (count <= 0) return nullptr;
 
@@ -234,13 +238,13 @@ auto dom::detail::insert(
     // save the previous sibling here (used later, but mutations in the ext step would distort this value as the nodes
     // are inserted next, changing the tree structure / sibling layout)
     auto* const previous_sibling = child ? child->previous_sibling() : parent->last_child();
-    for (const nodes::node* const node_to_add: nodes)
+    for (nodes::node* const node_to_add: nodes)
     {
         // adopt 'node' into 'parent''s document, and insert the node into the parent's child nodes list, before the
         // iterator representing 'child'; in the case where child == nullptr, the iterator is ::end(), so the element is
         // appended instead (expected behaviour)
         adopt(node_to_add, parent->owner_document());
-        parent->child_nodes().insert(ranges::find(*parent->child_nodes(), child), node_to_add);  // will 'push_back' if child is nullptr
+        parent->child_nodes()->insert(ranges::find(*parent->child_nodes(), child), node_to_add);  // will 'push_back' if child is nullptr
 
         // if the parent is a shadow host (shadow_root attribute is set), the parent's shadow_root's slot assignment is
         // "named", and 'node' is a slottable, assign a slot to 'node'
@@ -311,7 +315,7 @@ auto dom::detail::replace(
                     "A DocumentFragment with a Document parent cannot have any Text node children");
 
             // if the document type has one element children
-            if (cast_node->children()->size() == 1)
+            if (cast_node->children().size() == 1)
             {
                 throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                         [&cast_node, &child] {return cast_node->children().front() != child;},

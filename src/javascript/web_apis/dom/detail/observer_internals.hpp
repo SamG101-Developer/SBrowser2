@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_OBSERVER_INTERNALS_HPP
 #define SBROWSER2_OBSERVER_INTERNALS_HPP
 
+#include "dom/mutations/mutation_observer.hpp"
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
@@ -34,11 +35,11 @@ namespace dom::detail
     auto queue_mutation_record(
             mutation_type_t type,
             nodes::node* target,
-            ext::string_view name,
-            ext::string_view namespace_,
-            ext::string_view old_value,
-            const ext::vector<nodes::node*>& added_nodes,
-            const ext::vector<nodes::node*>& removed_nodes,
+            const std::string& name,
+            const std::string& namespace_,
+            const std::string& old_value,
+            ext::vector<nodes::node*>&& added_nodes,
+            ext::vector<nodes::node*>&& removed_nodes,
             nodes::node* previous_sibling,
             nodes::node* next_sibling)
             -> void;
@@ -78,6 +79,19 @@ namespace dom::detail
             steps_t&& steps)
             -> void;
 }
+
+
+struct dom::detail::registered_observer_t
+{
+    std::unique_ptr<mutations::mutation_observer> observer;
+    ext::map<ext::string, ext::any> options;
+};
+
+
+struct dom::detail::transient_registered_observer_t : public registered_observer_t
+{
+    std::unique_ptr<registered_observer_t> source;
+};
 
 
 #endif //SBROWSER2_OBSERVER_INTERNALS_HPP

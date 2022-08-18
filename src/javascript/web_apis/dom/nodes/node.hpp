@@ -12,10 +12,16 @@ namespace dom::nodes {class node;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
 
+namespace dom::detail {auto notify_mutation_observers() -> void;}
+
 
 class dom::nodes::node
         : public event_target
 {
+public friends:
+    friend auto dom::detail::notify_mutation_observers()
+            -> void;
+
 public constructors:
     DOM_CTORS(node);
     node();

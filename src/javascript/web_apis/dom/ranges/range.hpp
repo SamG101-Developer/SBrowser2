@@ -5,11 +5,21 @@
 namespace dom::node_ranges {class range;}
 
 namespace dom::nodes {class document_fragment;}
+namespace dom::detail {auto contains(nodes::node*, const node_ranges::range*) -> ext::boolean;}
+namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, const ext::number<ulong>&, const ext::boolean&) -> void;}
 
 
 class dom::node_ranges::range
         : public abstract_range
 {
+public friends:
+    friend auto dom::detail::contains(
+            nodes::node* new_container, const node_ranges::range* range) -> ext::boolean;
+
+    friend auto dom::detail::set_start_or_end(
+            node_ranges::range* range, nodes::node* new_container, const ext::number<ulong>& new_offset,
+            const ext::boolean& start) -> void;
+
 public constructors:
     range();
 
