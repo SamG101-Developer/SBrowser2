@@ -22,14 +22,14 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
 
     // split the class names of a Node by spaces, and determine 'lower', which causes everything to be compared in
     // lowercase; if 'lower' is true, then convert the 'class_names' list into lowercase strings
-    const ext::boolean lower = base->owner_document()->m_mode == "quirks";
+    ext::boolean lower = base->owner_document()->m_mode == "quirks";
     auto class_list = class_names
             | ranges::views::split_string(' ')
             | ranges::views::transform_if(std::move(lower), ranges::actions::lowercase);
 
     // the 'match_callback' checks if all the class list items from an element are contained in the list that was passed
     // into the function as a parameter. the element's class list is converted into lowercase if 'lower' is set
-    auto match_callback = [&class_list, lower](const nodes::element* const element)
+    auto match_callback = [&class_list, lower = std::move(lower)] (const nodes::element* const element) mutable
     {
         auto this_class_list = *element->class_list()
                 | ranges::views::transform_if(std::move(lower), ranges::actions::lowercase);
@@ -101,7 +101,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
     // filter the elements by applying the 'match_callback' onto each Element; if the Element's namespace and local name
     // equal the 'namespace_' and 'local_name' parameters, then keep the element, otherwise discard it
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element>()
+            | ranges::views::cast_all_to<nodes::element*>()
             | ranges::views::filter(match_callback);
 
     return matches;
