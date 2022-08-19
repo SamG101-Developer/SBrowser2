@@ -28,10 +28,6 @@
 #define string_case(_String) case(_EXT hash{}(_String))
 #define string_default default
 
-#define number_switch(_Number) switch((decltype(_EXT number{_Number})::primitive_t)_Number)
-#define number_case(_Number) case((decltype(_EXT number{_Number})::primitive_t)_Number)
-#define number_default default
-
 #define friends
 #define aliases
 #define enums
