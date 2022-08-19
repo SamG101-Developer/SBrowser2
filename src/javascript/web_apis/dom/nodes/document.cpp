@@ -25,6 +25,7 @@
 #include "html/elements/html_body_element.hpp"
 #include "html/elements/html_head_element.hpp"
 #include "html/elements/html_html_element.hpp"
+#include "html/elements/html_link_element.hpp"
 #include "html/elements/html_script_element.hpp"
 #include "html/elements/html_title_element.hpp"
 
@@ -521,7 +522,7 @@ auto dom::nodes::document::operator[](
         -> ranges::any_view<element*>
 {
     // return all descendant element in this tree whose name attribute (only present on certain element interfaces) is
-    // equal to the 'name' parameter; TODO: named_element mixin with property `name` -> cast all, filter, and cast back
+    // equal to the 'name' parameter; TODO: named_element concept with property `name` -> cast all, filter, and cast back
     return detail::descendants(this)
             | ranges::views::filter([name](element* descendant) {return descendant->name() == name;});
 }
