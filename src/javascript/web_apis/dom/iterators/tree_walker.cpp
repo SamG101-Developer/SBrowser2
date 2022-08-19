@@ -8,6 +8,7 @@
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/node.hpp"
+#include "dom/other/dom_implementation.hpp"
 
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/filter.hpp>
@@ -24,7 +25,7 @@ auto dom::node_iterators::tree_walker::parent_node()
 {
     auto current_node_ancestors = detail::ancestors(current_node());
     auto filtered_ancestors = current_node_ancestors
-            | ranges::views::filter(ext::bind_back(detail::filter, this))
+            | ranges::views::filter(ext::bind_back{detail::filter, this})
             | ranges::views::take_while(ext::bind_back(std::not_equal_to{}, root()));
 
     return *filtered_ancestors.begin();
