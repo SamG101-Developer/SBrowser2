@@ -1,4 +1,5 @@
 #include "traversal_internals.hpp"
+#include "dom/_typedefs.hpp"
 #include "ext/keywords.hpp"
 
 #include "dom/nodes/node.hpp"
@@ -52,12 +53,14 @@ auto dom::detail::traverse_children(
         const traversal_child_t type)
         -> nodes::node*
 {
-    using enum traversal_child;
+    using enum traversal_child_t;
 
     // set the 'node' to the 'iterator.current_node's first child if the type of iteration is FIRST_CHILD, otherwise the
     // last child (this is just where the iteration will begin from) - this allows for the 'node.child_nodes' to be
     // filtered as before the rest of the tree (which is only for when the child_nodes are all rejected)
-    auto* node = type == FIRST_CHILD ? iterator->current_node()->first_child() : iterator->current_node()->last_child();
+    auto* node = type == FIRST_CHILD
+            ? iterator->current_node()->first_child()
+            : iterator->current_node()->last_child();
 
     // iterate until the node becomes nullptr (or a return statement is called from within the loop, for example when a
     // 'filter(...)' method call returns true
@@ -67,32 +70,34 @@ auto dom::detail::traverse_children(
         // filter the 'node' with the 'iterator;, and switch on the result, to decide how to continue, ie is the 'node'
         // accepted, skipped, rejected etc. if the 'node' is accepted, set 'iterator.current_node' to the 'node' and
         // return it. if the 'node' is skipped, set the node to the first / last child and continue filtering
-        number_switch(filter(node, iterator))
+        switch(*filter(node, iterator))
         {
-            number_case(node_iterators::node_filter::FILTER_ACCEPT):
+            case(*node_iterators::node_filter::FILTER_ACCEPT):
                 return iterator->current_node = node;
 
-            number_case(node_iterators::node_filter::FILTER_SKIP):
+            case(*node_iterators::node_filter::FILTER_SKIP):
             {
                 auto* const child = type == FIRST_CHILD ? node->first_child() : node->last_child();
+
                 node = child ?: node;
                 continue_if (node == child);
                 [[fallthrough]];
             }
 
-            number_case(node_iterators::node_filter::FILTER_REJECT):
-                // how to iterate to the next node if 'node' was rejected: if the node as the first child, then set it to its
-                // next sibling (if it exists), and if the node was the last child, set it to its previous sibling, if it
-                // exists; if not, then set it to its parent (move up the tree), given that is parent isn't the iterators 'root'
-                // or 'current_node'
+            case(*node_iterators::node_filter::FILTER_REJECT):
+                // how to iterate to the next node if 'node' was rejected: if the node as the first child, then set it
+                // to its next sibling (if it exists), and if the node was the last child, set it to its previous
+                // sibling, if it exists; if not, then set it to its parent (move up the tree), given that is parent
+                // isn't the iterators 'root' or 'current_node'
                 while (node)
                 {
                     // move to next / previous child if it's available
-                    if (auto* const sibling = type == FIRST_CHILD ? node->next_sibling() : node->previous_sibling()) {node = sibling; break;}
+                    if (auto* const sibling = type == FIRST_CHILD ? node->next_sibling() : node->previous_sibling())
+                    {node = sibling; break;}
 
                     // move to the parent if it's available
                     auto* const parent = node->parent_node();
-                    if (!parent || parent == iterator->root() || parent == iterator->current_node()) return nullptr;
+                    return_if (!parent || parent == iterator->root() || parent == iterator->current_node()) nullptr;
                     node = parent;
                 }
         }
@@ -108,7 +113,7 @@ auto dom::detail::traverse_siblings(
         const traversal_sibling_t type)
         -> nodes::node*
 {
-    using enum traversal_sibling;
+    using enum traversal_sibling_t;
 
     // set the 'node' to the 'iterator.current_node', and not it's next/previous sibling, because they are in the same
     // hierarchical level as 'node', and so will be automatically iterated to in the method; this is hwy the 'node'
@@ -121,22 +126,24 @@ auto dom::detail::traverse_siblings(
     while (node)
     {
         // set the sibling to the next / previous sibling depending on the type,
-        auto* sibling = type == NEXT_SIBLING ? node->next_sibling () : node->previous_sibling();
+        auto* sibling = type == NEXT_SIBLING
+                ? node->next_sibling ()
+                : node->previous_sibling();
 
         while (sibling)
         {
             node = sibling;
-            number_switch(filter(node, iterator))
+            switch(*filter(node, iterator))
             {
-                number_case(node_iterators::node_filter::FILTER_ACCEPT):
+                case(*node_iterators::node_filter::FILTER_ACCEPT):
                     return iterator->current_node = node;
 
-                number_case(node_iterators::node_filter::FILTER_SKIP):
+                case(*node_iterators::node_filter::FILTER_SKIP):
                     sibling = type == NEXT_SIBLING ? node->first_child() : node->last_child();
                     continue_if (sibling);
                     else [[fallthrough]];
 
-                number_case(node_iterators::node_filter::FILTER_REJECT):
+                case(*node_iterators::node_filter::FILTER_REJECT):
                     sibling = type == NEXT_SIBLING ? node->next_sibling() : node->previous_sibling();
             }
         }
