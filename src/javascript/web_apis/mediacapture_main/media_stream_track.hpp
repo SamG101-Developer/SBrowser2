@@ -4,6 +4,7 @@
 
 #include "dom/nodes/event_target.hpp"
 #include "mediacapture_main/mixins/constrainable.hpp"
+#include "html/mixins/transferable.hpp"
 namespace mediacapture::main {class media_stream_track;}
 
 #include <future>
@@ -12,6 +13,7 @@ namespace mediacapture::main {class media_stream_track;}
 class mediacapture::main::media_stream_track
         : public dom::nodes::event_target
         , public mixins::constrainable
+        , public html::mixins::transferable // TODO : transfer steps defined in mediacapture-extensions API
 {
 public constructors:
     media_stream_track() = delete;

@@ -2,6 +2,7 @@
 #define SBROWSER2_NAVIGATOR_HPP
 
 #include "dom_object.hpp"
+#include "media_capabilities/media_capabilities.hpp"
 #include "storage/mixins/navigator_storage.hpp"
 namespace html::other {class navigator;}
 
@@ -10,6 +11,7 @@ namespace html::other {class navigator;}
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}
 namespace html::elements {class html_media_element;}
+namespace media::capabilities {class media_capabilities;}
 namespace mediacapture::main {class media_devices;}
 namespace mediacapture::main {class media_stream;}
 namespace permissions {class permission;}
@@ -48,6 +50,9 @@ public js_properties:
 
     /* CLIPBOARD */
     ext::property<std::unique_ptr<clipboard::clipboard>> clipboard;
+
+    /* MEDIA_CAPABILITIES */
+    ext::property<std::unique_ptr<media::capabilities::media_capabilities>> media_capabilities;
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP

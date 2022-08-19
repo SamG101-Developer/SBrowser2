@@ -5,6 +5,7 @@
 #include "storage/mixins/navigator_storage.hpp"
 namespace html::other {class worker_navigator;}
 
+namespace media::capabilities {class media_capabilities;}
 namespace permissions {class permission;}
 
 
@@ -14,6 +15,9 @@ class html::other::worker_navigator
 {
     /* PERMISSIONS */
     ext::property<permissions::permission*> permissions;
+
+    /* MEDIA_CAPABILITIES */
+    ext::property<std::unique_ptr<media::capabilities::media_capabilities>> media_capabilities;
 };
 
 #endif //SBROWSER2_WORKER_NAVIGATOR_HPP
