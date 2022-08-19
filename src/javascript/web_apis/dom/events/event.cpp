@@ -93,7 +93,7 @@ auto dom::events::event::composed_path()
         if (path_struct->slot_in_closed_tree)
         {
             --current_hidden_level;
-            max_hidden_level = std::min(max_hidden_level, current_hidden_level);
+            max_hidden_level = ext::min(max_hidden_level, current_hidden_level);
         }
         ranges::advance(iterator, -1);;
     }
@@ -112,7 +112,7 @@ auto dom::events::event::composed_path()
         if (path_struct->slot_in_closed_tree)
         {
             --current_hidden_level;
-            max_hidden_level = std::min(max_hidden_level, current_hidden_level);
+            max_hidden_level = ext::min(max_hidden_level, current_hidden_level);
         }
         ranges::advance(iterator, 1);;
     }
