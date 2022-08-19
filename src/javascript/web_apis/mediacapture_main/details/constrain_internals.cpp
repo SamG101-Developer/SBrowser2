@@ -10,7 +10,7 @@
 #include <range/v3/view/transform.hpp>
 
 
-auto mediacapture::detail::constrain_internals::apply_constrains_template_algorithm(
+auto mediacapture::detail::apply_constrains_template_algorithm(
         main::mixins::constrainable* object,
         constraints_t&& new_constraints)
         -> std::promise<void>
@@ -53,7 +53,7 @@ auto mediacapture::detail::constrain_internals::apply_constrains_template_algori
 }
 
 
-auto mediacapture::detail::constrain_internals::apply_constrains_algorithm(
+auto mediacapture::detail::apply_constrains_algorithm(
         main::mixins::constrainable* object,
         constraints_t&& new_constraints)
         -> ext::string

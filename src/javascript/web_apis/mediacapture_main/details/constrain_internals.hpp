@@ -11,7 +11,7 @@
 #include USE_INNER_TYPES(mediacapture_main)
 namespace mediacapture::main::mixins {class constrainable;}
 
-namespace mediacapture::detail::constrain_internals
+namespace mediacapture::detail
 {
     auto apply_constrains_template_algorithm(
             main::mixins::constrainable* object,
