@@ -6,7 +6,7 @@
 namespace mediacapture::main {class media_stream_track;}
 
 
-namespace mediacapture::detail::track_internals
+namespace mediacapture::detail
 {
     auto track_ends_for_any_reason_except_stop(
             mediacapture::main::media_stream_track* track)
