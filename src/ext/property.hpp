@@ -60,6 +60,10 @@ public:
     explicit property(std::nullptr_t&&)
     {m_meta.m_value = nullptr;}
 
+    // Special move std::unique_ptr<T> constructor
+    explicit property(std::unique_ptr<T>&& other)
+    {m_meta.m_value = std::move(other);}
+
     // Destructor calls the deleter
     ~property()
     {m_meta.m_deleter();}
@@ -163,14 +167,15 @@ class ext::property<T<U>> : private detail::lockable
 public:
     // Access to the value type
     friend struct ::access_meta;
-    template <typename V> using value_t = T<V>;
+    using value_t = T<U>;
+    template <typename V> using stripped_value_t = T<V>;
 
     // Default constructor
     property() = default;
 
     // Copy constructor
     template <typename V>
-    property(const property<value_t<V>>& other)
+    property(const property<stripped_value_t<V>>& other)
     {
         m_meta.m_getter = other.m_meta.m_getter;
         m_meta.m_setter = other.m_meta.m_setter;
@@ -179,7 +184,7 @@ public:
     }
 
     template <typename V>
-    property(property<value_t<V>>&& other)
+    property(property<stripped_value_t<V>>&& other)
     {
         m_meta.m_getter = std::move(other.m_meta.m_getter);
         m_meta.m_setter = std::move(other.m_meta.m_setter);
@@ -189,12 +194,12 @@ public:
 
     // Copy value constructor
     template <typename V>
-    explicit property(const value_t<V>& other)
+    explicit property(const stripped_value_t<V>& other)
     {m_meta.m_value = other;}
 
     // Move value constructor
     template <typename V>
-    explicit property(value_t<V>&& other)
+    explicit property(stripped_value_t<V>&& other)
     {m_meta.m_value = std::move(other);}
 
     // Destructor calls deleter
@@ -208,8 +213,8 @@ public:
 
     // Getter and setter operators for the property
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
-    template <typename V> auto operator=(const value_t<V>& value) -> value_t<U> {return m_meta.m_setter((value_t<U>)value);}
-    template <typename V> auto operator=(value_t<V>&& value) -> value_t<U> {return m_meta.m_setter((value_t<U>)std::move(value));}
+    template <typename V> auto operator=(const stripped_value_t<V>& value) -> stripped_value_t<U> {return m_meta.m_setter((stripped_value_t<U>)value);}
+    template <typename V> auto operator=(stripped_value_t<V>&& value) -> stripped_value_t<U> {return m_meta.m_setter((stripped_value_t<U>)std::move(value));}
 
     // Dereferencing accesses the inner value type of the property (for custom getters and setters)
     auto operator*() -> auto& {assert(!m_locked); return m_meta.m_value;}
@@ -222,7 +227,7 @@ public:
     FORWARD_INNER_VALUE_OPERATOR(%=)
 
 private:
-    detail::meta_property<value_t<U>> m_meta;
+    detail::meta_property<stripped_value_t<U>> m_meta;
 };
 
 
@@ -299,6 +304,8 @@ private:
 
 #define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::value_t>())
 #define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::value_t>())
+#define DEFINE_SETTER(p) auto set_##p(std::conditional_t<std::is_pointer_v<decltype(p)::value_t>, decltype(p)::value_t, const decltype(p)::value_t&> val) -> void;
+#define DEFINE_GETTER(p) auto get_##p() const -> std::conditional_t<std::is_pointer_v<decltype(p)::value_t>, decltype(p)::value_t, const decltype(p)::value_t&>;
 
 
 
