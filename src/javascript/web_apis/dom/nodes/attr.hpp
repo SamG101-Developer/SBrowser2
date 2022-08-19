@@ -18,7 +18,7 @@ public js_properties:
     ext::property<ext::string> prefix;
     ext::property<ext::string> local_name;
     ext::property<ext::string> name;
-    ext::property<ext::string, true> value;
+    ext::property<ext::string> value; // TODO : CE_REACTIONS
     ext::property<std::unique_ptr<element>> owner_element;
 
 public cpp_methods:
