@@ -34,7 +34,7 @@
 #include <v8pp/convert.hpp>
 
 
-auto mediacapture::detail::devices_internals::on_page_load(
+auto mediacapture::detail::on_page_load(
         main::media_devices* media_devices)
         -> void
 {
@@ -71,10 +71,10 @@ auto mediacapture::detail::devices_internals::on_page_load(
 
         javascript::environment::realms_2::set(
                 media_devices_relevant_global_object, "[[media_stream_track_sources]]",
-                ext::set<source_internals::media_stream_track_source*>{});
+                ext::set<media_stream_track_source*>{});
 
 
-        using permissions::detail::permission_internals::powerful_feature_t;
+        using permissions::detail::powerful_feature_t;
         using permissions::detail::permissions_descriptor_t;
         using permissions::detail::permission_state_t;
 
@@ -95,7 +95,7 @@ auto mediacapture::detail::devices_internals::on_page_load(
             auto permission_name = kind == media_device_kind_t::VIDEO_INPUT ? "camera" : kind == media_device_kind_t::AUDIO_INPUT ? "microphone" : "";
             powerful_feature_t powerful_feature {.name = permission_name};
             permissions_descriptor_t permissions_descriptor{{"name", std::move(powerful_feature)}};
-            auto permission_state = permissions::detail::permission_internals::permission_state(
+            auto permission_state = permissions::detail::permission_state(
                     std::move(permissions_descriptor),
                     media_devices_relevant_global_object);
 
@@ -111,7 +111,7 @@ auto mediacapture::detail::devices_internals::on_page_load(
 }
 
 
-auto mediacapture::detail::devices_internals::device_change_notification_steps()
+auto mediacapture::detail::device_change_notification_steps()
         -> void
 {
     JS_REALM_GET_RELEVANT(nullptr);
@@ -135,13 +135,13 @@ auto mediacapture::detail::devices_internals::device_change_notification_steps()
 
     // fire a "devicechange" event at each device
     for (auto* device: device_list)
-        dom::detail::observer_internals::queue_microtask(
+        dom::detail::queue_microtask(
                 [device] mutable
-                {dom::detail::event_internals::fire_event("devicechange", device);});
+                {dom::detail::fire_event("devicechange", device);});
 }
 
 
-auto mediacapture::detail::devices_internals::create_list_of_device_info_objects(
+auto mediacapture::detail::create_list_of_device_info_objects(
         ext::vector_view<main::media_devices*> device_list,
         dom::nodes::document* document)
         -> ext::vector<main::media_device_info*>
@@ -152,7 +152,7 @@ auto mediacapture::detail::devices_internals::create_list_of_device_info_objects
     // the 'microphone_list' is the 'device_list', but filtered for microphone devices, and then transformed into the
     // MediaDeviceInfo that represents the MediaDevices object. if the Document isn't allowed to use the microphone
     // feature, then this is skipped, and the' microphone_list' is empty
-    auto microphone_list = html::detail::document_internals::allowed_to_use(document, "microphone") ? device_list
+    auto microphone_list = html::detail::allowed_to_use(document, "microphone") ? device_list
             | ranges::views::filter(is_microphone)
             | ranges::views::transform(create_device_info_object)
             : ranges::any_view<main::media_device_info*>{};
@@ -160,7 +160,7 @@ auto mediacapture::detail::devices_internals::create_list_of_device_info_objects
     // the 'camera_list' is the 'device_list', but filtered for camera devices, and then transformed into the
     // MediaDeviceInfo that represents the MediaDevices object. if the Document isn't allowed to use the camera feature,
     // then this is skipped, and the 'camera_list' is empty
-    auto camera_list = html::detail::document_internals::allowed_to_use(document, "camera") ? device_list
+    auto camera_list = html::detail::allowed_to_use(document, "camera") ? device_list
             | ranges::views::filter(is_camera)
             | ranges::views::transform(create_device_info_object)
             : ranges::any_view<main::media_device_info*>{};
@@ -194,7 +194,7 @@ auto mediacapture::detail::devices_internals::create_list_of_device_info_objects
 }
 
 
-auto mediacapture::detail::devices_internals::create_device_info_object(
+auto mediacapture::detail::create_device_info_object(
         main::media_devices* device)
         -> main::media_device_info
 {
@@ -209,7 +209,7 @@ auto mediacapture::detail::devices_internals::create_device_info_object(
 }
 
 
-auto mediacapture::detail::devices_internals::device_enumeration_can_proceed()
+auto mediacapture::detail::device_enumeration_can_proceed()
         -> ext::boolean
 {
     // if the device information can be exposed, then enumeration can proceed, as the information is allowed to be used
@@ -219,11 +219,11 @@ auto mediacapture::detail::devices_internals::device_enumeration_can_proceed()
     // if both of these conditions are met, then the devices enumeration can proceed
     JS_REALM_GET_RELEVANT(nullptr);
     auto* associated_document = javascript::environment::realms_2::get<dom::nodes::document*>(nullptr_relevant_global_object, "associated_document");
-    return dom::detail::node_internals::is_document_fully_active(associated_document); // TODO : && must have focus
+    return dom::detail::is_document_fully_active(associated_document); // TODO : && must have focus
 }
 
 
-auto mediacapture::detail::devices_internals::device_information_can_be_exposed()
+auto mediacapture::detail::device_information_can_be_exposed()
         -> ext::boolean
 {
     // a device's information can be exposed if the camera or microphone information can be exposed
@@ -231,7 +231,7 @@ auto mediacapture::detail::devices_internals::device_information_can_be_exposed(
 }
 
 
-auto mediacapture::detail::devices_internals::set_device_information_exposure(
+auto mediacapture::detail::set_device_information_exposure(
         ext::set<ext::string>&& requested_types,
         ext::boolean&& value)
         -> void

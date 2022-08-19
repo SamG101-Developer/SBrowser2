@@ -1,15 +1,16 @@
 #pragma once
-#include "mediacapture_main/media_devices.hpp"
 #ifndef SBROWSER2_DEVICES_INTERNALS_HPP
 #define SBROWSER2_DEVICES_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/set.hpp"
+#include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class document;}
 namespace mediacapture::main {class media_devices;}
 namespace mediacapture::main {class media_device_info;}
 
-namespace mediacapture::detail::devices_internals
+namespace mediacapture::detail
 {
     auto on_page_load(
             main::media_devices* media_devices)
