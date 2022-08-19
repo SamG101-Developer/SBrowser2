@@ -69,6 +69,12 @@ public:
     auto operator=(T val) -> number&
     {n = val; return *this;}
 
+    auto operator++() -> number&
+    {++n; return *this;}
+
+    auto operator--() -> number&
+    {--n; return *this;}
+
     template <arithmetic U>
     auto operator=(const ext::number<U>& val)
     {n = *val;}
@@ -77,8 +83,8 @@ public:
     operator number<U>() const
     {return {static_cast<U>(n)};}
 
-    auto operator*() -> T& {return n;}
-    auto operator*() const -> const T& {return n;}
+    constexpr auto operator*() -> T& {return n;}
+    constexpr auto operator*() const -> const T& {return n;}
 
 private:
     T n;
