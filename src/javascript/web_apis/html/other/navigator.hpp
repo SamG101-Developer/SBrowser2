@@ -7,7 +7,8 @@
 namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
-#include "autoplay/_typdefs.hpp"
+#include USE_INNER_TYPES(autoplay)
+#include USE_INNER_TYPES(vibration)
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}
 namespace html::elements {class html_media_element;}
@@ -37,6 +38,9 @@ public js_methods:
     auto get_autoplay_policy(autoplay::detail::autoplay_policy_media_type_t type);
     auto get_autoplay_policy(elements::html_media_element* element);
     auto get_autoplay_policy(webaudio::contexts::audo_context* context);
+
+    /* VIBRATION */
+    auto vibrate(vibration::detail::vibrate_pattern_t&& pattern) -> ext::boolean;
 
 public js_properties:
     /* MEDIACAPTURE_MAIN */
