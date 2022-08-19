@@ -160,7 +160,7 @@ auto dom::nodes::element::get_attribute_node_ns(
     // get the Attr node by matching each Attr (in the 'attributes' list) 's local name and namespace_uri against the
     // 'local_name' and 'namespace_' parameters; nullptr is returned if there is no matching Attr node
     auto match_algorithm = [namespace_, local_name](attr* attribute) {return attribute->local_name() == local_name && attribute->namespace_uri() == namespace_;};
-    auto match_attribute = ranges::first_where(*attributes(), match_algorithm);
+    auto match_attribute = *ranges::first_where(*attributes(), match_algorithm);
     return match_attribute;
 }
 
@@ -283,7 +283,7 @@ auto dom::nodes::element::remove_attribute_node_ns(
 
 auto dom::nodes::element::toggle_attribute(
         ext::string_view qualified_name,
-        ext::optional<ext::boolean> force)
+        ext::optional<ext::boolean>&& force)
         -> ext::boolean
 {
     ce_reactions_method_def
@@ -296,7 +296,7 @@ auto dom::nodes::element::toggle_attribute(
 auto dom::nodes::element::toggle_attribute_ns(
         ext::string_view namespace_,
         ext::string_view local_name,
-        ext::optional<ext::boolean> force)
+        ext::optional<ext::boolean>&& force)
         -> ext::boolean
 {
     ce_reactions_method_def
@@ -308,7 +308,7 @@ auto dom::nodes::element::toggle_attribute_ns(
 
 auto dom::nodes::element::toggle_attribute_node(
         dom::nodes::attr* attribute,
-        ext::optional<ext::boolean> force)
+        ext::optional<ext::boolean>&& force)
         -> attr*
 {
     ce_reactions_method_def
@@ -320,7 +320,7 @@ auto dom::nodes::element::toggle_attribute_node(
 
 auto dom::nodes::element::toggle_attribute_node_ns(
         dom::nodes::attr* attribute,
-        ext::optional<ext::boolean> force)
+        ext::optional<ext::boolean>&& force)
         -> attr*
 {
     ce_reactions_method_def
