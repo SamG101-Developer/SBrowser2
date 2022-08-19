@@ -8,10 +8,16 @@ namespace dom::node_iterators {class abstract_iterator;}
 namespace dom::node_iterators {class node_filter;}
 namespace dom::nodes {class node;}
 
+namespace dom::detail {auto filter(const nodes::node*, node_iterators::abstract_iterator*) -> ext::number<ushort>;}
+
 
 class dom::node_iterators::abstract_iterator
         : public virtual dom_object
 {
+public friends:
+    friend auto dom::detail::filter(
+            const nodes::node* node, node_iterators::abstract_iterator* iterator) -> ext::number<ushort>;
+
 public constructors:
     DOM_CTORS(abstract_iterator);
     abstract_iterator();

@@ -36,6 +36,8 @@ class dom::nodes::element
         , public aria::mixins::aria_mixin
 {
 public friends:
+    friend struct dom::mixins::document_or_element_node;
+
     friend auto dom::detail::handle_attributes_changes(
             const nodes::attr* attribute, nodes::element* owner_element, const ext::string& old_value,
             const ext::string& new_value) -> void;
@@ -81,10 +83,10 @@ public js_methods:
     auto remove_attribute_node(attr* attribute) -> attr*;
     auto remove_attribute_node_ns(attr* attribute) -> attr*;
 
-    auto toggle_attribute(ext::string_view qualified_name, ext::optional<ext::boolean> force) -> ext::boolean;
-    auto toggle_attribute_ns(ext::string_view namespace_, ext::string_view local_name, ext::optional<ext::boolean> force) -> ext::boolean;
-    auto toggle_attribute_node(attr* attribute, ext::optional<ext::boolean> force) -> attr*;
-    auto toggle_attribute_node_ns(attr* attribute, ext::optional<ext::boolean> force) -> attr*;
+    auto toggle_attribute(ext::string_view qualified_name, ext::optional<ext::boolean>&& force) -> ext::boolean;
+    auto toggle_attribute_ns(ext::string_view namespace_, ext::string_view local_name, ext::optional<ext::boolean>&& force) -> ext::boolean;
+    auto toggle_attribute_node(attr* attribute, ext::optional<ext::boolean>&& force) -> attr*;
+    auto toggle_attribute_node_ns(attr* attribute, ext::optional<ext::boolean>&& force) -> attr*;
 
     auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> shadow_root*;
     auto closest(ext::string_view selectors) -> element*;
