@@ -132,11 +132,11 @@ public js_properties:
     ext::property<ext::string> cookie;
     ext::property<ext::string> last_modified;
     ext::property<ext::string> ready_state;
-    ext::property<ext::string, true> title;
-    ext::property<ext::string, true> dir;
+    ext::property<ext::string> title; // TODO : CE_REACTIONS
+    ext::property<ext::string> dir; // TODO : CE_REACTIONS
 
-    ext::property<std::unique_ptr<html::elements::html_body_element>, true> body;
-    ext::property<std::unique_ptr<html::elements::html_head_element>, true> head;
+    ext::property<std::unique_ptr<html::elements::html_body_element>> body; // TODO : CE_REACTIONS
+    ext::property<std::unique_ptr<html::elements::html_head_element>> head; // TODO : CE_REACTIONS
     ext::property<ranges::any_view<html::elements::html_image_element*>> images;
     ext::property<ranges::any_view<html::elements::html_link_element*>> links;
     ext::property<ranges::any_view<html::elements::html_form_element*>> forms;
@@ -156,6 +156,10 @@ public cpp_methods:
 
 public cpp_operators:
     auto operator[](const ext::string& name) -> ranges::any_view<element*> override;
+
+private js_slots:
+    /* DEVICE_POSTURE */
+    ext::number<double> s_current_posture;
 
 private cpp_methods:
     [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
