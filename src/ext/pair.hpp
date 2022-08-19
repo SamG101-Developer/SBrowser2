@@ -4,21 +4,38 @@
 
 #include "ext/boolean.hpp"
 #include "ext/tuple.hpp"
+#include "ext/view.hpp"
 
+
+#define pair_view_iterator V*
 
 _EXT_BEGIN
 
-template <typename Key, typename Val>
-using pair_view = const pair<std::reference_wrapper<Key>, std::reference_wrapper<Val>>&;
+template <typename K, typename V>
+class pair_view : public view<pair_view_iterator>
+{
+public constructors:
+    using view<pair_view_iterator>::view;
 
-template <typename Key, typename Val>
-constexpr auto make_pair(Key&& key, Val&& val)
+    explicit pair_view(pair<K, V>&& other)
+            : view<pair_view_iterator>{std::move(&other.first), std::move(&other.second)}
+    {}
+
+    explicit pair_view(const pair<K, V>& other)
+            : view<pair_view_iterator>{&other.first, &other.second}
+    {}
+};
+
+
+template <typename K, typename V>
+constexpr auto make_pair(K&& key, V&& val)
 {
     return ext::pair<
-            std::remove_cvref_t<Key>,
-            std::remove_cvref_t<Val>
-            >{std::forward<Key>(key), std::forward<Val>(val)};
+            std::remove_cvref_t<K>,
+            std::remove_cvref_t<V>
+            >{std::forward<K>(key), std::forward<V>(val)};
 }
+
 
 struct pair_key_matches
 {
