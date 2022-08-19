@@ -8,7 +8,7 @@
 #include <range/v3/view/filter.hpp>
 
 
-auto mediacapture::detail::source_internals::initialize_underlying_source(
+auto mediacapture::detail::initialize_underlying_source(
         main::media_stream_track* track,
         media_stream_track_source& source)
         -> void
@@ -20,7 +20,7 @@ auto mediacapture::detail::source_internals::initialize_underlying_source(
 }
 
 
-auto mediacapture::detail::source_internals::tie_track_source_to_context(
+auto mediacapture::detail::tie_track_source_to_context(
         media_stream_track_source& source)
         -> void
 {
@@ -36,7 +36,7 @@ auto mediacapture::detail::source_internals::tie_track_source_to_context(
 }
 
 
-auto mediacapture::detail::source_internals::stop_all_sources(
+auto mediacapture::detail::stop_all_sources(
         v8::Local<v8::Object> global_object)
         -> void
 {
