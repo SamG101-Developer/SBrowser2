@@ -3,8 +3,10 @@
 #define SBROWSER2_PERFORMANCE_HPP
 
 #include "dom/nodes/event_target.hpp"
-#include USE_INNER_TYPES(high_resolution_time)
 namespace high_resolution_time {class performance;}
+
+#include USE_INNER_TYPES(high_resolution_time)
+namespace performance_timeline {class performance_entry;}
 
 
 class high_resolution_time::performance
@@ -15,6 +17,11 @@ public constructors:
 
 public js_methods:
     auto now() -> detail::dom_high_res_time_stamp_t;
+
+    /* PERFORMANCE_TIMELINE */
+    auto get_entries() -> ext::vector<performance_timeline::performance_entry*>;
+    auto get_entries_by_type(ext::string_view type) -> ext::vector<performance_timeline::performance_entry*>;
+    auto get_entries_by_name(ext::string_view name, ext::string_view type = "") -> ext::vector<performance_timeline::performance_entry*>;
 
 public js_properties:
     ext::property<detail::dom_high_res_time_stamp_t> time_origin;
