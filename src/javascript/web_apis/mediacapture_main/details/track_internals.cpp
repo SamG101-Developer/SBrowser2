@@ -6,7 +6,7 @@
 #include "mediacapture_main/media_stream_track.hpp"
 
 
-auto mediacapture::detail::track_internals::track_ends_for_any_reason_except_stop(
+auto mediacapture::detail::track_ends_for_any_reason_except_stop(
         main::media_stream_track* track)
         -> void
 {
