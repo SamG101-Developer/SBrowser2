@@ -13,8 +13,6 @@ _EXT_BEGIN
 
 using namespace tuplet;
 
-template <typename ...Ts>
-using tuple_view = const tuple<Ts...>&;
 
 //template <typename ...Types>
 //using tuple_iterator = variant<Types...>*;
