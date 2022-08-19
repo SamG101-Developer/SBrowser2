@@ -51,7 +51,7 @@ namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
 namespace svg::elements {class svg_script_element;}
 
-namespace dom::detail {auto lookup_custom_element_definition(const nodes::document* const, const ext::string_view, const ext::string_view, const ext::string_view) -> custom_element_definition_t*;}
+namespace dom::detail {auto lookup_custom_element_definition(const nodes::document*, ext::string_view, ext::string_view, ext::string_view) -> custom_element_definition_t*;}
 
 
 class dom::nodes::document
@@ -76,8 +76,8 @@ public friends:
     friend struct mixins::document_or_element_node;
 
     friend auto dom::detail::lookup_custom_element_definition(
-            const nodes::document* const document, const ext::string_view namespace_, const ext::string_view local_name,
-            const ext::string_view is) -> detail::custom_element_definition_t*;
+            const nodes::document* document, ext::string_view namespace_, ext::string_view local_name,
+            ext::string_view is) -> detail::custom_element_definition_t*;
 
 public constructors:
     document();
