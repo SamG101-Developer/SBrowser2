@@ -27,13 +27,11 @@ auto dom::detail::root(
 
 
 auto dom::detail::ancestors(
-        const nodes::node* node_a)
+        const nodes::node* const node_a)
         -> ranges::any_view<nodes::node*> // TODO : not live, needs to be
 {
     // iterate up through the parent_node attributes, until the root is reached, appending each element
-    ext::vector<const nodes::node*> ancestor_nodes {node_a};
-    while ((node_a = node_a->parent_node())) ancestor_nodes.push_back(node_a);
-    return ranges::ref_view{ancestor_nodes};
+    // TODO: range based solution (live tree)
 }
 
 
@@ -42,9 +40,7 @@ auto dom::detail::descendants(
         -> ranges::any_view<nodes::node*> // TODO : not live, needs to be
 {
     // iterate though the children, appending each child and the child of that child, until the last child is checked
-    ext::vector<const nodes::node*> descendant_nodes {node_a};
-    for (const auto* const child: descendant_nodes) descendant_nodes.extend(ranges::find(descendant_nodes, child), *child->child_nodes());
-    return ranges::ref_view{descendant_nodes};
+    // TODO: range based solution (live tree)
 }
 
 
@@ -55,7 +51,7 @@ auto dom::detail::is_ancestor(
 {
     // 'node_a' is an ancestor of 'node_b' if it is in the ancestor() list for 'node_b'
     return_if (!node_a || !node_b) false;
-    const auto ancestors_of_b = ancestors(node_b);
+    auto ancestors_of_b = ancestors(node_b);
     return ranges::contains(ancestors_of_b, node_a);
 }
 
@@ -104,7 +100,7 @@ auto dom::detail::index(
         const nodes::node* const node_a)
         -> ext::number<ulong>
 {
-    const auto descendant_nodes = descendants(root(node_a));
+    auto descendant_nodes = descendants(root(node_a));
     auto where_iterator   = ranges::find(descendant_nodes, node_a);
     auto where_index      = std::distance(descendant_nodes.begin(), where_iterator);
     return where_index;
