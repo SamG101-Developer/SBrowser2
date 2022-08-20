@@ -23,6 +23,10 @@ public js_methods:
     auto get_entries_by_type(ext::string_view type) -> ext::vector<performance_timeline::performance_entry*>;
     auto get_entries_by_name(ext::string_view name, ext::string_view type = "") -> ext::vector<performance_timeline::performance_entry*>;
 
+    /* RESOURCE_TIMING */
+    auto clear_resource_timings() -> void;
+    auto set_resource_timing_buffer_size(const ext::number<ulong>& max_size) -> void;
+
 public js_properties:
     ext::property<detail::dom_high_res_time_stamp_t> time_origin;
 

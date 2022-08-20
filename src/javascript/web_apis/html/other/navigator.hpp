@@ -16,6 +16,7 @@ namespace media::capabilities {class media_capabilities;}
 namespace mediacapture::main {class media_devices;}
 namespace mediacapture::main {class media_stream;}
 namespace permissions {class permission;}
+namespace service_workers::workers {class service_worker_container;}
 
 
 class html::other::navigator
@@ -57,6 +58,9 @@ public js_properties:
 
     /* MEDIA_CAPABILITIES */
     ext::property<std::unique_ptr<media::capabilities::media_capabilities>> media_capabilities;
+
+    /* SERVICE_WORKERS */
+    ext::property<std::unique_ptr<service_workers::workers::service_worker_container>> service_worker;
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP

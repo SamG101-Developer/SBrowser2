@@ -20,6 +20,7 @@ namespace dom::nodes {class document;}
 #include <range/v3/view/any_view.hpp>
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(permissions_policy)
+#include USE_INNER_TYPES(page_visibility)
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
 namespace dom::nodes {class comment;}
@@ -64,11 +65,11 @@ class dom::nodes::document
         , public ext::map_like<ext::string, ranges::any_view<element*>>
 {
 public aliases:
-    using module_map = ext::map<
+    using module_map_t = ext::map<
             ext::tuple<ext::string, url::url_object>,
             ext::string>;
 
-    using html_or_svg_script_element = ext::variant<
+    using html_or_svg_script_element_t = ext::variant<
             std::unique_ptr<html::elements::html_script_element>,
             std::unique_ptr<svg::elements::svg_script_element>>;
 
@@ -141,15 +142,17 @@ public js_properties:
     ext::property<ranges::any_view<html::elements::html_link_element*>> links;
     ext::property<ranges::any_view<html::elements::html_form_element*>> forms;
     ext::property<ranges::any_view<html::elements::html_script_element*>> scripts;
-    ext::property<html_or_svg_script_element> current_script;
+    ext::property<html_or_svg_script_element_t> current_script;
 
     ext::property<std::unique_ptr<window_proxy>> default_view;
     ext::property<ext::string> design_mode;
-    ext::property<ext::boolean> hidden;
-    ext::property<ext::string> visibility_state;
 
     /* PERMISSIONS_POLICY */
     ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
+
+    /* PAGE_VISIBILITY */
+    ext::property<ext::boolean> hidden;
+    ext::property<page_visibility::detail::visibility_state_t> visibility_state;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
@@ -176,7 +179,7 @@ private cpp_properties:
     std::unique_ptr<html::detail::policy_container_t> m_policy_container;
     std::unique_ptr<html::detail::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
     std::unique_ptr<permissions_policy::detail::internal_permissions_policy_t> m_permissions_policy;
-    module_map m_module_map;
+    module_map_t m_module_map;
     ext::boolean m_is_initial = false;
 
     html::detail::document_load_timing_info_t& m_load_timing_info;
@@ -228,6 +231,10 @@ private cpp_accessors:
     auto set_cookie(ext::string_view val) -> void;
     auto set_title(ext::string_view val) -> void;
     auto set_body(html::elements::html_body_element* val) -> void;
+
+    /* PAGE_VISIBILITY */
+    DEFINE_GETTER(hidden);
+    DEFINE_GETTER(visibility_state);
 };
 
 
