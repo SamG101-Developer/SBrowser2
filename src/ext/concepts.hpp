@@ -80,4 +80,9 @@ template <typename T>
 concept iterator_like = std::is_pointer_v<std::remove_pointer_t<T>>;
 
 
+// check if a type is an enum type
+template <typename T>
+concept type_is_enum = std::is_enum_v<T> || std::is_scoped_enum_v<T>;
+
+
 #endif //SBROWSER2_CONCEPTS_HPP
