@@ -16,6 +16,7 @@ namespace performance_timeline::detail
     using performance_observer_init_t = ext::map<ext::string, ext::any>;
 
     struct performance_entry_buffer_map_tuple_t;
+    using performance_entry_buffer_t = ext::vector<performance_entry*>;
     using performance_entry_buffer_map_t = ext::map<ext::string, performance_entry_buffer_map_tuple_t>;
 }
 
