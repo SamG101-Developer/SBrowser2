@@ -1,29 +1,45 @@
 #ifndef SBROWSER2_CONVERT_VECTOR_LIKE_HPP
 #define SBROWSER2_CONVERT_VECTOR_LIKE_HPP
 
-#include <ranges>
-
-#include <ext/vector_like.hpp>
+#include "ext/vector_like.hpp"
+#include <range/v3/to_container.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/transform.hpp>
 #include <v8-container.h>
 #include <v8pp/convert.hpp>
 
 
-template <typename _Tx>
-struct v8pp::convert<ext::vector_like_linked<T>>
+template <typename T>
+struct v8pp::convert<ext::vector_like<T>>
 {
-    using from_type = ext::vector_like_linked<T>;
+    using from_type = ext::vector_like<T>;
     using to_type   = v8::Local<v8::Object>;
 
-    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {return not v8_value.IsEmpty() && v8_value->IsObject();}
+    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean;
     static auto from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
-    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector_like) -> to_type;
+    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_datetime_object) -> to_type;
 };
 
 
-template <typename _Tx>
-inline auto v8pp::convert<ext::vector_like_linked<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type
+template <typename T>
+inline auto v8pp::convert<ext::vector_like<T>>::is_valid(
+        v8::Isolate* isolate,
+        v8::Local<v8::Value> v8_value)
+        -> ext::boolean
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::vector_like_linked<_Tx> from v8"};
+    return not v8_value.IsEmpty() && v8_value->IsObject();
+}
+
+
+template <typename T>
+inline auto v8pp::convert<ext::vector_like<T>>::from_v8(
+        v8::Isolate* isolate,
+        v8::Local<v8::Value> v8_value)
+        -> from_type
+{
+    if (!is_valid(isolate, v8_value))
+        throw std::invalid_argument{"Invalid type for converting to ext::vector_like<_Tx> from v8"};
+
     v8::HandleScope javascript_scope{isolate};
 
     // save the current context, and get the property names of the object
@@ -32,20 +48,19 @@ inline auto v8pp::convert<ext::vector_like_linked<T>>::from_v8(v8::Isolate* isol
     auto v8_value_object_property_names = v8_value_object->GetPropertyNames(v8_context).ToLocalChecked();
 
     // get the values at the numerical attributes - ie object[0] = object.0, and convert them to a cpp vector
-    ext::vector<T> cpp_value_vector;
-    std::ranges::copy(v8pp::convert<ext::vector<std::string>>::from_v8(isolate, v8_value_object_property_names)
-            | std::ranges::views::filter([](auto property_name) {return std::isdigit(property_name);})
-            | std::ranges::views::transform([](auto property_name) {return std::stoll(property_name);})
-            | std::ranges::views::transform([v8_value_object, v8_context](auto index) {return v8pp::convert<T>::from_v8(v8_value_object->Get(v8_context, index));})
-            , cpp_value_vector);
+    ext::vector<T> cpp_value_vector = v8pp::convert<ext::vector<std::string>>::from_v8(isolate, v8_value_object_property_names)
+            | ranges::views::filter([](auto property_name) {return std::isdigit(property_name);})
+            | ranges::views::transform([](auto property_name) {return std::stoll(property_name);})
+            | ranges::views::transform([v8_value_object, v8_context](auto index) {return v8pp::convert<T>::from_v8(v8_value_object->Get(v8_context, index));})
+            | ranges::to<ext::vector<T>>;
 
     from_type cpp_value_vector_like {cpp_value_vector};
     return cpp_value_vector_like;
 }
 
 
-template <typename _Tx>
-inline auto v8pp::convert<ext::vector_like_linked<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector_like) -> to_type
+template <typename T>
+inline auto v8pp::convert<ext::vector_like<T>>::to_v8(v8::Isolate* isolate, const from_type& cpp_value_vector_like) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 

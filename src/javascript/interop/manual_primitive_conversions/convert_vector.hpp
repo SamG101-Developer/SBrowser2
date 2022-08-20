@@ -2,7 +2,6 @@
 #ifndef SBROWSER2_CONVERT_VECTOR_HPP
 #define SBROWSER2_CONVERT_VECTOR_HPP
 
-
 #include "ext/vector.hpp"
 #include <v8-container.h>
 #include <v8pp/convert.hpp>

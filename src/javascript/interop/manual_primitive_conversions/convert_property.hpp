@@ -14,7 +14,7 @@ struct v8pp::convert<ext::property<T>>
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean {not v8_value.IsEmpty();}
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
-    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type;
+    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value_datetime_object) -> to_type;
 };
 
 
