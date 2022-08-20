@@ -12,7 +12,7 @@
 #include "javascript/interop/manual_primitive_conversions/convert_map.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_map_like.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_number_float.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_number_integer.hpp"
+#include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_optional.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_property.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_set.hpp"
