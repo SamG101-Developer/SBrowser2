@@ -8,17 +8,17 @@
 _EXT_BEGIN
 
 
-template <typename T>
+template <typename ...Ts>
 class promise
 {
-    template <typename T>
-    auto resolve(T&& value) -> void;
+    template <typename U>
+    auto resolve(U&& value) -> void;
 
-    template <typename T>
-    auto reject(T&& exception) -> void;
+    template <typename U>
+    auto reject(U&& exception) -> void;
 
-    template <typename T, typename U>
-    auto react(T&& steps0, U&& steps1 = []{}) -> void;
+    template <typename U, typename V>
+    auto react(U&& steps0, V&& steps1 = []{}) -> void;
 };
 
 
