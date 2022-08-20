@@ -37,7 +37,12 @@ namespace performance_timeline::detail
 
 
 struct performance_timeline::detail::performance_entry_buffer_map_tuple_t
-{};
+{
+    performance_entry_buffer_t performance_entry_buffer;
+    ext::number<int> max_buffer_size;
+    ext::number<int> dropped_entries_count = 0;
+    ext::boolean available_from_timeline;
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERFORMANCE_TIMELINE_DETAIL_PROCESSING_INTERNALS_HPP
