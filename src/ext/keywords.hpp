@@ -11,8 +11,6 @@
 #define _EXT_SHORTHAND_END } // namespace ext::shorthand
 
 #define COMMA ,
-#define HASH #
-#define SLASH /
 
 #define STRINGIFY(x) #x
 #define EXPAND(x) x
