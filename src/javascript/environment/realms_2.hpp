@@ -4,7 +4,7 @@
 #include "ext/boolean.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_nullptr_t.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_number_integer.hpp"
+#include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_number_float.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_string.hpp"
 
