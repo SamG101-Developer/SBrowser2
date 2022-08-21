@@ -20,6 +20,13 @@ namespace html::detail
 
     auto history_traversal_task_source()
             -> v8::Task&;
+
+    /* SERVICE_WORKERS */
+    auto handle_fetch_task_source()
+            -> v8::Task&;
+
+    auto handle_functional_event_task_source()
+            -> v8::Task&;
 }
 
 
