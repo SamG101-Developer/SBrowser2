@@ -8,7 +8,8 @@
 #include "ext/type_traits.hpp"
 #include "ext/variant.hpp"
 
-#include <v8-array-buffer.h>
+#include <v8-forward.h>
+namespace fetch {class request;}
 namespace file_api {class blob;}
 namespace xhr {class form_data;}
 namespace streams::readable {class readable_stream;}
@@ -64,6 +65,8 @@ namespace fetch::detail
     using headers_t = ext::vector<header_t*>;
 
     enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
+
+    using request_info_t = ext::variant<request*, ext::string>;
 }
 
 #endif //SBROWSER2_FETCH_TYPEDEFS_HPP

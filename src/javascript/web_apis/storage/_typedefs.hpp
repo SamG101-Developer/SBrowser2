@@ -15,7 +15,7 @@
 namespace storage::detail
 {
     using storage_identifier_t = ext::string;
-    using storage_key_t = ext::string;
+    using storage_key_t = ext::string; // TODO -> struct?
     enum class storage_type_t {LOCAL, SESSION};
     enum class storage_bucket_mode_t {BEST_EFFORT, PERSISTENT};
 
