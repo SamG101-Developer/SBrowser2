@@ -2,8 +2,10 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_SERVICE_WORKER_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/queue.hpp"
 #include "ext/set.hpp"
 #include "url/url.hpp"
+#include <future>
 #include <v8-forward.h>
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(high_resolution_time)
