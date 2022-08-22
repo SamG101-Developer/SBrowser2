@@ -36,6 +36,7 @@ namespace ranges::views {struct transform_to_attr_fn;}
 namespace ranges::views {struct transform_if_fn;}
 namespace ranges::views {template <typename T> struct cast_all_to_fn;}
 namespace ranges::views {template <filter_compare_t Comparison> struct filter_eq_fn;}
+namespace ranges::views {struct transpose_fn;}
 
 namespace ranges::actions {struct lowercase_fn;}
 namespace ranges::actions {struct uppercase_fn;}
@@ -204,6 +205,17 @@ struct ranges::views::filter_eq_fn
 };
 
 
+struct ranges::views::transpose_fn
+{
+    constexpr auto operator()() const
+    {
+        return ranges::views::transform(
+                []<template <typename> typename Container, typename T>(Container<T>&)
+                {}); // TODO
+    }
+};
+
+
 /* ACTIONS */
 struct ranges::actions::lowercase_fn
 {
@@ -324,6 +336,7 @@ namespace ranges::views {constexpr transform_to_attr_fn transform_to_attr;}
 namespace ranges::views {constexpr transform_if_fn transform_if;}
 namespace ranges::views {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
 namespace ranges::views {template <filter_compare_t Comparison> constexpr filter_eq_fn<Comparison> filter_eq;}
+namespace ranges::views {constexpr transpose_fn transpose;}
 
 namespace ranges::actions {constexpr lowercase_fn lowercase;}
 namespace ranges::actions {constexpr uppercase_fn uppercase;}
