@@ -21,10 +21,21 @@ _EXT_END
 
 
 _EXT_SHORTHAND_BEGIN
-
 using sv = string_view;
-
 _EXT_SHORTHAND_END
+
+
+_EXT_LITERALS_BEGIN
+auto operator"" _es(const char* primitive_string) -> ext::string
+{
+    return ext::string{primitive_string};
+}
+
+auto operator"" _esv(const char* primitive_string) -> ext::string_view
+{
+    return ext::string_view{primitive_string};
+}
+_EXT_LITERALS_END
 
 
 #endif //SBROWSER2_STRING_HPP
