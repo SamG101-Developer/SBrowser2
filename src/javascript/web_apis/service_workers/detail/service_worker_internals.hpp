@@ -46,6 +46,67 @@ namespace service_workers::detail
             v8::Local<v8::Object> environment,
             const service_worker_registration_t& service_worker_registration)
             -> workers::service_worker_registration*;
+
+    auto soft_update(
+            const service_worker_registration_t& registration,
+            ext::boolean&& force_bypass_cache = false)
+            -> void;
+
+    auto install(
+            const job_t& job,
+            const service_worker_t& worker,
+            const service_worker_registration_t& registration)
+            -> void;
+
+    auto activate(
+            const service_worker_registration_t& registration)
+            -> void;
+
+    auto try_activate(
+            const service_worker_registration_t& registration)
+            -> void;
+
+    auto run_service_worker(
+            const service_worker_t& worker,
+            ext::boolean&& force_bypass_cache = false)
+            -> void;
+
+    auto terminate_service_worker(
+            const service_worker_t& worker)
+            -> void;
+
+    auto handle_service_worker_client_unload(
+            const service_worker_client_t& client)
+            -> void;
+
+    auto handle_user_agent_shutdown()
+            -> void;
+
+    auto update_service_Worker_extended_events_set(
+            const service_worker_t& service_worker,
+            dom::events::event* event)
+            -> void;
+
+    auto update_worker_state(
+            const service_worker_state_t& service_worker,
+            service_worker_state_t state)
+            -> void;
+
+    auto notify_controller_change(
+            const service_worker_client_t& client)
+            -> void;
+
+    auto get_newest_worker(
+            const service_worker_registration_t& registration)
+            -> service_worker_t;
+
+    auto service_worker_has_no_pending_events(
+            const service_worker_registration_t& registration)
+            -> ext::boolean;
+
+    auto is_async_module(
+            /* TODO */)
+            -> ext::boolean;
 };
 
 

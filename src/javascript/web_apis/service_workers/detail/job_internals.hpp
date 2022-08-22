@@ -4,6 +4,7 @@
 #include <future>
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
+#include "fetch/_typedefs.hpp"
 #include "url/url.hpp"
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(storage)
@@ -61,6 +62,19 @@ namespace service_workers::detail
             const job_t& job)
             -> void;
 
+    auto update(
+            const job_t& job)
+            -> void;
+
+    auto handle_fetch(
+            const fetch::detail::request_t& request,
+            const fetch::detail::fetch_controller_t& controller,
+            ext::boolean&& use_high_res_performance_timers)
+            -> fetch::detail::response_t;
+
+    auto unregister(
+            const job_t& job)
+            -> void;
 }
 
 
