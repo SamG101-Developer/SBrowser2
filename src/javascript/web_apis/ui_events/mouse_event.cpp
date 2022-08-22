@@ -13,6 +13,8 @@ ui_events::mouse_event::mouse_event(
         , SET_PROPERTY_FROM_OPTIONS(event_init, client_y, 0)
         , SET_PROPERTY_FROM_OPTIONS(event_init, buttons, 0)
         , SET_PROPERTY_FROM_OPTIONS(event_init, button, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, movement_x, 0)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, movement_y, 0)
 {}
 
 
@@ -29,5 +31,7 @@ auto ui_events::mouse_event::to_v8(
             .var("clientY", &mouse_event::client_y, true)
             .var("button", &mouse_event::button, true)
             .var("buttons", &mouse_event::buttons, true)
+            .var("movementX", &mouse_event::movement_x, true)
+            .var("movementY", &mouse_event::movement_y, true)
             .auto_wrap_objects();
 }
