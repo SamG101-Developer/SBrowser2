@@ -9,6 +9,7 @@ namespace navigation_timing {class performance_navigation_timing;}
 #include USE_INNER_TYPES(high_resolution_time)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(navigation_timing)
+#include USE_INNER_TYPES(service_workers)
 
 class navigation_timing::performance_navigation_timing
         : public resource_timing::performance_resource_timing
@@ -37,6 +38,7 @@ private cpp_properties:
     std::unique_ptr<html::detail::document_unload_timing_info_t> m_previous_document_unload_timing;
     ext::number<ushort> m_redirect_count;
     detail::navigation_timing_type_t m_navigation_type;
+    service_workers::detail::service_worker_timing_info_t& m_service_worker_timing;
 };
 
 
