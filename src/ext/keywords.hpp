@@ -9,6 +9,8 @@
 #define _EXT_DETAIL_END } // namespace ext::detail
 #define _EXT_SHORTHAND_BEGIN namespace ext::shorthand {
 #define _EXT_SHORTHAND_END } // namespace ext::shorthand
+#define _EXT_LITERALS_BEGIN namespace ext::literals {
+#define _EXT_LITERALS_END }
 
 #define COMMA ,
 
