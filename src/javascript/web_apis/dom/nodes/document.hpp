@@ -116,6 +116,9 @@ public js_methods:
     auto query_command_supported(ext::string_view command_id) -> ext::boolean;
     auto query_command_value(ext::string_view command_id) -> ext::boolean;
 
+    /* POINTER_LOCK */
+    auto exit_pointer_lock() -> void;
+
 public js_properties:
     /* DOM */
     ext::property<url::url_object> url;

@@ -17,6 +17,9 @@ public js_properties:
     /* HTML */
     ext::property<std::unique_ptr<nodes::element>> active_element;
 
+    /* POINTER_LOCK */
+    ext::property<std::unique_ptr<nodes::element>> pointer_lock_element;
+
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };

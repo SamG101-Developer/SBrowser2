@@ -92,10 +92,13 @@ public js_methods:
     auto closest(ext::string_view selectors) -> element*;
     auto matches(ext::string_view selectors) -> ext::boolean;
 
-    /* PointerEvents */
+    /* POINTER_EVENTS */
     auto set_pointer_capture(const ext::number<long> pointer_id) -> void;
     auto release_pointer_capture(const ext::number<long> pointer_id) -> void;
     auto has_pointer_capture(const ext::number<long> pointer_id) -> ext::boolean;
+
+    /* POINTER_LOCK */
+    auto request_pointer_lock() -> void;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;

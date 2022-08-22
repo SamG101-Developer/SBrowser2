@@ -22,6 +22,10 @@ public js_properties:
     ext::property<ext::number<short>> button;
     ext::property<ext::number<ushort>> buttons;
 
+    /* POINTER_LOCK */
+    ext::property<ext::number<double>> movement_x;
+    ext::property<ext::number<double>> movement_y;
+
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
