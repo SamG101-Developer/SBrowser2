@@ -49,6 +49,9 @@ public cpp_methods:
 private cpp_properties:
     ext::boolean m_current_navigation_lazy_loaded = true;
 
+    /* FULLSCREEN */
+    ext::boolean m_iframe_fullscreen_flag;
+
 private cpp_accessors:
     auto get_content_document() const -> dom::nodes::document*;
     auto get_content_window() const -> dom::nodes::window_proxy*;

@@ -119,6 +119,9 @@ public js_methods:
     /* POINTER_LOCK */
     auto exit_pointer_lock() -> void;
 
+    /* FULLSCREEN */
+    auto exit_fullscreen() -> std::promise<void>;
+
 public js_properties:
     /* DOM */
     ext::property<url::url_object> url;
@@ -157,6 +160,9 @@ public js_properties:
     ext::property<ext::boolean> hidden;
     ext::property<page_visibility::detail::visibility_state_t> visibility_state;
 
+    /* FULLSCREEN */
+    ext::property<ext::boolean> fullscreen_enabled;
+
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
@@ -168,8 +174,12 @@ private js_slots:
     ext::number<double> s_current_posture;
 
 private cpp_methods:
+    /* HTML */
     [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
     [[nodiscard]] auto get_m_title_element() const -> html::elements::html_title_element*;
+
+    /* FULLSCREEN */
+    auto m_fullscreen_element() -> element*;
 
 private cpp_properties:
     /* DOM */
@@ -203,6 +213,9 @@ private cpp_properties:
 
     ext::boolean m_iframe_load_in_progress_flag;
     ext::boolean m_mute_iframe_flag;
+
+    /* FULLSCREEN */
+    ext::vector<ext::tuple<ext::string, element*>> m_list_of_pending_fullscreen_events;
 
 private cpp_accessors:
     /* DOM */

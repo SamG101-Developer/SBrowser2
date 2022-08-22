@@ -3,6 +3,7 @@
 
 #include "node.hpp"
 
+#include "ext/ranges.hpp"
 #include "javascript/environment/realms_2.hpp"
 
 #include "dom/detail/customization_internals.hpp"
@@ -20,6 +21,8 @@
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/text.hpp"
 #include "dom/ranges/range.hpp"
+
+#include "fullscreen/detail/fullscreen_internals.hpp"
 
 #include <range/v3/to_container.hpp>
 #include <range/v3/algorithm/all_of.hpp>
@@ -53,6 +56,26 @@ dom::nodes::node::node()
     bind_set(node_value);
     bind_set(text_content);
     bind_set(parent_node);
+
+    /* FULLSCREEN */
+    m_dom_behaviour.remove_steps = [this](dom::nodes::node*)
+    {
+        auto* document = owner_document();
+        auto nodes = detail::shadow_including_descendants(document)
+                | ranges::views::cast_all_to<element*>()
+                | ranges::views::filter_eq<ranges::views::EQ>(&element::m_fullscreen_flag, true, ext::identity{});
+
+        for (element* element: nodes)
+        {
+            if (document->m_fullscreen_element() == element)
+                fullscreen::detail::fully_exit_fullscreen(document);
+            else
+                fullscreen::detail::unfullscreen_element(element);
+
+            // TODO : layers
+            // TODO : unloading document cleanup steps
+        }
+    };
 }
 
 

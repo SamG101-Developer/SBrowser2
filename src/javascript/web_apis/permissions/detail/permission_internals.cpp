@@ -96,4 +96,9 @@ permissions::detail::powerful_feature_t::powerful_feature_t(
             decltype(auto) shelf = storage::detail::storage_internals::obtain_local_storage_shelf(current_global_object);
             shelf->bucket_map.emplace("default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
         };
+
+    if (name == "storage")
+    {
+        // TODO : sensors spec
+    }
 }

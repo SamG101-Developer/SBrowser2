@@ -7,7 +7,9 @@ namespace service_workers::workers {class service_worker_registration;}
 
 #include <future>
 #include <memory>
+#include USE_INNER_TYPES(notifications)
 #include USE_INNER_TYPES(service_workers)
+namespace notifications {class notification;}
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::workers {class service_worker;}
 
@@ -21,6 +23,10 @@ public constructors:
 public js_methods:
     auto update() -> std::promise<void>;
     auto unregister() -> std::promise<ext::boolean>;
+
+    /* NOTIFICATIONS */
+    auto show_notification(ext::string&& title, notifications::detail::notification_options_t&& options = {}) -> std::promise<void>;
+    auto show_notifications(notifications::detail::get_notification_options_t&& options = {}) -> std::promise<ext::vector<notifications::notification*>>;
 
 public js_properties:
     ext::property<std::unique_ptr<service_worker>> installing;

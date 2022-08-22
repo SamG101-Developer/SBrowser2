@@ -21,8 +21,8 @@ namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail {auto handle_attributes_changes(const nodes::attr*, nodes::element*, const ext::string&, const ext::string&) -> void;}
 namespace dom::detail {auto create_an_element(nodes::document*, const ext::string&, const ext::string&, const ext::string&, const ext::string&, const ext::boolean&) -> nodes::element*;}
-namespace dom::detail {auto upgrade_element(custom_element_definition_t* const, nodes::element*) -> void;}
-namespace dom::detail {auto try_to_upgrade_element(nodes::element* const element) -> void;}
+namespace dom::detail {auto upgrade_element(custom_element_definition_t*, nodes::element*) -> void;}
+namespace dom::detail {auto try_to_upgrade_element(nodes::element* element) -> void;}
 namespace html::detail::context_internals {struct browsing_context;}
 
 
@@ -36,21 +36,22 @@ class dom::nodes::element
         , public aria::mixins::aria_mixin
 {
 public friends:
-    friend struct dom::mixins::document_or_element_node;
+    friend class node;
+    friend struct mixins::document_or_element_node;
 
-    friend auto dom::detail::handle_attributes_changes(
+    friend auto detail::handle_attributes_changes(
             const nodes::attr* attribute, nodes::element* owner_element, const ext::string& old_value,
             const ext::string& new_value) -> void;
 
-    friend auto dom::detail::create_an_element(
+    friend auto detail::create_an_element(
             nodes::document* document, const ext::string& local_name, const ext::string& namespace_,
             const ext::string& prefix, const ext::string& is, const ext::boolean& synchronous_custom_elements_flag)
             -> nodes::element*;
 
-    friend auto dom::detail::upgrade_element(
+    friend auto detail::upgrade_element(
             detail::custom_element_definition_t* definition, nodes::element* element) -> void;
 
-    friend auto dom::detail::try_to_upgrade_element(
+    friend auto detail::try_to_upgrade_element(
             nodes::element* element) -> void;
 
 public constructors:
@@ -99,6 +100,9 @@ public js_methods:
 
     /* POINTER_LOCK */
     auto request_pointer_lock() -> void;
+
+    /* FULLSCREEN */
+    auto request_fullscreen(fullscreen::details::fullscreen_options_t&& options = {}) -> std::promise<void>;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;
@@ -126,6 +130,10 @@ private cpp_properties:
     detail::custom_element_state_t m_custom_element_state;
     ext::queue<detail::reaction_t*> m_custom_element_reaction_queue;
     html::detail::context_internals::browsing_context* m_nested_browsing_context;
+
+
+    /* FULLSCREEN */
+    ext::boolean m_fullscreen_flag;
 
 private cpp_accessors:
     [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return ELEMENT_NODE;}
