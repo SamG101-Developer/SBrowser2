@@ -29,6 +29,9 @@ public js_properties:
     ext::property<ext::boolean> ok;
     ext::property<ext::string> status_text;
     ext::property<detail::headers_t> headers;
+
+private cpp_properties:
+    std::unique_ptr<detail::response_t> m_response;
 };
 
 
