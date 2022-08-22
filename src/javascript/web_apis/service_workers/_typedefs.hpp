@@ -29,6 +29,7 @@ namespace service_workers::detail
     enum class frame_type_t {AUXILIARY, TOP_LEVEL, NESTED, NONE};
     enum class cache_batch_operation_type_t {DELETE, PUT};
     enum class job_type_t {REGISTER, UPDATE, UNREGISTER};
+    enum class target_t {INSTALLING, WAITING, ACTIVE};
 
     using script_resource_map_t = ext::map<url::url_object, fetch::detail::response_t*>;
     using registration_options_t = ext::map<ext::string, ext::any>;
