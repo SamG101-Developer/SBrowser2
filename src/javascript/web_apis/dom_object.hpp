@@ -6,6 +6,7 @@
 #include "ext/functional.hpp"
 #include "ext/keywords.hpp"
 #include "ext/property.hpp"
+#include "ext/slot.hpp"
 #include "ext/string.hpp"
 
 #include <memory>
@@ -49,7 +50,7 @@ public cpp_properties:
         behaviour_method(
                 dom::nodes::node* node_to_clone,
                 dom::nodes::document* document_to_clone_into,
-                ext::boolean_view deep_clone)
+                ext::boolean&& deep_clone)
                 cloning_steps;
 
         behaviour_method(
