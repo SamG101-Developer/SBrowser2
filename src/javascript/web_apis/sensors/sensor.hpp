@@ -26,6 +26,9 @@ public js_properties:
     ext::property<ext::boolean> has_reading;
     ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> timestamp;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+
 private js_slots:
     detail::state_t s_state;
     ext::number<double> s_frequency;
