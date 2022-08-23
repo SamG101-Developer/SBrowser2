@@ -12,7 +12,7 @@ class accelerometer::linear_accelerometer
 public constructors:
     DOM_CTORS(linear_accelerometer);
     linear_accelerometer() = default;
-    linear_accelerometer(detail::accelerometer_sensor_options_t&& options = {});
+    linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
 };
 
 

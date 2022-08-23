@@ -12,7 +12,7 @@ class accelerometer::gravity_sensor
 public constructors:
     DOM_CTORS(gravity_sensor);
     gravity_sensor() = default;
-    gravity_sensor(detail::accelerometer_sensor_options_t&& options = {});
+    gravity_sensor(detail::accelerometer_sensor_options_t&& options);
 };
 
 

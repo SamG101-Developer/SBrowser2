@@ -10,8 +10,9 @@ namespace accelerometer::detail
 {
     template <inherit<accelerometer> T>
     auto construct_accelerometer_object(
+            T* object,
             accelerometer_sensor_options_t&& options)
-            -> T;
+            -> void;
 };
 
 
