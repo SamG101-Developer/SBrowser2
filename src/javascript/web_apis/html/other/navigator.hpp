@@ -1,7 +1,9 @@
 #ifndef SBROWSER2_NAVIGATOR_HPP
 #define SBROWSER2_NAVIGATOR_HPP
 
+#include "battery/battery_manager.hpp"
 #include "dom_object.hpp"
+#include "badging/mixins/navigator_badge.hpp"
 #include "device_memory/mixins/navigator_device_memory.hpp"
 #include "storage/mixins/navigator_storage.hpp"
 namespace html::other {class navigator;}
@@ -10,6 +12,7 @@ namespace html::other {class navigator;}
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(autoplay)
 #include USE_INNER_TYPES(vibration)
+namespace battery {class battery_manager;}
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}
 namespace html::elements {class html_media_element;}
@@ -22,6 +25,7 @@ namespace service_workers::workers {class service_worker_container;}
 
 class html::other::navigator
         : public virtual dom_object
+        , public badging::mixins::navigator_badge
         , public device_memory::mixins::navigator_device_memory
         , public storage::mixins::navigator_storage
 {
@@ -48,6 +52,13 @@ public js_methods:
     /* BEACON */
     auto send_beacon(ext::string_view url, fetch::detail::body_init_t data = nullptr) -> void;
 
+    /* BADGING */
+    auto set_client_badge(const ext::number<ulonglong>& contents) -> std::promise<void>;
+    auto clear_client_badge() -> std::promise<void>;
+
+    /* BATTERY */
+    auto get_battery() -> std::promise<battery::battery_manager>;
+
 public js_properties:
     /* MEDIACAPTURE_MAIN */
     ext::property<std::unique_ptr<mediacapture::main::media_devices>> media_devices;
@@ -66,6 +77,10 @@ public js_properties:
 
     /* SERVICE_WORKERS */
     ext::property<std::unique_ptr<service_workers::workers::service_worker_container>> service_worker;
+
+private js_slots:
+    ext::slot<std::promise<battery::battery_manager>> s_battery_promise;
+    ext::slot<battery::battery_manager> s_battery;
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP
