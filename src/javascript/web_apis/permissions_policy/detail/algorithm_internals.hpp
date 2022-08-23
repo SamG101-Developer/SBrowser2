@@ -61,7 +61,7 @@ namespace permissions_policy::detail::algorithm_internals
             -> container_policy_t;
 
     auto create_permissions_policy_for_browsing_context(
-            html::detail::browsing_context& context,
+            html::detail::browsing_context_t& context,
             ext::string&& origin)
             -> internal_permissions_policy_t;
     
@@ -71,7 +71,7 @@ namespace permissions_policy::detail::algorithm_internals
             -> internal_permissions_policy_t;
 
     auto create_permissions_policy_for_browsing_context_from_response(
-            html::detail::browsing_context& context,
+            html::detail::browsing_context_t& context,
             ext::string&& origin,
             fetch::detail::response_t& response)
             -> internal_permissions_policy_t;
@@ -79,7 +79,7 @@ namespace permissions_policy::detail::algorithm_internals
     auto define_inherited_policy_for_feature_in_browsing_context(
             feature_t feature,
             ext::string&& origin,
-            html::detail::browsing_context& context)
+            html::detail::browsing_context_t& context)
             -> inherited_policy_value_t;
 
     auto define_inherited_policy_for_feature_in_container_at_origin(
