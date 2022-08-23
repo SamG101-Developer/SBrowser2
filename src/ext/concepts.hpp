@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_CONCEPTS_HPP
 #define SBROWSER2_CONCEPTS_HPP
 
+#include "ext/keywords.hpp"
 #include <range/v3/range/concepts.hpp>
 #include <type_traits>
 
