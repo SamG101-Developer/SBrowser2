@@ -16,10 +16,16 @@ public js_methods:
     /* MEDIACAPTURE-FROMELEMENT */
     auto capture_stream() -> mediacapture::main::media_stream;
 
+    /* MEDIACAPTURE_OUTPUT */
+    auto set_sink_id(ext::string&& sink_id) -> std::promise<void>;
+
 public cpp_properties:
     ext::property<basic_media::media_error*> error;
     ext::property<ext::string> src;
     ext::property<ext::string> src_object;
+
+    /* MEDIACAPTURE_OUTPUT */
+    ext::property<ext::string> sink_id;
 };
 
 
