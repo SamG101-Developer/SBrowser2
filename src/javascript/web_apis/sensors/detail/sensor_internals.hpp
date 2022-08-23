@@ -25,7 +25,7 @@ namespace sensors::detail
             -> void;
 
     auto check_sensor_policy_controlled_features(
-            sensor_type_t sensor_type)
+            const sensor_type_t& sensor_type)
             -> ext::boolean;
 
     auto connect_to_sensor(
@@ -71,7 +71,7 @@ namespace sensors::detail
             -> void;
 
     auto get_value_from_latest_reading(
-            sensor* sensor_instance,
+            const sensor* sensor_instance,
             ext::string&& name)
             -> ext::optional<sensor_reading_t>;
 
