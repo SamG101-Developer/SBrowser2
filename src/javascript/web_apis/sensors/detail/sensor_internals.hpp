@@ -12,6 +12,7 @@
 #include USE_INNER_TYPES(permissions_policy)
 #include USE_INNER_TYPES(sensors)
 
+namespace ambient_light_sensor {class ambient_light_sensor;}
 namespace dom::other {class dom_exception;}
 namespace sensors {class sensor;}
 
@@ -89,6 +90,14 @@ namespace sensors::detail
 
     auto delete_mock_sensor()
             -> void;
+
+    auto reading_quantization_algorithm(
+            sensor* generic_sensor)
+            -> sensor_reading_t;
+
+    auto reading_quantization_algorithm(
+            ambient_light_sensor::ambient_light_sensor* ambient_light_sensor)
+            -> sensor_reading_t;
 };
 
 
