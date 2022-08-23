@@ -72,6 +72,16 @@ auto dom::detail::dispatch(
         -> ext::boolean
 {
     event->m_dispatch_flag = true;
+
+    /* LARGEST_CONTENTFUL_PAINT BEGIN */
+    JS_REALM_GET_RELEVANT(target)
+    if (auto* window = v8pp::from_v8<nodes::window*>(target_relevant_agent, target_relevant_global_object);
+            window != nullptr
+            && event->type() == "scroll"
+            && event->is_trusted())
+        window->m_has_dispatched_scroll_event = true;
+    /* LARGEST_CONTENTFUL_PAINT END */
+
     const auto is_activation_event = event->type() == "click"; // && dynamic_cast<ui_events::events::mouse_event*>(event)
     nodes::event_target* activation_target = is_activation_event ? target : nullptr;
     const nodes::event_target* related_target = detail::retarget(event->related_target(), target);
