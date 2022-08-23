@@ -4,6 +4,7 @@
 #include "dom/ranges/abstract_range.hpp"
 namespace dom::node_ranges {class range;}
 
+#include "ext/type_traits.hpp"
 namespace dom::nodes {class document_fragment;}
 namespace dom::detail {auto contains(nodes::node*, const node_ranges::range*) -> ext::boolean;}
 namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, const ext::number<ulong>&, const ext::boolean&) -> void;}
@@ -55,12 +56,14 @@ public js_methods:
     auto collapse(const ext::boolean& to_start = false) -> void;
     auto clone_range() const -> range;
 
-    auto to_json() const -> ext::string override;
+    /* DOM_PARSING */
+    auto create_contextual_fragmnt(ext::string&& fragment) -> nodes::document_fragment;
 
 public js_properties:
     ext::property<nodes::node*> common_ancestor_container;
 
 public cpp_methods:
+    auto to_json() const -> ext::string override;
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_properties:

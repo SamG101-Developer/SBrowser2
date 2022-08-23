@@ -14,8 +14,10 @@ namespace dom::nodes {class element;}
 #include "ext/queue.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
+#include <future>
 #include <range/v3/view/any_view.hpp>
 #include USE_INNER_TYPES(dom)
+#include USE_INNER_TYPES(fullscreen)
 
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
@@ -23,6 +25,7 @@ namespace dom::detail {auto handle_attributes_changes(const nodes::attr*, nodes:
 namespace dom::detail {auto create_an_element(nodes::document*, const ext::string&, const ext::string&, const ext::string&, const ext::string&, const ext::boolean&) -> nodes::element*;}
 namespace dom::detail {auto upgrade_element(custom_element_definition_t*, nodes::element*) -> void;}
 namespace dom::detail {auto try_to_upgrade_element(nodes::element* element) -> void;}
+namespace edit_context {class edit_context;}
 namespace html::detail::context_internals {struct browsing_context;}
 
 
@@ -66,8 +69,8 @@ public js_methods:
 
     [[nodiscard]] auto has_attribute(ext::string_view name) const -> ext::boolean;
     [[nodiscard]] auto has_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::boolean;
-    auto has_attribute_node(attr* attribute) const -> ext::boolean;
-    auto has_attribute_node_ns(attr* attribute) const -> ext::boolean;
+    [[nodiscard]] auto has_attribute_node(attr* attribute) const -> ext::boolean;
+    [[nodiscard]] auto has_attribute_node_ns(attr* attribute) const -> ext::boolean;
 
     [[nodiscard]] auto get_attribute(ext::string_view qualified_name) const -> ext::string;
     [[nodiscard]] auto get_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::string;
@@ -103,6 +106,9 @@ public js_methods:
 
     /* FULLSCREEN */
     auto request_fullscreen(fullscreen::details::fullscreen_options_t&& options = {}) -> std::promise<void>;
+
+    /* DOM_PARSING */
+    auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;
@@ -115,6 +121,9 @@ public js_properties:
     ext::property<std::unique_ptr<shadow_root>> shadow_root_node;
     ext::property<std::unique_ptr<ext::vector<attr*>>> attributes;
     ext::property<std::unique_ptr<ext::vector<ext::string>>> class_list;
+
+    /* EDIT_CONTENT */
+    ext::property<std::unique_ptr<edit_context::edit_context>> edit_context;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
@@ -130,7 +139,6 @@ private cpp_properties:
     detail::custom_element_state_t m_custom_element_state;
     ext::queue<detail::reaction_t*> m_custom_element_reaction_queue;
     html::detail::context_internals::browsing_context* m_nested_browsing_context;
-
 
     /* FULLSCREEN */
     ext::boolean m_fullscreen_flag;
