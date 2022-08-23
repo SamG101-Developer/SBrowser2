@@ -101,4 +101,9 @@ permissions::detail::powerful_feature_t::powerful_feature_t(
     {
         // TODO : sensors spec
     }
+
+    if (name == "speaker-selection")
+    {
+        // TODO: https://w3c.github.io/mediacapture-output/#permissions-integration
+    }
 }

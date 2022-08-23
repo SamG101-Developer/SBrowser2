@@ -2,11 +2,12 @@
 #define SBROWSER2_NAVIGATOR_HPP
 
 #include "dom_object.hpp"
-#include "media_capabilities/media_capabilities.hpp"
+#include "device_memory/mixins/navigator_device_memory.hpp"
 #include "storage/mixins/navigator_storage.hpp"
 namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
+#include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(autoplay)
 #include USE_INNER_TYPES(vibration)
 namespace dom::other {class dom_exception;}
@@ -21,6 +22,7 @@ namespace service_workers::workers {class service_worker_container;}
 
 class html::other::navigator
         : public virtual dom_object
+        , public device_memory::mixins::navigator_device_memory
         , public storage::mixins::navigator_storage
 {
 private aliases:
@@ -42,6 +44,9 @@ public js_methods:
 
     /* VIBRATION */
     auto vibrate(vibration::detail::vibrate_pattern_t&& pattern) -> ext::boolean;
+
+    /* BEACON */
+    auto send_beacon(ext::string_view url, fetch::detail::body_init_t data = nullptr) -> void;
 
 public js_properties:
     /* MEDIACAPTURE_MAIN */

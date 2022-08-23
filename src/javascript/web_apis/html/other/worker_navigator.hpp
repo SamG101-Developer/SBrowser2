@@ -2,6 +2,7 @@
 #define SBROWSER2_WORKER_NAVIGATOR_HPP
 
 #include "dom_object.hpp"
+#include "device_memory/mixins/navigator_device_memory.hpp"
 #include "storage/mixins/navigator_storage.hpp"
 namespace html::other {class worker_navigator;}
 
@@ -12,6 +13,7 @@ namespace service_workers::workers {class service_worker_container;}
 
 class html::other::worker_navigator
         : public virtual dom_object
+        , public device_memory::mixins::navigator_device_memory
         , public storage::mixins::navigator_storage
 {
     /* PERMISSIONS */

@@ -12,6 +12,7 @@ namespace mediacapture::main {class media_devices;}
 #include <future>
 #include USE_INNER_TYPES(mediacapture_main)
 #include USE_INNER_TYPES(mediacapture_extensions)
+#include USE_INNER_TYPES(mediacapture_output)
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}
 
@@ -20,13 +21,16 @@ class mediacapture::main::media_devices
         : public dom::nodes::event_target
 {
 public js_properties:
-    /* MEDIACAPTURE EXTENSIONS */
+    /* MEDIACAPTURE_EXTENSIONS */
     detail::get_user_media_semantics_t default_semantics;
 
 public js_methods:
     auto enumerate_devices() -> std::promise<ext::vector<media_device_info*>>;
     auto get_user_media(detail::constraints_t&& constraints = {}) -> std::promise<media_stream*>;
     auto get_supported_constraints() -> detail::constraints_t;
+
+    /* MEDIACAPTURE_OUTPUT */
+    auto select_audio_output(detail::audio_output_options_t&& options = {}) -> std::promise<media_device_info>;
 };
 
 

@@ -12,6 +12,9 @@ class dom::nodes::window final
 {
 public js_properties:
     ext::property<std::unique_ptr<document>> document;
+
+private cpp_properties:
+    ext::boolean m_has_dispatched_scroll_event = false;
 };
 
 
