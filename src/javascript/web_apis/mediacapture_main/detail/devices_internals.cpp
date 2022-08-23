@@ -231,6 +231,17 @@ auto mediacapture::detail::device_information_can_be_exposed()
 }
 
 
+auto mediacapture::detail::other_information_can_be_exposed(
+        main::media_devices* device,
+        ext::vector_view<main::media_devices*> microphone_list,
+        ext::vector_view<main::media_devices*> camera_list)
+        -> ext::boolean
+{
+    /* MEDIACAPTURE_OUTPUT */
+    // TODO: https://w3c.github.io/mediacapture-output/#privacy-obtaining-consent
+}
+
+
 auto mediacapture::detail::set_device_information_exposure(
         ext::set<ext::string>&& requested_types,
         ext::boolean&& value)
