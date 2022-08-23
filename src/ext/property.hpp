@@ -304,8 +304,8 @@ private:
 
 #define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::value_t>())
 #define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::value_t>())
-#define DEFINE_SETTER(p) auto set_##p(std::conditional_t<std::is_pointer_v<decltype(p)::value_t>, decltype(p)::value_t, const decltype(p)::value_t&> val) -> void;
-#define DEFINE_GETTER(p) auto get_##p() const -> std::conditional_t<std::is_pointer_v<decltype(p)::value_t>, decltype(p)::value_t, const decltype(p)::value_t&>;
+#define DEFINE_SETTER(p) auto set_##p(decltype(p)::value_t val) -> void;
+#define DEFINE_GETTER(p) auto get_##p() const -> decltype(p)::value_t;
 
 
 
