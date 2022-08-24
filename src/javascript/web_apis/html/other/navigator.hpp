@@ -10,6 +10,7 @@ namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
+#include <future>
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(autoplay)
 #include USE_INNER_TYPES(vibration)
@@ -33,6 +34,9 @@ class html::other::navigator
 private aliases:
     using navigator_user_media_success_callback = ext::function<void(mediacapture::main::media_stream*)>;
     using navigator_user_media_error_callback   = ext::function<void(dom::other::dom_exception*)>;
+
+public constructors:
+    ~navigator() override;
 
 public js_methods:
     /* MEDIACAPTURE_MAIN */
@@ -58,7 +62,7 @@ public js_methods:
     auto clear_client_badge() -> std::promise<void>;
 
     /* BATTERY */
-    auto get_battery() -> std::promise<battery::battery_manager>;
+    auto get_battery() -> const std::promise<battery::battery_manager*>&;
 
 public js_properties:
     /* MEDIACAPTURE_MAIN */
@@ -80,8 +84,8 @@ public js_properties:
     ext::property<std::unique_ptr<service_workers::workers::service_worker_container>> service_worker;
 
 private js_slots:
-    ext::slot<std::promise<battery::battery_manager>> s_battery_promise;
-    ext::slot<battery::battery_manager> s_battery;
+    ext::slot<std::promise<battery::battery_manager*>> s_battery_promise;
+    ext::slot<battery::battery_manager*> s_battery_manager;
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP

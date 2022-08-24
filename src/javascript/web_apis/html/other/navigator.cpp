@@ -2,11 +2,17 @@
 
 #include "ext/threading.hpp"
 
+#include "battery/battery_manager.hpp"
+
+#include "dom/other/dom_exception.hpp"
 #include "dom/nodes/document.hpp"
+
+#include "html/detail/document_internals.hpp"
 
 #include "mediacapture_main/media_devices.hpp"
 
 #include USE_INNER_TYPES(badging)
+#include USE_INNER_TYPES(dom)
 
 
 auto html::other::navigator::get_user_media(
@@ -56,4 +62,36 @@ auto html::other::navigator::clear_client_badge()
     std::promise<void> promise;
     promise.set_value();
     return promise;
+}
+
+
+auto html::other::navigator::get_battery()
+        -> const std::promise<battery::battery_manager*>&
+{
+    // If the [[BatteryPromise]] slot is empty, then create a new slot, as the contents of the lost (promise) are
+    // required for the rest of the method.
+    s_battery_promise = s_battery_promise ?: std::promise<battery::battery_manager*>{};
+
+    // Get the associated document of the relevant global object, cast to a Document.
+    JS_REALM_GET_RELEVANT(this);
+    auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
+
+    // If the Document isn't allowed to use the Battery feature, then reject the [[BatteryPromise]] with a
+    // NOT_ALLOWED_ERR, and return the contents of the [[BatteryManager]] slot.
+    if (!html::detail::allowed_to_use(document, "battery"))
+    {
+        s_battery_promise->set_exception(dom::other::dom_exception{"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
+        return s_battery_promise();
+    }
+
+    // Otherwise, fill the [[BatteryManager]] slot with a new BatteryManager object (will be deleted in the destructor
+    // of the Navigator)
+    else
+    {
+        s_battery_manager = s_battery_manager ? s_battery_manager() : new battery::battery_manager{};
+        s_battery_promise->set_value(s_battery_manager());
+    }
+
+    // Return the [[BatteryPromise]]
+    return s_battery_promise();
 }
