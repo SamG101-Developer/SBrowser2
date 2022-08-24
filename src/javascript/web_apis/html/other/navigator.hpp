@@ -9,6 +9,7 @@
 namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
+#include "ext/optional.hpp"
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(autoplay)
 #include USE_INNER_TYPES(vibration)
@@ -53,7 +54,7 @@ public js_methods:
     auto send_beacon(ext::string_view url, fetch::detail::body_init_t data = nullptr) -> void;
 
     /* BADGING */
-    auto set_client_badge(const ext::number<ulonglong>& contents) -> std::promise<void>;
+    auto set_client_badge(ext::optional<ext::number<ulonglong>> contents) -> std::promise<void>;
     auto clear_client_badge() -> std::promise<void>;
 
     /* BATTERY */
