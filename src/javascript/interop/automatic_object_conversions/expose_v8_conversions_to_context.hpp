@@ -11,14 +11,16 @@
 #include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_map.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_map_like.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_number_float.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_optional.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_property.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_set.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_string.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_vector.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_vector_like.hpp"
+
+#include "accelerometer/accelerometer.hpp"
+#include "accelerometer/gravity_sensor.hpp"
+#include "accelerometer/linear_accelerometer.hpp"
 
 #include "dom/abort/abort_controller.hpp"
 #include "dom/abort/abort_signal.hpp"
@@ -82,6 +84,12 @@ inline auto javascript::interop::expose(
     {
         case (environment::module_t::WINDOW):
         {
+            /* ACCELEROMETER */
+            EXPOSE_CLASS_TO_MODULE(Accelerometer, accelerometer::accelerometer); // TODO SECURE ONLY
+            EXPOSE_CLASS_TO_MODULE(GravitySensor, accelerometer::gravity_sensor); // TODO SECURE ONLY
+            EXPOSE_CLASS_TO_MODULE(LinearAccelerometer, accelerometer::linear_accelerometer); // TODO SECURE ONLY
+
+            /* DOM */
             EXPOSE_CLASS_TO_MODULE(AbortController, dom::abort::abort_controller);
             EXPOSE_CLASS_TO_MODULE(AbortSignal, dom::abort::abort_signal);
             EXPOSE_CLASS_TO_MODULE(CustomEvent, dom::events::custom_event);
@@ -115,6 +123,7 @@ inline auto javascript::interop::expose(
 
         case (environment::module_t::WORKER):
         {
+            /* DOM */
             EXPOSE_CLASS_TO_MODULE(AbortController, dom::abort::abort_controller);
             EXPOSE_CLASS_TO_MODULE(AbortSignal, dom::abort::abort_signal);
             EXPOSE_CLASS_TO_MODULE(CustomEvent, dom::events::custom_event);
@@ -124,6 +133,7 @@ inline auto javascript::interop::expose(
 
         case (environment::module_t::WORKLET):
         {
+            /* DOM */
             EXPOSE_CLASS_TO_MODULE(AbortController, dom::abort::abort_controller);
             EXPOSE_CLASS_TO_MODULE(AbortSignal, dom::abort::abort_signal);
             EXPOSE_CLASS_TO_MODULE(CustomEvent, dom::events::custom_event);
