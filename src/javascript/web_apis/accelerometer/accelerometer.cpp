@@ -16,37 +16,37 @@ accelerometer::accelerometer::accelerometer(
 
 
 auto accelerometer::accelerometer::get_x()
-        const -> ext::number<double>
+        const -> decltype(this->x)::value_t
 {
     // Get the latest reading for the "x" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
     auto candidate_x = sensors::detail::get_value_from_latest_reading(this, "x");
-    auto defaulted_x = candidate_x.value_or(ext::vector<ext::any>{});
-    auto extracted_x = defaulted_x.front().to<ext::number<double>>();
+    auto defaulted_x = candidate_x.value_or(sensors::detail::sensor_reading_t{});
+    auto extracted_x = defaulted_x.at("x").to<ext::number<double>>();
     return extracted_x;
 }
 
 
 auto accelerometer::accelerometer::get_y()
-        const -> ext::number<double>
+        const -> decltype(this->y)::value_t
 {
     // Get the latest reading for the "y" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
     auto candidate_y = sensors::detail::get_value_from_latest_reading(this, "y");
-    auto defaulted_y = candidate_y.value_or(ext::vector<ext::any>{});
-    auto extracted_y = defaulted_y.front().to<ext::number<double>>();
+    auto defaulted_y = candidate_y.value_or(sensors::detail::sensor_reading_t{});
+    auto extracted_y = defaulted_y.at("y").to<ext::number<double>>();
     return extracted_y;
 }
 
 
 auto accelerometer::accelerometer::get_z()
-        const -> ext::number<double>
+        const -> decltype(this->z)::value_t
 {
     // Get the latest reading for the "z" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
     auto candidate_z = sensors::detail::get_value_from_latest_reading(this, "z");
-    auto defaulted_z = candidate_z.value_or(ext::vector<ext::any>{});
-    auto extracted_z = defaulted_z.front().to<ext::number<double>>();
+    auto defaulted_z = candidate_z.value_or(sensors::detail::sensor_reading_t{});
+    auto extracted_z = defaulted_z.at("z").to<ext::number<double>>();
     return extracted_z;
 }
 
