@@ -20,6 +20,9 @@ public constructors:
 public js_methods:
     auto set_app_badge(const ext::number<ulonglong>& contents) -> std::promise<void>;
     auto clear_app_badge() -> std::promise<void>;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 
