@@ -16,18 +16,18 @@ _EXT_BEGIN
 
 using namespace tuplet;
 
-template <typename ...Args>
-auto make_tuple(ranges::any_view<Args...>&& range) -> ext::tuple<Args...>
-{
-    // TODO
-}
-
-
-template <typename T, typename ...Args>
-auto make_tuple(ext::vector<T>&& vector) -> ext::tuple<Args...>
-{
-    // TODO
-}
+//template <typename ...Args>
+//auto make_tuple(ranges::any_view<Args...>&& range) -> ext::tuple<Args...>
+//{
+//    // TODO
+//}
+//
+//
+//template <typename T, typename ...Args>
+//auto make_tuple(ext::vector<T>&& vector) -> ext::tuple<Args...>
+//{
+//    // TODO
+//}
 
 
 //template <typename ...Types>
