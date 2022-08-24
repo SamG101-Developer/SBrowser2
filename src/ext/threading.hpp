@@ -2,6 +2,9 @@
 #define SBROWSER2_THREADING_HPP
 
 #include "ext/keywords.hpp"
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 #include <BS_thread_pool.hpp>
 
 
