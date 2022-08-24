@@ -10,3 +10,14 @@ accelerometer::gravity_sensor::gravity_sensor(
     // objects, tuned by the 'options' dictionary.
     detail::construct_accelerometer_object(this, std::move(options));
 }
+
+
+auto accelerometer::gravity_sensor::to_v8(
+        v8::Isolate* isolate)
+        const && -> ext::any
+{
+    return v8pp::class_<gravity_sensor>{isolate}
+        .ctor<detail::accelerometer_local_coordinate_system_t&&>()
+        .inherit<accelerometer>()
+        .auto_wrap_objects();
+}

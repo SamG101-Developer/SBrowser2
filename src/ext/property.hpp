@@ -202,6 +202,11 @@ public:
     explicit property(stripped_value_t<V>&& other)
     {m_meta.m_value = std::move(other);}
 
+    // Special constructor from templated inner type TODO : concept restraint?
+    template <typename V>
+    explicit property(V value)
+    {m_meta.m_value = value;}
+
     // Destructor calls deleter
     ~property()
     {m_meta.m_deleter();}

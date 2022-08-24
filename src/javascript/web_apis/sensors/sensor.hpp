@@ -34,6 +34,10 @@ private js_slots:
     ext::number<double> s_frequency;
     high_resolution_time::detail::dom_high_res_time_stamp_t s_last_event_fired_at;
     ext::boolean s_pending_reading_notification;
+
+private cpp_properties:
+    detail::coordinate_system_t m_coordinate_system;
+    std::unique_ptr<detail::sensor_type_t> m_sensor;
 };
 
 

@@ -75,6 +75,9 @@ public:
     auto operator--() -> number&
     {--n; return *this;}
 
+    auto operator-() -> number&
+    {n *= -1; return *this;}
+
     template <arithmetic U>
     auto operator=(const ext::number<U>& val)
     {n = *val;}
@@ -143,6 +146,13 @@ template <typename T, typename U>
 auto round(T&& value, U&& multiplier)
 {
     return std::round(std::move(value / multiplier)) * std::forward<U>(multiplier);
+}
+
+
+template <typename T>
+auto absolute(T&& value)
+{
+    return value < 0 ? -value : value;
 }
 
 

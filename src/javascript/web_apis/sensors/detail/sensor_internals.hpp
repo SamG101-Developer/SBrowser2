@@ -91,12 +91,14 @@ namespace sensors::detail
     auto delete_mock_sensor()
             -> void;
 
+    template <typename T>
     auto reading_quantization_algorithm(
-            sensor* generic_sensor)
+            sensor_reading_t&& reading)
             -> sensor_reading_t;
 
-    auto reading_quantization_algorithm(
-            ambient_light_sensor::ambient_light_sensor* ambient_light_sensor)
+    template <>
+    auto reading_quantization_algorithm<ambient_light_sensor::ambient_light_sensor>(
+            sensor_reading_t&& reading)
             -> sensor_reading_t;
 };
 

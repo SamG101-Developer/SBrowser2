@@ -16,8 +16,9 @@ namespace sensors::detail
     enum class mock_sensor_type_t {
         AMBIENT_LIGHT, ACCELEROMETER, LINEAR_ACCELERATION, GRAVITY, GYROSCOPE, MAGNETOMETER, UNCALIBRATED_MAGNETOMETER,
         ABSOLUTE_ORIENTATION, RELATIVE_ORIENTATION, GEOLOCATION, PROXIMITY};
+    enum class coordinate_system_t {DEVICE_COORDINATE_SYSTEM, SCREEN_COORDINATE_SYSTEM};
 
-    using sensor_reading_t = ext::vector<ext::any>;
+    using sensor_reading_t = ext::map<ext::string, ext::any>;
     using sensor_options_t = ext::map<ext::string, ext::any>;
     using mock_sensor_t = ext::map<ext::string, ext::any>;
     using mock_sensor_configuration_t = ext::map<ext::string, ext::any>;

@@ -13,6 +13,9 @@ public constructors:
     DOM_CTORS(gravity_sensor);
     gravity_sensor() = default;
     gravity_sensor(detail::accelerometer_sensor_options_t&& options);
+
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 };
 
 

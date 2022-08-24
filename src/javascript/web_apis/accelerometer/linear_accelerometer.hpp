@@ -13,6 +13,9 @@ public constructors:
     DOM_CTORS(linear_accelerometer);
     linear_accelerometer() = default;
     linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 

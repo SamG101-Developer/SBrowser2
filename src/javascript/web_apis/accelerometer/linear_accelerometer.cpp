@@ -10,3 +10,14 @@ accelerometer::linear_accelerometer::linear_accelerometer(
     // objects, tuned by the 'options' dictionary.
     detail::construct_accelerometer_object(this, std::move(options));
 }
+
+
+auto accelerometer::linear_accelerometer::to_v8(
+        v8::Isolate* isolate)
+        const && -> ext::any
+{
+    return v8pp::class_<linear_accelerometer>{isolate}
+        .ctor<detail::accelerometer_local_coordinate_system_t&&>()
+        .inherit<accelerometer>()
+        .auto_wrap_objects();
+}

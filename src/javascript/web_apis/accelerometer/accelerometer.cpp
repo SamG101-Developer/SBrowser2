@@ -2,10 +2,12 @@
 
 #include "accelerometer/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"
+#include "sensors/sensor.hpp"
 
 
 accelerometer::accelerometer::accelerometer(
         detail::accelerometer_sensor_options_t&& options)
+        : x{0.0}, y{0.0}, z{0.0}
 {
     // Construct an Accelerometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -55,6 +57,7 @@ auto accelerometer::accelerometer::to_v8(
 {
     return v8pp::class_<accelerometer>{isolate}
         .ctor<detail::accelerometer_sensor_options_t&&>()
+        .inherit<sensors::sensor>()
         .var("x", &accelerometer::x, true)
         .var("y", &accelerometer::y, true)
         .var("z", &accelerometer::z, true)

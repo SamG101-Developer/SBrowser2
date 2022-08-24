@@ -25,9 +25,6 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_properties:
-    std::unique_ptr<sensors::detail::sensor_type_t> m_sensor;
-
 private cpp_accessors:
     DEFINE_GETTER(x);
     DEFINE_GETTER(y);
