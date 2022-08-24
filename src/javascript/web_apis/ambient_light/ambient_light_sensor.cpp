@@ -18,8 +18,8 @@ auto ambient_light_sensor::ambient_light_sensor::get_illuminance()
     // Get the latest reading for the "illuminance" value, default it to 0..0 if it doesn't exist, and then convert it
     // from the ext::any type to a double. Return the double.
     auto candidate_illuminance = sensors::detail::get_value_from_latest_reading(this, "illuminance");
-    auto defaulted_illuminance = candidate_illuminance.value_or(ext::vector<ext::any>{});
-    auto extracted_illuminance = defaulted_illuminance.front().to<ext::number<double>>();
+    auto defaulted_illuminance = candidate_illuminance.value_or(sensors::detail::sensor_reading_t{});
+    auto extracted_illuminance = defaulted_illuminance.at("illuminance").to<ext::number<double>>();
     return extracted_illuminance;
 }
 
