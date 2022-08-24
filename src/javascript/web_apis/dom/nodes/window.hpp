@@ -38,7 +38,7 @@ private cpp_properties:
     /* BACKGROUND_TASKS */
     ext::vector<background_tasks::detail::idle_request_callback_t> m_idle_request_callbacks;
     ext::vector<background_tasks::detail::idle_request_callback_t> m_runnable_idle_callbacks;
-    ext::number<size_t> m_idle_callback_identifier;
+    ext::number<ulong> m_idle_callback_identifier;
     ext::queue<std::jthread> m_current_threads;
     std::condition_variable m_condition_variable;
     std::mutex m_mutex;
