@@ -12,6 +12,7 @@ namespace dom::nodes {class window;}
 #include USE_INNER_TYPES(background_tasks)
 namespace background_tasks {class idle_deadline;}
 namespace dom::nodes {class document;}
+namespace html::other {class navigator;}
 
 
 class dom::nodes::window final
@@ -20,7 +21,9 @@ class dom::nodes::window final
 public js_properties:
     /* HTML */
     ext::property<std::unique_ptr<document>> document;
+    ext::property<std::unique_ptr<html::other::navigator>> navigator;
 
+public js_methods:
     /* BACKGROUND_TASKS */
     auto request_idle_callback(
             background_tasks::detail::idle_request_callback_t&& callback,
