@@ -11,13 +11,16 @@ class battery::battery_manager
 {
 public constructors:
     DOM_CTORS(battery_manager);
-    battery_manager() = default;
+    battery_manager();
 
 public js_properties:
     ext::property<ext::boolean> charging;
     ext::property<ext::number<double>> charging_time;
     ext::property<ext::number<double>> discharging_time;
     ext::property<ext::number<double>> level;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private js_slots:
     ext::slot<ext::boolean> s_charging;
