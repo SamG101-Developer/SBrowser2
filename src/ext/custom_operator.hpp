@@ -8,6 +8,7 @@
 #include <cmath>
 #include <queue>
 #include <stack>
+#include <thread>
 #include <stdexcept>
 
 
@@ -58,12 +59,19 @@ custom_operator(clamp)
 }
 #define js_clamp 0 <clamp>
 
+
 custom_operator(enforce_range)
 {
-    if (b < b.min() || b > b.max())
-        throw std::out_of_range{"Number out of range"};
+    if (b < b.min() || b > b.max()) throw std::out_of_range{"Number out of range"};
 }
 #define js_enforce_range 0 <enforce_range>
+
+
+custom_operator(go)
+{
+    std::jthread _thread{b};
+}
+#define go 0 <go>
 
 
 // postfix unary operators
