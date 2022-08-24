@@ -20,7 +20,6 @@ namespace dom::detail
     using exception_condiditional_t = ext::function<bool()>;
 
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
-    using steps_t = ext::function<void()>;
     struct registered_observer_t;
     struct transient_registered_observer_t;
 
