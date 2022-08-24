@@ -17,15 +17,20 @@ namespace background_tasks::detail
 
     template <callable F>
     auto invoke_idle_callbacks_algorithm(
-            detail::idle_request_callback_t&& handle,
             dom::nodes::window* window,
             F&& get_deadline)
             -> high_resolution_time::detail::dom_high_res_time_stamp_t;
 
     auto invoke_idle_callback_timeout_algorithm(
-            detail::idle_request_callback_t&& handle,
+            ext::number<ulong>&& handle,
             dom::nodes::window* window)
             -> void;
+
+    auto should_idle_period_be_delayed()
+            -> ext::boolean;
+
+    auto should_idle_period_end_early()
+            -> ext::boolean;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_DETAIL_PROCESSING_INTERNALS_HPP
