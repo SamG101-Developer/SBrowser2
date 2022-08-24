@@ -17,8 +17,10 @@
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/drop_while.hpp>
+#include <range/v3/view/enumerate.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/join.hpp>
+#include <range/v3/view/map.hpp>
 #include <range/v3/view/remove.hpp>
 #include <range/v3/view/reverse.hpp>
 #include <range/v3/view/split.hpp>
@@ -37,12 +39,14 @@ namespace ranges::views {struct transform_if_fn;}
 namespace ranges::views {template <typename T> struct cast_all_to_fn;}
 namespace ranges::views {template <filter_compare_t Comparison> struct filter_eq_fn;}
 namespace ranges::views {struct transpose_fn;}
+namespace ranges::views {struct remove_at_index_fn;}
 
 namespace ranges::actions {struct lowercase_fn;}
 namespace ranges::actions {struct uppercase_fn;}
 namespace ranges::actions {struct transform_if_fn;}
 namespace ranges::actions {template <typename T> struct cast_all_to_fn;}
 namespace ranges::actions {struct replace_fn;}
+namespace ranges::actions {struct remove_at_index_fn;}
 
 namespace ranges {struct contains_all_fn;}
 namespace ranges {struct first_where_fn;}
@@ -177,7 +181,7 @@ struct ranges::views::filter_eq_fn
         // a filter that allows for comparison of an attribute or method call from each object in the range; for
         // example, the first line is simplified into the second line (syntactic sugar)
         //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;}
-        //      elements = node->children() | ranges::views::filter_eq(&node::node_type, node::ELEMENT_NODE);
+        //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
         constexpr_return_if(Comparison == EQ) ranges::views::filter(
                 [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
                 (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) == std::forward<U>(value);});
@@ -212,6 +216,17 @@ struct ranges::views::transpose_fn
         return ranges::views::transform(
                 []<template <typename> typename Container, typename T>(Container<T>&)
                 {}); // TODO
+    }
+};
+
+
+struct ranges::views::remove_at_index_fn
+{
+    constexpr auto operator()(_EXT number<size_t>&& r_index) const
+    {
+        return ranges::views::enumerate
+                | ranges::views::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
+                | ranges::views::values;
     }
 };
 
@@ -292,6 +307,17 @@ struct ranges::actions::replace_fn
 };
 
 
+struct ranges::actions::remove_at_index_fn
+{
+    constexpr auto operator()(_EXT number<size_t>&& r_index) const
+    {
+        return ranges::views::enumerate
+                | ranges::actions::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
+                | ranges::views::values;
+    }
+};
+
+
 /* ALGORITHMS */
 struct ranges::contains_all_fn
 {
@@ -337,12 +363,14 @@ namespace ranges::views {constexpr transform_if_fn transform_if;}
 namespace ranges::views {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
 namespace ranges::views {template <filter_compare_t Comparison> constexpr filter_eq_fn<Comparison> filter_eq;}
 namespace ranges::views {constexpr transpose_fn transpose;}
+namespace ranges::views {constexpr remove_at_index_fn remove_at_index;}
 
 namespace ranges::actions {constexpr lowercase_fn lowercase;}
 namespace ranges::actions {constexpr uppercase_fn uppercase;}
 namespace ranges::actions {constexpr transform_if_fn transform_if;}
 namespace ranges::actions {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
 namespace ranges::actions {constexpr replace_fn replace;}
+namespace ranges::actions {constexpr remove_at_index_fn remove_at_index;}
 
 namespace ranges {constexpr contains_all_fn contains_all;}
 namespace ranges {constexpr first_where_fn first_where;}
