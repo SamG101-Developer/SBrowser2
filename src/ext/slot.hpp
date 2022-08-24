@@ -10,6 +10,7 @@ class ext::slot
 {
 public:
     slot() = default;
+    explicit slot(T&& initialization_value) : m_value{std::forward<T>(initialization_value)} {}
     ~slot() = default;
 
     slot(const slot&) = delete;
@@ -19,8 +20,9 @@ public:
 
     auto operator=(const T& value) -> slot& {m_value = value; return *this;}
     auto operator=(T&& value) -> slot& {m_value = std::move(value); return *this;}
-    auto operator()() -> T& {return m_value;}
-    auto operator->() -> T& {return m_value;}
+    auto operator()() const -> decltype(auto) {return m_value;}
+    auto operator->() const -> decltype(auto) {return std::addressof(m_value);}
+    operator bool() const {return static_cast<bool>(m_value);}
 
 private:
     T m_value;
