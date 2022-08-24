@@ -27,6 +27,10 @@ namespace html::detail
 
     auto handle_functional_event_task_source()
             -> v8::Task&;
+
+    /* BACKGROUND_TASKS */
+    auto idle_task_source()
+            -> v8::Task&;
 }
 
 

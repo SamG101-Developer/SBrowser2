@@ -4,6 +4,11 @@
 #include "dom/nodes/event_target.hpp"
 namespace dom::nodes {class window;}
 
+#include <condition_variable>
+#include <mutex>
+#include <thread>
+#include "ext/type_traits.hpp"
+#include "ext/queue.hpp"
 #include USE_INNER_TYPES(background_tasks)
 namespace background_tasks {class idle_deadline;}
 namespace dom::nodes {class document;}
@@ -31,9 +36,12 @@ private cpp_properties:
     ext::boolean m_has_dispatched_scroll_event = false;
 
     /* BACKGROUND_TASKS */
-    ext::vector<background_tasks::idle_deadline*> m_idle_request_callbacks;
-    ext::vector<background_tasks::idle_deadline*> m_runnable_idle_callbacks;
+    ext::vector<background_tasks::detail::idle_request_callback_t> m_idle_request_callbacks;
+    ext::vector<background_tasks::detail::idle_request_callback_t> m_runnable_idle_callbacks;
     ext::number<size_t> m_idle_callback_identifier;
+    ext::queue<std::jthread> m_current_threads;
+    std::condition_variable m_condition_variable;
+    std::mutex m_mutex;
 };
 
 
