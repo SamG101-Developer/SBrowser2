@@ -5,6 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
 #include "ext/string.hpp"
+#include <limits>
 #include <stdexcept>
 
 #define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                                                      \
@@ -88,6 +89,12 @@ public:
 
     constexpr auto operator*() -> T& {return n;}
     constexpr auto operator*() const -> const T& {return n;}
+
+    static auto inf() -> number
+    {return std::numeric_limits<T>::infinity();}
+
+    static auto nan() -> number
+    {return std::numeric_limits<T>::quiet_NaN();}
 
 private:
     T n;
