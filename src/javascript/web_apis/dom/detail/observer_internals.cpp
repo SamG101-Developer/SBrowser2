@@ -11,11 +11,11 @@
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/other/dom_implementation.hpp"
-#include "v8-function-callback.h"
 
 #include <magic_enum.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/map.hpp>
+#include <v8-function-callback.h>
 
 namespace html::elements {class html_slot_element;}
 
@@ -69,8 +69,9 @@ auto dom::detail::notify_mutation_observers() -> void
 }
 
 
+template <typename F>
 auto dom::detail::queue_microtask(
-        steps_t&& steps,
+        F&& steps,
         v8::Isolate* event_loop,
         nodes::document* document)
         -> void
@@ -82,7 +83,7 @@ auto dom::detail::queue_microtask(
         document = document ? document : implied_document();
 
         // create a microtask and assign it the relevant data TODO
-        const v8::Local<v8::Function> microtask = v8::Function::New(event_loop->GetCurrentContext(), std::move(steps));
+        const v8::Local<v8::Function> microtask = v8::Function::New(event_loop->GetCurrentContext(), std::forward<F>(steps));
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "source")  , microtask->TaskSource());
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "document"), v8pp::to_v8(event_loop, document));
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "set"), v8pp::to_v8(event_loop, ext::set<void*>{}));
@@ -199,9 +200,10 @@ auto dom::detail::queue_mutation_observer_microtask() -> void
 }
 
 
+template <typename F>
 auto dom::detail::queue_task(
         const v8::Task& task_source,
-        steps_t&& steps,
+        F&& steps,
         v8::Isolate* event_loop,
         nodes::document* document)
         -> void
@@ -211,7 +213,7 @@ auto dom::detail::queue_task(
         event_loop = event_loop ? event_loop : implied_agent;
         document = document ? document : implied_document();
 
-        const v8::Local<v8::Function> microtask = v8::Function::New(event_loop->GetCurrentContext(), std::move(steps));
+        const v8::Local<v8::Function> microtask = v8::Function::New(event_loop->GetCurrentContext(), std::forward<F>(steps));
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "source"), task_source);
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "document"), v8pp::to_v8(event_loop, document));
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "set"), v8pp::to_v8(event_loop, ext::set<void*>{}));
@@ -222,10 +224,11 @@ auto dom::detail::queue_task(
 }
 
 
+template <typename F>
 auto dom::detail::queue_global_task(
         const v8::Task& task_source,
         const v8::Local<v8::Object> global_object,
-        steps_t&& steps)
+        F&& steps)
         -> void
 {
     JS_REALM_GET_RELEVANT(global_object)
@@ -233,16 +236,17 @@ auto dom::detail::queue_global_task(
                      ? javascript::environment::realms_2::get<nodes::document*>(global_object, "associated_document")
                      : nullptr;
 
-    queue_task(task_source, std::move(steps), global_object_relevant_agent, document);
+    queue_task(task_source, std::forward<F>(steps), global_object_relevant_agent, document);
 }
 
 
+template <typename F>
 auto dom::detail::queue_element_task(
         const v8::Task& task_source,
         const html::elements::html_element* const element,
-        steps_t&& steps)
+        F&& steps)
         -> void
 {
     JS_REALM_GET_RELEVANT(element)
-    queue_global_task(task_source, element_relevant_global_object, std::move(steps));
+    queue_global_task(task_source, element_relevant_global_object, std::forward<F>(steps));
 }

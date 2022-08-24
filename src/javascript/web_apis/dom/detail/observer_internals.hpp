@@ -26,8 +26,9 @@ namespace dom::detail
             -> void;
 
     // queues
+    template <typename F>
     auto queue_microtask(
-            steps_t&& steps,
+            F&& steps,
             v8::Isolate* event_loop = nullptr,
             nodes::document* document = nullptr)
             -> void;
@@ -55,28 +56,32 @@ namespace dom::detail
     auto queue_mutation_observer_microtask()
             -> void;
 
+    template <typename F>
     auto queue_task(
             const v8::Task& task_source,
-            steps_t&& steps,
+            F&& steps,
             v8::Isolate* event_loop = nullptr,
             nodes::document* document = nullptr)
             -> void;
 
+    template <typename F>
     auto queue_global_task(
             const v8::Task& task_source,
             v8::Local<v8::Object> global_object,
-            steps_t&& steps)
+            F&& steps)
             -> void;
 
+    template <typename F>
     auto queue_element_task(
             const v8::Task& task_source,
             const html::elements::html_element* element,
-            steps_t&& steps)
+            F&& steps)
             -> void;
 
+    template <typename F>
     auto queue_media_element_task(
             const html::elements::html_media_element* element,
-            steps_t&& steps)
+            F&& steps)
             -> void;
 }
 
