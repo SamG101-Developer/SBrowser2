@@ -9,7 +9,7 @@ namespace battery::algorithm_internals
 {
     template <typename T>
     auto update_battery_status_and_notify(
-            const ext::slot<T>&,
+            ext::slot<T>& slot,
             T&& new_value,
             ext::string&& event_name)
             -> void;
