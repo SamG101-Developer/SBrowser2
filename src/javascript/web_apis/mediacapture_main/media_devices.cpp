@@ -12,7 +12,7 @@
 
 #include "html/detail/document_internals.hpp"
 
-#include "mediacapture_main/details/devices_internals.hpp"
+#include "mediacapture_main/detail/devices_internals.hpp"
 #include "mediacapture_main/media_device_info.hpp"
 #include "mediacapture_main/media_stream.hpp"
 
