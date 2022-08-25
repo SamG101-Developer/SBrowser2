@@ -70,7 +70,7 @@ private cpp_properties:
     nodes::node* m_root;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_common_ancestor_container() const -> nodes::node*;
+    DEFINE_GETTER(common_ancestor_container);
 };
 
 

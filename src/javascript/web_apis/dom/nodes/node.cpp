@@ -352,55 +352,30 @@ auto dom::nodes::node::remove_child(
 }
 
 
-auto dom::nodes::node::get_previous_sibling() const -> node*
+auto dom::nodes::node::get_previous_sibling()
+        const -> decltype(this->previous_sibling)::value_t
 {
-    auto* siblings = parent_node()->child_nodes();
-    auto* this_node_iter = std::ranges::find(*siblings, this);
+    decltype(auto) siblings = parent_node()->child_nodes();
+    decltype(auto) this_node_iter = std::ranges::find(*siblings, this);
     return this_node_iter != siblings->begin() ? *(this_node_iter - 1) : nullptr;
 }
 
 
-auto dom::nodes::node::get_next_sibling() const -> node*
+auto dom::nodes::node::get_next_sibling()
+        const -> decltype(this->next_sibling)::value_t
 {
-    auto* siblings = parent_node()->child_nodes();
-    auto* this_node_iter = std::ranges::find(*siblings, this);
+    decltype(auto) siblings = parent_node()->child_nodes();
+    decltype(auto) this_node_iter = std::ranges::find(*siblings, this);
     return (this_node_iter + 1 != siblings->end()) ? *(this_node_iter + 1) : nullptr;
 }
 
 
-auto dom::nodes::node::get_parent_element() const -> element*
+auto dom::nodes::node::get_parent_element()
+        const -> decltype(this->parent_element)::value_t
 {
-    auto* parent_as_node = parent_node();
-    auto* parent_as_element = dynamic_cast<element*>(parent_as_node);
+    decltype(auto) parent_as_node = parent_node();
+    decltype(auto) parent_as_element = dynamic_cast<element*>(parent_as_node);
     return parent_as_element;
-}
-
-
-auto dom::nodes::node::set_parent_node(node* val) -> void
-{
-    *parent_node = std::unique_ptr<node>(val);
-
-    if (m_rendered_widget->isWidgetType())
-    {
-        auto* this_widget = qobject_cast<QWidget*>(m_rendered_widget);
-
-        if (auto* new_parent_scroll_widget = qobject_cast<QScrollArea*>(val->to_qt()))
-            new_parent_scroll_widget->setWidget(this_widget);
-
-        else if (auto* new_parent_action_widget = qobject_cast<QWidgetAction*>(val->to_qt()))
-            new_parent_action_widget->setDefaultWidget(this_widget);
-
-        else if (auto* new_parent_widget = qobject_cast<QWidget*>(val->to_qt()))
-            new_parent_widget->layout()->addWidget(this_widget);
-
-        else
-        {
-            std::cerr << "Unknown render method for " << typeid(*val->to_qt()).name() << std::endl;
-            return;
-        }
-
-        m_rendered_widget->show();
-    }
 }
 
 

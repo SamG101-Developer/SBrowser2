@@ -37,10 +37,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_children() const -> ranges::any_view<nodes::element*, ranges::category::sized | ranges::category::forward>;
-    [[nodiscard]] auto get_first_element_child() const -> nodes::element*;
-    [[nodiscard]] auto get_last_element_child() const -> nodes::element*;
-    [[nodiscard]] auto get_child_element_count() const -> size_t;
+    DEFINE_GETTER(children);
+    DEFINE_GETTER(first_element_child);
+    DEFINE_GETTER(last_element_child);
+    DEFINE_GETTER(child_element_count);
 };
 
 

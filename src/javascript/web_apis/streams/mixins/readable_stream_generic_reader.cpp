@@ -1,7 +1,7 @@
 #include "readable_stream_generic_reader.hpp"
 
 #include "dom/detail/exception_internals.hpp"
-#include "streams/details/operations_internals.hpp"
+#include "streams/detail/operations_internals.hpp"
 
 
 streams::mixins::readable_stream_generic_reader::readable_stream_generic_reader()
@@ -24,7 +24,7 @@ auto streams::mixins::readable_stream_generic_reader::cancel(
 
 
 auto streams::mixins::readable_stream_generic_reader::get_closed()
-        const -> std::promise<void>
+        const -> decltype(this->closed)::value_t
 {
     return s_closed_promise;
 }

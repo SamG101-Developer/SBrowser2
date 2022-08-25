@@ -21,7 +21,7 @@ auto high_resolution_time::performance::now()
 
 
 auto high_resolution_time::performance::get_time_origin()
-        const -> detail::dom_high_res_time_stamp_t
+        const -> decltype(this->time_origin)::value_t
 {
     // the 'time_origin' of this Performance class will always be the value returned from the detail method which gets
     // the value from the global object, set to the relevant global object of the Performance class

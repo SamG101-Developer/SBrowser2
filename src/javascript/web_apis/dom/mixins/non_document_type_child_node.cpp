@@ -18,8 +18,8 @@ dom::mixins::non_document_type_child_node::non_document_type_child_node()
 }
 
 
-auto dom::mixins::non_document_type_child_node::get_previous_element_sibling()
-        const -> nodes::element*
+auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const
+        -> decltype(this->previous_element_sibling)::value_t
 {
     const auto* const base = ext::cross_cast<const nodes::node*>(this);
     const auto& siblings = *base->parent_node()->child_nodes();
@@ -29,7 +29,7 @@ auto dom::mixins::non_document_type_child_node::get_previous_element_sibling()
 
 
 auto dom::mixins::non_document_type_child_node::get_next_element_sibling()
-        const -> nodes::element*
+        const -> decltype(this->next_element_sibling)::value_t
 {
     const auto* const base = ext::cross_cast<const nodes::node*>(this);
     const auto& siblings = *base->parent_node()->child_nodes();

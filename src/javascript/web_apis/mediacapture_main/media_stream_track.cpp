@@ -3,7 +3,7 @@
 #include "ext/uuid.hpp"
 
 #include "dom/detail/event_internals.hpp"
-#include "mediacapture_main/details/source_internals.hpp"
+#include "mediacapture_main/detail/source_internals.hpp"
 
 
 mediacapture::main::media_stream_track::media_stream_track(
@@ -55,13 +55,13 @@ auto mediacapture::main::media_stream_track::stop() -> void
 
 
 auto mediacapture::main::media_stream_track::set_muted(
-        ext::boolean&& val)
+        const ext::boolean& val)
         -> void
 {
     // don't do anything if the 'new_state' is the same as the current state, because otherwise multiple "mute" /
     // "unmute" event would be received when there is no change to the data
     return_if(muted() == val);
-    property_guard(muted);
+    guard_property(muted);
     *muted = val;
 
     // fire an event that is either "mute" or "unmute" depending on the 'new_state', at this track

@@ -36,7 +36,7 @@ auto streams::readable::readable_stream_default_controller::error(
 
 
 auto streams::readable::readable_stream_default_controller::get_desired_size()
-        const -> ext::number<double>
+        const -> decltype(this->desired_size)::value_t
 {
     return detail::readable_stream_default_controller_get_desired_size(this);
 }

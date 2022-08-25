@@ -45,7 +45,7 @@ private cpp_properties:
     detail::media_stream_track_source& m_source;
 
 private cpp_accessors:
-    auto set_muted(ext::boolean&& val) -> void;
+    DEFINE_SETTER(muted);
 };
 
 

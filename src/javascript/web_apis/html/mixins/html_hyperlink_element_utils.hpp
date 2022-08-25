@@ -13,50 +13,50 @@ public constructors:
     html_hyperlink_element_utils();
 
 public js_properties:
-    ext::property<ext::string, false> origin;
-    ext::property<ext::string, true> href;
-    ext::property<ext::string, true> protocol;
-    ext::property<ext::string, true> username;
-    ext::property<ext::string, true> password;
-    ext::property<ext::string, true> host;
-    ext::property<ext::string, true> hostname;
-    ext::property<ext::string, true> port;
-    ext::property<ext::string, true> pathname;
-    ext::property<ext::string, true> search;
-    ext::property<ext::string, true> hash;
+    ext::property<ext::string> origin;
+    ext::property<ext::string> href;
+    ext::property<ext::string> protocol;
+    ext::property<ext::string> username;
+    ext::property<ext::string> password;
+    ext::property<ext::string> host;
+    ext::property<ext::string> hostname;
+    ext::property<ext::string> port;
+    ext::property<ext::string> pathname;
+    ext::property<ext::string> search;
+    ext::property<ext::string> hash;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
     auto to_json() const -> ext::string override {return href();};
 
 private cpp_properties:
-    url::url_object m_url;
+    url::detail::url_t m_url;
 
 private cpp_accessors:
-    auto get_origin() const -> ext::string;
-    auto get_href() const -> ext::string;
-    auto get_protocol() const -> ext::string;
-    auto get_username() const -> ext::string;
-    auto get_password() const -> ext::string;
-    auto get_host() const -> ext::string;
-    auto get_hostname() const -> ext::string;
-    auto get_port() const -> ext::string;
-    auto get_pathname() const -> ext::string;
-    auto get_search() const -> ext::string;
-    auto get_hash() const -> ext::string;
+    DEFINE_GETTER(origin);
+    DEFINE_GETTER(href);
+    DEFINE_GETTER(protocol);
+    DEFINE_GETTER(username);
+    DEFINE_GETTER(password);
+    DEFINE_GETTER(host);
+    DEFINE_GETTER(hostname);
+    DEFINE_GETTER(port);
+    DEFINE_GETTER(pathname);
+    DEFINE_GETTER(search);
+    DEFINE_GETTER(hash);
 
-    auto set_href(ext::string_view val) -> void;
-    auto set_protocol(ext::string_view val) -> void;
-    auto set_username(ext::string_view val) -> void;
-    auto set_password(ext::string_view val) -> void;
-    auto set_host(ext::string_view val) -> void;
-    auto set_hostname(ext::string_view val) -> void;
-    auto set_port(ext::string_view val) -> void;
-    auto set_pathname(ext::string_view val) -> void;
-    auto set_search(ext::string_view val) -> void;
-    auto set_hash(ext::string_view val) -> void;
+    DEFINE_SETTER(href);
+    DEFINE_SETTER(protocol);
+    DEFINE_SETTER(username);
+    DEFINE_SETTER(password);
+    DEFINE_SETTER(host);
+    DEFINE_SETTER(hostname);
+    DEFINE_SETTER(port);
+    DEFINE_SETTER(pathname);
+    DEFINE_SETTER(search);
+    DEFINE_SETTER(hash);
 
-    auto del_href() -> void;
+    DEFINE_DELETER(href);
 };
 
 

@@ -11,16 +11,16 @@ html::elements::html_title_element::html_title_element()
 
 
 auto html::elements::html_title_element::get_text()
-        const -> ext::string
+        const -> decltype(this->text)::value_t
 {
     // the 'text' of a HTMLTitleElement is the child text content of the element; this is the concatenated text of all
     // the children Text nodes that have this node as an ancestor
-    return dom::detail::tree_internals::child_text_content(this);
+    return dom::detail::child_text_content(this);
 }
 
 
 auto html::elements::html_title_element::set_text(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     // to set the 'text' of a HTMLTitleElement, all the string content beneath this element is replaced with the new

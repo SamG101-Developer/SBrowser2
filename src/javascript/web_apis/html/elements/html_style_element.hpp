@@ -12,16 +12,16 @@ public constructors:
     html_style_element();
 
 public js_properties:
-    ext::property<bool, false> disabled;
-    ext::property<ext::string, true> media;
-    ext::property<ext::vector<ext::string>*, false> blocking;
+    ext::property<ext::boolean> disabled;
+    ext::property<ext::string> media;
+    ext::property<std::unique_ptr<ext::vector<ext::string>>> blocking;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    auto get_disabled() const -> bool;
-    auto set_disabled(bool val) -> void;
+    DEFINE_GETTER(disabled);
+    DEFINE_SETTER(disabled);
 };
 
 

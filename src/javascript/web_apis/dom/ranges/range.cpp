@@ -208,8 +208,8 @@ auto dom::node_ranges::range::select_node(
     // range), and set the start offset to the index of the container (so the first node is the container), and set the
     // end offset to the index of the container + 1 (so the only node in the range is the container)
     auto parent_node = container->parent_node();
-    std::tie(start_container, start_offset) = std::make_tuple(parent_node, index);
-    std::tie(end_container, end_offset) = std::make_tuple(parent_node, index + 1);
+    ext::tie(start_container, start_offset) = ext::make_tuple(parent_node, index);
+    ext::tie(end_container, end_offset) = ext::make_tuple(parent_node, index + 1);
 }
 
 
@@ -226,8 +226,8 @@ auto dom::node_ranges::range::select_node_contents(
     // and the offset to the length of the container this will mean that the range only contains the entire contents of
     // the range
     auto l = detail::length(container);
-    std::tie(start_container, start_offset) = std::make_tuple(container, 0);
-    std::tie(end_container, end_offset)     = std::make_tuple(container, l);
+    ext::tie(start_container, start_offset) = ext::make_tuple(container, 0);
+    ext::tie(end_container, end_offset)     = ext::make_tuple(container, l);
 }
 
 
@@ -244,35 +244,35 @@ auto dom::node_ranges::range::compare_boundary_points(
 
     // set 'this_container/_offset' and 'that_container/_offset' to nullptr/0, to prepare them for the switch-case
     // block that determines their values based on the 'how' parameter
-    auto [this_container, this_offset] = std::make_tuple(static_cast<nodes::node*>(nullptr), 0);
-    auto [that_container, that_offset] = std::make_tuple(static_cast<nodes::node*>(nullptr), 0);
+    auto [this_container, this_offset] = ext::make_tuple(static_cast<nodes::node*>(nullptr), ext::number<ulong>{});
+    auto [that_container, that_offset] = ext::make_tuple(static_cast<nodes::node*>(nullptr), ext::number<ulong>{});
 
     // there are 4 different ways to compare the boundary points of 2 Range objects - the start and end of either Range
     // can be compared against the start or end of the other range, giving 4 different possibilities of comparison
     // methods
-    number_switch(how)
+    switch(*how)
     {
-        number_case(START_TO_START): // start of that range to start of this range
-            std::tie(this_container, this_offset) = std::make_tuple(start_container(), start_offset());
-            std::tie(that_container, that_offset) = std::make_tuple(source_range->start_container(), source_range->start_offset());
+        case(*START_TO_START): // start of that range to start of this range
+            ext::tie(this_container, this_offset) = ext::make_tuple(start_container(), start_offset());
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->start_container(), source_range->start_offset());
             break;
 
-        number_case(START_TO_END): // start of that range to end of this range
-            std::tie(this_container, this_offset) = std::make_tuple(end_container(), end_offset());
-            std::tie(that_container, that_offset) = std::make_tuple(source_range->start_container(), source_range->start_offset());
+        case(*START_TO_END): // start of that range to end of this range
+            ext::tie(this_container, this_offset) = ext::make_tuple(end_container(), end_offset());
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->start_container(), source_range->start_offset());
             break;
 
-        number_case(END_TO_END): // end of that range to end of this range
-            std::tie(this_container, this_offset) = std::make_tuple(end_container(), end_offset());
-            std::tie(that_container, that_offset) = std::make_tuple(source_range->end_container(), source_range->end_offset());
+        case(*END_TO_END): // end of that range to end of this range
+            ext::tie(this_container, this_offset) = ext::make_tuple(end_container(), end_offset());
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->end_container(), source_range->end_offset());
             break;
 
-        number_case(END_TO_START): // end of that range to start of this range
-            std::tie(this_container, this_offset) = std::make_tuple(start_container(), start_offset());
-            std::tie(that_container, that_offset) = std::make_tuple(source_range->end_container(), source_range->end_offset());
+        case(*END_TO_START): // end of that range to start of this range
+            ext::tie(this_container, this_offset) = ext::make_tuple(start_container(), start_offset());
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->end_container(), source_range->end_offset());
             break;
 
-        number_default: // if the 'how' value is invalid, throw a not supported error
+        default: // if the 'how' value is invalid, throw a not supported error
             detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(NO_CONDITION, "The 'how' parameter must be 0 <= how <= 3");
             break;
     }
@@ -386,8 +386,8 @@ auto dom::node_ranges::range::extract_contents()
                         last_partially_contained_child, fragment, last_partially_contained_child, 0, end_container(),
                         end_offset(), detail::EXTRACT);
 
-        std::tie(start_container, start_offset) = std::make_tuple(new_node, new_offset);
-        std::tie(end_container  , end_offset  ) = std::make_tuple(new_node, new_offset);
+        ext::tie(start_container, start_offset) = ext::make_tuple(new_node, new_offset);
+        ext::tie(end_container  , end_offset  ) = ext::make_tuple(new_node, new_offset);
         return fragment;
     ce_reactions_method_exe
 }
@@ -490,8 +490,8 @@ auto dom::node_ranges::range::delete_contents()
         if (textual_end_container)
             detail::replace_data(textual_end_container, 0, end_offset(), "");
 
-        std::tie(start_container, start_offset) = std::make_tuple(new_node, new_offset);
-        std::tie(end_container  , end_offset  ) = std::make_tuple(new_node, new_offset);
+        ext::tie(start_container, start_offset) = ext::make_tuple(new_node, new_offset);
+        ext::tie(end_container  , end_offset  ) = ext::make_tuple(new_node, new_offset);
 
         return static_cast<nodes::document_fragment*>(nullptr); // TODO : return value
     ce_reactions_method_exe
@@ -529,8 +529,8 @@ auto dom::node_ranges::range::collapse(
         -> void
 {
     to_start
-            ? std::tie(end_container  , end_offset)   = std::make_tuple(start_container(), start_offset())
-            : std::tie(start_container, start_offset) = std::make_tuple(end_container()  , end_offset()  );
+            ? ext::tie(end_container  , end_offset)   = ext::make_tuple(start_container(), start_offset())
+            : ext::tie(start_container, start_offset) = ext::make_tuple(end_container()  , end_offset()  );
 }
 
 
@@ -538,8 +538,8 @@ auto dom::node_ranges::range::clone_range()
         const -> range
 {
     range new_range;
-    std::tie(new_range.start_container, new_range.start_offset) = std::make_tuple(start_container(), start_offset());
-    std::tie(new_range.end_container  , new_range.end_offset  ) = std::make_tuple(end_container()  , end_offset()  );
+    ext::tie(new_range.start_container, new_range.start_offset) = ext::make_tuple(start_container(), start_offset());
+    ext::tie(new_range.end_container  , new_range.end_offset  ) = ext::make_tuple(end_container()  , end_offset()  );
     return new_range;
 }
 
@@ -568,7 +568,7 @@ auto dom::node_ranges::range::to_json()
 
 
 auto dom::node_ranges::range::get_common_ancestor_container()
-        const -> nodes::node*
+        const -> decltype(this->common_ancestor_container)::value_t
 {
     return detail::common_ancestor(start_container(), end_container());
 }

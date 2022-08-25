@@ -7,6 +7,7 @@ namespace dom::abort {class abort_signal;}
 
 #include "ext/functional.hpp"
 #include "ext/optional.hpp"
+#include "ext/type_traits.hpp"
 namespace dom::nodes {class event_target;}
 namespace dom::detail {auto signal_abort(abort::abort_signal*, const ext::any&) -> void;}
 namespace dom::detail {auto follow_signal(abort::abort_signal*, abort::abort_signal*) -> void;}
@@ -39,7 +40,7 @@ public js_methods:
 
 public js_properties:
     ext::property<ext::boolean> aborted;
-    ext::property<ext::any    > reason;
+    ext::property<ext::any> reason;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
@@ -48,7 +49,7 @@ private cpp_properties:
     abort_signal_callbacks_t m_abort_algorithms;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_aborted() const -> ext::boolean;
+    DEFINE_GETTER(aborted);
 };
 
 

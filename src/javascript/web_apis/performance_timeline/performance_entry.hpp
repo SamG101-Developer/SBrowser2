@@ -18,12 +18,18 @@ public constructors:
 public js_properties:
     ext::property<ext::string> name;
     ext::property<ext::string> entry_type;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> start_type;
+    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> start_time;
     ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> duration;
 
 public cpp_methods:
     auto to_json() const -> ext::string override;
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+protected cpp_accessors:
+    virtual DEFINE_GETTER(name) = 0;
+    virtual DEFINE_GETTER(entry_type) = 0;
+    virtual DEFINE_GETTER(start_time) = 0;
+    virtual DEFINE_GETTER(duration) = 0;
 };
 
 

@@ -42,11 +42,11 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_inner_text() const -> ext::string;
-    [[nodiscard]] auto get_outer_text() const -> ext::string {return inner_text();};
+    DEFINE_GETTER(inner_text);
+    DEFINE_GETTER(outer_text) {return inner_text();};
 
-    auto set_inner_text(ext::string_view val) -> void;
-    auto set_outer_text(ext::string_view val) -> void;
+    DEFINE_SETTER(inner_text);
+    DEFINE_SETTER(outer_text);
 };
 
 

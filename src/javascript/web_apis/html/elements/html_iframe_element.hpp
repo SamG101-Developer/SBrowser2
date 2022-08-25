@@ -25,17 +25,17 @@ public js_methods:
 
 public js_properties:
     /* HTML */
-    ext::property<ext::string, true> src;
-    ext::property<ext::string, true> srcdoc;
-    ext::property<ext::string, true> name;
-    ext::property<ext::string, false> sandbox;
-    ext::property<ext::string, true> allow;
-    ext::property<ext::boolean, true> allow_fullscreen;
+    ext::property<ext::string> src;
+    ext::property<ext::string> srcdoc;
+    ext::property<ext::string> name;
+    ext::property<ext::string> sandbox;
+    ext::property<ext::string> allow;
+    ext::property<ext::boolean> allow_fullscreen;
 
-    ext::property<ext::string, true> width;
-    ext::property<ext::string, true> height;
-    ext::property<referrer_policy::detail::referrer_policy_t, true> referrer_policy;
-    ext::property<detail::lazy_loading_t, true> loading;
+    ext::property<ext::string> width;
+    ext::property<ext::string> height;
+    ext::property<referrer_policy::detail::referrer_policy_t> referrer_policy;
+    ext::property<detail::lazy_loading_t> loading;
 
     ext::property<dom::nodes::document*> content_document;
     ext::property<dom::nodes::window_proxy*> content_window;
@@ -53,10 +53,10 @@ private cpp_properties:
     ext::boolean m_iframe_fullscreen_flag;
 
 private cpp_accessors:
-    auto get_content_document() const -> dom::nodes::document*;
-    auto get_content_window() const -> dom::nodes::window_proxy*;
-    auto set_sandbox(ext::string_view val) -> void;
-    auto set_loading(detail::lazy_loading_t val) -> void;
+    DEFINE_GETTER(content_document);
+    DEFINE_GETTER(content_window);
+    DEFINE_SETTER(sandbox);
+    DEFINE_SETTER(loading);
 };
 
 

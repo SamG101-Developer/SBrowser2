@@ -10,6 +10,7 @@ dom::abort::abort_signal::abort_signal()
         : reason{ext::nullopt}
 {
     // create an abort signal
+    bind_get(aborted)
 }
 
 
@@ -52,7 +53,7 @@ auto dom::abort::abort_signal::throw_if_aborted()
 
 
 auto dom::abort::abort_signal::get_aborted()
-        const -> ext::boolean
+        const -> decltype(this->aborted)::value_t
 {
     // the signal has aborted if the reason attribute has been set
     return reason().has_value();

@@ -48,55 +48,54 @@ auto html::elements::html_image_element::decode()
         // belonging to a filly active document has be decoded
         if (dom::detail::is_document_fully_active(owner_document())
                 || m_current_request->state == state_t::BROKEN)
+        {
             promise.set_exception(dom::other::dom_exception{"", ENCODING_ERR});
+            return;
+        }
 
         // otherwise, the document is fully active, so the process to try and decode the image can begin
-        else
+        // run the loop (which can wait for a bit of time) in a separate thread - this is because the waiting
+        // process would otherwise block the main thread
+        go [this, &promise]
         {
-            // run the loop (which can wait for a bit of time) in a separate thread - this is because the waiting
-            // process would otherwise block the main thread
-            ext::thread_pool pool {10};
-            pool.push_task([this, &promise]
+            // save the data of the image, so that the loop can check if the current requests image data has
+            // mutated, as this is a reason to break from the loop
+            auto old_image_data = m_current_request->image_data;
+            while (true)
             {
-                // save the data of the image, so that the loop can check if the current requests image data has
-                // mutated, as this is a reason to break from the loop
-                auto old_image_data = m_current_request->image_data;
-                while (true)
+                // if the document becomes not fully active, the current request's image data mutates, or the state
+                // of the current request becomes BROKEN, then reject the promise with an encoding error (and break
+                // the while-loop)
+                if (!dom::detail::is_document_fully_active(owner_document())
+                        || m_current_request->image_data != old_image_data
+                        || m_current_request->state == state_t::BROKEN)
                 {
-                    // if the document becomes not fully active, the current request's image data mutates, or the state
-                    // of the current request becomes BROKEN, then reject the promise with an encoding error (and break
-                    // the while-loop)
-                    if (!dom::detail::is_document_fully_active(owner_document())
-                            || m_current_request->image_data != old_image_data
-                            || m_current_request->state == state_t::BROKEN)
-                    {
-                        promise.set_exception(dom::other::dom_exception{"", ENCODING_ERR});
-                        break;
-                    }
-
-                    // if the current request's state becomes COMPLETELY_AVAILABLE, then run the internal detail method
-                    // to decode the image (and break from the loop)
-                    if(m_current_request->state == state_t::COMPLETELY_AVAILABLE)
-                    {
-                        detail::decode(this);
-                        break;
-                    }
+                    promise.set_exception(dom::other::dom_exception{"", ENCODING_ERR});
+                    break;
                 }
-            }); // pool.push_task(...)
-        }
-    }); // queue_microtask(...)
+
+                // if the current request's state becomes COMPLETELY_AVAILABLE, then run the internal detail method
+                // to decode the image (and break from the loop)
+                if(m_current_request->state == state_t::COMPLETELY_AVAILABLE)
+                {
+                    detail::decode(this);
+                    break;
+                }
+            }
+        };
+    });
 }
 
 
 auto html::elements::html_image_element::get_current_src()
-        const -> ext::string
+        const -> decltype(this->current_src)::value_t
 {
     return detail::serialize_url(m_current_request->url);
 }
 
 
 auto html::elements::html_image_element::get_complete()
-        const -> ext::boolean
+        const -> decltype(this->complete)::value_t
 {
     using detail::state_t;
 
@@ -112,7 +111,7 @@ auto html::elements::html_image_element::get_complete()
 
 
 auto html::elements::html_image_element::set_loading(
-        detail::lazy_loading_t val)
+        const html::detail::lazy_loading_t& val)
         -> void
 {
     using detail::lazy_loading_t;

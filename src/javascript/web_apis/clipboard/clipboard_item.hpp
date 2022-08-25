@@ -30,8 +30,8 @@ private cpp_properties:
     ext::vector<ext::string> m_types_array;
 
 private cpp_accessors:
-    auto get_presentation_style() const -> detail::presentation_style_t;
-    auto get_types() const -> ext::vector<ext::string>;
+    DEFINE_GETTER(presentation_style);
+    DEFINE_GETTER(types);
 };
 
 

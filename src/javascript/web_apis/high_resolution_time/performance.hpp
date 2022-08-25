@@ -34,7 +34,7 @@ public cpp_properties:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_time_origin() const -> detail::dom_high_res_time_stamp_t;
+    DEFINE_GETTER(time_origin);
 };
 
 

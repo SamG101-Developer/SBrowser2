@@ -36,8 +36,8 @@ private js_slots:
     // TODO : [[live_seekable_range]]
 
 private cpp_accessors:
-    auto get_duration() const -> ext::number<double>;
-    auto set_duration(const ext::number<double>& val) -> void;
+    DEFINE_GETTER(duration)
+    DEFINE_SETTER(duration)
 };
 
 

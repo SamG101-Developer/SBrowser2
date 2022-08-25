@@ -32,7 +32,7 @@ html::elements::html_iframe_element::html_iframe_element()
 
 
 auto html::elements::html_iframe_element::set_sandbox(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     // these are the allowed values for the 'sandbox' attribute; the usual `attach_constraints` can't be used, because
@@ -52,13 +52,13 @@ auto html::elements::html_iframe_element::set_sandbox(
             | ranges::to<ext::string>;
 
     // set the internal value of the sandbox property
-    property_guard(sandbox);
+    guard_property(sandbox);
     *sandbox = filtered_sandbox_attributes;
 }
 
 
 auto html::elements::html_iframe_element::set_loading(
-        detail::lazy_loading_t val)
+        const html::detail::lazy_loading_t& val)
         -> void
 {
     using detail::lazy_loading_t;
@@ -72,6 +72,6 @@ auto html::elements::html_iframe_element::set_loading(
     }
 
     // set the internal value of the sandbox property
-    property_guard(loading);
+    guard_property(loading);
     *loading = val;
 }

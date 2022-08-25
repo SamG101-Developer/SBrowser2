@@ -92,7 +92,7 @@ public js_methods:
     auto toggle_attribute_node(attr* attribute, ext::optional<ext::boolean>&& force) -> attr*;
     auto toggle_attribute_node_ns(attr* attribute, ext::optional<ext::boolean>&& force) -> attr*;
 
-    auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> shadow_root*;
+    auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> shadow_root;
     auto closest(ext::string_view selectors) -> element*;
     auto matches(ext::string_view selectors) -> ext::boolean;
 
@@ -105,7 +105,7 @@ public js_methods:
     auto request_pointer_lock() -> void;
 
     /* FULLSCREEN */
-    auto request_fullscreen(fullscreen::details::fullscreen_options_t&& options = {}) -> std::promise<void>;
+    auto request_fullscreen(fullscreen::detail::fullscreen_options_t&& options = {}) -> std::promise<void>;
 
     /* DOM_PARSING */
     auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void;
@@ -144,15 +144,15 @@ private cpp_properties:
     ext::boolean m_fullscreen_flag;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return ELEMENT_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return html_uppercase_qualified_name();};
-    [[nodiscard]] auto get_node_value() const -> ext::string override;
-    [[nodiscard]] auto get_text_content() const -> ext::string override;
-    auto set_node_value(ext::string_view val) -> void override;
-    auto set_text_content(ext::string_view val) -> void override;
+    DEFINE_GETTER(node_type) override {return ELEMENT_NODE;}
+    DEFINE_GETTER(node_name) override {return html_uppercase_qualified_name();};
+    DEFINE_GETTER(node_value) override;
+    DEFINE_GETTER(text_content) override;
+    DEFINE_SETTER(node_value) override;
+    DEFINE_SETTER(text_content) override;
 
-    [[nodiscard]] auto get_tag_name() const -> ext::string {return html_uppercase_qualified_name();};
-    [[nodiscard]] auto get_shadow_root_node() const -> shadow_root*;
+    DEFINE_GETTER(tag_name) {return html_uppercase_qualified_name();};
+    DEFINE_GETTER(shadow_root_node);
 };
 
 

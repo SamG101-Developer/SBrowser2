@@ -20,13 +20,12 @@ public js_properties:
     ext::property<ext::string> whole_text;
 
 public cpp_methods:
-    [[nodiscard]] auto to_qt() const -> QLabel* override {return qobject_cast<QLabel*>(m_rendered_widget);};
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return TEXT_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return "#text";};
-    [[nodiscard]] auto get_whole_text() const -> ext::string;
+    DEFINE_GETTER(node_type) override {return TEXT_NODE;}
+    DEFINE_GETTER(node_name) override {return "#text";};
+    DEFINE_GETTER(whole_text);
 };
 
 

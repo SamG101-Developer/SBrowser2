@@ -30,8 +30,8 @@ private js_slot_methods:
     auto s_cancel_steps(ext::any&& reason) -> void override;
 
 private cpp_accessors:
-    _EXT_NODISCARD auto get_desired_size() const -> ext::number<double> override;
-    _EXT_NODISCARD auto get_byob_request() const -> readable_stream_byob_request*;
+    DEFINE_GETTER(desired_size) override;
+    DEFINE_GETTER(byob_request);
 
 };
 

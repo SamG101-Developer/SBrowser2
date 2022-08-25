@@ -12,15 +12,8 @@
 dom::nodes::text::text(ext::string&& new_data)
 {
     bind_get(whole_text);
-    bind_qt(data, m_rendered_widget, QLabel::setText)
 
     data = std::move(new_data);
-
-    auto widget = QPointer<QLabel>{};
-    widget->setLayout(new QVBoxLayout{});
-    widget->hide();
-    widget->setWordWrap(true);
-    m_rendered_widget = widget;
 }
 
 
@@ -35,7 +28,7 @@ auto dom::nodes::text::split_text(
 
 
 auto dom::nodes::text::get_whole_text()
-        const -> ext::string
+        const -> decltype(this->whole_text)::value_t
 {
     // the whole text of a Text node is the contiguous node data ie the combined data of all the contiguous Text nodes
     dom::detail::contiguous_text_nodes(this) // TODO -> create contiguous_text_content(...) in detail

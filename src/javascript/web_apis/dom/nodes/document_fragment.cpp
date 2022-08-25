@@ -5,7 +5,7 @@
 
 
 auto dom::nodes::document_fragment::get_text_content()
-        const -> ext::string
+        const -> decltype(this->text_content)::value_t
 {
     // the text content of a DocumentFragment is the descendant text content of it; this is because the DocumentFragment
     // is effectively a Range of elements, including Text nodes, so it makes sense that the text content of the
@@ -15,8 +15,7 @@ auto dom::nodes::document_fragment::get_text_content()
 
 
 auto dom::nodes::document_fragment::set_text_content(
-        ext::string_view val)
-        -> void
+        const ext::string& val) -> void
 {
     // setting the text content of a DocumentFragment has to replace the text that the 'text_content' getter gets; in
     // this case it's the descendant text content of the DocumentFragment. this is done by replacing all the text under

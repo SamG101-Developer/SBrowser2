@@ -7,6 +7,7 @@ dom::nodes::attr::attr()
 {
     bind_get(node_value);
     bind_get(text_content);
+
     bind_set(node_value);
     bind_set(text_content);
     bind_set(value);
@@ -14,7 +15,7 @@ dom::nodes::attr::attr()
 
 
 auto dom::nodes::attr::set_value(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     // overwrite the current value in this attribute class with the new value

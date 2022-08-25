@@ -4,6 +4,8 @@
 
 #include "html/detail/html_element_internals.hpp"
 #include "html/detail/miscellaneous_internals.hpp"
+#include "url/_typedefs.hpp"
+#include "url/detail/url_internals.hpp"
 
 
 html::mixins::html_hyperlink_element_utils::html_hyperlink_element_utils()
@@ -36,15 +38,15 @@ html::mixins::html_hyperlink_element_utils::html_hyperlink_element_utils()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_origin()
-        const -> ext::string
+        const -> decltype(this->origin)::value_t
 {
     detail::reinitialize_url(this);
-    return !m_url ? "" : detail::serialize_url(url::detail::origin(m_url));
+    return !m_url ? "" : detail::serialize_url(ext::get<ext::string>(url::detail::origin(m_url)));
 }
 
 
 auto html::mixins::html_hyperlink_element_utils::get_href()
-        const -> ext::string
+        const -> decltype(this->href)::value_t
 {
     html::detail::reinitialize_url(this);
 
@@ -56,7 +58,7 @@ auto html::mixins::html_hyperlink_element_utils::get_href()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_protocol()
-        const -> ext::string
+        const -> decltype(this->protocol)::value_t
 {
     detail::reinitialize_url(this);
     return !m_url ? ":" : m_url.scheme() + ":";
@@ -64,7 +66,7 @@ auto html::mixins::html_hyperlink_element_utils::get_protocol()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_username()
-        const -> ext::string
+        const -> decltype(this->username)::value_t
 {
     detail::reinitialize_url(this);
     return !m_url ? "" : m_url.username();
@@ -72,14 +74,14 @@ auto html::mixins::html_hyperlink_element_utils::get_username()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_password()
-        const -> ext::string
+        const -> decltype(this->password)::value_t
 {
     detail::reinitialize_url(this);
     return !m_url ? "" : m_url.password();
 }
 
 auto html::mixins::html_hyperlink_element_utils::get_host()
-        const -> ext::string
+        const -> decltype(this->host)::value_t
 {
     detail::reinitialize_url(this);
     return_if(!m_url || m_url.host().empty()) "";
@@ -89,7 +91,7 @@ auto html::mixins::html_hyperlink_element_utils::get_host()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_hostname()
-        const -> ext::string
+        const -> decltype(this->hostname)::value_t
 {
     detail::reinitialize_url(this);
     return !m_url || m_url.host().empty() ? "" : url::detail::serialize_host(m_url.host());
@@ -97,7 +99,7 @@ auto html::mixins::html_hyperlink_element_utils::get_hostname()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_port()
-        const -> ext::string
+        const -> decltype(this->port)::value_t
 {
     detail::reinitialize_url(this);
     return !m_url || m_url.port().empty() ? "" : url::detail::serialize_port(m_url.port());
@@ -105,7 +107,7 @@ auto html::mixins::html_hyperlink_element_utils::get_port()
 
 
 auto html::mixins::html_hyperlink_element_utils::get_pathname()
-        const -> ext::string
+        const -> decltype(this->pathname)::value_t
 {
     detail::reinitialize_url(this);
     return !m_url || m_url ? "" : url::detail::serialize_path(m_url);
@@ -113,28 +115,28 @@ auto html::mixins::html_hyperlink_element_utils::get_pathname()
 
 
 auto html::mixins::html_hyperlink_element_utils::set_href(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
-    property_guard(href);
+    guard_property(href);
     *href = val;
     detail::set_url(this);
 }
 
 
 auto html::mixins::html_hyperlink_element_utils::set_protocol(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
     return_if(!m_url);
-    url::detail::basic_url_parse(ext::string{val} + ":", m_url, SCHEME_START_STATE);
+    url::detail::basic_url_parser(ext::string{val} + ":", m_url, url::detail::state_override_t::SCHEME_START_STATE);
     detail::update_href(this);
 }
 
 
 auto html::mixins::html_hyperlink_element_utils::set_username(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
@@ -145,7 +147,7 @@ auto html::mixins::html_hyperlink_element_utils::set_username(
 
 
 auto html::mixins::html_hyperlink_element_utils::set_password(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
@@ -156,45 +158,45 @@ auto html::mixins::html_hyperlink_element_utils::set_password(
 
 
 auto html::mixins::html_hyperlink_element_utils::set_host(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
     return_if(!m_url || url::detail::has_opaque_path());
-    url::detail::basic_url_parse(val, m_url, HOST_STATE);
+    url::detail::basic_url_parser(val, m_url, url::detail::state_override_t::HOST_STATE);
     detail::update_href(this);
 }
 
 
 auto html::mixins::html_hyperlink_element_utils::set_hostname(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
     return_if(!m_url || url::detail::has_opaque_path());
-    url::detail::basic_url_parse(val, m_url, HOSTNAME_STATE);
+    url::detail::basic_url_parser(val, m_url, url::detail::state_override_t::HOSTNAME_STATE);
     detail::update_href(this);
 }
 
 
 auto html::mixins::html_hyperlink_element_utils::set_port(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
     return_if(!m_url || url::detail::cannot_have_username_password_port(url));
-    url::detail::basic_url_parse(val, m_url, PORT_STATE); // TODO port == null special case
+    url::detail::basic_url_parser(val, m_url, url::detail::state_override_t::PORT_STATE); // TODO port == null special case
     detail::update_href(this);
 }
 
 
 auto html::mixins::html_hyperlink_element_utils::set_pathname(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     detail::reinitialize_url(this);
     return_if(!m_url || url::detail::has_opaque_path());
-    url::detail::basic_url_parse(val, m_url, PATH_STATE);
+    url::detail::basic_url_parsre(val, m_url, url::detail::state_override_t::PATH_STATE);
     detail::update_href(this);
 }
 
@@ -202,7 +204,7 @@ auto html::mixins::html_hyperlink_element_utils::set_pathname(
 auto html::mixins::html_hyperlink_element_utils::del_href()
         -> void
 {
-    property_guard(href);
+    guard_property(href);
     *href = "";
     detail::set_url(this);
 }

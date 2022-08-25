@@ -28,14 +28,14 @@ private cpp_methods:
     [[nodiscard]] auto qualified_name() const -> ext::string;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return ATTRIBUTE_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return qualified_name();};
-    [[nodiscard]] auto get_node_value() const -> ext::string override {return value();};
-    [[nodiscard]] auto get_text_content() const -> ext::string override {return value();};
+    DEFINE_GETTER(node_type) override {return ATTRIBUTE_NODE;}
+    DEFINE_GETTER(node_name) override {return qualified_name();};
+    DEFINE_GETTER(node_value) override {return value();};
+    DEFINE_GETTER(text_content) override {return value();};
 
-    auto set_node_value(ext::string_view val) -> void override {value = val;};
-    auto set_text_content(ext::string_view val) -> void override {value = val;};
-    auto set_value(ext::string_view val) -> void;
+    DEFINE_SETTER(node_value) override {value = val;};
+    DEFINE_SETTER(text_content) override {value = val;};
+    DEFINE_SETTER(value);
 };
 
 

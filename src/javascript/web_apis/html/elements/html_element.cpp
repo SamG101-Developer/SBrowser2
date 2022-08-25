@@ -13,6 +13,7 @@
 #include "html/detail/html_element_internals.hpp"
 #include "html/detail/render_blocking_internals.hpp"
 
+#include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/trim.hpp>
 #include <range/v3/view/transform.hpp>
@@ -31,11 +32,21 @@ html::elements::html_element::html_element()
     bind_set(outer_text);
 
     HTML_CONSTRUCTOR
+
+    m_dom_behaviour.insertion_steps = [this]
+    {
+        // TODO
+    };
+
+    m_dom_behaviour.remove_steps = [this](dom::nodes::node* parent = nullptr)
+    {
+        // TODO
+    };
 }
 
 
 auto html::elements::html_element::get_inner_text()
-        const -> ext::string
+        const -> decltype(this->inner_text)::value_t
 {
     // if the HTMLElement is not being rendered at the moment, then return the descendant text content of the element;
     // the '[inner/outer]_text' property represents the data of the elements beneath this element
@@ -43,10 +54,9 @@ auto html::elements::html_element::get_inner_text()
 
     // define a method that converts string representations of numbers to repeated newlines of the same number; for
     // example: "2" -> "\n\n" etc
-    auto map_number_to_repeated_lf = [](ext::string& string)
-    {
-        return ext::is_numeric_string(string) ? ext::string(std::stoll(string), char(0x000a)) : string;
-    };
+    auto map_number_to_repeated_lf =
+            [](ext::string& string)
+            {return ext::is_numeric_string(string) ? ext::string(std::stoll(string), char(0x000a)) : string;};
 
     // transform all the `child_nodes` to the result of the `rendered_text_collection_steps(...)` (vector of strings),
     // join these vectors together into the single range, remove any empty strings, convert any string-numbers to LFs
@@ -64,18 +74,18 @@ auto html::elements::html_element::get_inner_text()
 
 
 auto html::elements::html_element::set_inner_text(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     // to set the 'inner_text' of a HTMLElement, a DocumentFragment is generated from the input 'val', and everything
     // contained by this node is replaced with the DocumentFragment
-    auto* fragment = detail::rendered_text_fragment(val, owner_document());
+    decltype(auto) fragment = detail::rendered_text_fragment(val, owner_document());
     dom::detail::replace_all(fragment, this);
 }
 
 
 auto html::elements::html_element::set_outer_text(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     // cannot replace the outer text if here isn't a parent node, because the outer text includes this node, which has
@@ -86,9 +96,9 @@ auto html::elements::html_element::set_outer_text(
 
     // save the current previous and next sibling nodes, which could change as a new Text node might be appended, if
     // this node's replacement doesn't have any child nodes
-    auto* next = next_sibling();
-    auto* prev = previous_sibling();
-    auto* fragment = detail::rendered_text_fragment(val, owner_document());
+    decltype(auto) next = next_sibling();
+    decltype(auto) prev = previous_sibling();
+    decltype(auto) fragment = detail::rendered_text_fragment(val, owner_document());
 
     // if the replacement for this node doesn't have any children, then create an empty Text node, and append it to the
     // replacement 'fragment' node; the replacement has to have a child TODO : why?
@@ -104,9 +114,9 @@ auto html::elements::html_element::set_outer_text(
     // where-as the inner text replacement replaces everything contained by this node)
     dom::detail::replace(fragment, parent_node(), this);
 
-    if (auto* text_node = dynamic_cast<dom::nodes::text*>(next->previous_sibling()))
+    if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(next->previous_sibling()))
         detail::merge_with_next_text_node(text_node);
 
-    if (auto* text_node = dynamic_cast<dom::nodes::text*>(prev))
+    if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(prev))
         detail::merge_with_next_text_node(text_node);
 }

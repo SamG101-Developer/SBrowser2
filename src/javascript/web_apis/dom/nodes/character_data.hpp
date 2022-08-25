@@ -18,11 +18,11 @@ public constructors:
     character_data();
 
 public js_methods:
-    [[nodiscard]] auto substring_data(ext::number<ulong>& offset, ext::number<ulong>& count) const -> ext::string;
-    auto append_data(ext::string_view new_data) -> void;
-    auto insert_data(ext::number<ulong>& offset, ext::string_view new_data) -> void;
-    auto delete_data(ext::number<ulong>& offset, ext::number<ulong>& count) -> void;
-    auto replace_data(ext::number<ulong>& offset, ext::number<ulong>& count, ext::string_view new_data) -> void;
+    [[nodiscard]] auto substring_data(const ext::number<ulong>& offset, const ext::number<ulong>& count) const -> ext::string;
+    auto append_data(ext::string&& new_data) -> void;
+    auto insert_data(const ext::number<ulong>& offset, ext::string&& new_data) -> void;
+    auto delete_data(const ext::number<ulong>& offset, const ext::number<ulong>& count) -> void;
+    auto replace_data(const ext::number<ulong>& offset, const ext::number<ulong>& count, ext::string&& new_data) -> void;
 
 public js_properties:
     ext::property<ext::string> data;
@@ -32,13 +32,13 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return "";};
-    [[nodiscard]] auto get_node_value() const -> ext::string override {return data();};
-    [[nodiscard]] auto get_text_content() const -> ext::string override {return data();};
-    [[nodiscard]] auto get_length() const -> ext::number<ulong> {return data().length();};
+    DEFINE_GETTER(node_name) override {return "";};
+    DEFINE_GETTER(node_value) override {return data();};
+    DEFINE_GETTER(text_content) override {return data();};
+    DEFINE_GETTER(length) {return data().length();};
 
-    auto set_node_value(ext::string_view val) -> void override {replace_data(0, length(), val);};
-    auto set_text_content(ext::string_view val) -> void override {replace_data(0, length(), val);};
+    DEFINE_SETTER(node_value) override {replace_data(0, length(), std::move(val));};
+    DEFINE_SETTER(text_content) override {replace_data(0, length(), std::move(val));};
 };
 
 

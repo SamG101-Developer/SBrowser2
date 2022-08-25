@@ -18,13 +18,13 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return DOCUMENT_TYPE_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return name();};
-    [[nodiscard]] auto get_node_value() const -> ext::string override {return "";};
-    [[nodiscard]] auto get_text_content() const -> ext::string override {return "";};
+    DEFINE_GETTER(node_type) override {return DOCUMENT_TYPE_NODE;}
+    DEFINE_GETTER(node_name) override {return name();};
+    DEFINE_GETTER(node_value) override {return "";};
+    DEFINE_GETTER(text_content) override {return "";};
 
-    auto set_node_value(ext::string_view val) -> void override {};
-    auto set_text_content(ext::string_view val) -> void override {};
+    DEFINE_SETTER(node_value) override {};
+    DEFINE_SETTER(text_content) override {};
 };
 
 

@@ -11,6 +11,9 @@ class device_memory::mixins::navigator_device_memory
 {
 public js_properties:
     ext::property<double> device_memory;
+
+private cpp_accessors:
+    DEFINE_GETTER(device_memory);
 };
 
 

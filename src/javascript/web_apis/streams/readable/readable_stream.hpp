@@ -7,6 +7,7 @@ namespace streams::readable {class readable_stream;}
 
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
+#include "ext/map.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(streams)
@@ -47,7 +48,7 @@ private js_slots:
     ext::string s_error;
 
 private cpp_accessors:
-    auto get_locked() const -> ext::boolean;
+    DEFINE_GETTER(locked);
 };
 
 

@@ -83,31 +83,28 @@ public js_properties:
     ext::property<node*> next_sibling;
 
 public cpp_methods:
-    virtual auto to_qt() const -> QWidget* {return m_rendered_widget.get();};
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_properties:
-    QPointer<QWidget> m_rendered_widget;
     std::unique_ptr<ext::vector<detail::registered_observer_t*>> m_registered_observer_list;
 
 protected cpp_accessors:
-    _EXT_NODISCARD virtual auto get_node_type() const -> ext::number<ushort> = 0;
-    _EXT_NODISCARD virtual auto get_node_name() const -> ext::string = 0;
-    _EXT_NODISCARD virtual auto get_text_content() const -> ext::string = 0;
-    _EXT_NODISCARD virtual auto get_node_value() const -> ext::string = 0;
+    virtual DEFINE_GETTER(node_type) = 0;
+    virtual DEFINE_GETTER(node_name) = 0;
+    virtual DEFINE_GETTER(text_content) = 0;
+    virtual DEFINE_GETTER(node_value) = 0;
 
-    virtual auto set_node_value(ext::string_view val) -> void = 0;
-    virtual auto set_text_content(ext::string_view val) -> void = 0;
-    virtual auto set_parent_node(node* val) -> void;
+    virtual DEFINE_SETTER(node_value) = 0;
+    virtual DEFINE_SETTER(text_content) = 0;
 
 private cpp_accessors:
-    _EXT_NODISCARD auto get_is_connected() const -> bool;
-    _EXT_NODISCARD auto get_base_uri() const -> ext::string&;
-    _EXT_NODISCARD auto get_first_child() const -> node* {return *child_nodes()->begin();}
-    _EXT_NODISCARD auto get_last_child() const -> node* {return *child_nodes()->end();}
-    _EXT_NODISCARD auto get_previous_sibling() const -> node*;
-    _EXT_NODISCARD auto get_next_sibling() const -> node*;
-    _EXT_NODISCARD auto get_parent_element() const -> element*;
+    DEFINE_GETTER(is_connected);
+    DEFINE_GETTER(base_uri);
+    DEFINE_GETTER(first_child) {return *child_nodes()->begin();}
+    DEFINE_GETTER(last_child) {return *child_nodes()->end();}
+    DEFINE_GETTER(previous_sibling);
+    DEFINE_GETTER(next_sibling);
+    DEFINE_GETTER(parent_element);
 
 };
 

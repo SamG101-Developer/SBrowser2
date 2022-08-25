@@ -23,7 +23,7 @@ private cpp_properties:
     url::detail::url_t m_frozen_base_url;
 
 private cpp_accessors:
-    auto get_href() const -> ext::string;
+    DEFINE_GETTER(href);
 };
 
 

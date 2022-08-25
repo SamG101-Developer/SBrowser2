@@ -15,8 +15,8 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return CDATA_SECTION_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return "#cdata-section";};
+    DEFINE_GETTER(node_type) override {return CDATA_SECTION_NODE;}
+    DEFINE_GETTER(node_name) override {return "#cdata-section";};
 };
 
 

@@ -80,12 +80,6 @@ dom::nodes::document::document()
     JS_REALM_GET_SURROUNDING(this)
     m_origin = javascript::environment::realms_2::get<ext::string>(this_surrounding_global_object, "origin");
     permissions_policy()->m_associated_node = this;
-
-    auto rendered_widget = QPointer<QScrollArea>{};
-    rendered_widget->setWidget(QPointer<QWidget>{});
-    rendered_widget->widget()->setLayout(QPointer<QVBoxLayout>{});
-    rendered_widget->setWidgetResizable(true);
-    m_rendered_widget = rendered_widget;
 }
 
 
@@ -274,7 +268,7 @@ auto dom::nodes::document::adopt_node(
 
 
 auto dom::nodes::document::get_last_modified()
-        const -> ext::string
+        const -> decltype(this->last_modified)::value_t
 {
     // get the string epoch time (eg "1563566272"), and convert it to a 'long long' number type. convert this into a c++
     // time object with a strict format, push this into a stream, and finally return the string that the
@@ -286,7 +280,7 @@ auto dom::nodes::document::get_last_modified()
 
 
 auto dom::nodes::document::get_cookie()
-        const -> ext::string
+        const -> decltype(this->cookie)::value_t
 {
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
     // return the empty string instead.
@@ -304,7 +298,7 @@ auto dom::nodes::document::get_cookie()
 
 
 auto dom::nodes::document::get_head()
-        const -> html::elements::html_head_element*
+        const -> decltype(this->head)::value_t
 {
     // the head element is  the first child of the HTMLHtmlElement that is a HTMLHeadElement; if there are no head
     // elements, then return nullptr - this is handled by returning a deference of the begin pointer
@@ -315,7 +309,7 @@ auto dom::nodes::document::get_head()
 
 
 auto dom::nodes::document::get_title()
-        const -> ext::string
+        const -> decltype(this->title)::value_t
 {
     // the title element is either the first SVGTitleElement of the document element, if the document element is an
     // SvgElement. otherwise it is the first HTMLTitleElement of this document
@@ -332,7 +326,7 @@ auto dom::nodes::document::get_title()
 
 
 auto dom::nodes::document::get_body()
-        const -> html::elements::html_body_element*
+        const -> decltype(this->body)::value_t
 {
     // the body element is the first child of the HTMLHtmlElement that is a HTMLBodyElement; if there are no body
     // elements, then return nullptr - this is handled by returning a deference of the begin pointer
@@ -343,7 +337,7 @@ auto dom::nodes::document::get_body()
 
 
 auto dom::nodes::document::get_images()
-        const -> ranges::any_view<html::elements::html_image_element*>
+        const -> decltype(this->images)::value_t
 {
     // the HTMLImageElements in this Document are all the HTMLImageElements that are descendants of this Document (live
     // collection)
@@ -353,7 +347,7 @@ auto dom::nodes::document::get_images()
 
 
 auto dom::nodes::document::get_links()
-        const -> ranges::any_view<html::elements::html_link_element*>
+        const -> decltype(this->links)::value_t
 {
     // the HTMLLinkElements in this Document are all the HTMLLinkElements that are descendants of this Document (live
     // collection), and have their href attribute set
@@ -364,7 +358,7 @@ auto dom::nodes::document::get_links()
 
 
 auto dom::nodes::document::get_forms()
-        const -> ranges::any_view<html::elements::html_form_element*>
+        const -> decltype(this->forms)::value_t
 {
     // the HTMLFormElements in this Document are all the HTMLFormElements that are descendants of this Document (live
     // collection)
@@ -374,7 +368,7 @@ auto dom::nodes::document::get_forms()
 
 
 auto dom::nodes::document::get_scripts()
-        const -> ranges::any_view<html::elements::html_script_element*>
+        const -> decltype(this->scripts)::value_t
 {
     // the HTMLScriptElements in this Document are all the HTMLScriptElements that are descendants of this Document
     // (live collection)
@@ -384,7 +378,7 @@ auto dom::nodes::document::get_scripts()
 
 
 auto dom::nodes::document::get_dir()
-        const -> ext::string
+        const -> decltype(this->dir)::value_t
 {
     // if the 'document_element' exists, and is a HTMLElement based object, then forward its 'dir' attribute value as
     // the Document's 'dir' attribute value, otherwise the empty string
@@ -394,7 +388,7 @@ auto dom::nodes::document::get_dir()
 
 
 auto dom::nodes::document::set_cookie(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
@@ -413,7 +407,7 @@ auto dom::nodes::document::set_cookie(
 
 
 auto dom::nodes::document::set_ready_state(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     *ready_state = val;
@@ -433,7 +427,7 @@ auto dom::nodes::document::set_ready_state(
 
 
 auto dom::nodes::document::set_title(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     using namespace detail;
@@ -474,7 +468,7 @@ auto dom::nodes::document::set_title(
 
 
 auto dom::nodes::document::set_body(
-        html::elements::html_body_element* val)
+        html::elements::html_body_element* const& val)
         -> void
 {
     // don't do anything id the new body value is the same as the current body, ie the first HTMLBodyElement of the

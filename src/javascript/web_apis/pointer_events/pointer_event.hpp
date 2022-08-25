@@ -40,7 +40,7 @@ private cpp_properties:
     std::unique_ptr<ext::vector<pointer_event*>> m_predicted_events;
 
 private cpp_accessors:
-    auto set_target(dom::nodes::event_target* val) -> void;
+    DEFINE_SETTER(target);
 };
 
 

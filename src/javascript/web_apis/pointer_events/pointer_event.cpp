@@ -72,10 +72,10 @@ auto pointer_events::pointer_event::get_predicted_events()
 
 
 auto pointer_events::pointer_event::set_target(
-        dom::nodes::event_target* val)
+        dom::nodes::event_target* const& val)
         -> void
 {
-    property_guard(target);
+    guard_property(target);
     (*target).reset(val);
 
     for (auto* event: ranges::views::concat(*m_coalesced_events, *m_predicted_events))

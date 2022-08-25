@@ -6,6 +6,7 @@
 namespace html::elements {class html_image_element;}
 
 #include <future>
+#include "ext/set.hpp"
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(referrer_policy)
 namespace dom::nodes {class window_proxy;}
@@ -24,24 +25,24 @@ public js_methods:
     auto decode() -> std::promise<void>;
 
 public js_properties:
-    ext::property<ext::string, true> alt;
-    ext::property<ext::string, true> src;
-    ext::property<ext::string, true> srcset;
-    ext::property<ext::string, true> sizes;
-    ext::property<ext::string, true> cross_origin;
-    ext::property<ext::string, true> use_map;
-    ext::property<referrer_policy::detail::referrer_policy_t, true> referrer_policy;
-    ext::property<detail::lazy_loading_t, true> loading;
-    ext::property<ext::string, true> decoding;
-    ext::property<ext::string, false> current_src;
+    ext::property<ext::string> alt;
+    ext::property<ext::string> src;
+    ext::property<ext::string> srcset;
+    ext::property<ext::string> sizes;
+    ext::property<ext::string> cross_origin;
+    ext::property<ext::string> use_map;
+    ext::property<referrer_policy::detail::referrer_policy_t> referrer_policy;
+    ext::property<detail::lazy_loading_t> loading;
+    ext::property<ext::string> decoding;
+    ext::property<ext::string> current_src;
 
-    ext::property<ext::number<ulong>, true> width;
-    ext::property<ext::number<ulong>, true> height;
-    ext::property<ext::number<ulong>, false> natural_width;
-    ext::property<ext::number<ulong>, false> natural_height;
+    ext::property<ext::number<ulong>> width;
+    ext::property<ext::number<ulong>> height;
+    ext::property<ext::number<ulong>> natural_width;
+    ext::property<ext::number<ulong>> natural_height;
 
-    ext::property<ext::boolean, true> is_map;
-    ext::property<ext::boolean, false> complete;
+    ext::property<ext::boolean> is_map;
+    ext::property<ext::boolean> complete;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
@@ -56,15 +57,15 @@ private cpp_properties:
     ext::number<int> m_source_size;
 
 private cpp_accessors:
-    auto get_current_src() const -> ext::string;
-    auto get_src_set() const -> ext::string;
-    auto get_width() const -> ext::number<ulong>;
-    auto get_height() const -> ext::number<ulong>;
-    auto get_natural_width() const -> ext::number<ulong>;
-    auto get_natural_height() const -> ext::number<ulong>;
-    auto get_complete() const -> ext::boolean;
+    DEFINE_GETTER(current_src);
+    DEFINE_GETTER(srcset);
+    DEFINE_GETTER(width);
+    DEFINE_GETTER(height);
+    DEFINE_GETTER(natural_width);
+    DEFINE_GETTER(natural_height);
+    DEFINE_GETTER(complete);
 
-    auto set_loading(detail::lazy_loading_t val) -> void;
+    DEFINE_SETTER(loading);
 };
 
 

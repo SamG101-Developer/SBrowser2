@@ -132,7 +132,7 @@ auto streams::readable::readable_stream::tee()
 
 
 auto streams::readable::readable_stream::get_locked()
-        const -> ext::boolean
+        const -> decltype(this->locked)::value_t
 {
     return detail::abstract_operations_internals::is_readable_stream_locked(this);
 }

@@ -12,12 +12,12 @@ dom::mixins::slottable::slottable()
 
 
 auto dom::mixins::slottable::get_assigned_slot()
-        const -> html::elements::html_slot_element*
+        const -> decltype(this->assigned_slot)::value_t
 {
 
     // find a slot for the 'base' cast version of this class
-    auto* base = ext::cross_cast<const nodes::node*>(this);
-    auto* slot = detail::find_slot(base, true);
+    decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
+    decltype(auto) slot = detail::find_slot(base, true);
     return slot;
 }
 

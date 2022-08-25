@@ -219,36 +219,40 @@ private cpp_properties:
     /* FULLSCREEN */
     ext::vector<ext::tuple<ext::string, element*>> m_list_of_pending_fullscreen_events;
 
+    /* PAINT_TIMING */
+    ext::set<ext::string> m_previously_reported_paints;
+
 private cpp_accessors:
     /* DOM */
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return DOCUMENT_NODE;}
-    [[nodiscard]] auto get_node_name() const -> ext::string override {return "#document";}
-    [[nodiscard]] auto get_node_value() const -> ext::string override {return "";}
-    [[nodiscard]] auto get_text_content() const -> ext::string override {return "";}
-    auto set_node_value(ext::string_view val) -> void override {};
-    auto set_text_content(ext::string_view val) -> void override {}
+    DEFINE_GETTER(node_type) override {return DOCUMENT_NODE;}
+    DEFINE_GETTER(node_name) override {return "#document";}
+    DEFINE_GETTER(node_value) override {return "";}
+    DEFINE_GETTER(text_content) override {return "";}
 
-    [[nodiscard]] auto get_compat_mode() const -> ext::string;
-    [[nodiscard]] auto get_character_set() const -> ext::string;
-    [[nodiscard]] auto get_doctype() const -> document_type*;
-    [[nodiscard]] auto get_document_element() const -> element*;
+    DEFINE_SETTER(node_value) override {};
+    DEFINE_SETTER(text_content) override {}
+
+    DEFINE_GETTER(compat_mode);
+    DEFINE_GETTER(character_set);
+    DEFINE_GETTER(doctype);
+    DEFINE_GETTER(document_element);
 
     /* HTML */
-    [[nodiscard]] auto get_last_modified() const -> ext::string;
-    [[nodiscard]] auto get_cookie() const -> ext::string;
-    [[nodiscard]] auto get_body() const -> html::elements::html_body_element*;
-    [[nodiscard]] auto get_head() const -> html::elements::html_head_element*;
-    [[nodiscard]] auto get_title() const -> ext::string;
-    [[nodiscard]] auto get_images() const -> ranges::any_view<html::elements::html_image_element*>;
-    [[nodiscard]] auto get_links() const -> ranges::any_view<html::elements::html_link_element*>;
-    [[nodiscard]] auto get_forms() const -> ranges::any_view<html::elements::html_form_element*>;
-    [[nodiscard]] auto get_scripts() const -> ranges::any_view<html::elements::html_script_element*>;
-    [[nodiscard]] auto get_dir() const -> ext::string;
+    DEFINE_GETTER(last_modified);
+    DEFINE_GETTER(cookie);
+    DEFINE_GETTER(body);
+    DEFINE_GETTER(head);
+    DEFINE_GETTER(title);
+    DEFINE_GETTER(images);
+    DEFINE_GETTER(links);
+    DEFINE_GETTER(forms);
+    DEFINE_GETTER(scripts);
+    DEFINE_GETTER(dir);
 
-    auto set_ready_state(ext::string_view val) -> void;
-    auto set_cookie(ext::string_view val) -> void;
-    auto set_title(ext::string_view val) -> void;
-    auto set_body(html::elements::html_body_element* val) -> void;
+    DEFINE_SETTER(ready_state);
+    DEFINE_SETTER(cookie);
+    DEFINE_SETTER(title);
+    DEFINE_SETTER(body);
 
     /* PAGE_VISIBILITY */
     DEFINE_GETTER(hidden);

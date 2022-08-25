@@ -2,7 +2,7 @@
 
 #include "dom/detail/exception_internals.hpp"
 
-#include "streams/details/operations_internals.hpp"
+#include "streams/detail/operations_internals.hpp"
 #include "streams/readable/readable_stream.hpp"
 
 #include <v8-array-buffer.h>
@@ -55,17 +55,17 @@ auto streams::readable::readable_byte_stream_controller::error(
 }
 
 
-auto streams::readable::readable_byte_stream_controller::get_byob_request()
-        const -> readable_stream_byob_request*
+auto streams::readable::readable_byte_stream_controller::get_desired_size()
+        const -> decltype(this->desired_size)::value_t
 {
-    return detail::readable_byte_stream_controller_get_byob_request();
+    return detail::readable_byte_stream_controller_get_desired_size();
 }
 
 
-auto streams::readable::readable_byte_stream_controller::get_desired_size()
-        const -> ext::number<double>
+auto streams::readable::readable_byte_stream_controller::get_byob_request()
+        const -> decltype(this->byob_request)::value_t
 {
-    return detail::readable_byte_stream_controller_get_desired_size();
+    return detail::readable_byte_stream_controller_get_byob_request();
 }
 
 

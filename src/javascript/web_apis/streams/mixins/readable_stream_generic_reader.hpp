@@ -27,7 +27,7 @@ protected js_slots:
     readable::readable_stream* s_stream;
 
 private cpp_accessors:
-    _EXT_NODISCARD auto get_closed() const -> std::promise<void>;
+    DEFINE_GETTER(closed);
 };
 
 

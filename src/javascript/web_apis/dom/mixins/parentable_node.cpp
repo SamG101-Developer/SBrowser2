@@ -28,8 +28,8 @@ auto dom::mixins::parentable_node::prepend(
     // parse the 'nodes' parameter, and pre insert the derived 'node' into this's child nodes, before the first node in
     // the child nodes list
     ce_reactions_method_def
-        const auto* base = ext::cross_cast<nodes::node*>(this);
-        const auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        decltype(auto) base = ext::cross_cast<nodes::node*>(this);
+        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::pre_insert(node, base, base->child_nodes()->front());
         return node;
     ce_reactions_method_exe
@@ -44,8 +44,8 @@ auto dom::mixins::parentable_node::append(
     // parse the 'nodes' parameter, and append the derived 'node' into this's child nodes, after the first node in the
     // child nodes list
     ce_reactions_method_def
-        const auto* base = ext::cross_cast<nodes::node*>(this);
-        const auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        decltype(auto) base = ext::cross_cast<nodes::node*>(this);
+        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::append(node, base, base->child_nodes()->front());
         return node;
     ce_reactions_method_exe
@@ -60,8 +60,8 @@ auto dom::mixins::parentable_node::replace_children(
     // parse the 'nodes' parameter, and replace the derived 'node' from this's child nodes, after ensuring pre insertion
     // validity of the node, at the end of the child nodes list
     ce_reactions_method_def
-        const auto* base = ext::cross_cast<nodes::node*>(this);
-        const auto* node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
+        decltype(auto) base = ext::cross_cast<nodes::node*>(this);
+        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<decltype(nodes)>(nodes)...);
         detail::ensure_pre_insertion_validity(node, base, nullptr);
         detail::replace_all(node, base);
         return node;
@@ -70,11 +70,32 @@ auto dom::mixins::parentable_node::replace_children(
 
 
 auto dom::mixins::parentable_node::get_children()
-        const -> ranges::any_view<nodes::element*, ranges::category::sized | ranges::category::forward>
+        const -> decltype(this->children)::value_t
 {
-    const auto* const base = ext::cross_cast<const nodes::node*>(this);
-    const auto& child_nodes = *base->child_nodes();
+    decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
+    decltype(auto) child_nodes = *base->child_nodes();
     return child_nodes | ranges::views::cast_all_to<nodes::element*>();
+}
+
+
+auto dom::mixins::parentable_node::get_first_element_child()
+        const -> decltype(this->first_element_child)::value_t
+{
+    return children().front();
+}
+
+
+auto dom::mixins::parentable_node::get_last_element_child()
+        const -> decltype(this->last_element_child)::value_t
+{
+    return children().back();
+}
+
+
+auto dom::mixins::parentable_node::get_child_element_count()
+        const -> decltype(this->child_element_count)::value_t
+{
+    return children().size();
 }
 
 

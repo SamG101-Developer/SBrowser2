@@ -4,6 +4,7 @@
 #include "ext/ranges.hpp"
 #include "javascript/environment/reflection.hpp"
 
+#include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/document.hpp"
 
@@ -17,6 +18,17 @@
 #include "permissions_policy/detail/algorithm_internals.hpp"
 
 #include <magic_enum.hpp>
+
+
+auto html::detail::node_is_browsing_context_connected(
+        dom::nodes::node* node)
+        -> ext::boolean
+{
+    // A node is browsing context connected when it is connected, and the browsing context of the shadow including root
+    // is not null.
+    auto shadow_root = dynamic_cast<dom::nodes::document*>(dom::detail::shadow_including_root(node));
+    return dom::detail::is_connected(node) && shadow_root && shadow_root->m_browsing_context.get();
+}
 
 
 auto html::detail::is_cookie_averse_document(

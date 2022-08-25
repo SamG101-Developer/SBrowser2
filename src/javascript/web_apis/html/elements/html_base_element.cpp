@@ -1,6 +1,8 @@
 #include "html_base_element.hpp"
 
+#include "dom/nodes/document.hpp"
 #include "html/detail/document_internals.hpp"
+#include "url/detail/url_internals.hpp"
 
 
 html::elements::html_base_element::html_base_element()
@@ -11,13 +13,14 @@ html::elements::html_base_element::html_base_element()
 }
 
 
-auto html::elements::html_base_element::get_href() const -> ext::string
+auto html::elements::html_base_element::get_href()
+        const -> decltype(this->href)::value_t
 {
-    auto* document = owner_document();
-    auto& url = *href;
+    decltype(auto) document = owner_document();
+    decltype(auto) url = *href;
 
-    auto url_record = url::detail::parse(detail::document_internals::fallback_base_url(document), document->m_encoding);
+    auto url_record = url::detail::url_parser(detail::fallback_base_url(document), document->m_encoding);
     return !url_record
             ? url
-            : url::detail::serialize(url_record);
+            : url::detail::url_serializer(url_record);
 }

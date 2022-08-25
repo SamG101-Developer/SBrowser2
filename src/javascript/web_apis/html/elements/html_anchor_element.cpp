@@ -35,14 +35,14 @@ html::elements::html_anchor_element::html_anchor_element()
 
 
 auto html::elements::html_anchor_element::get_text()
-        const -> ext::string
+        const -> decltype(this->text)::value_t
 {
     return dom::detail::descendant_text_content(this);
 }
 
 
 auto html::elements::html_anchor_element::set_text(
-        ext::string_view val)
+        const ext::string& val)
         -> void
 {
     return dom::detail::string_replace_all(val, this);

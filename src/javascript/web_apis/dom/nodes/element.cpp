@@ -33,8 +33,6 @@ dom::nodes::element::element()
 {
     bind_get(tag_name);
     bind_get(shadow_root_node);
-
-    m_rendered_widget = QPointer<QWidget>{};
 }
 
 
@@ -61,8 +59,8 @@ auto dom::nodes::element::get_attribute_names()
 {
     // transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. return as an
     // `any_view` object for type erasure
-    auto attribute_nodes = *attributes();
-    auto attribute_names = attribute_nodes | attribute_to_name
+    decltype(auto) attribute_nodes = *attributes();
+    decltype(auto) attribute_names = attribute_nodes | attribute_to_name
     return attribute_names;
 }
 
@@ -76,7 +74,7 @@ auto dom::nodes::element::has_attribute(
 {
     // transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. return if the
     // transformed range contains the 'name' parameter
-    auto attribute_names = *attributes() | attribute_to_name;
+    decltype(auto) attribute_names = *attributes() | attribute_to_name;
     return ranges::contains(attribute_names, name);
 }
 
@@ -88,7 +86,7 @@ auto dom::nodes::element::has_attribute_ns(
 {
     // transform each Attr node in the 'attribute' list to its local name and namespace, using a range-transform view
     // adapter. return if the transformed range contains the 'local_nam' and 'namespace_' parameters
-    auto attribute_namespaces = *attributes() | attribute_to_nsln;
+    decltype(auto) attribute_namespaces = *attributes() | attribute_to_nsln;
     return ranges::contains(attribute_namespaces, std::make_tuple(namespace_, local_name));
 }
 
@@ -98,7 +96,7 @@ auto dom::nodes::element::has_attribute_node(
         const -> ext::boolean
 {
     // return if the 'attribute' list contains the attribute, using a range-contains algorithm
-    auto attribute_nodes = *attributes();
+    decltype(auto) attribute_nodes = *attributes();
     return ranges::contains(attribute_nodes, attribute);
 }
 
@@ -122,7 +120,7 @@ auto dom::nodes::element::get_attribute(
 {
     // get the Attr node by the 'qualified_name, and return the value of the node; syntactic sugar for
     // 'get_attribute_node(...).value'
-    auto match_attribute = get_attribute_node(qualified_name);
+    decltype(auto) match_attribute = get_attribute_node(qualified_name);
     return match_attribute ? match_attribute->value() : "";
 }
 
@@ -134,7 +132,7 @@ auto dom::nodes::element::get_attribute_ns(
 {
     // get the Attr node by the 'namespace_' and 'local_name', and return the value of the node; syntactic sugar for
     // 'get_attribute_node_ns(...).value'
-    auto match_attribute = get_attribute_node_ns(namespace_, local_name);
+    decltype(auto) match_attribute = get_attribute_node_ns(namespace_, local_name);
     return match_attribute ? match_attribute->value() : "";
 }
 
@@ -145,9 +143,9 @@ auto dom::nodes::element::get_attribute_node(
 {
     // get the Attr node by matching each Attr (in the 'attributes' list) 's qualified name against the 'qualified_name'
     // parameter; nullptr is returned if there is no matching Attr node. the qualified name has to be html adjusted
-    auto html_adjusted_qualified_name = detail::html_adjust_string(qualified_name, detail::is_html(this));
-    auto match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return attribute->name() == html_adjusted_qualified_name;};
-    auto match_attribute = ranges::first_where(*attributes(), match_algorithm);
+    decltype(auto) html_adjusted_qualified_name = detail::html_adjust_string(qualified_name, detail::is_html(this));
+    decltype(auto) match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return attribute->name() == html_adjusted_qualified_name;};
+    decltype(auto) match_attribute = *ranges::first_where(*attributes(), std::move(match_algorithm));
     return match_attribute;
 }
 
@@ -159,8 +157,8 @@ auto dom::nodes::element::get_attribute_node_ns(
 {
     // get the Attr node by matching each Attr (in the 'attributes' list) 's local name and namespace_uri against the
     // 'local_name' and 'namespace_' parameters; nullptr is returned if there is no matching Attr node
-    auto match_algorithm = [namespace_, local_name](attr* attribute) {return attribute->local_name() == local_name && attribute->namespace_uri() == namespace_;};
-    auto match_attribute = *ranges::first_where(*attributes(), match_algorithm);
+    decltype(auto) match_algorithm = [namespace_, local_name](attr* attribute) {return attribute->local_name() == local_name && attribute->namespace_uri() == namespace_;};
+    decltype(auto) match_attribute = *ranges::first_where(*attributes(), match_algorithm);
     return match_attribute;
 }
 
@@ -176,7 +174,7 @@ auto dom::nodes::element::set_attribute(
     ce_reactions_method_def
         // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        auto new_attribute = detail::create(qualified_name, "", value, "", owner_document());
+        decltype(auto) new_attribute = detail::create(qualified_name, "", value, "", owner_document());
         return detail::set_attribute(this, &new_attribute);
     ce_reactions_method_exe
 }
@@ -191,8 +189,8 @@ auto dom::nodes::element::set_attribute_ns(
     ce_reactions_method_def
         // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        auto [prefix, local_name] = detail::validate_and_extract(namespace_, qualified_name);
-        auto new_attribute = detail::create(local_name, namespace_, value, prefix, owner_document());
+        decltype(auto) [prefix, local_name] = detail::validate_and_extract(namespace_, qualified_name);
+        decltype(auto) new_attribute = detail::create(local_name, namespace_, value, prefix, owner_document());
         return detail::set_attribute(this, &new_attribute);
     ce_reactions_method_exe
 }
@@ -234,7 +232,7 @@ auto dom::nodes::element::remove_attribute(
     ce_reactions_method_def
         // find the Attr node in this 'attributes' list by the 'qualified_name' that is going to be removed (can be nullptr
         // if the Attr doesn't exist in this Element), and remove it by calling the internal method
-        auto* existing_attribute = get_attribute_node(qualified_name);
+        decltype(auto) existing_attribute = get_attribute_node(qualified_name);
         return detail::remove_attribute(this, existing_attribute);
     ce_reactions_method_exe
 }
@@ -248,7 +246,7 @@ auto dom::nodes::element::remove_attribute_ns(
     ce_reactions_method_def
         // find the Attr node in this 'attributes' list by the 'local_name' and 'namespace_' that is going to be removed
         // (can be nullptr if the Attr doesn't exist in this Element), and remove it by calling the internal method
-        auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
+        decltype(auto) existing_attribute = get_attribute_node_ns(namespace_, local_name);
         return detail::remove_attribute(this, existing_attribute);
     ce_reactions_method_exe
 }
@@ -287,7 +285,7 @@ auto dom::nodes::element::toggle_attribute(
         -> ext::boolean
 {
     ce_reactions_method_def
-        auto* existing_attribute = get_attribute_node(qualified_name);
+        decltype(auto) existing_attribute = get_attribute_node(qualified_name);
         return detail::toggle_attribute(this, existing_attribute, std::move(force), qualified_name);
     ce_reactions_method_exe
 }
@@ -300,7 +298,7 @@ auto dom::nodes::element::toggle_attribute_ns(
         -> ext::boolean
 {
     ce_reactions_method_def
-        auto* existing_attribute = get_attribute_node_ns(namespace_, local_name);
+        decltype(auto) existing_attribute = get_attribute_node_ns(namespace_, local_name);
         return detail::toggle_attribute(this, existing_attribute, std::move(force), local_name, namespace_);
     ce_reactions_method_exe
 }
@@ -335,14 +333,17 @@ auto dom::nodes::element::toggle_attribute_node_ns(
 
 auto dom::nodes::element::attach_shadow(
         ext::map<ext::string, ext::any>&& options)
-        -> shadow_root*
+        -> shadow_root
 {
     using namespace detail;
 
-    ext::string shadow_attachable_local_names[] {"article", "aside", "blockquote", "body", "div", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "main", "nav", "p", "section", "span"};
+    auto shadow_attachable_local_names = {
+        "article", "aside", "blockquote", "body", "div", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "main",
+        "nav", "p", "section", "span"};
+
     auto valid_custom = detail::is_valid_custom_element_name(local_name());
     auto valid_local  = ranges::contains(shadow_attachable_local_names, local_name());
-    auto definition = detail::lookup_custom_element_definition(owner_document(), namespace_uri(), local_name(), m_is);
+    decltype(auto) definition = detail::lookup_custom_element_definition(owner_document(), namespace_uri(), local_name(), m_is);
 
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [this] {return namespace_uri() != HTML;});
@@ -356,13 +357,13 @@ auto dom::nodes::element::attach_shadow(
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [this] {return detail::is_shadow_host(this);});
 
-    auto* shadow = new shadow_root{};
-    shadow->owner_document = owner_document();
-    shadow->host = this;
-    shadow->mode = options.try_emplace("mode", "").first->second.to<ext::string>();
-    shadow->delegates_focus = options.try_emplace("delegatesFocus", ext::boolean::FALSE_()).first->second.to<ext::boolean>();
-    shadow->slot_assignment = options.try_emplace("slotAssignment", "").first->second.to<ext::string>();
-    shadow_root_node = shadow;
+    shadow_root shadow {};
+    shadow.owner_document = owner_document();
+    shadow.host = this;
+    shadow.mode = options.try_emplace("mode", "").first->second.to<ext::string>();
+    shadow.delegates_focus = options.try_emplace("delegatesFocus", ext::boolean::FALSE_()).first->second.to<ext::boolean>();
+    shadow.slot_assignment = options.try_emplace("slotAssignment", "").first->second.to<ext::string>();
+    shadow_root_node = &shadow;
     return shadow;
 }
 

@@ -27,8 +27,8 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    auto get_text() const -> ext::string;
-    auto set_text(ext::string_view val) -> void;
+    DEFINE_GETTER(text);
+    DEFINE_SETTER(text);
 };
 
 
