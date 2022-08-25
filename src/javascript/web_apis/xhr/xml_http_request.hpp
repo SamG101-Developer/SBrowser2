@@ -58,9 +58,9 @@ private cpp_properties:
     ext::number<uint> m_send_flag;
     ext::boolean m_cross_origin_credentials;
     url::detail::url_t url;
-    fetch::detail::http_internals::method_t m_method;
-    fetch::detail::header_internals::headers_t m_author_request_headers;
-    fetch::detail::body_internals::internal_body& m_request_body;
+    fetch::detail::method_t m_method;
+    fetch::detail::headers_t m_author_request_headers;
+    fetch::detail::body_t& m_request_body;
 
     ext::boolean m_synchronous_flag;
     ext::boolean m_upload_complete_flag;
@@ -71,7 +71,7 @@ private cpp_properties:
     ext::string m_received_bytes;
     response_type_t m_response_type;
     fetch::response& response_object; // TODO : type
-    fetch::detail::http_internals::fetch_controller& m_fetch_controller;
+    fetch::detail::fetch_controller_t& m_fetch_controller;
     ext::string mime_type;
 };
 
