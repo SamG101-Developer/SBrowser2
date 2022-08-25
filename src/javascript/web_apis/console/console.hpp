@@ -40,7 +40,7 @@ class console::console
     static auto trace(Args&&... data) -> void;
 
     template <typename T>
-    static auto dir(ext::any&& item, T object = nullptr) -> void;
+    static auto dir(ext::any&& item, T&& options = nullptr) -> void;
 
     template <typename ...Args>
     static auto dirxml(Args&&... data) -> void;
