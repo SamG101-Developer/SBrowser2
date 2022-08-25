@@ -20,8 +20,13 @@ public:
 
     auto operator=(const T& value) -> slot& {m_value = value; return *this;}
     auto operator=(T&& value) -> slot& {m_value = std::move(value); return *this;}
-    auto operator()() const -> decltype(auto) {return m_value;}
+
+    auto operator()() -> T& {return m_value;}
+    auto operator()() const -> const T& {return m_value;}
+
+    auto operator->() -> decltype(auto) {return std::addressof(m_value);}
     auto operator->() const -> decltype(auto) {return std::addressof(m_value);}
+
     operator bool() const {return static_cast<bool>(m_value);}
 
 private:
