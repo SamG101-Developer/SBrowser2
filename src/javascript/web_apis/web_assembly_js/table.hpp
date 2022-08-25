@@ -3,9 +3,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_TABLE_HPP
 
 #include "dom_object.hpp"
-#include "ext/vector_like.hpp"
 namespace web_assembly::js {class table;}
 
+#include "ext/vector_like.hpp"
 #include USE_INNER_TYPES(web_assembly_js)
 
 
