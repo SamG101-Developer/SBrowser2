@@ -5,12 +5,15 @@
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(high_resolution_time)
 
-namespace dom::nodes {class document;}
+namespace dom::nodes {class document; class node;}
 namespace html::elements {class html_meta_element;}
 
 namespace html::detail
 {
-    
+    auto node_is_browsing_context_connected(
+            dom::nodes::node* node)
+            -> ext::boolean;
+
     auto is_cookie_averse_document(
             const dom::nodes::document* document)
             -> ext::boolean;
