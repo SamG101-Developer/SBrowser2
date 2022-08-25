@@ -10,6 +10,7 @@ namespace web_assembly::js {class module;}
 #include <v8-forward.h>
 #include USE_INNER_TYPES(web_assembly_js)
 
+
 class web_assembly::js::module
         : public virtual dom_object
 {
