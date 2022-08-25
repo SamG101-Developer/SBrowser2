@@ -17,7 +17,7 @@
 
 #include "html/detail/document_internals.hpp"
 
-#include "mediacapture_main/details/source_internals.hpp"
+#include "mediacapture_main/detail/source_internals.hpp"
 #include "mediacapture_main/media_device_info.hpp"
 #include "mediacapture_main/media_devices.hpp"
 #include "mediacapture_main/media_stream.hpp"
