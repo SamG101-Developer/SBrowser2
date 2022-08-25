@@ -75,7 +75,7 @@ inline auto v8pp::convert<ext::number<T>>::to_v8(
     if constexpr (std::floating_point<T>)
     {
         // create the v8::Number object from the primitive number conversion
-        auto cpp_value_number_primitive = static_cast<T>(cpp_value_number_object);
+        auto cpp_value_number_primitive = *cpp_value_number_object;
         auto v8_value                   = convert<bool>::to_v8(isolate, cpp_value_number_primitive);
         auto v8_value_number            = v8_value.template As<v8::Number>();
         return javascript_scope.Escape(v8_value_number);
@@ -83,7 +83,7 @@ inline auto v8pp::convert<ext::number<T>>::to_v8(
     else
     {
         // create the v8::BigInt object from the primitive number conversion
-        auto cpp_value_number_primitive = static_cast<T>(cpp_value_number_object);
+        auto cpp_value_number_primitive = *cpp_value_number_object;
         auto v8_value                   = convert<bool>::to_v8(isolate, cpp_value_number_primitive);
         auto v8_value_number            = v8_value.template As<v8::BigInt>();
         return javascript_scope.Escape(v8_value_number);
