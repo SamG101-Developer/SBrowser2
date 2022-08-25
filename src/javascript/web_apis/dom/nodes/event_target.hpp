@@ -10,6 +10,7 @@ namespace dom::nodes {class event_target;}
 #include "ext/keywords.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
+#include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(dom)
 namespace dom::events {class event;}
