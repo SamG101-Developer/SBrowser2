@@ -1,19 +1,27 @@
 #include "navigator.hpp"
 
-#include "dom/nodes/window.hpp"
-#include "environment/realms_2.hpp"
 #include "ext/threading.hpp"
+#include "javascript/environment/realms_2.hpp"
 
 #include "battery/battery_manager.hpp"
 
+#include "dom/detail/exception_internals.hpp"
+#include "dom/detail/node_internals.hpp"
 #include "dom/other/dom_exception.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/window.hpp"
+
+#include "gamepad/gamepad.hpp"
+
+#include "high_resolution_time/performance.hpp"
 
 #include "html/detail/document_internals.hpp"
 
 #include "mediacapture_main/media_devices.hpp"
 
 #include "url/detail/encoding_internals.hpp"
+
+#include <range/v3/view/filter.hpp>
 
 #include USE_INNER_TYPES(badging)
 #include USE_INNER_TYPES(dom)
@@ -83,7 +91,7 @@ auto html::other::navigator::clear_client_badge()
 
 
 auto html::other::navigator::get_battery()
-        -> const std::promise<battery::battery_manager*>&
+        -> std::promise<battery::battery_manager*>&
 {
     // If the [[BatteryPromise]] slot is empty, then create a new slot, as the contents of the lost (promise) are
     // required for the rest of the method.
@@ -111,4 +119,30 @@ auto html::other::navigator::get_battery()
 
     // Return the [[BatteryPromise]]
     return s_battery_promise();
+}
+
+
+auto html::other::navigator::get_gamepads()
+        -> ext::vector<gamepad::gamepad*>&
+{
+    // Get the associated document of the relevant global object, cast to a Document.
+    JS_REALM_GET_RELEVANT(this);
+    auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
+    return_if (!document || !dom::detail::is_document_fully_active(document)) {};
+
+    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+            [document] {return !html::detail::allowed_to_use(document, "gamepad");},
+            "Document is not allowed to use the 'gamepad' feature");
+
+    return_if (!s_has_gamepad) {};
+
+    auto now = high_resolution_time::performance{}.now();
+    auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed;};
+    for (auto* gamepad: s_gamepads() | ranges::views::filter(std::move(valid_gamepad)))
+    {
+        gamepad->s_exposed = true;
+        gamepad->s_timestamp = now;
+    }
+
+    return s_gamepads();
 }
