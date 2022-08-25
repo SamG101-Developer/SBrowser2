@@ -165,15 +165,15 @@ auto absolute(T&& value)
 
 auto is_numeric_string(const string& string) -> boolean
 {
-    try {static_cast<void>(std::stod(string)); return boolean::TRUE_();}
-    catch_specific (std::invalid_argument) {return boolean::FALSE_();}
+    try {static_cast<void>(std::stod(string)); return true;}
+    catch_specific (std::invalid_argument) {return false;}
 }
 
 
 template <typename U>
 auto to_string(const number<U>& number)
 {
-    return std::to_string((U)number);
+    return std::to_string(*number);
 }
 
 _EXT_END
