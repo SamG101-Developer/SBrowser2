@@ -4,7 +4,7 @@
 namespace console::detail
 {
     enum class log_level_t {ASSERT_, DEBUG, ERROR, INFO, LOG, WARN};
-    enum class print_type_t {TRACE};
+    enum class print_type_t {TRACE, DIR};
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE__TYPEDEFS_HPP
