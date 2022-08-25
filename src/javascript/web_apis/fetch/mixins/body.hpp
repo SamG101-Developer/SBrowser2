@@ -6,8 +6,8 @@ namespace fetch::mixins {class body;}
 
 #include "ext/functional.hpp"
 #include <future>
-#include <v8-array-buffer.h>
-namespace fetch::detail::body_internals {struct internal_body;}
+#include <v8-forward.h>
+#include USE_INNER_TYPES(fetch)
 namespace file_api {class blob;}
 namespace streams::readable {class readable_stream;}
 namespace xhr {class form_data;}
@@ -34,7 +34,7 @@ private cpp_methods:
     ext::function<ext::string()> mime_type_algorithm;
 
 private cpp_properties:
-    std::unique_ptr<detail::body_internals::internal_body> m_body;
+    std::unique_ptr<detail::body_t> m_body;
 };
 
 
