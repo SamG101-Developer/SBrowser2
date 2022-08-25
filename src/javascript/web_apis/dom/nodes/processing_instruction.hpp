@@ -15,7 +15,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    [[nodiscard]] auto get_node_type() const -> ext::number<ushort> override {return PROCESSING_INSTRUCTION_NODE;}
+    DEFINE_GETTER(node_type) override {return PROCESSING_INSTRUCTION_NODE;}
 };
 
 
