@@ -4,7 +4,7 @@
 
 #include "dom_object.hpp"
 #include "mediacapture_main/media_stream_track.hpp"
-#include "mediacapture_main/details/constrain_internals.hpp"
+#include "mediacapture_main/detail/constrain_internals.hpp"
 
 #include <future>
 
