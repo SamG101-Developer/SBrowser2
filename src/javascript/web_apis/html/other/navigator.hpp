@@ -17,6 +17,7 @@ namespace html::other {class navigator;}
 namespace battery {class battery_manager;}
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}
+namespace gamepad {class gamepad;}
 namespace html::elements {class html_media_element;}
 namespace media::capabilities {class media_capabilities;}
 namespace mediacapture::main {class media_devices;}
@@ -62,7 +63,10 @@ public js_methods:
     auto clear_client_badge() -> std::promise<void>;
 
     /* BATTERY */
-    auto get_battery() -> const std::promise<battery::battery_manager*>&;
+    auto get_battery() -> std::promise<battery::battery_manager*>&;
+
+    /* GAMEPAD */
+    auto get_gamepads() -> ext::vector<gamepad::gamepad*>&;
 
 public js_properties:
     /* MEDIACAPTURE_MAIN */
@@ -84,8 +88,13 @@ public js_properties:
     ext::property<std::unique_ptr<service_workers::workers::service_worker_container>> service_worker;
 
 private js_slots:
+    /* BATTERY */
     ext::slot<std::promise<battery::battery_manager*>> s_battery_promise;
     ext::slot<battery::battery_manager*> s_battery_manager;
+
+    /* GAMEPAD */
+    ext::slot<ext::boolean> s_has_gamepad;
+    ext::slot<ext::vector<gamepad::gamepad*>> s_gamepads;
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP
