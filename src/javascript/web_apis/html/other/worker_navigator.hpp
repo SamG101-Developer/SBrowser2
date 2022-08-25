@@ -18,6 +18,7 @@ class html::other::worker_navigator
         , public device_memory::mixins::navigator_device_memory
         , public storage::mixins::navigator_storage
 {
+public js_properties:
     /* PERMISSIONS */
     ext::property<permissions::permission*> permissions;
 
