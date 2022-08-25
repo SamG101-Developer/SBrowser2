@@ -12,7 +12,6 @@
 #include "ext/tuple.hpp"
 #include "ext/variant.hpp"
 
-#include <functional>
 #include <memory>
 #include <type_traits>
 
@@ -107,13 +106,6 @@ struct hash<_EXT number<T>>
 };
 
 
-template <typename T>
-struct hash<_STD function<T>> // TODO -> ext::function<T...> once its ready for implementation
-{
-    constexpr auto operator()(std::function<T> value) const noexcept -> size_t {return _STD hash<size_t>{}(static_cast<size_t>(&value));}
-};
-
-
 template <typename ...Ts>
 struct hash<_EXT function<Ts...>>
 {
@@ -124,7 +116,7 @@ struct hash<_EXT function<Ts...>>
 template <>
 struct hash<_EXT any>
 {
-    constexpr auto operator()(const _EXT any& value) const noexcept -> size_t {return _STD hash<size_t>{}(static_cast<size_t>(&value));}
+    constexpr auto operator()(const _EXT any& value) const noexcept -> size_t {return value.m_hash;}
 };
 
 
