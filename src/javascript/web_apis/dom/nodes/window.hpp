@@ -13,6 +13,7 @@ namespace dom::nodes {class window;}
 namespace background_tasks {class idle_deadline;}
 namespace dom::nodes {class document;}
 namespace html::other {class navigator;}
+namespace selection {class selection;}
 
 
 class dom::nodes::window final
@@ -33,6 +34,9 @@ public js_methods:
     auto cancel_idle_task(
             const ext::number<ulong>& handle)
             -> void;
+
+    /* SELECTION */
+    auto get_selection() -> selection::selection*;
 
 private cpp_properties:
     /* HTML */

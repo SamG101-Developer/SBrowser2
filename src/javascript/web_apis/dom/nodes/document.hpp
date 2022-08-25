@@ -52,6 +52,7 @@ namespace html::other {class location;}
 
 namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
+namespace selection {class selection;}
 namespace svg::elements {class svg_script_element;}
 
 namespace dom::detail {auto lookup_custom_element_definition(const nodes::document*, ext::string_view, ext::string_view, ext::string_view) -> custom_element_definition_t*;}
@@ -123,6 +124,9 @@ public js_methods:
 
     /* FULLSCREEN */
     auto exit_fullscreen() -> std::promise<void>;
+
+    /* SELECTION */
+    auto get_selection() -> selection::selection*;
 
 public js_properties:
     /* DOM */
