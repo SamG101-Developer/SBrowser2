@@ -21,7 +21,7 @@ auto dom::detail::replace_data(
         nodes::character_data* text_node,
         const ext::number<ulong>& offset,
         const ext::number<ulong>& count,
-        const ext::string& data) -> void
+        ext::string&& data) -> void
 {
     using detail::mutation_type_t;
 
@@ -40,13 +40,14 @@ auto dom::detail::replace_data(
     // set the 'adjusted_count' to either the 'count', of the 'offset' - 'length', so the 'count' + 'offset' is either
     // less than or equal to the length of the Text node; the 'adjusted_delete' if the 'offset' + the length of the new
     // data - this is the start of the data that will be replaced
-    const auto adjusted_count = ext::min(count + offset, text_node_length) - offset;
-    const auto adjusted_delete = offset + data.size();
+    decltype(auto) data_size = data.size();
+    decltype(auto) adjusted_count = ext::min(count + offset, text_node_length) - offset;
+    decltype(auto) adjusted_delete = offset + data.size();
 
     // queue a CHARACTER_DATA mutation record for the Text node's data changing, and replace the data inside the Text
     // node
     queue_mutation_record(mutation_type_t::CHARACTER_DATA, text_node, "", "", text_node->data(), {}, {}, nullptr, nullptr);
-    text_node->data = text_node->data().replace(offset, adjusted_count, data);
+    text_node->data = text_node->data().replace(offset, adjusted_count, std::move(data));
 
     // get the live ranges from the surrounding realm, because these need to be updated for the mutations in the Text
     // node
@@ -75,7 +76,7 @@ auto dom::detail::replace_data(
             live_ranges | ranges::views::filter(
                     [text_node, offset, adjusted_count](node_ranges::range* const range)
                     {return range->start_container() == text_node && range->start_offset() > offset + adjusted_count;}),
-            [data, adjusted_count](node_ranges::range* const live_range) {live_range->start_offset += (data.size() - adjusted_count);});
+            [data_size, adjusted_count](node_ranges::range* const live_range) {live_range->start_offset += (data_size - adjusted_count);});
 
     // ranges whose end container is the Text node and whose end offset is after the data that was replaced: increment
     // the end offset by the new data's size, and decrement it by the length of the data that was replaced
@@ -83,7 +84,7 @@ auto dom::detail::replace_data(
             live_ranges | ranges::views::filter(
                     [text_node, offset, adjusted_count](node_ranges::range* const range)
                     {return range->end_container() == text_node && range->end_offset() > offset + adjusted_count;}),
-            [data, adjusted_count](node_ranges::range* const live_range) {live_range->end_offset += (data.size() - adjusted_count);});
+            [data_size, adjusted_count](node_ranges::range* const live_range) {live_range->end_offset += (data_size - adjusted_count);});
 
     // if the Text node has a parent node, the run the 'children_changed_steps' on the parent node, and the Text node
     // child has mutated (data has been replaced)
