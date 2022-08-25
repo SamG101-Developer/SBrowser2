@@ -272,7 +272,7 @@ struct access_meta
 
 /**
  * The property guard gives a method temporary access to the internal value stored by a property - this is used when
- * custom getters and setters need to access the internal value pre-/post-mutation
+ * custom getters and setters need to access the internal value [pre/post]-mutation
  * @tparam T Underlying type of the property
  */
 template <typename T>
@@ -309,9 +309,9 @@ private:
 
 #define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property(options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::value_t>())
 #define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property(options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::value_t>())
-#define DEFINE_SETTER(p) auto set_##p(decltype(p)::value_t val) -> void;
-#define DEFINE_GETTER(p) auto get_##p() const -> decltype(p)::value_t;
-
+#define DEFINE_SETTER(p) auto set_##p(const decltype(p)::value_t& val) -> void
+#define DEFINE_GETTER(p) auto get_##p() const -> decltype(p)::value_t
+#define DEFINE_DELETER(p) auto del_##p() -> void
 
 
 #endif //SBROWSER2_PROPERTY_HPP
