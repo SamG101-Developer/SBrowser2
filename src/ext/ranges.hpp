@@ -353,9 +353,9 @@ struct ranges::last_where_fn
 };
 
 
-namespace ranges::views {constexpr split_string_fn split_string;}
 namespace ranges::views {constexpr lowercase_fn lowercase;}
 namespace ranges::views {constexpr uppercase_fn uppercase;}
+namespace ranges::views {constexpr split_string_fn split_string;}
 namespace ranges::views {constexpr take_until_fn take_until;}
 namespace ranges::views {constexpr drop_until_fn drop_until;}
 namespace ranges::views {constexpr transform_to_attr_fn transform_to_attr;}
