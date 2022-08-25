@@ -45,6 +45,28 @@ public cpp_methods:
 private cpp_properties:
     std::unique_ptr<detail::url_t> m_url;
     std::unique_ptr<url_search_params> m_query_object;
+
+private cpp_accessors:
+    DEFINE_GETTER(href);
+    DEFINE_GETTER(origin);
+    DEFINE_GETTER(username);
+    DEFINE_GETTER(password);
+    DEFINE_GETTER(host);
+    DEFINE_GETTER(hostname);
+    DEFINE_GETTER(port);
+    DEFINE_GETTER(pathname);
+    DEFINE_GETTER(search);
+    DEFINE_GETTER(hash);
+    DEFINE_GETTER(search_params);
+
+    DEFINE_SETTER(href);
+    DEFINE_SETTER(username);
+    DEFINE_SETTER(password);
+    DEFINE_SETTER(host);
+    DEFINE_SETTER(hostname);
+    DEFINE_SETTER(port);
+    DEFINE_SETTER(pathname);
+    DEFINE_SETTER(hash);
 };
 
 
