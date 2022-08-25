@@ -7,14 +7,15 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
-#include "url/url.hpp"
-
 #include <v8-local-handle.h>
 #include <v8-object.h>
 #include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(url)
+
 namespace dom::nodes {class element;}
 namespace fetch::detail::request_internals {struct internal_request;}
 namespace fetch::detail::response_internals {struct internal_response;}
+
 
 namespace content_security_policy::detail
 {

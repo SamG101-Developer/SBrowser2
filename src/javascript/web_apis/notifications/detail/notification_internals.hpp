@@ -4,12 +4,13 @@
 #include "ext/pair.hpp"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
-#include "url/url.hpp"
+
 #include USE_INNER_TYPES(high_resolution_time)
 #include USE_INNER_TYPES(notifications)
 #include USE_INNER_TYPES(permissions)
 #include USE_INNER_TYPES(service_workers)
 #include USE_INNER_TYPES(vibration)
+#include USE_INNER_TYPES(url)
 
 
 namespace notifications::detail
@@ -59,7 +60,7 @@ struct notifications::detail::action_t
     ext::string title;
     ext::string name;
 
-    ext::pair<url::url_object, icon_resource_t*> icon_url;
+    ext::pair<url::detail::url_t, icon_resource_t*> icon_url;
 };
 
 struct notifications::detail::notification_t
@@ -79,9 +80,9 @@ struct notifications::detail::notification_t
     ext::boolean silent_preference = false;
     ext::boolean require_interaction_preference = false;
 
-    ext::pair<url::url_object, image_resource_t*> image_url;
-    ext::pair<url::url_object, icon_resource_t*> icon_url;
-    ext::pair<url::url_object, badge_resource_t*> badge_url;
+    ext::pair<url::detail::url_t, image_resource_t*> image_url;
+    ext::pair<url::detail::url_t, icon_resource_t*> icon_url;
+    ext::pair<url::detail::url_t, badge_resource_t*> badge_url;
 
     vibration::detail::vibrate_pattern_t vibration_pattern;
     ext::vector<action_t*> actions;

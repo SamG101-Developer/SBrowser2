@@ -5,8 +5,8 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
 #include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(url)
 namespace fetch {class response;}
 namespace fetch::detail::http_internals {class fetch_params;}
 namespace fetch::detail::http_internals {class response_body_info;}
@@ -64,7 +64,7 @@ namespace fetch::detail
 
     auto location_url(
             response_t& internal_response_object)
-            -> url::url_object;
+            -> url::detail::url_t;
 
     auto create_response(
             response_t& internal_response_object,
@@ -88,8 +88,8 @@ struct fetch::detail::response_t
     type_t type {type_t::DEFAULT};
     ext::boolean aborted_flag;
 
-    ext::vector<url::url_object>& url_list;
-    auto associated_url() -> url::url_object;
+    ext::vector<url::detail::url_t>& url_list;
+    auto associated_url() -> url::detail::url_t;
 
     ext::number<int> status;
     ext::string status_message;

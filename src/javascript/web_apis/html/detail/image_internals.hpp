@@ -4,9 +4,11 @@
 #include "ext/concepts.hpp"
 #include "ext/optional.hpp"
 #include "ext/tuple.hpp"
-#include "url/url.hpp"
+
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(url)
+
 namespace html::elements {class html_element;}
 namespace html::elements {class html_image_element;}
 namespace html::elements {class html_link_element;}
@@ -54,11 +56,11 @@ namespace html::detail
 
     auto select_image_source(
             elements::html_image_element* element)
-            -> ext::tuple<url::url_object, double>;
+            -> ext::tuple<url::detail::url_t, double>;
 
     auto select_image_source_from_source_set(
             ext::set<image_source_t*>& source_set)
-            -> ext::tuple<url::url_object, double>;
+            -> ext::tuple<url::detail::url_t, double>;
 
     auto create_source_set(
             const ext::string& default_source,
@@ -91,7 +93,7 @@ namespace html::detail
 struct html::detail::image_request_t
 {
     state_t state{state_t::UNAVAILABLE};
-    url::url_object url;
+    url::detail::url_t url;
     ext::number<int> current_pixel_density {1};
     struct {ext::number<int> width; ext::number<int> height;} preferred_density_corrected_dimensions;
     std::byte image_data[];
@@ -100,10 +102,10 @@ struct html::detail::image_request_t
 
 struct html::detail::available_image_t
 {
-    ext::tuple<ext::string, fetch::detail::mode_t, url::url_object> key;
+    ext::tuple<ext::string, fetch::detail::mode_t, url::detail::url_t> key;
     ext::boolean ignore_higher_layer_caching_flag;
 
-    auto operator==(const ext::tuple<ext::string, fetch::detail::mode_t, url::url_object>& other) const -> ext::boolean
+    auto operator==(const ext::tuple<ext::string, fetch::detail::mode_t, url::detail::url_t>& other) const -> ext::boolean
     {
         return key == other;
     }
@@ -112,7 +114,7 @@ struct html::detail::available_image_t
 
 struct html::detail::image_source_t
 {
-    url::url_object url_record;
+    url::detail::url_t url_record;
     ext::string width_descriptor;
     ext::string pixel_density_descriptor;
 };

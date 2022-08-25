@@ -1,16 +1,21 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_ENCODING_INTERNALS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_ENCODING_INTERNALS_HPP
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_ENCODING_INTERNALS_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_ENCODING_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
 #include "ext/functional.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
-
 #include <bit>
 
+namespace encoding {class encoding;}
 
-namespace url::detail::url_encoding_internals
+
+namespace url::detail
 {
+    auto is_percent_encoded_byte(
+            wchar_t)
+            -> ext::boolean;
+
     auto percent_encode(
             std::byte byte)
             -> ext::string;
@@ -24,6 +29,16 @@ namespace url::detail::url_encoding_internals
             ext::string&& input,
             ext::function<ext::boolean(wchar_t)>&& percent_encodable_set)
             -> ext::string;
+
+    auto utf8_percent_encode(
+            wchar_t code_point,
+            encoding::encoding* percent_encode_set)
+            -> wchar_t;
+
+    auto utf8_percent_decode(
+            wchar_t code_point,
+            encoding::encoding* percent_encode_set)
+            -> wchar_t;
 
     auto is_c0_control_percent_encodable(
             wchar_t code_point)
@@ -59,4 +74,4 @@ namespace url::detail::url_encoding_internals
 }
 
 
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_ENCODING_INTERNALS_HPP
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_ENCODING_INTERNALS_HPP

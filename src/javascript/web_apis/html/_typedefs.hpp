@@ -3,6 +3,10 @@
 
 #include "ext/pair.hpp"
 #include "ext/functional.hpp"
+#include "ext/number.hpp"
+#include "ext/string.hpp"
+#include "ext/tuple.hpp"
+#include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(fetch)
 namespace html::elements {class html_element;}
@@ -57,6 +61,8 @@ namespace html::detail
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
     using response_available_function_t = ext::function<void(fetch::detail::response_t*)>;
+    using tuple_origin_t = ext::tuple<ext::string, ext::string, ext::number<short>, ext::string>;
+    using origin_t = ext::variant<ext::string, tuple_origin_t>;
 
 }
 

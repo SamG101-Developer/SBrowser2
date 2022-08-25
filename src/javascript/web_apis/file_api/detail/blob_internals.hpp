@@ -5,7 +5,9 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
+
+#include USE_INNER_TYPES(url)
+
 namespace file_api {class blob;}
 
 namespace file_api::detail
@@ -37,7 +39,7 @@ namespace file_api::detail
     /* TODO */ auto remove_entry_to_blob_url_store();
 
     auto resolve_blob_url(
-            url::url_object)
+            const url::detail::url_t&)
             -> ext::boolean;
 }
 

@@ -7,7 +7,6 @@
 #include "html/detail/lazy_loading_internals.hpp"
 
 #include "permissions_policy/permissions_policy.hpp"
-#include "referrer_policy/_typedefs.hpp"
 
 #include <magic_enum.hpp>
 

@@ -5,8 +5,8 @@
 #include "ext/pair.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
 #include <v8-forward.h>
+#include USE_INNER_TYPES(url)
 
 namespace content_security_policy::detail
 {
@@ -30,14 +30,14 @@ struct content_security_policy::detail::content_security_policy_t
 struct content_security_policy::detail::violation_t
 {
     v8::Local<v8::Object> global_object;
-    url::url_object url;
+    url::detail::url_t url;
     ext::number<int> status;
     ext::string resource;
     ext::string referrer;
     const content_security_policy_t& csp;
     disposition_t disposition;
     ext::string effective_directive;
-    url::url_object source_file;
+    url::detail::url_t source_file;
     ext::number<int> line_number;
     ext::number<int> column_number;
     dom::nodes::element* element;

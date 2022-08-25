@@ -5,9 +5,11 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
+
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(url)
+
 namespace dom::nodes {class document;}
 namespace dom::nodes {class window;}
 namespace html::detail::context_internals {struct browsing_context;}
@@ -91,7 +93,7 @@ namespace html::detail
 
     auto consume_preloaded_resource(
             dom::nodes::window* window,
-            url::url_object& url,
+            url::detail::url_t& url,
             fetch::detail::destination_t destination,
             fetch::detail::mode_t mode,
             fetch::detail::credentials_t credentials,
@@ -112,7 +114,7 @@ namespace html::detail
 
 struct html::detail::preload_key
 {
-    url::url_object url;
+    url::detail::url_t url;
     fetch::detail::destination_t destination;
     fetch::detail::mode_t mode;
     fetch::detail::credentials_t credentials_mode;

@@ -1,4 +1,4 @@
-#include "url_encoding_internals.hpp"
+#include "encoding_internals.hpp"
 
 #include "infra/detail/code_points_internals.hpp"
 
@@ -7,7 +7,7 @@
 #include <range/v3/view/iota.hpp>
 
 
-auto url::detail::url_encoding_internals::is_c0_control_percent_encodable(
+auto url::detail::is_c0_control_percent_encodable(
         wchar_t code_point)
         -> ext::boolean
 {
@@ -15,7 +15,7 @@ auto url::detail::url_encoding_internals::is_c0_control_percent_encodable(
 }
 
 
-auto url::detail::url_encoding_internals::is_fragment_percent_encodable(
+auto url::detail::is_fragment_percent_encodable(
         wchar_t code_point)
         -> ext::boolean
 {
@@ -24,7 +24,7 @@ auto url::detail::url_encoding_internals::is_fragment_percent_encodable(
 }
 
 
-auto url::detail::url_encoding_internals::is_query_percent_encodable(
+auto url::detail::is_query_percent_encodable(
         wchar_t code_point)
         -> ext::boolean
 {
@@ -33,7 +33,7 @@ auto url::detail::url_encoding_internals::is_query_percent_encodable(
 }
 
 
-auto url::detail::url_encoding_internals::is_special_percent_encodable(
+auto url::detail::is_special_percent_encodable(
         wchar_t code_point)
         -> ext::boolean
 {
@@ -42,7 +42,7 @@ auto url::detail::url_encoding_internals::is_special_percent_encodable(
 }
 
 
-auto url::detail::url_encoding_internals::is_path_percent_encodable(
+auto url::detail::is_path_percent_encodable(
         wchar_t code_point)
         -> ext::boolean
 {
@@ -51,7 +51,7 @@ auto url::detail::url_encoding_internals::is_path_percent_encodable(
 }
 
 
-auto url::detail::url_encoding_internals::is_userinfo_percent_encodable(
+auto url::detail::is_userinfo_percent_encodable(
         wchar_t code_point)
         -> ext::boolean
 {

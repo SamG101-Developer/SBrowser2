@@ -7,9 +7,10 @@
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
 
-#include "url/url.hpp"
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(url)
+
 namespace fetch::detail::http_internals {struct connection_timing_info;}
 namespace fetch::detail::request_internals {struct internal_request;}
 
@@ -28,7 +29,7 @@ namespace fetch::detail
 
     auto obtain_connection(
             const network_partition_key_t& key,
-            const url::url_object& url,
+            const url::detail::url_t& url,
             const ext::boolean& credentials,
             net_connection_setting_t new_ = net_connection_setting_t::NO,
             const ext::boolean& http3_only = false)

@@ -3,13 +3,14 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include "url/url.hpp"
+
 #include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(url)
 
 namespace html::detail
 {
     auto create_potential_cors_request(
-            url::url_object& url,
+            url::detail::url_t& url,
             fetch::detail::destination_t destination,
             fetch::detail::mode_t cors_attribute_state,
             ext::boolean&& same_origin_fallback_flag = false)
@@ -18,14 +19,14 @@ namespace html::detail
     auto parse_url(
             const ext::string& url_string,
             const dom::nodes::document* document)
-            -> ext::pair<ext::string, url::url_object>;
+            -> ext::pair<ext::string, url::detail::url_t>;
 
     auto serialize_url(
-            const url::url_object& url_record)
+            const url::detail::url_t& url_record)
             -> ext::string;
 
     auto matches_about_blank(
-            const url::url_object& url_record)
+            const url::detail::url_t& url_record)
             -> ext::boolean;
 }
 

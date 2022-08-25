@@ -1,5 +1,4 @@
 #include "traversal_internals.hpp"
-#include "dom/_typedefs.hpp"
 #include "ext/keywords.hpp"
 
 #include "dom/nodes/node.hpp"

@@ -5,7 +5,9 @@
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 #include "ext/string.hpp"
-#include "url/url.hpp"
+
+#include USE_INNER_TYPES(url)
+
 namespace fetch {class headers;}
 namespace fetch {class request;}
 namespace html::detail::policy_internals {struct policy_container;}
@@ -61,7 +63,7 @@ namespace fetch::detail
 struct fetch::detail::request_t
 {
     ext::string method = "GET";
-    url::url_object url;
+    url::detail::url_t url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
@@ -86,7 +88,7 @@ struct fetch::detail::request_t
     ext::string origin {"client"};
 
     std::unique_ptr<html::detail::policy_internals::policy_container> policy_container;
-    ext::variant<referrer_t, url::url_object> referrer = referrer_t::CLIENT;
+    ext::variant<referrer_t, url::detail::url_t> referrer = referrer_t::CLIENT;
     referrer_policy::referrer_policy_t referrer_policy;
     mode_t mode {mode_t::NO_CORS};
     ext::boolean use_cors_preflight_flag;
@@ -106,8 +108,8 @@ struct fetch::detail::request_t
     ext::boolean user_activation;
     ext::boolean render_blocking;
 
-    ext::vector<url::url_object> url_list;
-    auto associated_url() -> url::url_object;
+    ext::vector<url::detail::url_t> url_list;
+    auto associated_url() -> url::detail::url_t;
     ext::number<int> redirect_count = 0;
     response_tainting_t response_tainting;
     ext::boolean prevent_no_cache_cache_control_header_modification_flag;

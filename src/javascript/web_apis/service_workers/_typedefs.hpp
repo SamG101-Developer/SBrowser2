@@ -6,9 +6,11 @@
 #include "ext/queue.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
+
 #include USE_INNER_TYPES(storage)
 #include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(url)
+
 namespace fetch {class request;}
 namespace fetch {class response;}
 
@@ -31,7 +33,7 @@ namespace service_workers::detail
     enum class job_type_t {REGISTER, UPDATE, UNREGISTER};
     enum class target_t {INSTALLING, WAITING, ACTIVE};
 
-    using script_resource_map_t = ext::map<url::url_object, fetch::detail::response_t*>;
+    using script_resource_map_t = ext::map<url::detail::url_t, fetch::detail::response_t*>;
     using registration_options_t = ext::map<ext::string, ext::any>;
     using navigation_preload_state_t = ext::map<ext::string, ext::any>;
     using client_query_options_t = ext::map<ext::string, ext::any>;

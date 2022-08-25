@@ -7,13 +7,13 @@
 #include USE_INNER_TYPES(content_security_policy)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(referrer_policy)
-namespace url {class url_object;}
+#include USE_INNER_TYPES(url)
 
 
 namespace html::detail
 {
     auto clone_policy_container(policy_container* container) -> policy_container*;
-    auto requires_storing_policy_container_in_history(url::url_object& url);
+    auto requires_storing_policy_container_in_history(url::detail::url_t& url);
 }
 
 

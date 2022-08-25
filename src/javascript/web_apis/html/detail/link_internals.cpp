@@ -86,7 +86,7 @@ auto html::detail::follow_hyperlink(
 
 auto html::detail::consume_preloaded_resource(
         dom::nodes::window* window,
-        url::url_object& url,
+        url::detail::url_t& url,
         fetch::detail::destination_t destination,
         fetch::detail::mode_t mode,
         fetch::detail::credentials_t credentials,

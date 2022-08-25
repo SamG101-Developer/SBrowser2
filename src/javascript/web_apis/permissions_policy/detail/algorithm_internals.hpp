@@ -8,10 +8,10 @@
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(permissions_policy)
+#include USE_INNER_TYPES(url)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}
-namespace url {class url_object;}
 
 /*
  * TODO : FEATURE_NAME enumeration

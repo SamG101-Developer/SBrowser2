@@ -1,5 +1,7 @@
 #include "navigator.hpp"
 
+#include "dom/nodes/window.hpp"
+#include "environment/realms_2.hpp"
 #include "ext/threading.hpp"
 
 #include "battery/battery_manager.hpp"
@@ -11,6 +13,8 @@
 
 #include "mediacapture_main/media_devices.hpp"
 
+#include "url/detail/encoding_internals.hpp"
+
 #include USE_INNER_TYPES(badging)
 #include USE_INNER_TYPES(dom)
 
@@ -19,11 +23,24 @@ auto html::other::navigator::get_user_media(
         ext::map<ext::string, ext::any>&& constraints,
         html::other::navigator::navigator_user_media_success_callback&& success_callback,
         html::other::navigator::navigator_user_media_error_callback&& error_callback)
-        const -> void
+const -> void
 {
     auto promise = media_devices()->get_user_media(std::move(constraints));
     // TODO : call success_callback when std::promise set-value called
     // TODO : call error callback when std::promise set-error called
+}
+
+
+auto html::other::navigator::send_beacon(
+        ext::string&& url,
+        fetch::detail::body_init_t data)
+        -> void
+{
+    JS_REALM_GET_RELEVANT(this);
+    decltype(auto) base   = javascript::environment::realms_2::get<ext::string>(this_relevant_global_object, "abi_base_url");
+    decltype(auto) origin = javascript::environment::realms_2::get<ext::string>(this_relevant_global_object, "origin");
+
+    auto parsed_url = url::detail::url_parser(std::move(url), base);
 }
 
 

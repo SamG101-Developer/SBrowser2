@@ -3,7 +3,7 @@
 
 
 #include "ext/string.hpp"
-#include "url/url.hpp"
+#include USE_INNER_TYPES(url)
 namespace content_security_policy::detail::violation_internals {struct violation;}
 
 namespace content_security_policy::detail::reporting_internals
@@ -13,7 +13,7 @@ namespace content_security_policy::detail::reporting_internals
             -> ext::string;
 
     auto strip_url_for_violation_report(
-            url::url_object& url)
+            url::detail::url_t& url)
             -> ext::string;
 
     auto report_violation(

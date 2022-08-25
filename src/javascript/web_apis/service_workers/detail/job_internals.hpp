@@ -4,11 +4,12 @@
 #include <future>
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
-#include "fetch/_typedefs.hpp"
-#include "url/url.hpp"
+
 #include USE_INNER_TYPES(dom)
+#include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(storage)
 #include USE_INNER_TYPES(service_workers)
+#include USE_INNER_TYPES(url)
 
 
 namespace service_workers::detail
@@ -21,8 +22,8 @@ namespace service_workers::detail
     auto create_job(
             job_type_t job_type,
             storage::detail::storage_key_t&& storage_key,
-            url::url_object&& scope_url,
-            url::url_object&& script_url,
+            url::detail::url_t&& scope_url,
+            url::detail::url_t&& script_url,
             std::promise<void>&& promise,
             service_worker_client_t&& client)
             -> job_t;
@@ -49,11 +50,11 @@ namespace service_workers::detail
             -> ext::tuple<ext::string, v8_custom_error_t>;
 
     auto start_register(
-            ext::optional<url::url_object> scope_url,
-            ext::optional<url::url_object> script_url,
+            ext::optional<url::detail::url_t> scope_url,
+            ext::optional<url::detail::url_t> script_url,
             const std::promise<void>& promise,
             const service_worker_client_t& client,
-            const url::url_object& referrer,
+            const url::detail::url_t& referrer,
             service_worker_type_t worker_type,
             update_via_cache_mode_t update_via_cache_mode)
             -> void;
@@ -82,12 +83,12 @@ struct service_workers::detail::job_t
 {
     job_type_t job_type;
     storage::detail::storage_key_t storage_key;
-    url::url_object scope_url;
-    url::url_object script_url;
+    url::detail::url_t scope_url;
+    url::detail::url_t script_url;
     service_worker_type_t worker_type;
     update_via_cache_mode_t update_via_cache_mode;
     service_worker_client_t& client;
-    url::url_object referrer;
+    url::detail::url_t referrer;
     std::promise<void> job_promise;
     job_queue_t& containing_job_queue;
     ext::vector<job_t>& list_of_equivalent_jobs;

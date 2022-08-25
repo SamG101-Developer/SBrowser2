@@ -6,7 +6,7 @@
 namespace media::capabilities {class media_capabilities;}
 
 #include <future>
-#include "media_capabilities/_typedefs.hpp"
+#include USE_INNER_TYPES(media_capabilities)
 
 
 class media::capabilities::media_capabilities

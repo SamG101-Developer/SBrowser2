@@ -55,7 +55,7 @@ public js_methods:
     auto vibrate(vibration::detail::vibrate_pattern_t&& pattern) -> ext::boolean;
 
     /* BEACON */
-    auto send_beacon(ext::string_view url, fetch::detail::body_init_t data = nullptr) -> void;
+    auto send_beacon(ext::string&& url, fetch::detail::body_init_t data = nullptr) -> void;
 
     /* BADGING */
     auto set_client_badge(ext::optional<ext::number<ulonglong>> contents) -> std::promise<void>;

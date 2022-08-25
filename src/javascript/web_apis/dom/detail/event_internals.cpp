@@ -1,6 +1,5 @@
 #include "event_internals.hpp"
 
-#include "dom/_typedefs.hpp"
 #include "ext/assertion.hpp"
 #include "ext/concepts.hpp"
 #include "ext/functional.hpp"

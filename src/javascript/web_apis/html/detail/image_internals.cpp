@@ -16,8 +16,6 @@
 #include "html/elements/html_image_element.hpp"
 #include "html/elements/html_source_element.hpp"
 
-#include "referrer_policy/_typedefs.hpp"
-
 #include <magic_enum.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/action/unique.hpp>
@@ -99,7 +97,7 @@ auto html::detail::update_image_data(
         if (!url_record)
         {
             auto cross_origin = magic_enum::enum_cast<fetch::detail::mode_t>(element->cross_origin());
-            auto key = tuplet::make_tuple(url_string, cross_origin, cross_origin != NO_CORS ? element->owner_document()->m_origin : url::url_object(""));
+            auto key = tuplet::make_tuple(url_string, cross_origin, cross_origin != NO_CORS ? element->owner_document()->m_origin : url::detail::url_t{""});
             if (ranges::contains(element->owner_document()->m_list_of_available_images | ranges::views::keys, key))
             {
                 auto& matching_key = ranges::first_where(
@@ -230,7 +228,7 @@ auto html::detail::upgrade_pending_request_to_current_request(
 
 auto html::detail::select_image_source(
         elements::html_image_element* element)
-        -> ext::tuple<url::url_object, double>
+        -> ext::tuple<url::detail::url_t, double>
 {
     update_source_set(element);
     return_if (element->m_source_set.empty()) ext::make_tuple("", -1.0);
@@ -240,7 +238,7 @@ auto html::detail::select_image_source(
 
 auto html::detail::select_image_source_from_source_set(
         ext::set<image_source*>& source_set)
-        -> ext::tuple<url::url_object, double>
+        -> ext::tuple<url::detail::url_t, double>
 {
     source_set |= ranges::actions::unique([](image_source* left, image_source* right) {return left->pixel_density_descriptor == right->pixel_density_descriptor;});
     auto selected_source = *source_set.begin(); // TODO : *begin()?

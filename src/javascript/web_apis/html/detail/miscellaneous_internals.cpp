@@ -4,7 +4,7 @@
 
 
 auto html::detail::create_potential_cors_request(
-        url::url_object& url,
+        url::detail::url_t& url,
         fetch::detail::destination_t destination,
         fetch::detail::mode_t cors_attribute_state,
         ext::boolean&& same_origin_fallback_flag)

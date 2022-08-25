@@ -7,8 +7,8 @@
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
 #include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(url)
 namespace dom::nodes {class document;}
 
 namespace content_security_policy::detail
@@ -55,7 +55,7 @@ namespace content_security_policy::detail
             -> content_security_policy_t;
 
     auto is_base_allowed_for_document(
-            url::url_object& base,
+            url::detail::url_t& base,
             dom::nodes::document* document)
             -> ext::string;
 }

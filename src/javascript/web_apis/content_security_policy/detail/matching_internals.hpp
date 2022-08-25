@@ -5,8 +5,8 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
 #include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(url)
 namespace dom::nodes {class element;}
 namespace fetch {class request;}
 
@@ -30,14 +30,14 @@ namespace content_security_policy::detail
             -> ext::boolean;
 
     auto does_url_match_source_list_in_origin_with_redirected_count(
-            url::url_object& url,
+            url::detail::url_t& url,
             ext::vector_view<ext::string> source_list,
             ext::string_view origin,
             ext::number<int> redirect_count)
             -> ext::boolean;
 
     auto does_url_match_expression_in_origin_with_redirected_count(
-            url::url_object& url,
+            url::detail::url_t& url,
             ext::string_view expression,
             ext::string_view origin,
             ext::number<int> redirect_count)

@@ -13,7 +13,7 @@
 #include <v8-forward.h>
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(high_resolution_time)
-namespace url {class url_object;}
+#include USE_INNER_TYPES(url)
 
 namespace fetch::detail
 {
@@ -61,7 +61,7 @@ namespace fetch::detail
             -> ext::boolean;
 
     auto is_url_local(
-            url::url_object& url)
+            url::detail::url_t& url)
             -> ext::boolean;
 
     auto collect_http_quoted_string(

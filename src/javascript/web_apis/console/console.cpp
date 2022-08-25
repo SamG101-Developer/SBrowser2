@@ -2,7 +2,6 @@
 
 #include <ostream>
 
-#include "_typedefs.hpp"
 #include "ext/functional.hpp"
 #include "ext/ranges.hpp"
 #include "ext/string.hpp"

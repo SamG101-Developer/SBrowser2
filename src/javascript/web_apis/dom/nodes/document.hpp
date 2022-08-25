@@ -16,11 +16,13 @@ namespace dom::nodes {class document;}
 #include "ext/tuple.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
 #include <range/v3/view/any_view.hpp>
+
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(permissions_policy)
 #include USE_INNER_TYPES(page_visibility)
+#include USE_INNER_TYPES(url)
+
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
 namespace dom::nodes {class comment;}
@@ -66,7 +68,7 @@ class dom::nodes::document
 {
 public aliases:
     using module_map_t = ext::map<
-            ext::tuple<ext::string, url::url_object>,
+            ext::tuple<ext::string, url::detail::url_t>,
             ext::string>;
 
     using html_or_svg_script_element_t = ext::variant<
@@ -124,7 +126,7 @@ public js_methods:
 
 public js_properties:
     /* DOM */
-    ext::property<url::url_object> url;
+    ext::property<url::detail::url_t> url;
     ext::property<ext::string> compat_mode;
     ext::property<ext::string> character_set;
     ext::property<ext::string> content_type;

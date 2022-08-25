@@ -33,7 +33,6 @@
 #include "infra/detail/infra_strings_internals.hpp"
 #include "permissions_policy/permissions_policy.hpp"
 #include "svg/elements/svg_title_element.hpp"
-#include "url/url.hpp"
 
 #include <ctime>
 #include <iomanip>
@@ -50,7 +49,7 @@
 
 
 dom::nodes::document::document()
-        : url{std::make_unique<url::url_object>("about:blank")}
+        : url{std::make_unique<url::detail::url_t>("about:blank")}
         , implementation{std::make_unique<other::dom_implementation>()}
         , content_type{"application/xml"}
         , ready_state{"complete"}

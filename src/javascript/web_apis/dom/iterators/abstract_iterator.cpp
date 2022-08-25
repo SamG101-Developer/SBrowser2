@@ -4,7 +4,6 @@
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/other/dom_implementation.hpp"
-#include "url/url.hpp"
 
 
 dom::node_iterators::abstract_iterator::abstract_iterator()

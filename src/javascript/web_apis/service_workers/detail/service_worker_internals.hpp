@@ -4,14 +4,16 @@
 #include "ext/boolean.hpp"
 #include "ext/queue.hpp"
 #include "ext/set.hpp"
-#include "url/url.hpp"
+
 #include <future>
 #include <v8-forward.h>
+
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(high_resolution_time)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(service_workers)
 #include USE_INNER_TYPES(storage)
+#include USE_INNER_TYPES(url)
 
 namespace service_workers::events {class extendable_event;}
 namespace service_workers::workers {class service_worker;}
@@ -117,7 +119,7 @@ struct service_workers::detail::service_worker_t
     script_resource_map_t script_resource_map;
     service_worker_registration_t& containing_worker_registration;
 
-    url::url_object script_url;
+    url::detail::url_t script_url;
     html::detail::script_t script;
     html::detail::policy_container_t& policy_container;
     workers::service_worker_global_scope* global_object;
@@ -126,7 +128,7 @@ struct service_workers::detail::service_worker_t
     ext::boolean skip_waiting_flag;
     ext::boolean classic_scripts_imported_flag;
 
-    ext::set<url::url_object> used_scripts;
+    ext::set<url::url::detail::url_t> used_scripts;
     ext::set<ext::string> events_types_to_handle;
     ext::set<events::extendable_event*> extended_events;
 
@@ -139,7 +141,7 @@ struct service_workers::detail::service_worker_t
 struct service_workers::detail::service_worker_registration_t
 {
     storage::detail::storage_key_t storage_key;
-    url::url_object scope_url;
+    url::detail::url_t scope_url;
     service_worker_t* installing_worker;
     service_worker_t* waiting_worker;
     service_worker_t* active_worker;

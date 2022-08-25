@@ -4,9 +4,11 @@
 #include "ext/boolean.hpp"
 #include "ext/pair.hpp"
 #include "ext/vector.hpp"
-#include "url/url.hpp"
 #include <memory>
+
 #include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(url)
+
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}
@@ -62,8 +64,8 @@ struct html::detail::browsing_context
     std::unique_ptr<dom::nodes::document> container_document;
 
     ext::string creator_origin;
-    url::url_object creator_url;
-    url::url_object creator_base_url;
+    url::detail::url_t creator_url;
+    url::detail::url_t creator_base_url;
 
     browsing_context* parent_browsing_context;
     ext::vector<dom::nodes::document*> session_history {};

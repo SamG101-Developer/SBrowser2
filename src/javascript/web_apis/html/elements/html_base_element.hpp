@@ -4,7 +4,7 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_base_element;}
 
-#include "url/url.hpp"
+#include USE_INNER_TYPES(url)
 
 class html::elements::html_base_element
         : html_element
@@ -20,7 +20,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
-    url::url_object m_frozen_base_url;
+    url::detail::url_t m_frozen_base_url;
 
 private cpp_accessors:
     auto get_href() const -> ext::string;

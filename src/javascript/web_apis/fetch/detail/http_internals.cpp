@@ -1,8 +1,8 @@
 #include "http_internals.hpp"
 
-#include <initializer_list>
 #include "ext/ranges.hpp"
-#include "url/url.hpp"
+
+#include <initializer_list>
 
 #include <range/v3/algorithm/contains.hpp>
 
@@ -67,7 +67,7 @@ auto fetch::detail::is_cancelled(
 
 
 auto fetch::detail::is_url_local(
-        url::url_object& url)
+        url::detail::url_t& url)
         -> ext::boolean
 {
     // a url is local if its scheme is a local scheme; these schemes are the "about", "blob" and "data" schemes

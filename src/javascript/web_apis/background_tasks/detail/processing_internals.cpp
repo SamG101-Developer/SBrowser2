@@ -2,7 +2,6 @@
 
 #include "ext/optional.hpp"
 
-#include "background_tasks/_typedefs.hpp"
 #include "background_tasks/idle_deadline.hpp"
 
 #include "dom/detail/observer_internals.hpp"

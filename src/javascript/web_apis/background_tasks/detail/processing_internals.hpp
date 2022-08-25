@@ -1,7 +1,6 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_DETAIL_PROCESSING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_DETAIL_PROCESSING_INTERNALS_HPP
 
-#include "background_tasks/_typedefs.hpp"
 #include USE_INNER_TYPES(background_tasks)
 #include USE_INNER_TYPES(high_resolution_time)
 namespace dom::nodes {class window;}

@@ -44,7 +44,6 @@
 #include "content_security_policy/detail/csp_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 #include "intersection_observer/detail/algorithm_internals.hpp"
-#include "referrer_policy/_typedefs.hpp"
 
 #include <magic_enum.hpp>
 #include <range/v3/algorithm/any_of.hpp>
@@ -562,7 +561,7 @@ auto html::detail::set_url(
     // record that has been generated
     JS_REALM_GET_RELEVANT(element)
     element->m_url = !reflect_has_attribute_value(element, "href", element_relevant)
-            ? url::url_object{}
+            ? url::detail::url_t{}
             : miscellaneous_internals::parse_url(element->m_url, ext::cross_cast<dom::nodes::element*>(element)->owner_document()).second;
 }
 
@@ -631,7 +630,7 @@ auto html::detail::shared_attribute_processing_steps_for_iframe_and_frame_elemen
         navigate_iframe_or_frame(element, resource);
     };
 
-    url::url_object url_record {"about:blank"};
+    url::detail::url_t url_record {"about:blank"};
 
     JS_REALM_GET_RELEVANT(element)
     if (reflect_has_attribute_value(element, "src", element_relevant) && !element->src().empty())

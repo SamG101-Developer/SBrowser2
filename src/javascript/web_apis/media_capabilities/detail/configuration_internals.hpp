@@ -3,7 +3,7 @@
 
 #include "ext/boolean.hpp"
 
-#include "media_capabilities/_typedefs.hpp"
+#include USE_INNER_TYPES(media_capabilities)
 
 namespace media::detail
 {

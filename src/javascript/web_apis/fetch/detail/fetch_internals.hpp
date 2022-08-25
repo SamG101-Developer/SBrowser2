@@ -98,7 +98,7 @@ struct fetch::detail::cache_entry_t
 {
     network_partition_key_t key;
     ext::string byte_serialized_origin;
-    url::url_object url;
+    url::detail::url_t url;
     ext::number<int> mag_age;
     ext::boolean credentials;
     ext::string method;

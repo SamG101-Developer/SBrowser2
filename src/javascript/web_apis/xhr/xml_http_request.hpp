@@ -7,7 +7,9 @@ namespace xhr {class xml_http_request;}
 #include "fetch/detail/body_internals.hpp"
 #include "fetch/detail/http_internals.hpp"
 #include "fetch/detail/header_internals.hpp"
-#include "url/url.hpp"
+
+#include USE_INNER_TYPES(url)
+
 namespace fetch {class response;}
 namespace xhr {class xml_http_request_upload;}
 
@@ -55,7 +57,7 @@ private cpp_properties:
     ext::number<ushort> m_state;
     ext::number<uint> m_send_flag;
     ext::boolean m_cross_origin_credentials;
-    url::url_object url;
+    url::detail::url_t url;
     fetch::detail::http_internals::method_t m_method;
     fetch::detail::header_internals::headers_t m_author_request_headers;
     fetch::detail::body_internals::internal_body& m_request_body;
