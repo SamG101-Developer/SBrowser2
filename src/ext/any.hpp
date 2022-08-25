@@ -7,6 +7,7 @@
 #include "ext/concepts.hpp"
 #include "ext/keywords.hpp"
 #include <any>
+#include <type_traits>
 
 
 _EXT_BEGIN
@@ -20,10 +21,14 @@ concept not_any = !type_is<T, any>;
 
 /**
  * The `any` class is an abstraction that sits on top of teh `std:any` class, and adds methods for easier conversion and
- * some other type checks such as if the current value stored in the `any` object is an arithmetic type etc.
+ * some other type checks such as if the current value stored in the `any` object is an arithmetic type etc. It also
+ * holds a hash of the current object for keying in maps / vectors, and comparisons.
  */
 class any final
 {
+public friends:
+     friend struct std::hash<ext::any>;
+
 public constructors:
     any() = default;
     ~any() = default;
@@ -50,15 +55,17 @@ public cpp_operators:
     template <not_any T> auto operator==(T&& other) const -> bool;
 
 private cpp_properties:
-    std::any internal_any;
-    boolean is_arithmetic;
+    std::any m_any;
+    boolean m_is_arithmetic;
+    ext::number<size_t> m_hash = 0;
 };
 
 
 template <not_any T>
 any::any(T&& value) noexcept
-        : internal_any(std::forward<T>(value))
-        , is_arithmetic(type_is_any_specialization<T, number>)
+        : m_any{std::forward<T>(value)}
+        , m_is_arithmetic{type_is_any_specialization<T, number>}
+        , m_hash{std::hash<T>{}(value)}
 {
     // the perfect forwarding (non-copy / -move) constructor initializes the `_Any` attribute to the value (forwarded),
     // and the `_IsArithmetic` attribute is set if the `value` is any of the `number<T>` class specializations
@@ -68,8 +75,9 @@ any::any(T&& value) noexcept
 template <not_any T>
 auto any::operator=(const T& value) -> any&
 {
-    internal_any = value;
-    is_arithmetic = type_is_any_specialization<T, number>;
+    m_any = value;
+    m_is_arithmetic = type_is_any_specialization<T, number>;
+    m_hash = std::hash<T>{}(value);
     return *this;
 }
 
@@ -77,8 +85,9 @@ auto any::operator=(const T& value) -> any&
 template <not_any T>
 auto any::operator=(T&& value) noexcept -> any&
 {
-    internal_any = std::forward<decltype(value)>(value);
-    is_arithmetic = type_is_any_specialization<T, number>;
+    m_any = std::forward<decltype(value)>(value);
+    m_is_arithmetic = type_is_any_specialization<T, number>;
+    m_hash = std::hash<T>{}(value);
     return *this;
 }
 
@@ -87,7 +96,7 @@ auto any::type() const -> const type_info&
 {
     // get the `type_info` type of the object being stored in the internal `std::any` object (identical method
     // forwarding)
-    return internal_any.type();
+    return m_any.type();
 }
 
 
@@ -95,27 +104,27 @@ auto any::is_arithmetic_type() const -> boolean
 {
     // get if the object  being stored in the internal `std::any` object is arithmetic or not - this is determined by a
     // flag that is set whenever the value of the `any` object is set / mutated
-    return is_arithmetic;
+    return m_is_arithmetic;
 }
 
 
 auto any::is_empty() const -> boolean
 {
     // the `any` object is empty if it doesn't have a value (check with internal `std::any` object)
-    return !internal_any.has_value();
+    return !m_any.has_value();
 }
 
 
 auto any::has_value() const -> boolean
 {
-    return internal_any.has_value();
+    return m_any.has_value();
 }
 
 
 template <typename T>
 auto any::to() const -> T
 {
-    return std::any_cast<T>(internal_any);
+    return std::any_cast<T>(m_any);
 }
 
 
@@ -126,18 +135,18 @@ auto any::try_to() const -> ext::boolean
     {
         auto try_cast = to<T>();
         static_cast<void>(try_cast);
-        return ext::boolean::TRUE_();
+        return true;
     }
     catch (const std::bad_any_cast& exception)
     {
-        return ext::boolean::FALSE_();
+        return false;
     }
 }
 
 
 auto any::operator==(const ext::any& other) const -> bool
 {
-    return &other.internal_any == &internal_any;
+    return m_hash == other.m_hash;
 }
 
 
