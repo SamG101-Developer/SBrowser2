@@ -20,7 +20,7 @@ class dom::events::event
 {
 private: aliases
     using touch_targets_t = ext::vector<nodes::event_target*>;
-    using path_t          = ext::vector<detail::event_path_struct_t*>;
+    using path_t = ext::vector<detail::event_path_struct_t*>;
 
 public: friends
     friend class nodes::event_target;
