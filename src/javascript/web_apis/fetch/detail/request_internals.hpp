@@ -64,12 +64,12 @@ namespace fetch::detail
 struct fetch::detail::request_t
 {
     ext::string method = "GET";
-    url::detail::url_t& url;
+    std::unique_ptr<url::detail::url_t> url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
-    headers_t& header_list;
-    body_t& body;
+    std::unique_ptr<headers_t> header_list;
+    std::unique_ptr<body_t> body;
 
     v8::Local<v8::Object> client;
     v8::Local<v8::Object> reserved_client;
