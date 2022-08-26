@@ -10,11 +10,10 @@
 #include <v8-local-handle.h>
 #include <v8-object.h>
 #include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(url)
 
 namespace dom::nodes {class element;}
-namespace fetch::detail::request_internals {struct internal_request;}
-namespace fetch::detail::response_internals {struct internal_response;}
 
 
 namespace content_security_policy::detail
@@ -26,25 +25,12 @@ namespace content_security_policy::detail
             -> violation_t;
 
     auto create_violation_object(
-            fetch::detail::request_internals::internal_request& internal_request_object,
+            const fetch::detail::request_t& request,
             content_security_policy_t& csp)
             -> violation_t;
 
-    auto report_content_security_policy_violations(
-            fetch::detail::request_internals::internal_request& request)
-            -> void;
-
-    auto should_request_be_blocked_by_content_security_policy(
-            fetch::detail::request_internals::internal_request& request)
-            -> ext::boolean;
-
-    auto should_response_be_blocked_by_content_security_policy(
-            fetch::detail::response_internals::internal_response& response,
-            fetch::detail::request_internals::internal_request& request)
-            -> ext::boolean;
-
     auto does_request_violate_policy(
-            fetch::detail::request_internals::internal_request& request,
+            const fetch::detail::request_t& request,
             content_security_policy_t& csp)
             -> ext::boolean;
 }

@@ -6,11 +6,12 @@
 #include "ext/number.hpp"
 #include "ext/string.hpp"
 
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(referrer_policy)
 #include USE_INNER_TYPES(url)
 
 namespace fetch {class headers;}
 namespace fetch {class request;}
-namespace html::detail::policy_internals {struct policy_container;}
 
 namespace fetch::detail
 {
@@ -63,12 +64,12 @@ namespace fetch::detail
 struct fetch::detail::request_t
 {
     ext::string method = "GET";
-    url::detail::url_t url;
+    url::detail::url_t& url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
-    headers_t header_list;
-    body_t body;
+    headers_t& header_list;
+    body_t& body;
 
     v8::Local<v8::Object> client;
     v8::Local<v8::Object> reserved_client;
@@ -87,9 +88,9 @@ struct fetch::detail::request_t
     ext::any priority;
     ext::string origin {"client"};
 
-    std::unique_ptr<html::detail::policy_internals::policy_container> policy_container;
-    ext::variant<referrer_t, url::detail::url_t> referrer = referrer_t::CLIENT;
-    referrer_policy::referrer_policy_t referrer_policy;
+    std::unique_ptr<html::detail::policy_container_t> policy_container;
+    ext::variant<referrer_t, url::detail::url_t*> referrer = referrer_t::CLIENT;
+    referrer_policy::detail::referrer_policy_t referrer_policy;
     mode_t mode {mode_t::NO_CORS};
     ext::boolean use_cors_preflight_flag;
 

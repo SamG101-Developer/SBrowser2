@@ -12,20 +12,20 @@
 
 namespace html::detail
 {
-    auto clone_policy_container(policy_container* container) -> policy_container*;
+    auto clone_policy_container(policy_container_t* container) -> policy_container_t*;
     auto requires_storing_policy_container_in_history(url::detail::url_t& url);
 }
 
 
-struct html::detail::policy_container
+struct html::detail::policy_container_t
 {
-    ext::vector<content_security_policy::detail::content_security_policy_t> csp_list;
-    std::unique_ptr<embedder_policy> embedder_policy;
+    ext::vector<content_security_policy::detail::content_security_policy_t*> csp_list;
+    std::unique_ptr<embedder_policy_t> embedder_policy;
     referrer_policy::detail::referrer_policy_t referrer_policy;
 };
 
 
-struct html::detail::embedder_policy
+struct html::detail::embedder_policy_t
 {
     using enum embedder_policy_value_t;
 
@@ -36,7 +36,7 @@ struct html::detail::embedder_policy
 };
 
 
-struct html::detail::cross_origin_opener_policy
+struct html::detail::cross_origin_opener_policy_t
 {
     using enum cross_origin_opener_policy_value_t;
 

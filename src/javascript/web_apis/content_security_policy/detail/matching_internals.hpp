@@ -7,8 +7,10 @@
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(content_security_policy)
 #include USE_INNER_TYPES(url)
+
 namespace dom::nodes {class element;}
 namespace fetch {class request;}
+
 
 namespace content_security_policy::detail
 {
