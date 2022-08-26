@@ -1,16 +1,18 @@
 #ifndef SBROWSER2_RESPONSE_INTERNALS_HPP
 #define SBROWSER2_RESPONSE_INTERNALS_HPP
 
+#include <memory>
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(url)
+#include USE_INNER_TYPES(service_workers)
+
 namespace fetch {class response;}
-namespace fetch::detail::http_internals {class fetch_params;}
-namespace fetch::detail::http_internals {class response_body_info;}
-namespace service_workers::detail::service_worker_internals {struct service_worker_timing;}
+
 
 namespace fetch::detail
 {
@@ -27,7 +29,7 @@ namespace fetch::detail
             -> ext::boolean;
 
     auto appropriate_network_error(
-            http_internals::fetch_params& params)
+            fetch_params_t& params)
             -> response_t;
 
     auto basic_filtered_response(
@@ -88,7 +90,7 @@ struct fetch::detail::response_t
     type_t type {type_t::DEFAULT};
     ext::boolean aborted_flag;
 
-    ext::vector<url::detail::url_t>& url_list;
+    ext::vector<url::detail::url_t*> url_list;
     auto associated_url() -> url::detail::url_t;
 
     ext::number<int> status;
@@ -104,8 +106,8 @@ struct fetch::detail::response_t
     ext::boolean request_includes_credentials = true;
     ext::boolean timing_allow_passed_flag;
 
-    detail::http_internals::response_body_info& body_information;
-    service_workers::detail::service_worker_internals::service_worker_timing& service_worker_timing_information;
+    std::unique_ptr<response_body_info_t> body_information;
+    std::unique_ptr<service_workers::detail::service_worker_timing_info_t> service_worker_timing_information;
 };
 
 

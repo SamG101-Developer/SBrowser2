@@ -17,7 +17,7 @@ namespace content_security_policy::detail
             -> ext::string;
 
     auto report_violation(
-            const violation_t& violation_object)
+            violation_t&& violation_object)
             -> void;
 }
 
