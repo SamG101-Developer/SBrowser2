@@ -16,41 +16,41 @@ namespace dom::nodes {class element;}
 namespace content_security_policy::detail
 {
     auto pre_request_check(
-            ext::string_view directive,
+            const directive_t& directive,
             const fetch::detail::request_t& request,
             const content_security_policy_t& csp)
-            -> ext::string;
+            -> ext::boolean;
 
     auto post_request_check(
-            ext::string_view directive,
-            fetch::detail::request_t& request,
-            fetch::detail::response_t& response,
+            const directive_t& directive,
+            const fetch::detail::request_t& request,
+            const fetch::detail::response_t& response,
             const content_security_policy_t& csp)
-            -> ext::string;
+            -> ext::boolean;
 
     auto inline_check(
-            ext::string_view directive,
+            const directive_t& directive,
             dom::nodes::element* element,
             ext::string_view type,
             ext::string_view source,
             const content_security_policy_t& csp)
-            -> ext::string;
+            -> ext::boolean;
 
     auto initialization(
-            ext::string_view directive,
+            const directive_t& directive,
             dom::nodes::document* document,
             const content_security_policy_t& csp)
             -> ext::string;
 
     auto pre_navigation_check(
-            ext::string_view directive,
+            const directive_t& directive,
             const fetch::detail::request_t& request,
             ext::string_view navigation_type,
             const content_security_policy_t& csp)
             -> ext::string;
 
     auto navigation_response_check(
-            ext::string_view directive,
+            const directive_t& directive,
             const fetch::detail::request_t& request,
             ext::string_view navigation_type,
             const fetch::detail::response_t& response,
