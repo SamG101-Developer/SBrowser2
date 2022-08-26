@@ -42,8 +42,8 @@ template <typename F, typename ...Args0>
 struct bind_back
 {
 public:
-    explicit bind_back(const F& function, Args0&&... fixed_args)
-            : m_function{function}
+    explicit bind_back(F&& function, Args0&&... fixed_args)
+            : m_function{std::forward<F>(function)}
             , m_back_args{ext::make_tuple(std::forward<Args0>(fixed_args)...)}
     {
         // initialize the function and the back arguments, by forwarding the arguments into a tuple and setting this as
@@ -53,7 +53,7 @@ public:
     template <typename ...Args1>
     constexpr auto operator()(Args1&&... variable_args) const
     {
-        // forward the new arguments into a tuple, concatenate this to the beginning of the 'm_front_args', and apply this
+        // forward the new arguments into a tuple, concatenate this to the front of the 'm_front_args', and apply this
         // tuple to the 'm_function', so that the function is invoked with all the arguments
         auto m_front_args = ext::make_tuple(std::forward<Args1>(variable_args)...);
         return ext::apply(m_function, ext::tuple_cat(m_front_args, m_back_args));
@@ -71,8 +71,8 @@ template <typename F, typename ...Args0>
 struct bind_front
 {
 public:
-    explicit bind_front(const F& function, Args0&&... fixed_args)
-            : m_function{function}
+    explicit bind_front(F&& function, Args0&&... fixed_args)
+            : m_function{std::forward<F>(function)}
             , m_front_args{ext::make_tuple(std::forward<Args0>(fixed_args)...)}
     {
         // initialize the function and the front arguments, by forwarding the arguments into a tuple and setting this as
@@ -82,8 +82,8 @@ public:
     template <typename ...Args1>
     constexpr auto operator()(Args1&&... variable_args) const
     {
-        // forward the new arguments into a tuple, concatenate this to the end of the 'm_back_args', and apply this tuple
-        // to the 'm_function', so that the function is invoked with all the arguments
+        // forward the new arguments into a tuple, concatenate this to the back of the 'm_back_args', and apply this
+        // tuple to the 'm_function', so that the function is invoked with all the arguments
         auto m_back_args = ext::make_tuple(std::forward<Args1>(variable_args)...);
         return ext::apply(m_function, ext::tuple_cat(m_front_args, m_back_args));
     }
