@@ -19,7 +19,7 @@ namespace html::detail
 
 struct html::detail::policy_container_t
 {
-    ext::vector<content_security_policy::detail::content_security_policy_t*> csp_list;
+    ext::vector<content_security_policy::detail::content_security_policy_t*>& csp_list;
     std::unique_ptr<embedder_policy_t> embedder_policy;
     referrer_policy::detail::referrer_policy_t referrer_policy;
 };
