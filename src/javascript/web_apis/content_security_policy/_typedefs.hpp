@@ -20,7 +20,7 @@ namespace content_security_policy::detail
 
 struct content_security_policy::detail::content_security_policy_t
 {
-    ext::vector<directive_t> directive_set;
+    ext::vector<directive_t*> directive_set;
     disposition_t disposition;
     source_t source;
     ext::string self_origin;
