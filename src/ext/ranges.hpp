@@ -129,7 +129,7 @@ struct ranges::views::transform_to_attr_fn
         //      ranges::views::transform_to_attr(nodes, &node::text_content);
         return ranges::views::transform(
                 [attribute = std::forward<T>(attribute)]<typename U>
-                (U&& element) {return std::mem_fn(std::forward<const T>(attribute))(std::forward<U>(element))();});
+                (U&& element) mutable {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});
     }
 };
 
@@ -145,7 +145,7 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
         // left in their original form
         return ranges::views::transform(
                 [predicate_if = std::forward<F0>(predicate_if), predicate_transform = std::forward<F1>(predicate_transform)]<typename T>
-                (T&& element) {return predicate_if() ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
+                (T&& element) mutable {return predicate_if() ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
     }
 
     template <typename F1>
@@ -154,7 +154,7 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
         // a transform_if adaptor works by transforming each element, if '_PredIf' is a true boolean value
         return ranges::views::transform(
                 [&predicate_if, predicate_transform = std::forward<F1>(predicate_transform)]<typename T>
-                (T&& element) {return predicate_if ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
+                (T&& element) mutable {return predicate_if ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
     }
 };
 
