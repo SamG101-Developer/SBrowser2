@@ -18,7 +18,9 @@ using namespace fmt;
  * https://codereview.stackexchange.com/a/263761/211871
  * https://codereview.stackexchange.com/users/42409/deduplicator
  */
-constexpr auto snake_to_camel(ext::string string) noexcept -> ext::string
+constexpr auto snake_to_camel(
+        ext::string string)
+        noexcept -> ext::string
 {
     bool tail = false;
     size_t n = 0;
