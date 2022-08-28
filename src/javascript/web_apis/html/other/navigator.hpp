@@ -17,6 +17,7 @@ namespace html::other {class navigator;}
 namespace battery {class battery_manager;}
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}
+namespace contact_picker {class contacts_manager;}
 namespace gamepad {class gamepad;}
 namespace html::elements {class html_media_element;}
 namespace media::capabilities {class media_capabilities;}
@@ -86,6 +87,9 @@ public js_properties:
 
     /* SERVICE_WORKERS */
     ext::property<std::unique_ptr<service_workers::workers::service_worker_container>> service_worker;
+
+    /* CONTACT_PICKER */
+    ext::property<std::unique_ptr<contact_picker::contacts_manager>> contacts;
 
 private js_slots:
     /* BATTERY */
