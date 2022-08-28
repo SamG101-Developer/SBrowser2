@@ -8,6 +8,7 @@
 #include "ext/property.hpp"
 #include "ext/slot.hpp"
 #include "ext/string.hpp"
+#include "ext/type_traits.hpp"
 
 #include <memory>
 #include <v8-isolate.h>
@@ -19,7 +20,7 @@ namespace dom::nodes {class node;}
 
 #define behaviour_method(...) ext::function<void(__VA_ARGS__)>
 
-#define DOM_CTORS(type) \
+#define DOM_CTORS(type)  \
     DISALLOW_COPY(type); \
     ALLOW_MOVE(type)
 
