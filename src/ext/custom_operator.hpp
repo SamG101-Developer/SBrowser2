@@ -115,7 +115,7 @@ custom_operator(go)
 
 #define async_method_def(_ret_t)   \
     std::promise<_ret_t> _promise; \
-    std::thread([](){
+    std::jthread([](){
 
 #define async_method_exe \
     };                   \
