@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_DOCUMENT_HPP
 #define SBROWSER2_DOCUMENT_HPP
 
+#include "css/css_animation_worklet/detail/animation_internals.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/mixins/document_or_element_node.hpp"
 #include "dom/mixins/document_or_shadow_root.hpp"
@@ -18,6 +19,7 @@ namespace dom::nodes {class document;}
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 
+#include USE_INNER_TYPES(css/css_animation_worklet)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(permissions_policy)
 #include USE_INNER_TYPES(page_visibility)
@@ -128,6 +130,9 @@ public js_methods:
     /* SELECTION */
     auto get_selection() -> selection::selection*;
 
+    /* CSS_BOX_TREE */
+    auto layout_now() -> void;
+
 public js_properties:
     /* DOM */
     ext::property<url::detail::url_t> url;
@@ -225,6 +230,9 @@ private cpp_properties:
 
     /* PAINT_TIMING */
     ext::set<ext::string> m_previously_reported_paints;
+
+    /* CSS_ANIMATION_WORKLET */
+    ext::property<ext::map<ext::string, css::detail::document_animator_definition_t>> m_document_animator_definitions;
 
 private cpp_accessors:
     /* DOM */

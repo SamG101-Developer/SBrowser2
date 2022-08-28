@@ -16,9 +16,11 @@ namespace dom::nodes {class element;}
 #include "ext/vector.hpp"
 #include <future>
 #include <range/v3/view/any_view.hpp>
+#include USE_INNER_TYPES(css/box_tree)
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(fullscreen)
 
+namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail {auto handle_attributes_changes(const nodes::attr*, nodes::element*, const ext::string&, const ext::string&) -> void;}
@@ -26,7 +28,6 @@ namespace dom::detail {auto create_an_element(nodes::document*, const ext::strin
 namespace dom::detail {auto upgrade_element(custom_element_definition_t*, nodes::element*) -> void;}
 namespace dom::detail {auto try_to_upgrade_element(nodes::element* element) -> void;}
 namespace edit_context {class edit_context;}
-namespace html::detail::context_internals {struct browsing_context;}
 
 
 class dom::nodes::element
@@ -109,6 +110,9 @@ public js_methods:
 
     /* DOM_PARSING */
     auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void;
+
+    /* CSS_BOX_TREE */
+    auto get_fragment_information(css::detail::fragment_filter_t filter) -> std::promise<css::box_tree::dead_fragent_information*>;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;
