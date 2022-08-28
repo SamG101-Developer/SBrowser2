@@ -55,7 +55,7 @@ namespace html::detail
 }
 
 
-struct html::detail::document_load_timing_info
+struct html::detail::document_load_timing_info_t
 {
     ext::number<int> navigation_start_time;
     high_resolution_time::detail::dom_high_res_time_stamp_t dom_interactive_time;
@@ -67,7 +67,7 @@ struct html::detail::document_load_timing_info
 };
 
 
-struct html::detail::document_unload_timing_info
+struct html::detail::document_unload_timing_info_t
 {
     high_resolution_time::detail::dom_high_res_time_stamp_t unload_event_start_time;
     high_resolution_time::detail::dom_high_res_time_stamp_t unload_event_unload_time;
