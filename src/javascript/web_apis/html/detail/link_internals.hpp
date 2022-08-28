@@ -12,7 +12,6 @@
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class window;}
-namespace html::detail::context_internals {struct browsing_context;}
 namespace html::elements {class html_element;}
 namespace html::elements {class html_link_element;}
 
