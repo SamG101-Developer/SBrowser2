@@ -65,7 +65,7 @@ template <not_any T>
 any::any(T&& value) noexcept
         : m_any{std::forward<T>(value)}
         , m_is_arithmetic{type_is_any_specialization<T, number>}
-        , m_hash{std::hash<T>{}(value)}
+        , m_hash{std::hash<T>{}(std::forward<T>(value))}
 {
     // the perfect forwarding (non-copy / -move) constructor initializes the `_Any` attribute to the value (forwarded),
     // and the `_IsArithmetic` attribute is set if the `value` is any of the `number<T>` class specializations
@@ -77,7 +77,7 @@ auto any::operator=(const T& value) -> any&
 {
     m_any = value;
     m_is_arithmetic = type_is_any_specialization<T, number>;
-    m_hash = std::hash<T>{}(value);
+    m_hash = std::hash<T>{}(std::forward<T>(value));
     return *this;
 }
 
@@ -87,7 +87,7 @@ auto any::operator=(T&& value) noexcept -> any&
 {
     m_any = std::forward<decltype(value)>(value);
     m_is_arithmetic = type_is_any_specialization<T, number>;
-    m_hash = std::hash<T>{}(value);
+    m_hash = std::hash<T>{}(std::forward<T>(value));
     return *this;
 }
 
