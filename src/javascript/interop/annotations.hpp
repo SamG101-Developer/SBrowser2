@@ -6,6 +6,7 @@
 
 #define JS_EXCEPTION_HANDLER v8::TryCatch _js_exception_handler{v8::Isolate::GetCurrent()}
 #define JS_EXCEPTION_HAS_THROWN _js_exception_handler.HasCaught()
+#define JS_EXCEPTION_HAS_NOT_THROWN !_js_exception_handler.HasCaught()
 #define JS_EXCEPTION_MESSAGE _js_exception_handler.Message()->Get()
 #define JS_EXCEPTION_RETHROW _js_exception_handler.ReThrow();
 
