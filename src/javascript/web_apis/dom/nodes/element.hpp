@@ -18,6 +18,7 @@ namespace dom::nodes {class element;}
 #include <range/v3/view/any_view.hpp>
 #include USE_INNER_TYPES(css/box_tree)
 #include USE_INNER_TYPES(dom)
+#include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(fullscreen)
 
 namespace css::box_tree {class dead_fragment_information;}
@@ -142,7 +143,7 @@ private cpp_properties:
     detail::custom_element_definition_t* m_custom_element_definition;
     detail::custom_element_state_t m_custom_element_state;
     ext::queue<detail::reaction_t*> m_custom_element_reaction_queue;
-    html::detail::context_internals::browsing_context* m_nested_browsing_context;
+    std::unique_ptr<html::detail::browsing_context_t> m_nested_browsing_context;
 
     /* FULLSCREEN */
     ext::boolean m_fullscreen_flag;
