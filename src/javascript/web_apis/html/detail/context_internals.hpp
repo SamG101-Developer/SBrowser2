@@ -11,8 +11,7 @@
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
-namespace dom::nodes {class window_proxy;}
-namespace html::detail::policy_internals {struct policy_container;}
+namespace dom::nodes {class window_proxy;}#
 
 namespace html::detail
 {
@@ -51,13 +50,17 @@ namespace html::detail
     auto ancestor_browsing_contexts(
             browsing_context* context_a)
             -> ext::vector<browsing_context*>;
+
+    auto is_top_level_browsing_context(
+            const browsing_context_t& context)
+            -> ext::boolean;
 }
 
 
-struct html::detail::browsing_context
+struct html::detail::browsing_context_t
 {
     std::unique_ptr<dom::nodes::window_proxy> window_proxy;
-    std::unique_ptr<browsing_context> opener_browsing_context;
+    std::unique_ptr<browsing_context_t> opener_browsing_context;
     ext::boolean disowned;
     ext::boolean is_closing;
 
@@ -67,11 +70,15 @@ struct html::detail::browsing_context
     url::detail::url_t creator_url;
     url::detail::url_t creator_base_url;
 
-    browsing_context* parent_browsing_context;
+    browsing_context_t* parent_browsing_context;
     ext::vector<dom::nodes::document*> session_history {};
 
     auto active_window() -> dom::nodes::window_proxy*;
     auto active_document() -> dom::nodes::document*;
+
+private:
+    /* CONTACT_PICKER */
+    ext::boolean m_contact_picker_is_showing = false;
 };
 
 #endif //SBROWSER2_CONTEXT_INTERNALS_HPP
