@@ -31,6 +31,10 @@ namespace html::detail
     /* BACKGROUND_TASKS */
     auto idle_task_source()
             -> v8::Task&;
+
+    /* CONTACT_PICKER */
+    auto contact_picker_task_source()
+            -> v8::Task&;
 }
 
 
