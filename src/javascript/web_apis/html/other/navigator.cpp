@@ -20,6 +20,7 @@
 #include "mediacapture_main/media_devices.hpp"
 
 #include "url/detail/encoding_internals.hpp"
+#include "url/detail/url_internals.hpp"
 
 #include <range/v3/view/filter.hpp>
 
@@ -95,7 +96,9 @@ auto html::other::navigator::get_battery()
 {
     // If the [[BatteryPromise]] slot is empty, then create a new slot, as the contents of the lost (promise) are
     // required for the rest of the method.
-    s_battery_promise = s_battery_promise ?: std::promise<battery::battery_manager*>{};
+    s_battery_promise = s_battery_promise().get_future().get()
+            ? s_battery_promise()
+            : std::promise<battery::battery_manager*>{};
 
     // Get the associated document of the relevant global object, cast to a Document.
     JS_REALM_GET_RELEVANT(this);
@@ -105,7 +108,7 @@ auto html::other::navigator::get_battery()
     // NOT_ALLOWED_ERR, and return the contents of the [[BatteryManager]] slot.
     if (!html::detail::allowed_to_use(document, "battery"))
     {
-        s_battery_promise->set_exception(dom::other::dom_exception{"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
+        s_battery_promise().set_exception(dom::other::dom_exception{"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
         return s_battery_promise();
     }
 
@@ -113,8 +116,8 @@ auto html::other::navigator::get_battery()
     // of the Navigator)
     else
     {
-        s_battery_manager = s_battery_manager ? s_battery_manager() : new battery::battery_manager{};
-        s_battery_promise->set_value(s_battery_manager());
+        s_battery_manager = s_battery_manager() ?: new battery::battery_manager{};
+        s_battery_promise().set_value(s_battery_manager());
     }
 
     // Return the [[BatteryPromise]]
