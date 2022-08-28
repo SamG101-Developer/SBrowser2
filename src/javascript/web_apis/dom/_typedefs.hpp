@@ -47,7 +47,8 @@ enum v8_custom_error_t
 enum v8_primitive_error_t
 {
     V8_TYPE_ERROR, V8_RANGE_ERROR, V8_REFERENCE_ERROR, V8_SYNTAX_ERROR, V8_WASM_COMPILE_ERROR, V8_WASM_LINK_ERROR,
-    V8_WASM_RUNTIME_ERROR
+    V8_WASM_RUNTIME_ERROR,
+    V8_DATA_ERROR /* TODO <-- These don't have a v8 type yet */
 };
 
 
