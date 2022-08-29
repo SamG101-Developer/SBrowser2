@@ -59,16 +59,16 @@ public: js_properties
     ext::property<ext::boolean> cancelable;
     ext::property<ext::boolean> composed;
 
-    ext::property<std::unique_ptr<nodes::event_target>> target;
-    ext::property<std::unique_ptr<nodes::event_target>> current_target;
-    ext::property<std::unique_ptr<nodes::event_target>> related_target;
+    ext::property<nodes::event_target*> target;
+    ext::property<nodes::event_target*> current_target;
+    ext::property<nodes::event_target*> related_target;
 
     ext::property<ext::number<ushort>> event_phase;
     ext::property<ext::number<double>> time_stamp;
     ext::property<ext::boolean> is_trusted;
 
-    ext::property<std::unique_ptr<touch_targets_t>> touch_targets;
-    ext::property<std::unique_ptr<path_t>> path;
+    ext::property<touch_targets_t> touch_targets;
+    ext::property<path_t> path;
 
 public: cpp_methods
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

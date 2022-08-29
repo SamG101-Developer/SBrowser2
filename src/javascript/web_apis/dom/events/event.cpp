@@ -19,8 +19,8 @@ dom::events::event::event(
         , event_phase(std::bit_cast<ushort>(NONE))
         , time_stamp(high_resolution_time::performance{}.now())
         , is_trusted(false)
-        , touch_targets(std::make_unique<touch_targets_t>())
-        , path(std::make_unique<path_t>())
+        , touch_targets(touch_targets_t{})
+        , path(path_t{})
 {}
 
 
