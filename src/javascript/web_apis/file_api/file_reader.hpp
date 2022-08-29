@@ -5,6 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace file_api {class file_reader;}
 
+#include USE_INNER_TYPES(file_api)
 namespace dom::other {class dom_exception;}
 namespace file_api {class blob;}
 
@@ -21,10 +22,9 @@ public js_static_constants:
     constexpr static const ext::number<ushort> DONE = 2;
 
 public js_methods:
-    auto read_as_array_buffer(blob& blob_object) -> void;
-    auto read_as_binary_string(blob& blob_object) -> void;
-    auto read_as_text(blob& blob_object, ext::string_view encoding) -> void;
-    auto read_as_data_url(blob& blob_object) -> void;
+    auto read_as_array_buffer(blob* blob_object) -> void;
+    auto read_as_text(blob* blob_object, ext::string_view encoding = "") -> void;
+    auto read_as_data_url(blob* blob_object) -> void;
 
     auto abort() -> void;
 

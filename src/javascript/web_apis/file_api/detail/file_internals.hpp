@@ -13,14 +13,14 @@ namespace file_api {class file_reader;}
 namespace file_api::detail
 {
     auto read_operation(
-            file& file_object,
-            blob& blob_object,
-            ext::string optional_encoding_name = "")
+            file_reader* file_reader,
+            blob* blob,
+            ext::string_view optional_encoding_name = "")
             -> std::promise<ext::string>;
 
     auto fire_progress_event(
             ext::string_view e,
-            file_reader& file_reader_object)
+            file_reader* file_reader)
             -> ext::boolean;
 }
 
