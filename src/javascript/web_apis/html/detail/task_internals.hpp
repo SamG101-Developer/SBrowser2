@@ -35,6 +35,10 @@ namespace html::detail
     /* CONTACT_PICKER */
     auto contact_picker_task_source()
             -> v8::Task&;
+
+    /* FILE_API */
+    auto file_reading_task_source()
+            -> v8::Task&;
 }
 
 
