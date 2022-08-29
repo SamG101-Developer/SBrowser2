@@ -4,6 +4,8 @@
 
 #include "file_api/detail/blob_internals.hpp"
 
+#include "streams/readable/readable_stream.hpp"
+
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/iota.hpp>
@@ -20,14 +22,60 @@ file_api::blob::blob(
 
     if (!options_type.empty())
     {
-        if (ranges::any_of(options_type,
-                [allowed = ranges::views::closed_iota(0x0020, 0x007e), options_type = std::move(options_type)](auto& character)
-                {return ranges::contains(options_type, character);}))
+        if (ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)))
             return;
 
         options_type |= ranges::actions::lowercase();
         type = std::move(options_type);
     }
+}
+
+
+auto file_api::blob::slice(
+        const ext::number<longlong>& start,
+        const ext::number<longlong>& end,
+        ext::string_view content_type)
+        -> blob
+{
+    auto relative_start = start % size();
+    auto relative_end = end % size();
+    auto span = ext::max((relative_end - relative_start), 0);
+
+    auto relative_content_type = ext::string{content_type};
+    if (!ranges::contains_any(content_type, ranges::views::closed_iota(0x0020, 0x007e)))
+        relative_content_type |= ranges::actions::lowercase();
+
+    blob blob{{s_byte_sequence().substr(*relative_start, *span)}};
+    blob.size = span;
+    blob.type = relative_content_type;
+    return blob;
+}
+
+
+auto file_api::blob::stream()
+        -> streams::readable::readable_stream
+{
+    return detail::get_stream(this);
+}
+
+
+auto file_api::blob::text()
+        -> std::promise<ext::string>
+{
+    auto stream = detail::get_stream(this);
+    auto reader = streams::detail::get_reader(&stream);
+    auto promise = streams::detail::read_all_bytes(&stream, &reader);
+    // TODO : return transformation
+}
+
+
+auto file_api::blob::array_buffer()
+        -> std::promise<v8::Local<v8::ArrayBuffer>>
+{
+    auto stream = detail::get_stream(this);
+    auto reader = streams::detail::get_reader(&stream);
+    auto promise = streams::detail::read_all_bytes(&stream, &reader);
+    // TODO : return transformation
 }
 
 
