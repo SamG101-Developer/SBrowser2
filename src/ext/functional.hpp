@@ -36,6 +36,13 @@ struct deref
 };
 
 
+struct pointer_not_null
+{
+    template <typename T>
+    constexpr auto operator()(T* object) const {return object != nullptr;}
+};
+
+
 // bind arguments to the back of a method, so that when the partial-method is called with arguments, they will the front
 // n arguments (using because std::bind_back isn't available yet on MSVC)
 template <typename F, typename ...Args0>
