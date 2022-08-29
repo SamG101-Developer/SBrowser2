@@ -8,7 +8,7 @@
 #include "ext/string.hpp"
 
 
-namespace infra::detail::infra_string_internals
+namespace infra::detail
 {
     auto strip_newlines(
             ext::string& string)

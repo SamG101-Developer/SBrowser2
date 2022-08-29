@@ -5,14 +5,14 @@
 
 #define DIGITS '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 
-namespace infra::detail::code_points_internals
+namespace infra::detail
 {
-    namespace literals
+    enum literals : char
     {
-        auto LF = char(0x000a);
-        auto CR = char(0x000d);
-        auto SPACE = char(0x0020);
-    }
+        LF = char(0x000a),
+        CR = char(0x000d),
+        SPACE = char(0x0020)
+    };
 
     auto is_surrogate(
             char32_t code_point)

@@ -17,11 +17,11 @@
 using namespace std::string_literals;
 
 
-auto infra::detail::infra_string_internals::strip_newlines(
+auto infra::detail::strip_newlines(
         ext::string& string)
         -> ext::string&
 {
-    using namespace code_points_internals::literals;
+    using enum literals;
 
     // remove all the new line code points
     string = std::regex_replace(string, std::regex("["s + LF + "|" + CR + "]"), "");
@@ -29,11 +29,11 @@ auto infra::detail::infra_string_internals::strip_newlines(
 }
 
 
-auto infra::detail::infra_string_internals::normalize_newlines(
+auto infra::detail::normalize_newlines(
         ext::string& string)
         -> ext::string&
 {
-    using namespace code_points_internals::literals;
+    using enum literals;
 
     // replace all the CRLF code points with a single LF code point, and then replace all the remaining CR code point
     // with a single LF code point
@@ -43,7 +43,7 @@ auto infra::detail::infra_string_internals::normalize_newlines(
 }
 
 
-auto infra::detail::infra_string_internals::strip_leading_and_trailing_ascii_whitespace(
+auto infra::detail::strip_leading_and_trailing_ascii_whitespace(
         ext::string& string)
         -> ext::string&
 {
@@ -53,7 +53,7 @@ auto infra::detail::infra_string_internals::strip_leading_and_trailing_ascii_whi
 }
 
 
-auto infra::detail::infra_string_internals::strip_and_collapse_ascii_whitespace(
+auto infra::detail::strip_and_collapse_ascii_whitespace(
         ext::string& string)
         -> ext::string&
 {
@@ -65,17 +65,17 @@ auto infra::detail::infra_string_internals::strip_and_collapse_ascii_whitespace(
 }
 
 
-auto infra::detail::infra_string_internals::is_ascii_string(
+auto infra::detail::is_ascii_string(
         ext::string_view string)
         -> ext::boolean
 {
     // a string is as ascii string if all of its code points are ascii code points (not unicode, although a unicode
     // string count pass this test)
-    return ranges::all_of(string, ext::bind_front(code_points_internals::is_ascii_code_point));
+    return ranges::all_of(string, ext::bind_front(is_ascii_code_point));
 }
 
 
-auto infra::detail::infra_string_internals::is_code_unit_prefix(
+auto infra::detail::is_code_unit_prefix(
         ext::string_view potential_prefix,
         ext::string_view string)
         -> ext::boolean
@@ -84,7 +84,7 @@ auto infra::detail::infra_string_internals::is_code_unit_prefix(
 }
 
 
-auto infra::detail::infra_string_internals::is_code_unit_suffix(
+auto infra::detail::is_code_unit_suffix(
         ext::string_view potential_suffix,
         ext::string_view string)
         -> ext::boolean
@@ -93,7 +93,7 @@ auto infra::detail::infra_string_internals::is_code_unit_suffix(
 }
 
 
-auto infra::detail::infra_string_internals::is_code_unit_less_than(
+auto infra::detail::is_code_unit_less_than(
         ext::string_view string0,
         ext::string_view string1)
         -> ext::boolean

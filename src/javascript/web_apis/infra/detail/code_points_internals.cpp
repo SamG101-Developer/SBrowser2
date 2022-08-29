@@ -5,7 +5,7 @@
 #include <range/v3/view/iota.hpp>
 
 
-auto infra::detail::code_points_internals::is_surrogate(
+auto infra::detail::is_surrogate(
         char32_t code_point)
         -> ext::boolean
 {
@@ -15,7 +15,7 @@ auto infra::detail::code_points_internals::is_surrogate(
 }
 
 
-auto infra::detail::code_points_internals::is_scalar(
+auto infra::detail::is_scalar(
         char32_t code_point)
         -> ext::boolean
 {
@@ -25,7 +25,7 @@ auto infra::detail::code_points_internals::is_scalar(
 }
 
 
-auto infra::detail::code_points_internals::is_non_character(
+auto infra::detail::is_non_character(
         char32_t code_point)
         -> ext::boolean
 {
@@ -38,7 +38,7 @@ auto infra::detail::code_points_internals::is_non_character(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_code_point(
+auto infra::detail::is_ascii_code_point(
         char32_t code_point)
         -> ext::boolean
 {
@@ -48,7 +48,7 @@ auto infra::detail::code_points_internals::is_ascii_code_point(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_tab_or_newline(
+auto infra::detail::is_ascii_tab_or_newline(
         char32_t code_point)
         -> ext::boolean
 {
@@ -56,7 +56,7 @@ auto infra::detail::code_points_internals::is_ascii_tab_or_newline(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_newline(
+auto infra::detail::is_ascii_newline(
         char32_t code_point)
         -> ext::boolean
 {
@@ -66,7 +66,7 @@ auto infra::detail::code_points_internals::is_ascii_newline(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_whitespace(
+auto infra::detail::is_ascii_whitespace(
         char32_t code_point)
         -> ext::boolean
 {
@@ -76,7 +76,7 @@ auto infra::detail::code_points_internals::is_ascii_whitespace(
 }
 
 
-auto infra::detail::code_points_internals::is_c0_control(
+auto infra::detail::is_c0_control(
         char32_t code_point)
         -> ext::boolean
 {
@@ -84,7 +84,7 @@ auto infra::detail::code_points_internals::is_c0_control(
 }
 
 
-auto infra::detail::code_points_internals::is_c0_control_or_space(
+auto infra::detail::is_c0_control_or_space(
         char32_t code_point)
         -> ext::boolean
 {
@@ -92,7 +92,7 @@ auto infra::detail::code_points_internals::is_c0_control_or_space(
 }
 
 
-auto infra::detail::code_points_internals::is_control(
+auto infra::detail::is_control(
         char32_t code_point)
         -> ext::boolean
 {
@@ -100,7 +100,7 @@ auto infra::detail::code_points_internals::is_control(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_digit(
+auto infra::detail::is_ascii_digit(
         char32_t code_point)
         -> ext::boolean
 {
@@ -108,7 +108,7 @@ auto infra::detail::code_points_internals::is_ascii_digit(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_upper_hex_digit(
+auto infra::detail::is_ascii_upper_hex_digit(
         char32_t code_point)
         -> ext::boolean
 {
@@ -116,7 +116,7 @@ auto infra::detail::code_points_internals::is_ascii_upper_hex_digit(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_lower_hex_digit(
+auto infra::detail::is_ascii_lower_hex_digit(
         char32_t code_point)
         -> ext::boolean
 {
@@ -124,7 +124,7 @@ auto infra::detail::code_points_internals::is_ascii_lower_hex_digit(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_hex_digit(
+auto infra::detail::is_ascii_hex_digit(
         char32_t code_point)
         -> ext::boolean
 {
@@ -132,7 +132,7 @@ auto infra::detail::code_points_internals::is_ascii_hex_digit(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_upper_alpha(
+auto infra::detail::is_ascii_upper_alpha(
         char32_t code_point)
         -> ext::boolean
 {
@@ -140,7 +140,7 @@ auto infra::detail::code_points_internals::is_ascii_upper_alpha(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_lower_alpha(
+auto infra::detail::is_ascii_lower_alpha(
         char32_t code_point)
         -> ext::boolean
 {
@@ -148,7 +148,7 @@ auto infra::detail::code_points_internals::is_ascii_lower_alpha(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_alpha(
+auto infra::detail::is_ascii_alpha(
         char32_t code_point)
         -> ext::boolean
 {
@@ -156,7 +156,7 @@ auto infra::detail::code_points_internals::is_ascii_alpha(
 }
 
 
-auto infra::detail::code_points_internals::is_ascii_alphanumeric(
+auto infra::detail::is_ascii_alphanumeric(
         char32_t code_point)
         -> ext::boolean
 {
