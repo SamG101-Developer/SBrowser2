@@ -7,6 +7,8 @@ namespace high_resolution_time {class performance;}
 
 #include USE_INNER_TYPES(high_resolution_time)
 namespace performance_timeline {class performance_entry;}
+namespace event_timing {class event_counts;}
+namespace event_timing {class interaction_counts;}
 
 
 class high_resolution_time::performance
@@ -16,6 +18,7 @@ public constructors:
     performance();
 
 public js_methods:
+    /* HIGH_RESOLUTION_TIME */
     auto now() -> detail::dom_high_res_time_stamp_t;
 
     /* PERFORMANCE_TIMELINE */
@@ -28,13 +31,23 @@ public js_methods:
     auto set_resource_timing_buffer_size(const ext::number<ulong>& max_size) -> void;
 
 public js_properties:
+    /* HIGH_RESOLUTION_TIME */
     ext::property<detail::dom_high_res_time_stamp_t> time_origin;
+
+    /* EVENT_TIMING */
+    ext::property<const event_timing::event_counts*> event_counts;
+    ext::property<const event_timing::interaction_counts*> interaction_counts;
 
 public cpp_properties:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
+    /* HIGH_RESOLUTION_TIME */
     DEFINE_GETTER(time_origin);
+
+    /* EVENT_TIMING */
+    DEFINE_GETTER(event_counts);
+    DEFINE_GETTER(interaction_counts);
 };
 
 

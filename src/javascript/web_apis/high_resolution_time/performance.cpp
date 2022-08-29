@@ -30,6 +30,24 @@ auto high_resolution_time::performance::get_time_origin()
 }
 
 
+auto high_resolution_time::performance::get_event_counts()
+        const -> decltype(this->event_counts)::value_t
+{
+    JS_REALM_GET_RELEVANT(this);
+    return javascript::environment::realms_2::get<decltype(event_counts)::value_t>(
+            this_relevant_global_object, "$EventCounts");
+}
+
+
+auto high_resolution_time::performance::get_interaction_counts()
+        const -> decltype(this->interaction_counts)::value_t
+{
+    JS_REALM_GET_RELEVANT(this);
+    return javascript::environment::realms_2::get<decltype(interaction_counts)::value_t>(
+            this_relevant_global_object, "$InteractionCounts");
+}
+
+
 auto high_resolution_time::performance::to_v8(
         v8::Isolate* isolate)
         const && -> ext::any

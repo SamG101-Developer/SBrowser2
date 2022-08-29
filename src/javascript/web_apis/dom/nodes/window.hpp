@@ -49,6 +49,9 @@ private cpp_properties:
     ext::queue<std::jthread> m_current_threads;
     std::condition_variable m_condition_variable;
     std::mutex m_mutex;
+
+    /* EVENT_TIMING */
+    // TODO
 };
 
 
