@@ -96,6 +96,12 @@ public:
     static auto nan() -> number
     {return std::numeric_limits<T>::quiet_NaN();}
 
+    static auto min() -> number
+    {return std::numeric_limits<T>::min();}
+
+    static auto max() -> number
+    {return std::numeric_limits<T>::max();}
+
 private:
     T n;
 };
