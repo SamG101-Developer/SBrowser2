@@ -48,6 +48,7 @@ namespace ranges::actions {template <typename T> struct cast_all_to_fn;}
 namespace ranges::actions {struct replace_fn;}
 namespace ranges::actions {struct remove_at_index_fn;}
 
+namespace ranges {struct contains_any_fn;}
 namespace ranges {struct contains_all_fn;}
 namespace ranges {struct first_where_fn;}
 namespace ranges {struct last_where_fn;}
@@ -319,14 +320,26 @@ struct ranges::actions::remove_at_index_fn
 
 
 /* ALGORITHMS */
+struct ranges::contains_any_fn
+{
+    template <typename R0, typename R1>
+    constexpr auto operator()(R0&& range0, R1&& range1) const
+    {
+        return ranges::any_of(std::forward<R1>(range1),
+                [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
+                {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
+    }
+};
+
+
 struct ranges::contains_all_fn
 {
-    template <range_v3_view R0, range_v3_view R1>
+    template <typename R0, typename R1>
     constexpr auto operator()(R0&& range0, R1&& range1) const
     {
         return ranges::all_of(std::forward<R1>(range1),
-                [range0 = std::forward<R0>(range0)]<typename T>
-                (T&& item1) {ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
+                [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
+                {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
     }
 };
 
@@ -372,6 +385,7 @@ namespace ranges::actions {template <typename T> constexpr cast_all_to_fn<T> cas
 namespace ranges::actions {constexpr replace_fn replace;}
 namespace ranges::actions {constexpr remove_at_index_fn remove_at_index;}
 
+namespace ranges {constexpr contains_any_fn contains_any;}
 namespace ranges {constexpr contains_all_fn contains_all;}
 namespace ranges {constexpr first_where_fn first_where;}
 namespace ranges {constexpr last_where_fn last_where;}
