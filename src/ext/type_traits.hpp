@@ -102,7 +102,7 @@ struct hash<_EXT boolean>
 template <typename T>
 struct hash<_EXT number<T>>
 {
-    constexpr auto operator()(const _EXT number<T>& value) const noexcept -> size_t {return _STD hash<T>{}(static_cast<T>(value));}
+    constexpr auto operator()(const _EXT number<T>& value) const noexcept -> size_t {return _STD hash<T>{}(*value);}
 };
 
 
@@ -116,7 +116,7 @@ struct hash<_EXT function<Ts...>>
 template <>
 struct hash<_EXT any>
 {
-    constexpr auto operator()(const _EXT any& value) const noexcept -> size_t {return value.m_hash;}
+    constexpr auto operator()(const _EXT any& value) const noexcept -> size_t {return *value.m_hash;}
 };
 
 
