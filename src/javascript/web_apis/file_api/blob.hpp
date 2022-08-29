@@ -9,7 +9,7 @@ namespace file_api {class blob;}
 #include "ext/optional.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include <v8-forward.h>
 #include USE_INNER_TYPES(file_api)
 namespace streams::readable {class readable_stream;}
@@ -25,8 +25,8 @@ public constructors:
 public js_methods:
     auto slice(const ext::number<longlong>& start = 0, const ext::number<longlong>& end = ext::number<longlong>::max(), ext::string_view content_type = "") -> blob;
     auto stream() -> streams::readable::readable_stream;
-    auto text() -> std::promise<ext::string>;
-    auto array_buffer() -> std::promise<v8::Local<v8::ArrayBuffer>>;
+    auto text() -> ext::promise<ext::string>;
+    auto array_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
 
 public js_properties:
     ext::property<ext::number<ulonglong>> size;

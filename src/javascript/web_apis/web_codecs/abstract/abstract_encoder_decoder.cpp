@@ -20,7 +20,7 @@ web_codecs::abstract::abstract_encoder_decoder::abstract_encoder_decoder(
         , s_output_callback{init.try_emplace("output").first->second.to<decltype(s_output_callback)::value_t>()}
         , s_error_callback{init.try_emplace("error").first->second.to<decltype(s_error_callback)::value_t>()}
         , s_state{detail::codec_state_t::UNCONFIGURED}
-        , s_pending_flush_promise{ext::vector<std::promise<void>>{}}
+        , s_pending_flush_promise{ext::vector<ext::promise<void>>{}}
         , s_dequeue_event_scheduled{false}
 {}
 
@@ -43,9 +43,9 @@ auto web_codecs::abstract::abstract_encoder_decoder::configure(
 
 
 auto web_codecs::abstract::abstract_encoder_decoder::flush()
-        -> std::promise<void>
+        -> ext::promise<void>
 {
-    std::promise<void> promise;
+    ext::promise<void> promise;
 
     if (s_state() != detail::codec_state_t::CONFIGURED)
     {

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CLIENT_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CLIENT_INTERNALS_HPP
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/string.hpp"
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(service_workers)
@@ -25,7 +25,7 @@ namespace service_workers::detail
 
     auto resolve_get_client_promise(
             const service_worker_client_t&,
-            std::promise<void>&& promise)
+            ext::promise<void>&& promise)
             -> void;
 }
 

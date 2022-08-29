@@ -5,6 +5,7 @@
 #include "dom_object.hpp"
 namespace clipboard {class clipboard_item;}
 
+#include "ext/promise.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(clipboard)
@@ -19,7 +20,7 @@ public constructors:
     clipboard_item(ext::map<ext::string, detail::clipboard_item_data_t>&& items, ext::map<ext::string, ext::any>&& options = {});
 
 public js_methods:
-    auto get_type(ext::string&& type) -> std::promise<file_api::blob*>;
+    auto get_type(ext::string&& type) -> ext::promise<file_api::blob*>;
 
 public js_properties:
     ext::property<detail::presentation_style_t> presentation_style;

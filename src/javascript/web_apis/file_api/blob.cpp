@@ -60,7 +60,7 @@ auto file_api::blob::stream()
 
 
 auto file_api::blob::text()
-        -> std::promise<ext::string>
+        -> ext::promise<ext::string>
 {
     auto stream = detail::get_stream(this);
     auto reader = streams::detail::get_reader(&stream);
@@ -70,7 +70,7 @@ auto file_api::blob::text()
 
 
 auto file_api::blob::array_buffer()
-        -> std::promise<v8::Local<v8::ArrayBuffer>>
+        -> ext::promise<v8::Local<v8::ArrayBuffer>>
 {
     auto stream = detail::get_stream(this);
     auto reader = streams::detail::get_reader(&stream);

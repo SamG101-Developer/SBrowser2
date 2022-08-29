@@ -43,11 +43,11 @@ streams::readable::readable_stream::readable_stream(
 template <typename T>
 auto streams::readable::readable_stream::cancel(
         T&& reason)
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     if (detail::is_readable_stream_locked(this))
     {
-        std::promise<void> promise;
+        ext::promise<void> promise;
         promise.set_exception(); // TODO : JavaScript TypeError
         return promise;
     }
@@ -97,18 +97,18 @@ auto streams::readable::readable_stream::pipe_through(
 auto streams::readable::readable_stream::pipe_to(
         writeable::writeable_stream* destination,
         ext::map<ext::string, ext::any>&& options)
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     if (detail::abstract_operations_internals::is_readable_stream_locked(this))
     {
-        std::promise<void> promise;
+        ext::promise<void> promise;
         promise.set_exception(); // TODO : JavaScript TypeError
         return promise;
     }
 
     if (detail::abstract_operations_internals::is_writeable_stream_locked(destination))
     {
-        std::promise<void> promise;
+        ext::promise<void> promise;
         promise.set_exception(); // TODO : JavaScript TypeError
         return promise;
     }

@@ -48,7 +48,7 @@ auto dom::nodes::window::request_idle_callback(
                     // Queue a task on the idle task source so invoke the timeout algorithm for the 'handle', with
                     // 'this' Window as an argument
                     dom::detail::queue_task(
-                            html::detail::idle_task_source(),
+                            html::detail::idle_task_source,
                             ext::bind_front{background_tasks::detail::invoke_idle_callback_timeout_algorithm, std::move(handle), this});
                 }
 

@@ -16,12 +16,12 @@ public constructors:
     fetch_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_methods:
-    auto respond_with(std::promise<fetch::response*> r) -> void;
+    auto respond_with(ext::promise<fetch::response*> r) -> void;
 
 public js_properties:
     ext::property<std::unique_ptr<fetch::request>> request;
-    ext::property<std::promise<ext::any>> preload_response;
-    ext::property<std::promise<void>> handled;
+    ext::property<ext::promise<ext::any>> preload_response;
+    ext::property<ext::promise<void>> handled;
     ext::property<ext::string> client_id;
     ext::property<ext::string> resulting_client_id;
     ext::property<ext::string> replaces_client_id;

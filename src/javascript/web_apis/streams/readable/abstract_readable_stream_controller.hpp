@@ -6,7 +6,7 @@
 namespace streams::readable {class abstract_readable_stream_controller;}
 
 #include "ext/queue.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include <v8-forward.h>
 #include USE_INNER_TYPES(streams)
 namespace streams::readable {class readable_stream;}
@@ -26,8 +26,8 @@ public js_properties:
     ext::property<ext::number<double>> desired_size;
 
 protected js_slots:
-    ext::function<std::promise<void>(detail::error_t&&)> s_cancel_algorithm;
-    ext::function<std::promise<void>()> s_pull_algorithm;
+    ext::function<ext::promise<void>(detail::error_t&&)> s_cancel_algorithm;
+    ext::function<ext::promise<void>()> s_pull_algorithm;
     ext::boolean s_close_requested;
     ext::boolean s_pull_again;
     ext::boolean s_pulling;

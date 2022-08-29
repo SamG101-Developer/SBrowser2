@@ -27,10 +27,10 @@ public constructors:
 
 public js_methods:
     template <typename T>
-    auto cancel(T&& reason = nullptr) -> std::promise<void>;
+    auto cancel(T&& reason = nullptr) -> ext::promise<void>;
     auto get_reader(ext::map<ext::string, ext::any>&& options = {}) -> detail::readable_stream_reader_t;
     auto pipe_through(ext::map<ext::string, ext::any>&& transform, ext::map<ext::string, ext::any>&& options = {}) -> readable_stream*;
-    auto pipe_to(writeable::writeable_stream* destination, ext::map<ext::string, ext::any>&& options = {}) -> std::promise<void>;
+    auto pipe_to(writeable::writeable_stream* destination, ext::map<ext::string, ext::any>&& options = {}) -> ext::promise<void>;
     auto tee() -> ext::vector<readable_stream*>;
 
 public js_properties:

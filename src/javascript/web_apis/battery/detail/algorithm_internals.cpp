@@ -32,8 +32,7 @@ auto battery::algorithm_internals::update_battery_status_and_notify(
 
     // Queue a task on the idle task source to set the slot value, and fire the 'event_name' event at the BatteryManager
     // object
-    dom::detail::queue_task(
-            html::detail::idle_task_source(),
+    dom::detail::queue_task(html::detail::idle_task_source,
             [battery_manager, &slot, event_name = std::move(event_name), new_value = std::forward<T>(new_value)] mutable
             {slot = std::forward<T>(new_value); dom::detail::fire_event(std::move(event_name), battery_manager);});
 }

@@ -32,7 +32,7 @@ auto background_tasks::detail::start_idle_period(
 
     // Queue a task on the idle task source that 'invoke[s_the]_idle_callback_algorithm(...)' with the 'window' and
     // 'get_deadline' function.
-    dom::detail::queue_task(html::detail::idle_task_source(),
+    dom::detail::queue_task(html::detail::idle_task_source,
             [window, get_deadline = std::forward<F>(get_deadline)] mutable
             {invoke_idle_callbacks_algorithm(window, std::forward<F>(get_deadline));});
 }
@@ -66,7 +66,7 @@ auto background_tasks::detail::invoke_idle_callbacks_algorithm(
         // to invoke the callbacks algorithm (move to next callback in Window's runnable callbacks list), with the same
         // 'get_deadline' method.
         if (!window->m_runnable_idle_callbacks.empty())
-            dom::detail::queue_task(html::detail::idle_task_source(),
+            dom::detail::queue_task(html::detail::idle_task_source,
                     [window, get_deadline = std::forward<F>(get_deadline)] mutable
                     {invoke_idle_callbacks_algorithm(window, std::forward<F>(get_deadline));});
     }

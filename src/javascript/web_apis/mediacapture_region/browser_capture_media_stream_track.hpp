@@ -16,7 +16,7 @@ public constructors:
     browser_capture_media_stream_track() = default;
 
 public js_methods:
-    auto crop_to(crop_target* crop_target) -> std::promise<void>;
+    auto crop_to(crop_target* crop_target) -> ext::promise<void>;
     auto clone() -> browser_capture_media_stream_track;
 
 public cpp_methods:

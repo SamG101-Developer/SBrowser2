@@ -7,7 +7,7 @@ namespace service_workers::clients {class clients;}
 
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(service_workers)
 namespace service_workers::clients {class client;}
 namespace service_workers::clients {class window_client;}
@@ -20,10 +20,10 @@ public constructors:
     clients() = default;
 
 public js_methods:
-    auto get(ext::string_view id) -> ext::variant<std::promise<void>, std::promise<client>>;
-    auto match_all(detail::client_query_options_t&& options = {}) -> std::promise<const ext::vector<client*>>;
-    auto open_window(ext::string_view url) -> std::promise<window_client>;
-    auto claim() -> std::promise<void>;
+    auto get(ext::string_view id) -> ext::variant<ext::promise<void>, ext::promise<client>>;
+    auto match_all(detail::client_query_options_t&& options = {}) -> ext::promise<const ext::vector<client*>>;
+    auto open_window(ext::string_view url) -> ext::promise<window_client>;
+    auto claim() -> ext::promise<void>;
 };
 
 

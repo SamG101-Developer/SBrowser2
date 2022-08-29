@@ -5,7 +5,7 @@
 #include "html/workers/worker_global_scope.hpp"
 namespace service_workers::workers {class service_worker_global_scope;}
 
-#include <future>
+#include "ext/promise.hpp"
 namespace service_workers::clients {class clients;}
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::workers {class service_worker_registration;}
@@ -19,7 +19,7 @@ public constructors:
     service_worker_global_scope() = default;
 
 public js_methods:
-    auto skip_waiting() -> std::promise<void>;
+    auto skip_waiting() -> ext::promise<void>;
 
 public js_properties:
     ext::property<std::unique_ptr<clients::clients>> clients;

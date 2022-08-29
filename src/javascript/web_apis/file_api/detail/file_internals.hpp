@@ -2,7 +2,7 @@
 #define SBROWSER2_FILE_INTERNALS_HPP
 
 
-#include <future>
+#include "ext/promise.hpp"
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
@@ -16,7 +16,7 @@ namespace file_api::detail
             file_reader* file_reader,
             blob* blob,
             ext::string_view optional_encoding_name = "")
-            -> std::promise<ext::string>;
+            -> ext::promise<ext::string>;
 
     auto fire_progress_event(
             ext::string_view e,

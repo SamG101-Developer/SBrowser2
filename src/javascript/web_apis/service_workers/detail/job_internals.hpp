@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_JOB_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_JOB_INTERNALS_HPP
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
 
@@ -24,7 +24,7 @@ namespace service_workers::detail
             storage::detail::storage_key_t&& storage_key,
             url::detail::url_t&& scope_url,
             url::detail::url_t&& script_url,
-            std::promise<void>&& promise,
+            ext::promise<void>&& promise,
             service_worker_client_t&& client)
             -> job_t;
 
@@ -52,7 +52,7 @@ namespace service_workers::detail
     auto start_register(
             ext::optional<url::detail::url_t> scope_url,
             ext::optional<url::detail::url_t> script_url,
-            const std::promise<void>& promise,
+            const ext::promise<void>& promise,
             const service_worker_client_t& client,
             const url::detail::url_t& referrer,
             service_worker_type_t worker_type,
@@ -89,7 +89,7 @@ struct service_workers::detail::job_t
     update_via_cache_mode_t update_via_cache_mode;
     service_worker_client_t& client;
     url::detail::url_t referrer;
-    std::promise<void> job_promise;
+    ext::promise<void> job_promise;
     job_queue_t& containing_job_queue;
     ext::vector<job_t>& list_of_equivalent_jobs;
     ext::boolean force_bypass_cache_flag;

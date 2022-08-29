@@ -5,7 +5,7 @@
 #include "dom/events/event.hpp"
 namespace service_workers::events {class extendable_event;}
 
-#include <future>
+#include "ext/promise.hpp"
 
 
 class service_workers::events::extendable_event
@@ -17,10 +17,10 @@ public constructors:
     extendable_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_methods:
-    auto wait_until(std::promise<ext::any>&& f);
+    auto wait_until(ext::promise<ext::any>&& f);
 
 private cpp_properties:
-    ext:vector<std::promise<ext::any>> m_extend_lifetime_promises;
+    ext:vector<ext::promise<ext::any>> m_extend_lifetime_promises;
     ext::number<size_t> m_pending_promises_count;
     ext::boolean timed_out_flag;
 };

@@ -2,6 +2,7 @@
 
 #include "ext/optional.hpp"
 #include "ext/ranges.hpp"
+#include "html/_typedefs.hpp"
 #include "javascript/environment/realms_2.hpp"
 
 #include "dom/detail/event_internals.hpp"
@@ -84,7 +85,7 @@ auto dom::detail::queue_microtask(
 
         // create a microtask and assign it the relevant data TODO
         const v8::Local<v8::Function> microtask = v8::Function::New(event_loop->GetCurrentContext(), std::forward<F>(steps));
-        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "source")  , microtask->TaskSource());
+        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "source"), microtask->TaskSource());
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "document"), v8pp::to_v8(event_loop, document));
         microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "set"), v8pp::to_v8(event_loop, ext::set<void*>{}));
 
@@ -202,7 +203,7 @@ auto dom::detail::queue_mutation_observer_microtask() -> void
 
 template <typename F>
 auto dom::detail::queue_task(
-        const v8::Task& task_source,
+        html::detail::task_queue_t& task_source,
         F&& steps,
         v8::Isolate* event_loop,
         nodes::document* document)
@@ -226,7 +227,7 @@ auto dom::detail::queue_task(
 
 template <typename F>
 auto dom::detail::queue_global_task(
-        const v8::Task& task_source,
+        html::detail::task_queue_t& task_source,
         const v8::Local<v8::Object> global_object,
         F&& steps)
         -> void
@@ -242,7 +243,7 @@ auto dom::detail::queue_global_task(
 
 template <typename F>
 auto dom::detail::queue_element_task(
-        const v8::Task& task_source,
+        html::detail::task_queue_t& task_source,
         const html::elements::html_element* const element,
         F&& steps)
         -> void

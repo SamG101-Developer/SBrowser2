@@ -12,13 +12,13 @@ streams::readable::readable_stream_default_reader::readable_stream_default_reade
 
 auto streams::readable::readable_stream_default_reader::read(
         v8::Local<v8::ArrayBufferView> view)
-        -> std::promise<ext::map<ext::string, ext::any>>
+        -> ext::promise<ext::map<ext::string, ext::any>>
 {
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [this] {return !s_stream;},
             "Can not read with a ReadableStreamDefaultReader if the [[stream]] slot is empty");
 
-    std::promise<ext::map<ext::string, ext::any>> promise;
+    ext::promise<ext::map<ext::string, ext::any>> promise;
     detail::read_request_t read_request
     {
         .chunk_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{"value", chunk}, {"done", false}});},

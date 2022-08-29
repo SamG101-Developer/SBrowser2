@@ -24,27 +24,29 @@ public js_properties:
 
     ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> timestamp;
     ext::property<detail::gamepad_mapping_type_t> mapping;
-    ext::property<std::unique_ptr<ext::vector<ext::number<double>>>> axes;
-    ext::property<std::unique_ptr<ext::vector<gamepad_button*>>> buttons;
+    ext::property<ext::vector<ext::number<double>>*> axes;
+    ext::property<ext::vector<gamepad_button*>*> buttons;
 
 private js_slots:
     ext::slot<ext::boolean> s_connected;
     ext::slot<high_resolution_time::detail::dom_high_res_time_stamp_t> s_timestamp;
-    ext::slot<ext::vector<ext::number<double>>> s_axes;
-    ext::slot<ext::vector<gamepad_button*>> s_buttons;
+    ext::slot<ext::vector<ext::number<double>>*> s_axes;
+    ext::slot<ext::vector<gamepad_button*>*> s_buttons;
     ext::slot<ext::boolean> s_exposed;
 
     ext::slot<ext::map<ext::number<int>, ext::number<int>>> s_axis_mapping;
-    ext::slot<ext::vector<ext::number<int>>> s_axis_minimums;
-    ext::slot<ext::vector<ext::number<int>>> s_axis_maximums;
+    ext::slot<ext::vector<ext::number<int>>*> s_axis_minimums;
+    ext::slot<ext::vector<ext::number<int>>*> s_axis_maximums;
 
     ext::slot<ext::map<ext::number<int>, gamepad_button*>> s_button_mapping;
-    ext::slot<ext::vector<ext::number<int>>> s_button_minimums;
-    ext::slot<ext::vector<ext::number<int>>> s_button_maximums;
+    ext::slot<ext::vector<ext::number<int>>*> s_button_minimums;
+    ext::slot<ext::vector<ext::number<int>>*> s_button_maximums;
 
 private cpp_accessors:
-    DEFINE_GETTER(timestamp);
-    DEFINE_GETTER(buttons);
+    DEFINE_GETTER(connected) {return s_connected();}
+    DEFINE_GETTER(timestamp) {return s_timestamp();}
+    DEFINE_GETTER(axes) {return s_axes();}
+    DEFINE_GETTER(buttons) {return s_buttons();};
 };
 
 

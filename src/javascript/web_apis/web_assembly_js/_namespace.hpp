@@ -4,7 +4,7 @@
 
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include <v8-forward.h>
 #include USE_INNER_TYPES(web_assembly_js)
 namespace fetch {class response;}
@@ -20,27 +20,27 @@ namespace web_assembly::js
 
     auto compile(
             v8::Local<v8::ArrayBuffer> bytes)
-            -> std::promise<module>;
+            -> ext::promise<module>;
 
     auto instantiate(
             v8::Local<v8::ArrayBuffer> bytes,
             const ext::any& import_object = nullptr)
-            -> std::promise<detail::web_assembly_instantiated_source_t>;
+            -> ext::promise<detail::web_assembly_instantiated_source_t>;
 
     auto instantiate(
             module* module_object,
             const ext::any& import_object = nullptr)
-            -> std::promise<instance>;
+            -> ext::promise<instance>;
 
     /* WEB_ASSEMBLY WEB */
     auto compile_streaming(
-            std::promise<fetch::response*> source)
-            -> std::promise<module*>;
+            ext::promise<fetch::response*> source)
+            -> ext::promise<module*>;
 
     auto instantiate_streaming(
-            std::promise<fetch::response*> source,
+            ext::promise<fetch::response*> source,
             const ext::any& import_object)
-            -> std::promise<detail::web_assembly_instantiated_source_t>;
+            -> ext::promise<detail::web_assembly_instantiated_source_t>;
 };
 
 

@@ -5,7 +5,7 @@
 #include "web_codecs/abstract/abstract_decoder.hpp"
 namespace web_codecs::audio {class audio_decoder;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/queue.hpp"
 #include USE_INNER_TYPES(web_codecs)
 namespace web_codecs::audio {class encoded_audio_chunk;}

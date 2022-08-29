@@ -13,11 +13,11 @@
 auto mediacapture::detail::apply_constrains_template_algorithm(
         main::mixins::constrainable* object,
         constraints_t&& new_constraints)
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     // create the promise object, and create a thread pool with 1 thread in (wil only need the 1 extra thread for this
     // method
-    std::promise<void> promise;
+    ext::promise<void> promise;
     ext::thread_pool pool{1};
 
     // push the new task into the thread-pool, so that it is executed in a new thread; this is why only 1 thread is

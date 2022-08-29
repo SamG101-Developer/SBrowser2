@@ -112,16 +112,4 @@ custom_operator(go)
         JS_REALM_GET_CURRENT \
     }
 
-
-#define async_method_def(_ret_t)   \
-    std::promise<_ret_t> _promise; \
-    std::jthread([](){
-
-#define async_method_exe \
-    };                   \
-    {                    \
-        return _promise; \
-    }
-
-
 #endif //SBROWSER2_CUSTOM_OPERATOR_HPP

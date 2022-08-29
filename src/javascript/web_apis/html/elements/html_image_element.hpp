@@ -5,7 +5,7 @@
 #include "html/mixins/lazy_loadable.hpp"
 namespace html::elements {class html_image_element;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/set.hpp"
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(referrer_policy)
@@ -22,7 +22,7 @@ public constructors:
     html_image_element();
 
 public js_methods:
-    auto decode() -> std::promise<void>;
+    auto decode() -> ext::promise<void>;
 
 public js_properties:
     ext::property<ext::string> alt;

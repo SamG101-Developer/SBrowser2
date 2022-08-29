@@ -5,7 +5,7 @@
 namespace fetch::mixins {class body;}
 
 #include "ext/functional.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include <v8-forward.h>
 #include USE_INNER_TYPES(fetch)
 namespace file_api {class blob;}
@@ -17,11 +17,11 @@ class fetch::mixins::body
         : public virtual dom_object
 {
 public js_methods:
-    auto aray_buffer() -> std::promise<v8::Local<v8::ArrayBuffer>>;
-    auto blob() -> std::promise<file_api::blob>;
-    auto form_data() -> std::promise<xhr::form_data>;
-    auto json() -> std::promise<ext::any>;
-    auto text() -> std::promise<ext::string>;
+    auto aray_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
+    auto blob() -> ext::promise<file_api::blob>;
+    auto form_data() -> ext::promise<xhr::form_data>;
+    auto json() -> ext::promise<ext::any>;
+    auto text() -> ext::promise<ext::string>;
 
 public js_properties:
     ext::property<std::unique_ptr<streams::readable::readable_stream>> body;

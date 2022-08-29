@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace mediacapture::region {class crop_target;}
 
-#include <future>
+#include "ext/promise.hpp"
 namespace dom::nodes {class element;}
 
 
@@ -17,7 +17,7 @@ public constructors:
     crop_target() = default;
 
 public js_methods:
-    static auto from_element(dom::nodes::element) -> std::promise<crop_target>;
+    static auto from_element(dom::nodes::element) -> ext::promise<crop_target>;
 };
 
 

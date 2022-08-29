@@ -6,7 +6,7 @@
 namespace permissions {class permission;}
 
 #include "ext/map.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(permissions)
 namespace permissions {class permission_status;}
 
@@ -15,7 +15,7 @@ class permissions::permission
         : public virtual dom_object
 {
 public js_properties:
-    auto query(detail::permissions_descriptor_t&& permission_descriptor) -> std::promise<permission_status*>;
+    auto query(detail::permissions_descriptor_t&& permission_descriptor) -> ext::promise<permission_status*>;
 };
 
 

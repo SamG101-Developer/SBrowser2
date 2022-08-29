@@ -7,7 +7,7 @@ namespace html::other {class custom_element_registry;}
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
-#include <future>
+#include "ext/promise.hpp"
 namespace dom::nodes {class node;}
 namespace html::elements {class html_element;}
 
@@ -21,7 +21,7 @@ public aliases:
 public js_methods:
     auto define(ext::string_view name, custom_element_constructor&& cosntructor, ext::map<ext::string, ext::any> options = {});
     auto get(ext::string_view name) -> ext::optional<custom_element_constructor>;
-    auto when_defined(ext::string_view name) -> std::promise<custom_element_constructor>;
+    auto when_defined(ext::string_view name) -> ext::promise<custom_element_constructor>;
     auto upgrade(dom::nodes::node* root) -> void;
 };
 

@@ -16,7 +16,7 @@ auto file_api::detail::read_operation(
         file_reader* file_reader,
         blob* blob,
         ext::string_view optional_encoding_name)
-        -> std::promise<ext::string>
+        -> ext::promise<ext::string>
 {
     dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
             [file_reader] {return file_reader->ready_state() == file_reader->LOADING;},
@@ -38,7 +38,7 @@ auto file_api::detail::read_operation(
             while (!chunk_promise.is_resolved() || chunk_promise.is_rejected) continue;
             if (is_first_chunk && chunk_promise.is_resolved)
                 dom::detail::queue_task(
-                        html::detail::file_reading_task_source(),
+                        html::detail::file_reading_task_source,
                         ext::bind_front{fire_progress_event, "loadstart", file_reader});
 
             is_first_chunk = false;

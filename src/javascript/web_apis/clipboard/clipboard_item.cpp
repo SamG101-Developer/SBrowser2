@@ -47,7 +47,7 @@ clipboard::clipboard_item::clipboard_item(
 
 auto clipboard::clipboard_item::get_type(
         ext::string&& type)
-        -> std::promise<file_api::blob*>
+        -> ext::promise<file_api::blob*>
 {
     JS_REALM_GET_RELEVANT(this);
 
@@ -58,7 +58,7 @@ auto clipboard::clipboard_item::get_type(
             "Failure whilst parsing the mime type");
 
     decltype(auto) item_type_list = m_clipboard_item.list_of_representations;
-    std::promise<file_api::blob*> promise;
+    ext::promise<file_api::blob*> promise;
 
     for (const auto& representation: item_type_list)
     {

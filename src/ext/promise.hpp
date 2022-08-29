@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_EXT_PROMISE_HPP
 #define SBROWSER2_SRC_EXT_PROMISE_HPP
 
-#include <future>
+#include "ext/promise.hpp"
 #include "boolean.hpp"
 #include "keywords.hpp"
 

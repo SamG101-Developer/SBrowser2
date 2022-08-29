@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
 
-#include <future>
+#include "ext/promise.hpp"
 #include <QtGui/QClipboard>
 #include "ext/any.hpp"
 #include "ext/string.hpp"
@@ -18,7 +18,7 @@ namespace clipboard::detail
     enum class presentation_style_t {UNSPECIFIED, INLINE, ATTACHMENT};
     using system_clipboard_t = QClipboard;
 
-    using clipboard_item_data_t = ext::variant<std::promise<ext::string>, std::promise<file_api::blob*>>;
+    using clipboard_item_data_t = ext::variant<ext::promise<ext::string>, ext::promise<file_api::blob*>>;
 }
 
 

@@ -25,10 +25,10 @@
 
 
 auto mediacapture::main::media_devices::enumerate_devices()
-        -> std::promise<ext::vector<media_device_info*>>
+        -> ext::promise<ext::vector<media_device_info*>>
 {
     // create a promise object that will be returned
-    std::promise<ext::vector<media_device_info*>> promise;
+    ext::promise<ext::vector<media_device_info*>> promise;
 
     // create a thread pool containing a single thread, to execute the following lambda in parallel
     ext::thread_pool pool{1};
@@ -54,7 +54,7 @@ auto mediacapture::main::media_devices::enumerate_devices()
 
 auto mediacapture::main::media_devices::get_user_media(
         detail::constraints_t&& constraints)
-        -> std::promise<media_stream*>
+        -> ext::promise<media_stream*>
 {
     // the 'requested_media_types' are the constraints' keys whose corresponding values are either [boolean and TRUE, or
     // a dictionary, converted into a set of strings
@@ -71,7 +71,7 @@ auto mediacapture::main::media_devices::get_user_media(
     // with a JavaScript TypeError and return it
     if (requested_media_types.empty())
     {
-        std::promise<media_stream*> promise;
+        ext::promise<media_stream*> promise;
         promise.set_exception(/* TODO : JavaScript TypeError */);
         return promise;
     }
@@ -80,7 +80,7 @@ auto mediacapture::main::media_devices::get_user_media(
     // return it
     if (!dom::detail::is_document_fully_active(document))
     {
-        std::promise<media_stream*> promise;
+        ext::promise<media_stream*> promise;
         promise.set_exception(dom::other::dom_exception{"Document must be fully active", INVALID_STATE_ERROR});
         return promise;
     }

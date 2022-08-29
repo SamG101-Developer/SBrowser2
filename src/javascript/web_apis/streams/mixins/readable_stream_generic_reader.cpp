@@ -13,7 +13,7 @@ streams::mixins::readable_stream_generic_reader::readable_stream_generic_reader(
 template <typename T>
 auto streams::mixins::readable_stream_generic_reader::cancel(
         T&& reason)
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [this] {return !s_stream;},

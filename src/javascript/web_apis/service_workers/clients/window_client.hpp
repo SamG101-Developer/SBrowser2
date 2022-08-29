@@ -5,7 +5,7 @@
 #include "service_workers/clients/client.hpp"
 namespace service_workers::clients {class window_client;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(page_visibility)
 
@@ -17,8 +17,8 @@ public constructors:
     window_client() = default;
 
 public js_methods:
-    auto focus() -> std::promise<window_client*>;
-    auto navigate(ext::string_view url) -> std::promise<window_client*>;
+    auto focus() -> ext::promise<window_client*>;
+    auto navigate(ext::string_view url) -> ext::promise<window_client*>;
 
 public js_properties:
     ext::property<page_visibility::detail::visibility_state_t> visibility_state;

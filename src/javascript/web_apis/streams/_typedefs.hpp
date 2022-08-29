@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS__TYPEDEFS_HPP
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/variant.hpp"
@@ -24,8 +24,8 @@ namespace streams::detail
     using readable_stream_controller_t = ext::variant<readable::readable_stream_default_controller*, readable::readable_byte_stream_controller*>;
     using readable_stream_reader_t = ext::variant<readable::readable_stream_default_reader*, readable::readable_stream_byob_reader*>;
     using underlying_source_start_callback_t = ext::function<ext::any(readable_stream_controller_t)>;
-    using underlying_source_pull_callback_t = ext::function<std::promise<void>(readable_stream_controller_t)>;
-    using underlying_source_cancel_callback = ext::function<std::promise<void>(const ext::any&)>;
+    using underlying_source_pull_callback_t = ext::function<ext::promise<void>(readable_stream_controller_t)>;
+    using underlying_source_cancel_callback = ext::function<ext::promise<void>(const ext::any&)>;
 
     struct read_request_t;
     struct read_into_request_t;

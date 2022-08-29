@@ -1,17 +1,17 @@
 #ifndef SBROWSER2_OBSERVER_INTERNALS_HPP
 #define SBROWSER2_OBSERVER_INTERNALS_HPP
 
-#include "dom/mutations/mutation_observer.hpp"
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include "html/_typedefs.hpp"
 #include USE_INNER_TYPES(dom)
+#include USE_INNER_TYPES(html)
 
 #include <memory>
-#include <v8-object.h>
-#include <v8-platform.h>
+#include <v8-forward.h>
 namespace dom::mutations {class mutation_observer;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class node;}
@@ -58,7 +58,7 @@ namespace dom::detail
 
     template <typename F>
     auto queue_task(
-            const v8::Task& task_source,
+            html::detail::task_queue_t& task_source,
             F&& steps,
             v8::Isolate* event_loop = nullptr,
             nodes::document* document = nullptr)
@@ -66,14 +66,14 @@ namespace dom::detail
 
     template <typename F>
     auto queue_global_task(
-            const v8::Task& task_source,
+            html::detail::task_queue_t& task_source,
             v8::Local<v8::Object> global_object,
             F&& steps)
             -> void;
 
     template <typename F>
     auto queue_element_task(
-            const v8::Task& task_source,
+            html::detail::task_queue_t& task_source,
             const html::elements::html_element* element,
             F&& steps)
             -> void;

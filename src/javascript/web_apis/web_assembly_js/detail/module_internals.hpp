@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_DETAIL_MODULE_INTERNALS_HPP
 
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include <v8-wasm.h>
 #include <v8-forward.h>
 #include USE_INNER_TYPES(web_assembly_js)
@@ -25,7 +25,7 @@ namespace web_assembly::detail
     auto asynchronously_compile_web_assembly_module(
             v8::Local<v8::ArrayBuffer> bytes
             /* TODO : optional task source */)
-            -> std::promise<js::module>;
+            -> ext::promise<js::module>;
 
     auto read_imports(
             v8::Local<v8::WasmModuleObject> module,
@@ -59,9 +59,9 @@ namespace web_assembly::detail
             -> js::instance;
 
     auto instantiate_promise_of_module(
-            std::promise<js::module*> promise_of_module,
+            ext::promise<js::module*> promise_of_module,
             ext::vector<v8::Local<v8::Object>> imports)
-            -> std::promise<web_assembly_instantiated_source_t>;
+            -> ext::promise<web_assembly_instantiated_source_t>;
 
     template <typename T>
     auto string_value_of_extern_type()

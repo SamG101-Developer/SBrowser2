@@ -6,7 +6,7 @@
 #include "mediacapture_main/media_stream_track.hpp"
 #include "mediacapture_main/detail/constrain_internals.hpp"
 
-#include <future>
+#include "ext/promise.hpp"
 
 
 auto mediacapture::main::mixins::constrainable::get_capabilities()
@@ -44,14 +44,14 @@ auto mediacapture::main::mixins::constrainable::get_settings()
 
 auto mediacapture::main::mixins::constrainable::apply_constraints(
         detail::constraints_t&& constraints)
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     // get the base MediaStreamTrack object from this mixin
     auto* base = dom_cross_cast<const main::media_stream_track*>(this);
 
     if (base->ready_state() == "ended")
     {
-        std::promise<void> promise;
+        ext::promise<void> promise;
         promise.set_value();
         return promise;
     }

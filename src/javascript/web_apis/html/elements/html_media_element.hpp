@@ -17,7 +17,7 @@ public js_methods:
     auto capture_stream() -> mediacapture::main::media_stream;
 
     /* MEDIACAPTURE_OUTPUT */
-    auto set_sink_id(ext::string&& sink_id) -> std::promise<void>;
+    auto set_sink_id(ext::string&& sink_id) -> ext::promise<void>;
 
 public cpp_properties:
     ext::property<basic_media::media_error*> error;

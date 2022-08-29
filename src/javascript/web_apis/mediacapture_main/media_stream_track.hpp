@@ -7,7 +7,7 @@
 #include "html/mixins/transferable.hpp"
 namespace mediacapture::main {class media_stream_track;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(mediacapture_main)
 
 class mediacapture::main::media_stream_track

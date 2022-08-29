@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace payment_request {class payment_response;};
 
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(payment_request)
 namespace payment_request {class payment_request;};
 
@@ -18,8 +18,8 @@ public constructors:
     payment_response() = default;
 
 public js_methods:
-    auto complete(detail::payment_complete_t result = detail::payment_complete_t::UNKNOWN, detail::payment_complete_details_t&& details = {}) -> std::promise<void>;
-    auto retry(detail::payment_validation_errors_t&& error_fields = {}) -> std::promise<void>;
+    auto complete(detail::payment_complete_t result = detail::payment_complete_t::UNKNOWN, detail::payment_complete_details_t&& details = {}) -> ext::promise<void>;
+    auto retry(detail::payment_validation_errors_t&& error_fields = {}) -> ext::promise<void>;
 
 public js_properties:
     ext::property<ext::string> request_id;
@@ -32,7 +32,7 @@ public cpp_methods:
 private js_slots:
     ext::slot<ext::boolean> s_complete;
     ext::slot<payment_request*> s_request;
-    ext::slot<std::promise<void>> s_retry_promise;
+    ext::slot<ext::promise<void>> s_retry_promise;
 };
 
 

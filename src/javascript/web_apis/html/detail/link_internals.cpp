@@ -56,18 +56,18 @@ auto html::detail::follow_hyperlink(
     return_if(cannot_navigate(element));
 
     auto* source = element->owner_document()->m_browsing_context.get();
-    ext::string target_attribute_value{element->local_name() == "a" || element->local_name() == "area" ? html_element_internals::get_elements_target(element) : ""};
+    ext::string target_attribute_value{element->local_name() == "a" || element->local_name() == "area" ? get_elements_target(element) : ""};
     ext::boolean replace;
 
     auto noopener = get_elements_noopener(element, target_attribute_value);
     auto* target = choose_browsing_context(target_attribute_value, source, noopener).first;
     return_if(!target);
 
-    auto url = detail::miscellaneous_internals::parse_url(ext::cross_cast<const mixins::html_hyperlink_element_utils*>(element)->href(), element->owner_document());
+    auto url = detail::parse_url(ext::cross_cast<const mixins::html_hyperlink_element_utils*>(element)->href(), element->owner_document());
     if (url.first.empty())
     {
         // TODO : report to user
-        dom::detail::queue_element_task(task_internals::dom_manipulation_task_source(), element, [target] {navigate(target);});
+        dom::detail::queue_element_task(dom_manipulation_task_source, element, [target] {navigate(target);});
         return;
     }
 
@@ -76,11 +76,11 @@ auto html::detail::follow_hyperlink(
     fetch::detail::request_t request
     {
         .url = url.second,
-        .referrer_policy = magic_enum::enum_cast<referrer_policy::referrer_policy_t>(element->referrer_policy())
+        .referrer_policy = magic_enum::enum_cast<referrer_policy::detail::referrer_policy_t>(element->referrer_policy())
     };
 
     // TODO : link types stuff
-    dom::detail::queue_element_task(task_internals::dom_manipulation_task_source(), element, [target, source] {navigate(target, source);});
+    dom::detail::queue_element_task(dom_manipulation_task_source, element, [target, source] {navigate(target, source);});
 }
 
 
@@ -94,7 +94,7 @@ auto html::detail::consume_preloaded_resource(
         response_available_function_t&& on_response_available)
         -> ext::boolean
 {
-    auto key = preload_key
+    preload_key_t key
     {
         .url = url,
         .destination = destination,

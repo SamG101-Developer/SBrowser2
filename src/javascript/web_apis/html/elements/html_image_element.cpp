@@ -35,9 +35,9 @@ html::elements::html_image_element::html_image_element()
 
 
 auto html::elements::html_image_element::decode()
-        -> std::promise<void>
+        -> ext::promise<void>
 {
-    std::promise<void> promise;
+    ext::promise<void> promise;
 
     // queue a microtask for decoding the HTMLImageElement properly
     dom::detail::queue_microtask([this, &promise]

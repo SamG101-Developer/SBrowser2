@@ -3,7 +3,7 @@
 
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(service_workers)
 namespace service_workers::events {class extendable_event;}
 
@@ -14,7 +14,7 @@ namespace service_workers::detail
             -> ext::boolean;
 
     auto add_lifetime_promise(
-            std::promise<ext::any>&& promise,
+            ext::promise<ext::any>&& promise,
             events::extendable_event* event)
             -> void;
 

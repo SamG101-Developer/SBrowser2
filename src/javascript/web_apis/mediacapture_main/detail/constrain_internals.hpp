@@ -7,7 +7,7 @@
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(mediacapture_main)
 namespace mediacapture::main::mixins {class constrainable;}
 
@@ -16,7 +16,7 @@ namespace mediacapture::detail
     auto apply_constrains_template_algorithm(
             main::mixins::constrainable* object,
             constraints_t&& new_constraints = {})
-            -> std::promise<void>;
+            -> ext::promise<void>;
 
     auto apply_constrains_algorithm(
             main::mixins::constrainable* object,

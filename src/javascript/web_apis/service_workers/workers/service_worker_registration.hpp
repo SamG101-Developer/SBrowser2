@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace service_workers::workers {class service_worker_registration;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include <memory>
 #include USE_INNER_TYPES(notifications)
 #include USE_INNER_TYPES(service_workers)
@@ -21,12 +21,12 @@ public constructors:
     service_worker_registration() = default;
 
 public js_methods:
-    auto update() -> std::promise<void>;
-    auto unregister() -> std::promise<ext::boolean>;
+    auto update() -> ext::promise<void>;
+    auto unregister() -> ext::promise<ext::boolean>;
 
     /* NOTIFICATIONS */
-    auto show_notification(ext::string&& title, notifications::detail::notification_options_t&& options = {}) -> std::promise<void>;
-    auto show_notifications(notifications::detail::get_notification_options_t&& options = {}) -> std::promise<ext::vector<notifications::notification*>>;
+    auto show_notification(ext::string&& title, notifications::detail::notification_options_t&& options = {}) -> ext::promise<void>;
+    auto show_notifications(notifications::detail::get_notification_options_t&& options = {}) -> ext::promise<ext::vector<notifications::notification*>>;
 
 public js_properties:
     ext::property<std::unique_ptr<service_worker>> installing;

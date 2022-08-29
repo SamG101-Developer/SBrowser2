@@ -14,7 +14,7 @@ namespace dom::nodes {class element;}
 #include "ext/queue.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include <range/v3/view/any_view.hpp>
 #include USE_INNER_TYPES(css/box_tree)
 #include USE_INNER_TYPES(dom)
@@ -107,13 +107,13 @@ public js_methods:
     auto request_pointer_lock() -> void;
 
     /* FULLSCREEN */
-    auto request_fullscreen(fullscreen::detail::fullscreen_options_t&& options = {}) -> std::promise<void>;
+    auto request_fullscreen(fullscreen::detail::fullscreen_options_t&& options = {}) -> ext::promise<void>;
 
     /* DOM_PARSING */
     auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void;
 
     /* CSS_BOX_TREE */
-    auto get_fragment_information(css::detail::fragment_filter_t filter) -> std::promise<css::box_tree::dead_fragent_information*>;
+    auto get_fragment_information(css::detail::fragment_filter_t filter) -> ext::promise<css::box_tree::dead_fragent_information*>;
     
 public js_properties:
     ext::property<ext::string> namespace_uri;

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace contact_picker {class contacts_manager;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(contact_picker)
 
@@ -17,8 +17,8 @@ public constructors:
     contacts_manager() = default;
 
 public js_methods:
-    auto get_properties() -> std::promise<ext::vector<detail::contact_property_t>>;
-    auto select(ext::vector<detail::contact_property_t*>& properties, detail::contacts_select_options_t&& options = {}) -> std::promise<ext::vector<detail::contact_info_t>>;
+    auto get_properties() -> ext::promise<ext::vector<detail::contact_property_t>>;
+    auto select(ext::vector<detail::contact_property_t*>& properties, detail::contacts_select_options_t&& options = {}) -> ext::promise<ext::vector<detail::contact_info_t>>;
 
 private cpp_properties:
     std::unique_ptr<detail::contact_source_t> m_contact_source;

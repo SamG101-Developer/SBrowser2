@@ -138,7 +138,7 @@ auto indexed_db::idb_factory::delete_database(
 
 
 auto indexed_db::idb_factory::databases()
-        -> std::promise<ext::vector<ext::map<ext::string, ext::any>>>
+        -> ext::promise<ext::vector<ext::map<ext::string, ext::any>>>
 {
     // get the storage key from the relevant global object (environment)
     JS_REALM_GET_RELEVANT(this);
@@ -152,7 +152,7 @@ auto indexed_db::idb_factory::databases()
             "Obtaining storage key failed");
 
     // create a promise object and thread pool to execute the following lambda-steps in parallel
-    std::promise<ext::vector<ext::map<ext::string, ext::any>>> promise;
+    ext::promise<ext::vector<ext::map<ext::string, ext::any>>> promise;
     ext::thread_pool pool {1};
 
     pool.push_task(

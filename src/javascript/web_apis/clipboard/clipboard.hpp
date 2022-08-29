@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace clipboard {class clipboard;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/vector.hpp"
 namespace clipboard {class clipboard_item;}
 
@@ -17,10 +17,10 @@ public constructors:
     clipboard() = default;
     
 public js_methods:
-    auto read() -> std::promise<ext::vector<clipboard_item*>>;
-    auto read_text() -> std::promise<ext::string>;
-    auto write(ext::vector<clipboard_item*> data) -> std::promise<void>;
-    auto write_text(ext::string&& data) -> std::promise<void>;
+    auto read() -> ext::promise<ext::vector<clipboard_item*>>;
+    auto read_text() -> ext::promise<ext::string>;
+    auto write(ext::vector<clipboard_item*> data) -> ext::promise<void>;
+    auto write_text(ext::string&& data) -> ext::promise<void>;
 };
 
 

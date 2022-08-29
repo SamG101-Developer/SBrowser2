@@ -21,10 +21,10 @@
 
 #include "html/detail/context_internals.hpp"
 #include "html/detail/document_internals.hpp"
-#include "html/detail/render_blocking_internals.hpp"
 #include "html/detail/lazy_loading_internals.hpp"
 #include "html/detail/miscellaneous_internals.hpp"
 #include "html/detail/policy_internals.hpp"
+#include "html/detail/render_blocking_internals.hpp"
 #include "html/detail/task_internals.hpp"
 #include "html/elements/html_base_element.hpp"
 #include "html/elements/html_body_element.hpp"
@@ -300,7 +300,7 @@ auto html::detail::rendered_text_fragment(
     {
         // collect code points from the 'input_copy' string until a LF or CR character is reached; this is where each
         // new textual piece of data is defined, so stop at the newline
-        text = infra::detail::infra_string_internals::collect_code_points_not_matching(input_copy, position, char(0x00a), char(0x000d));
+        text = infra::detail::collect_code_points_not_matching(input_copy, position, char(0x00a), char(0x000d));
 
         // if there is text (ie not empty newlines), then create a new Text node that contains the 'text' as its data,
         // and append it to the fragment node; this adds the new Text node to the DocumentFragment
@@ -418,8 +418,8 @@ auto html::detail::set_frozen_base_url(
         -> void
 {
     auto* document = element->owner_document();
-    auto document_fallback_base_url = document_internals::fallback_base_url(document);
-    auto url_record = url::detail::url_parsing_serializing_internals::parse(element->href(), document_fallback_base_url, document->m_encoding);
+    auto document_fallback_base_url = fallback_base_url(document);
+    auto url_record = url::detail::parse(element->href(), document_fallback_base_url, document->m_encoding);
 
     element->m_frozen_base_url = content_security_policy::detail::is_base_allowed_for_document(url_record, document)
             ? document_fallback_base_url
@@ -437,7 +437,7 @@ auto html::detail::pragma_set_default_language(
 
     auto input = element->content();
     auto position = ranges::find(input, ' ');
-    auto candidate = infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, ' ');
+    auto candidate = infra::detail::collect_code_points_not_matching(input, position, ' ');
 
     return_if(candidate.empty());
 
@@ -464,7 +464,7 @@ auto html::detail::name_value_groups(
     // create the 'groups' which is a list of pairs, a 'current' pair, and a 'seen_dd' boolean, defaulted to false
     name_value_groups_t groups;
     name_value_group_t current;
-    auto seen_dd = ext::boolean::FALSE();
+    auto seen_dd = ext::boolean::FALSE_();
 
     // create the 'child' and 'grand_child' pointers; initialize the 'child' to the first child of the 'element', and
     // the 'grand_child' is set to nullptr (cast as a Node)
@@ -562,7 +562,7 @@ auto html::detail::set_url(
     JS_REALM_GET_RELEVANT(element)
     element->m_url = !reflect_has_attribute_value(element, "href", element_relevant)
             ? url::detail::url_t{}
-            : miscellaneous_internals::parse_url(element->m_url, ext::cross_cast<dom::nodes::element*>(element)->owner_document()).second;
+            : parse_url(element->m_url, ext::cross_cast<dom::nodes::element*>(element)->owner_document()).second;
 }
 
 
@@ -582,7 +582,7 @@ auto html::detail::update_href(
         -> void
 {
     // set the element's href attribute to the serialization of the elements url internal attribute
-    element->href = miscellaneous_internals::serialize_url(element->m_url);
+    element->href = serialize_url(element->m_url);
 }
 
 
@@ -605,11 +605,11 @@ auto html::detail::process_iframe_attributes(
     if (!element->srcdoc().empty())
     {
         element->m_current_navigation_lazy_loaded = false;
-        if (lazy_loading_internals::will_lazy_load_element_steps(element))
+        if (will_lazy_load_element_steps(element))
         {
             element->m_lazy_load_resumption_steps = std::move(navigate_to_srcdoc_resource);
             element->m_current_navigation_lazy_loaded = true;
-            lazy_loading_internals::start_intersection_observing_lazy_loading_element(element);
+            start_intersection_observing_lazy_loading_element(element);
             return;
         }
 
@@ -634,13 +634,13 @@ auto html::detail::shared_attribute_processing_steps_for_iframe_and_frame_elemen
 
     JS_REALM_GET_RELEVANT(element)
     if (reflect_has_attribute_value(element, "src", element_relevant) && !element->src().empty())
-        url_record = miscellaneous_internals::parse_url(element->src(), element->owner_document()).second;
+        url_record = parse_url(element->src(), element->owner_document()).second;
 
     return_if (ranges::any_of(
             ancestor_browsing_contexts(element->m_nested_browsing_context),
             [&url_record](context_internals::browsing_context* context) {return context->active_document()->url() == url_record;}));
 
-    if (miscellaneous_internals::matches_about_blank(url_record) && initial_insertion)
+    if (matches_about_blank(url_record) && initial_insertion)
     {
         // TODO : update history
         iframe_load_event_steps(element);
@@ -656,11 +656,11 @@ auto html::detail::shared_attribute_processing_steps_for_iframe_and_frame_elemen
     if (element->local_name() == "iframe")
         element->m_current_navigation_lazy_loaded = false;
 
-    if (element->local_name() == "iframe" && lazy_loading_internals::will_lazy_load_element_steps(element))
+    if (element->local_name() == "iframe" && will_lazy_load_element_steps(element))
     {
         element->m_lazy_load_resumption_steps = ext::bind_front(std::move(navigate_to_resource), resource);
         element->m_current_navigation_lazy_loaded = true;
-        lazy_loading_internals::start_intersection_observing_lazy_loading_element(element);
+        start_intersection_observing_lazy_loading_element(element);
         return;
     }
 
@@ -674,15 +674,14 @@ auto html::detail::navigate_iframe_or_frame(
         T&& resource)
         -> void
 {
-    ext::string history_handling = document_internals::completely_loaded(element->m_nested_browsing_context->active_document())
+    ext::string history_handling = completely_loaded(element->m_nested_browsing_context->active_document())
             ? "replace"
             : "default";
 
     auto* document = element->owner_document(); JS_REALM_GET_RELEVANT(document)
-    dom::detail::observer_internals::queue_element_task(task_internals::networking_task_source(), element, [&resource, &document_relevant_global_object]
-    {
-        fetch::detail::http_internals::report_timing(resource, document_relevant_global_object);
-    });
+    dom::detail::queue_element_task(networking_task_source, element,
+            [&resource, &document_relevant_global_object]
+            {fetch::detail::report_timing(resource, document_relevant_global_object);});
 
     // TODO : finish
 }

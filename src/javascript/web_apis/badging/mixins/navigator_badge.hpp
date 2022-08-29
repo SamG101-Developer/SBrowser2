@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace badging::mixins {class navigator_badge;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/number.hpp"
 #include "ext/type_traits.hpp"
 
@@ -18,8 +18,8 @@ public constructors:
     navigator_badge() = default;
 
 public js_methods:
-    auto set_app_badge(const ext::number<ulonglong>& contents) -> std::promise<void>;
-    auto clear_app_badge() -> std::promise<void>;
+    auto set_app_badge(const ext::number<ulonglong>& contents) -> ext::promise<void>;
+    auto clear_app_badge() -> ext::promise<void>;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

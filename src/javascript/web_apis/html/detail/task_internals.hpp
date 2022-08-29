@@ -1,44 +1,30 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 
+#include "ext/keywords.hpp"
+#include USE_INNER_TYPES(html)
 
-#include <v8-platform.h>
 
 namespace html::detail
 {
-    auto timer_task_source()
-            -> v8::Task&;
-
-    auto dom_manipulation_task_source()
-            -> v8::Task&;
-
-    auto user_interaction_task_source()
-            -> v8::Task&;
-
-    auto networking_task_source()
-            -> v8::Task&;
-
-    auto history_traversal_task_source()
-            -> v8::Task&;
+    task_queue_t timer_task_source;
+    task_queue_t dom_manipulation_task_source;
+    task_queue_t user_interaction_task_source;
+    task_queue_t networking_task_source;
+    task_queue_t history_traversal_task_source;
 
     /* SERVICE_WORKERS */
-    auto handle_fetch_task_source()
-            -> v8::Task&;
-
-    auto handle_functional_event_task_source()
-            -> v8::Task&;
+    task_queue_t handle_fetch_task_source;
+    task_queue_t handle_functional_event_task_source;
 
     /* BACKGROUND_TASKS */
-    auto idle_task_source()
-            -> v8::Task&;
+    task_queue_t idle_task_source;
 
     /* CONTACT_PICKER */
-    auto contact_picker_task_source()
-            -> v8::Task&;
+    task_queue_t contact_picker_task_source;
 
     /* FILE_API */
-    auto file_reading_task_source()
-            -> v8::Task&;
+    task_queue_t file_reading_task_source;
 }
 
 

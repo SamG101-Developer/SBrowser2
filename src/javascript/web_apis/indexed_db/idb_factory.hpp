@@ -9,7 +9,7 @@ namespace indexed_db {class idb_factory;}
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 namespace indexed_db {class idb_open_request;}
 
 class indexed_db::idb_factory
@@ -18,7 +18,7 @@ class indexed_db::idb_factory
 public js_methods:
     auto open(const ext::string& name, const ext::number<ulonglong>& version) -> idb_open_request;
     auto delete_database(const ext::string& name) -> idb_open_request;
-    auto databases() -> std::promise<ext::vector<ext::map<ext::string, ext::any>>>;
+    auto databases() -> ext::promise<ext::vector<ext::map<ext::string, ext::any>>>;
     auto cmp(const ext::any& first, const ext::any& second) -> ext::number<short>;
 };
 

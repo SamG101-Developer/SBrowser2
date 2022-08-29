@@ -9,7 +9,7 @@ namespace mediacapture::main {class media_devices;}
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(mediacapture_main)
 #include USE_INNER_TYPES(mediacapture_extensions)
 #include USE_INNER_TYPES(mediacapture_output)
@@ -25,12 +25,12 @@ public js_properties:
     detail::get_user_media_semantics_t default_semantics;
 
 public js_methods:
-    auto enumerate_devices() -> std::promise<ext::vector<media_device_info*>>;
-    auto get_user_media(detail::constraints_t&& constraints = {}) -> std::promise<media_stream*>;
+    auto enumerate_devices() -> ext::promise<ext::vector<media_device_info*>>;
+    auto get_user_media(detail::constraints_t&& constraints = {}) -> ext::promise<media_stream*>;
     auto get_supported_constraints() -> detail::constraints_t;
 
     /* MEDIACAPTURE_OUTPUT */
-    auto select_audio_output(detail::audio_output_options_t&& options = {}) -> std::promise<media_device_info>;
+    auto select_audio_output(detail::audio_output_options_t&& options = {}) -> ext::promise<media_device_info>;
 };
 
 

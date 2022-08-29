@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace media::capabilities {class media_capabilities;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(media_capabilities)
 
 
@@ -17,11 +17,11 @@ public constructors:
 
     auto decoding_info(
             detail::media_decoding_configuration_t&& configuration)
-            -> std::promise<detail::media_capabilities_decoding_info_t>;
+            -> ext::promise<detail::media_capabilities_decoding_info_t>;
 
     auto encoding_info(
             detail::media_decoding_configuration_t&& configuration)
-            -> std::promise<detail::media_capabilities_decoding_info_t>;
+            -> ext::promise<detail::media_capabilities_decoding_info_t>;
 };
 
 

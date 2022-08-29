@@ -66,8 +66,7 @@ auto css::css_animation_worklet::animation_worklet_global_scope::register_animat
 
         m_animator_definitions.emplace(std::move(name), std::move(definition));
 
-        dom::detail::queue_task(
-                html::detail::dom_manipulation_task_source(),
+        dom::detail::queue_task(html::detail::dom_manipulation_task_source,
                 [current_global_object, &stateful, name = std::move(name)]
                 {
                     decltype(auto) associated_document = javascript::environment::realms_2::get<dom::nodes::document*>(current_global_object, "$AssociatedDocument");

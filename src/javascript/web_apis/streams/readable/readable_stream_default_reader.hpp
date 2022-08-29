@@ -19,7 +19,7 @@ public constructors:
     explicit readable_stream_default_reader(readable_stream* stream);
 
 public js_methods:
-    auto read(v8::Local<v8::ArrayBufferView> view = {}) -> std::promise<ext::map<ext::string, ext::any>> override;
+    auto read(v8::Local<v8::ArrayBufferView> view = {}) -> ext::promise<ext::map<ext::string, ext::any>> override;
     auto release_lock() -> void override;
 
 private js_slots:

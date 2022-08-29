@@ -15,12 +15,12 @@
 
 
 auto contact_picker::contacts_manager::get_properties()
-        -> std::promise<ext::vector<detail::contact_property_t>>
+        -> ext::promise<ext::vector<detail::contact_property_t>>
 {
     // Create a promise, and in parallel, set the value of it to the supported properties of the contact source
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
-    std::promise<ext::vector<detail::contact_property_t>> promise;
+    ext::promise<ext::vector<detail::contact_property_t>> promise;
     std::jthread{ext::bind_front{&decltype(promise)::set_value, promise, m_contact_source->supported_properties}};
     return promise;
 }
@@ -29,13 +29,13 @@ auto contact_picker::contacts_manager::get_properties()
 auto contact_picker::contacts_manager::select(
         ext::vector<detail::contact_property_t*>& properties,
         detail::contacts_select_options_t&& options)
-        -> std::promise<ext::vector<detail::contact_info_t>>
+        -> ext::promise<ext::vector<detail::contact_info_t>>
 {
     // Get the relevant browsing context from the relevant JavaScript realm. Create an empty promise for returning
     // either rejected or resolved.
     JS_REALM_GET_RELEVANT(this);
     decltype(auto) relevant_browsing_context = javascript::environment::realms_2::get<html::detail::browsing_context_t&>(this_relevant_global_object, "$BrowsingContext");
-    std::promise<ext::vector<detail::contact_info_t>> promise;
+    ext::promise<ext::vector<detail::contact_info_t>> promise;
 
     // If the relevant browsing context is not top level, then the ContactsManager is in an invalid state to select a
     // contact information (incorrect context).
@@ -103,7 +103,7 @@ auto contact_picker::contacts_manager::select(
         // a task on the contact picker task source to create the list of contact information.
         relevant_browsing_context.m_contact_picker_is_showing = false;
         dom::detail::queue_task(
-                html::detail::contact_picker_task_source()
+                html::detail::contact_picker_task_source
                 // TODO
                 );
     };

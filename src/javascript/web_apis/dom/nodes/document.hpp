@@ -125,7 +125,7 @@ public js_methods:
     auto exit_pointer_lock() -> void;
 
     /* FULLSCREEN */
-    auto exit_fullscreen() -> std::promise<void>;
+    auto exit_fullscreen() -> ext::promise<void>;
 
     /* SELECTION */
     auto get_selection() -> selection::selection*;

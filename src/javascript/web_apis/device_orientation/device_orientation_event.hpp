@@ -5,7 +5,7 @@
 #include "dom/events/event.hpp"
 namespace device_orientation {class device_orientation_event;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/boolean.hpp"
 #include USE_INNER_TYPES(device_orientation)
 
@@ -19,7 +19,7 @@ public constructors:
     device_orientation_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_methods:
-    static auto request_permission() -> std::promise<detail::permission_state_t>;
+    static auto request_permission() -> ext::promise<detail::permission_state_t>;
 
 public js_properties:
     ext::property<ext::number<double>> alpha;

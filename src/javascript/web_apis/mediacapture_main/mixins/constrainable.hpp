@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace mediacapture::main::mixins {class constrainable;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include "ext/map.hpp"
 #include USE_INNER_TYPES(mediacapture_main)
 
@@ -17,7 +17,7 @@ public js_methods:
     _EXT_NODISCARD auto get_capabilities() const -> detail::capabilities_t;
     _EXT_NODISCARD auto get_constraints() const -> detail::constraints_t;
     _EXT_NODISCARD auto get_settings() const -> detail::settings_t;
-    auto apply_constraints(detail::constraints_t&& constraints = {}) -> std::promise<void>;
+    auto apply_constraints(detail::constraints_t&& constraints = {}) -> ext::promise<void>;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

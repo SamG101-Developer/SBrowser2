@@ -5,7 +5,7 @@
 #include "dom/events/event.hpp"
 namespace payment_request {class payment_request_update_event;}
 
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(payment_request)
 
 
@@ -18,7 +18,7 @@ public constructors:
     payment_request_update_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_methods:
-    auto update_with(const std::promise<detail::payment_details_update_t>& details_promise) -> void;
+    auto update_with(const ext::promise<detail::payment_details_update_t>& details_promise) -> void;
 }
 
 

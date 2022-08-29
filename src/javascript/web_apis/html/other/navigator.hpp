@@ -10,7 +10,7 @@ namespace html::other {class navigator;}
 
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
-#include <future>
+#include "ext/promise.hpp"
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(autoplay)
 #include USE_INNER_TYPES(vibration)
@@ -60,11 +60,11 @@ public js_methods:
     auto send_beacon(ext::string&& url, fetch::detail::body_init_t data = nullptr) -> void;
 
     /* BADGING */
-    auto set_client_badge(ext::optional<ext::number<ulonglong>> contents) -> std::promise<void>;
-    auto clear_client_badge() -> std::promise<void>;
+    auto set_client_badge(ext::optional<ext::number<ulonglong>> contents) -> ext::promise<void>;
+    auto clear_client_badge() -> ext::promise<void>;
 
     /* BATTERY */
-    auto get_battery() -> std::promise<battery::battery_manager*>&;
+    auto get_battery() -> ext::promise<battery::battery_manager*>&;
 
     /* GAMEPAD */
     auto get_gamepads() -> ext::vector<gamepad::gamepad*>&;
@@ -93,7 +93,7 @@ public js_properties:
 
 private js_slots:
     /* BATTERY */
-    ext::slot<std::promise<battery::battery_manager*>> s_battery_promise;
+    ext::slot<ext::promise<battery::battery_manager*>> s_battery_promise;
     ext::slot<battery::battery_manager*> s_battery_manager;
 
     /* GAMEPAD */

@@ -10,12 +10,12 @@
 
 
 auto storage::storage_manager::persisted()
-        -> std::promise<ext::boolean>
+        -> ext::promise<ext::boolean>
 {
     // get the relevant JavaScript realm for this StorageManager, and obtain its local storage shelf. create the promise
     // that will be returned
     JS_REALM_GET_RELEVANT(this);
-    std::promise<ext::boolean> promise;
+    ext::promise<ext::boolean> promise;
     auto shelf = detail::obtain_local_storage_shelf(this_relevant_global_object);
 
     // if the shelf is a failure, reject the promise with a JavaScript TypeError, and effectively return (else-statement
@@ -47,12 +47,12 @@ auto storage::storage_manager::persisted()
 
 
 auto storage::storage_manager::persist()
-        -> std::promise<ext::boolean>
+        -> ext::promise<ext::boolean>
 {
     // get the relevant JavaScript realm for this StorageManager, and obtain its local storage shelf. create the promise
     // that will be returned
     JS_REALM_GET_RELEVANT(this);
-    std::promise<ext::boolean> promise;
+    ext::promise<ext::boolean> promise;
     auto shelf = detail::obtain_local_storage_shelf(this_relevant_global_object);
 
     // if the shelf is a failure, reject the promise with a JavaScript TypeError, and effectively return (else-statement
@@ -107,12 +107,12 @@ auto storage::storage_manager::persist()
 
 
 auto storage::storage_manager::estimate()
-        -> std::promise<storage_estimate_t>
+        -> ext::promise<storage_estimate_t>
 {
     // get the relevant JavaScript realm for this StorageManager, and obtain its local storage shelf. create the promise
     // that will be returned
     JS_REALM_GET_RELEVANT(this);
-    std::promise<storage_estimate_t> promise;
+    ext::promise<storage_estimate_t> promise;
     auto shelf = detail::obtain_local_storage_shelf(this_relevant_global_object);
 
     // if the shelf is a failure, reject the promise with a JavaScript TypeError, and effectively return (else-statement

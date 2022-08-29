@@ -4,6 +4,7 @@
 #include "ext/pair.hpp"
 #include "ext/functional.hpp"
 #include "ext/number.hpp"
+#include "ext/queue.hpp"
 #include "ext/string.hpp"
 #include "ext/tuple.hpp"
 #include "ext/variant.hpp"
@@ -63,6 +64,8 @@ namespace html::detail
     using response_available_function_t = ext::function<void(fetch::detail::response_t*)>;
     using tuple_origin_t = ext::tuple<ext::string, ext::string, ext::number<short>, ext::string>;
     using origin_t = ext::variant<ext::string, tuple_origin_t>;
+    using task_t = ext::function<void()>;
+    using task_queue_t = ext::queue<task_t>;
 
 }
 

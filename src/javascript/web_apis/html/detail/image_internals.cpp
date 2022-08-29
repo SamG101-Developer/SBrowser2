@@ -89,7 +89,7 @@ auto html::detail::update_image_data(
     {
         // parse the selected source relative to the elements document, and extract the string ans url from the
         // resulting tuple
-        auto url_object = miscellaneous_internals::parse_url(selected_source, element->owner_document());
+        auto url_object = parse_url(selected_source, element->owner_document());
         auto url_string = url_object.first;
         auto url_record = url_object.second;
 
@@ -116,9 +116,7 @@ auto html::detail::update_image_data(
                 prepare_image_for_presentation(*element->m_current_request, element);
                 element->m_current_request->current_pixel_density = selected_pixel_density;
 
-                dom::detail::queue_element_task(
-                        detail::task_internals::dom_manipulation_task_source(),
-                        element,
+                dom::detail::queue_element_task(detail::dom_manipulation_task_source, element,
                         [&restart_animation_flag, &element, &url_record]
                         {
                             if (restart_animation_flag) restart_animation(element);
@@ -142,18 +140,19 @@ auto html::detail::update_image_data(
             abort_image_request(*element->m_pending_request);
             element->m_pending_request.reset();
 
-            dom::detail::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element]
-            {
-                element->m_current_request->url = "";
-                JS_REALM_GET_RELEVANT(element)
-                if (reflect_has_attribute_value(element, "src", element_relevant) || uses_srcset_or_picture(element))
-                    dom::detail::fire_event("error", element);
-            });
+            dom::detail::queue_element_task(detail::dom_manipulation_task_source(), element,
+                    [&element]
+                    {
+                        element->m_current_request->url = "";
+                        JS_REALM_GET_RELEVANT(element)
+                        if (reflect_has_attribute_value(element, "src", element_relevant) || uses_srcset_or_picture(element))
+                            dom::detail::fire_event("error", element);
+                    });
 
             return;
         }
 
-        auto url_object = miscellaneous_internals::parse_url(selected_source, element->owner_document());
+        auto url_object = parse_url(selected_source, element->owner_document());
         auto url_record = url_object.second;
         if (!url_record)
         {
@@ -162,11 +161,12 @@ auto html::detail::update_image_data(
             element->m_current_request->state = BROKEN;
             element->m_pending_request.reset();
 
-            dom::detail::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element]
-            {
-                element->m_current_request->url = selected_source;
-                dom::detail::fire_event("error", element);
-            });
+            dom::detail::queue_element_task(detail::dom_manipulation_task_source, element,
+                    [&element]
+                    {
+                        element->m_current_request->url = selected_source;
+                        dom::detail::fire_event("error", element);
+                    });
             return;
         }
 
@@ -175,14 +175,14 @@ auto html::detail::update_image_data(
         {
             abort_image_request(*element->m_pending_request);
             if (restart_animation_flag)
-                dom::detail::queue_element_task(detail::task_internals::dom_manipulation_task_source(), element, [&element] {restart_animation(element);});
+                dom::detail::queue_element_task(detail::dom_manipulation_task_source, element, [&element] {restart_animation(element);});
             return;
         }
 
         if (element->m_pending_request)
             abort_image_request(*element->m_pending_request);
 
-        image_request new_image_request{.url = url_record};
+        image_request_t new_image_request{.url = url_record};
         element->m_current_request->state == UNAVAILABLE || element->m_current_request->state == BROKEN
                 ? element->m_current_request.reset(&new_image_request)
                 : element->m_pending_request.reset(&new_image_request);
@@ -190,16 +190,15 @@ auto html::detail::update_image_data(
         JS_REALM_GET_RELEVANT(element)
         using destination_t = fetch::detail::destination_t;
         using initiator_t = fetch::detail::initiator_t;
-        auto request = miscellaneous_internals::create_potential_cors_request(url_record, destination_t::IMAGE, magic_enum::enum_cast<fetch::detail::mode_t>(element->cross_origin()));
+        auto request = create_potential_cors_request(url_record, destination_t::IMAGE, magic_enum::enum_cast<fetch::detail::mode_t>(element->cross_origin()));
         request.client = element_relevant_global_object;
         request.initiator = uses_srcset_or_picture(element) ? initiator_t::IMAGESET : static_cast<initiator_t>(NULL);
         request.referrer_policy = magic_enum::enum_cast<referrer_policy::referrer_policy_t>(element->referrer_policy());
 
-        using lazy_loading_t = lazy_loading_internals::lazy_loading_t;
         auto delay_load_event = magic_enum::enum_cast<lazy_loading_t>(element->loading()) == lazy_loading_t::EAGER
-                || scripting_internals::is_scripting_disabled(element);
+                || is_scripting_disabled(element);
 
-        if (lazy_loading_internals::will_lazy_load_element_steps(element))
+        if (will_lazy_load_element_steps(element))
             ; // TODO : finish method
     });
 }
@@ -258,7 +257,7 @@ auto html::detail::create_source_set(
     if (!default_source.empty()
             && !ranges::contains(source_set | ranges::views::transform([](image_source* source) {return source->pixel_density_descriptor;}), "1")
             && ranges::all_of(source_set, [](image_source* source) {return source->width_descriptor == "0";}))
-        source_set.emplace(state_t{}, miscellaneous_internals::parse_url(default_source, nullptr)); // TODO : is this emplaced correctly?
+        source_set.emplace(state_t{}, parse_url(default_source, nullptr)); // TODO : is this emplaced correctly?
 
     return normalize_source_densities(source_set);
 }

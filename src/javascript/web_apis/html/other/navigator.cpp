@@ -35,8 +35,8 @@ auto html::other::navigator::get_user_media(
 const -> void
 {
     auto promise = media_devices()->get_user_media(std::move(constraints));
-    // TODO : call success_callback when std::promise set-value called
-    // TODO : call error callback when std::promise set-error called
+    // TODO : call success_callback when ext::promise set-value called
+    // TODO : call error callback when ext::promise set-error called
 }
 
 
@@ -55,7 +55,7 @@ auto html::other::navigator::send_beacon(
 
 auto html::other::navigator::set_client_badge(
         ext::optional<ext::number<ulonglong>> contents)
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     // Run an algorithm in parallel that handles setting the badge of the Document.
     go [this, &contents]
@@ -67,15 +67,15 @@ auto html::other::navigator::set_client_badge(
                 ? badging::detail::badge_value_t::NOTHING : std::move(*contents);
     };
 
-    // Return a resolved std::promise<void> whilst the above code is executing in another thread.
-    std::promise<void> promise;
+    // Return a resolved ext::promise<void> whilst the above code is executing in another thread.
+    ext::promise<void> promise;
     promise.set_value();
     return promise;
 }
 
 
 auto html::other::navigator::clear_client_badge()
-        -> std::promise<void>
+        -> ext::promise<void>
 {
     go [this]
     {
@@ -84,21 +84,21 @@ auto html::other::navigator::clear_client_badge()
         document->m_badge = badging::detail::badge_value_t::NOTHING;
     };
 
-    // Return a resolved std::promise<void> whilst the above code is executing in another thread.
-    std::promise<void> promise;
+    // Return a resolved ext::promise<void> whilst the above code is executing in another thread.
+    ext::promise<void> promise;
     promise.set_value();
     return promise;
 }
 
 
 auto html::other::navigator::get_battery()
-        -> std::promise<battery::battery_manager*>&
+        -> ext::promise<battery::battery_manager*>&
 {
     // If the [[BatteryPromise]] slot is empty, then create a new slot, as the contents of the lost (promise) are
     // required for the rest of the method.
     s_battery_promise = s_battery_promise().get_future().get()
             ? s_battery_promise()
-            : std::promise<battery::battery_manager*>{};
+            : ext::promise<battery::battery_manager*>{};
 
     // Get the associated document of the relevant global object, cast to a Document.
     JS_REALM_GET_RELEVANT(this);

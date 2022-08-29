@@ -5,7 +5,7 @@
 #include "ext/queue.hpp"
 #include "ext/set.hpp"
 
-#include <future>
+#include "ext/promise.hpp"
 #include <v8-forward.h>
 
 #include USE_INNER_TYPES(fetch)
