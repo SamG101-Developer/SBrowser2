@@ -1,28 +1,32 @@
 #ifndef SBROWSER2_BLOB_INTERNALS_HPP
 #define SBROWSER2_BLOB_INTERNALS_HPP
 
-
+#include "ext/any.hpp"
+#include "ext/boolean.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
+#include USE_INNER_TYPES(file_api)
 #include USE_INNER_TYPES(url)
 
 namespace file_api {class blob;}
+namespace streams::readable {class readable_stream;}
+
 
 namespace file_api::detail
 {
     auto get_stream(
-            blob& blob_object)
+            blob* blob_object)
             -> streams::readable::readable_stream;
 
     auto process_blob_parts(
-            ext::vector<typename blob::blob_part_t>,
+            ext::vector<detail::blob_part_t>&& parts,
             ext::map<ext::string, ext::any>&& options)
             -> ext::string;
 
     auto convert_line_endings_to_native(
-            ext::string_view string)
+            ext::string_view input)
             -> ext::string;
 
     auto package_data(
