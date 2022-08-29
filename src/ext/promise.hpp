@@ -2,6 +2,7 @@
 #define SBROWSER2_SRC_EXT_PROMISE_HPP
 
 #include <future>
+#include "boolean.hpp"
 #include "keywords.hpp"
 
 
@@ -19,6 +20,9 @@ class promise
 
     template <typename U, typename V>
     auto react(U&& steps0, V&& steps1 = []{}) -> promise<Ts...>&;
+
+    ext::boolean is_resolved = false;
+    ext::boolean is_rejected = false;
 };
 
 
