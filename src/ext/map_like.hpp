@@ -19,7 +19,7 @@ template <typename K, typename V>
 class map_like
 {
 public cpp_operators:
-    virtual auto operator[](const K& key) -> V = 0;
+    virtual auto operator[](const K& key) -> V& = 0;
 };
 
 
