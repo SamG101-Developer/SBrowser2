@@ -25,6 +25,9 @@ namespace html::detail
 
     /* FILE_API */
     task_queue_t file_reading_task_source;
+
+    /* GAMEPAD */
+    task_queue_t gamepad_task_source;
 }
 
 
