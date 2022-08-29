@@ -97,7 +97,7 @@ private js_slots:
     ext::slot<battery::battery_manager*> s_battery_manager;
 
     /* GAMEPAD */
-    ext::slot<ext::boolean> s_has_gamepad;
+    ext::slot<ext::boolean> s_has_gamepad_gesture;
     ext::slot<ext::vector<gamepad::gamepad*>> s_gamepads;
 };
 

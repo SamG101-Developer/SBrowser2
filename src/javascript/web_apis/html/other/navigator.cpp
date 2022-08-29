@@ -137,7 +137,7 @@ auto html::other::navigator::get_gamepads()
             [document] {return !html::detail::allowed_to_use(document, "gamepad");},
             "Document is not allowed to use the 'gamepad' feature");
 
-    return_if (!s_has_gamepad) {};
+    return_if (!s_has_gamepad_gesture) {};
 
     auto now = high_resolution_time::performance{}.now();
     auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed;};

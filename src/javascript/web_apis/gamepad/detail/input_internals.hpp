@@ -2,12 +2,14 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_DETAIL_INPUT_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_DETAIL_INPUT_INTERNALS_HPP
 
+#include "ext/boolean.hpp"
 namespace gamepad {class gamepad;}
 
 
 namespace gamepad::detail
 {
-    auto when_system_receives_new_button_or_axis_input_values()
+    auto when_system_receives_new_button_or_axis_input_values(
+            gamepad* gamepad)
             -> void;
 
     auto when_gamepad_available_on_system()
@@ -27,6 +29,10 @@ namespace gamepad::detail
     auto map_and_normalize_buttons(
             gamepad* gamepad)
             -> void;
+
+    auto contains_gamepad_user_gesture(
+            gamepad* gamepad)
+            -> ext::boolean;
 };
 
 
