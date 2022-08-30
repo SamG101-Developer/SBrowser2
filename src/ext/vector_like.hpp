@@ -5,6 +5,7 @@
 #include "ext/keywords.hpp"
 #include "ext/number.hpp"
 #include "ext/property.hpp"
+#include "ext/string.hpp"
 #include "ext/vector.hpp"
 
 
@@ -15,6 +16,7 @@ class vector_like
 {
 public cpp_operators:
     virtual auto operator[](const number<size_t>& index) -> T& = 0;
+    virtual auto operator[](ext::string_view index) -> T& = 0;
 };
 
 
@@ -30,7 +32,8 @@ public cpp_properties:
     property<number<size_t>> length;
 
 public cpp_operators:
-    auto operator[](const number<size_t>& index) -> T& {return linked_vector->at(index);}
+    auto operator[](const number<size_t>& index) -> T& override {return linked_vector->at(index);}
+    auto operator[](ext::string_view index) -> T& override {return linked_vector->front();};
 
 private cpp_properties:
     std::unique_ptr<vector<T>> linked_vector;
