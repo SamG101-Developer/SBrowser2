@@ -2,8 +2,8 @@
 #define SBROWSER2_SRC_EXT_PROMISE_HPP
 
 #include "ext/promise.hpp"
-#include "boolean.hpp"
-#include "keywords.hpp"
+#include "ext/boolean.hpp"
+#include "ext/keywords.hpp"
 
 
 _EXT_BEGIN
@@ -12,6 +12,7 @@ _EXT_BEGIN
 template <typename ...Ts>
 class promise
 {
+public:
     template <typename U>
     auto resolve(U&& value) -> promise<Ts...>&;
 
