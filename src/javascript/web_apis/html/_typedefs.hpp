@@ -57,6 +57,8 @@ namespace html::detail
     enum class text_track_mode_t {DISABLED, HIDDEN, SHOWING};
     enum class text_track_kind_t {SUBTITLES, CAPTIONS, DESCRIPTIONS, CHAPTERS, METADATA};
     enum class media_playback_direction_t {FORWARDS, BACKWARDS};
+    enum class track_readiness_state_t {NOT_LOADED, LOADING, LOADED, FAILED_TO_LOAD};
+    enum class track_mode_t {DISABLED, HIDDEN, SHOWING};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
