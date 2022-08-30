@@ -39,7 +39,7 @@ public cpp_operators:
     auto operator[](ext::string_view index) -> html_element*& override;
 
 private cpp_properties:
-    ext::map<ext::string, html_element*> past_map;
+    ext::map<ext::string, html_element*> m_past_map;
 };
 
 
