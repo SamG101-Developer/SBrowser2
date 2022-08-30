@@ -11,6 +11,7 @@ namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class audio_track;}
 namespace html::basic_media {class video_track;}
 namespace html::basic_media {class text_track;}
+namespace html::basic_media {class text_track_cue;}
 namespace mediacapture::main {class media_stream;}
 
 
@@ -45,7 +46,7 @@ public js_methods:
     /* MEDIACAPTURE_OUTPUT */
     auto set_sink_id(ext::string&& sink_id) -> ext::promise<void>;
 
-public cpp_properties:
+public js_properties:
     ext::property<basic_media::media_error*> error;
 
     ext::property<ext::string> cross_origin;
@@ -81,6 +82,22 @@ public cpp_properties:
 
     /* MEDIACAPTURE_OUTPUT */
     ext::property<ext::string> sink_id;
+
+private cpp_properties:
+    detail::origin_t m_origin;
+    detail::task_queue_t m_media_element_event_task_source;
+    detail::media_provider_t m_assigned_media_provider_object;
+    ext::boolean m_can_autoplay_flag;
+    ext::boolean m_delaying_load_event_flag;
+    ext::number<double> m_current_playback_position;
+    ext::number<double> m_official_playback_position;
+    ext::number<double> m_default_playback_position;
+    ext::boolean m_show_poster_flag;
+    ext::vector<ext::promise<>> m_pending_play_promises;
+    ext::vector<basic_media::text_track_cue*> m_newly_introduced_cues;
+
+private cpp_accessors:
+    DEFINE_GETTER(src_object) {return m_assigned_media_provider_object;};
 };
 
 
