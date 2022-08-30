@@ -60,6 +60,7 @@ namespace html::detail
     enum class track_readiness_state_t {NOT_LOADED, LOADING, LOADED, FAILED_TO_LOAD};
     enum class track_mode_t {DISABLED, HIDDEN, SHOWING};
     enum class area_shape_t {CIRCLE, DEFAULT, POLYGON, RECTANGLE};
+    enum class table_cell_scope_t {ROW, COL, ROWGROUP, COLGROUP, AUTO};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
