@@ -6,7 +6,6 @@
 namespace accelerometer {class accelerometer;}
 
 #include USE_INNER_TYPES(accelerometer)
-#include USE_INNER_TYPES(sensors)
 
 
 class accelerometer::accelerometer
