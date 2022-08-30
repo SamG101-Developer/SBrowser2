@@ -14,8 +14,7 @@ class accelerometer::accelerometer
 {
 public constructors:
     DOM_CTORS(accelerometer);
-    accelerometer() = default;
-    accelerometer(detail::accelerometer_sensor_options_t&& options);
+    accelerometer(detail::accelerometer_sensor_options_t&& options = {});
 
 public js_properties:
     ext::property<ext::number<double>> x;
