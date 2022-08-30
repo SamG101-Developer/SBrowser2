@@ -3,9 +3,9 @@
 
 #include "ext/concepts.hpp"
 #include "ext/property.hpp"
-namespace html::elements {class html_element;};
-namespace html::elements {class html_form_element;};
-namespace html::elements {class html_label_element;};
+namespace dom::nodes {class node;}
+namespace html::elements {class html_element;}
+namespace html::elements {class html_form_element;}
 
 
 namespace html::concepts
@@ -45,7 +45,7 @@ namespace html::concepts
     concept labelable_elements = requires
     {
         requires form_associated<T>;
-        {T::labels} -> std::same_as<ext::property<std::unique_ptr<elements::html_label_element>>&>;
+        {T::labels} -> std::same_as<ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>>&>;
     };
 }
 
