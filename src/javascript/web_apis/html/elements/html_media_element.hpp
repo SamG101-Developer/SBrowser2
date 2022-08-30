@@ -97,6 +97,8 @@ private cpp_properties:
     ext::vector<basic_media::text_track*> m_pending_text_tracks;
     ext::vector<basic_media::text_track_cue*> m_newly_introduced_cues;
     ext::boolean m_pending_track_change_notification_flag;
+    ext::number<double> m_playback_volume;
+
 
 private cpp_accessors:
     DEFINE_GETTER(src_object) {return m_assigned_media_provider_object;};

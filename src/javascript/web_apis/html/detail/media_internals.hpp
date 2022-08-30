@@ -14,6 +14,7 @@
 #include USE_INNER_TYPES(url)
 
 namespace html::basic_media {class text_track;}
+namespace html::basic_media {class time_ranges;}
 namespace html::elements {class html_media_element;}
 namespace html::elements {class html_video_element;}
 
@@ -189,6 +190,18 @@ namespace html::detail
     auto active_flag_was_set_when_script_started(
             /* TODO */)
             -> void;
+
+    auto is_muted(
+            elements::html_media_element* element)
+            -> ext::boolean;
+
+    auto effective_media_volume(
+            elements::html_media_element* element)
+            -> ext::number<double>;
+
+    auto is_normalized_time_ranges(
+            basic_media::time_ranges* time_range)
+            -> ext::boolean;
 };
 
 
