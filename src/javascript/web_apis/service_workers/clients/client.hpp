@@ -26,10 +26,10 @@ public js_methods:
     ext::property<detail::frame_type_t> client_type;
 
 private cpp_accessors:
-    DEFINE_GETTER(url)
-    DEFINE_GETTER(id)
-    DEFINE_GETTER(frame_type)
-    DEFINE_GETTER(client_type)
+    DEFINE_GETTER(url);
+    DEFINE_GETTER(id);
+    DEFINE_GETTER(frame_type);
+    DEFINE_GETTER(client_type);
 };
 
 
