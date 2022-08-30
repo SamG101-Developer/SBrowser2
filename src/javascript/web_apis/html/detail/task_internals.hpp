@@ -28,6 +28,9 @@ namespace html::detail
 
     /* GAMEPAD */
     task_queue_t gamepad_task_source;
+
+    /* GEOLOCATION */
+    task_queue_t geolocation_task_source;
 }
 
 
