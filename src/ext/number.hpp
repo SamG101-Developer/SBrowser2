@@ -4,6 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
+#include "ext/random.hpp"
 #include "ext/string.hpp"
 #include <limits>
 #include <stdexcept>
@@ -101,6 +102,9 @@ public:
 
     static auto max() -> number
     {return std::numeric_limits<T>::max();}
+
+    static auto random() -> number
+    {return ext::random::get(*min(), *max());}
 
 private:
     T n;
