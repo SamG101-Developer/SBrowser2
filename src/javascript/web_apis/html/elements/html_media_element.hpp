@@ -94,7 +94,9 @@ private cpp_properties:
     ext::number<double> m_default_playback_position;
     ext::boolean m_show_poster_flag;
     ext::vector<ext::promise<>> m_pending_play_promises;
+    ext::vector<basic_media::text_track*> m_pending_text_tracks;
     ext::vector<basic_media::text_track_cue*> m_newly_introduced_cues;
+    ext::boolean m_pending_track_change_notification_flag;
 
 private cpp_accessors:
     DEFINE_GETTER(src_object) {return m_assigned_media_provider_object;};
