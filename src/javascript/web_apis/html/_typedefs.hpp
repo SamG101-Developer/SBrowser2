@@ -59,6 +59,7 @@ namespace html::detail
     enum class media_playback_direction_t {FORWARDS, BACKWARDS};
     enum class track_readiness_state_t {NOT_LOADED, LOADING, LOADED, FAILED_TO_LOAD};
     enum class track_mode_t {DISABLED, HIDDEN, SHOWING};
+    enum class area_shape_t {CIRCLE, DEFAULT, POLYGON, RECTANGLE};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
