@@ -6,6 +6,7 @@
 #include USE_INNER_TYPES(accelerometer)
 namespace accelerometer {class accelerometer;}
 
+
 namespace accelerometer::detail
 {
     auto construct_accelerometer_object(
