@@ -76,14 +76,14 @@ public:
     // Getter and setter operators for the property (because T is a std::unique_ptr<T>, a raw pointer is used as the
     // type of variable for the setter's parameter and the getters return type
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
-    auto operator=(const value_t& value) -> value_t {return m_meta.m_setter(value);}
-    auto operator=(value_t&& value) -> value_t {return m_meta.m_setter(std::move(value));}
+    auto operator=(const value_t& value) -> decltype(auto) {return m_meta.m_setter(value);}
+    auto operator=(value_t&& value) -> decltype(auto) {return m_meta.m_setter(std::move(value));}
 
     // Dereferencing accesses the inner value type of the property (for custom getters and setters), so move the
     // std::unique_ptr out of the meta property to the return value. Check the property is unlocked before accessing the
     // internal value
-    auto operator*() -> auto&& {assert(!m_locked); return std::move(m_meta.m_value);}
-    auto operator*() const -> const auto&& {assert(!m_locked); return std::move(m_meta.m_value);}
+    auto operator*() -> decltype(auto) {assert(!m_locked); return std::move(m_meta.m_value);}
+    auto operator*() const -> decltype(auto) {assert(!m_locked); return std::move(m_meta.m_value);}
 
 private:
     detail::meta_property<std::unique_ptr<T>> m_meta;
@@ -143,12 +143,12 @@ public:
 
     // Getter and setter operators for the property
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
-    auto operator=(const value_t& value) -> value_t {return m_meta.m_setter(value);}
-    auto operator=(value_t&& value) -> value_t {return m_meta.m_setter(std::move(value));}
+    auto operator=(const value_t& value) -> decltype(auto) {return m_meta.m_setter(value);}
+    auto operator=(value_t&& value) -> decltype(auto) {return m_meta.m_setter(std::move(value));}
 
     // Dereferencing accesses the inner value type of the property (for custom getters and setters)
-    auto operator*() -> auto& {assert(!m_locked); return m_meta.m_value;}
-    auto operator*() const -> const auto& {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() -> decltype(auto) {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() const -> decltype(auto) {assert(!m_locked); return m_meta.m_value;}
 
     FORWARD_INNER_VALUE_OPERATOR(+=)
     FORWARD_INNER_VALUE_OPERATOR(-=)
@@ -218,12 +218,12 @@ public:
 
     // Getter and setter operators for the property
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
-    template <typename V> auto operator=(const stripped_value_t<V>& value) -> stripped_value_t<U> {return m_meta.m_setter((stripped_value_t<U>)value);}
-    template <typename V> auto operator=(stripped_value_t<V>&& value) -> stripped_value_t<U> {return m_meta.m_setter((stripped_value_t<U>)std::move(value));}
+    template <typename V> auto operator=(const stripped_value_t<V>& value) -> decltype(auto) {return m_meta.m_setter((stripped_value_t<U>)value);}
+    template <typename V> auto operator=(stripped_value_t<V>&& value) -> decltype(auto) {return m_meta.m_setter((stripped_value_t<U>)std::move(value));}
 
     // Dereferencing accesses the inner value type of the property (for custom getters and setters)
-    auto operator*() -> auto& {assert(!m_locked); return m_meta.m_value;}
-    auto operator*() const -> const auto& {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() -> decltype(auto) {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() const -> decltype(auto) {assert(!m_locked); return m_meta.m_value;}
 
     FORWARD_INNER_VALUE_OPERATOR(+=)
     FORWARD_INNER_VALUE_OPERATOR(-=)
