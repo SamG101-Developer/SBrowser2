@@ -10,7 +10,12 @@
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include USE_INNER_TYPES(fetch)
+
+namespace file_api {class blob;}
 namespace html::elements {class html_element;}
+namespace mediacapture::main {class media_stream;}
+namespace media::source {class media_source;}
+
 
 namespace html::detail
 {
@@ -46,6 +51,12 @@ namespace html::detail
     enum class http_equiv_t {
         CONTENT_LANGUAGE, CONTENT_TYPE, DEFAULT_STYLE, REFRESH, SET_COOKIE, X_UA_COMPATIBLE, CONTENT_SECURITY_POLICY};
 
+    enum class can_play_type_result_t {
+        MAYBE, PROBABLY};
+
+    enum class text_track_mode_t {DISABLED, HIDDEN, SHOWING};
+    enum class text_track_kind_t {SUBTITLES, CAPTIONS, DESCRIPTIONS, CHAPTERS, METADATA};
+
     struct browsing_context_t;
     struct document_load_timing_info_t;
     struct document_unload_timing_info_t;
@@ -66,6 +77,7 @@ namespace html::detail
     using origin_t = ext::variant<ext::string, tuple_origin_t>;
     using task_t = ext::function<void()>;
     using task_queue_t = ext::queue<task_t>;
+    using media_provider_t = ext::variant<mediacapture::main::media_stream*, media::source::media_source*, file_api::blob*>;
 
 }
 
