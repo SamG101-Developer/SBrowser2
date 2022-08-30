@@ -86,6 +86,9 @@ namespace html::detail
             ext::string_view hyperlink_suffix)
             -> void;
 
+    auto user_has_preference_to_download_hyperlink()
+            -> ext::boolean;
+
     auto filename_for_resource_download(
             /* TODO : parameters */)
             -> ext::string;
