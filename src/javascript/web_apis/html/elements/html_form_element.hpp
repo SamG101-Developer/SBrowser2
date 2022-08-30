@@ -3,12 +3,14 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_ELEMENTS_HTML_FORM_ELEMENT_HPP
 
 #include "html/elements/html_element.hpp"
+#include "html/mixins/validatable.hpp"
 #include "ext/vector_like.hpp"
 namespace html::elements {class html_form_element;}
 
 
 class html::elements::html_form_element
         : public html_element
+        , public mixins::validatable
         , public ext::vector_like_linked<html_element*>
 {
 public constructors:
@@ -19,8 +21,6 @@ public js_methods:
     auto submit() -> void;
     auto request_submit(html_element* submitter = nullptr);
     auto reset() -> void;
-    auto check_validity() -> ext::boolean;
-    auto report_validity() -> ext::boolean;
 
 public js_properties:
     ext::property<ext::string> accept_charset;
