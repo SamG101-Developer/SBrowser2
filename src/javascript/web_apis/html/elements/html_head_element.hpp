@@ -9,6 +9,7 @@ class html::elements::html_head_element
         : public html_element
 {
 public constructors:
+    DOM_CTORS(html_head_element);
     html_head_element();
 
 public cpp_methods:
