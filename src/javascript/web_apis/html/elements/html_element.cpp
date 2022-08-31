@@ -42,6 +42,13 @@ html::elements::html_element::html_element()
     {
         // TODO
     };
+
+    m_dom_behaviour.activation_behaviour =
+            [this](dom::events::event* event)
+            {
+                if (local_name() == "summary")
+                    ; // TODO
+            };
 }
 
 
