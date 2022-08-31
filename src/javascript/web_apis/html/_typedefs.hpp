@@ -13,6 +13,8 @@
 
 namespace file_api {class blob;}
 namespace html::elements {class html_element;}
+namespace html::elements {class html_option_element;}
+namespace html::elements {class html_opt_group_element;}
 namespace mediacapture::main {class media_stream;}
 namespace media::source {class media_source;}
 
@@ -84,6 +86,7 @@ namespace html::detail
     using task_t = ext::function<void()>;
     using task_queue_t = ext::queue<task_t>;
     using media_provider_t = ext::variant<mediacapture::main::media_stream*, media::source::media_source*, file_api::blob*>;
+    using option_like_element_t = ext::variant<elements::html_option_element*, elements::html_opt_group_element*>;
 
 }
 
