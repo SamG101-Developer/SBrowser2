@@ -20,6 +20,10 @@ namespace html::elements {class html_option_element;}
 namespace html::elements {class html_opt_group_element;}
 namespace mediacapture::main {class media_stream;}
 namespace media::source {class media_source;}
+namespace html::canvasing {class canvas_rendering_context_2d;}
+namespace html::canvasing {class image_bitmap_rendering_context;}
+namespace webgl2::contexts {class webgl_rendering_context;}
+namespace webgl2::contexts {class webgl2_rendering_context;}
 
 
 namespace html::detail
@@ -74,7 +78,12 @@ namespace html::detail
     using entry_t = ext::tuple<ext::string, ext::variant<ext::string, file_api::file*>>;
     using entry_list_t = ext::vector<entry_t>;
     using assigned_node_options_t = ext::map<ext::string, ext::any>;
-
+    using rendering_context_t = ext::variant<
+            html::canvasing::canvas_rendering_context_2d*,
+            html::canvasing::image_bitmap_rendering_context,
+            webgl2::contexts::webgl_rendering_context,
+            webgl2::contexts::webgl2_rendering_context>;
+    using blob_callback_t = ext::function<void(file_api::blob*)>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
