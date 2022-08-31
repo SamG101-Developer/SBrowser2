@@ -18,6 +18,9 @@ public js_properties:
     ext::property<ext::number<double>> max;
     ext::property<ext::number<double>> position;
     ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
+
+private cpp_accessors:
+    DEFINE_GETTER(value);
 };
 
 
