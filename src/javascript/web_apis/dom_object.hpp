@@ -49,7 +49,7 @@ public cpp_properties:
                 remove_steps;
 
         behaviour_method(
-                dom::nodes::node* node_to_clone,
+                dom::nodes::node* clone,
                 dom::nodes::document* document_to_clone_into,
                 ext::boolean&& deep_clone)
                 cloning_steps;
