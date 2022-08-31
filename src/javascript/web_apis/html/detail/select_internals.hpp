@@ -6,7 +6,9 @@
 #include "ext/number.hpp"
 #include "ext/vector.hpp"
 namespace html::elements {class html_option_element;}
+namespace html::elements {class html_output_element;}
 namespace html::elements {class html_select_element;}
+namespace html::elements {class html_text_area_element;}
 
 
 namespace html::detail
@@ -39,9 +41,25 @@ namespace html::detail
             elements::html_select_element* element)
             -> void;
 
+    auto reset_algorithm(
+            elements::html_output_element* element)
+            -> void;
+
     auto is_mutable(
             elements::html_select_element* element)
             -> ext::boolean;
+
+    auto character_width(
+            elements::html_text_area_element* element)
+            -> ext::number<int>;
+
+    auto character_height(
+            elements::html_text_area_element* element)
+            -> ext::number<int>;
+
+    auto text_area_wrapping_transformation(
+            elements::html_text_area_element* element)
+            -> void;
 };
 
 
