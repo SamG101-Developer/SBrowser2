@@ -18,7 +18,9 @@
 #define EXPAND(x) x
 #define STRINGIFY_MACRO(x) STRINGIFY(x)
 #define CONCAT(n1, n2) STRINGIFY_MACRO(EXPAND(n1)EXPAND(n2))
+
 #define USE_INNER_TYPES(api) CONCAT(api, /_typedefs.hpp)
+#define USE_CONCEPTS(api) CONCAT(api, /_concepts.hpp)
 
 #define catch_all catch (...)
 #define catch_specific(exception_t) catch(const exception_t& exception)
