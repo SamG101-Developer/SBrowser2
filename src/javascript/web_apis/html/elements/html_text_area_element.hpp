@@ -46,6 +46,9 @@ public js_properties:
     ext::property<ext::number<ulong>> selection_start;
     ext::property<ext::number<ulong>> selection_end;
     ext::property<ext::string> selection_direction;
+
+private cpp_properties:
+    ext::boolean m_dirty_value_flag;
 };
 
 

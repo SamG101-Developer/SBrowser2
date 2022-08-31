@@ -40,6 +40,8 @@ public cpp_operators:
 
 private cpp_properties:
     ext::map<ext::string, html_element*> m_past_map;
+    ext::boolean m_constructing_entry_list;
+    ext::boolean m_firing_submission_events;
 };
 
 
