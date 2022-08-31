@@ -19,7 +19,8 @@ namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class text;}
 namespace html::elements {class html_base_element;}
-namespace html::elements {class html_div_element;} // TODO : make this a #include in .cpp file
+namespace html::elements {class html_dialog_element;}
+namespace html::elements {class html_div_element;}
 namespace html::elements {class html_dlist_element;}
 namespace html::elements {class html_element;}
 namespace html::elements {class html_iframe_element;}
@@ -167,6 +168,15 @@ namespace html::detail
 
     auto iframe_load_event_steps(
             const elements::html_iframe_element* element)
+            -> void;
+
+    // HTMLDialogElement
+    auto dialog_focusing_steps(
+            html::elements::html_dialog_element* element)
+            -> void;
+
+    auto cancel_dialog(
+            html::elements::html_dialog_element* element)
             -> void;
 }
 
