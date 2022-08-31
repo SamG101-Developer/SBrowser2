@@ -31,6 +31,9 @@ public js_methods:
 public js_properties:
     ext::property<ext::number<ulong>> width;
     ext::property<ext::number<ulong>> height;
+
+private cpp_methods:
+    detail::canvas_context_mode_t m_canvas_context_mode;
 };
 
 
