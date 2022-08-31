@@ -64,6 +64,8 @@ namespace html::detail
     enum class area_shape_t {CIRCLE, DEFAULT, POLYGON, RECTANGLE};
     enum class table_cell_scope_t {ROW, COL, ROWGROUP, COLGROUP, AUTO};
     enum class button_state_t {SUBMIT, RESET, BUTTON};
+    enum class wrap_type_t {SOFT, HARD};
+    enum class selection_mode_t {SELECT, START, END, PRESERVE};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
