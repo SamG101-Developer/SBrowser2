@@ -16,12 +16,19 @@
 namespace file_api {class blob;}
 namespace file_api {class file;}
 namespace html::elements {class html_element;}
+namespace html::elements {class html_canvas_element;}
+namespace html::elements {class html_image_element;}
 namespace html::elements {class html_option_element;}
 namespace html::elements {class html_opt_group_element;}
-namespace mediacapture::main {class media_stream;}
-namespace media::source {class media_source;}
+namespace html::elements {class html_video_element;}
+namespace html::canvasing {class image_bitmap;}
+namespace html::canvasing {class offscreen_canvas;}
 namespace html::canvasing {class canvas_rendering_context_2d;}
 namespace html::canvasing {class image_bitmap_rendering_context;}
+namespace web_codecs::video {class video_frame;}
+namespace mediacapture::main {class media_stream;}
+namespace media::source {class media_source;}
+namespace svg::elements {class svg_image_element;}
 namespace webgl2::contexts {class webgl_rendering_context;}
 namespace webgl2::contexts {class webgl2_rendering_context;}
 
@@ -49,6 +56,10 @@ namespace html::detail
     enum class button_state_t {SUBMIT, RESET, BUTTON};
     enum class wrap_type_t {SOFT, HARD};
     enum class selection_mode_t {SELECT, START, END, PRESERVE};
+    enum class canvas_context_mode_t {NONE, PLACEHOLDER, _2D, BITMAP_RENDERER, WEBGL, WEBGL2, WEBGPU};
+    enum class predefined_color_space_t {SRGB, DISPLAY_P3};
+    enum class canvas_fill_rule_t {NONZERO, EVENODD};
+    enum class image_smoothing_quality {LOW, MEDIUM, HIGH};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -84,6 +95,15 @@ namespace html::detail
             webgl2::contexts::webgl_rendering_context,
             webgl2::contexts::webgl2_rendering_context>;
     using blob_callback_t = ext::function<void(file_api::blob*)>;
+    using html_or_svg_image_element_t = ext::variant<elements::html_image_element*, svg::elements::svg_image_element*>;
+    using canvas_image_source_t = ext::variant<
+            html_or_svg_image_element_t,
+            elements::html_video_element*,
+            elements::html_canvas_element*,
+            canvasing::image_bitmap*,
+            canvasing::offscreen_canvas*,
+            web_codecs::video::video_frame*>;
+    using canvas_rendering_context_2d_settings = ext::map<ext::string, ext::any>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
