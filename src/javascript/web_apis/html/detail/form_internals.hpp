@@ -2,6 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_INTERNALS_HPP
 
+#include "ext/pair.hpp"
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
@@ -38,6 +39,24 @@ namespace html::detail
     auto pick_encoding_form_form(
             html::elements::html_form_element* element)
             -> encoding::encoding;
+
+    auto convert_list_of_name_value_pairs(
+            ext::vector<ext::pair<ext::string, ext::string>>&& list)
+            -> entry_list_t;
+
+    auto multipart_form_data_encoding_algorithm(
+            const entry_list_t& entry_list,
+            encoding::encoding* encoding)
+            -> void;
+
+    auto text_plain_encoding_algorithm(
+            ext::vector<ext::pair<ext::string, ext::string>>&& entry_list,
+            encoding::encoding* encoding)
+            -> void;
+
+    auto reset_form(
+            html::elements::html_form_element* element)
+            -> void;
 };
 
 
