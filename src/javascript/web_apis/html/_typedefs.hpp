@@ -1,8 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
 
+#include "ext/any.hpp"
 #include "ext/pair.hpp"
 #include "ext/functional.hpp"
+#include "ext/map.hpp"
 #include "ext/number.hpp"
 #include "ext/queue.hpp"
 #include "ext/string.hpp"
@@ -71,6 +73,7 @@ namespace html::detail
     using option_like_element_t = ext::variant<elements::html_option_element*, elements::html_opt_group_element*>;
     using entry_t = ext::tuple<ext::string, ext::variant<ext::string, file_api::file*>>;
     using entry_list_t = ext::vector<entry_t>;
+    using assigned_node_options_t = ext::map<ext::string, ext::any>;
 
 }
 
