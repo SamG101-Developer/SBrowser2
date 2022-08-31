@@ -3,6 +3,7 @@
 
 #include "ext/concepts.hpp"
 #include "ext/optional.hpp"
+#include "ext/set.hpp"
 #include "ext/tuple.hpp"
 
 #include USE_INNER_TYPES(html)
