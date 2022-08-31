@@ -21,6 +21,7 @@
 #include "html/canvasing/mixins/canvas_path.hpp"
 namespace html::canvasing {class canvas_rendering_context_2d;}
 
+#include USE_INNER_TYPES(html)
 namespace html::canvasing {class canvas_rendering_context_2d_settings;}
 
 
@@ -30,7 +31,7 @@ class html::canvasing::canvas_rendering_context_2d
         , public mixins::canvas_transform
         , public mixins::canvas_compositing
         , public mixins::canvas_image_smoothing
-        , public mixins::canvas_fill_stroke
+        , public mixins::canvas_fill_stroke_style
         , public mixins::canvas_shadow_styles
         , public mixins::canvas_filters
         , public mixins::canvas_rect
@@ -52,6 +53,11 @@ public js_methods:
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_properties:
+    ext::boolean m_alpha;
+    ext::boolean m_desynchronized;
+    detail::predefined_color_space_t m_color_space;
 };
 
 

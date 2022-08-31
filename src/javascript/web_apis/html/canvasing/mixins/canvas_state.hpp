@@ -15,8 +15,12 @@ public js_methods:
     auto reset() -> void;
     auto is_context_lost() -> void;
 
-public cpp_properties:
+public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_properties:
+    // TODO : m_drawing-state-stack
+    ext::boolean m_context_lost;
 };
 
 
