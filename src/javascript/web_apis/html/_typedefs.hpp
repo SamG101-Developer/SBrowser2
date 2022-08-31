@@ -57,6 +57,7 @@ namespace html::detail
     struct embedder_policy_t;
     struct cross_origin_opener_policy_t;
     struct validity_state_t;
+    struct command_facet_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
