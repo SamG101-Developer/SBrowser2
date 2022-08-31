@@ -10,6 +10,7 @@ namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 
+
 namespace html::detail
 {
     auto allows_adding_render_blocking_elements(
