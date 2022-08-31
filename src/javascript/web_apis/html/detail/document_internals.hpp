@@ -52,6 +52,10 @@ namespace html::detail
             dom::nodes::document* document,
             ext::string_view feature)
             -> ext::boolean;
+
+    auto appropriate_template_contents_owner_document(
+            dom::nodes::document* document)
+            -> dom::nodes::document*;
 }
 
 
