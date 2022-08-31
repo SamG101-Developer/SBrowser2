@@ -13,6 +13,7 @@ namespace dom::nodes {class document;}
 
 #include "ext/concepts.hpp"
 #include "ext/map.hpp"
+#include "ext/promise.hpp"
 #include "ext/set.hpp"
 #include "ext/tuple.hpp"
 #include "ext/variant.hpp"
@@ -40,7 +41,6 @@ namespace dom::node_iterators {class node_iterator;}
 namespace dom::node_iterators {class tree_walker;}
 namespace dom::other {class dom_implementation;}
 
-namespace html::detail::image_internals {struct available_image;}
 namespace html::elements {class html_body_element;}
 namespace html::elements {class html_head_element;}
 namespace html::elements {class html_html_element;}
@@ -52,6 +52,7 @@ namespace html::elements {class html_title_element;}
 namespace html::elements {class html_element;}
 namespace html::other {class location;}
 
+namespace encoding {class encoding;}
 namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
 namespace selection {class selection;}
@@ -178,7 +179,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 public cpp_operators:
-    auto operator[](const ext::string& name) -> ranges::any_view<element*> override;
+    auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
 
 private js_slots:
     /* DEVICE_POSTURE */
@@ -194,23 +195,26 @@ private cpp_methods:
 
 private cpp_properties:
     /* DOM */
-    // std::unique_ptr<encoding::encoding> m_encoding = nullptr;
+    std::unique_ptr<encoding::encoding> m_encoding;
     ext::string m_type = "xml";
     ext::string m_mode = "no-quirks";
     ext::string m_origin;
 
     /* HTML */
+    // Policies & Permissions
     std::unique_ptr<html::detail::policy_container_t> m_policy_container;
     std::unique_ptr<html::detail::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
     std::unique_ptr<permissions_policy::detail::internal_permissions_policy_t> m_permissions_policy;
+
     module_map_t m_module_map;
     ext::boolean m_is_initial = false;
 
-    html::detail::document_load_timing_info_t& m_load_timing_info;
-    html::detail::document_unload_timing_info_t& m_unload_timing_info;
+    // Document Timing & Context
+    std::unique_ptr<html::detail::document_load_timing_info_t> m_load_timing_info;
+    std::unique_ptr<html::detail::document_unload_timing_info_t> m_unload_timing_info;
+    std::unique_ptr<html::detail::browsing_context_t> m_browsing_context;
 
     ext::set<element*> m_render_blocking_elements;
-    std::unique_ptr<html::detail::browsing_context_t*> m_browsing_context;
 
     ext::boolean m_will_declaratively_refresh;
 
@@ -220,10 +224,17 @@ private cpp_properties:
 
     std::unique_ptr<intersection_observer::intersection_observer> m_lazy_load_intersection_observer;
 
-    ext::map<html::detail::image_internals::available_image*, std::byte[]> m_list_of_available_images;
+    ext::map<html::detail::available_image_t*, std::byte[]> m_list_of_available_images;
 
+    // IFrame
     ext::boolean m_iframe_load_in_progress_flag;
     ext::boolean m_mute_iframe_flag;
+
+    // Scripts
+    html::elements::html_script_element* pending_paring_blocking_script;
+    ext::set<html::elements::html_script_element*> set_of_scripts_to_execute;
+    ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order;
+    ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order_when_document_finished_parsing;
 
     /* FULLSCREEN */
     ext::vector<ext::tuple<ext::string, element*>> m_list_of_pending_fullscreen_events;
