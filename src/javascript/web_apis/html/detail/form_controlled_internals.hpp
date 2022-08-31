@@ -1,12 +1,17 @@
 #pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_SELECT_INTERNALS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_SELECT_INTERNALS_HPP
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_CONTROLLED_INTERNALS_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_CONTROLLED_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 #include "ext/vector.hpp"
+
+#include USE_CONCEPTS(html)
+
+namespace html::elements {class html_field_set_element;}
 namespace html::elements {class html_option_element;}
 namespace html::elements {class html_output_element;}
+namespace html::elements {class html_progress_element;}
 namespace html::elements {class html_select_element;}
 namespace html::elements {class html_text_area_element;}
 
@@ -60,7 +65,27 @@ namespace html::detail
     auto text_area_wrapping_transformation(
             elements::html_text_area_element* element)
             -> void;
+
+    auto current_value(
+            html::elements::html_progress_element* element)
+            -> ext::number<double>;
+
+    auto is_disabled_field_set(
+            html::elements::html_field_set_element* element)
+            -> ext::boolean;
+
+    auto is_disabled_form_control(
+            concepts::form_associated auto* element)
+            -> ext::boolean;
+
+    auto reset_form_owner(
+            concepts::form_associated auto* element)
+            -> void;
+
+    auto autofill_hint_set(
+            concepts::form_associated auto* element)
+            -> void;
 };
 
 
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_SELECT_INTERNALS_HPP
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_CONTROLLED_INTERNALS_HPP

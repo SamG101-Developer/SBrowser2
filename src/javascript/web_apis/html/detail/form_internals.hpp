@@ -3,9 +3,13 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_INTERNALS_HPP
 
 #include "ext/string.hpp"
+#include "ext/variant.hpp"
 #include "ext/vector.hpp"
-
+#include USE_INNER_TYPES(html)
 namespace dom::nodes {class node;}
+namespace encoding {class encoding;}
+namespace html::elements {class html_element;}
+namespace html::elements {class html_form_element;}
 
 
 namespace html::detail
@@ -16,6 +20,24 @@ namespace html::detail
     auto determine_value_of_named_property(
             ext::string_view name)
             -> dom::nodes::node*;
+
+    auto default_button(
+            html::elements::html_form_element* element)
+            -> html::elements::html_element*;
+
+    auto create_entry(
+            ext::string_view name,
+            ext::variant<ext::string, file_api::file*>,
+            ext::string_view filename = "")
+            -> detail::entry_t;
+
+    auto construct_entry_list(
+            html::elements::html_form_element* element)
+            -> detail::entry_list_t;
+
+    auto pick_encoding_form_form(
+            html::elements::html_form_element* element)
+            -> encoding::encoding;
 };
 
 
