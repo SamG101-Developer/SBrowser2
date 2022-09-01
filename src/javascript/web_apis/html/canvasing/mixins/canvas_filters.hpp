@@ -12,8 +12,11 @@ class html::canvasing::mixins::canvas_filters
 public js_properties:
     ext::property<ext::string> filter;
 
-public cpp_properties:
+public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+public cpp_properties:
+    DEFINE_SETTER(filter);
 };
 
 
