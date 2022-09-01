@@ -17,7 +17,6 @@ namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}
 namespace html::other {class custom_element_registry;}
-namespace html::other {class bar_prop;}
 namespace html::other {class history;}
 namespace html::other {class location;}
 namespace html::other {class navigator;}
@@ -38,13 +37,6 @@ public js_properties:
     ext::property<std::unique_ptr<html::other::location>> location;
     ext::property<std::unique_ptr<html::other::history>> history;
     ext::property<std::unique_ptr<html::other::custom_element_registry>> custom_elements;
-
-    ext::property<std::unique_ptr<html::other::bar_prop>> location_bar;
-    ext::property<std::unique_ptr<html::other::bar_prop>> menu_bar;
-    ext::property<std::unique_ptr<html::other::bar_prop>> personal_bar;
-    ext::property<std::unique_ptr<html::other::bar_prop>> scroll_bars;
-    ext::property<std::unique_ptr<html::other::bar_prop>> status_bar;
-    ext::property<std::unique_ptr<html::other::bar_prop>> tool_bar;
 
     ext::property<ext::string> status;
     ext::property<ext::boolean> closed;

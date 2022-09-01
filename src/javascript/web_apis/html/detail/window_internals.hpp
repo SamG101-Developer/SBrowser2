@@ -5,6 +5,10 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include <v8-forward.h>
+#include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(url)
+namespace dom::nodes {class window;}
 
 
 namespace html::detail
@@ -36,6 +40,14 @@ namespace html::detail
     auto parse_boolean_feature(
             ext::string_view value)
             -> ext::boolean;
+
+    auto set_up_window_environment_settings_object(
+            const url::detail::url_t& url,
+            v8::Local<v8::Context> execution_context,
+            v8::Isolate* reserved_environment,
+            const url::detail::url_t& top_level_creation_url,
+            const detail::origin_t& top_level_origin)
+            -> dom::nodes::window;
 };
 
 

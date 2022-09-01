@@ -164,6 +164,22 @@ namespace html::detail
     auto number_of_document_tree_child_browsing_contexts(
             dom::nodes::window* window)
             -> ext::number<int>;
+
+    auto document_tree_child_browsing_context_name_property_set(
+            dom::nodes::window* window)
+            -> ext::vector_view<ext::string>;
+
+    auto discard(
+            dom::nodes::document* document)
+            -> void;
+
+    auto discard(
+            const detail::browsing_context_t& document)
+            -> void;
+
+    auto close_browsing_context(
+            const detail::browsing_context_t& document)
+            -> void;
 }
 
 
