@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_IMAGE_DATA_HPP
 
 #include "dom_object.hpp"
+#include "html/mixins/serializable.hpp"
 namespace html::canvasing {class image_data;}
 
 #include USE_INNER_TYPES(html)
@@ -10,6 +11,7 @@ namespace html::canvasing {class image_data;}
 
 class html::canvasing::image_data
         : public virtual dom_object
+        , public mixins::serializable
 {
 public constructors:
     DOM_CTORS(image_data);
@@ -22,6 +24,9 @@ public js_properties:
     ext::property<ext::number<ulong>> height;
     ext::property<std::unique_ptr<ext::vector<ext::number<uchar>>>> data;
     ext::property<detail::predefined_color_space_t> color_space;
+
+private cpp_properties:
+    ext::vector<detail::color_t> m_canvas_pixel_array_buffer;
 };
 
 
