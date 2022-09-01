@@ -10,7 +10,8 @@ class html::mixins::transferable
         : public virtual dom_object
 {
 protected cpp_methods:
-    virtual auto transfer_steps() -> void = 0;
+    virtual auto m_transfer_steps          (ext::map<ext::string, ext::any>& serialized) -> void = 0;
+    virtual auto m_transfer_receiving_steps(ext::map<ext::string, ext::any>& serialized) -> void = 0;
 };
 
 
