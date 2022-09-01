@@ -27,6 +27,7 @@ namespace dom::detail
     using event_listener_options_t = ext::variant<ext::boolean, ext::map<ext::string, ext::any>>;
     using exception_condiditional_t = ext::function<bool()>;
     using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
+    using window_post_message_options_t = ext::map<ext::string, ext::any>;
 }
 
 

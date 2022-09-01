@@ -138,6 +138,8 @@ namespace html::detail
     using focus_options_t = ext::map<ext::string, ext::boolean>;
     using function_string_callback_t = ext::function<void(ext::string&& data)>;
     using browsing_context_set_t = ext::set<browsing_context_t*>;
+    using property_descriptor_t = ext::string; // TODO
+    using cross_origin_property_descriptor_map_t = ext::map<ext::tuple<v8::Object, v8::Object, ext::string>, property_descriptor_t>; // TODO
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
