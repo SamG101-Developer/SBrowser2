@@ -3,6 +3,7 @@
 
 #include "ext/concepts.hpp"
 #include "ext/property.hpp"
+namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 namespace html::elements {class html_element;}
 namespace html::elements {class html_form_element;}
@@ -46,6 +47,20 @@ namespace html::concepts
     {
         requires form_associated<T>;
         {T::labels} -> std::same_as<ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>>&>;
+    };
+
+    template <typename T>
+    concept focusable_area = requires
+    {
+        requires inherit<T, dom::nodes::element>; // TODO || ...
+
+        // TODO
+        //  dom::nodes::element*
+        //  shapes of <area> element
+        //  non-[disabled/inert] sub-widgets being rendered
+        //  scrollable regions og elements being rendered and non-inert
+        //  Document's viewport
+        //  any part of an element
     };
 }
 

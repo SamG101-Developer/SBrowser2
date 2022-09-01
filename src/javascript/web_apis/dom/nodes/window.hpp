@@ -7,6 +7,7 @@ namespace dom::nodes {class window;}
 #include <condition_variable>
 #include <mutex>
 #include <thread>
+#include "ext/vector.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/queue.hpp"
 #include USE_INNER_TYPES(background_tasks)
@@ -45,6 +46,7 @@ private cpp_properties:
     ext::boolean m_has_dispatched_scroll_event = false;
     std::unique_ptr<dom::detail::custom_element_reactions_stack_t> m_custom_element_reaction_stack;
     ext::queue<dom::nodes::element*>* m_current_element_queue;
+    high_resolution_time::detail::dom_high_res_time_stamp_t last_activation_timestamp;
 
     /* BACKGROUND_TASKS */
     ext::vector<background_tasks::detail::idle_request_callback_t> m_idle_request_callbacks;

@@ -148,6 +148,9 @@ private cpp_properties:
     /* FULLSCREEN */
     ext::boolean m_fullscreen_flag;
 
+    /* HTML */
+    ext::boolean m_click_in_progress_flag;
+
 private cpp_accessors:
     DEFINE_GETTER(node_type) override {return ELEMENT_NODE;}
     DEFINE_GETTER(node_name) override {return html_uppercase_qualified_name();};

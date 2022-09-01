@@ -11,6 +11,9 @@ namespace html::mixins {class html_or_svg_element;}
 class html::mixins::html_or_svg_element
         : public virtual dom_object
 {
+public constructors:
+    html_or_svg_element();
+
 public js_methods:
     auto focus(ext::map<ext::string, ext::any>&& options = {}) -> void;
     auto blur();

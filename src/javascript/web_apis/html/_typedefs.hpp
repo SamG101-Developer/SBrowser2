@@ -129,7 +129,8 @@ namespace html::detail
     using image_encode_options_t = ext::map<ext::string, ext::any>;
     using element_definition_options_t = ext::map<ext::string, ext::any>;
     using custom_element_constructor_t = ext::function<elements::html_element*()>;
-    using validity_state_flags = ext::map<ext::string, ext::boolean>;
+    using validity_state_flags_t = ext::map<ext::string, ext::boolean>;
+    using focus_options_t = ext::map<ext::string, ext::boolean>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
