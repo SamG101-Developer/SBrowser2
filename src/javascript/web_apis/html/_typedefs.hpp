@@ -9,8 +9,10 @@
 #include "ext/queue.hpp"
 #include "ext/string.hpp"
 #include "ext/tuple.hpp"
+#include "ext/type_traits.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
+#include <QtGui/QTransform>
 #include USE_INNER_TYPES(fetch)
 
 namespace file_api {class blob;}
@@ -31,6 +33,7 @@ namespace media::source {class media_source;}
 namespace svg::elements {class svg_image_element;}
 namespace webgl2::contexts {class webgl_rendering_context;}
 namespace webgl2::contexts {class webgl2_rendering_context;}
+namespace webgpu {class gpu_canvas_context;}
 
 
 namespace html::detail
@@ -69,6 +72,8 @@ namespace html::detail
     enum class canvas_font_stretch_t {ULTRA_CONDENSED, EXTRA_CONDENSED, CONDENSED, SEMI_CONDENSED, NORMAL, SEMI_EXPANDED, EXPANDED, EXTRA_EXPANDED, ULTRA_EXPANDED};
     enum class canvas_font_variant_caps_t {NORMAL, SMALL_CAPS, ALL_SMALL_CAPS, PETITE_CAPS, ALL_PETITE_CAPS, UNICASE, TITLING_CAPS};
     enum class canvas_text_rendering_t {AUTO, OPTIMIZE_SPEED, OPTIMIZE_LEGIBILITY, GEOMETRIC_PRECISIION};
+    enum class bitmap_mode_t {BLANK, VALID};
+    enum class offscreen_rendering_context_id_t {_2D, BITMAPRENDERER, WEBGL, WEBGL2, WEBGPU};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -86,6 +91,8 @@ namespace html::detail
     struct validity_state_t;
     struct command_facet_t;
     struct script_t;
+    struct subpath_t;
+    struct color_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
@@ -104,6 +111,7 @@ namespace html::detail
             html::canvasing::image_bitmap_rendering_context,
             webgl2::contexts::webgl_rendering_context,
             webgl2::contexts::webgl2_rendering_context>;
+    using offscreen_rendering_context_t = ext::extend_variant<rendering_context_t, webgpu::gpu_canvas_context>;
     using blob_callback_t = ext::function<void(file_api::blob*)>;
     using html_or_svg_image_element_t = ext::variant<elements::html_image_element*, svg::elements::svg_image_element*>;
     using canvas_image_source_t = ext::variant<
@@ -115,6 +123,10 @@ namespace html::detail
             web_codecs::video::video_frame*>;
     using canvas_rendering_context_2d_settings_t = ext::map<ext::string, ext::any>;
     using image_data_settings_t = ext::map<ext::string, ext::any>;
+    using path_t = ext::vector<subpath_t>;
+    using transform_t = QTransform;
+    using image_bitmap_rendering_settings_t = ext::map<ext::string, ext::any>;
+    using image_encode_options_t = ext::map<ext::string, ext::any>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
