@@ -5,6 +5,7 @@
 #include "dom_object.hpp"
 namespace html::mixins {class serializable;}
 
+
 class html::mixins::serializable
         : public virtual dom_object
 {
