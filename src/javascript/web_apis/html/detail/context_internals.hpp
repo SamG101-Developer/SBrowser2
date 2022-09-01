@@ -11,7 +11,8 @@
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
-namespace dom::nodes {class window_proxy;}#
+namespace dom::nodes {class window;}
+namespace dom::nodes {class window_proxy;}
 
 namespace html::detail
 {
@@ -155,6 +156,14 @@ namespace html::detail
             ext::string_view identifier,
             ext::string_view type)
             -> void;
+
+    auto is_script_closable(
+            const browsing_context_t& context)
+            -> ext::boolean;
+
+    auto number_of_document_tree_child_browsing_contexts(
+            dom::nodes::window* window)
+            -> ext::number<int>;
 }
 
 
