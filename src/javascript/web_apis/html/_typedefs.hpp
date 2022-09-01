@@ -59,15 +59,15 @@ namespace html::detail
     enum class canvas_context_mode_t {NONE, PLACEHOLDER, _2D, BITMAP_RENDERER, WEBGL, WEBGL2, WEBGPU};
     enum class predefined_color_space_t {SRGB, DISPLAY_P3};
     enum class canvas_fill_rule_t {NONZERO, EVENODD};
-    enum class image_smoothing_quality {LOW, MEDIUM, HIGH};
-    enum class canvas_line_cap {BUTT, ROUND, SQUARE};
-    enum class canvas_line_join {ROUND, BEVEL, MITER};
-    enum class canvas_text_align {START, END, LEFT, RIGHT, CENTER};
-    enum class canvas_text_baseline {TOP, HANDING, MIDDLE, ALPHABETIC, IDEOGRAPHIC, BOTTOM};
-    enum class canvas_direction {LTR, RTL, INHERIT};
-    enum class canvas_font_kerning {AUTO, NORMAL, NONE};
-    enum class canvas_font_stretch {ULTRA_CONDENSED, EXTRA_CONDENSED, CONDENSED, SEMI_CONDENSED, NORMAL, SEMI_EXPANDED, EXPANDED, EXTRA_EXPANDED, ULTRA_EXPANDED};
-    enum class canvas_font_variant_caps {NORMAL, SMALL_CAPS, ALL_SMALL_CAPS, PETITE_CAPS, ALL_PETITE_CAPS, UNICASE, TITLING_CAPS};
+    enum class image_smoothing_quality_t {LOW, MEDIUM, HIGH};
+    enum class canvas_line_cap_t {BUTT, ROUND, SQUARE};
+    enum class canvas_line_join_t {ROUND, BEVEL, MITER};
+    enum class canvas_text_align_t {START, END, LEFT, RIGHT, CENTER};
+    enum class canvas_text_baseline_t {TOP, HANDING, MIDDLE, ALPHABETIC, IDEOGRAPHIC, BOTTOM};
+    enum class canvas_direction_t {LTR, RTL, INHERIT};
+    enum class canvas_font_kerning_t {AUTO, NORMAL, NONE};
+    enum class canvas_font_stretch_t {ULTRA_CONDENSED, EXTRA_CONDENSED, CONDENSED, SEMI_CONDENSED, NORMAL, SEMI_EXPANDED, EXPANDED, EXTRA_EXPANDED, ULTRA_EXPANDED};
+    enum class canvas_font_variant_caps_t {NORMAL, SMALL_CAPS, ALL_SMALL_CAPS, PETITE_CAPS, ALL_PETITE_CAPS, UNICASE, TITLING_CAPS};
     enum class canvas_text_rendering_t {AUTO, OPTIMIZE_SPEED, OPTIMIZE_LEGIBILITY, GEOMETRIC_PRECISIION};
 
     struct browsing_context_t;
@@ -113,7 +113,7 @@ namespace html::detail
             canvasing::image_bitmap*,
             canvasing::offscreen_canvas*,
             web_codecs::video::video_frame*>;
-    using canvas_rendering_context_2d_settings = ext::map<ext::string, ext::any>;
+    using canvas_rendering_context_2d_settings_t = ext::map<ext::string, ext::any>;
     using image_data_settings_t = ext::map<ext::string, ext::any>;
 }
 
