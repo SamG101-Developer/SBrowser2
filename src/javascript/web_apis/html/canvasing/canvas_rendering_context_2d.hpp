@@ -40,8 +40,8 @@ class html::canvasing::canvas_rendering_context_2d
         , public mixins::canvas_text
         , public mixins::canvas_draw_image
         , public mixins::canvas_image_data
-        , public mixins::canvas_path_drawing_style
-        , public mixins::canvas_text_drawing_style
+        , public mixins::canvas_path_drawing_styles
+        , public mixins::canvas_text_drawing_styles
         , public mixins::canvas_path
 {
 public constructors:
