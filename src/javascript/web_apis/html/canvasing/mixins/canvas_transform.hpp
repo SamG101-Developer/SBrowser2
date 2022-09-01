@@ -5,6 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_transform;}
 
+#include USE_INNER_TYPES(html)
 namespace css::geometry {class dom_matrix;}
 
 
@@ -23,6 +24,9 @@ public js_methods:
 
 public cpp_properties:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_properties:
+    detail::transform_t m_current_transform_matrix;
 };
 
 
