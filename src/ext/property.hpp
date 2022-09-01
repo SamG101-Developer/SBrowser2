@@ -6,7 +6,7 @@
 #include <memory>
 #include "ext/streams.hpp"
 #include "ext/detail/meta_property.hpp"
-namespace ext {template <typename T> class property;}
+namespace ext {template <typename ...Ts> class property;}
 
 #define FORWARD_INNER_VALUE_OPERATOR(op)      \
     template <typename V>                     \
@@ -96,7 +96,7 @@ private:
  * @tparam T Underlying type of the property
  */
 template <typename T>
-class ext::property : private detail::lockable
+class ext::property<T> : private detail::lockable
 {
 public:
     // Access to the value type
@@ -233,6 +233,79 @@ public:
 
 private:
     detail::meta_property<stripped_value_t<U>> m_meta;
+};
+
+
+template <typename ...Ts> requires (sizeof...(Ts) > 1)
+class ext::property<Ts...> : private detail::lockable
+{
+    // Access to the value type
+    friend struct ::access_meta;
+    using value_t = ext::variant<Ts...>;
+
+    // Default constructor
+    property() = default;
+
+    // Copy constructor
+    template <typename ...Ts1>
+    property(const property<Ts1...>& other)
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value = other.m_meta.m_value;
+    }
+
+    template <typename ...Ts1>
+    property(property<Ts1...>&& other)
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+    }
+
+    // Copy value constructor
+    template <typename T>
+    explicit property(const T& other)
+    {m_meta.m_value = other;}
+
+    // Move value constructor
+    template <typename T>
+    explicit property(T&& other)
+    {m_meta.m_value = std::move(other);}
+
+    // Special constructor for variant
+    explicit property(value_t other)
+    {m_meta.m_value = other;}
+
+    // Destructor calls the deleter
+    ~property()
+    {m_meta.m_deleter();}
+
+    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
+    // property)
+    auto operator=(const property&) -> property& = delete;
+    auto operator=(property&&) noexcept -> property& = delete;
+
+    // Getter and setter operators for the property
+    auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
+    template <typename T> auto operator=(const T& value) -> decltype(auto) {return m_meta.m_setter(value);}
+    template <typename T> auto operator=(T&& value) -> decltype(auto) {return m_meta.m_setter(std::move(value));}
+    auto operator=(value_t value) -> decltype(auto) {return m_meta.m_setter(value);}
+
+    // Dereferencing accesses the inner value type of the property (for custom getters and setters)
+    auto operator*() -> decltype(auto) {assert(!m_locked); return m_meta.m_value;}
+    auto operator*() const -> decltype(auto) {assert(!m_locked); return m_meta.m_value;}
+
+    FORWARD_INNER_VALUE_OPERATOR(+=)
+    FORWARD_INNER_VALUE_OPERATOR(-=)
+    FORWARD_INNER_VALUE_OPERATOR(*=)
+    FORWARD_INNER_VALUE_OPERATOR(/=)
+    FORWARD_INNER_VALUE_OPERATOR(%=)
+
+private:
+    detail::meta_property<value_t> m_meta;
 };
 
 
