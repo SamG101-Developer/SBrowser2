@@ -23,11 +23,18 @@ public js_methods:
     auto create_pattern(detail::canvas_image_source_t&& image, ext::string&& repetition) -> canvas_pattern;
 
 public js_properties:
-    ext::variant<ext::string, canvas_gradient*, canvas_pattern*> stroke_style;
-    ext::variant<ext::string, canvas_gradient*, canvas_pattern*> fill_style;
+    ext::property<ext::variant<ext::string, canvas_gradient*, canvas_pattern*>> fill_style;
+    ext::property<ext::variant<ext::string, canvas_gradient*, canvas_pattern*>> stroke_style;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_accessors:
+    DEFINE_GETTER(fill_style);
+    DEFINE_GETTER(stroke_style);
+
+    DEFINE_SETTER(fill_style);
+    DEFINE_SETTER(stroke_style);
 };
 
 
