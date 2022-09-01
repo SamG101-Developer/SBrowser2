@@ -56,6 +56,10 @@ namespace html::detail
     auto appropriate_template_contents_owner_document(
             dom::nodes::document* document)
             -> dom::nodes::document*;
+
+    auto is_blocked_by_modal_dialog(
+            dom::nodes::document* document)
+            -> ext::boolean;
 }
 
 
