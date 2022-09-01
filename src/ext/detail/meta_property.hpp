@@ -4,7 +4,7 @@
 
 #include "ext/functional.hpp"
 
-namespace ext {template <typename T> class property;}
+namespace ext {template <typename ...Ts> class property;}
 namespace ext::detail {template <typename T> class meta_property;}
 namespace ext::detail {class lockable;}
 struct access_meta;
