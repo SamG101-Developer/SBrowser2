@@ -9,7 +9,11 @@ namespace html::canvasing::mixins {class canvas_filters;}
 class html::canvasing::mixins::canvas_filters
         : public virtual dom_object
 {
-    public
+public js_properties:
+    ext::property<ext::string> filter;
+
+public cpp_properties:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 
