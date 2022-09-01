@@ -41,12 +41,17 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
+private cpp_properties:
+    ext::boolean m_attached_internals;
+
 private cpp_accessors:
     DEFINE_GETTER(inner_text);
     DEFINE_GETTER(outer_text) {return inner_text();};
+    DEFINE_GETTER(hidden);
 
     DEFINE_SETTER(inner_text);
     DEFINE_SETTER(outer_text);
+    DEFINE_SETTER(hidden);
 };
 
 

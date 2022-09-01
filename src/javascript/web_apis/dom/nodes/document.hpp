@@ -280,6 +280,8 @@ private cpp_accessors:
     /* PAGE_VISIBILITY */
     DEFINE_GETTER(hidden);
     DEFINE_GETTER(visibility_state);
+
+    DEFINE_SETTER(visibility_state);
 };
 
 
