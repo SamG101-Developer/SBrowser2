@@ -13,7 +13,7 @@ class html::canvasing::mixins::canvas_image_smoothing
 {
 public js_properties:
     ext::property<ext::boolean> image_smoothing_enabled;
-    ext::property<detail::image_smoothing_quality> global_composite_operation;
+    ext::property<detail::image_smoothing_quality_t> global_composite_operation;
 
 public cpp_properties:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
