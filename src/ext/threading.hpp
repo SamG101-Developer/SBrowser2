@@ -10,7 +10,11 @@
 
 _EXT_BEGIN
 
-using namespace BS;
+//using namespace BS;
+using std::thread;
+using std::jthread;
+using std::mutex;
+using std::condition_variable;
 
 _EXT_END
 
