@@ -132,6 +132,7 @@ namespace html::detail
     using custom_element_constructor_t = ext::function<elements::html_element*()>;
     using validity_state_flags_t = ext::map<ext::string, ext::boolean>;
     using focus_options_t = ext::map<ext::string, ext::boolean>;
+    using function_string_callback_t = ext::function<void(ext::string&& data)>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
