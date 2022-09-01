@@ -7,6 +7,7 @@
 #include "ext/map.hpp"
 #include "ext/number.hpp"
 #include "ext/queue.hpp"
+#include "ext/set.hpp"
 #include "ext/string.hpp"
 #include "ext/tuple.hpp"
 #include "ext/type_traits.hpp"
@@ -75,6 +76,7 @@ namespace html::detail
     enum class bitmap_mode_t {BLANK, VALID};
     enum class offscreen_rendering_context_id_t {_2D, BITMAPRENDERER, WEBGL, WEBGL2, WEBGPU};
     enum class autocapitalize_hint_t {DEFAULT, NONE, SENTENCES, WORDS, CHARACTERS};
+    enum class cross_origin_isolation_mode_t {NONE, LOGICAL, CONCRETE};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -94,6 +96,8 @@ namespace html::detail
     struct script_t;
     struct subpath_t;
     struct color_t;
+    struct sandboxing_flag_set_t;
+    struct browsing_context_group_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
@@ -133,6 +137,7 @@ namespace html::detail
     using validity_state_flags_t = ext::map<ext::string, ext::boolean>;
     using focus_options_t = ext::map<ext::string, ext::boolean>;
     using function_string_callback_t = ext::function<void(ext::string&& data)>;
+    using browsing_context_set_t = ext::set<browsing_context_t*>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
