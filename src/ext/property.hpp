@@ -368,22 +368,22 @@ private:
 };
 
 // Wrapper around access_meta::bind_getter, with a lambda wrapper
-#define bind_get(property) access_meta::bind_getter(property, [this] {return get_##property();})
+#define bind_get(property) access_meta::bind_getter(this->property, [this] {return get_##property();})
 
 // Wrapper around access_meta::bind_setter, with a lambda wrapper and perfect forwarding
-#define bind_set(property) access_meta::bind_setter(property, [this]<typename T>(T&& val) mutable {set_##property(std::forward<T>(val)); return std::forward<T>(val);})
+#define bind_set(property) access_meta::bind_setter(this->property, [this]<typename T>(T&& val) mutable {set_##property(std::forward<T>(val)); return std::forward<T>(val);})
 
 // Wrapper around access_meta::bind_deleter, with a lambda wrapper
-#define bind_del(property) access_meta::bind_deleter(property, [this] {del_##property();})
+#define bind_del(property) access_meta::bind_deleter(this->property, [this] {del_##property();})
 
 // Wrapper around property_guard, with a const_cast<T>, so that it works in const getter methods too
-#define guard_property(property) property_guard guard##_property{const_cast<std::remove_const_t<decltype(property)>&>(property)}
+#define guard_property(property) property_guard guard##_property{const_cast<std::remove_const_t<decltype(this->property)>&>(this->property)}
 
 
 #define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property{options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::value_t>()}
 #define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property{options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::value_t>()}
-#define DEFINE_SETTER(p) auto set_##p(const decltype(p)::value_t& val) -> void
-#define DEFINE_GETTER(p) auto get_##p() const -> decltype(p)::value_t
+#define DEFINE_SETTER(p) auto set_##p(const typename decltype(this->p)::value_t& val) -> void
+#define DEFINE_GETTER(p) auto get_##p() const -> typename decltype(this->p)::value_t
 #define DEFINE_DELETER(p) auto del_##p() -> void
 
 
