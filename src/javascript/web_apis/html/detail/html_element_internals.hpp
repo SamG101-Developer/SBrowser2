@@ -178,6 +178,11 @@ namespace html::detail
     auto cancel_dialog(
             html::elements::html_dialog_element* element)
             -> void;
+
+    // Visibility
+    auto ancestor_hidden_until_found_revealing_algorithm(
+            dom::nodes::node* node)
+            -> dom::nodes::node*;
 }
 
 
