@@ -48,8 +48,12 @@ public js_methods:
                  const ext::number<double>& start_angle, const ext::number<double>& end_angle,
                  ext::boolean&& counter_clockwaise = false) -> void;
 
-public cpp_properties:
+public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_properties:
+    ext::boolean needs_new_subpath = true;
+    // TODO : store actual path (QPainterPath)
 };
 
 
