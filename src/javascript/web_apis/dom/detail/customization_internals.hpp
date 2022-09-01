@@ -4,6 +4,7 @@
 #include "ext/boolean.hpp"
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
+#include "ext/optional.hpp"
 #include "ext/queue.hpp"
 #include "ext/stack.hpp"
 #include "ext/string.hpp"
@@ -32,7 +33,7 @@ namespace dom::detail
             -> nodes::element*;
 
     auto upgrade_element(
-            custom_element_definition_t* definition,
+            const custom_element_definition_t& definition,
             nodes::element* element)
             -> void;
 
@@ -45,7 +46,7 @@ namespace dom::detail
             ext::string_view namespace_,
             ext::string_view local_name,
             ext::string_view is)
-            -> custom_element_definition_t*;
+            -> ext::optional<custom_element_definition_t&>;
 
     // enqueue methods for custom elements
     auto enqueue_element_on_appropriate_element_queue(
@@ -60,7 +61,7 @@ namespace dom::detail
 
     auto enqueue_custom_element_upgrade_reaction(
             nodes::element* element,
-            custom_element_definition_t* definition)
+            custom_element_definition_t& definition)
             -> void;
 
     auto enqueue_custom_element_reaction(

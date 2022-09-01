@@ -213,7 +213,7 @@ auto dom::detail::create_an_element(
 
 
 auto dom::detail::upgrade_element(
-        custom_element_definition_t* const definition,
+        const custom_element_definition_t& definition,
         nodes::element* element)
         -> void
 {
@@ -239,7 +239,7 @@ auto dom::detail::upgrade_element(
 
     JS_EXCEPTION_HANDLER;
     throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [definition, element] {return definition->disable_shadow && element->shadow_root_node();},
+            [&definition, element] {return definition.disable_shadow && element->shadow_root_node();},
             "An element being upgraded can not have a 'shadow_root' is not null, but the definition's 'disable_shadow'"
             "is true (can not have a 'shadow_root' set if definition forbids it)",
             {"Element has been attached to a shadow tree", "Element's definition has 'disable_shadow' set to true by accident"},
@@ -267,13 +267,13 @@ auto dom::detail::upgrade_element(
     {
         element->m_custom_element_state = custom_element_state_t::NONE;
         element->m_custom_element_reaction_queue = {};
-        JS_EXCEPTION_RETHROW
+        JS_EXCEPTION_RETHROW;
     }
 
     // handle form associated elements (the form owner has to be reset if the element upgrades, and enqueue a custom
     // element reaction to call the "formAssociatedCallback" callback. If the form associated element is disabled, then
     // enqueue a custom element callback reaction to call the "formDisabledCallback" callback
-    if (html::detail::form_internals::is_form_assiciated(element))
+    if (html::detail::is_form_assiciated(element))
         // TODO : reset form owner
         // TODO : enqueue custom element callback reaction for "formAssociatedCallback)
         // TODO : if element is disabled:
@@ -299,14 +299,14 @@ auto dom::detail::lookup_custom_element_definition(
         const ext::string_view namespace_,
         const ext::string_view local_name,
         const ext::string_view is)
-        -> custom_element_definition_t*
+        -> ext::optional<custom_element_definition_t&>
 {
     if (namespace_ != HTML || !document->m_browsing_context)
-        return nullptr;
+        return ext::nullopt;
 
     // TODO : get the CustomElementRegistry object in the relevant global object
     // TODO : 2 different cases, filter a matching object from the registry entries
 
-    return nullptr;
+    return ext::nullopt;
 }
 
