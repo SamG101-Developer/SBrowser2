@@ -74,6 +74,7 @@ namespace html::detail
     enum class canvas_text_rendering_t {AUTO, OPTIMIZE_SPEED, OPTIMIZE_LEGIBILITY, GEOMETRIC_PRECISIION};
     enum class bitmap_mode_t {BLANK, VALID};
     enum class offscreen_rendering_context_id_t {_2D, BITMAPRENDERER, WEBGL, WEBGL2, WEBGPU};
+    enum class autocapitalize_hint_t {DEFAULT, NONE, SENTENCES, WORDS, CHARACTERS};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;

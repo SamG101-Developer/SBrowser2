@@ -226,6 +226,8 @@ private cpp_properties:
 
     ext::map<html::detail::available_image_t*, std::byte[]> m_list_of_available_images;
 
+    ext::boolean m_design_mode_enabled;
+
     // IFrame
     ext::boolean m_iframe_load_in_progress_flag;
     ext::boolean m_mute_iframe_flag;
@@ -271,11 +273,13 @@ private cpp_accessors:
     DEFINE_GETTER(forms);
     DEFINE_GETTER(scripts);
     DEFINE_GETTER(dir);
+    DEFINE_GETTER(design_mode);
 
     DEFINE_SETTER(ready_state);
     DEFINE_SETTER(cookie);
     DEFINE_SETTER(title);
     DEFINE_SETTER(body);
+    DEFINE_SETTER(design_mode);
 
     /* PAGE_VISIBILITY */
     DEFINE_GETTER(hidden);

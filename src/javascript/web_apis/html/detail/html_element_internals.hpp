@@ -72,6 +72,15 @@ namespace html::detail
             dom::nodes::text* text_node)
             -> void;
 
+    // autocapitalization attribute
+    auto own_capitalization_hint(
+            dom::nodes::element* element)
+            -> detail::autocapitalize_hint_t;
+
+    auto used_capitalization_hint(
+            dom::nodes::element* element)
+            -> detail::autocapitalize_hint_t;
+
     // target attribute (HTMLBaseElement)
     auto get_elements_target(
             const dom::nodes::element* element) // TODO -> change type to 'HTML_[Link/Area/Form]_Element'

@@ -26,6 +26,10 @@ private cpp_properties:
     bool internal_boolean;
 };
 
+
+enum class bool_string_t {_, TRUE, FALSE};
+
+
 _EXT_END
 
 
