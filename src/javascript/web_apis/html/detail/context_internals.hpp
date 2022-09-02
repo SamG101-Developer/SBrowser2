@@ -43,7 +43,7 @@ namespace html::detail
     auto determine_origin(
             detail::browsing_context_t& context,
             const url::detail::url_t& url,
-            const detail::sandboxing_flag_set_t& sandbox_flags,
+            detail::sandboxing_flag_set_t sandbox_flags,
             const detail::origin_t& origin)
             -> detail::origin_t;
 
@@ -215,6 +215,8 @@ struct html::detail::browsing_context_t
     ext::boolean is_popup;
 
     ext::string browsing_context_name;
+
+    sandboxing_flag_set_t popup_sandboxing_set;
 
     ext::vector<dom::nodes::document*> session_history {};
 
