@@ -12,8 +12,25 @@
 
 namespace html::detail
 {
-    auto clone_policy_container(policy_container_t* container) -> policy_container_t*;
-    auto requires_storing_policy_container_in_history(url::detail::url_t& url);
+    auto clone_policy_container(
+            policy_container_t* container)
+            -> policy_container_t*;
+
+    auto requires_storing_policy_container_in_history(
+            url::detail::url_t& url)
+            -> ext::boolean;
+
+    auto match_cross_origin_policy_opener_values(
+            const cross_origin_opener_policy_value_t& policy_a,
+            const origin_t& origin_a,
+            const cross_origin_opener_policy_value_t& policy_b,
+            const origin_t& origin_b)
+            -> ext::boolean;
+
+    auto obtain_cross_origin_opener_policy(
+            const fetch::detail::response_t&,
+            v8::Isolate* reserved_environment)
+            -> cross_origin_opener_policy_t;
 }
 
 
