@@ -78,6 +78,11 @@ namespace html::detail
     enum class offscreen_rendering_context_id_t {_2D, BITMAPRENDERER, WEBGL, WEBGL2, WEBGPU};
     enum class autocapitalize_hint_t {DEFAULT, NONE, SENTENCES, WORDS, CHARACTERS};
     enum class cross_origin_isolation_mode_t {NONE, LOGICAL, CONCRETE};
+    enum class sandboxing_flag_set_t : long {NAVIGATION = 0x01, AUXILIARY_NAVIGATION = 0x02,
+            TOP_LEVEL_NAVIGATION_WITHOUT_USER_ACTIVATION = 0x04, TOP_LEVEL_NAVIGATION_WITH_USER_ACTIVATION = 0x08,
+            PLUGINS = 0x10, ORIGIN = 0x20, FORMS = 0x40, POINTER_LOCK = 0x80, SCRIPTS = 0x100,
+            AUTOMATIC_FEATURES = 0x200, DOCUMENT_DOMAIN = 0x400, PROPAGATES_TO_AUXILIARY = 0x800, MODALS = 0x1000,
+            ORIENTATION = 0x2000, PRESENTATION = 0x4000, DOWNLOADS = 0x8000, CUSTOM_PROTOCOLS = 0x16000};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -97,7 +102,6 @@ namespace html::detail
     struct script_t;
     struct subpath_t;
     struct color_t;
-    struct sandboxing_flag_set_t;
     struct browsing_context_group_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
