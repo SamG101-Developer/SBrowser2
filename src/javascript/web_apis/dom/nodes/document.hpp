@@ -228,6 +228,8 @@ private cpp_properties:
 
     ext::boolean m_design_mode_enabled;
 
+    html::detail::sandboxing_flag_set_t active_sandboxing_set;
+
     // IFrame
     ext::boolean m_iframe_load_in_progress_flag;
     ext::boolean m_mute_iframe_flag;
