@@ -15,6 +15,7 @@
 #include "ext/vector.hpp"
 #include <QtGui/QTransform>
 #include USE_INNER_TYPES(fetch)
+#include USE_INNER_TYPES(url)
 
 namespace file_api {class blob;}
 namespace file_api {class file;}
@@ -102,8 +103,6 @@ namespace html::detail
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
     using response_available_function_t = ext::function<void(fetch::detail::response_t*)>;
-    using tuple_origin_t = ext::tuple<ext::string, ext::string, ext::number<short>, ext::string>;
-    using origin_t = ext::variant<ext::string, tuple_origin_t>;
     using task_t = ext::function<void()>;
     using task_queue_t = ext::queue<task_t>;
     using media_provider_t = ext::variant<mediacapture::main::media_stream*, media::source::media_source*, file_api::blob*>;
@@ -140,6 +139,11 @@ namespace html::detail
     using browsing_context_set_t = ext::set<browsing_context_t*>;
     using property_descriptor_t = ext::string; // TODO
     using cross_origin_property_descriptor_map_t = ext::map<ext::tuple<v8::Object, v8::Object, ext::string>, property_descriptor_t>; // TODO
+    using tuple_origin_t = ext::tuple<ext::string, ext::string, ext::number<short>, url::detail::domain_t>;
+    using opaque_origin_t = ext::string;
+    using origin_t = ext::variant<opaque_origin_t, tuple_origin_t>;
+    using scheme_and_host_t = ext::tuple<ext::string, ext::string>;
+    using site_t = ext::variant<opaque_origin_t, scheme_and_host_t>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP

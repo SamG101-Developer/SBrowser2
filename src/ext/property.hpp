@@ -382,7 +382,7 @@ private:
 
 #define SET_PROPERTY_FROM_OPTIONS(options, property, default_) property{options.try_emplace(_EXT snake_to_camel(#property), default_).first->second.template to<decltype(property)::value_t>()}
 #define SET_PROPERTY_FROM_OPTIONS_NO_DEFAULT(options, property) property{options.try_emplace(_EXT snake_to_camel(#property)).first->second.template to<decltype(property)::value_t>()}
-#define DEFINE_SETTER(p) auto set_##p(const typename decltype(this->p)::value_t& val) -> void
+#define DEFINE_SETTER(p) auto set_##p(const typename decltype(p)::value_t& val) -> void
 #define DEFINE_GETTER(p) auto get_##p() const -> typename decltype(this->p)::value_t
 #define DEFINE_DELETER(p) auto del_##p() -> void
 

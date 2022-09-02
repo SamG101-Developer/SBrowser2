@@ -274,12 +274,14 @@ private cpp_accessors:
     DEFINE_GETTER(scripts);
     DEFINE_GETTER(dir);
     DEFINE_GETTER(design_mode);
+    DEFINE_GETTER(domain);
 
     DEFINE_SETTER(ready_state);
     DEFINE_SETTER(cookie);
     DEFINE_SETTER(title);
     DEFINE_SETTER(body);
     DEFINE_SETTER(design_mode);
+    DEFINE_SETTER(domain);
 
     /* PAGE_VISIBILITY */
     DEFINE_GETTER(hidden);
