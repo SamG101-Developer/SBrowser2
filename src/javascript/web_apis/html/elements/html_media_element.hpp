@@ -18,6 +18,10 @@ namespace mediacapture::main {class media_stream;}
 class html::elements::html_media_element
         : public html_element
 {
+public constructors:
+    DOM_CTORS(html_media_element);
+    html_media_element() = default;
+
 public js_static_constants:
     constexpr static const ext::number<ushort> NETWORK_EMPTY = 0;
     constexpr static const ext::number<ushort> NETWORK_IDLE = 1;

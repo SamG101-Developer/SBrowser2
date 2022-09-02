@@ -16,6 +16,7 @@ class html::elements::html_element
         , public mixins::html_or_svg_element
 {
 public constructors:
+    DOM_CTORS(html_element);
     html_element();
 
 public js_methods:
