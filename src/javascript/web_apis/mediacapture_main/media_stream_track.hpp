@@ -8,7 +8,9 @@
 namespace mediacapture::main {class media_stream_track;}
 
 #include "ext/promise.hpp"
+#include USE_INNER_TYPES(mediacapture_handle)
 #include USE_INNER_TYPES(mediacapture_main)
+
 
 class mediacapture::main::media_stream_track
         : public dom::nodes::event_target
@@ -24,6 +26,11 @@ private constructors:
 public js_methods:
     auto clone() const -> media_stream_track;
     auto stop() -> void;
+
+    /* MEDIACAPTURE_HANDLE */
+    auto get_capture_handle() -> detail::capture_handle_t;
+    auto get_supported_capture_actions() -> ext::vector_view<ext::string>;
+    auto send_capture_action(detail::capture_action_t action) -> ext::promise<void>;
 
 public js_properties:
     ext::property<ext::string> kind;

@@ -13,6 +13,7 @@ namespace mediacapture::main {class media_devices;}
 #include USE_INNER_TYPES(mediacapture_main)
 #include USE_INNER_TYPES(mediacapture_extensions)
 #include USE_INNER_TYPES(mediacapture_output)
+#include USE_INNER_TYPES(mediacapture_handle)
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}
 
@@ -31,6 +32,10 @@ public js_methods:
 
     /* MEDIACAPTURE_OUTPUT */
     auto select_audio_output(detail::audio_output_options_t&& options = {}) -> ext::promise<media_device_info>;
+
+    /* MEDIACAPTURE_HANDLE */
+    auto set_capture_handle_config(detail::capture_handle_config_t&& config = {}) -> void;
+    auto set_supported_capture_actions(ext::vector_view<ext::string> actions) -> void;
 };
 
 
