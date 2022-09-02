@@ -47,7 +47,9 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
+    /* HTML */
     ext::boolean m_current_navigation_lazy_loaded = true;
+    detail::sandboxing_flag_set_t sandboxing_set;
 
     /* FULLSCREEN */
     ext::boolean m_iframe_fullscreen_flag;
