@@ -21,16 +21,4 @@ namespace clipboard::detail
 }
 
 
-struct clipboard::detail::representation_t
-{
-    mimesniff::detail::mime_type_t mime_type;
-    clipboard_item_data_t data;
-};
-
-struct clipboard::detail::clipboard_item_t
-{
-    ext::vector<representation_t> list_of_representations;
-    presentation_style_t presentation_style;
-};
-
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
