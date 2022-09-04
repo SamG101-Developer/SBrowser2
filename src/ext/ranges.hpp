@@ -36,6 +36,7 @@ namespace ranges::views {struct take_until_fn;}
 namespace ranges::views {struct drop_until_fn;}
 namespace ranges::views {struct transform_to_attr_fn;}
 namespace ranges::views {struct transform_if_fn;}
+namespace ranges::views {template <typename T> struct transform_to_obj_fn;}
 namespace ranges::views {template <typename T> struct cast_all_to_fn;}
 namespace ranges::views {template <filter_compare_t Comparison> struct filter_eq_fn;}
 namespace ranges::views {struct transpose_fn;}
@@ -156,6 +157,21 @@ struct ranges::views::transform_if_fn // TODO : optimize so if isn't in for 'tra
         return ranges::views::transform(
                 [&predicate_if, predicate_transform = std::forward<F1>(predicate_transform)]<typename T>
                 (T&& element) mutable {return predicate_if ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
+    }
+};
+
+
+template <typename T>
+struct ranges::views::transform_to_obj_fn
+{
+    constexpr auto operator()() const
+    {
+        return ranges::views::transform(
+                []<typename ...Args>(Args&&... args) mutable
+                {
+                    constexpr_return_if(std::is_pointer_v<T>) new T{std::forward<Args>(args)...};
+                    return T{std::forward<Args>(args)...};
+                });
     }
 };
 
@@ -373,6 +389,7 @@ namespace ranges::views {constexpr take_until_fn take_until;}
 namespace ranges::views {constexpr drop_until_fn drop_until;}
 namespace ranges::views {constexpr transform_to_attr_fn transform_to_attr;}
 namespace ranges::views {constexpr transform_if_fn transform_if;}
+namespace ranges::views {template <typename T> constexpr transform_to_obj_fn<T> transform_to_obj;}
 namespace ranges::views {template <typename T> constexpr cast_all_to_fn<T> cast_all_to;}
 namespace ranges::views {template <filter_compare_t Comparison> constexpr filter_eq_fn<Comparison> filter_eq;}
 namespace ranges::views {constexpr transpose_fn transpose;}
