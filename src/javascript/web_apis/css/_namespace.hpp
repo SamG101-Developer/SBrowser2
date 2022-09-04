@@ -11,7 +11,11 @@ namespace html::workers {class worklet;}
 class css::css
         : public virtual dom_object
 {
+    /* CSS_ANIMATION_WORKLET */
     static ext::property<std::unique_ptr<html::workers::worklet>> animation_worklet;
+
+    /* CSS_LAYOUT */
+    static ext::property<std::unique_ptr<html::workers::worklet>> layout_worklet;
 };
 
 
