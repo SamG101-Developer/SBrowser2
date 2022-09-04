@@ -8,7 +8,7 @@
 #include "ext/set.hpp"
 #include USE_INNER_TYPES(mimesniff)
 
-namespace mimesniff::detail::mimetype_internals
+namespace mimesniff::detail
 {
     auto essence(
             const mime_type_t& mime_type)

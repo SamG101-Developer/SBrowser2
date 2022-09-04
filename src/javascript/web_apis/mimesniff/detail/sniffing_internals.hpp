@@ -5,7 +5,7 @@
 
 #include USE_INNER_TYPES(mimesniff)
 
-namespace mimesniff::detail::sniffing_internals
+namespace mimesniff::detail
 {
     auto sniff_images_specifically(
             const resource_t& resource)

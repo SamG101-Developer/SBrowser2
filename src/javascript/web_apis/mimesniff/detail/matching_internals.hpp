@@ -7,7 +7,7 @@
 #include "ext/set.hpp"
 #include USE_INNER_TYPES(mimesniff)
 
-namespace mimesniff::detail::matching_internals
+namespace mimesniff::detail
 {
     auto pattern_matching_algorithm(
             char* input,

@@ -5,7 +5,7 @@
 #include <bit>
 #include "ext/boolean.hpp"
 
-namespace mimesniff::detail::token_internals
+namespace mimesniff::detail
 {
     auto is_http_token_code_point(
             char32_t code_point)

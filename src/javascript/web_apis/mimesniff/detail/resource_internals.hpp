@@ -5,7 +5,7 @@
 
 #include USE_INNER_TYPES(mimesniff)
 
-namespace mimesniff::detail::resource_internals
+namespace mimesniff::detail
 {
     auto determine_computed_mime_type_of_resource(
             const resource_t& resource)
