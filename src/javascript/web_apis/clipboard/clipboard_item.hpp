@@ -26,6 +26,9 @@ public js_properties:
     ext::property<detail::presentation_style_t> presentation_style;
     ext::property<ext::vector<ext::string>> types;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+
 private cpp_properties:
     detail::clipboard_item_t m_clipboard_item;
     ext::vector<ext::string> m_types_array;

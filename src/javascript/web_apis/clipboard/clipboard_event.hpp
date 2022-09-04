@@ -16,7 +16,7 @@ public constructors:
     clipboard_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public js_properties:
-    ext::property<html::dnd::data_transfer*> clipboard_data;
+    ext::property<std::unique_ptr<html::dnd::data_transfer>> clipboard_data;
 };
 
 

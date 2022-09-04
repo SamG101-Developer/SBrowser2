@@ -13,11 +13,10 @@ class clipboard::clipboard
         : public dom::nodes::event_target
 {
 public constructors:
-    DOM_CTORS(clipboard);
     clipboard() = default;
     
 public js_methods:
-    auto read() -> ext::promise<ext::vector<clipboard_item*>>;
+    auto read() -> ext::promise<ext::vector<clipboard_item>>;
     auto read_text() -> ext::promise<ext::string>;
     auto write(ext::vector<clipboard_item*> data) -> ext::promise<void>;
     auto write_text(ext::string&& data) -> ext::promise<void>;
