@@ -31,8 +31,6 @@ public constructors:
     dom_object() = default;
     virtual ~dom_object() = default;
 
-    DOM_CTORS(dom_object);
-
 public cpp_methods:
     virtual auto to_v8(v8::Isolate* isolate) const && -> ext::any = 0;
     virtual auto to_json() const -> ext::string {return "";}
