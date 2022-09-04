@@ -1,5 +1,7 @@
 #include "clipboard_event.hpp"
 
+#include "html/dnd/data_transfer.hpp"
+
 
 clipboard::clipboard_event::clipboard_event(
         ext::string&& event_type,
