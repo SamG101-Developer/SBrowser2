@@ -14,8 +14,7 @@ class event_timing::performance_event_timing
         : public performance_timeline::performance_entry
 {
 public constructors:
-    DOM_CTORS(performance_event_timing);
-    performance_event_timing() = default;
+    performance_event_timing();
 
 public js_properties:
     ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> processing_start;
@@ -25,6 +24,7 @@ public js_properties:
     ext::property<ext::number<ulonglong>> interaction_id;
 
 public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
     auto to_json() const -> ext::string override;
 
 private cpp_properties:

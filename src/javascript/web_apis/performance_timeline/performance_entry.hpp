@@ -12,7 +12,6 @@ class performance_timeline::performance_entry
         : public dom_object
 {
 public constructors:
-    DOM_CTORS(performance_entry);
     performance_entry() = default;
 
 public js_properties:
