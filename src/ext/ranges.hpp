@@ -167,10 +167,10 @@ struct ranges::views::transform_to_obj_fn
     constexpr auto operator()() const
     {
         return ranges::views::transform(
-                []<typename ...Args>(Args&&... args) mutable
+                []<typename U>(U&& arg) mutable
                 {
-                    constexpr_return_if(std::is_pointer_v<T>) new T{std::forward<Args>(args)...};
-                    return T{std::forward<Args>(args)...};
+                    constexpr_return_if(std::is_pointer_v<T>) new T{std::forward<U>(arg)};
+                    return T{std::forward<U>(arg)};
                 });
     }
 };
