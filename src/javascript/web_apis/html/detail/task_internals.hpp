@@ -7,6 +7,7 @@
 
 namespace html::detail
 {
+    /* DOM -- HTML */
     task_queue_t timer_task_source;
     task_queue_t dom_manipulation_task_source;
     task_queue_t user_interaction_task_source;
@@ -31,6 +32,12 @@ namespace html::detail
 
     /* GEOLOCATION */
     task_queue_t geolocation_task_source;
+
+    /* PERMISSIONS */
+    task_queue_t permissions_task_source;
+
+    /* CLIPBOARD */
+    task_queue_t clipboard_task_source;
 }
 
 
