@@ -5,6 +5,7 @@
 
 #include "dom/other/dom_implementation.hpp"
 #include "javascript/environment/environment_module.hpp"
+#include "javascript/environment/realms_2.hpp"
 
 #include "javascript/interop/automatic_object_conversions/cpp_object_to_v8.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_any.hpp"
@@ -51,6 +52,9 @@
 #include "dom/ranges/abstract_range.hpp"
 #include "dom/ranges/range.hpp"
 #include "dom/ranges/static_range.hpp"
+
+#include "event_timing/event_counts.hpp"
+#include "event_timing/interaction_counts.hpp"
 
 #include <v8-context.h>
 #include <v8-isolate.h>
@@ -141,6 +145,9 @@ inline auto javascript::interop::expose(
             EXPOSE_CLASS_TO_MODULE(EventTarget, dom::nodes::event_target);
         }
     }
+
+    javascript::environment::realms_2::set(local_context->Global(), "$EventCounts", new event_timing::event_counts{});
+    javascript::environment::realms_2::set(local_context->Global(), "$InteractionCounts", new event_timing::interaction_counts{});
 
     return persistent_context;
 }
