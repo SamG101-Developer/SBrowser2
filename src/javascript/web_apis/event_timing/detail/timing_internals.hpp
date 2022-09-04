@@ -16,6 +16,10 @@ namespace event_timing {class performance_event_timing;}
 
 namespace event_timing::detail
 {
+    auto should_event_be_considered_for_event_timing(
+            dom::events::event* event)
+            -> ext::boolean;
+
     auto should_add_performance_event_timing(
             performance_event_timing* entry,
             performance_observer_init_t&& options)
