@@ -22,6 +22,7 @@ struct mimesniff::detail::mime_type_t
     ext::map<ext::string, ext::string> parameters;
 
     auto operator==(const mime_type_t&) const -> bool = default;
+    auto operator==(ext::string_view) const -> bool;
 };
 
 
