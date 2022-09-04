@@ -21,6 +21,7 @@ namespace dom::nodes {class document;}
 #include <range/v3/view/any_view.hpp>
 
 #include USE_INNER_TYPES(css/css_animation_worklet)
+#include USE_INNER_TYPES(css/css_layout)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(permissions_policy)
 #include USE_INNER_TYPES(page_visibility)
@@ -247,7 +248,10 @@ private cpp_properties:
     ext::set<ext::string> m_previously_reported_paints;
 
     /* CSS_ANIMATION_WORKLET */
-    ext::property<ext::map<ext::string, css::detail::document_animator_definition_t>> m_document_animator_definitions;
+    ext::map<ext::string, css::detail::document_animator_definition_t*> m_document_animator_definitions;
+
+    /* CSS_LAYOUT */
+    ext::map<ext::string, css::detail::document_layout_definition_t*> m_document_layout_definitions;
 
 private cpp_accessors:
     /* DOM */
