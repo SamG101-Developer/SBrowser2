@@ -11,7 +11,7 @@
 #include <range/v3/range/operations.hpp>
 
 
-auto mimesniff::detail::mimetype_internals::essence(
+auto mimesniff::detail::essence(
         const detail::mime_type_t& mime_type)
         -> ext::string
 {
@@ -19,29 +19,29 @@ auto mimesniff::detail::mimetype_internals::essence(
 }
 
 
-auto mimesniff::detail::mimetype_internals::parse_mime_type(
+auto mimesniff::detail::parse_mime_type(
         ext::string input)
         -> ext::optional<mime_type_t>
 {
-    infra::detail::infra_string_internals::strip_leading_and_trailing_ascii_whitespace(input);
+    infra::detail::strip_leading_and_trailing_ascii_whitespace(input);
     auto position = input.begin();
 
-    auto type = infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, char(0x002f));
-    return_if (type.empty() || !ranges::all_of(type, token_internals::is_http_token_code_point)) ext::nullopt;
+    auto type = infra::detail::collect_code_points_not_matching(input, position, char(0x002f));
+    return_if (type.empty() || !ranges::all_of(type, is_http_token_code_point)) ext::nullopt;
     return_if (position >= input.end()) ext::nullopt;
     ranges::advance(position, 1);
 
-    auto subtype = infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, char(0x003b));
-    infra::detail::infra_string_internals::strip_trailing_ascii_whitespace(subtype);
-    return_if (subtype.empty() || !ranges::all_of(subtype, token_internals::is_http_token_code_point)) ext::nullopt;
+    auto subtype = infra::detail::collect_code_points_not_matching(input, position, char(0x003b));
+    infra::detail::strip_trailing_ascii_whitespace(subtype);
+    return_if (subtype.empty() || !ranges::all_of(subtype, is_http_token_code_point)) ext::nullopt;
 
     mime_type_t mime_type {.type = type, .sub_type = subtype};
     while (position < input.end())
     {
         ranges::advance(position, 1);
-        infra::detail::infra_string_internals::collect_ascii_whitespace(input, position);
+        infra::detail::collect_ascii_whitespace(input, position);
 
-        auto parameter_name = infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, char(0x003b), char(0x003d));
+        auto parameter_name = infra::detail::collect_code_points_not_matching(input, position, char(0x003b), char(0x003d));
         if (position < input.end())
         {
             continue_if (*position == char(0x003b));
@@ -53,19 +53,19 @@ auto mimesniff::detail::mimetype_internals::parse_mime_type(
         ext::string parameter_value;
         if (*position == char(0x0022))
         {
-            parameter_value = fetch::detail::http_internals::collect_http_quoted_string(input, position, true);
-            infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, char(0x003b));
+            parameter_value = fetch::detail::collect_http_quoted_string(input, position, true);
+            infra::detail::collect_code_points_not_matching(input, position, char(0x003b));
         }
         else
         {
-            parameter_value = infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, char(0x003b));
-            infra::detail::infra_string_internals::strip_trailing_ascii_whitespace(parameter_value);
+            parameter_value = infra::detail::collect_code_points_not_matching(input, position, char(0x003b));
+            infra::detail::strip_trailing_ascii_whitespace(parameter_value);
             continue_if (parameter_value.empty());
         }
 
         if (!parameter_name.empty()
-                && ranges::all_of(parameter_name, token_internals::is_http_quoted_string_token_code_point)
-                && ranges::all_of(parameter_value, token_internals::is_http_quoted_string_token_code_point)
+                && ranges::all_of(parameter_name, is_http_quoted_string_token_code_point)
+                && ranges::all_of(parameter_value, is_http_quoted_string_token_code_point)
                 && !mime_type.parameters.contains(parameter_name))
             mime_type.parameters.emplace(std::move(parameter_name), std::move(parameter_value));
     }
@@ -74,7 +74,7 @@ auto mimesniff::detail::mimetype_internals::parse_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::serialize_mime_type(
+auto mimesniff::detail::serialize_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::string
 {
@@ -85,7 +85,7 @@ auto mimesniff::detail::mimetype_internals::serialize_mime_type(
         serialization += name;
         serialization += char(0x003d);
 
-        if (!ranges::all_of(value, token_internals::is_http_token_code_point))
+        if (!ranges::all_of(value, is_http_token_code_point))
         {
             value |= ranges::actions::replace(ext::string{char(0x0022)}, ext::string{char(0x0022)} + char(0x005c));
             value.insert(value.begin(), char(0x0022));
@@ -99,7 +99,7 @@ auto mimesniff::detail::mimetype_internals::serialize_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_image_mime_type(
+auto mimesniff::detail::is_image_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -107,7 +107,7 @@ auto mimesniff::detail::mimetype_internals::is_image_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_audio_or_video_mime_type(
+auto mimesniff::detail::is_audio_or_video_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -118,7 +118,7 @@ auto mimesniff::detail::mimetype_internals::is_audio_or_video_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_font_mime_type(
+auto mimesniff::detail::is_font_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -130,7 +130,7 @@ auto mimesniff::detail::mimetype_internals::is_font_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_zip_based_mime_type(
+auto mimesniff::detail::is_zip_based_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -141,7 +141,7 @@ auto mimesniff::detail::mimetype_internals::is_zip_based_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_archive_mime_type(
+auto mimesniff::detail::is_archive_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -152,7 +152,7 @@ auto mimesniff::detail::mimetype_internals::is_archive_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_xml_mime_type(
+auto mimesniff::detail::is_xml_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -163,7 +163,7 @@ auto mimesniff::detail::mimetype_internals::is_xml_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_html_mime_type(
+auto mimesniff::detail::is_html_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -174,7 +174,7 @@ auto mimesniff::detail::mimetype_internals::is_html_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_scriptable_mime_type(
+auto mimesniff::detail::is_scriptable_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -185,7 +185,7 @@ auto mimesniff::detail::mimetype_internals::is_scriptable_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_javascript_mime_type(
+auto mimesniff::detail::is_javascript_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {
@@ -199,7 +199,7 @@ auto mimesniff::detail::mimetype_internals::is_javascript_mime_type(
 }
 
 
-auto mimesniff::detail::mimetype_internals::is_json_mime_type(
+auto mimesniff::detail::is_json_mime_type(
         const detail::mime_type_t& mime_type)
         -> ext::boolean
 {

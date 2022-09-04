@@ -5,7 +5,7 @@
 #include <range/v3/view/iota.hpp>
 
 
-auto mimesniff::detail::token_internals::is_http_token_code_point(
+auto mimesniff::detail::is_http_token_code_point(
         char32_t code_point)
         -> ext::boolean
 {
@@ -17,7 +17,7 @@ auto mimesniff::detail::token_internals::is_http_token_code_point(
 }
 
 
-auto mimesniff::detail::token_internals::is_http_quoted_string_token_code_point(
+auto mimesniff::detail::is_http_quoted_string_token_code_point(
         char32_t code_point)
         -> ext::boolean
 {
@@ -29,7 +29,7 @@ auto mimesniff::detail::token_internals::is_http_quoted_string_token_code_point(
 }
 
 
-auto mimesniff::detail::token_internals::is_binary_byte(
+auto mimesniff::detail::is_binary_byte(
         char16_t byte)
         -> ext::boolean
 {
@@ -42,7 +42,7 @@ auto mimesniff::detail::token_internals::is_binary_byte(
 }
 
 
-auto mimesniff::detail::token_internals::is_whitespace_byte(
+auto mimesniff::detail::is_whitespace_byte(
         char16_t byte)
         -> ext::boolean
 {
@@ -51,7 +51,7 @@ auto mimesniff::detail::token_internals::is_whitespace_byte(
 }
 
 
-auto mimesniff::detail::token_internals::is_tag_terminating_byte(
+auto mimesniff::detail::is_tag_terminating_byte(
         char16_t byte)
         -> ext::boolean
 {
