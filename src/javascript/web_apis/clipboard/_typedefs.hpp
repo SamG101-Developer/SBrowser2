@@ -16,7 +16,6 @@ namespace clipboard::detail
     struct clipboard_item_t;
 
     enum class presentation_style_t {UNSPECIFIED, INLINE, ATTACHMENT};
-    using system_clipboard_t = QClipboard;
 
     using clipboard_item_data_t = ext::variant<ext::promise<ext::string>, ext::promise<file_api::blob*>>;
 }
