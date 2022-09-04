@@ -11,8 +11,12 @@
 #include "dom/other/dom_exception.hpp"
 
 #include "html/detail/task_internals.hpp"
+#include "mimesniff/detail/mimetype_internals.hpp"
 
+#include <range/v3/view/cache1.hpp>
+#include <range/v3/view/map.hpp>
 #include <range/v3/view/filter.hpp>
+#include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 
 
@@ -39,12 +43,13 @@ auto clipboard::clipboard::read()
         // Otherwise, the user agent is allowed to read from the clipboard, so queue a task on the clipboard task source
         // that resolved the promise with the clipboard data -- a transformation of the mime_type-data map to a list of
         // ClipboardItem objects.
-        auto clipboard_data = detail::system_clipboard_data();
+        auto data = detail::system_clipboard_data();
         dom::detail::queue_task(html::detail::clipboard_task_source,
-                [&promise, &clipboard_data]
-                {promise.resolve(clipboard_data
-                        | ranges::views::transform_to_obj<clipboard_item>())
-                        | ranges::to<ext::vector<clipboard_item>>;});
+                [&promise, &data]
+                {promise.resolve(data
+                        | ranges::views::cache1
+                        | ranges::views::transform_to_obj<clipboard_item>()
+                        | ranges::to<ext::vector<clipboard_item>>);});
     };
 
     // Return the promise, while the above parallel method works on the promise.
@@ -75,37 +80,42 @@ auto clipboard::clipboard::read_text()
         // Otherwise, the user agent is allowed to read from the clipboard, so queue a task on the clipboard task source
         // that resolved the promise with the clipboard data -- a transformation of the mime_type-data map to a list of
         // ClipboardItem objects.
-        auto clipboard_data = detail::system_clipboard_data();
-        dom::detail::queue_task(html::detail::clipboard_task_source,
-                [&promise, &clipboard_data]
+        auto data = detail::system_clipboard_data();
+        dom::detail::queue_task(html::detail::clipboard_task_source, [&promise, &data]
+        {
+            auto item_type_list = data
+                    | ranges::views::take(1)
+                    | ranges::views::cache1
+                    | ranges::views::transform_to_obj<clipboard_item>()
+                    | ranges::views::transform_to_attr(&clipboard_item::m_clipboard_item)
+                    | ranges::views::transform_to_attr(&detail::clipboard_item_t::list_of_representations)
+                    | ranges::views::join
+                    ;
+
+            using enum ranges::views::filter_compare_t;
+            for (auto& representation: item_type_list
+                    | ranges::views::filter_eq<EQ>(&detail::representation_t::mime_type, "text/plain", mimesniff::detail::essence))
+
+                // React to the 'promise' in different ways, depending on the 'mime_type'.
+                promise.react([&promise]<typename T>(T&& value) mutable
                 {
-                    for (auto& data: clipboard_data
-                            | ranges::views::transform_to_obj<clipboard_item>())
-                            | ranges::views::filter([](auto&& pair) {return pair.second.mime_type == "text/plain";}))
+                    // Resolving a promise with T matching ext::string
+                    if constexpr (type_is<T, ext::string, ext::string_view>)
+                        promise.template resolve(std::forward<T>(value));
 
-                        // React to the 'promise' in different ways, depending on the 'mime_type'.
-                        promise.react(
-                                [&promise]<typename T>(T&& value) mutable
-                                {
-                                    // Resolving a promise with T matching ext::string || ext::string_view: create a Blob object with
-                                    // the bytes set to the 'value' argument (forwarded), and the options dictionary containing a
-                                    // "type", which is the serialization of 'mime_type'.
-                                    if constexpr (type_is<T, ext::string, ext::string_view>)
-                                        promise.template resolve(std::forward<T>(value));
+                        // Resolving a promise with T matching Blob
+                    else if constexpr (type_is<T, file_api::blob*>)
+                        promise.template resolve(value->s_byte_sequence());
+                },
 
-                                        // Resolving a promise with T matching Blob: forward the Blob object into the resolve method.
-                                    else if constexpr (type_is<T, file_api::blob*>)
-                                        promise.template resolve(value->s_byte_sequence());
-                                },
-
-                                [&promise]
-                                {
-                                    // Rejecting the promise: create a NOT_FOUND_ERR dom exception, and reject the promise with it.
-                                    promise.reject(std::move(dom::other::dom_exception{"Error", NOT_FOUND_ERR}));
-                                });
-
+                [&promise]
+                {
+                    // Rejecting the promise: create a NOT_FOUND_ERR dom exception, and reject the promise with it.
                     promise.reject(std::move(dom::other::dom_exception{"Error", NOT_FOUND_ERR}));
-                    return promise;
                 });
+
+            promise.reject(std::move(dom::other::dom_exception{"Error", NOT_FOUND_ERR}));
+            return promise;
+        });
     };
 }
