@@ -12,8 +12,10 @@ class event_timing::event_counts
         , public ext::map_like_linked<ext::string, ext::number<ulonglong>>
 {
 public constructors:
-    DOM_CTORS(event_counts);
     event_counts() = default;
+
+public js_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 

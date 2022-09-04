@@ -12,10 +12,11 @@ class event_timing::interaction_counts
         , public ext::map_like_linked<ext::string, ext::number<ulonglong>>
 {
 public constructors:
-    DOM_CTORS(interaction_counts);
     interaction_counts() = default;
-};
 
+public js_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EVENT_TIMING_INTERACTION_COUNTS_HPP
