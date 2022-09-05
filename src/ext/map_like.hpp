@@ -24,7 +24,7 @@ public cpp_operators:
 
 
 /**
- * The `map_like_linked` class is an extension to the inherited `nap_like` clas, as there is a constructor that allows
+ * The `map_like_linked` class is an extension to the inherited `map_like` class, as there is a constructor that allows
  * for a reference to a map to be linked to, and the [] operator is defined to access this linked map. In other words,
  * it is syntactic sugar for using the `map_like` class, and defining the [] operator in every class to use a `map`
  * attribute
@@ -35,15 +35,15 @@ template <typename K, typename V>
 class map_like_linked : public map_like<K, V>
 {
 public constructors:
-    explicit map_like_linked(map<K, V>& map)
-            : m_linked_map(map)
+    explicit map_like_linked(map<K, V>* container = nullptr)
+            : m_linked_map(container ?: std::make_unique<map<K, V>>())
     {}
 
 public cpp_operators:
     auto operator[](const K& key) -> V& override {return m_linked_map.at(key);}
 
 private cpp_properties:
-    const map<K, V>& m_linked_map;
+    std::unique_ptr<map<K, V>> m_linked_map;
 };
 
 _EXT_END

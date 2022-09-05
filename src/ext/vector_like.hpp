@@ -34,18 +34,19 @@ template <typename T>
 class vector_like_linked : public vector_like<T>
 {
 public constructors:
-    explicit vector_like_linked(vector<T>* container) : linked_vector{container}
+    explicit vector_like_linked(vector<T>* container = nullptr)
+            : m_linked_vector{container ?: std::make_unique<vector<T>>()}
     {bind_get(length);}
 
 public cpp_operators:
-    auto operator[](const number<size_t>& index) -> T& override {return linked_vector->at(index);}
-    auto operator[](ext::string_view index) -> T& override {return linked_vector->front();};
+    auto operator[](const number<size_t>& index) -> T& override {return m_linked_vector->at(index);}
+    auto operator[](ext::string_view index) -> T& override {return m_linked_vector->front();};
 
 private cpp_properties:
-    std::unique_ptr<vector<T>> linked_vector;
+    std::unique_ptr<vector<T>> m_linked_vector;
 
 private cpp_accessors:
-    DEFINE_GETTER(length) override {return linked_vector->size();}
+    DEFINE_GETTER(length) override {return m_linked_vector->size();}
 };
 
 _EXT_END
