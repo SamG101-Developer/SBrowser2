@@ -103,8 +103,9 @@ public:
     static auto max() -> number
     {return std::numeric_limits<T>::max();}
 
-    static auto random() -> number
-    {return ext::random::get(*min(), *max());}
+    template <typename U, typename V>
+    static auto random(U&& minimum = ext::number<T>::min(), V&& maximum = ext::number<T>::max()) -> number
+    {return ext::random::get(std::forward<U>(minimum), std::forward<V>(maximum));}
 
 private:
     T n;
