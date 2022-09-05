@@ -17,6 +17,8 @@ namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}
 namespace event_timing {class performance_event_timing;}
+namespace event_timing {class event_counts;}
+namespace event_timing {class interaction_counts;}
 namespace html::other {class custom_element_registry;}
 namespace html::other {class history;}
 namespace html::other {class location;}
@@ -108,8 +110,8 @@ private cpp_properties:
     ext::map<ext::number<int>, event_timing::performance_event_timing*> m_pending_pointer_downs;
     ext::map<ext::number<int>, ext::number<int>> m_pointer_interaction_value_map;
     ext::set<ext::number<int>> m_pointer_is_drag_set;
-    ext::map<ext::string, ext::number<int>> m_event_counts;
-    ext::map<ext::string, ext::number<int>> m_interaction_counts;
+    std::unique_ptr<event_timing::event_counts> m_event_counts;
+    std::unique_ptr<event_timing::interaction_counts> m_interaction_counts;
 
 private cpp_accessors:
     DEFINE_GETTER(name);
