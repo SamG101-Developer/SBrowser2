@@ -320,5 +320,28 @@ auto event_timing::detail::set_event_timing_entry_duration(
     auto name  = timing_entry->name();
     timing_entry->duration = (rendering_timestamp - start) + ext::random::get(-8, 8);
 
-    ASSERT(window->m_event_counts->)
+    ASSERT(window->m_event_counts->m_linked_map.contains(name));
+    window->m_event_counts[std::move(name)] += 1;
+
+    return_if (window->m_has_dispatched_input_event);
+
+    if (name == "pointerdown")
+    {
+        window->m_pending_first_pointer_down.reset(auto{timing_entry});
+        window->m_pending_first_pointer_down->entry_type = "first-input";
+    }
+
+    else if (name == "pointerup" && window->m_pending_first_pointer_down)
+    {
+        window->m_has_dispatched_input_event = true;
+        performance_timeline::detail::queue_performance_entry(window->m_pending_first_pointer_down.get());
+    }
+
+    else if (name == "click" || name == "keydown" || name == "mousedown")
+    {
+        window->m_has_dispatched_input_event = true;
+        auto new_first_input_delay_entry = auto{timing_entry};
+        new_first_input_delay_entry->entry_type = "first-input";
+        performance_timeline::detail::queue_performance_entry(new_first_input_delay_entry);
+    }
 }
