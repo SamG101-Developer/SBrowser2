@@ -1,6 +1,8 @@
 #include "performance.hpp"
 
 #include "javascript/environment/realms_2.hpp"
+
+#include "dom/nodes/window.hpp"
 #include "high_resolution_time/detail/time_internals.hpp"
 
 
@@ -34,8 +36,7 @@ auto high_resolution_time::performance::get_event_counts()
         const -> decltype(this->event_counts)::value_t
 {
     JS_REALM_GET_RELEVANT(this);
-    return javascript::environment::realms_2::get<decltype(event_counts)::value_t>(
-            this_relevant_global_object, "$EventCounts");
+    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->m_event_counts.get();
 }
 
 
@@ -43,8 +44,7 @@ auto high_resolution_time::performance::get_interaction_counts()
         const -> decltype(this->interaction_counts)::value_t
 {
     JS_REALM_GET_RELEVANT(this);
-    return javascript::environment::realms_2::get<decltype(interaction_counts)::value_t>(
-            this_relevant_global_object, "$InteractionCounts");
+    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->m_interaction_counts.get();
 }
 
 
