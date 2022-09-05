@@ -2,13 +2,13 @@
 #define SBROWSER2_WINDOW_HPP
 
 #include "dom/nodes/event_target.hpp"
+#include "ext/vector_like.hpp"
 namespace dom::nodes {class window;}
 
 #include "ext/threading.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/queue.hpp"
 #include "ext/vector.hpp"
-#include "ext/vector_like.hpp"
 #include USE_INNER_TYPES(background_tasks)
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(html)
@@ -16,6 +16,7 @@ namespace background_tasks {class idle_deadline;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}
+namespace event_timing {class performance_event_timing;}
 namespace html::other {class custom_element_registry;}
 namespace html::other {class history;}
 namespace html::other {class location;}
@@ -99,7 +100,16 @@ private cpp_properties:
     std::mutex m_mutex;
 
     /* EVENT_TIMING */
-    // TODO
+    ext::vector<event_timing::performance_event_timing*> m_entries_to_be_queued;
+    std::unique_ptr<event_timing::performance_event_timing> m_pending_first_pointer_down;
+    ext::boolean m_has_dispatched_input_event;
+    ext::number<short> m_user_interaction_value = ext::number<int>::random(100, 10000);
+    ext::map<ext::number<int>, event_timing::performance_event_timing*> m_pending_key_downs;
+    ext::map<ext::number<int>, event_timing::performance_event_timing*> m_pending_pointer_downs;
+    ext::map<ext::number<int>, ext::number<int>> m_pointer_interaction_value_map;
+    ext::set<ext::number<int>> m_pointer_is_drag_set;
+    ext::map<ext::string, ext::number<int>> m_event_counts;
+    ext::map<ext::string, ext::number<int>> m_interaction_counts;
 
 private cpp_accessors:
     DEFINE_GETTER(name);
