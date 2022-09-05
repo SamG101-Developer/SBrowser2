@@ -1,5 +1,6 @@
 #include "abstract_operations_internals.hpp"
 
+#include USE_INNER_TYPES(accelerometer)
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(sensors)
 #include "dom/detail/exception_internals.hpp"
@@ -21,8 +22,9 @@ auto accelerometer::detail::construct_accelerometer_object(
 
     // Initialize the sensor object, and set the coordinate system of the sensor, depending on the "referenceFrame"
     // option from the 'options' dictionary.
+    using enum accelerometer_local_coordinate_system_t;
     sensors::detail::initialize_sensor_object(sensor, std::move(options));
-    sensor->m_coordinate_system = options.template try_emplace("referenceFrame").first->second.template to<ext::string>() == "screen"
+    sensor->m_coordinate_system = options.template try_emplace("referenceFrame").first->second.template to<accelerometer_local_coordinate_system_t>() == SCREEN
             ? sensors::detail::coordinate_system_t::SCREEN_COORDINATE_SYSTEM
             : sensors::detail::coordinate_system_t::DEVICE_COORDINATE_SYSTEM;
 }
