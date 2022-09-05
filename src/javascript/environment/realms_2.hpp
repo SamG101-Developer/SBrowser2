@@ -15,7 +15,7 @@
 
 
 #define _JS_GLOBAL_OBJECT_FROM_REALM(type) \
-    type##_realm->Global()->Get(type ## _realm, v8pp::to_v8(type ## _agent, "Global")).ToLocalChecked().As<v8::Object>()
+    type##_realm->Global().As<v8::Object>()
 
 #define JS_REALM_GET_CURRENT                                 \
     auto current_agent = v8::Isolate::GetCurrent();          \
