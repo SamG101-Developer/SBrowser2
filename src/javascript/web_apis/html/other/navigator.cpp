@@ -21,6 +21,7 @@
 
 #include "url/detail/encoding_internals.hpp"
 #include "url/detail/url_internals.hpp"
+#include "v8pp/convert.hpp"
 
 #include <range/v3/view/filter.hpp>
 
@@ -130,17 +131,18 @@ auto html::other::navigator::get_gamepads()
 {
     // Get the associated document of the relevant global object, cast to a Document.
     JS_REALM_GET_RELEVANT(this);
-    auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
+    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document();
     return_if (!document || !dom::detail::is_document_fully_active(document)) {};
 
     dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
             [document] {return !html::detail::allowed_to_use(document, "gamepad");},
             "Document is not allowed to use the 'gamepad' feature");
 
-    return_if (!s_has_gamepad_gesture) {};
+    return_if (!s_has_gamepad_gesture()) {};
 
     auto now = high_resolution_time::performance{}.now();
-    auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed;};
+    auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed();};
+
     for (auto* gamepad: s_gamepads() | ranges::views::filter(std::move(valid_gamepad)))
     {
         gamepad->s_exposed = true;
