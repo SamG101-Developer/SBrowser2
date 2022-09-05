@@ -26,8 +26,8 @@
 #define catch_specific(exception_t) catch(const exception_t& exception)
 #define catch_other catch (...)
 
-#define string_switch(_String) switch(std::hash<ext::string>{}(_String))
-#define string_case(_String) case(std::hash<ext::string>{}(_String))
+#define string_switch(_String) switch(ext::hash{}(_String))
+#define string_case(_String) case(ext::hash{}(_String))
 #define string_default default
 
 #define friends
