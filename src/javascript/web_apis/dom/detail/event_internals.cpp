@@ -8,13 +8,16 @@
 #include "ext/ranges.hpp"
 
 #include "dom/abort/abort_signal.hpp"
+#include "dom/detail/shadow_internals.hpp"
+#include "dom/detail/tree_internals.hpp"
 #include "dom/events/event.hpp"
 #include "dom/nodes/shadow_root.hpp"
 #include "dom/nodes/window.hpp"
 
-#include "dom/detail/shadow_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
+#include "event_timing/detail/timing_internals.hpp"
+#include "event_timing/performance_event_timing.hpp"
 
+#include "high_resolution_time/performance.hpp"
 #include "indexed_db/events/idb_version_change_event.hpp"
 #include "pointer_events/pointer_event.hpp"
 #include "touch_events/touch_event.hpp"
@@ -81,6 +84,11 @@ auto dom::detail::dispatch(
         window->m_has_dispatched_scroll_event = true;
     /* LARGEST_CONTENTFUL_PAINT END */
 
+    /* EVENT_TIMING BEGIN */
+    auto interaction_id = event_timing::detail::compute_interaction_id(event);
+    auto entry_timing = event_timing::detail::initialize_event_timing(event, high_resolution_time::performance{}.now(), std::move(interaction_id));
+    /* EVENT_TIMING END */
+
     const auto is_activation_event = event->type() == "click"; // && dynamic_cast<ui_events::events::mouse_event*>(event)
     nodes::event_target* activation_target = is_activation_event ? target : nullptr;
     const nodes::event_target* related_target = detail::retarget(event->related_target(), target);
@@ -104,7 +112,7 @@ auto dom::detail::dispatch(
             // slottable. the touch targets are the event's touch targets, transformed to be retargeted against the
             // current parent
             auto slot_in_closed_tree = false;
-            auto touch_targets = *event->touch_targets()
+            auto touch_targets = event->touch_targets()
                     | ranges::views::transform(ext::bind_back{retarget, std::move(parent)})
                     | ranges::to<ext::vector<nodes::event_target*>>;
 
@@ -153,7 +161,7 @@ auto dom::detail::dispatch(
         // the 'clear_targets_struct' is the last struct in the event path with a shadow adjusted target; if the target,
         // related target, or any touch targets of this struct are nodes who have ShadowRoot roots, then the target and
         // related target of the event have to be cleared once the event has finished traversing its path
-        auto* clear_targets_struct = *ranges::last_where(*event->path(), [](event_path_struct_t* const s) {return s->shadow_adjusted_target;});
+        auto* clear_targets_struct = *ranges::last_where(event->path(), [](event_path_struct_t* const s) {return s->shadow_adjusted_target;});
         auto  clear_targets_list = clear_targets_struct->touch_targets + ext::vector<nodes::event_target*>{clear_targets_struct->shadow_adjusted_target, clear_targets_struct->related_target};
         clear_targets = ranges::any_of(
                 clear_targets_list | ranges::views::cast_all_to<nodes::node>(),
@@ -162,7 +170,7 @@ auto dom::detail::dispatch(
         // for the capturing phase, the event traverses from the top-most node (root), to the target node - the event
         // path is reversed and iterated over, invoking each listener in the capturing phase. the event phase is set to
         // AT_TARGET or CAPTURING_PHASE depending on if the current target is the final target or not
-        for (auto* event_path_struct: *event->path() | ranges::views::reverse)
+        for (auto* event_path_struct: event->path() | ranges::views::reverse)
         {
             event->event_phase = event_path_struct->shadow_adjusted_target ? events::event::AT_TARGET : events::event::CAPTURING_PHASE;
             invoke(event_path_struct, event, events::event::CAPTURING_PHASE);
@@ -171,7 +179,7 @@ auto dom::detail::dispatch(
         // for the bubbling phase, the event traverses from the target node to the top-most node (root), if the event
         // can bubble - the event path us iterated over, invoking each listener in the bubbling phase. the event phase
         // is set to AT_TARGET or CAPTURING_PHASE depending on if the current target is the final target or not
-        for_if (event->bubbles(), auto* event_path_struct: *event->path())
+        for_if (event->bubbles(), auto* event_path_struct: event->path())
         {
             event->event_phase = event_path_struct->shadow_adjusted_target ? events::event::AT_TARGET : events::event::BUBBLING_PHASE;
             invoke(event_path_struct, event, events::event::BUBBLING_PHASE);
@@ -183,7 +191,7 @@ auto dom::detail::dispatch(
     // of the event
     event->event_phase = events::event::NONE;
     event->current_target = nullptr;
-    event->path()->clear();
+    event->path().clear();
 
     // reset the dispatch and propagation flags of the event, making the event in teh correct state to be re-emitted -
     // the dispatch flag is checked before dispatching, and the propagation flags are reset so that the event doesn't
@@ -198,13 +206,17 @@ auto dom::detail::dispatch(
     if (clear_targets)
     {
         event->target = event->related_target = nullptr;
-        event->touch_targets()->clear();
+        event->touch_targets().clear();
     }
 
     // if there is at activation target, then execute the activation behaviour of the activation target, passing the
     // event as the parameter
     if (activation_target)
         activation_target->m_dom_behaviour.activation_behaviour(event);
+
+    /* EVENT_TIMING BEGIN */
+    event_timing::detail::finalize_event_timing(&entry_timing, event, target, high_resolution_time::performance{}.now());
+    /* EVENT_TIMING END */
 
     // the dispatch was successful if the event wasn't cancelled during path traversal
     return !event->m_canceled_flag;
@@ -237,7 +249,7 @@ auto dom::detail::append_to_event_path(
         .slot_in_closed_tree = slot_in_closed_tree
     };
 
-    event->path()->emplace_back(&s);
+    event->path().emplace_back(&s);
 }
 
 
@@ -250,7 +262,7 @@ auto dom::detail::invoke(
     // the viable structs are the struct in the event path that are inclusively preceding 's', and have a shadow
     // adjusted target set
     using enum ranges::views::filter_compare_t;
-    auto viable_structs = ranges::subrange(event->path()->begin(), ranges::find(*event->path(), s))
+    auto viable_structs = ranges::subrange(event->path().begin(), ranges::find(event->path(), s))
             | ranges::views::filter_eq<NE>(&event_path_struct_t::shadow_adjusted_target, nullptr, ext::identity{});
 
     // set the target to the 'viable_struct''s shadow adjusted target, and copy the related and touch targets from the
@@ -258,7 +270,7 @@ auto dom::detail::invoke(
     // event is no longer allowed to traverse the DOM tree
     event->target = viable_structs.back()->shadow_adjusted_target;
     event->related_target = s->related_target;
-    event->touch_targets = &s->touch_targets;
+    event->touch_targets = s->touch_targets;
     return_if(event->m_stop_propagation_flag);
 
     // call 'inner_invoke(...)' with the event, a range copy of the event's listeners, the phase (capturing / bubbling),
