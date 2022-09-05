@@ -35,8 +35,8 @@ dom::node_ranges::range::range()
     bind_get(common_ancestor_container);
 
     JS_REALM_GET_CURRENT
-    start_container = javascript::environment::realms_2::get<nodes::document*>(current_global_object, "associated_document");
-    end_container   = javascript::environment::realms_2::get<nodes::document*>(current_global_object, "associated_document");
+    start_container = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->document();
+    end_container   = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->document();
     start_offset    = 0;
     end_offset      = 0;
 
