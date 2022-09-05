@@ -14,7 +14,6 @@ class gamepad::gamepad
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(gamepad);
     gamepad();
 
 public js_properties:
@@ -41,6 +40,9 @@ private js_slots:
     ext::slot<ext::map<ext::number<int>, gamepad_button*>> s_button_mapping;
     ext::slot<ext::vector<ext::number<int>>*> s_button_minimums;
     ext::slot<ext::vector<ext::number<int>>*> s_button_maximums;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
     DEFINE_GETTER(connected) {return s_connected();}
