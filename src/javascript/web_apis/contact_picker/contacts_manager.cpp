@@ -7,6 +7,8 @@
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
 #include "dom/other/dom_exception.hpp"
+#include "dom/nodes/document.hpp"
+#include "dom/nodes/window.hpp"
 
 #include "html/detail/context_internals.hpp"
 #include "html/detail/task_internals.hpp"
@@ -21,7 +23,7 @@ auto contact_picker::contacts_manager::get_properties()
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
     ext::promise<ext::vector<detail::contact_property_t>> promise;
-    std::jthread{ext::bind_front{&decltype(promise)::set_value, promise, m_contact_source->supported_properties}};
+    std::jthread{ext::bind_front{&decltype(promise)::resolve, promise, m_contact_source->supported_properties}};
     return promise;
 }
 
@@ -34,20 +36,20 @@ auto contact_picker::contacts_manager::select(
     // Get the relevant browsing context from the relevant JavaScript realm. Create an empty promise for returning
     // either rejected or resolved.
     JS_REALM_GET_RELEVANT(this);
-    decltype(auto) relevant_browsing_context = javascript::environment::realms_2::get<html::detail::browsing_context_t&>(this_relevant_global_object, "$BrowsingContext");
+    decltype(auto) relevant_browsing_context = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document()->m_browsing_context.get();
     ext::promise<ext::vector<detail::contact_info_t>> promise;
 
     // If the relevant browsing context is not top level, then the ContactsManager is in an invalid state to select a
     // contact information (incorrect context).
     if (!html::detail::is_top_level_browsing_context(relevant_browsing_context))
     {
-        promise.set_exception(dom::other::dom_exception{"Browsing context is not top level", INVALID_STATE_ERR});
+        promise.reject(dom::other::dom_exception{"Browsing context is not top level", INVALID_STATE_ERR});
         return promise;
     }
 
     if (/* TODO : SECURITY_ERR check here */)
     {
-        promise.set_exception(dom::other::dom_exception{"TODO", SECURITY_ERR});
+        promise.reject(dom::other::dom_exception{"TODO", SECURITY_ERR});
         return promise;
     }
 
@@ -55,7 +57,7 @@ auto contact_picker::contacts_manager::select(
     // invalid state, because this method is already running (close previous picker and open again)
     if (relevant_browsing_context.m_contact_picker_is_showing)
     {
-        promise.set_exception(dom::other::dom_exception{"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
+        promise.reject(dom::other::dom_exception{"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
         return promise;
     }
 
@@ -63,7 +65,7 @@ auto contact_picker::contacts_manager::select(
     // properties is of an incorrect length.
     if (properties.empty())
     {
-        promise.set_exception(); // TODO : JavaScript TypeError
+        promise.reject(); // TODO : JavaScript TypeError
         return promise;
     }
 
@@ -72,7 +74,7 @@ auto contact_picker::contacts_manager::select(
     // 'set_difference' check.
     if (!ranges::views::set_difference(m_contact_source->supported_properties, properties).empty())
     {
-        promise.set_exception(); // TODO : JavaScript TypeError
+        promise.reject(); // TODO : JavaScript TypeError
         return promise;
     }
 
@@ -95,7 +97,7 @@ auto contact_picker::contacts_manager::select(
         // TODO: is selecting no contact an error?
         if (JS_EXCEPTION_HAS_THROWN || !selected_contacts.has_value())
         {
-            promise.set_exception(dom::other::dom_exception{"Error launching options and properties", INVALID_STATE_ERR});
+            promise.reject(dom::other::dom_exception{"Error launching options and properties", INVALID_STATE_ERR});
             return;
         }
 

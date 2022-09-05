@@ -8,6 +8,7 @@
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/window.hpp"
 #include "dom/other/dom_exception.hpp"
 
 #include "html/detail/document_internals.hpp"
@@ -30,25 +31,22 @@ auto mediacapture::main::media_devices::enumerate_devices()
     // create a promise object that will be returned
     ext::promise<ext::vector<media_device_info*>> promise;
 
-    // create a thread pool containing a single thread, to execute the following lambda in parallel
-    ext::thread_pool pool{1};
-
-    pool.push_task([this, &promise]
+    go [this, &promise]
     {
         // get the associated document of the relevant global object, and then wait until enumeration can proceed; this
         // would require the Document to be fully active and focused, so these are the conditions that are being waited
         // on (this is why the steps are run in parallel, so it doesn't block other parts of the code)
         JS_REALM_GET_RELEVANT(this);
-        auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
-        while (!detail::devices_internals::device_enumeration_can_proceed()) continue;
+        auto* document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document();
+        while (!detail::device_enumeration_can_proceed()) continue;
 
         // get the current stored devices from the [[stored_devices_list]] slot on the relevant global object, and
         // create a MediaDeviceInfo list based on these MediaDevices. set the value of the promise<T> object to this
         // 'result_list'
         auto stored_device_list = javascript::environment::realms_2::get<ext::vector<main::media_devices*>>(this_relevant_global_object, "[[stored_device_list]]");
-        auto result_list = detail::devices_internals::create_list_of_device_info_objects(stored_device_list, document);
-        promise.set_value(result_list);
-    });
+        auto result_list = detail::create_list_of_device_info_objects(stored_device_list, document);
+        promise.resolve(result_list);
+    };
 }
 
 
@@ -65,14 +63,14 @@ auto mediacapture::main::media_devices::get_user_media(
 
     // get the associated document of the relevant global object
     JS_REALM_GET_RELEVANT(this);
-    auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
+    auto* document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document();
 
     // if there are no 'requested_media_types' (no constraint values were true / dictionaries), then reject the promise
     // with a JavaScript TypeError and return it
     if (requested_media_types.empty())
     {
         ext::promise<media_stream*> promise;
-        promise.set_exception(/* TODO : JavaScript TypeError */);
+        promise.resolve(/* TODO : JavaScript TypeError */);
         return promise;
     }
 
@@ -81,7 +79,7 @@ auto mediacapture::main::media_devices::get_user_media(
     if (!dom::detail::is_document_fully_active(document))
     {
         ext::promise<media_stream*> promise;
-        promise.set_exception(dom::other::dom_exception{"Document must be fully active", INVALID_STATE_ERROR});
+        promise.resolve(dom::other::dom_exception{"Document must be fully active", INVALID_STATE_ERROR});
         return promise;
     }
 
@@ -89,28 +87,24 @@ auto mediacapture::main::media_devices::get_user_media(
     // keyword, and the Document isn't allowed to use that feature
     return_if (ranges::contains(requested_media_types, "audio") && !html::detail::allowed_to_use(document, "audio")) permission_failure();
     return_if (ranges::contains(requested_media_types, "video") && !html::detail::allowed_to_use(document, "video")) permission_failure();
+    
+    go [document, requested_media_types = std::move(requested_media_types)] mutable
+    {
+        while (!dom::detail::is_document_fully_active(document) /* TODO : and wait for Document to have focus */) continue;
+        ext::set<ext::string> final_set;
 
-    ext::thread_pool pool{1};
-    pool.push_task(
-            [document, requested_media_types = std::move(requested_media_types)] mutable
-            {
-                while (!dom::detail::is_document_fully_active(document) /* TODO : and wait for Document to have focus */) continue;
-                ext::set<ext::string> final_set;
+        for (ext::string_view kind: requested_media_types)
+        {
+            // TODO
+        }
 
-                for (ext::string_view kind: requested_media_types)
-                {
-                    // TODO
-                }
+        media_stream stream;
+        auto loop = [requested_media_types = std::move(requested_media_types)](int, int)
+        {
+            for (ext::string_view kind: requested_media_types)
+                permissions::detail::request_permission_to_use({{"name", kind}});
+        };
 
-                media_stream stream;
-                auto loop =
-                        [requested_media_types = std::move(requested_media_types)](int, int)
-                        {
-                            for (ext::string_view kind: requested_media_types)
-                            {
-                                permissions::detail::permission_internals::request_permission_to_use({{"name", kind}});
-                            }
-                        };
-                // TODO
-            });
+        // TODO
+    };
 }
