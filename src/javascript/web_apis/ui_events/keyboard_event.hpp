@@ -22,7 +22,7 @@ public js_static_constants:
 
 public js_properties:
     ext::property<ext::string> key;
-    ext::property<ext::string> code;
+    ext::property<ext::number<ushort>> code;
     ext::property<ext::number<ulong>> location;
 
     ext::property<ext::boolean> repeat;
