@@ -146,9 +146,6 @@ inline auto javascript::interop::expose(
         }
     }
 
-    javascript::environment::realms_2::set(local_context->Global(), "$EventCounts", new event_timing::event_counts{});
-    javascript::environment::realms_2::set(local_context->Global(), "$InteractionCounts", new event_timing::interaction_counts{});
-
     return persistent_context;
 }
 
