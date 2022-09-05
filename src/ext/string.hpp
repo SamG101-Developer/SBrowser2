@@ -26,6 +26,7 @@ _EXT_SHORTHAND_END
 
 
 _EXT_LITERALS_BEGIN
+
 auto operator"" _es(const char* primitive_string) -> ext::string
 {
     return ext::string{primitive_string};
