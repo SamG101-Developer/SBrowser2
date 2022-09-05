@@ -1,7 +1,6 @@
 #ifndef SBROWSER2_FILE_INTERNALS_HPP
 #define SBROWSER2_FILE_INTERNALS_HPP
 
-
 #include "ext/promise.hpp"
 
 #include "ext/boolean.hpp"
@@ -9,6 +8,7 @@
 namespace file_api {class blob;}
 namespace file_api {class file;}
 namespace file_api {class file_reader;}
+
 
 namespace file_api::detail
 {
