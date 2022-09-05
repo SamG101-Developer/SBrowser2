@@ -54,7 +54,7 @@ namespace event_timing::detail
     auto set_event_timing_entry_duration(
             performance_event_timing* timing_entry,
             dom::nodes::window* window,
-            high_resolution_time::detail::dom_high_res_time_stamp_t)
+            high_resolution_time::detail::dom_high_res_time_stamp_t rendering_timestamp)
             -> void;
 };
 

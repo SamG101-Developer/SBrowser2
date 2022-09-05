@@ -10,7 +10,9 @@
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/window.hpp"
 
+#include "event_timing/event_counts.hpp"
 #include "event_timing/performance_event_timing.hpp"
+
 #include "high_resolution_time/performance.hpp"
 #include "performance_timeline/detail/processing_internals.hpp"
 #include "pointer_events/pointer_event.hpp"
@@ -180,7 +182,7 @@ auto event_timing::detail::compute_interaction_id(
             // If there is no value at the 'pointer_id' entry, then return the default 0. Otherwise, assert that the
             // value can be cast to the PeformanceEventTiming object.
             return_if (!window->m_pending_pointer_downs.contains(pointer_id)) 0;
-            ASSERT(dynamic_cast<event_timing::performance_event_timing*>(window->m_pending_pointer_downs[pointer_id]));
+            ASSERT(dynamic_cast<performance_event_timing*>(window->m_pending_pointer_downs[pointer_id]));
 
             // If the event's type is "pointerup"
             if (pointer_event->type() == "pointerup")
@@ -227,7 +229,7 @@ auto event_timing::detail::initialize_event_timing(
 
 
 auto event_timing::detail::finalize_event_timing(
-        event_timing::performance_event_timing* timing_entry,
+        performance_event_timing* timing_entry,
         dom::events::event* event,
         dom::nodes::event_target* target,
         const ext::number<double>& processing_end) -> void
@@ -303,4 +305,20 @@ auto event_timing::detail::dispatch_pending_event_timing_entries(
     window->m_entries_to_be_queued.clear();
     for (decltype(auto) pending_down: window->m_pending_pointer_downs)
         set_event_timing_entry_duration(pending_down, window, rendering_timestamp);
+}
+
+
+auto event_timing::detail::set_event_timing_entry_duration(
+        performance_event_timing* timing_entry,
+        dom::nodes::window* window,
+        high_resolution_time::detail::dom_high_res_time_stamp_t rendering_timestamp)
+        -> void
+{
+    return_if (timing_entry->duration() != 0);
+
+    auto start = timing_entry->start_time();
+    auto name  = timing_entry->name();
+    timing_entry->duration = (rendering_timestamp - start) + ext::random::get(-8, 8);
+
+    ASSERT(window->m_event_counts->)
 }
