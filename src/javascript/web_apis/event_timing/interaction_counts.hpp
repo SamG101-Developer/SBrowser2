@@ -16,6 +16,9 @@ public constructors:
 
 public js_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+public cpp_operators:
+    auto operator->() -> decltype(auto) {return m_linked_map.get();};
 };
 
 
