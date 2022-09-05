@@ -3,8 +3,8 @@
 
 #include "ext/keywords.hpp"
 
-_EXT_BEGIN
 
+_EXT_BEGIN
 
 struct hash
 {
@@ -32,7 +32,7 @@ struct hash
     }
 };
 
-
 _EXT_END
+
 
 #endif //SBROWSER2_HASHING_HPP
