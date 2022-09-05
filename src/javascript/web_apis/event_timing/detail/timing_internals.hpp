@@ -32,12 +32,12 @@ namespace event_timing::detail
 
     auto compute_interaction_id(
             dom::events::event* event)
-            -> ext::string;
+            -> ext::number<int>;
 
     auto initialize_event_timing(
             dom::events::event* event,
             const ext::number<double>& processing_start,
-            ext::string_view interaction_id)
+            const ext::number<int>& interaction_id)
             -> performance_event_timing;
 
     auto finalize_event_timing(
