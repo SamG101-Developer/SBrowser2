@@ -41,10 +41,10 @@ public: constructors
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 public: js_static_constants
-    static constexpr unsigned short NONE = 0;
-    static constexpr unsigned short CAPTURING_PHASE = 1;
-    static constexpr unsigned short AT_TARGET = 2;
-    static constexpr unsigned short BUBBLING_PHASE = 3;
+    constexpr static const ext::number<ushort> NONE = 0;
+    constexpr static const ext::number<ushort> CAPTURING_PHASE = 1;
+    constexpr static const ext::number<ushort> AT_TARGET = 2;
+    constexpr static const ext::number<ushort> BUBBLING_PHASE = 3;
 
 public: js_methods
     auto stop_propagation() -> void;
