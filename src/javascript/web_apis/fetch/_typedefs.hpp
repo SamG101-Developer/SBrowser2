@@ -17,6 +17,19 @@ namespace streams::readable {class readable_stream;}
 
 namespace fetch::detail
 {
+    struct body_t;
+    struct connection_t;
+    struct cache_entry_t;
+    struct connection_timing_info_t;
+    struct fetch_controller_t;
+    struct fetch_timing_info_t;
+    struct fetch_params_t;
+    struct fetch_record_t;
+    struct fetch_group_t;
+    struct response_body_info_t;
+    struct request_t;
+    struct response_t;
+
     enum class net_connection_setting_t {NO, YES, YES_AND_DEDICATED};
     enum class header_value_object_t {DICT, LIST, ITEM};
     enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
@@ -32,19 +45,7 @@ namespace fetch::detail
     enum class redirect_t {FOLLOW, ERROR, MANUAL};
     enum class parser_metadata_t  {PARSER_INSERTED, NOT_PARSER_INSERTED};
     enum class response_tainting_t {BASIC, CORS, OPAQUE};
-
-    struct body_t;
-    struct connection_t;
-    struct cache_entry_t;
-    struct connection_timing_info_t;
-    struct fetch_controller_t;
-    struct fetch_timing_info_t;
-    struct fetch_params_t;
-    struct fetch_record_t;
-    struct fetch_group_t;
-    struct response_body_info_t;
-    struct request_t;
-    struct response_t;
+    enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
 
     // body related
     using body_with_tuple = ext::tuple<body_t&, ext::string>;
@@ -63,8 +64,6 @@ namespace fetch::detail
     using header_names_t = ext::vector<header_name_t>;
     using header_values_t = ext::vector<header_value_t>;
     using headers_t = ext::vector<header_t*>;
-
-    enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
 
     using request_info_t = ext::variant<request*, ext::string>;
 }
