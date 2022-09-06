@@ -8,7 +8,6 @@
 #include "dom/nodes/window.hpp"
 
 #include "high_resolution_time/performance.hpp"
-
 #include "html/detail/task_internals.hpp"
 
 #include <range/v3/algorithm/move_backward.hpp>
