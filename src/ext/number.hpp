@@ -187,6 +187,7 @@ auto to_string(const number<U>& number)
     return std::to_string(*number);
 }
 
+
 _EXT_END
 
 
