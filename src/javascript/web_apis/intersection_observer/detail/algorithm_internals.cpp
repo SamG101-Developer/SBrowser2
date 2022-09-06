@@ -2,11 +2,13 @@
 
 #include "ext/ranges.hpp"
 
+#include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/window.hpp"
 
+#include "html/detail/task_internals.hpp"
 #include "intersection_observer/intersection_observer.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
@@ -85,4 +87,16 @@ auto intersection_observer::detail::parse_root_margin(
     return_if (parsed.size() == 2) parsed | ranges::views::cycle | ranges::views::take(4) | ranges::to<arr>;
     return_if (parsed.size() == 3) parsed | ranges::views::take(2) | ranges::views::cycle | ranges::views::take(4) | ranges::to<arr>; // TODO : {1, 2, 3} -> {1, 2, 1, 2}, should be {1, 2, 3, 2}
     return_if (parsed.size() == 4) parsed | ranges::to<arr>;
+}
+
+
+auto intersection_observer::detail::queue_intersection_observer_task(
+        dom::nodes::document* document)
+        -> void
+{
+    return_if (document->m_intersection_observer_task_queued);
+    document->m_intersection_observer_task_queued = true;
+    dom::detail::queue_task(html::detail::intersection_observer_task_source,
+            [document]
+            {notify_intersection_observers(document);});
 }
