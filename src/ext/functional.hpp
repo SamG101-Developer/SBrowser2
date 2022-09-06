@@ -18,29 +18,74 @@ using namespace fu2;
 struct identity
 {
     template <typename T>
-    constexpr auto operator()(T&& object) const {return std::forward<T>(object);}
+    constexpr auto operator()(T&& object) const
+    {return std::forward<T>(object);}
 };
 
 
 struct invoke
 {
-    template <typename T>
-    constexpr auto operator()(T&& object) const {return object();}
+    constexpr auto operator()(callable auto&& object) const
+    {return object();}
 };
 
 
 struct deref
 {
-    template <typename T>
-    constexpr auto operator()(T* object) const {return *object;}
+    constexpr auto operator()(auto* object) const
+    {return *object;}
 };
 
 
 struct pointer_not_null
 {
-    template <typename T>
-    constexpr auto operator()(T* object) const {return object != nullptr;}
+    constexpr auto operator()(auto* object) const
+    {return object != nullptr;}
 };
+
+
+namespace cmp {
+struct lt
+{
+    constexpr auto operator()(auto&& lhs, auto&& rhs, auto&& pred = ext::identity{}) -> ext::boolean
+    {return pred(std::forward<decltype(lhs)>) < rhs;}
+};
+
+
+struct le
+{
+    constexpr auto operator()(auto&& lhs, auto&& rhs, auto&& pred = ext::identity{}) -> ext::boolean
+    {return pred(std::forward<decltype(lhs)>) <= rhs;}
+};
+
+
+struct gt
+{
+    constexpr auto operator()(auto&& lhs, auto&& rhs, auto&& pred = ext::identity{}) -> ext::boolean
+    {return pred(std::forward<decltype(lhs)>) > rhs;}
+};
+
+
+struct ge
+{
+    constexpr auto operator()(auto&& lhs, auto&& rhs, auto&& pred = ext::identity{}) -> ext::boolean
+    {return pred(std::forward<decltype(lhs)>) >= rhs;}
+};
+
+
+struct eq
+{
+    constexpr auto operator()(auto&& lhs, auto&& rhs, auto&& pred = ext::identity{}) -> ext::boolean
+    {return pred(std::forward<decltype(lhs)>) == rhs;}
+};
+
+
+struct ne
+{
+    constexpr auto operator()(auto&& lhs, auto&& rhs, auto&& pred = ext::identity{}) -> ext::boolean
+    {return pred(std::forward<decltype(lhs)>) != rhs;}
+};
+}
 
 
 // bind arguments to the back of a method, so that when the partial-method is called with arguments, they will the front
