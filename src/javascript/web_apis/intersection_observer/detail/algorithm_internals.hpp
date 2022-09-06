@@ -59,9 +59,13 @@ namespace intersection_observer::detail
             intersection_observer* observer)
             -> ext::boolean;
 
+    auto content_clip(
+            dom::nodes::element* element)
+            -> css::geometry::dom_rect*;
+
     auto parse_root_margin(
             ext::string_view margin_string)
-            -> ext::optional<ext::array<int, 4>>;
+            -> ext::optional<ext::array<ext::number<int>, 4>>;
 }
 
 
