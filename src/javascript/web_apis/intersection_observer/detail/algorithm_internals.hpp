@@ -16,6 +16,30 @@ namespace intersection_observer {class intersection_observer;}
 
 namespace intersection_observer::detail
 {
+    auto intersection_root(
+            intersection_observer* observer)
+            -> dom::nodes::node*;
+
+    auto implicit_root(
+            intersection_observer* observer)
+            -> dom::nodes::node*;
+
+    auto is_explicit_root_observer(
+            intersection_observer* observer)
+            -> ext::boolean;
+
+    auto is_implicit_root_observer(
+            intersection_observer* observer)
+            -> ext::boolean;
+
+    auto content_clip(
+            dom::nodes::element* element)
+            -> css::geometry::dom_rect*;
+
+    auto parse_root_margin(
+            ext::string_view margin_string)
+            -> ext::optional<ext::array<ext::number<int>, 4>>;
+
     auto queue_intersection_observer_task(
             dom::nodes::document* document)
             -> void;
@@ -42,30 +66,6 @@ namespace intersection_observer::detail
     auto pending_initial_intersection_observer_targets(
             dom::nodes::document* document)
             -> ext::boolean;
-
-    auto intersection_root(
-            intersection_observer* observer)
-            -> dom::nodes::node*;
-
-    auto implicit_root(
-            intersection_observer* observer)
-            -> dom::nodes::node*;
-
-    auto is_explicit_root_observer(
-            intersection_observer* observer)
-            -> ext::boolean;
-
-    auto is_implicit_root_observer(
-            intersection_observer* observer)
-            -> ext::boolean;
-
-    auto content_clip(
-            dom::nodes::element* element)
-            -> css::geometry::dom_rect*;
-
-    auto parse_root_margin(
-            ext::string_view margin_string)
-            -> ext::optional<ext::array<ext::number<int>, 4>>;
 }
 
 
