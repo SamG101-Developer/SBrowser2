@@ -19,6 +19,7 @@ namespace dom::nodes {class element;}
 #include USE_INNER_TYPES(css/box_tree)
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(html)
+#include USE_INNER_TYPES(intersection_observer)
 #include USE_INNER_TYPES(fullscreen)
 
 namespace css::box_tree {class dead_fragment_information;}
@@ -129,6 +130,10 @@ public js_properties:
 
     /* EDIT_CONTENT */
     ext::property<std::unique_ptr<edit_context::edit_context>> edit_context;
+
+private js_slots:
+    /* INTERSECTION_OBSERVERS */
+    ext::slot<ext::vector<intersection_observer::detail::intersection_observer_registration_t*>> s_registration_intersection_observers;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

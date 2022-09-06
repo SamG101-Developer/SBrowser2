@@ -2,6 +2,8 @@
 
 #include "ext/boolean.hpp"
 
+#include "html/dnd/data_transfer.hpp"
+
 
 ui_events::input_event::input_event(
         ext::string&& event_type,
@@ -10,7 +12,17 @@ ui_events::input_event::input_event(
         , SET_PROPERTY_FROM_OPTIONS(event_init, data, "")
         , SET_PROPERTY_FROM_OPTIONS(event_init, input_type, "")
         , SET_PROPERTY_FROM_OPTIONS(event_init, is_composing, false)
+        , SET_PROPERTY_FROM_OPTIONS(event_init, data_transfer, nullptr)
+        , m_static_ranges{event_init.try_emplace("staticRanges").first->second.to<decltype(m_static_ranges)::pointer>()}
 {}
+
+
+auto ui_events::input_event::get_target_ranges()
+        -> ext::vector<dom::node_ranges::static_range*>*
+{
+    /* INPUT_EVENTS */
+    return m_static_ranges.get();
+}
 
 
 auto ui_events::input_event::to_v8(
@@ -23,5 +35,10 @@ auto ui_events::input_event::to_v8(
             .var("data", &input_event::data, true)
             .var("inputType", &input_event::input_type, true)
             .var("isComposing", &input_event::is_composing, true)
+
+            /* INPUT_EVENTS */
+            .var("dataTransfer", &input_event::data_transfer, true)
+            .function("getTargetRanges", &input_event::get_target_ranges)
+
             .auto_wrap_objects();
 }

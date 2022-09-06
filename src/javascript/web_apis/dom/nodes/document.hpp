@@ -253,6 +253,9 @@ private cpp_properties:
     /* CSS_LAYOUT */
     ext::map<ext::string, css::detail::document_layout_definition_t*> m_document_layout_definitions;
 
+    /* INTERSECTION_OBSERVERS */
+    ext::boolean m_intersection_observer_task_queued;
+
 private cpp_accessors:
     /* DOM */
     DEFINE_GETTER(node_type) override {return DOCUMENT_NODE;}
