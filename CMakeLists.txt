@@ -107,19 +107,18 @@ FetchContent_Declare(V8PP
         GIT_REPOSITORY "https://github.com/pmed/v8pp.git"
         GIT_TAG "origin/master")
 
-find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
+FetchContent_MakeAvailable(
+        AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
+        OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
+        StreamsReplacement ThreadReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime
+        MagicEnum UUIDs V8PP) # TODO : Qt
+
+# TODO : find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
 
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 
 file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8-v143-x64.10.0.139.9" DESTINATION "${CMAKE_BINARY_DIR}/_deps/v8pp-build")
 file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8.redist-v143-x64.10.0.139.9" DESTINATION "${CMAKE_BINARY_DIR}/_deps/v8pp-build")
-
-
-FetchContent_MakeAvailable(
-        AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
-        OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
-        StreamsReplacement ThreadReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime
-        MagicEnum Qt UUIDs V8PP)
 
 
 add_library(plf_stack INTERFACE)
@@ -134,4 +133,4 @@ target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorrepla
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro cppfs function2::function2 tsl::robin_map optional concurrentqueue effolkronium_random
         range-v3::range-v3 ctre::ctre plf_stack fmt::fmt bs_thread_pool tuplet::tuplet swl-variant veque hwinfo asap
-        magic_enum::magic_enum stduuid v8pp Qt6::Core Qt6::Widgets Qt6::Gui)
+        magic_enum::magic_enum stduuid v8pp) # TODO: Qt6::Core Qt6::Widgets Qt6::Gui
