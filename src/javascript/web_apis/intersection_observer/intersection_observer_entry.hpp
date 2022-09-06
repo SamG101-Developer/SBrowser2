@@ -14,6 +14,7 @@ class intersection_observer::intersection_observer_entry
         : public virtual dom_object
 {
 public constructors:
+    intersection_observer_entry() = default;
     intersection_observer_entry(ext::map<ext::string, ext::any>&& init);
 
 public js_properties:
@@ -24,6 +25,9 @@ public js_properties:
     ext::property<ext::boolean> is_intersecting;
     ext::property<ext::number<double>> intersection_ratio;
     ext::property<dom::nodes::element*> target;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 
