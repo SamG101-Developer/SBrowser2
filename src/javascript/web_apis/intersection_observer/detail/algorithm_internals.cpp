@@ -8,8 +8,11 @@
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/window.hpp"
 
+#include "high_resolution_time/performance.hpp"
 #include "html/detail/task_internals.hpp"
+
 #include "intersection_observer/intersection_observer.hpp"
+#include "intersection_observer/intersection_observer_entry.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/action/remove.hpp>
@@ -99,4 +102,27 @@ auto intersection_observer::detail::queue_intersection_observer_task(
     dom::detail::queue_task(html::detail::intersection_observer_task_source,
             [document]
             {notify_intersection_observers(document);});
+}
+
+
+auto intersection_observer::detail::notify_intersection_observers(
+        dom::nodes::document* document)
+        -> void
+{
+    document->m_intersection_observer_task_queued = false;
+    auto notify_list = ext::vector_view<intersection_observer*>{}; // TODO: IntersectionObservers whose root is 'document'
+
+    for (decltype(auto) observer: notify_list)
+    {
+        continue_if (observer->s_queued_entries().empty());
+
+        decltype(auto) queue = observer->take_records();
+        decltype(auto) callback = observer->s_callback();
+
+        JS_EXCEPTION_HANDLER;
+        callback(queue, observer);
+
+        if (JS_EXCEPTION_HAS_THROWN)
+            console::reporting::report_exception(JS_EXCEPTION_MESSAGE);
+    }
 }
