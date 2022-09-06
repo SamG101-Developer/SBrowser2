@@ -23,8 +23,8 @@ pointer_events::pointer_event::pointer_event(
         , SET_PROPERTY_FROM_OPTIONS(event_init, azimuth_angle, 0.0)
         , SET_PROPERTY_FROM_OPTIONS(event_init, pointer_type, "")
         , SET_PROPERTY_FROM_OPTIONS(event_init, is_primary, false)
-        , m_coalesced_events{event_init.try_emplace("coalescedEvents").first->second.to<ext::vector<pointer_event*>*>()}
-        , m_predicted_events{event_init.try_emplace("predictedEvents").first->second.to<ext::vector<pointer_event*>*>()}
+        , m_coalesced_events{event_init.try_emplace("coalescedEvents").first->second.to<decltype(m_coalesced_events)::pointer>()}
+        , m_predicted_events{event_init.try_emplace("predictedEvents").first->second.to<decltype(m_predicted_events)::pointer>()}
 {
     bind_set(target);
 
@@ -72,11 +72,11 @@ auto pointer_events::pointer_event::get_predicted_events()
 
 
 auto pointer_events::pointer_event::set_target(
-        dom::nodes::event_target* const& val)
+        const decltype(target)::value_t& val)
         -> void
 {
     guard_property(target);
-    (*target).reset(val);
+    *target = val;
 
     for (auto* event: ranges::views::concat(*m_coalesced_events, *m_predicted_events))
         event->target = target();
