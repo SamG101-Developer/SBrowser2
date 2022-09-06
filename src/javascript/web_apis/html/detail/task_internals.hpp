@@ -38,6 +38,9 @@ namespace html::detail
 
     /* CLIPBOARD */
     task_queue_t clipboard_task_source;
+
+    /* INTERSECTION_OBSERVER */
+    task_queue_t intersection_observer_task_source;
 }
 
 
