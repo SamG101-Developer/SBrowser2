@@ -2,8 +2,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_RESOURCE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_RESOURCE_INTERNALS_HPP
 
-
+#include "ext/keywords.hpp"
 #include USE_INNER_TYPES(mimesniff)
+
 
 namespace mimesniff::detail
 {
@@ -22,6 +23,15 @@ namespace mimesniff::detail
     auto distinguish_if_resource_is_feed_or_html(
             const resource_t& resource)
             -> mime_type_t;
+};
+
+
+struct mimesniff::detail::resource_t
+{
+    mime_type_t& supplied_mime_type;
+    mime_type_t& computed_mime_type;
+    ext::boolean check_for_apache_bug_flag;
+    ext::boolean no_sniff_flag;
 };
 
 

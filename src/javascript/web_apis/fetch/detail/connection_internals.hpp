@@ -11,8 +11,6 @@
 #include USE_INNER_TYPES(high_resolution_time)
 #include USE_INNER_TYPES(url)
 
-namespace fetch::detail::http_internals {struct connection_timing_info;}
-namespace fetch::detail::request_internals {struct internal_request;}
 
 namespace fetch::detail
 {
@@ -22,10 +20,10 @@ namespace fetch::detail
             -> ext::string;
 
     auto clamp_and_coarsen_connection_timing_information(
-            http_internals::connection_timing_info& timing_information,
-            high_resolution_time::dom_high_res_time_stamp_t default_start_time,
+            const connection_timing_info_t& timing_information,
+            const high_resolution_time::detail::dom_high_res_time_stamp_t& default_start_time,
             ext::boolean cross_origin_isolated_capability)
-            -> http_internals::connection_timing_info;
+            -> connection_timing_info_t;
 
     auto obtain_connection(
             const network_partition_key_t& key,
@@ -39,8 +37,8 @@ namespace fetch::detail
             const network_partition_key_t& key,
             ext::string_view origin,
             ext::string_view proxy,
-            http_internals::connection_timing_info& timing_info,
-            const ext::boolean& http3_only = false)
+            const connection_timing_info_t& timing_info,
+            ext::boolean&& http3_only = false)
             -> connection_t;
 
     auto record_timing_information(
@@ -52,19 +50,19 @@ namespace fetch::detail
             -> network_partition_key_t;
 
     auto determine_network_partition_key(
-            request_internals::internal_request& request_object)
+            const request_t& request_object)
             -> network_partition_key_t;
 
     auto determine_http_cache_partition(
-            request_internals::internal_request& request_object)
+            const request_t& request_object)
             -> ext::string;
 
     auto should_block_due_to_bad_port(
-            request_internals::internal_request& request_obj)
+            const request_t& request_obj)
             -> ext::boolean;
 
     auto should_block_due_to_mime_type(
-            request_internals::internal_request& request_obj)
+            const request_t& request_obj)
             -> ext::boolean;
 }
 
@@ -75,7 +73,7 @@ struct fetch::detail::connection_t
     ext::string origin;
     ext::boolean credentials;
 
-    http_internals::connection_timing_info& timing_info;
+    connection_timing_info_t& timing_info;
 };
 
 

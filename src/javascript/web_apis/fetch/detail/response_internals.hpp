@@ -17,65 +17,65 @@ namespace fetch {class response;}
 namespace fetch::detail
 {
     auto serialize_response_url_for_reporting(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> ext::string;
 
     auto is_aborted_network_error(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> ext::boolean;
 
     auto is_network_error(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> ext::boolean;
 
     auto appropriate_network_error(
-            fetch_params_t& params)
+            const fetch_params_t& params)
             -> response_t;
 
     auto basic_filtered_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> const response_t;
 
     auto cors_filtered_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> const response_t;
 
     auto opaque_filtered_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> const response_t;
 
     auto opaque_redirect_filtered_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> const response_t;
 
     auto clone_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> response_t;
 
     auto is_fresh_response(
-            response_t& response_object)
+            const response_t& response_object)
             -> ext::boolean;
 
     auto is_stale_while_revalidate_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> ext::boolean;
 
     auto is_stale_response(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> ext::boolean;
 
     auto location_url(
-            response_t& internal_response_object)
+            const response_t& internal_response_object)
             -> url::detail::url_t;
 
     auto create_response(
-            response_t& internal_response_object,
+            const response_t& internal_response_object,
             header_guard_t header_guard,
             v8::Local<v8::Context> realm)
             -> response;
 
     auto initialize_response(
-            response& response_object,
+            const response& response_object,
             ext::map<ext::string, ext::any>&& init,
             body_t& internal_body_object)
             -> void;

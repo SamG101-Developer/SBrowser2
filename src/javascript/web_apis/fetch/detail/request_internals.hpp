@@ -1,7 +1,6 @@
 #ifndef SBROWSER2_REQUEST_INTERNALS_HPP
 #define SBROWSER2_REQUEST_INTERNALS_HPP
 
-
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 #include "ext/string.hpp"
@@ -13,48 +12,49 @@
 namespace fetch {class headers;}
 namespace fetch {class request;}
 
+
 namespace fetch::detail
 {
     auto is_subresource_request(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::boolean;
 
     auto is_non_subresource_request(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::boolean;
 
     auto is_navigation_request(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::boolean;
 
     auto has_redirect_tainted_origin(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::boolean;
 
     auto serialize_request_origin(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::string;
 
     auto byte_serializing_request_origin(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::string;
 
     auto clone_request(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> request_t;
 
     auto add_range_header_to_request(
-            request_t& internal_request_object,
+            const request_t& internal_request_object,
             const ext::number<int>& first,
             const ext::number<int>& last = -1)
             -> void;
 
     auto check_if_cross_origin_embedder_policy_allows_credentials(
-            request_t& internal_request_object)
+            const request_t& internal_request_object)
             -> ext::boolean;
 
     auto create_request_object(
-            request_t& internal_request_object,
+            const request_t& internal_request_object,
             header_guard_t header_guard,
             v8::Local<v8::Context> realm)
             -> request;
@@ -64,7 +64,7 @@ namespace fetch::detail
 struct fetch::detail::request_t
 {
     ext::string method = "GET";
-    std::unique_ptr<url::detail::url_t> url;
+    url::detail::url_t& url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;

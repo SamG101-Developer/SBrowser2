@@ -17,76 +17,76 @@
 namespace fetch::detail
 {
     auto fetch(
-            request_internals::internal_request& request_object,
-            ext::function<void(ext::number<int>)>&& process_request_body_chunk_length,
+            request_t& request_object,
+            ext::function<void(ext::number<int>)>&& process_request_body_chunk_length = nullptr,
             ext::function<void()>&& process_request_end_of_body = nullptr,
-            ext::function<void(response_internals::internal_response&)>&& process_early_hints_response = nullptr,
-            ext::function<void(response_internals::internal_response&)>&& process_response = nullptr,
-            ext::function<void(response_internals::internal_response&)>&& process_response_end_of_body = nullptr,
-            ext::function<void(response_internals::internal_response&, ext::string_view)>&& process_response_consume_body = nullptr,
+            ext::function<void(response_t&)>&& process_early_hints_response = nullptr,
+            ext::function<void(response_t&)>&& process_response = nullptr,
+            ext::function<void(response_t&)>&& process_response_end_of_body = nullptr,
+            ext::function<void(response_t&, ext::string_view)>&& process_response_consume_body = nullptr,
             const ext::boolean& use_parallel_queue = false)
-            -> http_internals::fetch_controller;
+            -> response_t;
 
     auto main_fetch(
-            http_internals::fetch_params& fetch_params_object,
+            fetch_params_t& fetch_params_object,
             ext::boolean&& recursive = false)
-            -> response_internals::internal_response;
+            -> response_t;
 
     auto fetch_response_handover(
-            http_internals::fetch_params& fetch_params_object,
-            response_internals::internal_response& response_object)
+            fetch_params_t& fetch_params_object,
+            response_t& response_object)
             -> void;
 
     auto scheme_fetch(
-            http_internals::fetch_params& fetch_params_object)
-            -> response_internals::internal_response;
+            fetch_params_t& fetch_params_object)
+            -> response_t;
 
     auto http_fetch(
-            http_internals::fetch_params& fetch_params_object,
+            fetch_params_t& fetch_params_object,
             ext::boolean&& make_cors_preflight = false)
-            -> response_internals::internal_response;
+            -> response_t;
 
     auto http_redirect_fetch(
-            http_internals::fetch_params& fetch_params_object,
-            response_internals::internal_response& response_object)
-            -> response_internals::internal_response;
+            fetch_params_t& fetch_params_object,
+            response_t& response_object)
+            -> response_t;
 
     auto http_navigate_redirect_fetch(
-            request_internals::internal_request& request_object,
-            response_internals::internal_response& response_object)
-            -> response_internals::internal_response;
+            request_t& request_object,
+            response_t& response_object)
+            -> response_t;
 
     auto http_network_or_cache_fetch(
-            http_internals::fetch_params& fetch_params_object,
+            fetch_params_t& fetch_params_object,
             ext::boolean&& is_authentication_fetch = false,
             ext::boolean&& is_new_connection_fetch = false)
-            -> response_internals::internal_response;
+            -> response_t;
 
     auto http_network_fetch(
-            http_internals::fetch_params& fetch_params_object,
+            fetch_params_t& fetch_params_object,
             ext::boolean&& include_credentials = false,
             ext::boolean&& force_new_connection = false)
-            -> response_internals::internal_response;
+            -> response_t;
 
     auto cors_preflight_request(
-            request_internals::internal_request& request_object)
-            -> response_internals::internal_response;
+            request_t& request_object)
+            -> response_t;
 
     auto create_a_new_cache_entry(
-            request_internals::internal_request& request_object,
+            request_t& request_object,
             const ext::number<int>& max_age,
             ext::string_view method,
             header_name_t header_name)
-            -> cache_entry;
+            -> cache_entry_t;
 
     auto cors_check(
-            request_internals::internal_request& request_object,
-            response_internals::internal_response& response_object)
+            request_t& request_object,
+            response_t& response_object)
             -> ext::boolean;
 
     auto tao_check(
-            request_internals::internal_request& request_object,
-            response_internals::internal_response& response_object)
+            request_t& request_object,
+            response_t& response_object)
             -> ext::boolean;
 }
 
