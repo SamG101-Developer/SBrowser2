@@ -8,6 +8,7 @@
 #include "ext/set.hpp"
 #include USE_INNER_TYPES(mimesniff)
 
+
 namespace mimesniff::detail
 {
     auto essence(
@@ -83,8 +84,19 @@ namespace mimesniff::detail
             ext::number<size_t> length,
             ext::number<size_t> iter)
             -> std::tuple<ext::number<int>, ext::number<int>>;
-
 };
+
+
+struct mimesniff::detail::mime_type_t
+{
+    ext::string type;
+    ext::string sub_type;
+    ext::map<ext::string, ext::string> parameters;
+
+    auto operator==(const mime_type_t&) const -> bool = default;
+    auto operator==(ext::string_view) const -> bool;
+};
+
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_MIMETYPE_INTERNALS_HPP
