@@ -5,11 +5,13 @@
 #include "ext/boolean.hpp"
 #include "ext/tuple.hpp"
 #include "ext/view.hpp"
+#include <iterator>
+
+
+_EXT_BEGIN
 
 
 #define pair_view_iterator V*
-
-_EXT_BEGIN
 
 template <typename K, typename V>
 class pair_view : public view<pair_view_iterator>
@@ -18,7 +20,7 @@ public constructors:
     using view<pair_view_iterator>::view;
 
     explicit pair_view(pair<K, V>&& other)
-            : view<pair_view_iterator>{std::move(&other.first), std::move(&other.second)}
+            : view<pair_view_iterator>{std::make_move_iterator(&other.first), std::make_move_iterator(&other.second)}
     {}
 
     explicit pair_view(const pair<K, V>& other)
