@@ -44,8 +44,8 @@ FetchContent_Declare(OptionalReplacement
         GIT_TAG "origin/master")
 
 FetchContent_Declare(QueueReplacement
-        GIT_REPOSITORY "https://github.com/cameron314/concurrentqueue.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY "https://github.com/mattreecebentley/plf_queue.git"
+        GIT_TAG "origin/main")
 
 FetchContent_Declare(RandomReplacement
         GIT_REPOSITORY "https://github.com/effolkronium/random.git"
@@ -65,10 +65,6 @@ FetchContent_Declare(StackReplacement
 
 FetchContent_Declare(StreamsReplacement
         GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
-        GIT_TAG "origin/master")
-
-FetchContent_Declare(ThreadReplacement
-        GIT_REPOSITORY "https://github.com/bshoshany/thread-pool.git"
         GIT_TAG "origin/master")
 
 FetchContent_Declare(TupleReplacement
@@ -110,8 +106,8 @@ FetchContent_Declare(V8PP
 FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
         OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
-        StreamsReplacement ThreadReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime
-        MagicEnum UUIDs V8PP) # TODO : Qt
+        StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime MagicEnum UUIDs
+        V8PP) # TODO : Qt
 
 # TODO : find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
 
@@ -124,13 +120,13 @@ file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8.redist-v143-x64.10.0.139.9" DESTIN
 add_library(plf_stack INTERFACE)
 target_include_directories(plf_stack INTERFACE ${CMAKE_BINARY_DIR}/_deps/stackreplacement-src)
 
-add_library(bs_thread_pool INTERFACE)
-target_include_directories(bs_thread_pool INTERFACE ${CMAKE_BINARY_DIR}/_deps/threadreplacement-src)
+add_library(plf_queue INTERFACE)
+target_include_directories(plf_queue INTERFACE ${CMAKE_BINARY_DIR}/_deps/queuereplacement-src)
 
 add_library(veque INTERFACE)
 target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorreplacement-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro cppfs function2::function2 tsl::robin_map optional concurrentqueue effolkronium_random
-        range-v3::range-v3 ctre::ctre plf_stack fmt::fmt bs_thread_pool tuplet::tuplet swl-variant veque hwinfo asap
-        magic_enum::magic_enum stduuid v8pp) # TODO: Qt6::Core Qt6::Widgets Qt6::Gui
+        assert cppcoro cppfs function2::function2 tsl::robin_map optional effolkronium_random range-v3::range-v3
+        ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo asap  magic_enum::magic_enum
+        stduuid v8pp) # TODO: Qt6::Core Qt6::Widgets Qt6::Gui
