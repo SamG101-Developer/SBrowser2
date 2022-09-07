@@ -5,6 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace mediacapture::main {class media_stream;}
 
+#include "ext/set.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace mediacapture::main {class media_stream_track;}
