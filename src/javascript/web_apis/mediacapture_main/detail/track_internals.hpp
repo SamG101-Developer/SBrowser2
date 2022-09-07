@@ -2,6 +2,7 @@
 #ifndef SBROWSER2_TRACK_INTERNALS_HPP
 #define SBROWSER2_TRACK_INTERNALS_HPP
 
+#include "ext/boolean.hpp"
 #include "ext/string.hpp"
 namespace mediacapture::main {class media_stream_track;}
 
@@ -16,6 +17,10 @@ namespace mediacapture::detail
             ext::string_view permission_name,
             ext::string_view device_id)
             -> void;
+
+    auto is_live_track(
+            mediacapture::main::media_stream_track* track)
+            -> ext::boolean;
 };
 
 
