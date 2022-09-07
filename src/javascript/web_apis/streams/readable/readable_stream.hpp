@@ -18,6 +18,7 @@ namespace streams::readable {class readable_stream_byob_reader;}
 namespace streams::readable_writeable {class readable_writeable_pair;}
 namespace streams::writeable {class writeable_stream;}
 
+
 class streams::readable::readable_stream
         : public dom_object
 {
