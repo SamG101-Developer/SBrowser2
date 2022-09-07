@@ -5,16 +5,16 @@
 #include <condition_variable>
 #include <mutex>
 #include <thread>
-#include <BS_thread_pool.hpp>
 
 
 _EXT_BEGIN
 
-//using namespace BS;
+
 using std::thread;
 using std::jthread;
 using std::mutex;
 using std::condition_variable;
+
 
 _EXT_END
 
