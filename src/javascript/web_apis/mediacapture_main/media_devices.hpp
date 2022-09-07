@@ -15,6 +15,7 @@ namespace mediacapture::main {class media_devices;}
 #include USE_INNER_TYPES(mediacapture_main)
 #include USE_INNER_TYPES(mediacapture_output)
 #include USE_INNER_TYPES(mediacapture_screenshare)
+#include USE_INNER_TYPES(mediacapture_viewport)
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}
 
@@ -40,6 +41,9 @@ public js_methods:
 
     /* MEDIACAPTURE_SCREENSHARE */
     auto get_display_media(detail::display_media_stream_options_t&& options = {}) -> ext::promise<media_stream*>;
+
+    /* MEDIACAPTURE_VIEWPORT */
+    auto get_viewport_media(detail::display_media_stream_constraints_t&& options = {}) -> ext::promise<media_stream*>;
 };
 
 

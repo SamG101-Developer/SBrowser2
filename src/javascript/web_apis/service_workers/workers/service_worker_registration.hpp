@@ -12,6 +12,8 @@ namespace service_workers::workers {class service_worker_registration;}
 namespace notifications {class notification;}
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::workers {class service_worker;}
+namespace payment::handler {class payment_manager;}
+
 
 class service_workers::workers::service_worker_registration
         : public dom::nodes::event_target
@@ -36,6 +38,9 @@ public js_properties:
 
     ext::property<ext::string> scope;
     ext::property<std::unique_ptr<detail::service_worker_update_via_cache_t>> update_via_cache;
+
+    /* PAYMENT_HANDLER */
+    ext::property<std::unique_ptr<payment::handler::payment_manager>> payment_manager;
 
 private cpp_properties:
     std::unique_ptr<detail::service_worker_registration_t> m_service_worker_registration;
