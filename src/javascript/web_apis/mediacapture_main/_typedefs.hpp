@@ -4,6 +4,7 @@
 namespace mediacapture::detail
 {
     enum class media_device_kind_t {AUDIO_INPUT, AUDIO_OUTPUT, VIDEO_INPUT};
+    enum class media_stream_track_state_t {LIVE, ENDED};
     struct media_stream_track_source;
     using capabilities_t = ext::map<ext::string, ext::any>;
     using constraints_t = ext::map<ext::string, ext::any>;
