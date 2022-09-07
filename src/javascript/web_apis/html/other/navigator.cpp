@@ -13,7 +13,7 @@
 
 #include "gamepad/gamepad.hpp"
 
-#include "high_resolution_time/performance.hpp"
+#include "hr_time/performance.hpp"
 
 #include "html/detail/document_internals.hpp"
 
@@ -140,7 +140,7 @@ auto html::other::navigator::get_gamepads()
 
     return_if (!s_has_gamepad_gesture()) {};
 
-    auto now = high_resolution_time::performance{}.now();
+    auto now = hr_time::performance{}.now();
     auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed();};
 
     for (auto* gamepad: s_gamepads() | ranges::views::filter(std::move(valid_gamepad)))

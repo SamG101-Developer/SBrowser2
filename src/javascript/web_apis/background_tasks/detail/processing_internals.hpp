@@ -3,7 +3,7 @@
 
 #include "ext/number.hpp"
 #include USE_INNER_TYPES(background_tasks)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace dom::nodes {class window;}
 
 
@@ -19,7 +19,7 @@ namespace background_tasks::detail
     auto invoke_idle_callbacks_algorithm(
             dom::nodes::window* window,
             F&& get_deadline)
-            -> high_resolution_time::detail::dom_high_res_time_stamp_t;
+            -> hr_time::dom_high_res_time_stamp;
 
     auto invoke_idle_callback_timeout_algorithm(
             ext::number<ulong>&& handle,

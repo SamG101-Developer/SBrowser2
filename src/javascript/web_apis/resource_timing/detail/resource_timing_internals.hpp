@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(performance_timeline)
 namespace resource_timing {class performance_resource_timing;}
 
@@ -41,9 +41,9 @@ namespace resource_timing::detail
             -> void;
 
     auto convert_fetch_timestamp(
-            const high_resolution_time::detail::dom_high_res_time_stamp_t& time_stamp,
+            const hr_time::dom_high_res_time_stamp& time_stamp,
             v8::Local<v8::Object> global)
-            -> high_resolution_time::detail::dom_high_res_time_stamp_t;
+            -> hr_time::dom_high_res_time_stamp;
 };
 
 

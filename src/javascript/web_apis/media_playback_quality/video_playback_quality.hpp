@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace media::playback_quality {class video_playback_quality;}
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 
 class media::playback_quality::video_playback_quality
@@ -14,7 +14,7 @@ public constructors:
     video_playback_quality() = default;
 
 public js_properties:
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> creation_time;
+    ext::property<hr_time::dom_high_res_time_stamp> creation_time;
     ext::property<ext::number<ulong>> dropped_video_frames;
     ext::property<ext::number<ulong>> total_video_frames;
 };

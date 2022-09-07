@@ -6,7 +6,7 @@
 namespace geolocation {class geolocation_position;}
 
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace geolocation {class geolocation_coordinates;}
 
 
@@ -19,7 +19,7 @@ public constructors:
 
 public js_properties:
     ext::property<std::unique_ptr<geolocation_coordinates>> coords;
-    ext::property<high_resolution_time::detail::epoch_time_stamp_t> timestamp;
+    ext::property<hr_time::epoch_time_stamp> timestamp;
 
 private js_slots:
     ext::slot<ext::boolean> s_is_high_accuracy;

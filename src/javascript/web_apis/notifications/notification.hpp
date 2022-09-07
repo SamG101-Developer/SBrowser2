@@ -6,7 +6,7 @@
 namespace notifications {class notification;}
 
 #include "ext/type_traits.hpp"
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(notifications)
 
 
@@ -30,7 +30,7 @@ public js_properties:
     ext::property<ext::string> icon;
     ext::property<ext::string> badge;
     ext::property<detail::notification_direction_t> dir;
-    ext::property<high_resolution_time::detail::epoch_time_stamp_t> time_stamp;
+    ext::property<hr_time::epoch_time_stamp> time_stamp;
     ext::property<ext::boolean> renotify;
     ext::property<ext::boolean> silent;
     ext::property<ext::boolean> require_interaction;

@@ -5,7 +5,7 @@
 #include "ext/number.hpp"
 #include <v8-platform.h>
 #include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 namespace longtasks::detail
 {

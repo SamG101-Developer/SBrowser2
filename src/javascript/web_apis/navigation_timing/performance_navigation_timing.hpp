@@ -6,7 +6,7 @@
 namespace navigation_timing {class performance_navigation_timing;}
 
 #include <memory>
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(navigation_timing)
 #include USE_INNER_TYPES(service_workers)
@@ -19,15 +19,15 @@ public constructors:
     performance_navigation_timing() = default;
 
 public js_properties:
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> unload_event_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> unload_event_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> dom_interactive;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> dom_content_loaded_event_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> dom_content_loaded_event_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> dom_complete;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> load_event_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> load_event_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> type;
+    ext::property<hr_time::dom_high_res_time_stamp> unload_event_start;
+    ext::property<hr_time::dom_high_res_time_stamp> unload_event_end;
+    ext::property<hr_time::dom_high_res_time_stamp> dom_interactive;
+    ext::property<hr_time::dom_high_res_time_stamp> dom_content_loaded_event_start;
+    ext::property<hr_time::dom_high_res_time_stamp> dom_content_loaded_event_end;
+    ext::property<hr_time::dom_high_res_time_stamp> dom_complete;
+    ext::property<hr_time::dom_high_res_time_stamp> load_event_start;
+    ext::property<hr_time::dom_high_res_time_stamp> load_event_end;
+    ext::property<hr_time::dom_high_res_time_stamp> type;
     ext::property<ext::number<ushort>> redirect_count;
 
 public cpp_methods:

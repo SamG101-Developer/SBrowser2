@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace performance_timeline {class performance_entry;}
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 
 class performance_timeline::performance_entry
@@ -17,8 +17,8 @@ public constructors:
 public js_properties:
     ext::property<ext::string> name;
     ext::property<ext::string> entry_type;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> start_time;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> duration;
+    ext::property<hr_time::dom_high_res_time_stamp> start_time;
+    ext::property<hr_time::dom_high_res_time_stamp> duration;
 
 public cpp_methods:
     auto to_json() const -> ext::string override;

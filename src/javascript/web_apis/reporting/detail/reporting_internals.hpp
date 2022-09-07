@@ -10,7 +10,7 @@
 #include <v8-forward.h>
 
 #include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(url)
 #include USE_INNER_TYPES(reporting)
@@ -93,7 +93,7 @@ struct reporting::detail::report_t
     ext::string user_agent;
     ext::string destination;
     report_type_t type;
-    high_resolution_time::detail::epoch_time_stamp_t timestamp;
+    hr_time::epoch_time_stamp timestamp;
     ext::number<int> counter;
 };
 

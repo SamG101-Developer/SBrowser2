@@ -6,7 +6,7 @@
 namespace resource_timing {class performance_resource_timing;}
 
 #include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 
 class resource_timing::performance_resource_timing
@@ -19,18 +19,18 @@ public constructors:
 public js_properties:
     ext::property<ext::string> initiator_type;
     ext::property<ext::string> next_hop_protocol;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> worker_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> redirect_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> redirect_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> fetch_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> domain_lookup_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> domain_lookup_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> connect_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> connect_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> secure_connection_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> secure_connection_end;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> response_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> response_end;
+    ext::property<hr_time::dom_high_res_time_stamp> worker_start;
+    ext::property<hr_time::dom_high_res_time_stamp> redirect_start;
+    ext::property<hr_time::dom_high_res_time_stamp> redirect_end;
+    ext::property<hr_time::dom_high_res_time_stamp> fetch_start;
+    ext::property<hr_time::dom_high_res_time_stamp> domain_lookup_start;
+    ext::property<hr_time::dom_high_res_time_stamp> domain_lookup_end;
+    ext::property<hr_time::dom_high_res_time_stamp> connect_start;
+    ext::property<hr_time::dom_high_res_time_stamp> connect_end;
+    ext::property<hr_time::dom_high_res_time_stamp> secure_connection_start;
+    ext::property<hr_time::dom_high_res_time_stamp> secure_connection_end;
+    ext::property<hr_time::dom_high_res_time_stamp> response_start;
+    ext::property<hr_time::dom_high_res_time_stamp> response_end;
     ext::property<ext::number<ulonglong>> transfer_size;
     ext::property<ext::number<ulonglong>> encoded_body_size;
     ext::property<ext::number<ulonglong>> decoded_body_size;

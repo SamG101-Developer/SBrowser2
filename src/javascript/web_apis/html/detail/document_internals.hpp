@@ -3,7 +3,7 @@
 
 #include "ext/boolean.hpp"
 #include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 namespace dom::nodes {class document; class node;}
 namespace html::elements {class html_meta_element;}
@@ -66,19 +66,19 @@ namespace html::detail
 struct html::detail::document_load_timing_info_t
 {
     ext::number<int> navigation_start_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t dom_interactive_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t dom_content_loaded_event_start_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t dom_content_loaded_event_end_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t dom_complete_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t load_event_start_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t load_event_unload_time;
+    hr_time::dom_high_res_time_stamp dom_interactive_time;
+    hr_time::dom_high_res_time_stamp dom_content_loaded_event_start_time;
+    hr_time::dom_high_res_time_stamp dom_content_loaded_event_end_time;
+    hr_time::dom_high_res_time_stamp dom_complete_time;
+    hr_time::dom_high_res_time_stamp load_event_start_time;
+    hr_time::dom_high_res_time_stamp load_event_unload_time;
 };
 
 
 struct html::detail::document_unload_timing_info_t
 {
-    high_resolution_time::detail::dom_high_res_time_stamp_t unload_event_start_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t unload_event_unload_time;
+    hr_time::dom_high_res_time_stamp unload_event_start_time;
+    hr_time::dom_high_res_time_stamp unload_event_unload_time;
 };
 
 

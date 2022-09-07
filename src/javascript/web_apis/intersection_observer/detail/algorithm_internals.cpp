@@ -8,7 +8,7 @@
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/window.hpp"
 
-#include "high_resolution_time/performance.hpp"
+#include "hr_time/performance.hpp"
 #include "html/detail/task_internals.hpp"
 
 #include "intersection_observer/intersection_observer.hpp"

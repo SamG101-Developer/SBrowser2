@@ -13,7 +13,7 @@
 #include "event_timing/event_counts.hpp"
 #include "event_timing/performance_event_timing.hpp"
 
-#include "high_resolution_time/performance.hpp"
+#include "hr_time/performance.hpp"
 #include "performance_timeline/detail/processing_internals.hpp"
 #include "pointer_events/pointer_event.hpp"
 
@@ -294,7 +294,7 @@ auto event_timing::detail::dispatch_pending_event_timing_entries(
 {
     JS_REALM_GET_RELEVANT(document);
     decltype(auto) window = v8pp::from_v8<dom::nodes::window*>(document_relevant_agent, document_relevant_global_object);
-    auto rendering_timestamp = high_resolution_time::performance{}.now();
+    auto rendering_timestamp = hr_time::performance{}.now();
 
     for (const auto& timing_entry: window->m_entries_to_be_queued)
     {
@@ -311,7 +311,7 @@ auto event_timing::detail::dispatch_pending_event_timing_entries(
 auto event_timing::detail::set_event_timing_entry_duration(
         performance_event_timing* timing_entry,
         dom::nodes::window* window,
-        high_resolution_time::detail::dom_high_res_time_stamp_t rendering_timestamp)
+        hr_time::dom_high_res_time_stamp rendering_timestamp)
         -> void
 {
     return_if (timing_entry->duration() != 0);

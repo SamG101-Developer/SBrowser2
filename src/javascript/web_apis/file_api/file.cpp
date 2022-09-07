@@ -5,7 +5,7 @@
 
 #include "file_api/detail/blob_internals.hpp"
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 #include <range/v3/view/iota.hpp>
 
@@ -23,7 +23,7 @@ file_api::file::file(
         options_type |= ranges::actions::lowercase();
 
     auto options_date = options.contains("lastModified")
-            ? options["lastModified"].to<high_resolution_time::detail::epoch_time_stamp_t>()
+            ? options["lastModified"].to<hr_time::epoch_time_stamp>()
             : ext::now().timestamp();
 
     s_byte_sequence = std::move(bytes);

@@ -9,7 +9,7 @@
 #include <v8-forward.h>
 
 #include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(service_workers)
 #include USE_INNER_TYPES(storage)
@@ -161,8 +161,8 @@ struct service_workers::detail::service_worker_registration_t
 
 struct service_workers::detail::service_worker_timing_info_t
 {
-    high_resolution_time::detail::dom_high_res_time_stamp_t start_time;
-    high_resolution_time::detail::dom_high_res_time_stamp_t fetch_event_dispatch_time;
+    hr_time::dom_high_res_time_stamp start_time;
+    hr_time::dom_high_res_time_stamp fetch_event_dispatch_time;
 };
 
 

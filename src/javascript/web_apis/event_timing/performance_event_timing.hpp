@@ -5,7 +5,7 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace event_timing {class performance_event_timing;}
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace dom::nodes {class event_target;}
 namespace dom::events {class event;}
 
@@ -17,8 +17,8 @@ public constructors:
     performance_event_timing();
 
 public js_properties:
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> processing_start;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> processing_end;
+    ext::property<hr_time::dom_high_res_time_stamp> processing_start;
+    ext::property<hr_time::dom_high_res_time_stamp> processing_end;
     ext::property<ext::boolean> cancelable;
     ext::property<dom::nodes::node*> target;
     ext::property<ext::number<ulonglong>> interaction_id;

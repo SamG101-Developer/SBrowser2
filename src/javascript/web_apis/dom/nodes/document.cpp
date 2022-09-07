@@ -29,7 +29,7 @@
 #include "html/elements/html_script_element.hpp"
 #include "html/elements/html_title_element.hpp"
 
-#include "high_resolution_time/detail/time_internals.hpp"
+#include "hr_time/detail/time_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 #include "permissions_policy/permissions_policy.hpp"
 #include "svg/elements/svg_title_element.hpp"
@@ -414,7 +414,7 @@ auto dom::nodes::document::set_ready_state(
     if (/* TODO : HTML parser association */ false)
     {
         JS_REALM_GET_RELEVANT(this)
-        auto now = high_resolution_time::detail::current_high_resolution_time(this_relevant_global_object);
+        auto now = hr_time::detail::current_hr_time(this_relevant_global_object);
         if (val == "complete" && m_load_timing_info.dom_complete_time == 0)
             m_load_timing_info.dom_complete_time = now;
 

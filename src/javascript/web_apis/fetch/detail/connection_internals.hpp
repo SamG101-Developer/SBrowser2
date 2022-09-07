@@ -8,7 +8,7 @@
 #include "ext/map.hpp"
 
 #include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(url)
 
 
@@ -21,7 +21,7 @@ namespace fetch::detail
 
     auto clamp_and_coarsen_connection_timing_information(
             const connection_timing_info_t& timing_information,
-            const high_resolution_time::detail::dom_high_res_time_stamp_t& default_start_time,
+            const hr_time::dom_high_res_time_stamp& default_start_time,
             ext::boolean cross_origin_isolated_capability)
             -> connection_timing_info_t;
 

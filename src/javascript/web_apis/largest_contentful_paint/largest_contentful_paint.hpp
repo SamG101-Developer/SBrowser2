@@ -5,7 +5,7 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace largest_contentful_paint {class largest_contentful_paint;}
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace dom::nodes {class element;}
 
 
@@ -17,8 +17,8 @@ public constructors:
     largest_contentful_paint() = default;
 
 public js_properties:
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> render_time;
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> load_time;
+    ext::property<hr_time::dom_high_res_time_stamp> render_time;
+    ext::property<hr_time::dom_high_res_time_stamp> load_time;
     ext::property<ext::number<ulong>> size;
     ext::property<ext::string> id;
     ext::property<ext::string> url;

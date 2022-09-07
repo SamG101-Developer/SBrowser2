@@ -7,7 +7,7 @@
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include USE_INNER_TYPES(intersection_observer)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
@@ -48,7 +48,7 @@ namespace intersection_observer::detail
     auto queue_intersection_observer_entry(
             intersection_observer* observer,
             dom::nodes::document* document,
-            const high_resolution_time::detail::dom_high_res_time_stamp_t& time,
+            const hr_time::dom_high_res_time_stamp& time,
             css::geometry::dom_rect* root_bounds,
             css::geometry::dom_rect* bounding_client_rect,
             css::geometry::dom_rect* intersection_rect,

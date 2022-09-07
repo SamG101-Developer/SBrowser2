@@ -4,7 +4,7 @@
 
 #include "gamepad/detail/construction_internals.hpp"
 
-#include "high_resolution_time/performance.hpp"
+#include "hr_time/performance.hpp"
 
 
 gamepad::gamepad::gamepad()
@@ -12,7 +12,7 @@ gamepad::gamepad::gamepad()
         , index{detail::select_unused_gamepad_index(this)}
         , mapping{detail::select_mapping(this)}
         , s_connected{true}
-        , s_timestamp{high_resolution_time::performance{}.now()}
+        , s_timestamp{hr_time::performance{}.now()}
         , s_axes{detail::initialize_axes(this)}
         , s_buttons{detail::initialize_buttons(this)}
 {

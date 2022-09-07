@@ -1,7 +1,7 @@
 #include "event.hpp"
 
 #include "dom/detail/event_internals.hpp"
-#include "high_resolution_time/performance.hpp"
+#include "hr_time/performance.hpp"
 
 #include <range/v3/range/operations.hpp>
 
@@ -17,7 +17,7 @@ dom::events::event::event(
         , current_target(nullptr)
         , related_target(nullptr)
         , event_phase(std::bit_cast<ushort>(NONE))
-        , time_stamp(high_resolution_time::performance{}.now())
+        , time_stamp(hr_time::performance{}.now())
         , is_trusted(false)
         , touch_targets(touch_targets_t{})
         , path(path_t{})

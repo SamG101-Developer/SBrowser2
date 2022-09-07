@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace dom::nodes {class document;}
 
 
@@ -21,7 +21,7 @@ namespace paint_timing::detail
     auto report_paint_timing(
             dom::nodes::document* document,
             ext::string&& paint_type,
-            high_resolution_time::detail::dom_high_res_time_stamp_t)
+            hr_time::dom_high_res_time_stamp)
             -> void;
 };
 

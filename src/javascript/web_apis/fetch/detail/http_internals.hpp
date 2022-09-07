@@ -14,7 +14,7 @@
 #include <range/v3/view/iota.hpp>
 #include <v8-forward.h>
 #include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(url)
 
 namespace fetch::detail
@@ -96,11 +96,11 @@ namespace fetch::detail
 
 struct fetch::detail::connection_timing_info_t
 {
-    high_resolution_time::detail::dom_high_res_time_stamp_t domain_lookup_start_time = 0;
-    high_resolution_time::detail::dom_high_res_time_stamp_t domain_lookup_end_time = 0;
-    high_resolution_time::detail::dom_high_res_time_stamp_t connection_start_time = 0;
-    high_resolution_time::detail::dom_high_res_time_stamp_t connection_end_time = 0;
-    high_resolution_time::detail::dom_high_res_time_stamp_t secure_connection_start_time = 0;
+    hr_time::dom_high_res_time_stamp domain_lookup_start_time = 0;
+    hr_time::dom_high_res_time_stamp domain_lookup_end_time = 0;
+    hr_time::dom_high_res_time_stamp connection_start_time = 0;
+    hr_time::dom_high_res_time_stamp connection_end_time = 0;
+    hr_time::dom_high_res_time_stamp secure_connection_start_time = 0;
     ext::string alpn_negotiated_protocol;
 };
 
@@ -114,14 +114,14 @@ struct fetch::detail::fetch_controller_t
 
 struct fetch::detail::fetch_timing_info_t
 {
-    high_resolution_time::detail::dom_high_res_time_stamp_t start_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t redirect_start_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t redirect_end_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t post_redirect_start_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t final_service_worker_start_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t final_network_request_start_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t final_network_response_start_time{0};
-    high_resolution_time::detail::dom_high_res_time_stamp_t end_time{0};
+    hr_time::dom_high_res_time_stamp start_time{0};
+    hr_time::dom_high_res_time_stamp redirect_start_time{0};
+    hr_time::dom_high_res_time_stamp redirect_end_time{0};
+    hr_time::dom_high_res_time_stamp post_redirect_start_time{0};
+    hr_time::dom_high_res_time_stamp final_service_worker_start_time{0};
+    hr_time::dom_high_res_time_stamp final_network_request_start_time{0};
+    hr_time::dom_high_res_time_stamp final_network_response_start_time{0};
+    hr_time::dom_high_res_time_stamp end_time{0};
 
     connection_timing_info_t* final_connection_timing_info = nullptr;
     ext::vector<ext::string> server_timing_headers{};

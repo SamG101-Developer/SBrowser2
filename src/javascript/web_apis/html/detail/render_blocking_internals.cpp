@@ -4,7 +4,7 @@
 
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
-#include "high_resolution_time/detail/time_internals.hpp"
+#include "hr_time/detail/time_internals.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/action/remove.hpp>
@@ -29,7 +29,7 @@ auto html::detail::is_render_blocked(
     // rendering taking too long (or freezing etc)
     JS_REALM_GET_RELEVANT(document)
     auto document_allows  = !document->m_render_blocking_elements.empty() || allows_adding_render_blocking_elements(document);
-    auto render_timed_out = high_resolution_time::detail::current_high_resolution_time(document_relevant_global_object);
+    auto render_timed_out = hr_time::detail::current_hr_time(document_relevant_global_object);
     return document_allows && render_timed_out;
 }
 

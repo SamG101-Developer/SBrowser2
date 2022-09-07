@@ -91,7 +91,7 @@ private cpp_properties:
     ext::boolean m_has_dispatched_scroll_event = false;
     std::unique_ptr<dom::detail::custom_element_reactions_stack_t> m_custom_element_reaction_stack;
     ext::queue<dom::nodes::element*>* m_current_element_queue;
-    high_resolution_time::detail::dom_high_res_time_stamp_t last_activation_timestamp;
+    hr_time::dom_high_res_time_stamp last_activation_timestamp;
 
     /* BACKGROUND_TASKS */
     ext::vector<background_tasks::detail::idle_request_callback_t> m_idle_request_callbacks;

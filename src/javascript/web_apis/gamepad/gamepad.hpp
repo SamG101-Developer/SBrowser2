@@ -6,7 +6,7 @@
 namespace gamepad {class gamepad;}
 
 #include USE_INNER_TYPES(gamepad)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace gamepad {class gamepad_button;}
 
 
@@ -21,14 +21,14 @@ public js_properties:
     ext::property<ext::number<long>> index;
     ext::property<ext::boolean> connected;
 
-    ext::property<high_resolution_time::detail::dom_high_res_time_stamp_t> timestamp;
+    ext::property<hr_time::dom_high_res_time_stamp> timestamp;
     ext::property<detail::gamepad_mapping_type_t> mapping;
     ext::property<ext::vector<ext::number<double>>*> axes;
     ext::property<ext::vector<gamepad_button*>*> buttons;
 
 private js_slots:
     ext::slot<ext::boolean> s_connected;
-    ext::slot<high_resolution_time::detail::dom_high_res_time_stamp_t> s_timestamp;
+    ext::slot<hr_time::dom_high_res_time_stamp> s_timestamp;
     ext::slot<ext::vector<ext::number<double>>*> s_axes;
     ext::slot<ext::vector<gamepad_button*>*> s_buttons;
     ext::slot<ext::boolean> s_exposed;

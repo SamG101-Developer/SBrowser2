@@ -5,7 +5,7 @@
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 #include USE_INNER_TYPES(notifications)
 #include USE_INNER_TYPES(permissions)
 #include USE_INNER_TYPES(service_workers)
@@ -73,7 +73,7 @@ struct notifications::detail::notification_t
     notification_direction_t direction;
 
     ext::any data;
-    high_resolution_time::detail::epoch_time_stamp_t time_stamp;
+    hr_time::epoch_time_stamp time_stamp;
     ext::string origin;
 
     ext::boolean renotify_preference = false;

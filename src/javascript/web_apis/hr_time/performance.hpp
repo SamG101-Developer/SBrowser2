@@ -3,15 +3,15 @@
 #define SBROWSER2_PERFORMANCE_HPP
 
 #include "dom/nodes/event_target.hpp"
-namespace high_resolution_time {class performance;}
+namespace hr_time {class performance;}
 
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace performance_timeline {class performance_entry;}
 namespace event_timing {class event_counts;}
 namespace event_timing {class interaction_counts;}
 
 
-class high_resolution_time::performance
+class hr_time::performance
         : public dom::nodes::event_target
 {
 public constructors:
@@ -19,7 +19,7 @@ public constructors:
 
 public js_methods:
     /* HIGH_RESOLUTION_TIME */
-    auto now() -> detail::dom_high_res_time_stamp_t;
+    auto now() -> dom_high_res_time_stamp;
 
     /* PERFORMANCE_TIMELINE */
     auto get_entries() -> ext::vector<performance_timeline::performance_entry*>;
@@ -32,7 +32,7 @@ public js_methods:
 
 public js_properties:
     /* HIGH_RESOLUTION_TIME */
-    ext::property<detail::dom_high_res_time_stamp_t> time_origin;
+    ext::property<dom_high_res_time_stamp> time_origin;
 
     /* EVENT_TIMING */
     ext::property<const event_timing::event_counts*> event_counts;

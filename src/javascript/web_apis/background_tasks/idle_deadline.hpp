@@ -4,7 +4,7 @@
 
 #include "dom_object.hpp"
 #include USE_INNER_TYPES(background_tasks)
-#include USE_INNER_TYPES(high_resolution_time)
+#include USE_INNER_TYPES(hr_time)
 namespace background_tasks {class idle_deadline;}
 
 
@@ -16,7 +16,7 @@ public constructors:
     idle_deadline() = default;
 
 public js_methods:
-    auto time_remaining() -> high_resolution_time::detail::dom_high_res_time_stamp_t;
+    auto time_remaining() -> hr_time::dom_high_res_time_stamp;
 
 public js_properties:
     ext::property<ext::boolean> did_timeout;

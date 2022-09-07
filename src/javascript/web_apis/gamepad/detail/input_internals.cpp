@@ -11,7 +11,7 @@
 #include "gamepad/gamepad.hpp"
 #include "gamepad/gamepad_event.hpp"
 
-#include "high_resolution_time/performance.hpp"
+#include "hr_time/performance.hpp"
 
 #include "html/detail/task_internals.hpp"
 #include "html/other/navigator.hpp"
@@ -33,7 +33,7 @@ auto gamepad::detail::update_gamepad_state(
         gamepad* gamepad)
         -> void
 {
-    auto now = high_resolution_time::performance{}.now();
+    auto now = hr_time::performance{}.now();
     gamepad->s_timestamp = now;
 
     map_and_normalize_axes(gamepad);
