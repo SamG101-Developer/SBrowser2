@@ -22,9 +22,10 @@
 #define USE_INNER_TYPES(api) CONCAT(api, /_typedefs.hpp)
 #define USE_CONCEPTS(api) CONCAT(api, /_concepts.hpp)
 
-#define catch_all catch (...)
-#define catch_specific(exception_t) catch(const exception_t& exception)
-#define catch_other catch (...)
+#define EXT_TRY try {
+#define EXT_CATCH_ALL } catch (...) {
+#define EXT_CATCH_SPECIFIC (exception_t) } catch(const exception_t& exception) {
+#define EXT_CATCH_OTHER } catch (...) {
 
 #define string_switch(_String) switch(ext::hash{}(_String))
 #define string_case(_String) case(ext::hash{}(_String))
