@@ -136,18 +136,18 @@ namespace url::detail
             -> ext::boolean;
 
     auto url_parser(
-            ext::string&& input,
-            ext::string&& base_url = "",
-            encoding::encoding* encoding = encoding::encoding::utf8)
-            -> url_t;
+            ext::string_view input,
+            ext::string_view base_url = "")
+            // TODO: encoding::encoding* encoding = encoding::encoding::utf8)
+            -> ext::optional<url_t>;
 
     auto basic_url_parser(
-            ext::string&& input,
-            ext::string&& base_url = "",
-            encoding::encoding* encoding = encoding::encoding::utf8,
+            ext::string_view input,
+            ext::string_view base_url = "",
+            // TODO: encoding::encoding* encoding = encoding::encoding::utf8,
             ext::optional<const url_t&> url,
             state_override_t state_override = state_override_t::SCHEME_START_STATE)
-            -> url_t;
+            -> ext::optional<url_t>;
 
     auto set_username(
             url_t& url,
