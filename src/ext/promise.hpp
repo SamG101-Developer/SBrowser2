@@ -34,6 +34,28 @@ private:
 };
 
 
+template <>
+class promise<void>
+{
+public:
+    auto resolve() -> promise<void>&
+    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent())); return *this;};
+
+    template <typename U>
+    auto reject(U&& exception) -> promise<void>&
+    {m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<U>(exception))); return *this;}
+
+    template <callable F0, callable F1>
+    auto react(F0&& fulfilled_steps, F1&& rejected_steps = []{}) -> promise<void>&;
+
+    ext::boolean is_resolved = false;
+    ext::boolean is_rejected = false;
+
+private:
+    v8::Local<v8::Promise::Resolver> m_v8_promise;
+};
+
+
 template <typename ...Ts>
 template <callable F0, callable F1>
 auto promise<Ts...>::react(
