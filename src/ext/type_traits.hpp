@@ -28,16 +28,6 @@
     struct _Name<_Specialization> {using type = _Ret_t;}
 
 
-// type definitions
-using longlong  = long long;
-
-using uchar     = unsigned char;
-using ushort    = unsigned short;
-using uint      = unsigned int;
-using ulong     = unsigned long;
-using ulonglong = unsigned long long;
-
-
 // pointer deduction for raw and smart pointers together
 
 _EXT_BEGIN

@@ -9,6 +9,14 @@
 #include <limits>
 #include <stdexcept>
 
+using longlong  = long long;
+using uchar     = unsigned char;
+using ushort    = unsigned short;
+using uint      = unsigned int;
+using ulong     = unsigned long;
+using ulonglong = unsigned long long;
+
+
 #define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                                                      \
     template <arithmetic T, arithmetic U>                                                                                      \
     constexpr auto operator op (const _EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<std::common_type_t<T, U>> \
