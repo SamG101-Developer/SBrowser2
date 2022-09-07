@@ -36,7 +36,7 @@ public cpp_methods:
     virtual auto to_json() const -> ext::string {return "";}
 
 public cpp_properties:
-    struct
+    struct // TODO : move to dom::nodes::event_target
     {
         behaviour_method(
                 dom::events::event* event_causing_activation)
