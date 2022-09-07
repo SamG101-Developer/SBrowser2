@@ -39,7 +39,7 @@ public js_properties:
 
     ext::property<ext::boolean> enabled;
     ext::property<ext::boolean> muted;
-    ext::property<ext::string> ready_state;
+    ext::property<detail::media_stream_track_state_t> ready_state;
 
     ext::property<ext::string> device_id;
     ext::property<ext::string> facing_mode;
