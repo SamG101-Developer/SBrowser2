@@ -3,23 +3,23 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_PAYMENT_REQUEST_HPP
 
 #include "dom/nodes/event_target.hpp"
-namespace payment_request {class payment_request;}
+namespace payment::request {class payment_request;}
 
 #include "ext/promise.hpp"
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
 #include USE_INNER_TYPES(payment_request)
-namespace payment_request {class payment_details_base;}
-namespace payment_request {class payment_response;}
+namespace payment::request {class payment_details_base;}
+namespace payment::request {class payment_response;}
 
 
-class payment_request::payment_request
+class payment::request::payment_request
         : public dom::nodes::event_target
 {
 public constructors:
-    DOM_CTORS(payment_request);
-    payment_request() = default;
-    payment_request(const ext::vector<detail::payment_method_data_t*>&, detail::payment_method_init_t&& details);
+    DOM_CTORS(request);
+    request() = default;
+    request(const ext::vector<detail::payment_method_data_t*>&, detail::payment_method_init_t&& details);
 
 public js_methods:
     auto show(ext::optional<ext::promise<detail::payment_details_update_t>&> details_promise = ext::nullopt) -> ext::promise<payment_response>;

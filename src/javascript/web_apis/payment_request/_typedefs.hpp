@@ -6,7 +6,7 @@
 #include "ext/string.hpp"
 
 
-namespace payment_request::detail
+namespace payment::detail
 {
     enum class state_t {CREATED, INTERACTIVE, CLOSED};
     enum class payment_complete_t {FAIL, SUCCESS, UNKNOWN};

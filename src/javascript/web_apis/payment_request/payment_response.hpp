@@ -3,14 +3,14 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_PAYMENT_RESPONSE_HPP
 
 #include "dom/nodes/event_target.hpp"
-namespace payment_request {class payment_response;};
+namespace payment::request {class payment_response;};
 
 #include "ext/promise.hpp"
 #include USE_INNER_TYPES(payment_request)
-namespace payment_request {class payment_request;};
+namespace payment::request {class payment_request;};
 
 
-class payment_request::payment_response
+class payment::request::payment_response
         : public dom::nodes::event_target
 {
 public constructors:

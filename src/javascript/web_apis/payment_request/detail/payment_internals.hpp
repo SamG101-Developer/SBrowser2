@@ -5,10 +5,10 @@
 #include "ext/functional.hpp"
 #include USE_INNER_TYPES(payment_request)
 
-namespace payment_request {class payment_request;}
+namespace payment::request {class payment_request;}
 
 
-namespace payment_request::details
+namespace payment::detail
 {
     auto is_valid_decimal_monetary_value(
             ext::string_view)
@@ -53,7 +53,7 @@ namespace payment_request::details
 
 
 template <typename T>
-struct payment_request::detail::payment_handler_t
+struct payment::detail::payment_handler_t
 {
     using data_type_t = T;
 
