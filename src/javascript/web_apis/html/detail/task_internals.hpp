@@ -41,6 +41,9 @@ namespace html::detail
 
     /* INTERSECTION_OBSERVER */
     task_queue_t intersection_observer_task_source;
+
+    /* MEDIA_PROCESSOR */
+    task_queue_t media_processor_task_source;
 }
 
 
