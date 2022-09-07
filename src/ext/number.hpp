@@ -39,7 +39,7 @@ using ulonglong = unsigned long long;
     {*lhs op##= rhs; return lhs;}                                                                                              \
                                                                                                                                \
     template <arithmetic T, arithmetic U>                                                                                      \
-    constexpr auto operator op##=(T& lhs, const _EXT number<U>& rhs) -> T&                                                     \
+    constexpr auto operator op##=(T& lhs, const _EXT number<U>& rhs) -> T&                                               \
     {lhs op##= *rhs; return lhs;}                                                                                              \
 
 
