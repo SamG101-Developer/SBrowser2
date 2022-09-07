@@ -61,7 +61,7 @@ auto v8pp::convert<T>::from_v8(
 
     auto v8_value_string = v8_value.template As<v8::String>();
     auto cpp_value_string = v8pp::convert<ext::string>::from_v8(isolate, v8_value_string);
-    auto cpp_value_formatted_string = cpp_value_string
+    auto cpp_value_formatted_string = cpp_value_string == "" ? "_" : cpp_value_string
             | ranges::views::replace('-', '_')
             | ranges::views::uppercase()
             | ranges::to<ext::string>;
@@ -83,14 +83,14 @@ auto v8pp::convert<T>::to_v8(
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 
-    auto cpp_string_value = magic_enum::enum_name(cpp_value);
-    auto cpp_formatted_string_value = cpp_string_value
+    auto cpp_value_string = ext::string{magic_enum::enum_name(cpp_value)};
+    auto cpp_value_formatted_string = cpp_value_string == "_" ? "" : cpp_value_string
             | ranges::views::replace('_', '-')
             | ranges::views::lowercase()
             | ranges::to<ext::string>;
 
-    auto v8_string_value = v8::String::NewFromUtf8(isolate, cpp_formatted_string_value).ToLocalChecked();
-    return javascript_scope.template Escape(v8_string_value);
+    auto v8_value_string = v8::String::NewFromUtf8(isolate, cpp_value_formatted_string.c_str()).ToLocalChecked();
+    return javascript_scope.template Escape(v8_value_string);
 }
 
 
