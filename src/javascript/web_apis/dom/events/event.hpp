@@ -36,7 +36,6 @@ public: friends
             const ext::number<uchar>& phase, const ext::boolean& invocation_target_in_shadow_tree) -> void;
 
 public: constructors
-    DOM_CTORS(event);
     event() = default;
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
