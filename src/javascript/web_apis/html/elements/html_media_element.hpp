@@ -87,6 +87,9 @@ public js_properties:
     /* MEDIACAPTURE_OUTPUT */
     ext::property<ext::string> sink_id;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
 private cpp_properties:
     detail::origin_t m_origin;
     detail::task_queue_t m_media_element_event_task_source;
@@ -102,7 +105,6 @@ private cpp_properties:
     ext::vector<basic_media::text_track_cue*> m_newly_introduced_cues;
     ext::boolean m_pending_track_change_notification_flag;
     ext::number<double> m_playback_volume;
-
 
 private cpp_accessors:
     DEFINE_GETTER(src_object) {return m_assigned_media_provider_object;};
