@@ -294,7 +294,7 @@ auto event_timing::detail::dispatch_pending_event_timing_entries(
 {
     JS_REALM_GET_RELEVANT(document);
     decltype(auto) window = v8pp::from_v8<dom::nodes::window*>(document_relevant_agent, document_relevant_global_object);
-    auto rendering_timestamp = hr_time::performance{}.now();
+    auto rendering_timestamp = hr_time::detail::current_hr_time(document_relevant_global_object);
 
     for (const auto& timing_entry: window->m_entries_to_be_queued)
     {

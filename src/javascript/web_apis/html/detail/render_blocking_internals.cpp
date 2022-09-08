@@ -27,9 +27,9 @@ auto html::detail::is_render_blocked(
     // if the Document allows render blocking elements (or there are elements in the Document's set of blocking
     // elements), but the rendering has timed out, then return true, as the Document is blocked from processing due to
     // rendering taking too long (or freezing etc)
-    JS_REALM_GET_RELEVANT(document)
+    JS_REALM_GET_RELEVANT(document);
     auto document_allows  = !document->m_render_blocking_elements.empty() || allows_adding_render_blocking_elements(document);
-    auto render_timed_out = hr_time::detail::current_hr_time(document_relevant_global_object);
+    auto render_timed_out = hr_time::detail::current_hr_time(document_relevant_global_object) < 1000; // TODO : change 1000
     return document_allows && render_timed_out;
 }
 

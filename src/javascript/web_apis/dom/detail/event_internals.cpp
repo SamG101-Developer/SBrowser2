@@ -17,7 +17,7 @@
 #include "event_timing/detail/timing_internals.hpp"
 #include "event_timing/performance_event_timing.hpp"
 
-#include "hr_time/performance.hpp"
+#include "hr_time/detail/time_internals.hpp"
 #include "indexed_db/events/idb_version_change_event.hpp"
 #include "pointer_events/pointer_event.hpp"
 #include "touch_events/touch_event.hpp"
@@ -76,7 +76,7 @@ auto dom::detail::dispatch(
     event->m_dispatch_flag = true;
 
     /* LARGEST_CONTENTFUL_PAINT BEGIN */
-    JS_REALM_GET_RELEVANT(target)
+    JS_REALM_GET_RELEVANT(target);
     if (auto* window = v8pp::from_v8<nodes::window*>(target_relevant_agent, target_relevant_global_object);
             window != nullptr
             && event->type() == "scroll"
@@ -86,7 +86,7 @@ auto dom::detail::dispatch(
 
     /* EVENT_TIMING BEGIN */
     auto interaction_id = event_timing::detail::compute_interaction_id(event);
-    auto entry_timing = event_timing::detail::initialize_event_timing(event, hr_time::performance{}.now(), std::move(interaction_id));
+    auto entry_timing = event_timing::detail::initialize_event_timing(event, hr_time::detail::current_hr_time(target_relevant_global_object), std::move(interaction_id));
     /* EVENT_TIMING END */
 
     const auto is_activation_event = event->type() == "click"; // && dynamic_cast<ui_events::events::mouse_event*>(event)
@@ -215,7 +215,7 @@ auto dom::detail::dispatch(
         activation_target->m_dom_behaviour.activation_behaviour(event);
 
     /* EVENT_TIMING BEGIN */
-    event_timing::detail::finalize_event_timing(&entry_timing, event, target, hr_time::performance{}.now());
+    event_timing::detail::finalize_event_timing(&entry_timing, event, target, hr_time::detail::current_hr_time(target_relevant_global_object));
     /* EVENT_TIMING END */
 
     // the dispatch was successful if the event wasn't cancelled during path traversal

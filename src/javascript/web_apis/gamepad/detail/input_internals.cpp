@@ -14,7 +14,7 @@
 #include "gamepad/gamepad_button.hpp"
 #include "gamepad/gamepad_event.hpp"
 
-#include "hr_time/performance.hpp"
+#include "hr_time/detail/time_internals.hpp"
 
 #include "html/detail/task_internals.hpp"
 #include "html/other/navigator.hpp"
@@ -36,13 +36,13 @@ auto gamepad::detail::update_gamepad_state(
         gamepad* gamepad)
         -> void
 {
-    auto now = hr_time::performance{}.now();
+    JS_REALM_GET_RELEVANT(gamepad);
+    auto now = hr_time::detail::current_hr_time(gamepad_relevant_global_object);
     gamepad->s_timestamp = now;
 
     map_and_normalize_axes(gamepad);
     map_and_normalize_buttons(gamepad);
 
-    JS_REALM_GET_RELEVANT(gamepad);
     decltype(auto) global_object = v8pp::from_v8<dom::nodes::window*>(gamepad_relevant_agent, gamepad_relevant_global_object);
     decltype(auto) navigator = global_object->navigator();
 

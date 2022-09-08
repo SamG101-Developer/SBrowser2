@@ -7,7 +7,7 @@
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/window.hpp"
 
-#include "hr_time/performance.hpp"
+#include "hr_time/detail/time_internals.hpp"
 #include "html/detail/task_internals.hpp"
 
 #include <range/v3/algorithm/move_backward.hpp>
@@ -49,7 +49,10 @@ auto background_tasks::detail::invoke_idle_callbacks_algorithm(
 
     // Get the current time, and if it is before the deadline, and the window still has runnable callbacks, then
     // continue the method.
-    auto now = hr_time::performance{}.now();
+    JS_REALM_GET_CURRENT;
+    auto global_object = v8pp::to_v8(current_agent, window);
+    auto now = hr_time::detail::current_hr_time(global_object);
+
     if (now < get_deadline() && !window->m_runnable_idle_callbacks.empty())
     {
         // Remove the first callback from the runnable callback list of the Window object.
@@ -93,7 +96,10 @@ auto background_tasks::detail::invoke_idle_callback_timeout_algorithm(
         // still exist in both lists. Get the current time as 'now'.
         window->m_idle_request_callbacks  |= ranges::actions::remove(callback);
         window->m_runnable_idle_callbacks |= ranges::actions::remove(callback);
-        auto now = hr_time::performance{}.now();
+
+        JS_REALM_GET_CURRENT;
+        auto global_object = v8pp::to_v8(current_agent, window);
+        auto now = hr_time::detail::current_hr_time(global_object);
 
         // create an IdleDeadline object, assign the get deadline method to return the time 'now', and set the 'timeout'
         // attribute to true; as the deadline is 'now', it has already expired.

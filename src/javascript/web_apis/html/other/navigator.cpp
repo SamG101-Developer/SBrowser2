@@ -140,7 +140,7 @@ auto html::other::navigator::get_gamepads()
 
     return_if (!s_has_gamepad_gesture()) {};
 
-    auto now = hr_time::performance{}.now();
+    auto now = hr_time::detail::current_hr_time(this_relevant_global_object);
     auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed();};
 
     for (auto* gamepad: s_gamepads() | ranges::views::filter(std::move(valid_gamepad)))
