@@ -17,7 +17,7 @@ dom::events::event::event(
         , current_target(nullptr)
         , related_target(nullptr)
         , event_phase(std::bit_cast<ushort>(NONE))
-        , time_stamp(hr_time::performance{}.now())
+        , time_stamp(hr_time::performance{}.now()) // TODO: use hr_time::detail::current-hr-time(...)
         , is_trusted(false)
         , touch_targets(touch_targets_t{})
         , path(path_t{})
