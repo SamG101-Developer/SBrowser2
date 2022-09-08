@@ -67,9 +67,12 @@ concept arithmetic = std::integral<T> || std::floating_point<T>;
 
 // check if a type is callable
 template <typename T>
-concept callable = requires (T&& object)
+concept callable = requires
 {
-    std::invocable<T> || object.operator();
+    requires requires{std::invocable<T>;}                        // Handles general invocable objects
+            || requires {T::operator();}                         // Handles functors
+            || requires {std::is_function_v<T>;}                 // Handles functions
+            || requires {std::is_member_function_pointer_v<T>;}; // Handles function pointers (class members)
 };
 
 
