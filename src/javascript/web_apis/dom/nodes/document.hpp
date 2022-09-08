@@ -199,7 +199,7 @@ private cpp_properties:
     std::unique_ptr<encoding::encoding> m_encoding;
     ext::string m_type = "xml";
     ext::string m_mode = "no-quirks";
-    ext::string m_origin;
+    html::detail::origin_t m_origin;
 
     /* HTML */
     // Policies & Permissions
