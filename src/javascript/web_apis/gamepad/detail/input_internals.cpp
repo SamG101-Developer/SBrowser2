@@ -1,14 +1,17 @@
 #include "input_internals.hpp"
 
 #include "ext/functional.hpp"
+#include "ext/ranges.hpp"
 
 #include "javascript/environment/realms_2.hpp"
 
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
+#include "dom/nodes/window.hpp"
 
 #include "gamepad/gamepad.hpp"
+#include "gamepad/gamepad_button.hpp"
 #include "gamepad/gamepad_event.hpp"
 
 #include "hr_time/performance.hpp"
@@ -40,7 +43,8 @@ auto gamepad::detail::update_gamepad_state(
     map_and_normalize_buttons(gamepad);
 
     JS_REALM_GET_RELEVANT(gamepad);
-    decltype(auto) navigator = javascript::environment::realms_2::get<html::other::navigator*>(gamepad_relevant_global_object, "$Navigator");
+    decltype(auto) global_object = v8pp::from_v8<dom::nodes::window*>(gamepad_relevant_agent, gamepad_relevant_global_object);
+    decltype(auto) navigator = global_object->navigator();
 
     if (!navigator->s_has_gamepad_gesture() && contains_gamepad_user_gesture(gamepad))
     {
@@ -51,11 +55,51 @@ auto gamepad::detail::update_gamepad_state(
             connected_gamepad->s_exposed = true;
             connected_gamepad->s_timestamp = now;
 
-            decltype(auto) document = javascript::environment::realms_2::get<html::other::navigator*>(gamepad_relevant_global_object, "$AssociatedDocument");
+            decltype(auto) document = global_object->document();
             if (document && dom::detail::is_document_fully_active(document))
                 dom::detail::queue_task(html::detail::gamepad_task_source,
                         [gamepad_relevant_global_object, gamepad]
                         {dom::detail::fire_event<gamepad_event>("gamepadconnected", gamepad_relevant_global_object, {{"gamepad", gamepad}});});
         }
+    }
+}
+
+
+auto gamepad::detail::map_and_normalize_axes(
+        gamepad* gamepad)
+        -> void
+{
+    decltype(auto) axis_values = gamepad->axes();
+
+    for (auto raw_axis_index = 0; raw_axis_index < axis_values->size(); ++raw_axis_index)
+    {
+        auto mapped_index = gamepad->s_axis_mapping()->at(raw_axis_index);
+        auto logical_value = axis_values->at(raw_axis_index);
+        auto logical_minimum = gamepad->s_axis_minimums()->at(raw_axis_index);
+        auto logical_maximum = gamepad->s_axis_maximums()->at(raw_axis_index);
+
+        auto normalized_value = 2.0 * (logical_value - logical_minimum) / (logical_maximum - logical_minimum) - 1;
+        gamepad->s_axes()->at(raw_axis_index) = std::move(normalized_value);
+    }
+}
+
+
+auto gamepad::detail::map_and_normalize_buttons(
+        gamepad* gamepad)
+        -> void
+{
+    decltype(auto) button_values = *gamepad->buttons() | ranges::views::transform_to_attr(&gamepad_button::value);
+    
+    for (auto raw_button_index = 0; raw_button_index < button_values.size(); ++raw_button_index)
+    {
+        auto mapped_index = gamepad->s_button_mapping()->at(raw_button_index);
+        auto logical_value = button_values->at(raw_button_index);
+        auto logical_minimum = gamepad->s_button_minimums()->at(raw_button_index);
+        auto logical_maximum = gamepad->s_button_maximums()->at(raw_button_index);
+
+        auto normalized_value = 2.0 * (logical_value - logical_minimum) / (logical_maximum - logical_minimum) - 1;
+        decltype(auto) button = gamepad.s_buttons()->at(mapped_index);
+        button.s_value = std::move(normalized_value);
+        // TODO: button->s_pressed, button->s_touched
     }
 }
