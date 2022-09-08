@@ -84,11 +84,12 @@ namespace ranges::views
     // Transform a container of objects into an attribute belonging to that object -- syntactic sugar for
     //      ranges::views::transform(nodes, [](dom::nodes::node* node) {return node->text_content();});
     //      ranges::views::transform_to_attr(nodes, &node::text_content);
+    // NOTE: this is only for ext::property<T>, not normal attributes -- TODO: specialize for this
     auto transform_to_attr = []<typename T>(T&& attribute)
     {
         return ranges::views::transform(
                 [attribute = std::forward<T>(attribute)]<typename U>(U&& element) mutable
-                {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});};
+                {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element))();});};
 
 
     // A transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
