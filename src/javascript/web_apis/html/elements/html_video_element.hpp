@@ -27,6 +27,9 @@ public js_properties:
     ext::property<ext::string> poster;
     ext::property<ext::boolean> plays_inline;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
 private cpp_properties:
     /* MEDIA_PLAYBACK_QUALITY*/
     ext::number<int> total_video_frame_count;
