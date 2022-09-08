@@ -27,6 +27,8 @@
 #define EXT_CATCH_SPECIFIC(exception_t) } catch(const exception_t& exception) {
 #define EXT_CATCH_OTHER } catch (...) {
 
+#define CALL_TEMPLATE_LAMBDA template operator()
+
 #define string_switch(_String) switch(ext::hash{}(_String))
 #define string_case(_String) case(ext::hash{}(_String))
 #define string_default default
