@@ -24,7 +24,7 @@
 
 #define EXT_TRY try {
 #define EXT_CATCH_ALL } catch (...) {
-#define EXT_CATCH_SPECIFIC (exception_t) } catch(const exception_t& exception) {
+#define EXT_CATCH_SPECIFIC(exception_t) } catch(const exception_t& exception) {
 #define EXT_CATCH_OTHER } catch (...) {
 
 #define string_switch(_String) switch(ext::hash{}(_String))
