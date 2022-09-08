@@ -33,11 +33,11 @@ private js_slots:
     ext::slot<ext::vector<gamepad_button*>*> s_buttons;
     ext::slot<ext::boolean> s_exposed;
 
-    ext::slot<ext::map<ext::number<int>, ext::number<int>>> s_axis_mapping;
+    ext::slot<ext::map<ext::number<int>, ext::number<int>>*> s_axis_mapping;
     ext::slot<ext::vector<ext::number<int>>*> s_axis_minimums;
     ext::slot<ext::vector<ext::number<int>>*> s_axis_maximums;
 
-    ext::slot<ext::map<ext::number<int>, gamepad_button*>> s_button_mapping;
+    ext::slot<ext::map<ext::number<int>, gamepad_button*>*> s_button_mapping;
     ext::slot<ext::vector<ext::number<int>>*> s_button_minimums;
     ext::slot<ext::vector<ext::number<int>>*> s_button_maximums;
 
@@ -46,7 +46,7 @@ public cpp_methods:
 
 private cpp_accessors:
     DEFINE_GETTER(connected) {return s_connected();}
-    DEFINE_GETTER(timestamp) {return s_timestamp();}
+    DEFINE_GETTER(timestamp) {return ext::round(s_timestamp(), 5);}
     DEFINE_GETTER(axes) {return s_axes();}
     DEFINE_GETTER(buttons) {return s_buttons();};
 };
