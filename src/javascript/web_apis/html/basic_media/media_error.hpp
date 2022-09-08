@@ -19,6 +19,9 @@ public js_static_constants:
     constexpr static const ext::number<ushort> MEDIA_ERR_DECODE = 3;
     constexpr static const ext::number<ushort> MEDIA_ERR_SRC_NOT_SUPPORTED = 4;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+
 public js_properties:
     ext::property<ext::number<ushort>> code;
     ext::property<ext::string> message;

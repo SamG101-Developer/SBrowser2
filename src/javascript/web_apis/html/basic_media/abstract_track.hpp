@@ -7,11 +7,11 @@ namespace html::basic_media {class abstract_track;}
 
 #include USE_INNER_TYPES(html)
 
+
 class html::basic_media::abstract_track
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(abstract_track);
     abstract_track() = default;
 
 public js_properties:
@@ -19,6 +19,9 @@ public js_properties:
     ext::property<html::detail::text_track_kind_t> kind;
     ext::property<ext::string> label;
     ext::property<ext::string> language;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 

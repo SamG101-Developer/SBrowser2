@@ -10,11 +10,13 @@ class html::basic_media::video_track
         : public abstract_track
 {
 public constructors:
-    DOM_CTORS(video_track);
     video_track() = default;
 
 public js_properties:
     ext::property<ext::boolean> selected;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 

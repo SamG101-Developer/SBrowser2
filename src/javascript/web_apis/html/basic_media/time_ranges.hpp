@@ -11,14 +11,20 @@ class html::basic_media::time_ranges
 {
 public constructors:
     DOM_CTORS(time_ranges);
-    time_ranges() = default;
+    time_ranges();
 
 public js_methods:
-    auto start(const ext::number<double>& index) -> ext::number<double>;
-    auto end(const ext::number<double>& index) -> ext::number<double>;
+    auto start(const ext::number<long>& index) -> ext::number<double>;
+    auto end(const ext::number<long>& index) -> ext::number<double>;
 
 public js_properties:
     ext::property<ext::number<ulong>> length;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_properties:
+    ext::vector<ext::pair<ext::number<double>, ext::number<double>>> m_ranges;
 
 private cpp_accessors:
     DEFINE_GETTER(length);

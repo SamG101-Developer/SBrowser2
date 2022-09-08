@@ -23,6 +23,9 @@ public js_properties:
 
     ext::property<text_track*> track;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
 private cpp_properties:
     ext::boolean m_pause_on_exit_flag;
     ext::boolean m_active_flag;

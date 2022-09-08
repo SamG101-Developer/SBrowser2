@@ -14,7 +14,6 @@ class html::basic_media::text_track
         : public abstract_track
 {
 public constructors:
-    DOM_CTORS(text_track);
     text_track() = default;
 
 public js_methods:
@@ -29,7 +28,11 @@ public js_properties:
     ext::property<std::unique_ptr<ext::vector<text_track_cue*>>> cues;
     ext::property<std::unique_ptr<ext::vector<text_track_cue*>>> active_cues;
 
+    /*  */
     ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
     ext::vector<text_track_cue*> m_text_track_cues;

@@ -12,13 +12,16 @@ class html::basic_media::audio_track
         : public abstract_track
 {
 public constructors:
-    DOM_CTORS(audio_track);
     audio_track() = default;
 
 public js_properties:
     ext::property<ext::boolean> enabled;
 
+    /*  */
     ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
     DEFINE_GETTER(source_buffer);
