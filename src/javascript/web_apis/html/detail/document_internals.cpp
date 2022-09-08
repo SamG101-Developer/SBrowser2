@@ -59,7 +59,7 @@ auto html::detail::document_base_url(
 {
     auto html_base_element_descendants = dom::detail::descendants(document)
             | ranges::views::cast_all_to<elements::html_base_element*>()
-            | ranges::views::filter([](elements::html_base_element* element) {JS_REALM_GET_RELEVANT(element) return reflect_has_attribute_value(element, "href", element_relevant);});
+            | ranges::views::filter([](elements::html_base_element* element) {JS_REALM_GET_RELEVANT(element); return reflect_has_attribute_value(element, "href", element_relevant);});
 
     return html_base_element_descendants.empty()
             ? fallback_base_url(document)
@@ -77,19 +77,19 @@ auto html::detail::shared_declarative_refresh_steps(
     // set the 'position' to point to the start of the 'input' string. collect all the whitespace character from the
     // beginning of the 'input' (strip leading spaces)
     auto position = input.begin();
-    infra::detail::infra_string_internals::collect_ascii_whitespace(input, position);
+    infra::detail::collect_ascii_whitespace(input, position);
 
     // get the time as a string, by collecting digits from the 'input' string. if there is no 'time_string' (incorrect
     // serialization format), or the next character in the string after the digits is not a '.', then return early.
     // parse the 'time_string' into an integer 'time'
-    ext::string time_string = infra::detail::infra_string_internals::collect_code_points_matching(input, position, DIGITS);
+    ext::string time_string = infra::detail::collect_code_points_matching(input, position, DIGITS);
     return_if(time_string.empty() && *position != '.');
     ext::number<int> time = std::stoi(time_string);
 
     // collect all the digits and decimal points after the 'time_string' that was found in the 'input' string. drop all
     // these characters - they are not needed for anything, but there is no issue including them (allows floats /
     // doubles to be directly parsed in without needing an integer cast - this method does that automatically)
-    infra::detail::infra_string_internals::collect_code_points_matching(input, position, DIGITS, char(0x002e));
+    infra::detail::collect_code_points_matching(input, position, DIGITS, char(0x002e));
     auto url_record = *document->url(); // Deliberate copy
 
     // if the current position isn't at the end of the string (ie the 'input' doesn't only contain a 'time_string' and
@@ -99,10 +99,10 @@ auto html::detail::shared_declarative_refresh_steps(
     {
         auto return_characters = {char(0x003b), char(0x002c)};
 
-        infra::detail::infra_string_internals::collect_ascii_whitespace(input, position);
+        infra::detail::collect_ascii_whitespace(input, position);
         return_if(!ranges::contains(return_characters, *position));
         ranges::advance(position, 1);
-        infra::detail::infra_string_internals::collect_ascii_whitespace(input, position);
+        infra::detail::collect_ascii_whitespace(input, position);
     }
 
     do
@@ -168,7 +168,7 @@ auto html::detail::shared_declarative_refresh_steps(
 
         // remove any whitespace, and if the current character at 'position' is a '=', then advance over it, parse the
         // current 'url_string'
-        infra::detail::infra_string_internals::collect_ascii_whitespace(input, position);
+        infra::detail::collect_ascii_whitespace(input, position);
         auto equal_match = *position == 0x003d;
         ranges::advance(position, equal_match);
         if (!equal_match)
@@ -177,7 +177,7 @@ auto html::detail::shared_declarative_refresh_steps(
             break_if(parsed_url.first.empty());
             url_record = parsed_url.second;
         }
-        infra::detail::infra_string_internals::collect_ascii_whitespace(input, position);
+        infra::detail::collect_ascii_whitespace(input, position);
 
         // remove the quotes (current format is: URL="https://www.example.com), and exit the block of code
         skip_quotes();
