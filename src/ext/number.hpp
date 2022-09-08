@@ -171,7 +171,7 @@ auto max(T&& value0, U&& value1, V&&... values)
 template <typename T, typename U>
 auto round(T&& value, U&& multiplier)
 {
-    return std::round(std::move(value / multiplier)) * std::forward<U>(multiplier);
+    return std::round(*ext::number{std::move(value / multiplier)}) * std::forward<U>(multiplier);
 }
 
 
@@ -184,8 +184,16 @@ auto absolute(T&& value)
 
 auto is_numeric_string(const string& string) -> boolean
 {
-    try {static_cast<void>(std::stod(string)); return true;}
-    catch_specific (std::invalid_argument) {return false;}
+    try
+    {
+        static_cast<void>(std::stod(string));
+        return true;
+    }
+
+    catch (std::invalid_argument)
+    {
+        return false;
+    }
 }
 
 
