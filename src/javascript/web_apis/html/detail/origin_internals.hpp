@@ -10,31 +10,31 @@
 namespace html::detail
 {
     auto effective_domain(
-            const detail::origin_t& origin)
+            const origin_t& origin)
             -> ext::string;
 
     auto serialize_origin(
-            const detail::origin_t& origin)
+            const origin_t& origin)
             -> ext::string;
 
     auto same_origin(
-            const detail::origin_t& origin_a,
-            const detail::origin_t& origin_b)
+            const origin_t& origin_a,
+            const origin_t& origin_b)
             -> ext::boolean;
 
     auto same_origin_domain(
-            const detail::origin_t& origin_a,
-            const detail::origin_t& origin_b)
+            const origin_t& origin_a,
+            const origin_t& origin_b)
             -> ext::boolean;
 
     auto same_site(
-            const detail::origin_t& origin_a,
-            const detail::origin_t& origin_b)
+            const origin_t& origin_a,
+            const origin_t& origin_b)
             -> ext::boolean;
 
     auto obtain_site(
-            const detail::origin_t& origin)
-            -> detail::site_t;
+            const origin_t& origin)
+            -> site_t;
 
     auto serialize_site(
             const site_t& site)
@@ -43,6 +43,10 @@ namespace html::detail
     auto is_registerable_domain_suffix_or_equal_to(
             ext::string_view host_suffix_string,
             ext::string_view original_host)
+            -> ext::boolean;
+    
+    auto is_opaque_origin(
+            const origin_t& origin)
             -> ext::boolean;
 }
 
