@@ -12,7 +12,7 @@ gamepad::gamepad::gamepad()
         , index{detail::select_unused_gamepad_index(this)}
         , mapping{detail::select_mapping(this)}
         , s_connected{true}
-        , s_timestamp{hr_time::performance{}.now()}
+        , s_timestamp{hr_time::performance{}.now()} // TODO: use hr-time::detail::current-hr-time()
         , s_axes{detail::initialize_axes(this)}
         , s_buttons{detail::initialize_buttons(this)}
 {
