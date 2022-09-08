@@ -4,6 +4,7 @@
 
 #include "ext/casting.hpp"
 #include "ext/ranges.hpp"
+#include "html/detail/origin_internals.hpp"
 #include "javascript/environment/realms_2.hpp"
 
 #include "dom/detail/event_internals.hpp"
@@ -272,7 +273,7 @@ auto dom::nodes::document::get_last_modified()
 {
     // get the string epoch time (eg "1563566272"), and convert it to a 'long long' number type. convert this into a c++
     // time object with a strict format, push this into a stream, and finally return the string that the
-    // std::stringstream holds
+    // std::stringstream holds.
     std::time_t decimal_time = std::stoll(*last_modified);
     auto formatted_time = std::stringstream{} << std::put_time(std::localtime(&decimal_time), "%m/%d/%Y %H:%M:%S");
     return formatted_time.str();
@@ -289,10 +290,11 @@ auto dom::nodes::document::get_cookie()
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
     detail::throw_v8_exception_formatted<SECURITY_ERR>(
-            [this] {return m_origin.is_opaque();},
+            [this] {return html::detail::is_opaque_origin(m_origin);},
             "Can not get the cookie of a Document whose origin is opaque");
 
     // return the true value of the cookie
+    guard_property(cookie);
     return *cookie;
 }
 
@@ -302,8 +304,8 @@ auto dom::nodes::document::get_head()
 {
     // the head element is  the first child of the HTMLHtmlElement that is a HTMLHeadElement; if there are no head
     // elements, then return nullptr - this is handled by returning a deference of the begin pointer
-    auto html_element_child_nodes = *get_m_html_element()->child_nodes();
-    auto head_elements = html_element_child_nodes | ranges::views::cast_all_to<html::elements::html_head_element>();
+    decltype(auto) html_element_child_nodes = *get_m_html_element()->child_nodes();
+    decltype(auto) head_elements = html_element_child_nodes | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_head_element*>();
     return *head_elements.begin();
 }
 
@@ -313,14 +315,14 @@ auto dom::nodes::document::get_title()
 {
     // the title element is either the first SVGTitleElement of the document element, if the document element is an
     // SvgElement. otherwise it is the first HTMLTitleElement of this document
-    auto* title_element = dynamic_cast<svg::elements::svg_element*>(document_element())
-            ? ranges::front(*document_element()->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>())
+    decltype(auto) title_element = dynamic_cast<svg::elements::svg_element*>(document_element())
+            ? ranges::front(*document_element()->child_nodes() | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<svg::elements::svg_title_element*>())
             : get_m_title_element();
 
     // the value of the xxxTitleElement is the child text content of it, with the ascii whitespace stripped and
     // collapsed from the string
     auto value = detail::child_text_content(title_element);
-    value = infra::detail::infra_string_internals::strip_and_collapse_ascii_whitespace(value);
+    value = infra::detail::strip_and_collapse_ascii_whitespace(value);
     return value;
 }
 
@@ -330,9 +332,9 @@ auto dom::nodes::document::get_body()
 {
     // the body element is the first child of the HTMLHtmlElement that is a HTMLBodyElement; if there are no body
     // elements, then return nullptr - this is handled by returning a deference of the begin pointer
-    auto html_element_child_nodes = *get_m_html_element()->child_nodes();
-    auto body_children = html_element_child_nodes | ranges::views::cast_all_to<html::elements::html_body_element>();
-    return *body_children.begin();
+    decltype(auto) html_element_child_nodes = *get_m_html_element()->child_nodes();
+    decltype(auto) body_children = html_element_child_nodes | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_body_element*>();
+    return body_children.front();
 }
 
 
@@ -342,7 +344,7 @@ auto dom::nodes::document::get_images()
     // the HTMLImageElements in this Document are all the HTMLImageElements that are descendants of this Document (live
     // collection)
     return detail::descendants(this)
-            | ranges::views::cast_all_to<html::elements::html_image_element>();
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_image_element*>();
 }
 
 
@@ -352,7 +354,7 @@ auto dom::nodes::document::get_links()
     // the HTMLLinkElements in this Document are all the HTMLLinkElements that are descendants of this Document (live
     // collection), and have their href attribute set
     return detail::descendants(this)
-            | ranges::views::cast_all_to<html::elements::html_link_element>()
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_link_element*>()
             | ranges::views::filter([](html::elements::html_link_element* element) {return element->href();});
 }
 
@@ -363,7 +365,7 @@ auto dom::nodes::document::get_forms()
     // the HTMLFormElements in this Document are all the HTMLFormElements that are descendants of this Document (live
     // collection)
     return detail::descendants(this)
-            | ranges::views::cast_all_to<html::elements::html_form_element>();
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_form_element*>();
 }
 
 
@@ -373,7 +375,7 @@ auto dom::nodes::document::get_scripts()
     // the HTMLScriptElements in this Document are all the HTMLScriptElements that are descendants of this Document
     // (live collection)
     return detail::descendants(this)
-            | ranges::views::cast_all_to<html::elements::html_script_element>();
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_script_element*>();
 }
 
 
@@ -398,7 +400,7 @@ auto dom::nodes::document::set_cookie(
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
     detail::throw_v8_exception_formatted<SECURITY_ERR>(
-            [this] {return m_origin.is_opaque();},
+            [this] {return html::detail::is_opaque_origin(m_origin);},
             "Can not get the cookie of a Document whose origin is opaque");
 
     // set the true value of the cookie t the new cookie value passed in as a parameter
@@ -410,16 +412,18 @@ auto dom::nodes::document::set_ready_state(
         const ext::string& val)
         -> void
 {
+    guard_property(ready_state);
     *ready_state = val;
+
     if (/* TODO : HTML parser association */ false)
     {
-        JS_REALM_GET_RELEVANT(this)
+        JS_REALM_GET_RELEVANT(this);
         auto now = hr_time::detail::current_hr_time(this_relevant_global_object);
-        if (val == "complete" && m_load_timing_info.dom_complete_time == 0)
-            m_load_timing_info.dom_complete_time = now;
+        if (val == "complete" && m_load_timing_info->dom_complete_time == 0)
+            m_load_timing_info->dom_complete_time = now;
 
-        if (val == "interactive" && m_load_timing_info.dom_interactive_time == 0)
-            m_load_timing_info.dom_interactive_time = now;
+        if (val == "interactive" && m_load_timing_info->dom_interactive_time == 0)
+            m_load_timing_info->dom_interactive_time = now;
     }
     
     detail::fire_event("readystatechange", this);
@@ -439,7 +443,7 @@ auto dom::nodes::document::set_title(
         // if there is no such element, then create the element, and insert it as the first child of the
         // 'document_element' (call insert not pre_insert, because the newly created 'title_element' can't be the first
         // child when it has just been created)
-        auto* title_element = ranges::front(*document_element()->child_nodes() | ranges::views::cast_all_to<svg::elements::svg_title_element>());
+        decltype(auto) title_element = ranges::front(document_element()->children() | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<svg::elements::svg_title_element*>());
         if (!title_element)
         {
             title_element = detail::create_an_element(document_element()->owner_document(), "title", SVG);
@@ -452,12 +456,12 @@ auto dom::nodes::document::set_title(
 
     else if (document_element()->namespace_uri() == HTML)
     {
-        const auto* title_element = get_m_title_element();
-        return_if(!title_element && !head());
+        return_if(!get_m_title_element() && !head());
+        decltype(auto) title_element = dynamic_cast<dom::nodes::element*>(get_m_title_element());
+
         if (!title_element)
         {
-            auto&& new_title_element = detail::create_an_element(document_element()->owner_document(), "title", HTML);
-            title_element = dynamic_cast<const html::elements::html_title_element*>(&new_title_element);
+            title_element = detail::create_an_element(document_element()->owner_document(), "title", HTML);
             detail::append(title_element, head());
         }
 
@@ -477,7 +481,7 @@ auto dom::nodes::document::set_body(
 
     // if there is a current HTMLBodyElement (and an implied 'document_element'), then replace it with the new
     // HTMLBodyElement
-    if (body())
+    if (val)
         detail::replace(body(), body()->parent_node(), val);
 
     // if there is no implied HTMLBodyElement, and no 'document_element', throw a hierarchy request error, because it's
