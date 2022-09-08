@@ -18,28 +18,28 @@ using namespace fu2;
 struct identity
 {
     template <typename T>
-    constexpr auto operator()(T&& object) const
+    constexpr auto operator()(T&& object) const -> decltype(auto)
     {return std::forward<T>(object);}
 };
 
 
 struct invoke
 {
-    constexpr auto operator()(callable auto&& object) const
+    constexpr auto operator()(callable auto&& object) const -> decltype(auto)
     {return object();}
 };
 
 
 struct deref
 {
-    constexpr auto operator()(auto* object) const
+    constexpr auto operator()(auto* object) const -> decltype(auto)
     {return *object;}
 };
 
 
 struct pointer_not_null
 {
-    constexpr auto operator()(auto* object) const
+    constexpr auto operator()(auto* object) const -> decltype(auto)
     {return object != nullptr;}
 };
 
