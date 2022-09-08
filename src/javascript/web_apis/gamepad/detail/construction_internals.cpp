@@ -39,4 +39,13 @@ auto gamepad::detail::initialize_axes(
     decltype(auto) input_count = static_cast<int>(gamepad->axes()->size());
     gamepad->s_axis_minimums() |= ranges::actions::push_back(ext::make_initializer_list_repeat(ext::number<double>::min(), input_count));
     gamepad->s_axis_maximums() |= ranges::actions::push_back(ext::make_initializer_list_repeat(ext::number<double>::max(), input_count));
+
+    auto unmapped_input_list = ext::vector<ext::number<int>>{};
+    auto mapped_index_list = ext::vector<ext::number<int>>{};
+    auto axes_size = ext::number{0};
+
+    for (auto raw_input_index = 0; raw_input_index < input_count; ++raw_input_index)
+    {
+        if
+    }
 }

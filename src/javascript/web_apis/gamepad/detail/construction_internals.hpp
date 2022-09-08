@@ -28,6 +28,10 @@ namespace gamepad::detail
     auto initialize_buttons(
             gamepad* gamepad)
             -> ext::vector<gamepad_button*>;
+
+    auto is_standard_gamepad(
+            ext::number<int> gamepad_axis)
+            -> ext::boolean;
 };
 
 
