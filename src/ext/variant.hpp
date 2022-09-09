@@ -9,8 +9,9 @@ _EXT_BEGIN
 
 using namespace swl;
 
-template <typename ...Ts>
-using variant_view = const variant<std::reference_wrapper<Ts>...>&;
+
+using variant_monostate_t = swl::monostate;
+
 
 template <typename T>
 const std::type_info& variant_type(T&& variant_object)
