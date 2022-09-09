@@ -5,11 +5,13 @@
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
+#include "ext/optional.hpp"
 #include "ext/string.hpp"
 
 #include USE_INNER_TYPES(html)
 
 namespace dom::nodes {class node;}
+namespace html::canvasing {class image_bitmap;}
 namespace html::canvasing {class image_bitmap_rendering_context;}
 namespace html::canvasing {class image_data;}
 namespace html::canvasing {class path_2d;}
@@ -17,6 +19,7 @@ namespace html::canvasing::mixins {class canvas_draw_path;}
 namespace html::canvasing::mixins {class canvas_shadow_styles;}
 namespace html::canvasing::mixins {class canvas_text_drawing_styles;}
 namespace html::canvasing::mixins {class canvas_path_drawing_styles;}
+namespace file_api {class file;}
 
 
 namespace html::detail
@@ -24,7 +27,7 @@ namespace html::detail
     template <typename T>
     auto context_creation_algorithm(
             ext::map<ext::string, ext::any>&& options)
-            -> T;
+            -> T*;
 
     auto set_bitmap_dimensions(
             const ext::number<int>& width,
@@ -101,12 +104,23 @@ namespace html::detail
     auto convert_color_value_from_premult_to_non_premult(
             detail::color_t& color)
             -> detail::color_t&;
-};
+
+    auto serialization_of_bitmap_as_file(
+            ext::string_view type,
+            ext::any&& options)
+            -> ext::optional<file_api::file>;
+}
 
 
 struct html::detail::image_bitmap_t
 {
     ext::boolean origin_clean_flag = true;
+};
+
+
+struct html::detail::drawing_state_t
+{
+    canvasing::image_bitmap* bitmap;
 };
 
 
