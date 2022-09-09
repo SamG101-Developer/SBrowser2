@@ -5,6 +5,9 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_state;}
 
+#include "ext/stack.hpp"
+#include USE_INNER_TYPES(html)
+
 
 class html::canvasing::mixins::canvas_state
         : public virtual dom_object
@@ -13,14 +16,15 @@ public js_methods:
     auto save() -> void;
     auto restore() -> void;
     auto reset() -> void;
-    auto is_context_lost() -> void;
+    auto is_context_lost() -> ext::boolean;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
-    // TODO : m_drawing-state-stack
-    ext::boolean m_context_lost;
+    std::unique_ptr<detail::drawing_state_t> m_current_drawing_state;
+    ext::stack<std::unique_ptr<detail::drawing_state_t>> m_drawing_state_stack;
+    ext::boolean m_context_lost = false;
 };
 
 

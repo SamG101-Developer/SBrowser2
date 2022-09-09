@@ -20,9 +20,9 @@ public constructors:
 
 public js_methods:
     /* HTML */
-    auto get_context(ext::string_view context_id, ext::any&& options = nullptr) -> detail::rendering_context_t;
-    auto to_data_url(ext::string_view type = "image/png", ext::any&& quality = nullptr) -> ext::string;
-    auto to_blob(detail::blob_callback_t&& callback, ext::string_view type = "image/png", ext::any&& quality = nullptr) -> file_api::blob;
+    auto get_context(detail::canvas_context_mode_t context_id, ext::map<ext::string, ext::any>&& options = {}) -> detail::rendering_context_t;
+    auto to_data_url(ext::string_view type = "image/png", ext::any&& quality = {}) -> ext::string;
+    auto to_blob(detail::blob_callback_t&& callback, ext::string_view type = "image/png", ext::any&& quality = {}) -> file_api::blob;
     auto transfer_control_to_offscreen() -> canvasing::offscreen_canvas;
 
     /* MEDIACAPTURE-FROMELEMENT */
@@ -32,8 +32,10 @@ public js_properties:
     ext::property<ext::number<ulong>> width;
     ext::property<ext::number<ulong>> height;
 
-private cpp_methods:
+private cpp_properties:
     detail::canvas_context_mode_t m_canvas_context_mode;
+    detail::rendering_context_t m_context;
+    std::unique_ptr<canvasing::image_bitmap> m_bitmap;
 };
 
 
