@@ -12,6 +12,7 @@ class file_api::file
 {
 public constructors:
     file(ext::vector<detail::blob_part_t>&& file_bits, ext::string&& file_name, detail::file_property_bag_t&& options = {});
+    ~file() override = default;
 
 public js_properties:
     ext::property<ext::string> name;
@@ -21,7 +22,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_methods:
-    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> ext::string override;
+    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> file* override;
 };
 

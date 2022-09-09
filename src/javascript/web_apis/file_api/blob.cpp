@@ -82,7 +82,7 @@ auto file_api::blob::array_buffer()
 auto file_api::blob::m_serialize(
         ext::map<ext::string, ext::any>& serialized,
         ext::boolean&& for_storage)
-        -> ext::string
+        -> void
 {
     serialized.insert_or_assign("$SnapshotState", s_snapshot_state());
     serialized.insert_or_assign("$ByteSequence" , s_byte_sequence());

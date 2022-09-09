@@ -21,6 +21,7 @@ class file_api::blob
 {
 public constructors:
     blob(ext::vector<detail::blob_part_t>&& blob_parts = {}, ext::map<ext::string, ext::any>&& options = {});
+    ~blob() override = default;
 
 public js_methods:
     auto slice(const ext::number<longlong>& start = 0, const ext::number<longlong>& end = ext::number<longlong>::max(), ext::string_view content_type = "") -> blob;
@@ -36,7 +37,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_methods:
-    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> ext::string override;
+    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> blob* override;
 
 protected js_slots:
