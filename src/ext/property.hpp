@@ -30,23 +30,25 @@ public:
     // Default constructor
     property() = default;
 
-    // Copy constructor (involves the unique_ptr semantics)
+    // Copy constructor
     property(const property& other)
-    {
-        m_meta.m_getter = other.m_meta.m_getter;
-        m_meta.m_setter = other.m_meta.m_setter;
-        m_meta.m_deleter = other.m_meta.m_deleter;
-        m_meta.m_value.reset(other.m_meta.m_value.get());
-    }
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = other.m_meta.m_getter,
+                .m_setter = other.m_meta.m_setter,
+                .m_deleter = other.m_meta.m_deleter,
+                .m_value = other.m_meta.m_value
+            })
+    {}
 
     // Move constructor
     property(property&& other) noexcept
-    {
-        m_meta.m_getter = std::move(other.m_meta.m_getter);
-        m_meta.m_setter = std::move(other.m_meta.m_setter);
-        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
-        m_meta.m_value = std::move(other.m_meta.m_value);
-    }
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = std::move(other.m_meta.m_getter),
+                .m_setter = std::move(other.m_meta.m_setter),
+                .m_deleter = std::move(other.m_meta.m_deleter),
+                .m_value = std::move(other.m_meta.m_value)
+            })
+    {}
 
     // Copy value constructor
     explicit property(const value_t& other)
@@ -68,10 +70,9 @@ public:
     ~property()
     {m_meta.m_deleter();}
 
-    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
-    // property)
-    auto operator=(const property&) -> property& = delete;
-    auto operator=(property&&) noexcept -> property& = delete;
+
+    auto operator=(const property&) -> property& = default;
+    auto operator=(property&&) noexcept -> property& = default;
 
     // Getter and setter operators for the property (because T is a std::unique_ptr<T>, a raw pointer is used as the
     // type of variable for the setter's parameter and the getters return type
@@ -108,21 +109,23 @@ public:
 
     // Copy constructor
     property(const property& other)
-    {
-        m_meta.m_getter = other.m_meta.m_getter;
-        m_meta.m_setter = other.m_meta.m_setter;
-        m_meta.m_deleter = other.m_meta.m_deleter;
-        m_meta.m_value = other.m_meta.m_value;
-    }
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = other.m_meta.m_getter,
+                .m_setter = other.m_meta.m_setter,
+                .m_deleter = other.m_meta.m_deleter,
+                .m_value = other.m_meta.m_value
+            })
+    {}
 
     // Move constructor
     property(property&& other) noexcept
-    {
-        m_meta.m_getter = std::move(other.m_meta.m_getter);
-        m_meta.m_setter = std::move(other.m_meta.m_setter);
-        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
-        m_meta.m_value = std::move(other.m_meta.m_value);
-    }
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = std::move(other.m_meta.m_getter),
+                .m_setter = std::move(other.m_meta.m_setter),
+                .m_deleter = std::move(other.m_meta.m_deleter),
+                .m_value = std::move(other.m_meta.m_value)
+            })
+    {}
 
     // Copy value constructor
     explicit property(const value_t& other)
@@ -136,10 +139,24 @@ public:
     ~property()
     {m_meta.m_deleter();}
 
-    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
-    // property)
-    auto operator=(const property&) -> property& = delete;
-    auto operator=(property&&) noexcept -> property& = delete;
+
+    auto operator=(const property& other) -> property&
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value = other.m_meta.m_value;
+        return *this;
+    };
+
+    auto operator=(property&& other) noexcept -> property&
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+        return *this;
+    };
 
     // Getter and setter operators for the property
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
@@ -174,23 +191,44 @@ public:
     property() = default;
 
     // Copy constructor
+    property(const property<value_t>& other)
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = other.m_meta.m_getter,
+                .m_setter = other.m_meta.m_setter,
+                .m_deleter = other.m_meta.m_deleter,
+                .m_value = other.m_meta.m_value
+            })
+    {}
+
     template <typename V>
     property(const property<stripped_value_t<V>>& other)
-    {
-        m_meta.m_getter = other.m_meta.m_getter;
-        m_meta.m_setter = other.m_meta.m_setter;
-        m_meta.m_deleter = other.m_meta.m_deleter;
-        m_meta.m_value = other.m_meta.m_value;
-    }
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = other.m_meta.m_getter,
+                .m_setter = other.m_meta.m_setter,
+                .m_deleter = other.m_meta.m_deleter,
+                .m_value = other.m_meta.m_value
+            })
+    {}
+
+    // Move constructor
+    property(property<value_t>&& other)
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = std::move(other.m_meta.m_getter),
+                .m_setter = std::move(other.m_meta.m_setter),
+                .m_deleter = std::move(other.m_meta.m_deleter),
+                .m_value = std::move(other.m_meta.m_value)
+            })
+    {}
 
     template <typename V>
     property(property<stripped_value_t<V>>&& other)
-    {
-        m_meta.m_getter = std::move(other.m_meta.m_getter);
-        m_meta.m_setter = std::move(other.m_meta.m_setter);
-        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
-        m_meta.m_value = std::move(other.m_meta.m_value);
-    }
+            : m_meta(detail::meta_property<value_t>{
+                .m_getter = std::move(other.m_meta.m_getter),
+                .m_setter = std::move(other.m_meta.m_setter),
+                .m_deleter = std::move(other.m_meta.m_deleter),
+                .m_value = std::move(other.m_meta.m_value)
+            })
+    {}
 
     // Copy value constructor
     template <typename V>
@@ -211,10 +249,24 @@ public:
     ~property()
     {m_meta.m_deleter();}
 
-    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
-    // property)
-    auto operator=(const property&) -> property& = delete;
-    auto operator=(property&&) noexcept -> property& = delete;
+
+    auto operator=(const property& other) -> property&
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value = other.m_meta.m_value;
+        return *this;
+    };
+
+    auto operator=(property&& other) noexcept -> property&
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+        return *this;
+    };
 
     // Getter and setter operators for the property
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
@@ -283,10 +335,23 @@ class ext::property<Ts...> : private detail::lockable
     ~property()
     {m_meta.m_deleter();}
 
-    // Delete assignment operators (prevent accidental copying instead of setting value with operator()() from another
-    // property)
-    auto operator=(const property&) -> property& = delete;
-    auto operator=(property&&) noexcept -> property& = delete;
+    auto operator=(const property& other) -> property&
+    {
+        m_meta.m_getter = other.m_meta.m_getter;
+        m_meta.m_setter = other.m_meta.m_setter;
+        m_meta.m_deleter = other.m_meta.m_deleter;
+        m_meta.m_value = other.m_meta.m_value;
+        return *this;
+    };
+
+    auto operator=(property&& other) noexcept -> property&
+    {
+        m_meta.m_getter = std::move(other.m_meta.m_getter);
+        m_meta.m_setter = std::move(other.m_meta.m_setter);
+        m_meta.m_deleter = std::move(other.m_meta.m_deleter);
+        m_meta.m_value = std::move(other.m_meta.m_value);
+        return *this;
+    };
 
     // Getter and setter operators for the property
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
