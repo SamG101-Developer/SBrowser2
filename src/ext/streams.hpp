@@ -10,9 +10,6 @@
 _EXT_BEGIN
 
 
-using namespace fmt;
-
-
 /*
  * https://codereview.stackexchange.com/questions/263749/codewars-kata-converting-snake-case-identifiers-to-camelcase-in-c
  * https://codereview.stackexchange.com/a/263761/211871
