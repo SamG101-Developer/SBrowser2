@@ -13,6 +13,7 @@ namespace html::detail
     task_queue_t user_interaction_task_source;
     task_queue_t networking_task_source;
     task_queue_t history_traversal_task_source;
+    task_queue_t canvas_blob_serialization_task_source;
 
     /* SERVICE_WORKERS */
     task_queue_t handle_fetch_task_source;
