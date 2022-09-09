@@ -11,7 +11,10 @@ namespace webgl2::contexts {class webgl_rendering_context;}
 class webgl2::contexts::webgl_rendering_context
         : public mixins::webgl_rendering_context_base
         , public mixins::webgl_rendering_context_overloads
-{};
+{
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_CONTEXTS_WEBGL_RENDERING_CONTEXT_HPP

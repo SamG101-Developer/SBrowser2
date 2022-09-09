@@ -9,7 +9,8 @@ namespace webgl2::mixins {class webgl2_rendering_context_base;}
 class webgl2::mixins::webgl2_rendering_context_base
         : public virtual dom_object
 {
-
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 

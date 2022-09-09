@@ -14,8 +14,10 @@ class webgl2::contexts::webgl2_rendering_context
         , public mixins::webgl2_rendering_context_overloads
 {
 public constructors:
-    DOM_CTORS(webgl2_rendering_context);
     webgl2_rendering_context() = default;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };
 
 

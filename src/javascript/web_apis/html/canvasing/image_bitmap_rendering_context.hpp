@@ -16,12 +16,16 @@ class html::canvasing::image_bitmap_rendering_context
 {
 public constructors:
     image_bitmap_rendering_context() = default;
+    ~image_bitmap_rendering_context();
 
 public js_methods:
     auto transfer_from_image_bitmap(image_bitmap* bitmap) -> void;
 
 public js_properties:
     ext::property<elements::html_canvas_element*, offscreen_canvas*> canvas;
+
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
     detail::bitmap_mode_t bitmap_mode;
