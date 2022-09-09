@@ -109,7 +109,8 @@ FetchContent_MakeAvailable(
         StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime MagicEnum UUIDs
         V8PP) # TODO : Qt
 
-# TODO : find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
+list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
+find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
 
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 
@@ -129,4 +130,7 @@ target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorrepla
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro cppfs function2::function2 tsl::robin_map optional effolkronium_random range-v3::range-v3
         ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo asap  magic_enum::magic_enum
-        stduuid v8pp) # TODO: Qt6::Core Qt6::Widgets Qt6::Gui
+        stduuid v8pp)
+foreach (QT_COMPONENT ${QT_COMPONENTS})
+    target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
+endforeach ()
