@@ -10,7 +10,7 @@ class html::mixins::serializable
         : public virtual dom_object
 {
 protected cpp_methods:
-    virtual auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> ext::string   = 0;
+    virtual auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> void = 0;
     virtual auto m_deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> serializable* = 0;
 };
 
