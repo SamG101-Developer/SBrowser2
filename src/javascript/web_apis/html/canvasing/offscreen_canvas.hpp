@@ -12,7 +12,6 @@ namespace html::canvasing {class offscreen_canvas;}
 
 class html::canvasing::offscreen_canvas
         : public dom::nodes::event_target
-        , public html::mixins::transferable
 {
 public constructors:
     DOM_CTORS(offscreen_canvas);
@@ -27,10 +26,6 @@ public js_methods:
 public js_properties:
     ext::property<ext::number<ulonglong>> width;
     ext::property<ext::number<ulonglong>> height;
-
-private cpp_methods:
-    auto m_transfer_steps(ext::map<ext::string, ext::any>& serialized) -> void override;
-    auto m_transfer_receiving_steps(ext::map<ext::string, ext::any> &serialized) -> void override;
 
 private cpp_properties:
     std::weak_ptr<elements::html_canvas_element> m_placeholder_canvas_element;
