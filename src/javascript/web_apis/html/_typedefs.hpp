@@ -103,6 +103,7 @@ namespace html::detail
     struct subpath_t;
     struct color_t;
     struct browsing_context_group_t;
+    struct drawing_state_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
@@ -116,11 +117,12 @@ namespace html::detail
     using assigned_node_options_t = ext::map<ext::string, ext::any>;
     using rendering_context_t = ext::variant<
             html::canvasing::canvas_rendering_context_2d*,
-            html::canvasing::image_bitmap_rendering_context,
-            webgl2::contexts::webgl_rendering_context,
-            webgl2::contexts::webgl2_rendering_context>;
+            html::canvasing::image_bitmap_rendering_context*,
+            webgl2::contexts::webgl_rendering_context*,
+            webgl2::contexts::webgl2_rendering_context*>;
     using offscreen_rendering_context_t = ext::extend_variant<rendering_context_t, webgpu::gpu_canvas_context>;
-    using blob_callback_t = ext::function<void(file_api::blob*)>;
+    using blob_callback_param_t = ext::variant<canvasing::image_bitmap, file_api::file, file_api::blob, ext::variant_monostate_t>;
+    using blob_callback_t = ext::function<void(blob_callback_param_t)>;
     using html_or_svg_image_element_t = ext::variant<elements::html_image_element*, svg::elements::svg_image_element*>;
     using canvas_image_source_t = ext::variant<
             html_or_svg_image_element_t,
