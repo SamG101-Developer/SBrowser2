@@ -22,6 +22,7 @@
 namespace html::canvasing {class canvas_rendering_context_2d;}
 
 #include USE_INNER_TYPES(html)
+namespace html::elements {class html_canvas_element;}
 namespace html::canvasing {class canvas_rendering_context_2d_settings;}
 
 
@@ -50,6 +51,9 @@ public constructors:
 
 public js_methods:
     auto get_context_attributes() -> canvas_rendering_context_2d_settings;
+
+public js_properties:
+    ext::property<elements::html_canvas_element*> canvas;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
