@@ -197,14 +197,46 @@ auto is_numeric_string(const string& string) -> boolean
 }
 
 
-template <typename U>
-auto to_string(const number<U>& number)
+template <typename T>
+auto to_string(const number<T>& number)
 {
     return std::to_string(*number);
 }
 
 
+template <typename ...Args>
+auto is_inf(Args&&... numbers)
+{
+    return ((numbers == std::numeric_limits<Args>::infinity()) || ...);
+}
+
+
+template <typename ...Args>
+auto is_nan(Args&&... numbers)
+{
+    return ((numbers == std::numeric_limits<Args>::quiet_NaN()) || ...);
+}
+
+
+template <typename ...Args>
+auto is_inf_or_nan(Args&&... numbers)
+{
+    return is_inf(std::forward<Args>(numbers)...) || is_nan(std::forward<Args>(numbers)...);
+}
+
+
 _EXT_END
+
+
+_STD_BEGIN
+
+
+template <arithmetic T>
+class numeric_limits<ext::number<T>> : public numeric_limits<T>
+{};
+
+
+_STD_END
 
 
 _EXT_SHORTHAND_BEGIN
