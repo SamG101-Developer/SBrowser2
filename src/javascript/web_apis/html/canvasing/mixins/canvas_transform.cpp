@@ -2,7 +2,7 @@
 
 #include "ext/number.hpp"
 
-#include <QtGui/QMatrix3x3>
+#include <QtGui/QTransform>
 
 
 auto html::canvasing::mixins::canvas_transform::scale(
@@ -43,15 +43,15 @@ auto html::canvasing::mixins::canvas_transform::transform(
         const ext::number<double>& f)
         -> void
 {
-    return (ext::is_inf_or_nan(a, b, c, d, e, f));
+    return_if (ext::is_inf_or_nan(a, b, c, d, e, f));
 
-    decltype(auto) m = m_current_transform_matrix;
+    auto other_matrix = ext::make_from_tuple<QTransform>(ext::tuple{*a, *c, *e, *b, *d, *f, 0.0, 0.0, 1.0});
+    m_current_transform_matrix *= std::move(other_matrix);
+}
 
-    auto lhs_matrix_values = {m.m11(), m.m12(), m.m13(), m.m21(), m.m22(), m.m23(), m.m31(), m.m32(), m.m33()};
-    auto rhs_matrix_values = {*a, *c, *e, *b, *d, *f, 0.0, 0.0, 1.0};
-    auto lhs_matrix = QMatrix3x3{std::bit_cast<float*>(lhs_matrix_values.begin())};
-    auto rhs_matrix = QMatrix3x3{std::bit_cast<float*>(rhs_matrix_values.begin())};
 
-    auto mult_matrix = lhs_matrix * rhs_matrix;
-    m_current_transform_matrix.setMatrix()
+auto html::canvasing::mixins::canvas_transform::get_transform()
+        -> css::geometry::dom_matrix
+{
+
 }
