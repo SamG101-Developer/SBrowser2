@@ -19,7 +19,7 @@ public js_methods:
     auto translate(const ext::number<double>& x, const ext::number<double>& y) -> void;
     auto transform(const ext::number<double>& a, const ext::number<double>& b, const ext::number<double>& c, const ext::number<double>& d, const ext::number<double>& e, const ext::number<double>& f) -> void;
 
-    auto transform() -> css::geometry::dom_matrix;
+    auto get_transform() -> css::geometry::dom_matrix;
     auto set_transform(const ext::number<double>& a, const ext::number<double>& b, const ext::number<double>& c, const ext::number<double>& d, const ext::number<double>& e, const ext::number<double>& f) -> void;
     auto reset_transform() -> void;
 
