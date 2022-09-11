@@ -9,12 +9,13 @@
 #include <limits>
 #include <stdexcept>
 
-using longlong  = long long;
-using uchar     = unsigned char;
-using ushort    = unsigned short;
-using uint      = unsigned int;
-using ulong     = unsigned long;
-using ulonglong = unsigned long long;
+using longlong   = long long;
+using uchar      = unsigned char;
+using ushort     = unsigned short;
+using uint       = unsigned int;
+using ulong      = unsigned long;
+using ulonglong  = unsigned long long;
+using longdouble = long double;
 
 
 #define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                                                      \
@@ -98,6 +99,9 @@ public:
 
     constexpr auto operator*() -> T& {return n;}
     constexpr auto operator*() const -> const T& {return n;}
+
+    template <arithmetic U>
+    auto as() const {return ext::number<U>{static_cast<U>(n)};}
 
     static auto inf() -> number
     {return std::numeric_limits<T>::infinity();}
@@ -229,14 +233,17 @@ _EXT_END
 
 
 _STD_BEGIN
-
-
 template <arithmetic T>
 class numeric_limits<ext::number<T>> : public numeric_limits<T>
 {};
-
-
 _STD_END
+
+
+_EXT_LITERALS_BEGIN
+auto operator""_n(char number) {return ext::number<char>{number};}
+auto operator""_n(ulonglong number) {return ext::number<ulonglong>{number};}
+auto operator""_n(longdouble number) {return ext::number<longdouble>{number};}
+_EXT_LITERALS_END
 
 
 _EXT_SHORTHAND_BEGIN

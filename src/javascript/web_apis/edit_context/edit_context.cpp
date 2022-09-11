@@ -2,8 +2,8 @@
 
 
 auto edit_context::edit_context::update_text(
-        const ext::number<ulong>& range_start,
-        const ext::number<ulong>& range_end,
+        ext::number<ulong> range_start,
+        ext::number<ulong> range_end,
         ext::string&& new_text)
         -> void
 {
@@ -13,8 +13,8 @@ auto edit_context::edit_context::update_text(
 
 
 auto edit_context::edit_context::update_selection(
-        const ext::number<ulong>& start,
-        const ext::number<ulong>& end)
+        ext::number<ulong> start,
+        ext::number<ulong> end)
         -> void
 {
     return_if (!m_activated || start > end);
@@ -41,7 +41,7 @@ auto edit_context::edit_context::update_selection_bound(
 
 
 auto edit_context::edit_context::update_character_bounds(
-        const ext::number<ulong>& range_start,
+        ext::number<ulong> range_start,
         const ext::vector<css::geometry::dom_rect*>& character_bounds)
         -> void
 {

@@ -16,23 +16,23 @@ namespace html::detail
     auto set_the_current_base_text(
             ext::vector<ext::string> base_text_segments,
             const dom::nodes::node* current_parent,
-            const ext::number<int>& start_index,
-            const ext::number<int>& end_index)
+            ext::number<int> start_index,
+            ext::number<int> end_index)
             -> void;
 
     auto push_ruby_level(
             const dom::nodes::node* current_parent,
-            const ext::number<int>& index)
+            ext::number<int> index)
             -> void;
 
     auto pop_ruby_level(
             const dom::nodes::node* current_parent,
-            const ext::number<int>& index)
+            ext::number<int> index)
             -> void;
 
     auto push_ruby_annotation(
             const dom::nodes::node* current_parent,
-            const ext::number<int>& index)
+            ext::number<int> index)
             -> void;
 }
 

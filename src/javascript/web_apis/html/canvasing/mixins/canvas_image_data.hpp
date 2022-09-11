@@ -14,23 +14,23 @@ class html::canvasing::mixins::canvas_image_data
 {
 public js_methods:
     auto create_image_data(
-            const ext::number<long>& sw, const ext::number<long>& sh, detail::image_data_settings_t&& settings = {})
+            ext::number<long> sw, ext::number<long> sh, detail::image_data_settings_t&& settings = {})
             -> image_data;
 
     auto create_image_data(
             image_data* data) -> image_data;
 
     auto get_image_data(
-            const ext::number<long>& sx, const ext::number<long>& sy, const ext::number<long>& sw,
-            const ext::number<long>& sh, detail::image_data_settings_t&& settings = {}) -> image_data;
+            ext::number<long> sx, ext::number<long> sy, ext::number<long> sw,
+            ext::number<long> sh, detail::image_data_settings_t&& settings = {}) -> image_data;
 
     auto put_image_data(
-            image_data* data, const ext::number<long>& dx, const ext::number<long>& dy) -> void;
+            image_data* data, ext::number<long> dx, ext::number<long> dy) -> void;
 
     auto put_image_data(
-            image_data* data, const ext::number<long>& dx, const ext::number<long>& dy,
-            const ext::number<long>& dirty_x, const ext::number<long>& dirty_y, const ext::number<long>& dirty_width,
-            const ext::number<long>& dirty_height) -> void;
+            image_data* data, ext::number<long> dx, ext::number<long> dy,
+            ext::number<long> dirty_x, ext::number<long> dirty_y, ext::number<long> dirty_width,
+            ext::number<long> dirty_height) -> void;
 
 public cpp_properties:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

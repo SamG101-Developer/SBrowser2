@@ -28,7 +28,7 @@ public js_methods:
 
     /* RESOURCE_TIMING */
     auto clear_resource_timings() -> void;
-    auto set_resource_timing_buffer_size(const ext::number<ulong>& max_size) -> void;
+    auto set_resource_timing_buffer_size(ext::number<ulong> max_size) -> void;
 
 public js_properties:
     /* HIGH_RESOLUTION_TIME */

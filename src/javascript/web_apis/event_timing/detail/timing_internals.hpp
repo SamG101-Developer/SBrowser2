@@ -36,15 +36,15 @@ namespace event_timing::detail
 
     auto initialize_event_timing(
             dom::events::event* event,
-            const ext::number<double>& processing_start,
-            const ext::number<int>& interaction_id)
+            ext::number<double> processing_start,
+            ext::number<int> interaction_id)
             -> performance_event_timing;
 
     auto finalize_event_timing(
             performance_event_timing* timing_entry,
             dom::events::event* event,
             dom::nodes::event_target* target,
-            const ext::number<double>& processing_end)
+            ext::number<double> processing_end)
             -> void;
 
     auto dispatch_pending_event_timing_entries(

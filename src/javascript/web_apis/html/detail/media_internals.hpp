@@ -62,8 +62,8 @@ namespace html::detail
 
     auto when_network_state_changes(
             elements::html_media_element* element,
-            const ext::number<ushort>& previous_ready_state,
-            const ext::number<ushort>& new_ready_state)
+            ext::number<ushort> previous_ready_state,
+            ext::number<ushort> new_ready_state)
             -> void;
 
     auto when_current_playback_position_at_end(
@@ -136,7 +136,7 @@ namespace html::detail
 
     auto seek(
             elements::html_media_element* element,
-            const ext::number<double>& new_playback_position,
+            ext::number<double> new_playback_position,
             ext::boolean&& approximate_for_speed_flag)
             -> void;
 

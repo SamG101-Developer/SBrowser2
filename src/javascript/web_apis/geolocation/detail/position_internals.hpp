@@ -16,7 +16,7 @@ namespace geolocation::detail
             detail::position_callback_t&& success_callback,
             detail::position_error_callback_t&& error_callback,
             detail::position_options_t&& options,
-            ext::optional<const ext::number<long>&> watch_id = ext::nullopt)
+            ext::optional<ext::number<long>> watch_id = ext::nullopt)
             -> void;
 
     auto acquire_position(
@@ -24,12 +24,12 @@ namespace geolocation::detail
             detail::position_callback_t&& success_callback,
             detail::position_error_callback_t&& error_callback,
             detail::position_options_t&& options,
-            ext::optional<const ext::number<long>&> watch_id = ext::nullopt)
+            ext::optional<ext::number<long>> watch_id = ext::nullopt)
             -> void;
 
     auto callback_with_error(
             position_error_callback_t&& callback,
-            const ext::number<ushort>& code)
+            ext::number<ushort> code)
             -> void;
 };
 

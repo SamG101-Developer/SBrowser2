@@ -38,7 +38,7 @@ public js_methods:
     /* HTML */
     auto load() -> void;
     auto can_play_type(ext::string_view type) -> detail::can_play_type_result_t;
-    auto fast_seek(const ext::number<double>& time) -> void;
+    auto fast_seek(ext::number<double> time) -> void;
     auto get_start_date() -> ext::any;
     auto play() -> ext::promise<void>;
     auto pause() -> void;

@@ -32,8 +32,8 @@ file_api::blob::blob(
 
 
 auto file_api::blob::slice(
-        const ext::number<longlong>& start,
-        const ext::number<longlong>& end,
+        ext::number<longlong> start,
+        ext::number<longlong> end,
         ext::string_view content_type)
         -> blob
 {

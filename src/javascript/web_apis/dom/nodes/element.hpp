@@ -100,9 +100,9 @@ public js_methods:
     auto matches(ext::string_view selectors) -> ext::boolean;
 
     /* POINTER_EVENTS */
-    auto set_pointer_capture(const ext::number<long> pointer_id) -> void;
-    auto release_pointer_capture(const ext::number<long> pointer_id) -> void;
-    auto has_pointer_capture(const ext::number<long> pointer_id) -> ext::boolean;
+    auto set_pointer_capture(ext::number<long> pointer_id) -> void;
+    auto release_pointer_capture(ext::number<long> pointer_id) -> void;
+    auto has_pointer_capture(ext::number<long> pointer_id) -> ext::boolean;
 
     /* POINTER_LOCK */
     auto request_pointer_lock() -> void;

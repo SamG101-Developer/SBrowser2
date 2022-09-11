@@ -35,22 +35,22 @@ namespace html::detail
             elements::html_table_cell_element* principal_cell,
             /* TODO : header-list */
             ext::pair<ext::number<int>, ext::number<int>>&& initial,
-            const ext::number<int>& delta_x,
-            const ext::number<int>& delta_y)
+            ext::number<int> delta_x,
+            ext::number<int> delta_y)
             -> void;
 
     auto is_column_header(
             elements::html_table_cell_element* cell,
             ext::pair<ext::number<int>, ext::number<int>>&& coordinates,
-            const ext::number<int>& width,
-            const ext::number<int>& height)
+            ext::number<int> width,
+            ext::number<int> height)
             -> ext::boolean;
 
     auto is_row_header(
             elements::html_table_cell_element* cell,
             ext::pair<ext::number<int>, ext::number<int>>&& coordinates,
-            const ext::number<int>& width,
-            const ext::number<int>& height)
+            ext::number<int> width,
+            ext::number<int> height)
             -> ext::boolean;
 
     auto is_column_group_header(

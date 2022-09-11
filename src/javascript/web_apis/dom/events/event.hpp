@@ -11,8 +11,8 @@ namespace dom::events {class event;}
 #include USE_INNER_TYPES(dom)
 namespace dom::nodes {class event_target;}
 namespace dom::detail {auto dispatch(events::event*, nodes::event_target*) -> ext::boolean;}
-namespace dom::detail {auto invoke(event_path_struct_t*, events::event*, const ext::number<uchar>&) -> void;}
-namespace dom::detail {auto inner_invoke(events::event*, ext::vector_view<ext::map<ext::string, ext::any>>, const ext::number<uchar>&, const ext::boolean&) -> void;}
+namespace dom::detail {auto invoke(event_path_struct_t*, events::event*, ext::number<uchar>) -> void;}
+namespace dom::detail {auto inner_invoke(events::event*, ext::vector_view<ext::map<ext::string, ext::any>>, ext::number<uchar>, const ext::boolean&) -> void;}
 
 
 class dom::events::event
@@ -29,11 +29,11 @@ public: friends
             events::event* event, nodes::event_target* target) -> ext::boolean;
 
     friend auto dom::detail::invoke(
-            detail::event_path_struct_t* s, events::event* event, const ext::number<uchar>& phase) -> void;
+            detail::event_path_struct_t* s, events::event* event, ext::number<uchar> phase) -> void;
 
     friend auto dom::detail::inner_invoke(
             events::event* event, ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
-            const ext::number<uchar>& phase, const ext::boolean& invocation_target_in_shadow_tree) -> void;
+            ext::number<uchar> phase, const ext::boolean& invocation_target_in_shadow_tree) -> void;
 
 public: constructors
     event() = default;

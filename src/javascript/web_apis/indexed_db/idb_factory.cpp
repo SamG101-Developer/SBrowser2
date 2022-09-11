@@ -17,7 +17,7 @@
 
 auto indexed_db::idb_factory::open(
         const ext::string& name,
-        const ext::number<ulonglong>& version)
+        ext::number<ulonglong> version)
         -> idb_open_request
 {
     // throw a JavaScript type error if the version equals zero

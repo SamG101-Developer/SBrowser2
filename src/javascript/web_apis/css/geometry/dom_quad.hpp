@@ -5,8 +5,10 @@
 #include "dom_object.hpp"
 namespace css::geometry {class dom_quad;}
 
+#include <qpolygon.h>
 #include USE_INNER_TYPES(css/geometry)
 namespace css::geometry {class dom_point;}
+namespace css::geometry {class dom_rect;}
 
 
 class css::geometry::dom_quad
@@ -27,7 +29,17 @@ public js_properties:
     ext::property<std::unique_ptr<dom_point>> p4;
 
 public cpp_methods:
+    auto to_json() const -> ext::string override;
+    auto to_v8(v8::Isolate*isolate) const && -> ext::any override;
 
+private:
+    QPolygonF m_polygon;
+
+private cpp_accessors:
+    DEFINE_GETTER(p1);
+    DEFINE_GETTER(p2);
+    DEFINE_GETTER(p3);
+    DEFINE_GETTER(p4);
 };
 
 

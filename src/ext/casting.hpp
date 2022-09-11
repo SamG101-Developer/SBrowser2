@@ -1,4 +1,5 @@
 #pragma once
+#include <type_traits>
 #ifndef SBROWSER2_CASTING_HPP
 #define SBROWSER2_CASTING_HPP
 
@@ -27,6 +28,13 @@ auto cross_cast(auto* pointer) -> T
     auto* cross_cast_pointer = dynamic_cast<T>(pointer);
     ASSERT(cross_cast_pointer, "cross-casting must be successful", pointer);
     return cross_cast_pointer;
+}
+
+
+template <typename T, typename U>
+auto iterator_cast(U iterator) -> T
+{
+    return (T)iterator;
 }
 
 

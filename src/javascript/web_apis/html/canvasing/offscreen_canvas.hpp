@@ -16,7 +16,7 @@ class html::canvasing::offscreen_canvas
 public constructors:
     DOM_CTORS(offscreen_canvas);
     offscreen_canvas() = default;
-    offscreen_canvas(const ext::number<ulonglong>& width, const ext::number<ulonglong>& height);
+    offscreen_canvas(ext::number<ulonglong> width, ext::number<ulonglong> height);
 
 public js_methods:
     auto get_context(detail::offscreen_rendering_context_id_t context_id, ext::any&& options = nullptr) -> detail::offscreen_rendering_context_t;

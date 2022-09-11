@@ -48,7 +48,7 @@ auto dom::detail::partially_contains(
 auto dom::detail::set_start_or_end(
         node_ranges::range* const range,
         nodes::node* const new_container,
-        const ext::number<ulong>& new_offset,
+        ext::number<ulong> new_offset,
         const ext::boolean& start) -> void
 {
     throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
@@ -122,8 +122,8 @@ auto dom::detail::copy_data(
         nodes::node* const child,
         nodes::document_fragment* const fragment,
         nodes::character_data* const container,
-        const ext::number<ulong>& start_offset,
-        const ext::number<ulong>& end_offset,
+        ext::number<ulong> start_offset,
+        ext::number<ulong> end_offset,
         const ext::boolean& replace)
         -> nodes::document_fragment*
 {
@@ -140,9 +140,9 @@ auto dom::detail::append_to_sub_fragment(
         nodes::node* const child,
         nodes::document_fragment* const fragment,
         nodes::node* const start_container,
-        const ext::number<ulong>& start_offset,
+        ext::number<ulong> start_offset,
         nodes::node* const end_container,
-        const ext::number<ulong>& end_offset,
+        ext::number<ulong> end_offset,
         const append_action_t what)
         -> nodes::document_fragment*
 {
@@ -166,7 +166,7 @@ auto dom::detail::append_to_sub_fragment(
 auto dom::detail::create_new_node_and_offset(
         nodes::node* const start_container,
         nodes::node* const end_container,
-        const ext::number<ulong>& start_offset)
+        ext::number<ulong> start_offset)
         -> ext::tuple<nodes::node*, ext::number<ulong>>
 {
     auto* const common_ancestor = detail::common_ancestor(start_container, end_container);

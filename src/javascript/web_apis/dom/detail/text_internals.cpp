@@ -19,8 +19,8 @@
 
 auto dom::detail::replace_data(
         nodes::character_data* text_node,
-        const ext::number<ulong>& offset,
-        const ext::number<ulong>& count,
+        ext::number<ulong> offset,
+        ext::number<ulong> count,
         ext::string&& data) -> void
 {
     using detail::mutation_type_t;
@@ -95,8 +95,8 @@ auto dom::detail::replace_data(
 
 auto dom::detail::substring_data(
         const nodes::character_data* const text_node,
-        const ext::number<ulong>& offset,
-        const ext::number<ulong>& count)
+        ext::number<ulong> offset,
+        ext::number<ulong> count)
         -> ext::string
 {
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
@@ -121,7 +121,7 @@ auto dom::detail::substring_data(
 
 auto dom::detail::split(
         nodes::character_data* const existing_text_node,
-        const ext::number<ulong>& offset)
+        ext::number<ulong> offset)
         -> nodes::text
 {
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the

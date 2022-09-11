@@ -16,7 +16,7 @@ class indexed_db::idb_factory
         : public virtual dom_object
 {
 public js_methods:
-    auto open(const ext::string& name, const ext::number<ulonglong>& version) -> idb_open_request;
+    auto open(const ext::string& name, ext::number<ulonglong> version) -> idb_open_request;
     auto delete_database(const ext::string& name) -> idb_open_request;
     auto databases() -> ext::promise<ext::vector<ext::map<ext::string, ext::any>>>;
     auto cmp(const ext::any& first, const ext::any& second) -> ext::number<short>;

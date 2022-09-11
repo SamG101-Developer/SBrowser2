@@ -14,7 +14,7 @@ public constructors:
     explicit text(ext::string&& new_data = "");
 
 public js_methods:
-    auto split_text(const ext::number<ulong>& offset) -> text;
+    auto split_text(ext::number<ulong> offset) -> text;
 
 public js_properties:
     ext::property<ext::string> whole_text;

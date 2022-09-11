@@ -14,13 +14,13 @@ class html::canvasing::mixins::canvas_transform
         : public virtual dom_object
 {
 public js_methods:
-    auto scale(const ext::number<double>& x, const ext::number<double>& y) -> void;
-    auto rotate(const ext::number<double>& angle) -> void;
-    auto translate(const ext::number<double>& x, const ext::number<double>& y) -> void;
-    auto transform(const ext::number<double>& a, const ext::number<double>& b, const ext::number<double>& c, const ext::number<double>& d, const ext::number<double>& e, const ext::number<double>& f) -> void;
+    auto scale(ext::number<double> x, ext::number<double> y) -> void;
+    auto rotate(ext::number<double> angle) -> void;
+    auto translate(ext::number<double> x, ext::number<double> y) -> void;
+    auto transform(ext::number<double> a, ext::number<double> b, ext::number<double> c, ext::number<double> d, ext::number<double> e, ext::number<double> f) -> void;
 
     auto get_transform() -> css::geometry::dom_matrix;
-    auto set_transform(const ext::number<double>& a, const ext::number<double>& b, const ext::number<double>& c, const ext::number<double>& d, const ext::number<double>& e, const ext::number<double>& f) -> void;
+    auto set_transform(ext::number<double> a, ext::number<double> b, ext::number<double> c, ext::number<double> d, ext::number<double> e, ext::number<double> f) -> void;
     auto reset_transform() -> void;
 
 public cpp_properties:

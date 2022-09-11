@@ -21,11 +21,11 @@ public constructors:
     edit_context(detail::edit_context_init_t&& options = {});
 
 public js_methods:
-    auto update_text(const ext::number<ulong>& range_start, const ext::number<ulong>& range_end, ext::string&& new_text) -> void;
-    auto update_selection(const ext::number<ulong>& start, const ext::number<ulong>& end) -> void;
+    auto update_text(ext::number<ulong> range_start, ext::number<ulong> range_end, ext::string&& new_text) -> void;
+    auto update_selection(ext::number<ulong> start, ext::number<ulong> end) -> void;
     auto update_control_bound(css::geometry::dom_rect* new_control_bound) -> void;
     auto update_selection_bound(css::geometry::dom_rect* new_selection_bound) -> void;
-    auto update_character_bounds(const ext::number<ulong>& range_start, const ext::vector<css::geometry::dom_rect*>& character_bounds) -> void;
+    auto update_character_bounds(ext::number<ulong> range_start, const ext::vector<css::geometry::dom_rect*>& character_bounds) -> void;
     auto attached_element() -> ext::vector<dom::nodes::element*>;
     auto character_bounds() -> ext::vector<css::geometry::dom_rect*>;
 

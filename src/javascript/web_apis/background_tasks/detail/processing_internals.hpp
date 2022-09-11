@@ -22,7 +22,7 @@ namespace background_tasks::detail
             -> hr_time::dom_high_res_time_stamp;
 
     auto invoke_idle_callback_timeout_algorithm(
-            ext::number<ulong>&& handle,
+            ext::number<ulong> handle,
             dom::nodes::window* window)
             -> void;
 

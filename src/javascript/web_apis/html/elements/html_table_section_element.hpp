@@ -16,8 +16,8 @@ public constructors:
     html_table_section_element();
 
 public js_methods:
-    auto insert_row(const ext::number<long> index = -1) -> html_table_row_element;
-    auto delete_row(const ext::number<long> index = -1) -> html_table_row_element;
+    auto insert_row(ext::number<long> index = -1) -> html_table_row_element;
+    auto delete_row(ext::number<long> index = -1) -> html_table_row_element;
 
 public js_properties:
     ext::property<std::unique_ptr<ext::vector<html_table_row_element*>>> rows;

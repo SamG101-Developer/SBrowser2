@@ -16,7 +16,7 @@ public constructors:
 
 public js_methods:
     auto error() -> response;
-    auto redirect(ext::string_view url, const ext::number<ushort>& status = 302);
+    auto redirect(ext::string_view url, ext::number<ushort> status = 302);
     auto json(const ext::any& data, ext::map<ext::string, ext::any>&& init = {});
 
     auto clone() -> response;

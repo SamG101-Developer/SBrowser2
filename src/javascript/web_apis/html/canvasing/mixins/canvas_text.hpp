@@ -12,8 +12,8 @@ class html::canvasing::mixins::canvas_text
         : public virtual dom_object
 {
 public js_methods:
-    auto fill_text  (ext::string&& text, const ext::number<double>& x, const ext::number<double>& y, const ext::number<double>& max_width = 0);
-    auto stroke_text(ext::string&& text, const ext::number<double>& x, const ext::number<double>& y, const ext::number<double>& max_width = 0);
+    auto fill_text  (ext::string&& text, ext::number<double> x, ext::number<double> y, ext::number<double> max_width = 0);
+    auto stroke_text(ext::string&& text, ext::number<double> x, ext::number<double> y, ext::number<double> max_width = 0);
     auto measure_text(ext::string_view text) -> text_metrics;
 
 public cpp_properties:

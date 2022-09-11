@@ -10,8 +10,8 @@
 namespace longtasks::detail
 {
     auto report_long_tasks(
-            const ext::number<double>& start_time,
-            const ext::number<double>& end_time,
+            ext::number<double> start_time,
+            ext::number<double> end_time,
             html::detail::browsing_context_t* browsing_context,
             v8::Task& task)
             -> void;

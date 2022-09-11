@@ -4,7 +4,7 @@
 
 
 auto streams::readable::readable_stream_byob_request::respond(
-        const ext::number<ulonglong>& bytes_written)
+        ext::number<ulonglong>& bytes_written)
         -> void
 {
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(

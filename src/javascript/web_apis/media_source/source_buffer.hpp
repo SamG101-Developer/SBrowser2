@@ -35,7 +35,7 @@ public js_methods:
     auto append_buffer(/* TODO */) -> void;
     auto abort() -> void;
     auto change_type(const ext::string& type) -> void;
-    auto remove(const ext::number<double>& start, const ext::number<double>& end) -> void;
+    auto remove(ext::number<double> start, ext::number<double> end) -> void;
 
 private cpp_accessors:
     DEFINE_GETTER(buffered);

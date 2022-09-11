@@ -6,8 +6,8 @@
 
 
 auto html::canvasing::mixins::canvas_transform::scale(
-        const ext::number<double>& x,
-        const ext::number<double>& y)
+        ext::number<double> x,
+        ext::number<double> y)
         -> void
 {
     return_if (ext::is_inf_or_nan(x, y));
@@ -16,7 +16,7 @@ auto html::canvasing::mixins::canvas_transform::scale(
 
 
 auto html::canvasing::mixins::canvas_transform::rotate(
-        const ext::number<double>& angle)
+        ext::number<double> angle)
         -> void
 {
     return_if (ext::is_inf_or_nan(angle));
@@ -25,8 +25,8 @@ auto html::canvasing::mixins::canvas_transform::rotate(
 
 
 auto html::canvasing::mixins::canvas_transform::translate(
-        const ext::number<double>& x,
-        const ext::number<double>& y)
+        ext::number<double> x,
+        ext::number<double> y)
         -> void
 {
     return_if (ext::is_inf_or_nan(x, y));
@@ -35,12 +35,12 @@ auto html::canvasing::mixins::canvas_transform::translate(
 
 
 auto html::canvasing::mixins::canvas_transform::transform(
-        const ext::number<double>& a,
-        const ext::number<double>& b,
-        const ext::number<double>& c,
-        const ext::number<double>& d,
-        const ext::number<double>& e,
-        const ext::number<double>& f)
+        ext::number<double> a,
+        ext::number<double> b,
+        ext::number<double> c,
+        ext::number<double> d,
+        ext::number<double> e,
+        ext::number<double> f)
         -> void
 {
     return_if (ext::is_inf_or_nan(a, b, c, d, e, f));

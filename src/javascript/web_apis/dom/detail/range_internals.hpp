@@ -28,7 +28,7 @@ namespace dom::detail
     auto set_start_or_end(
             node_ranges::range* range,
             nodes::node* new_container,
-            const ext::number<ulong>& new_offset,
+            ext::number<ulong> new_offset,
             const ext::boolean& start)
             -> void;
 
@@ -50,8 +50,8 @@ namespace dom::detail
             nodes::node* child,
             nodes::document_fragment* fragment,
             nodes::character_data* container,
-            const ext::number<ulong>& start_offset,
-            const ext::number<ulong>& end_offset,
+            ext::number<ulong> start_offset,
+            ext::number<ulong> end_offset,
             const ext::boolean& replace)
             -> nodes::document_fragment*;
 
@@ -59,16 +59,16 @@ namespace dom::detail
             nodes::node* child,
             nodes::document_fragment* fragment,
             nodes::node* start_container,
-            const ext::number<ulong>& start_offset,
+            ext::number<ulong> start_offset,
             nodes::node* end_container,
-            const ext::number<ulong>& end_offset,
+            ext::number<ulong> end_offset,
             append_action_t what)
             -> nodes::document_fragment*;
 
     auto create_new_node_and_offset(
             nodes::node* start_container,
             nodes::node* end_container,
-            const ext::number<ulong>& start_offset)
+            ext::number<ulong> start_offset)
             -> ext::tuple<nodes::node*, ext::number<ulong>>;
 }
 

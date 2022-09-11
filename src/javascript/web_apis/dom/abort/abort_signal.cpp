@@ -26,7 +26,7 @@ auto dom::abort::abort_signal::abort(
 
 
 auto dom::abort::abort_signal::timeout(
-        const ext::number<ulonglong>& milliseconds)
+        ext::number<ulonglong> milliseconds)
         -> abort_signal
 {
     // create a signal, and abort it after a timer has executed (TODO https://dom.spec.whatwg.org/#dom-abortsignal-timeout)

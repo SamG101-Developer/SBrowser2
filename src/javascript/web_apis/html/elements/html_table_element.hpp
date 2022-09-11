@@ -29,8 +29,8 @@ public js_methods:
 
     auto create_t_body() -> html_table_section_element;
 
-    auto insert_row(const ext::number<long> index = -1) -> html_table_row_element;
-    auto delete_row(const ext::number<long> index = -1) -> html_table_row_element;
+    auto insert_row(ext::number<long> index = -1) -> html_table_row_element;
+    auto delete_row(ext::number<long> index = -1) -> html_table_row_element;
 
 public js_properties:
     ext::property<std::unique_ptr<html_table_caption_element>> caption;

@@ -62,7 +62,7 @@ auto dom::nodes::window::request_idle_callback(
 
 
 auto dom::nodes::window::cancel_idle_task(
-        const ext::number<ulong>& handle)
+        ext::number<ulong> handle)
         -> void
 {
     // Remove the callback at the 'handle' index from both the idle-request and runnable-idle callback lists.

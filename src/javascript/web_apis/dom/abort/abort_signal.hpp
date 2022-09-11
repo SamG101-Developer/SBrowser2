@@ -35,7 +35,7 @@ public constructors:
 
 public js_methods:
     static auto abort(const ext::optional<ext::any>& reason) -> abort_signal;
-    static auto timeout(const ext::number<ulonglong>& milliseconds) -> abort_signal;
+    static auto timeout(ext::number<ulonglong> milliseconds) -> abort_signal;
     auto throw_if_aborted() -> void;
 
 public js_properties:

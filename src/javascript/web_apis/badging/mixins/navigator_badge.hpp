@@ -18,7 +18,7 @@ public constructors:
     navigator_badge() = default;
 
 public js_methods:
-    auto set_app_badge(const ext::number<ulonglong>& contents) -> ext::promise<void>;
+    auto set_app_badge(ext::number<ulonglong> contents) -> ext::promise<void>;
     auto clear_app_badge() -> ext::promise<void>;
 
 public cpp_methods:

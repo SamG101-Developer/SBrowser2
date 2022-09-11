@@ -211,8 +211,8 @@ auto event_timing::detail::compute_interaction_id(
 
 auto event_timing::detail::initialize_event_timing(
         dom::events::event* event,
-        const ext::number<double>& processing_start,
-        const ext::number<int>& interaction_id)
+        ext::number<double> processing_start,
+        ext::number<int> interaction_id)
         -> performance_event_timing
 {
     // Create a PerformanceEventTiming object, and assign the attributes to it based on the parameters and attributes of
@@ -232,7 +232,7 @@ auto event_timing::detail::finalize_event_timing(
         performance_event_timing* timing_entry,
         dom::events::event* event,
         dom::nodes::event_target* target,
-        const ext::number<double>& processing_end) -> void
+        ext::number<double> processing_end) -> void
 {
     JS_REALM_GET_RELEVANT(target);
 

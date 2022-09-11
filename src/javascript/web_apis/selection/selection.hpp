@@ -29,21 +29,21 @@ public js_properties:
     ext::property<ext::string> type;
 
 public js_methods:
-    auto get_range_at(const ext::number<ulong>& index) -> dom::node_ranges::range*;
+    auto get_range_at(ext::number<ulong> index) -> dom::node_ranges::range*;
     auto add_range(dom::node_ranges::range* range) -> void;
 
     auto remove_range(dom::node_ranges::range* range) -> void;
     auto remove_all_ranges() -> void;
     auto empty() -> void;
 
-    auto collapse(dom::nodes::node* node, const ext::number<ulong>& offset = 0) -> void;
+    auto collapse(dom::nodes::node* node, ext::number<ulong> offset = 0) -> void;
     auto collapse_to_start() -> void;
     auto collapse_to_end() -> void;
 
-    auto set_position(dom::nodes::node* node, const ext::number<ulong>& offset = 0) -> void;
+    auto set_position(dom::nodes::node* node, ext::number<ulong> offset = 0) -> void;
 
-    auto extend(dom::nodes::node* node, const ext::number<ulong>& offset = 0) -> void;
-    auto set_base_and_extend(dom::nodes::node* anchor_node, const ext::number<ulong> anchor_offset, dom::nodes::node* focus_node, const ext::number<ulong> focus_offset) -> void;
+    auto extend(dom::nodes::node* node, ext::number<ulong> offset = 0) -> void;
+    auto set_base_and_extend(dom::nodes::node* anchor_node, ext::number<ulong> anchor_offset, dom::nodes::node* focus_node, const ext::number<ulong> focus_offset) -> void;
     auto select_all_children(dom::nodes::node* node);
 
     auto modify(ext::string_view alter, ext::string_view direction = "", ext::string_view granularity = "") -> void;

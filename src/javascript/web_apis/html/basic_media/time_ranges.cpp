@@ -10,7 +10,7 @@ html::basic_media::time_ranges::time_ranges()
 
 
 auto html::basic_media::time_ranges::start(
-        const ext::number<long>& index)
+        ext::number<long> index)
         -> ext::number<double>
 {
     // Get the start of the range that is at 'index' position in the internal 'm_ranges' list of ranges. The start of
@@ -20,7 +20,7 @@ auto html::basic_media::time_ranges::start(
 
 
 auto html::basic_media::time_ranges::end(
-        const ext::number<long>& index)
+        ext::number<long> index)
         -> ext::number<double>
 {
     // Get the end of the range that is at 'index' position in the internal 'm_ranges' list of ranges. The end of the

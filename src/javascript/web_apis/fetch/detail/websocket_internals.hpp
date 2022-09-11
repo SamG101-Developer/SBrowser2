@@ -12,7 +12,7 @@ namespace fetch::detail
 {
     auto obtain_websocket_connection(
             const url::detail::url_t& url,
-            const ext::number<int>& port)
+            ext::number<int> port)
             -> connection_t;
 
     auto establish_websocket_connection(

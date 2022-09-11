@@ -16,36 +16,36 @@ public js_methods:
             -> void;
 
     auto move_to(
-            const ext::number<double>& x, const ext::number<double>& y) -> void;
+            ext::number<double> x, ext::number<double> y) -> void;
 
     auto line_to(
-            const ext::number<double>& x, const ext::number<double>& y) -> void;
+            ext::number<double> x, ext::number<double> y) -> void;
 
     auto quadratic_curve_to(
-            const ext::number<double>& cpx, const ext::number<double>& cpy, const ext::number<double>& x,
-            const ext::number<double>& y) -> void;
+            ext::number<double> cpx, ext::number<double> cpy, ext::number<double> x,
+            ext::number<double> y) -> void;
 
     auto bezier_curve_to(
-            const ext::number<double>& cpx1, const ext::number<double>& cpy1, const ext::number<double>& cpx2,
-            const ext::number<double>& cpy2, const ext::number<double>& x, const ext::number<double>& y) -> void;
+            ext::number<double> cpx1, ext::number<double> cpy1, ext::number<double> cpx2,
+            ext::number<double> cpy2, ext::number<double> x, ext::number<double> y) -> void;
 
     auto arc_to(
-            const ext::number<double>& x1, const ext::number<double>& y1, const ext::number<double>& x2,
-            const ext::number<double>& y2, const ext::number<double>& radius) -> void;
+            ext::number<double> x1, ext::number<double> y1, ext::number<double> x2,
+            ext::number<double> y2, ext::number<double> radius) -> void;
 
-    auto rect(const ext::number<double>& x, const ext::number<double>& y, const ext::number<double>& w,
-              const ext::number<double>& h) -> void;
+    auto rect(ext::number<double> x, ext::number<double> y, ext::number<double> w,
+              ext::number<double> h) -> void;
 
-    auto rouund_rect(const ext::number<double>& x, const ext::number<double>& y, const ext::number<double>& w,
-              const ext::number<double>& h, ext::vector_view<css::detail::dom_point_init_t> radii = {}) -> void;
+    auto rouund_rect(ext::number<double> x, ext::number<double> y, ext::number<double> w,
+              ext::number<double> h, ext::vector_view<css::detail::dom_point_init_t> radii = {}) -> void;
 
-    auto arc(const ext::number<double>& x, const ext::number<double>& y, const ext::number<double>& radius,
-             const ext::number<double>& start_angle, const ext::number<double>& end_angle,
+    auto arc(ext::number<double> x, ext::number<double> y, ext::number<double> radius,
+             ext::number<double> start_angle, ext::number<double> end_angle,
              ext::boolean&& counter_clockwise = false) -> void;
 
-    auto ellipse(const ext::number<double>& x, const ext::number<double>& Y, const ext::number<double>& radius_x,
-                 const ext::number<double>& radius_y, const ext::number<double>& rotation,
-                 const ext::number<double>& start_angle, const ext::number<double>& end_angle,
+    auto ellipse(ext::number<double> x, ext::number<double> Y, ext::number<double> radius_x,
+                 ext::number<double> radius_y, ext::number<double> rotation,
+                 ext::number<double> start_angle, ext::number<double> end_angle,
                  ext::boolean&& counter_clockwaise = false) -> void;
 
 public cpp_methods:

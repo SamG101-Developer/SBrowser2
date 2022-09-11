@@ -16,7 +16,7 @@ public constructors:
     data_transfer();
 
 public js_methods:
-    auto set_drag_image(dom::nodes::element* element, const ext::number<long>& x, const ext::number<long>& y) -> void;
+    auto set_drag_image(dom::nodes::element* element, ext::number<long> x, ext::number<long> y) -> void;
 
 public js_properties:
     ext::property<ext::string> drop_effect;

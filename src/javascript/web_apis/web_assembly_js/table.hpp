@@ -19,7 +19,7 @@ public constructors:
     table(detail::table_escriptor_t&& descriptor, const ext::any& value = nullptr);
 
 public js_methods:
-    auto grow(const ext::number<ulong>& delta, const ext::any& value = nullptr) -> ext::number<ulong>;
+    auto grow(ext::number<ulong> delta, const ext::any& value = nullptr) -> ext::number<ulong>;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;

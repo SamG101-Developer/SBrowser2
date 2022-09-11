@@ -14,8 +14,8 @@ public constructors:
     time_ranges();
 
 public js_methods:
-    auto start(const ext::number<long>& index) -> ext::number<double>;
-    auto end(const ext::number<long>& index) -> ext::number<double>;
+    auto start(ext::number<long> index) -> ext::number<double>;
+    auto end(ext::number<long> index) -> ext::number<double>;
 
 public js_properties:
     ext::property<ext::number<ulong>> length;

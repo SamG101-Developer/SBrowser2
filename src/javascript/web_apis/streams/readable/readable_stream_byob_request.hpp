@@ -16,7 +16,7 @@ public constructors:
     readable_stream_byob_request();
 
 public js_methods:
-    auto respond(const ext::number<ulonglong>& bytes_written) -> void;
+    auto respond(ext::number<ulonglong> bytes_written) -> void;
     auto respond_with_new_view(v8::Local<v8::ArrayBufferView> view) -> void;
 
 public js_properties:

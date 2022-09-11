@@ -13,16 +13,16 @@ class html::canvasing::mixins::canvas_draw_image
 {
 public js_methods:
     auto draw_image(
-            detail::canvas_image_source_t image, const ext::number<double>& dx, const ext::number<double>& dy) -> void;
+            detail::canvas_image_source_t image, ext::number<double> dx, ext::number<double> dy) -> void;
 
     auto draw_image(
-            detail::canvas_image_source_t image, const ext::number<double>& dx, const ext::number<double>& dy,
-            const ext::number<double>& dw, const ext::number<double>& dh) -> void;
+            detail::canvas_image_source_t image, ext::number<double> dx, ext::number<double> dy,
+            ext::number<double> dw, ext::number<double> dh) -> void;
 
     auto draw_image(
-            detail::canvas_image_source_t image, const ext::number<double>& sx, const ext::number<double>& sy,
-            const ext::number<double>& sw, const ext::number<double>& sh, const ext::number<double>& dx,
-            const ext::number<double>& dy, const ext::number<double>& dw, const ext::number<double>& dh) -> void;
+            detail::canvas_image_source_t image, ext::number<double> sx, ext::number<double> sy,
+            ext::number<double> sw, ext::number<double> sh, ext::number<double> dx,
+            ext::number<double> dy, ext::number<double> dw, ext::number<double> dh) -> void;
 
 public cpp_properties:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

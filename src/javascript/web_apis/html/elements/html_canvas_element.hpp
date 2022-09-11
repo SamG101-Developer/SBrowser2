@@ -26,7 +26,7 @@ public js_methods:
     auto transfer_control_to_offscreen() -> canvasing::offscreen_canvas;
 
     /* MEDIACAPTURE-FROMELEMENT */
-    auto capture_stream(const ext::number<double>& frame_request_rate) -> mediacapture::main::media_stream;
+    auto capture_stream(ext::number<double> frame_request_rate) -> mediacapture::main::media_stream;
 
 public js_properties:
     ext::property<ext::number<ulong>> width;

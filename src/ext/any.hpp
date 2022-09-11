@@ -48,6 +48,7 @@ public cpp_methods:
     [[nodiscard]] auto is_empty() const -> boolean;
     [[nodiscard]] auto has_value() const -> boolean;
     template <typename T> auto to() const -> T;
+    template <is_rvalue_reference T> auto to() const -> T;
     template <typename T> auto try_to() const -> ext::boolean;
 
 public cpp_operators:
@@ -125,6 +126,13 @@ template <typename T>
 auto any::to() const -> T
 {
     return std::any_cast<T>(m_any);
+}
+
+
+template <is_rvalue_reference T>
+auto any::to() const -> T
+{
+    return std::move(std::any_cast<T&&>(m_any));
 }
 
 

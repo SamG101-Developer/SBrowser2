@@ -45,8 +45,8 @@ namespace fetch::detail
 
     auto add_range_header_to_request(
             const request_t& internal_request_object,
-            const ext::number<int>& first,
-            const ext::number<int>& last = -1)
+            ext::number<int> first,
+            ext::number<int> last = -1)
             -> void;
 
     auto check_if_cross_origin_embedder_policy_allows_credentials(

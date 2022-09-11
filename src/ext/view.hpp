@@ -1,8 +1,10 @@
 #ifndef SBROWSER2_SRC_EXT_VIEW_HPP
 #define SBROWSER2_SRC_EXT_VIEW_HPP
 
+#include "ext/casting.hpp"
 #include "ext/concepts.hpp"
-#include "ext/keywords.hpp"
+
+#include <initializer_list>
 #include <iterator>
 #include <span>
 
@@ -26,9 +28,9 @@ public aliases:
 
 public constructors:
     view()
-            : fixed_begin(nullptr)
-            , fixed_end(nullptr)
-            , fixed_size(0)
+            : fixed_begin{nullptr}
+            , fixed_end{nullptr}
+            , fixed_size{0}
     {};
 
     view(const iterator begin, const iterator end)
@@ -44,9 +46,16 @@ public constructors:
     {}
 
     view(view&& other) noexcept
-            : fixed_begin(std::move(other.begin()))
-            , fixed_end(std::move(other.end()))
-            , fixed_size(std::move(other.size()))
+            : fixed_begin{std::make_move_iterator(std::move(other.begin()))}
+            , fixed_end{std::make_move_iterator(std::move(other.end()))}
+            , fixed_size{std::move(other.size())}
+    {}
+
+    template <typename U>
+    view(std::initializer_list<U> other)
+            : fixed_begin{ext::iterator_cast<T>(other.begin())}
+            , fixed_end{ext::iterator_cast<T>(other.end())}
+            , fixed_size{std::move(other.size())}
     {}
 
     view(const view&) = delete;

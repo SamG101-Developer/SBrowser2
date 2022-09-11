@@ -30,8 +30,8 @@ namespace html::detail
             -> T*;
 
     auto set_bitmap_dimensions(
-            const ext::number<int>& width,
-            const ext::number<int>& height)
+            ext::number<int> width,
+            ext::number<int> height)
             -> void;
 
     auto trace_path(
@@ -45,7 +45,7 @@ namespace html::detail
     auto text_preparation_algorithm(
             ext::string_view text,
             canvasing::mixins::canvas_text_drawing_styles* context,
-            const ext::number<double>& max_width)
+            ext::number<double> max_width)
             -> void; // TODO : return type, also requires CSS
 
     auto ensure_there_is_subpath(
@@ -64,22 +64,22 @@ namespace html::detail
     auto point_in_path(
             canvasing::mixins::canvas_draw_path* context,
             canvasing::path_2d* path,
-            const ext::number<double>& x,
-            const ext::number<double>& y,
+            ext::number<double> x,
+            ext::number<double> y,
             canvas_fill_rule_t fill_rule)
             -> ext::boolean;
 
     auto point_in_stroke(
             canvasing::mixins::canvas_draw_path* context,
             canvasing::path_2d* path,
-            const ext::number<double>& x,
-            const ext::number<double>& y)
+            ext::number<double> x,
+            ext::number<double> y)
             -> ext::boolean;
 
     auto initialize_image_data(
             canvasing::image_data* data,
-            const ext::number<int>& rows,
-            const ext::number<int>& pixels_per_row,
+            ext::number<int> rows,
+            ext::number<int> pixels_per_row,
             ext::vector_view<char> source = {},
             detail::predefined_color_space_t default_color_space = predefined_color_space_t::SRGB)
             -> void;

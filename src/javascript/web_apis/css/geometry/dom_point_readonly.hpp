@@ -6,6 +6,7 @@
 namespace css::geometry {class dom_point_readonly;}
 
 #include "ext/number.hpp"
+#include <qvectornd.h>
 #include USE_INNER_TYPES(css/geometry)
 namespace css::geometry {class dom_point;}
 
@@ -15,7 +16,7 @@ class css::geometry::dom_point_readonly
 {
 public constructors:
     dom_point_readonly() = default;
-    dom_point_readonly(const ext::number<double> x = 0, const ext::number<double> y = 0, const ext::number<double> z = 0, const ext::number<double> w = 0);
+    dom_point_readonly(ext::number<double> x = 0, ext::number<double> y = 0, ext::number<double> z = 0, ext::number<double> w = 0);
 
 public js_methods:
     static auto from_point(detail::dom_point_init_t&& other = {}) -> dom_point_readonly;
@@ -30,6 +31,15 @@ public js_properties:
 public cpp_methods:
     auto to_json() const -> ext::string override;
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+
+protected cpp_properties:
+    QVector4D m_point;
+
+private cpp_properties:
+    DEFINE_GETTER(x) {return m_point.x();};
+    DEFINE_GETTER(y) {return m_point.y();};
+    DEFINE_GETTER(z) {return m_point.z();};
+    DEFINE_GETTER(w) {return m_point.w();};
 };
 
 

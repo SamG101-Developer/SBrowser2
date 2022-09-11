@@ -61,7 +61,7 @@ auto geolocation::geolocation::watch_position(
 
 
 auto geolocation::geolocation::clear_watch(
-        const ext::number<long>& watch_id)
+        ext::number<long> watch_id)
         -> void
 {
     s_watch_ids() |= ranges::actions::remove(watch_id);

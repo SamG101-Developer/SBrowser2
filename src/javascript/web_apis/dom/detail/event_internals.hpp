@@ -47,13 +47,13 @@ namespace dom::detail
     auto invoke(
             event_path_struct_t* s,
             events::event* event,
-            const ext::number<uchar>& phase)
+            ext::number<uchar> phase)
             -> void;
 
     auto inner_invoke(
             events::event* event,
             ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
-            const ext::number<uchar>& phase,
+            ext::number<uchar> phase,
             const ext::boolean& invocation_target_in_shadow_tree)
             -> void;
 

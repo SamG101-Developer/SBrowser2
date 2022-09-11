@@ -16,8 +16,8 @@ class html::canvasing::image_data
 public constructors:
     DOM_CTORS(image_data);
     image_data() = default;
-    image_data(ext::number<ulong>&& sw, ext::number<ulong>&& sh, detail::image_data_settings_t&& = {});
-    image_data(ext::vector<ext::number<uchar>>&& data, ext::number<ulong>&& sw, ext::number<ulong>&& sh, detail::image_data_settings_t&& = {});
+    image_data(ext::number<ulong> sw, ext::number<ulong> sh, detail::image_data_settings_t&& = {});
+    image_data(ext::vector<ext::number<uchar>>&& data, ext::number<ulong> sw, ext::number<ulong> sh, detail::image_data_settings_t&& = {});
 
 public js_properties:
     ext::property<ext::number<ulong>> width;

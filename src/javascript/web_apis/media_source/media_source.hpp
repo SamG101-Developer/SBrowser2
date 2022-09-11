@@ -29,7 +29,7 @@ public js_methods:
     auto add_source_buffer(const ext::string& type) -> source_buffer;
     auto remove_source_buffer(source_buffer* source_buffer) -> void;
     auto end_of_stream(ext::optional<detail::end_or_stream_error> error) -> void;
-    auto set_live_seekable_range(const ext::number<double>& start, const ext::number<double>& end) -> void;
+    auto set_live_seekable_range(ext::number<double> start, ext::number<double> end) -> void;
     static auto is_type_supported(ext::string_view type) -> ext::boolean;
 
 private js_slots:

@@ -18,7 +18,7 @@ public constructors:
     memory(detail::memory_descriptor_t&& descriptor);
 
 public js_methods:
-    auto grow(const ext::number<ulong>& delta) -> ext::number<ulong>;
+    auto grow(ext::number<ulong> delta) -> ext::number<ulong>;
 
 public js_properties:
     ext::property<v8::ArrayBuffer> buffer;

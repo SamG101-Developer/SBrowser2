@@ -47,7 +47,7 @@ struct css::detail::animator_definition_t
 {
     ext::string animator_name;
     animator_instance_constructor_t class_constructor;
-    ext::function<void(const ext::number<double>& current_time, const animator_effect_t& effect)> animate_function;
+    ext::function<void(ext::number<double> current_time, const animator_effect_t& effect)> animate_function;
     ext::function<void()> state_function;
     ext::boolean stateful_flag;
 };

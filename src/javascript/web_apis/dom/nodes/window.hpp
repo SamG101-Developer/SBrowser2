@@ -77,7 +77,7 @@ public js_methods:
             -> ext::number<ulong>;
 
     auto cancel_idle_task(
-            const ext::number<ulong>& handle)
+            ext::number<ulong> handle)
             -> void;
 
     /* SELECTION */

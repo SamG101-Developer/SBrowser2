@@ -24,7 +24,7 @@ public constructors:
     ~blob() override = default;
 
 public js_methods:
-    auto slice(const ext::number<longlong>& start = 0, const ext::number<longlong>& end = ext::number<longlong>::max(), ext::string_view content_type = "") -> blob;
+    auto slice(ext::number<longlong> start = 0, ext::number<longlong> end = ext::number<longlong>::max(), ext::string_view content_type = "") -> blob;
     auto stream() -> streams::readable::readable_stream;
     auto text() -> ext::promise<ext::string>;
     auto array_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;

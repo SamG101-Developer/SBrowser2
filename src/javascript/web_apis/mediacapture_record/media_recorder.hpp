@@ -20,7 +20,7 @@ public constructors:
 public js_methods:
     static auto is_type_supported(ext::string_view type) -> ext::boolean;
 
-    auto start(const ext::number<ulong>& timeslice = 0) -> void;
+    auto start(ext::number<ulong> timeslice = 0) -> void;
     auto stop() -> void;
     auto pause() -> void;
     auto resume() -> void;

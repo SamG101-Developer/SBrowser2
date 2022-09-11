@@ -76,7 +76,7 @@ auto background_tasks::detail::invoke_idle_callbacks_algorithm(
 
 
 auto background_tasks::detail::invoke_idle_callback_timeout_algorithm(
-        ext::number<ulong>&& handle,
+        ext::number<ulong> handle,
         dom::nodes::window* window)
         -> void
 {

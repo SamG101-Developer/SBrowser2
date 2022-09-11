@@ -256,7 +256,7 @@ auto dom::detail::append_to_event_path(
 auto dom::detail::invoke(
         event_path_struct_t* const s,
         events::event* const event,
-        const ext::number<uchar>& phase)
+        ext::number<uchar> phase)
         -> void
 {
     // the viable structs are the struct in the event path that are inclusively preceding 's', and have a shadow
@@ -283,7 +283,7 @@ auto dom::detail::invoke(
 auto dom::detail::inner_invoke(
         events::event* const event,
         ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
-        const ext::number<uchar>& phase,
+        ext::number<uchar> phase,
         const ext::boolean& invocation_target_in_shadow_tree)
         -> void
 {

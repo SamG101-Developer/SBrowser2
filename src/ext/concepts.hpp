@@ -43,6 +43,23 @@ concept dynamically_castable_to = requires (From pointer)
 };
 
 
+template <typename T>
+concept is_pointer = std::is_pointer_v<T>;
+
+template <typename T>
+concept is_reference = std::is_reference_v<T>;
+
+template <typename T>
+concept is_rvalue_reference = std::is_rvalue_reference_v<T>;
+
+template <typename T>
+concept is_lvalue_reference = std::is_lvalue_reference_v<T>;
+
+template <typename T>
+concept is_const = std::is_const_v<T> || (std::is_pointer_v<T> && std::is_const_v<std::remove_pointer_t<T>>);
+
+
+
 // check if a type is a range_v3 type
 template <typename T>
 concept range_v3_view = ranges::view_<T>;

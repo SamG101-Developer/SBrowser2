@@ -14,7 +14,7 @@ public constructors:
     canvas_gradient() = default;
 
 public js_methods:
-    auto add_color_stop(ext::number<double>&& offset, ext::string&& color);
+    auto add_color_stop(ext::number<double> offset, ext::string&& color);
 };
 
 

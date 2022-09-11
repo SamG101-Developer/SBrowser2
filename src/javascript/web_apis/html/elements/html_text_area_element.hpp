@@ -20,8 +20,8 @@ public constructors:
 
 public js_methods:
     auto select() -> void;
-    auto set_range_text(ext::string&& replacement, const ext::number<long>& start = 0, const ext::number<long>& end = 0, detail::selection_mode_t selection_mode = detail::selection_mode_t::PRESERVE) -> void;
-    auto set_selection_range(const ext::number<long>& start, const ext::number<long>& end, detail::selection_mode_t selection_mode);
+    auto set_range_text(ext::string&& replacement, ext::number<long> start = 0, ext::number<long> end = 0, detail::selection_mode_t selection_mode = detail::selection_mode_t::PRESERVE) -> void;
+    auto set_selection_range(ext::number<long> start, ext::number<long> end, detail::selection_mode_t selection_mode);
 
 public js_properties:
     ext::property<ext::string> autocomplete;

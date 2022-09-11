@@ -37,7 +37,7 @@ mediacapture::record::media_recorder::media_recorder(
 
 
 auto mediacapture::record::media_recorder::start(
-        const ext::number<ulong>& timeslice)
+        ext::number<ulong> timeslice)
         -> void
 {
     dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(

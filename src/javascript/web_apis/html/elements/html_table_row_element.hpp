@@ -16,8 +16,8 @@ public constructors:
     html_table_row_element();
 
 public js_methods:
-    auto insert_cell(const ext::number<long>& index = -1) -> html_table_cell_element;
-    auto delete_cell(const ext::number<long>& index = -1) -> html_table_cell_element*;
+    auto insert_cell(ext::number<long> index = -1) -> html_table_cell_element;
+    auto delete_cell(ext::number<long> index = -1) -> html_table_cell_element*;
 
 public js_properties:
     ext::property<std::unique_ptr<ext::vector<html_table_cell_element*>>> cells;

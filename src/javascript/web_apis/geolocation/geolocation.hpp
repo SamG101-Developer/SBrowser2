@@ -29,7 +29,7 @@ public js_methods:
             -> ext::number<long>;
 
     auto clear_watch(
-            const ext::number<long>& watch_id)
+            ext::number<long> watch_id)
             -> void;
 
 private js_slots:

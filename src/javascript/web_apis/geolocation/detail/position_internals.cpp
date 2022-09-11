@@ -19,7 +19,7 @@ auto geolocation::detail::request_position(
         detail::position_callback_t&& success_callback,
         detail::position_error_callback_t&& error_callback,
         detail::position_options_t&& options,
-        ext::optional<const ext::number<long>&> watch_id)
+        ext::optional<ext::number<long>> watch_id)
         -> void
 {
     JS_REALM_GET_CURRENT

@@ -74,7 +74,7 @@ namespace fetch::detail
 
     auto create_a_new_cache_entry(
             request_t& request_object,
-            const ext::number<int>& max_age,
+            ext::number<int> max_age,
             ext::string_view method,
             header_name_t header_name)
             -> cache_entry_t;

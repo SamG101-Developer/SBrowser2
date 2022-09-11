@@ -20,10 +20,10 @@ public js_methods:
     auto stroke(path_2d* path) -> void;
     auto clip(detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> void;
     auto clip(path_2d* path, detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> void;
-    auto is_point_in_path(const ext::number<double>& x, const ext::number<double>& y, detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> ext::boolean;
-    auto is_point_in_path(path_2d* path, const ext::number<double>& x, const ext::number<double>& y, detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> ext::boolean;
-    auto is_point_in_stroke(const ext::number<double>& x, const ext::number<double>& y) -> ext::boolean;
-    auto is_point_in_stroke(path_2d* path, const ext::number<double>& x, const ext::number<double>& y) -> ext::boolean;
+    auto is_point_in_path(ext::number<double> x, ext::number<double> y, detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> ext::boolean;
+    auto is_point_in_path(path_2d* path, ext::number<double> x, ext::number<double> y, detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> ext::boolean;
+    auto is_point_in_stroke(ext::number<double> x, ext::number<double> y) -> ext::boolean;
+    auto is_point_in_stroke(path_2d* path, ext::number<double> x, ext::number<double> y) -> ext::boolean;
 
 public cpp_properties:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

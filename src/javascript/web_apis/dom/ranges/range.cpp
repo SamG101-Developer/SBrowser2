@@ -46,7 +46,7 @@ dom::node_ranges::range::range()
 
 auto dom::node_ranges::range::set_start(
         nodes::node* new_container,
-        const ext::number<ulong>& new_offset)
+        ext::number<ulong> new_offset)
         -> void
 {
     // set the start of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
@@ -83,7 +83,7 @@ auto dom::node_ranges::range::set_start_after(
 
 auto dom::node_ranges::range::set_end(
         nodes::node* new_container,
-        const ext::number<ulong>& new_offset)
+        ext::number<ulong> new_offset)
         -> void
 {
     // set the end of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
@@ -232,7 +232,7 @@ auto dom::node_ranges::range::select_node_contents(
 
 
 auto dom::node_ranges::range::compare_boundary_points(
-        const ext::number<ushort>& how,
+        ext::number<ushort> how,
         dom::node_ranges::range* source_range)
         -> ext::number<short>
 {
@@ -285,7 +285,7 @@ auto dom::node_ranges::range::compare_boundary_points(
 
 auto dom::node_ranges::range::compare_point(
         nodes::node* container,
-        const ext::number<ulong>& offset)
+        ext::number<ulong> offset)
         const -> ext::number<short>
 {
     detail::throw_v8_exception_formatted<WRONG_DOCUMENT_ERR>(
@@ -308,7 +308,7 @@ auto dom::node_ranges::range::compare_point(
 
 auto dom::node_ranges::range::is_point_in_range(
         nodes::node* container,
-        const ext::number<ulong>& offset)
+        ext::number<ulong> offset)
         const -> ext::boolean
 {
     return_if(m_root != detail::root(container)) false;

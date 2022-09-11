@@ -18,7 +18,7 @@ dom::nodes::text::text(ext::string&& new_data)
 
 
 auto dom::nodes::text::split_text(
-        const ext::number<ulong>& offset)
+        ext::number<ulong> offset)
         -> text
 {
     // split the text node at the index 'offset', and return the 2nd half of the split, ie a Text node containing all

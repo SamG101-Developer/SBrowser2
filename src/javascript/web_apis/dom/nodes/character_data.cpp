@@ -11,8 +11,8 @@ dom::nodes::character_data::character_data()
 
 
 auto dom::nodes::character_data::substring_data(
-        const ext::number<ulong>& offset,
-        const ext::number<ulong>& count)
+        ext::number<ulong> offset,
+        ext::number<ulong> count)
         const -> ext::string
 {
     // substring the data: substring 'count' characters from the index 'offset'
@@ -30,7 +30,7 @@ auto dom::nodes::character_data::append_data(
 
 
 auto dom::nodes::character_data::insert_data(
-        const ext::number<ulong>& offset,
+        ext::number<ulong> offset,
         ext::string&& new_data)
         -> void
 {
@@ -40,8 +40,8 @@ auto dom::nodes::character_data::insert_data(
 
 
 auto dom::nodes::character_data::delete_data(
-        const ext::number<ulong>& offset,
-        const ext::number<ulong>& count)
+        ext::number<ulong> offset,
+        ext::number<ulong> count)
         -> void
 {
     // delete data: replace 'count' characters after 'offset' with nothing
@@ -50,8 +50,8 @@ auto dom::nodes::character_data::delete_data(
 
 
 auto dom::nodes::character_data::replace_data(
-        const ext::number<ulong>& offset,
-        const ext::number<ulong>& count,
+        ext::number<ulong> offset,
+        ext::number<ulong> count,
         ext::string&& new_data)
         -> void
 {
