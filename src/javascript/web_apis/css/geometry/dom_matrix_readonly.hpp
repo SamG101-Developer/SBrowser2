@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_MATRIX_READONLY_HPP
 
 #include "dom_object.hpp"
+#include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_matrix_readonly;}
 
 #include USE_INNER_TYPES(css/geometry)
@@ -16,6 +17,7 @@ namespace css::geometry {class dom_point;}
 
 class css::geometry::dom_matrix_readonly
         : public virtual dom_object
+        , public html::mixins::serializable
 {
 public constructors:
     dom_matrix_readonly() = default;

@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_QUAD_HPP
 
 #include "dom_object.hpp"
+#include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_quad;}
 
 #include <qpolygon.h>
@@ -13,6 +14,7 @@ namespace css::geometry {class dom_rect;}
 
 class css::geometry::dom_quad
         : public virtual dom_object
+        , public html::mixins::serializable
 {
 public constructors:
     dom_quad(detail::dom_point_init_t&& p1 = {}, detail::dom_point_init_t&& p2 = {}, detail::dom_point_init_t&& p3 = {}, detail::dom_point_init_t&& p4 = {});

@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_POINT_READONLY_HPP
 
 #include "dom_object.hpp"
+#include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_point_readonly;}
 
 #include "ext/number.hpp"
@@ -13,6 +14,7 @@ namespace css::geometry {class dom_point;}
 
 class css::geometry::dom_point_readonly
         : public dom_object
+        , public html::mixins::serializable
 {
 public constructors:
     dom_point_readonly() = default;
