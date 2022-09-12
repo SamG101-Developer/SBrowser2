@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_transform;}
 
-
+#include USE_INNER_TYPES(css/geometry)
 #include USE_INNER_TYPES(html)
 namespace css::geometry {class dom_matrix;}
 
@@ -19,15 +19,16 @@ public js_methods:
     auto translate(ext::number<double> x, ext::number<double> y) -> void;
     auto transform(ext::number<double> a, ext::number<double> b, ext::number<double> c, ext::number<double> d, ext::number<double> e, ext::number<double> f) -> void;
 
-    auto get_transform() -> css::geometry::dom_matrix;
+    auto get_transform() -> css::geometry::dom_matrix*;
     auto set_transform(ext::number<double> a, ext::number<double> b, ext::number<double> c, ext::number<double> d, ext::number<double> e, ext::number<double> f) -> void;
+    auto set_transform(css::detail::dom_matrix_init_t&& other = {}) -> void;
     auto reset_transform() -> void;
 
 public cpp_properties:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_properties:
-    detail::transform_t m_current_transform_matrix;
+    std::unique_ptr<css::geometry::dom_matrix> m_current_transform_matrix;
 };
 
 
