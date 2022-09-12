@@ -125,6 +125,48 @@ private:
 
 _EXT_END
 
+_STD_BEGIN
+    template <arithmetic T>
+    class numeric_limits<ext::number<T>> : public numeric_limits<T>
+    {
+        _NODISCARD static constexpr auto (min)() noexcept -> T {
+            return std::numeric_limits<T>::min();
+        }
+
+        _NODISCARD static constexpr auto (max)() noexcept -> T {
+            return std::numeric_limits<T>::max();
+        }
+
+        _NODISCARD static constexpr auto lowest() noexcept -> T {
+            return std::numeric_limits<T>::lowest();
+        }
+
+        _NODISCARD static constexpr auto epsilon() noexcept -> T {
+            return std::numeric_limits<T>::epsilon();
+        }
+
+        _NODISCARD static constexpr auto round_error() noexcept -> T {
+            return std::numeric_limits<T>::round_error();
+        }
+
+        _NODISCARD static constexpr auto denorm_min() noexcept -> T {
+            return std::numeric_limits<T>::denorm_min();
+        }
+
+        _NODISCARD static constexpr auto infinity() noexcept -> T {
+            return std::numeric_limits<T>::infinity();
+        }
+
+        _NODISCARD static constexpr auto quiet_NaN() noexcept -> T {
+            return std::numeric_limits<T>::quiet_NaN();
+        }
+
+        _NODISCARD static constexpr auto signaling_NaN() noexcept -> T {
+            return std::numeric_limits<T>::signaling_NaN();
+        }
+    };
+_STD_END
+
 
 DEFINE_BINARY_NUMBER_OPERATOR(+)
 DEFINE_BINARY_NUMBER_OPERATOR(-)
@@ -211,14 +253,14 @@ auto to_string(const number<T>& number)
 template <typename ...Args>
 auto is_inf(Args&&... numbers)
 {
-    return ((numbers == std::numeric_limits<Args>::infinity()) || ...);
+    return ((numbers == std::numeric_limits<std::remove_reference_t<Args>>::infinity()) || ...);
 }
 
 
 template <typename ...Args>
 auto is_nan(Args&&... numbers)
 {
-    return ((numbers == std::numeric_limits<Args>::quiet_NaN()) || ...);
+    return ((numbers == std::numeric_limits<std::remove_reference_t<Args>>::quiet_NaN()) || ...);
 }
 
 
@@ -230,13 +272,6 @@ auto is_inf_or_nan(Args&&... numbers)
 
 
 _EXT_END
-
-
-_STD_BEGIN
-template <arithmetic T>
-class numeric_limits<ext::number<T>> : public numeric_limits<T>
-{};
-_STD_END
 
 
 _EXT_LITERALS_BEGIN
