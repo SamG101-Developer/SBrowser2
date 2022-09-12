@@ -12,11 +12,13 @@ class html::canvasing::canvas_pattern
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(canvas_pattern);
     canvas_pattern() = default;
 
+public cpp_methods:
+    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
 public js_methods:
-    auto set_transform(css::detail::dom_matrix2d_init&& transform = {});
+    auto set_transform(css::detail::dom_matrix2d_init_t&& transform = {});
 };
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_CANVAS_PATTERN_HPP
