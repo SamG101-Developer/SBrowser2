@@ -6,19 +6,23 @@
 #include "mixins/canvas_path.hpp"
 namespace html::canvasing {class path_2d;}
 
+#include USE_INNER_TYPES(css/geometry)
+#include <qpainterpath.h>
+
 
 class html::canvasing::path_2d
         : public virtual dom_object
         , public mixins::canvas_path
 {
 public constructors:
-    DOM_CTORS(path_2d);
-
-    template <type_is<path_2d*, ext::string> T>
-    path_2d(T&& path = nullptr);
+    path_2d(const path_2d& path);
+    path_2d(ext::string_view path = "");
 
 public js_methods:
-    auto add_path(path_2d* path, css::detail::dom_matrix_2d_init&& transform = {});
+    auto add_path(path_2d* path, css::detail::dom_matrix2d_init_t&& transform = {});
+
+private cpp_properties:
+    QPainterPath m_path;
 };
 
 
