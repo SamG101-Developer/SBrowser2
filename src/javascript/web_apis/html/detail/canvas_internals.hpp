@@ -1,4 +1,5 @@
 #pragma once
+#include "html/canvasing/path_2d.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_CANVAS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_CANVAS_INTERNALS_HPP
 
@@ -24,6 +25,37 @@ namespace file_api {class file;}
 
 namespace html::detail
 {
+    auto fill_steps(
+            canvasing::mixins::canvas_draw_path* context,
+            canvasing::path_2d* path,
+            detail::canvas_fill_rule_t fill_rule)
+            -> void;
+
+    auto stroke_steps(
+            canvasing::mixins::canvas_draw_path* context,
+            canvasing::path_2d* path)
+            -> void;
+
+    auto clip_steps(
+            canvasing::mixins::canvas_draw_path* context,
+            canvasing::path_2d* path)
+            -> void;
+
+    auto is_point_in_path_steps(
+            canvasing::mixins::canvas_draw_path* context,
+            canvasing::path_2d* path,
+            ext::number<double> x,
+            ext::number<double> y,
+            detail::canvas_fill_rule_t fill_rule)
+            -> ext::boolean;
+
+    auto is_point_in_stroke_steps(
+            canvasing::mixins::canvas_draw_path* context,
+            canvasing::path_2d* path,
+            ext::number<double> x,
+            ext::number<double> y)
+            -> ext::boolean;
+
     template <typename T>
     auto context_creation_algorithm(
             ext::map<ext::string, ext::any>&& options)
@@ -35,7 +67,8 @@ namespace html::detail
             -> void;
 
     auto trace_path(
-            canvasing::mixins::canvas_path_drawing_styles* context)
+            canvasing::mixins::canvas_path_drawing_styles* context,
+            canvasing::path_2d* path)
             -> canvasing::path_2d;
 
     auto resolve_font_style_source_object(
@@ -49,7 +82,7 @@ namespace html::detail
             -> void; // TODO : return type, also requires CSS
 
     auto ensure_there_is_subpath(
-            const detail::path_t& path,
+            canvasing::path_2d path,
             ext::pair<ext::number<double>, ext::number<double>>&& coordinate)
             -> ext::boolean;
 
@@ -121,6 +154,13 @@ struct html::detail::image_bitmap_t
 struct html::detail::drawing_state_t
 {
     canvasing::image_bitmap* bitmap;
+};
+
+
+struct html::detail::path_t
+{
+    ext::vector<detail::subpath_t*> subpaths;
+    ext::boolean need_new_subpaths_flag;
 };
 
 
