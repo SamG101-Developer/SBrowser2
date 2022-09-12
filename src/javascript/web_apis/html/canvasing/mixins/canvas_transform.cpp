@@ -2,7 +2,11 @@
 
 #include "ext/number.hpp"
 
-#include <QtGui/QTransform>
+#include "css/geometry/dom_matrix.hpp"
+#include "css/geometry/dom_matrix_readonly.hpp"
+
+#include <range/v3/algorithm/any_of.hpp>
+#include <range/v3/view/map.hpp>
 
 
 auto html::canvasing::mixins::canvas_transform::scale(
@@ -11,7 +15,7 @@ auto html::canvasing::mixins::canvas_transform::scale(
         -> void
 {
     return_if (ext::is_inf_or_nan(x, y));
-    m_current_transform_matrix.scale(std::bit_cast<qreal>(*x), std::bit_cast<qreal>(*y));
+    m_current_transform_matrix->scale(*x, *y);
 }
 
 
@@ -20,7 +24,7 @@ auto html::canvasing::mixins::canvas_transform::rotate(
         -> void
 {
     return_if (ext::is_inf_or_nan(angle));
-    m_current_transform_matrix.rotate(std::bit_cast<qreal>(*angle));
+    m_current_transform_matrix->rotate(*angle);
 }
 
 
@@ -30,7 +34,7 @@ auto html::canvasing::mixins::canvas_transform::translate(
         -> void
 {
     return_if (ext::is_inf_or_nan(x, y));
-    m_current_transform_matrix.translate(std::bit_cast<qreal>(*x), std::bit_cast<qreal>(*y));
+    m_current_transform_matrix->translate(*x, *y);
 }
 
 
@@ -45,13 +49,45 @@ auto html::canvasing::mixins::canvas_transform::transform(
 {
     return_if (ext::is_inf_or_nan(a, b, c, d, e, f));
 
-    auto other_matrix = ext::make_from_tuple<QTransform>(ext::tuple{*a, *c, *e, *b, *d, *f, 0.0, 0.0, 1.0});
-    m_current_transform_matrix *= std::move(other_matrix);
+    auto other_matrix_init = {a, c, e, b, d, f, ext::number{0.0}, ext::number{0.0}, ext::number{1.0}};
+    auto other_matrix = css::geometry::dom_matrix_readonly{other_matrix_init};
+    *m_current_transform_matrix *= std::move(other_matrix);
 }
 
 
 auto html::canvasing::mixins::canvas_transform::get_transform()
-        -> css::geometry::dom_matrix
+        -> css::geometry::dom_matrix*
 {
+    return m_current_transform_matrix.get();
+}
 
+
+auto html::canvasing::mixins::canvas_transform::set_transform(
+        ext::number<double> a,
+        ext::number<double> b,
+        ext::number<double> c,
+        ext::number<double> d,
+        ext::number<double> e,
+        ext::number<double> f)
+        -> void
+{
+    return_if (ext::is_inf_or_nan(a, b, c, d, e, f));
+    reset_transform();
+    transform(a, b, c, d, e, f);
+}
+
+
+auto html::canvasing::mixins::canvas_transform::set_transform(
+        css::detail::dom_matrix_init_t&& other)
+        -> void
+{
+    return_if (ranges::any_of(other | ranges::views::values, &ext::is_inf_or_nan));
+    *m_current_transform_matrix = css::geometry::dom_matrix::from_matrix(std::move(other));
+}
+
+
+auto html::canvasing::mixins::canvas_transform::reset_transform()
+        -> void
+{
+    m_current_transform_matrix->m_matrix.setToIdentity();
 }
