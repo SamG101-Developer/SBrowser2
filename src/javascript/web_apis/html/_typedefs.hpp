@@ -63,7 +63,7 @@ namespace html::detail
     enum class selection_mode_t {SELECT, START, END, PRESERVE};
     enum class canvas_context_mode_t {NONE, PLACEHOLDER, _2D, BITMAP_RENDERER, WEBGL, WEBGL2, WEBGPU};
     enum class predefined_color_space_t {SRGB, DISPLAY_P3};
-    enum class canvas_fill_rule_t {NONZERO, EVENODD};
+    enum class canvas_fill_rule_t {EVENODD, NONZERO};
     enum class image_smoothing_quality_t {LOW, MEDIUM, HIGH};
     enum class canvas_line_cap_t {BUTT, ROUND, SQUARE};
     enum class canvas_line_join_t {ROUND, BEVEL, MITER};
@@ -100,7 +100,6 @@ namespace html::detail
     struct validity_state_t;
     struct command_facet_t;
     struct script_t;
-    struct subpath_t;
     struct color_t;
     struct browsing_context_group_t;
     struct drawing_state_t;
@@ -133,7 +132,6 @@ namespace html::detail
             web_codecs::video::video_frame*>;
     using canvas_rendering_context_2d_settings_t = ext::map<ext::string, ext::any>;
     using image_data_settings_t = ext::map<ext::string, ext::any>;
-    using path_t = ext::vector<subpath_t>;
     using transform_t = QTransform;
     using image_bitmap_rendering_settings_t = ext::map<ext::string, ext::any>;
     using image_encode_options_t = ext::map<ext::string, ext::any>;
