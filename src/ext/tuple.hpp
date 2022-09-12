@@ -1,42 +1,38 @@
 #ifndef SBROWSER2_SRC_EXT_TUPLE_HPP
 #define SBROWSER2_SRC_EXT_TUPLE_HPP
 
-#include "ext/vector.hpp"
-#include "ext/variant.hpp"
-#include "ext/view.hpp"
-
 #include <functional>
 #include <initializer_list>
 #include <iterator>
-#include <tuplet/tuple.hpp>
-
-#include <range/v3/view/any_view.hpp>
 #include <type_traits>
+
+#include <tuplet/tuple.hpp>
 
 
 _EXT_BEGIN
-
-
 using namespace tuplet;
+_EXT_END
 
 
-// Missing from tuplet
-
-namespace detail {
+_EXT_DETAIL_BEGIN
 template <class T, class Tuple, size_t... Indices>
-constexpr auto make_from_tuple(
-        Tuple&& tuple,
-        std::index_sequence<Indices...>)
-        -> T
+constexpr auto make_from_tuple(Tuple&& tuple, std::index_sequence<Indices...>) -> T
 {
     return T{ext::get<Indices>(std::forward<Tuple>(tuple))...};
 }
-}
 
+
+template <size_t... Is, typename T, typename F, typename Iterable>
+constexpr auto tuple_foreach(std::index_sequence<Is...>, T&& tuple, F&& function, Iterable&& iterable) -> void
+{
+    (iterable.push_back(function(ext::get<Is>(std::forward<T>(tuple)))), ...);
+}
+_EXT_DETAIL_END
+
+
+_EXT_BEGIN
 template <class T, class Tuple>
-_EXT_NODISCARD constexpr auto make_from_tuple(
-        Tuple&& tuple)
-        -> T
+_EXT_NODISCARD constexpr auto make_from_tuple(Tuple&& tuple) -> T
 {
     return detail::make_from_tuple<T>(
             std::forward<Tuple>(tuple),
@@ -44,34 +40,15 @@ _EXT_NODISCARD constexpr auto make_from_tuple(
 }
 
 
-//template <typename ...Args>
-//auto make_tuple(ranges::any_view<Args...>&& range) -> ext::tuple<Args...>
-//{
-//    // TODO
-//}
-//
-//
-//template <typename T, typename ...Args>
-//auto make_tuple(ext::vector<T>&& vector) -> ext::tuple<Args...>
-//{
-//    // TODO
-//}
-
-
-//template <typename ...Types>
-//using tuple_iterator = variant<Types...>*;
-//
-//template <typename ...Types>
-//struct tuple_view : view<tuple_iterator<Types...>>
-//{
-//    using view<tuple_iterator<Types...>>::view;
-//
-//    explicit tuple_view(const tuple<Types...>& other)
-//            : view<tuple_iterator<Types...>>{}
-//    {}
-//};
-
-
+template <typename T, typename F, typename Iterable>
+constexpr auto tuple_foreach(T&& tuple, F&& function, Iterable&& iterable = nullptr) -> void
+{
+    detail::tuple_foreach(
+            std::make_index_sequence<std::tuple_size_v<std::decay_t<T>>>{},
+            std::forward<T>(tuple),
+            std::forward<F>(function),
+            std::forward<Iterable>(iterable));
+}
 _EXT_END
 
 
