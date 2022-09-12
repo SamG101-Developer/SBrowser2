@@ -9,8 +9,6 @@ namespace css::geometry {class dom_matrix_readonly;}
 #include USE_INNER_TYPES(css/geometry)
 #include "ext/number.hpp"
 #include <qmatrix4x4.h>
-
-
 namespace css::geometry {class dom_matrix;}
 namespace css::geometry {class dom_point;}
 
@@ -21,8 +19,8 @@ class css::geometry::dom_matrix_readonly
 {
 public constructors:
     dom_matrix_readonly() = default;
-
     dom_matrix_readonly(ext::vector_view<ext::number<double>> init);
+    dom_matrix_readonly(const QMatrix4x4& other): m_matrix{other} {};
 
 public js_methods:
     static auto from_matrix(detail::dom_matrix_init_t&& other = {}) -> dom_matrix_readonly;
@@ -78,9 +76,14 @@ public js_properties:
     ext::property<ext::boolean> is_2d;
     ext::property<ext::boolean> is_identity;
 
+public cpp_operators:
+    auto operator*(const dom_matrix_readonly& other) -> dom_matrix_readonly {return dom_matrix_readonly{m_matrix * other.m_matrix};}
+
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
     auto to_json() const -> ext::string override;
+    auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> void override;
+    auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> dom_matrix_readonly* override;
 
 protected cpp_properties:
     QMatrix4x4 m_matrix;

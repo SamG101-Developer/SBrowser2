@@ -32,7 +32,14 @@ public js_methods:
     auto skew_x_self(ext::number<double> sx = 0) const -> dom_matrix;
     auto skew_y_self(ext::number<double> sy = 0) const -> dom_matrix;
     auto invert_self() -> dom_matrix;
-    
+
+public cpp_operators:
+    auto operator*=(const dom_matrix_readonly& other) -> dom_matrix& {m_matrix *= other.m_matrix; return *this;}
+
+public cpp_methods:
+    auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> void override;
+    auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> dom_matrix* override;
+
 private cpp_accessors:
     DEFINE_SETTER(m11) {m_matrix(0, 0) = *val;}
     DEFINE_SETTER(m12) {m_matrix(1, 0) = *val;}

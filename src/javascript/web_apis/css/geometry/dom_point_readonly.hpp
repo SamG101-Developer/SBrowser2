@@ -33,6 +33,9 @@ public js_properties:
 public cpp_methods:
     auto to_json() const -> ext::string override;
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> void override;
+    auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> dom_point_readonly* override;
+
 
 protected cpp_properties:
     QVector4D m_point;
