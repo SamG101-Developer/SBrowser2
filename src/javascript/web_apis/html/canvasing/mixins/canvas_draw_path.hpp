@@ -25,8 +25,11 @@ public js_methods:
     auto is_point_in_stroke(ext::number<double> x, ext::number<double> y) -> ext::boolean;
     auto is_point_in_stroke(path_2d* path, ext::number<double> x, ext::number<double> y) -> ext::boolean;
 
-public cpp_properties:
+public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+private cpp_properties:
+    std::unique_ptr<path_2d> m_current_default_path;
 };
 
 
