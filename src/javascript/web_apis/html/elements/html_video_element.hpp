@@ -32,9 +32,8 @@ public cpp_methods:
 
 private cpp_properties:
     /* MEDIA_PLAYBACK_QUALITY*/
-    ext::number<int> total_video_frame_count;
-    ext::number<int> dropped_video_frame_count;
-    ext::number<int> corrupted_video_frame_count;
+    ext::number<int> m_total_video_frame_count = 0;
+    ext::number<int> m_dropped_video_frame_count = 0;
 
 private cpp_accessors:
     DEFINE_GETTER(video_width);
