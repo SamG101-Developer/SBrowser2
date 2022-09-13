@@ -14,6 +14,10 @@ namespace dom::nodes {class node;}
 
 namespace html::detail
 {
+    auto is_focused(
+            dom::nodes::element* element)
+            -> ext::boolean;
+
     auto dom_anchor(
             concepts::focusable_area auto* area)
             -> dom::nodes::node*;
