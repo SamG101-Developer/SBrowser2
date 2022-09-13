@@ -5,7 +5,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(webappsec_csp)
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(html)
 namespace dom::nodes {class node;}
@@ -13,7 +13,7 @@ namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 
 
-namespace content_security_policy::detail
+namespace webappsec::detail
 {
     auto report_content_security_policy_violations(
             const fetch::detail::request_t& request)

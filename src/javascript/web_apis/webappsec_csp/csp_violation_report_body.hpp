@@ -3,10 +3,10 @@
 #define SBROWSER2_CSP_VIOLATION_REPORT_BODY_HPP
 
 #include "reporting/report_body.hpp"
-namespace content_security_policy::violations {class csp_violation_report_body;}
+namespace webappsec::csp {class csp_violation_report_body;}
 
 
-class content_security_policy::violations::csp_violation_report_body
+class webappsec::csp::csp_violation_report_body
         : reporting::report_body
 {
 public constructors:

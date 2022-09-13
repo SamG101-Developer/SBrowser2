@@ -15,7 +15,7 @@
 #include "html/detail/policy_internals.hpp"
 
 
-auto content_security_policy::detail::report_content_security_policy_violations(
+auto webappsec::detail::report_content_security_policy_violations(
         const fetch::detail::request_t& request)
         -> void
 {
@@ -35,7 +35,7 @@ auto content_security_policy::detail::report_content_security_policy_violations(
 }
 
 
-auto content_security_policy::detail::should_request_be_blocked_by_content_security_policy(
+auto webappsec::detail::should_request_be_blocked_by_content_security_policy(
         const fetch::detail::request_t& request)
         -> ext::boolean
 {
@@ -61,7 +61,7 @@ auto content_security_policy::detail::should_request_be_blocked_by_content_secur
 }
 
 
-auto content_security_policy::detail::should_response_be_blocked_by_content_security_policy(
+auto webappsec::detail::should_response_be_blocked_by_content_security_policy(
         const fetch::detail::response_t& response,
         const fetch::detail::request_t& request)
         -> ext::boolean

@@ -9,14 +9,14 @@
 
 #include <v8-local-handle.h>
 #include <v8-object.h>
-#include USE_INNER_TYPES(content_security_policy)
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(url)
+#include USE_INNER_TYPES(webappsec_csp)
 
 namespace dom::nodes {class element;}
 
 
-namespace content_security_policy::detail
+namespace webappsec::detail
 {
     auto create_violation_object(
             v8::Local<v8::Object> global_object,

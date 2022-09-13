@@ -7,18 +7,22 @@
 #include "ext/vector.hpp"
 #include <v8-forward.h>
 #include USE_INNER_TYPES(url)
+namespace dom::nodes {class element;}
 
-namespace content_security_policy::detail
+
+namespace webappsec::detail
 {
     struct content_security_policy_t;
     struct violation_t;
+
     enum class disposition_t {ENFORCE, REPORT};
     enum class source_t {HEADER, META};
+
     using directive_t = ext::pair<ext::string, ext::vector<ext::string>>;
 }
 
 
-struct content_security_policy::detail::content_security_policy_t
+struct webappsec::detail::content_security_policy_t
 {
     ext::vector<directive_t*> directive_set;
     disposition_t disposition;
@@ -27,7 +31,7 @@ struct content_security_policy::detail::content_security_policy_t
 };
 
 
-struct content_security_policy::detail::violation_t
+struct webappsec::detail::violation_t
 {
     v8::Local<v8::Object> global_object;
     url::detail::url_t url;

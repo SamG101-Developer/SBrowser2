@@ -2,11 +2,11 @@
 #define SBROWSER2_REPORTING_INTERNALS_HPP
 
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(webappsec_csp)
 #include USE_INNER_TYPES(url)
 
 
-namespace content_security_policy::detail
+namespace webappsec::detail
 {
     auto obtain_blocked_uri_of_violations_resource(
             ext::string_view violation_resource)

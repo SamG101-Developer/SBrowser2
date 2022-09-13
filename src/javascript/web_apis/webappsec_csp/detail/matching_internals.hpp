@@ -5,14 +5,14 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(webappsec_csp)
 #include USE_INNER_TYPES(url)
 
 namespace dom::nodes {class element;}
 namespace fetch {class request;}
 
 
-namespace content_security_policy::detail
+namespace webappsec::detail
 {
     auto does_nonce_match_source_list(
             ext::string_view nonce,

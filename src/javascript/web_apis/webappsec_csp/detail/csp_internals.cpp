@@ -13,7 +13,7 @@
 #include <range/v3/view/take_while.hpp>
 
 
-auto content_security_policy::detail::csp_internals::parse_csp(
+auto webappsec::detail::csp_internals::parse_csp(
         ext::string_view string,
         ext::string_view source,
         ext::string_view disposition)
@@ -52,7 +52,7 @@ auto content_security_policy::detail::csp_internals::parse_csp(
 }
 
 
-auto content_security_policy::detail::csp_internals::parse_csp_list(
+auto webappsec::detail::csp_internals::parse_csp_list(
         ext::string_view string,
         ext::string_view source,
         ext::string_view disposition)

@@ -8,12 +8,13 @@
 
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(content_security_policy)
+#include USE_INNER_TYPES(webappsec_csp)
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 
-namespace content_security_policy::detail
+
+namespace webappsec::detail
 {
     auto pre_request_check(
             const directive_t& directive,
