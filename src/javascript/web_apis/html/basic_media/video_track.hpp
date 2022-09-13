@@ -15,6 +15,9 @@ public constructors:
 public js_properties:
     ext::property<ext::boolean> selected;
 
+    /* MEDIA_SOURCE */
+    ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
+
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 };

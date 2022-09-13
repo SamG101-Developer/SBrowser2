@@ -17,7 +17,7 @@ public constructors:
 public js_properties:
     ext::property<ext::boolean> enabled;
 
-    /*  */
+    /* MEDIA_SOURCE */
     ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
 
 public cpp_methods:

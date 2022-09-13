@@ -28,7 +28,7 @@ public js_properties:
     ext::property<std::unique_ptr<ext::vector<text_track_cue*>>> cues;
     ext::property<std::unique_ptr<ext::vector<text_track_cue*>>> active_cues;
 
-    /*  */
+    /* MEDIA_SOURCE */
     ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
 
 public cpp_methods:
