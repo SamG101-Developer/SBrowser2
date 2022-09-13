@@ -113,6 +113,7 @@ namespace html::detail
             canvasing::image_data* data,
             ext::number<int> rows,
             ext::number<int> pixels_per_row,
+            detail::image_data_settings_t&& settings = {},
             ext::vector_view<char> source = {},
             detail::predefined_color_space_t default_color_space = predefined_color_space_t::SRGB)
             -> void;
@@ -157,10 +158,12 @@ struct html::detail::drawing_state_t
 };
 
 
-struct html::detail::path_t
+struct html::detail::color_t
 {
-    ext::vector<detail::subpath_t*> subpaths;
-    ext::boolean need_new_subpaths_flag;
+    ext::number<uchar> r;
+    ext::number<uchar> g;
+    ext::number<uchar> b;
+    ext::number<uchar> a;
 };
 
 
