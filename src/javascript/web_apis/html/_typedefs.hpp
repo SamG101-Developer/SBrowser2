@@ -119,11 +119,11 @@ namespace html::detail
             html::canvasing::image_bitmap_rendering_context*,
             webgl2::contexts::webgl_rendering_context*,
             webgl2::contexts::webgl2_rendering_context*>;
-    using offscreen_rendering_context_t = ext::extend_variant<rendering_context_t, webgpu::gpu_canvas_context>;
+    using offscreen_rendering_context_t = ext::extend_variant_t<rendering_context_t, webgpu::gpu_canvas_context>;
     using blob_callback_param_t = ext::variant<canvasing::image_bitmap, file_api::file, file_api::blob, ext::variant_monostate_t>;
     using blob_callback_t = ext::function<void(blob_callback_param_t)>;
     using html_or_svg_image_element_t = ext::variant<elements::html_image_element*, svg::elements::svg_image_element*>;
-    using canvas_image_source_t = ext::variant<
+    using canvas_image_source_t = ext::extend_variant_t<
             html_or_svg_image_element_t,
             elements::html_video_element*,
             elements::html_canvas_element*,
