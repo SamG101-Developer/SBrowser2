@@ -19,7 +19,7 @@
     type##_realm->Global().As<v8::Object>()
 
 #define _JS_SETTINGS_OBJECT_FROM_REALM(type) \
-    v8pp::from_v8<javascript::environment::settings_t*>(type##_agent, type##_realm->Global()->Get(type##_realm, v8pp::to_v8(type##_agent, "[[Settings]]")).ToLocalChecked().As<v8::Object>())
+    type##_realm->Global()->Get(type##_realm, v8pp::to_v8(type##_agent, "[[Settings]]")).ToLocalChecked().As<v8::Object>()
 
 
 #define JS_REALM_GET_CURRENT                                            \
