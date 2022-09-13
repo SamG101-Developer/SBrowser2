@@ -36,10 +36,12 @@ template <typename T>
 struct _unwrap_smart_pointer;
 
 template <smart_pointer T>
-struct _unwrap_smart_pointer<T> {using type = typename T::pointer;};
+struct _unwrap_smart_pointer<T>
+{using type = typename T::pointer;};
 
 template <typename T>
-struct _unwrap_smart_pointer {using type = T;};
+struct _unwrap_smart_pointer
+{using type = T;};
 
 template <typename T>
 using unwrap_smart_pointer = _unwrap_smart_pointer<std::remove_cvref_t<T>>;
@@ -53,10 +55,12 @@ template <typename Old, typename ...New>
 struct _extend_variant;
 
 template <typename Old, typename ...New>
-struct _extend_variant {using type = Old;};
+struct _extend_variant
+{using type = Old;};
 
 template <typename ...Old, typename ...New>
-struct _extend_variant<variant<Old...>, New...> {using type = variant<Old..., New...>;};
+struct _extend_variant<variant<Old...>, New...>
+{using type = variant<Old..., New...>;};
 
 template <typename Old, typename ...New>
 using extend_variant = _extend_variant<Old, New...>;
@@ -75,55 +79,6 @@ auto three_way_compare(T&& lhs, T&& rhs, F&& lt_predicate = std::less<T>{}) -> e
 }
 
 _EXT_END
-
-
-
-// std::hash implementations
-
-_STD_BEGIN
-
-template <>
-struct hash<_EXT boolean>
-{
-    constexpr auto operator()(const _EXT boolean& value) const noexcept -> size_t {return value ? 1 : 0;}
-};
-
-
-template <typename T>
-struct hash<_EXT number<T>>
-{
-    constexpr auto operator()(const _EXT number<T>& value) const noexcept -> size_t {return _STD hash<T>{}(*value);}
-};
-
-
-template <typename ...Ts>
-struct hash<_EXT function<Ts...>>
-{
-    constexpr auto operator()(const _EXT function<Ts...>& value) const noexcept -> size_t {return _STD hash<size_t>{}(static_cast<size_t>(&value));}
-};
-
-
-template <>
-struct hash<_EXT any>
-{
-    constexpr auto operator()(const _EXT any& value) const noexcept -> size_t {return *value.m_hash;}
-};
-
-
-template <typename K, typename V>
-struct hash<_EXT map<K, V>>
-{
-    constexpr auto operator()(const _EXT map<K, V>& value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}
-};
-
-
-template <typename ...Ts>
-struct hash<_EXT tuple<Ts...>>
-{
-    constexpr auto operator()(const _EXT tuple<Ts...>& value) const noexcept -> size_t {return 0;} // TODO _STD hash<size_t>{}(&value);}
-};
-
-_STD_END
 
 
 #endif //SBROWSER2_TYPE_TRAITS_HPP
