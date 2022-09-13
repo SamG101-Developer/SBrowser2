@@ -27,7 +27,7 @@
 #include <range/v3/view/take_while.hpp>
 #include <range/v3/view/transform.hpp>
 
-namespace ranges::views {enum filter_compare_t {EQ, NE, LT, LE, GT, GE};}
+namespace ranges::views {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
 
 
 /* VIEWS */
@@ -89,7 +89,7 @@ namespace ranges::views
     {
         return ranges::views::transform(
                 [attribute = std::forward<T>(attribute)]<typename U>(U&& element) mutable
-                {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element))();});};
+                {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});};
 
 
     // A transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
@@ -137,6 +137,8 @@ namespace ranges::views
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
     auto filter_eq = []<ranges::views::filter_compare_t Comparison, typename T, typename U, typename F>(T&& attribute, U&& value, F&& predicate = _EXT identity{})
     {
+        using enum filter_compare_t;
+
         constexpr_return_if(Comparison == EQ) ranges::views::filter(
                 [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
                 (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) == std::forward<U>(value);});
