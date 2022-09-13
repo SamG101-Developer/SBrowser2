@@ -4,6 +4,8 @@
 #include "ext/boolean.hpp"
 
 #include USE_INNER_TYPES(media_capabilities)
+#include USE_INNER_TYPES(mimesniff)
+
 
 namespace media::detail
 {
@@ -15,6 +17,22 @@ namespace media::detail
             media_decoding_configuration_t&& configuration)
             -> ext::boolean;
 
+    auto is_valid_audio_mime_type(
+            ext::string_view mime_type)
+            -> ext::boolean;
+
+    auto is_valid_video_mime_type(
+            ext::string_view mime_type)
+            -> ext::boolean;
+
+    auto is_valid_audio_configuration(
+            audio_configuration_t&& configuration)
+            -> ext::boolean;
+
+    auto is_valid_video_configuration(
+            video_configuration_t&& configuration)
+            -> ext::boolean;
+
     auto create_media_capabilities_encoding_info(
             media_encoding_configuration_t&& configuration)
             -> media_capabilities_encoding_info_t;
@@ -24,6 +42,10 @@ namespace media::detail
             -> media_capabilities_decoding_info_t;
 
     auto check_encrypted_decoding_support(
+            media_decoding_configuration_t&& configuration)
+            -> ext::boolean;
+
+    auto can_decode_media(
             media_decoding_configuration_t&& configuration)
             -> ext::boolean;
 }
