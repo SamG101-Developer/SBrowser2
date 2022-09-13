@@ -2,10 +2,15 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "media_source/media_source.hpp"
-#include "media_source/source_buffer.hpp"
+#include "ext/concepts.hpp"
+#include "ext/variant.hpp"
+namespace dom::nodes {class window;}
+namespace html::workers {class dedicated_worker_global_scope;}
+namespace media::source {class media_source;}
+namespace media::source {class source_buffer;}
 
-namespace media::algorithm_internals
+
+namespace media::detail
 {
     auto attach_to_media_element(
             source::media_source* source)
@@ -28,10 +33,14 @@ namespace media::algorithm_internals
     auto duration_change()
             -> void;
 
-    auto end_of_stream()
+    auto end_of_stream(
+            source::media_source* media_source)
             -> void;
 
-    auto mirror_is_necessary()
+    template <callable F>
+    auto mirror_if_necessary(
+            ext::variant<dom::nodes::window*, html::workers::dedicated_worker_global_scope*> global,
+            F&& steps)
             -> void;
 
     auto segment_parse_loop(
