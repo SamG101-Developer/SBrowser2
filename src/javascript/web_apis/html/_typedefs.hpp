@@ -148,6 +148,7 @@ namespace html::detail
     using origin_t = ext::variant<opaque_origin_t, tuple_origin_t>;
     using scheme_and_host_t = ext::tuple<ext::string, ext::string>;
     using site_t = ext::variant<opaque_origin_t, scheme_and_host_t>;
+    using structured_serialize_options_t = ext::map<ext::string, ext::any>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
