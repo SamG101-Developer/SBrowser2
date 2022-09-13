@@ -56,6 +56,9 @@ template <typename T>
 concept is_lvalue_reference = std::is_lvalue_reference_v<T>;
 
 template <typename T>
+concept is_pointer_or_reference = is_pointer<T> || is_reference<T>;
+
+template <typename T>
 concept is_const = std::is_const_v<T> || (std::is_pointer_v<T> && std::is_const_v<std::remove_pointer_t<T>>);
 
 
