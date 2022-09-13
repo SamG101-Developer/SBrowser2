@@ -126,45 +126,46 @@ private:
 _EXT_END
 
 _STD_BEGIN
-    template <arithmetic T>
-    class numeric_limits<ext::number<T>> : public numeric_limits<T>
-    {
-        _NODISCARD static constexpr auto (min)() noexcept -> T {
-            return std::numeric_limits<T>::min();
-        }
+template <arithmetic T>
+class numeric_limits<ext::number<T>> : public numeric_limits<T>
+{
+public:
+    _EXT_NODISCARD static constexpr auto (min)() noexcept -> T {
+        return std::numeric_limits<T>::min();
+    }
 
-        _NODISCARD static constexpr auto (max)() noexcept -> T {
-            return std::numeric_limits<T>::max();
-        }
+    _EXT_NODISCARD static constexpr auto (max)() noexcept -> T {
+        return std::numeric_limits<T>::max();
+    }
 
-        _NODISCARD static constexpr auto lowest() noexcept -> T {
-            return std::numeric_limits<T>::lowest();
-        }
+    _EXT_NODISCARD static constexpr auto lowest() noexcept -> T {
+        return std::numeric_limits<T>::lowest();
+    }
 
-        _NODISCARD static constexpr auto epsilon() noexcept -> T {
-            return std::numeric_limits<T>::epsilon();
-        }
+    _EXT_NODISCARD static constexpr auto epsilon() noexcept -> T {
+        return std::numeric_limits<T>::epsilon();
+    }
 
-        _NODISCARD static constexpr auto round_error() noexcept -> T {
-            return std::numeric_limits<T>::round_error();
-        }
+    _EXT_NODISCARD static constexpr auto round_error() noexcept -> T {
+        return std::numeric_limits<T>::round_error();
+    }
 
-        _NODISCARD static constexpr auto denorm_min() noexcept -> T {
-            return std::numeric_limits<T>::denorm_min();
-        }
+    _EXT_NODISCARD static constexpr auto denorm_min() noexcept -> T {
+        return std::numeric_limits<T>::denorm_min();
+    }
 
-        _NODISCARD static constexpr auto infinity() noexcept -> T {
-            return std::numeric_limits<T>::infinity();
-        }
+    _EXT_NODISCARD static constexpr auto infinity() noexcept -> T {
+        return std::numeric_limits<T>::infinity();
+    }
 
-        _NODISCARD static constexpr auto quiet_NaN() noexcept -> T {
-            return std::numeric_limits<T>::quiet_NaN();
-        }
+    _EXT_NODISCARD static constexpr auto quiet_NaN() noexcept -> T {
+        return std::numeric_limits<T>::quiet_NaN();
+    }
 
-        _NODISCARD static constexpr auto signaling_NaN() noexcept -> T {
-            return std::numeric_limits<T>::signaling_NaN();
-        }
-    };
+    _EXT_NODISCARD static constexpr auto signaling_NaN() noexcept -> T {
+        return std::numeric_limits<T>::signaling_NaN();
+    }
+};
 _STD_END
 
 
@@ -268,6 +269,13 @@ template <typename ...Args>
 auto is_inf_or_nan(Args&&... numbers)
 {
     return is_inf(std::forward<Args>(numbers)...) || is_nan(std::forward<Args>(numbers)...);
+}
+
+
+template <typename T>
+auto abs(T number) -> T
+{
+    return number * ((number > 0) - (number < 0));
 }
 
 
