@@ -10,8 +10,8 @@ namespace media::detail
     using media_configuration_t = ext::map<ext::string, ext::any>;
     using media_decoding_configuration_t = ext::map<ext::string, ext::any>;
     using media_encoding_configuration_t = ext::map<ext::string, ext::any>;
-    using video_configuration_t = ext::map<ext::string, ext::any>;
     using audio_configuration_t = ext::map<ext::string, ext::any>;
+    using video_configuration_t = ext::map<ext::string, ext::any>;
     using media_capabilities_key_system_configuration_t = ext::map<ext::string, ext::any>;
     using key_system_track_configuration_t = ext::map<ext::string, ext::any>;
     using media_capabilities_info_t = ext::map<ext::string, ext::any>;
