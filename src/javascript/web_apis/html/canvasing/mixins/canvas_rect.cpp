@@ -5,9 +5,13 @@
 
 #include USE_INNER_TYPES(html)
 
+#include "html/canvasing/canvas_rendering_context_2d.hpp"
 #include "html/canvasing/image_bitmap.hpp"
+#include "html/canvasing/image_bitmap_rendering_context.hpp"
 #include "html/canvasing/path_2d.hpp"
 #include "html/canvasing/mixins/canvas_path_drawing_styles.hpp"
+#include "html/elements/html_canvas_element.hpp"
+
 #include "webgl2/contexts/webgl_rendering_context.hpp"
 #include "webgl2/contexts/webgl2_rendering_context.hpp"
 
@@ -22,8 +26,9 @@ auto html::canvasing::mixins::canvas_rect::clear_rect(
         ext::number<double> h)
         -> void
 {
-    decltype(auto) bitmap = ext::variant_transform<detail::rendering_context_t, image_bitmap*>(
-            [](auto&& context) {return context->canvas()->m_image_bitmap;});
+    decltype(auto) bitmap = ext::visit(
+            [this]<typename T>(T* context) {return dynamic_cast<T*>(this)->canvas()->m_bitmap.get();},
+            detail::rendering_context_t{});
 
     auto painter = QPainter{&bitmap->m_bitmap_data};
     painter.eraseRect(*x, *y, *w, *h);
@@ -38,11 +43,13 @@ auto html::canvasing::mixins::canvas_rect::fill_rect(
         ext::number<double> h)
         -> void
 {
-    decltype(auto) fill_style = ext::variant_transform<detail::rendering_context_t, ext::string>(
-            [](auto&& context) {return context->m_fill_style;});
+    decltype(auto) fill_style = ext::visit(
+            [this]<typename T>(T*) {return dynamic_cast<T*>(this)->m_fill_style;},
+            detail::rendering_context_t{});
 
-    decltype(auto) bitmap = ext::variant_transform<detail::rendering_context_t, image_bitmap*>(
-            [](auto&& context) {return context->canvas()->m_image_bitmap;});
+    decltype(auto) bitmap = ext::visit(
+            [this]<typename T>(T*) {return dynamic_cast<T*>(this)->canvas()->m_bitmap.get();},
+            detail::rendering_context_t{});
 
 
     auto painter = QPainter{&bitmap->m_bitmap_data};
@@ -58,11 +65,13 @@ auto html::canvasing::mixins::canvas_rect::stroke_rect(
         ext::number<double> h)
         -> void
 {
-    decltype(auto) stroke_style = ext::variant_transform<detail::rendering_context_t, ext::string>(
-            [](auto&& context) {return context->m_stroke_style;});
+    decltype(auto) stroke_style = ext::visit(
+            [this]<typename T>(T*) {return dynamic_cast<T*>(this)->m_stroke_style;},
+            detail::rendering_context_t{});
 
-    decltype(auto) bitmap = ext::variant_transform<detail::rendering_context_t, image_bitmap*>(
-            [](auto&& context) {return context->canvas()->m_image_bitmap;});
+    decltype(auto) bitmap = ext::visit(
+            [this]<typename T>(T* context) {return dynamic_cast<T*>(this)->canvas()->m_image_bitmap;},
+            detail::rendering_context_t{});
 
 
     auto painter = QPainter{&bitmap->m_bitmap_data};
