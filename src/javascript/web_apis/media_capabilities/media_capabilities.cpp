@@ -30,3 +30,20 @@ auto media::capabilities::media_capabilities::decoding_info(
 
     return promise;
 }
+
+
+auto media::capabilities::media_capabilities::encoding_info(
+        detail::media_decoding_configuration_t&& configuration)
+        -> ext::promise<detail::media_capabilities_decoding_info_t>
+{
+    JS_REALM_GET_CURRENT;
+    auto promise = ext::promise<detail::media_capabilities_decoding_info_t>{};
+
+    if (!detail::is_valid_media_configuration(std::move(configuration)))
+        return promise.reject(v8::Exception::TypeError(v8pp::to_v8(current_agent, "Invalid 'configuration'")));
+
+    go [&promise, configuration = std::move(configuration)] mutable
+    {promise.resolve(detail::create_media_capabilities_encoding_info(std::move(configuration)));};
+
+    return promise;
+}
