@@ -11,6 +11,7 @@ namespace html::basic_media {class audio_track;}
 namespace html::basic_media {class video_track;}
 namespace html::basic_media {class text_track;}
 
+
 class media::source::source_buffer
         : public dom::nodes::event_target
 {
@@ -36,6 +37,9 @@ public js_methods:
     auto abort() -> void;
     auto change_type(const ext::string& type) -> void;
     auto remove(ext::number<double> start, ext::number<double> end) -> void;
+
+private js_slots:
+    ext::slot<ext::boolean> s_generate_timestamps_flag;
 
 private cpp_accessors:
     DEFINE_GETTER(buffered);
