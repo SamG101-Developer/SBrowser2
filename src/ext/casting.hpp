@@ -1,16 +1,17 @@
 #pragma once
-#include <type_traits>
 #ifndef SBROWSER2_CASTING_HPP
 #define SBROWSER2_CASTING_HPP
 
+#include <type_traits>
 #include "ext/assertion.hpp"
+#include "ext/concepts.hpp"
 class dom_object;
 
 
 _EXT_BEGIN
 
-template <typename ...Ts>
-auto multi_cast(auto* pointer) -> bool
+template <is_pointer_or_reference ...Ts>
+auto multi_cast(auto pointer) -> bool
 {
     // check if the pointer can be cast into any of the types in Ts parameter pack - the function returns a boolean
     // rather than a cast pointer, because it could return a cast into any successful type, so it is more used for yes/
@@ -19,7 +20,7 @@ auto multi_cast(auto* pointer) -> bool
 }
 
 
-template <typename T>
+template <is_pointer_or_reference T>
 auto cross_cast(auto* pointer) -> T
 {
     // syntactic sugar for a dynamic cast from one superclass to a sibling-level superclass of an object - for example,
@@ -35,6 +36,13 @@ template <typename T, typename U>
 auto iterator_cast(U iterator) -> T
 {
     return (T)iterator;
+}
+
+
+template <is_pointer T>
+auto nullptr_cast()
+{
+    return static_cast<T>(nullptr);
 }
 
 
