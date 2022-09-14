@@ -198,7 +198,7 @@ struct html::detail::browsing_context_group_t
 struct html::detail::browsing_context_t
 {
     dom::nodes::window_proxy* window_proxy;
-    browsing_context_t& opener_browsing_context;
+    browsing_context_t* opener_browsing_context;
     ext::boolean disowned;
     ext::boolean is_closing;
 
@@ -210,7 +210,7 @@ struct html::detail::browsing_context_t
     std::unique_ptr<url::detail::url_t> creator_url;
     std::unique_ptr<url::detail::url_t> creator_base_url;
 
-    browsing_context_t& parent_browsing_context;
+    browsing_context_t* parent_browsing_context;
     ext::set<browsing_context_t*> group;
     ext::boolean is_popup;
 

@@ -25,6 +25,7 @@ namespace mediacapture::main {class media_devices;}
 namespace mediacapture::main {class media_stream;}
 namespace permissions {class permission;}
 namespace service_workers::workers {class service_worker_container;}
+namespace webappsec::credential_management {class credentials_container;}
 
 
 class html::other::navigator
@@ -90,6 +91,9 @@ public js_properties:
 
     /* CONTACT_PICKER */
     ext::property<std::unique_ptr<contact_picker::contacts_manager>> contacts;
+
+    /* WEBAPPSEC_CREDENTIALS_MANAGEMENT */
+    ext::property<std::unique_ptr<webappsec::credential_management::credentials_container>> credentials;
 
 private js_slots:
     /* BATTERY */
