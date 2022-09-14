@@ -7,6 +7,7 @@ namespace html::mixins {class window_or_worker_global_scope;}
 
 namespace indexed_db {class idb_factory;}
 namespace service_workers::caches {class cache_storage;}
+namespace web_crypto {class crypto;}
 
 
 class html::mixins::window_or_worker_global_scope
@@ -18,6 +19,9 @@ public js_properties:
 
     /* SERVICE_WORKERS */
     ext::property<std::unique_ptr<service_workers::caches::cache_storage>> caches;
+
+    /* WEB_CRYPTO */
+    ext::property<std::unique_ptr<web_crypto::crypto>> crypto;
 };
 
 
