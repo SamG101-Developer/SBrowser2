@@ -20,7 +20,7 @@ auto hr_time::detail::get_time_origin_timestamp(
 
 auto hr_time::detail::coarsen_time(
         const dom_high_res_time_stamp& time_stamp,
-        ext::boolean&& cross_origin_isolated_capability)
+        ext::boolean cross_origin_isolated_capability)
         -> dom_high_res_time_stamp
 {
     // set the 'time_resolution' to 5ms if the 'time_stamp' has 'cross_origin_isolated_capability'; otherwise 100ms.
@@ -67,7 +67,7 @@ auto hr_time::detail::current_hr_time(
 
 
 auto hr_time::detail::coarsen_shared_current_time(
-        ext::boolean&& cross_origin_isolated_capability)
+        ext::boolean cross_origin_isolated_capability)
         -> dom_high_res_time_stamp
 {
     auto current_time = unsafe_shared_current_time();

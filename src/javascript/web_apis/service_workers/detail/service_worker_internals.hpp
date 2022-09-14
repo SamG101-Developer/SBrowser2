@@ -51,7 +51,7 @@ namespace service_workers::detail
 
     auto soft_update(
             const service_worker_registration_t& registration,
-            ext::boolean&& force_bypass_cache = false)
+            ext::boolean force_bypass_cache = false)
             -> void;
 
     auto install(
@@ -70,7 +70,7 @@ namespace service_workers::detail
 
     auto run_service_worker(
             const service_worker_t& worker,
-            ext::boolean&& force_bypass_cache = false)
+            ext::boolean force_bypass_cache = false)
             -> void;
 
     auto terminate_service_worker(

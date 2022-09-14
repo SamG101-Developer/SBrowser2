@@ -106,7 +106,7 @@ public js_methods:
     auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::node_iterator;
     auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::tree_walker;
 
-    auto import_node(node* new_node, ext::boolean&& deep = false) -> node*;
+    auto import_node(node* new_node, ext::boolean deep = false) -> node*;
     auto adopt_node(node* new_node) -> node*;
 
     /* HTML */

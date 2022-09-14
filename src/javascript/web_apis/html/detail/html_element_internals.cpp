@@ -588,7 +588,7 @@ auto html::detail::update_href(
 
 auto html::detail::process_iframe_attributes(
         elements::html_iframe_element* element,
-        ext::boolean&& initial_insertion)
+        ext::boolean initial_insertion)
         -> void
 {
     auto navigate_to_srcdoc_resource = [&element]
@@ -622,7 +622,7 @@ auto html::detail::process_iframe_attributes(
 
 auto html::detail::shared_attribute_processing_steps_for_iframe_and_frame_elements(
         elements::html_iframe_element* element,
-        ext::boolean&& initial_insertion)
+        ext::boolean initial_insertion)
         -> void
 {
     auto navigate_to_resource = [&element](fetch::detail::request_t& resource)

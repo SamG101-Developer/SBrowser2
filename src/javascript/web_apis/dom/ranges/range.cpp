@@ -525,7 +525,7 @@ auto dom::node_ranges::range::surround_contents(
 
 
 auto dom::node_ranges::range::collapse(
-        const ext::boolean& to_start)
+        ext::boolean  to_start)
         -> void
 {
     to_start

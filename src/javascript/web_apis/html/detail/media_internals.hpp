@@ -137,7 +137,7 @@ namespace html::detail
     auto seek(
             elements::html_media_element* element,
             ext::number<double> new_playback_position,
-            ext::boolean&& approximate_for_speed_flag)
+            ext::boolean approximate_for_speed_flag)
             -> void;
 
     auto populate_pending_text_tracks(

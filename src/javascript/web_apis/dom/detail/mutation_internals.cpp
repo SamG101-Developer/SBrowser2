@@ -197,7 +197,7 @@ auto dom::detail::insert(
         const nodes::node* const node,
         const nodes::node* const parent,
         const nodes::node* const child,
-        const ext::boolean& suppress_observers_flag)
+        ext::boolean  suppress_observers_flag)
         -> nodes::node*
 {
     // special case for DocumentFragment nodes: all tof it's child nodes need to be re-inserted; otherwise, for any

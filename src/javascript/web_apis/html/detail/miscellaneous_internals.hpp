@@ -13,7 +13,7 @@ namespace html::detail
             url::detail::url_t& url,
             fetch::detail::destination_t destination,
             fetch::detail::mode_t cors_attribute_state,
-            ext::boolean&& same_origin_fallback_flag = false)
+            ext::boolean same_origin_fallback_flag = false)
             -> fetch::detail::request_t;
 
     auto parse_url(

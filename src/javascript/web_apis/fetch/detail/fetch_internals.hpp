@@ -24,12 +24,12 @@ namespace fetch::detail
             ext::function<void(response_t&)>&& process_response = nullptr,
             ext::function<void(response_t&)>&& process_response_end_of_body = nullptr,
             ext::function<void(response_t&, ext::string_view)>&& process_response_consume_body = nullptr,
-            const ext::boolean& use_parallel_queue = false)
+            ext::boolean  use_parallel_queue = false)
             -> response_t;
 
     auto main_fetch(
             fetch_params_t& fetch_params_object,
-            ext::boolean&& recursive = false)
+            ext::boolean recursive = false)
             -> response_t;
 
     auto fetch_response_handover(
@@ -43,7 +43,7 @@ namespace fetch::detail
 
     auto http_fetch(
             fetch_params_t& fetch_params_object,
-            ext::boolean&& make_cors_preflight = false)
+            ext::boolean make_cors_preflight = false)
             -> response_t;
 
     auto http_redirect_fetch(
@@ -58,14 +58,14 @@ namespace fetch::detail
 
     auto http_network_or_cache_fetch(
             fetch_params_t& fetch_params_object,
-            ext::boolean&& is_authentication_fetch = false,
-            ext::boolean&& is_new_connection_fetch = false)
+            ext::boolean is_authentication_fetch = false,
+            ext::boolean is_new_connection_fetch = false)
             -> response_t;
 
     auto http_network_fetch(
             fetch_params_t& fetch_params_object,
-            ext::boolean&& include_credentials = false,
-            ext::boolean&& force_new_connection = false)
+            ext::boolean include_credentials = false,
+            ext::boolean force_new_connection = false)
             -> response_t;
 
     auto cors_preflight_request(

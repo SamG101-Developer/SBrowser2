@@ -70,7 +70,7 @@ namespace service_workers::detail
     auto handle_fetch(
             const fetch::detail::request_t& request,
             const fetch::detail::fetch_controller_t& controller,
-            ext::boolean&& use_high_res_performance_timers)
+            ext::boolean use_high_res_performance_timers)
             -> fetch::detail::response_t;
 
     auto unregister(

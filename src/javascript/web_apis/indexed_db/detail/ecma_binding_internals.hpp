@@ -11,7 +11,7 @@ namespace indexed_db::detail::ecma_binding_internals
     auto extract_key_from_value_using_key_path(
             const ext::any& value,
             const key_path_t& key_path,
-            const ext::boolean& multi_entry_flag)
+            ext::boolean  multi_entry_flag)
             -> record_t;
 
     auto evaluate_key_path_on_value(

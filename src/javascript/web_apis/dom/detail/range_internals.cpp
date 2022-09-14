@@ -49,7 +49,7 @@ auto dom::detail::set_start_or_end(
         node_ranges::range* const range,
         nodes::node* const new_container,
         ext::number<ulong> new_offset,
-        const ext::boolean& start) -> void
+        ext::boolean  start) -> void
 {
     throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
             [new_container] {return dynamic_cast<nodes::document_type*>(new_container);},
@@ -124,7 +124,7 @@ auto dom::detail::copy_data(
         nodes::character_data* const container,
         ext::number<ulong> start_offset,
         ext::number<ulong> end_offset,
-        const ext::boolean& replace)
+        ext::boolean  replace)
         -> nodes::document_fragment*
 {
     auto* const clone = dynamic_cast<nodes::character_data*>(child->clone_node());

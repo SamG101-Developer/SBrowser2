@@ -39,7 +39,7 @@ namespace html::detail
 
     auto update_image_data(
             elements::html_image_element* element,
-            ext::boolean&& restart_animation_flag = false)
+            ext::boolean restart_animation_flag = false)
             -> void;
 
     auto abort_image_request(

@@ -26,7 +26,7 @@ namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::detail {auto handle_attributes_changes(const nodes::attr*, nodes::element*, const ext::string&, const ext::string&) -> void;}
-namespace dom::detail {auto create_an_element(nodes::document*, const ext::string&, const ext::string&, const ext::string&, const ext::string&, const ext::boolean&) -> nodes::element*;}
+namespace dom::detail {auto create_an_element(nodes::document*, const ext::string&, const ext::string&, const ext::string&, const ext::string&, ext::boolean ) -> nodes::element*;}
 namespace dom::detail {auto upgrade_element(custom_element_definition_t*, nodes::element*) -> void;}
 namespace dom::detail {auto try_to_upgrade_element(nodes::element* element) -> void;}
 namespace edit_context {class edit_context;}
@@ -51,7 +51,7 @@ public friends:
 
     friend auto detail::create_an_element(
             nodes::document* document, const ext::string& local_name, const ext::string& namespace_,
-            const ext::string& prefix, const ext::string& is, const ext::boolean& synchronous_custom_elements_flag)
+            const ext::string& prefix, const ext::string& is, ext::boolean  synchronous_custom_elements_flag)
             -> nodes::element*;
 
     friend auto detail::upgrade_element(

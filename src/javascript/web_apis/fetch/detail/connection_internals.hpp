@@ -28,9 +28,9 @@ namespace fetch::detail
     auto obtain_connection(
             const network_partition_key_t& key,
             const url::detail::url_t& url,
-            const ext::boolean& credentials,
+            ext::boolean  credentials,
             net_connection_setting_t new_ = net_connection_setting_t::NO,
-            const ext::boolean& http3_only = false)
+            ext::boolean  http3_only = false)
             -> connection_t;
 
     auto create_connection(
@@ -38,7 +38,7 @@ namespace fetch::detail
             ext::string_view origin,
             ext::string_view proxy,
             const connection_timing_info_t& timing_info,
-            ext::boolean&& http3_only = false)
+            ext::boolean http3_only = false)
             -> connection_t;
 
     auto record_timing_information(

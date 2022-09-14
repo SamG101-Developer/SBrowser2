@@ -54,7 +54,7 @@ namespace fetch::detail
 
     auto extract(
             body_init_t object,
-            const ext::boolean& keepalive = false)
+            ext::boolean  keepalive = false)
             -> ext::pair<internal_body, ext::string>;
 
     auto is_unusable(

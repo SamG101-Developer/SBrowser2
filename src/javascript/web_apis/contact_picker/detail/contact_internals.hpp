@@ -13,7 +13,7 @@ namespace file_api {class blob;}
 namespace contact_picker::detail
 {
     auto launch(
-            ext::boolean&& allow_multiple,
+            ext::boolean allow_multiple,
             ext::vector_view<ext::string> properties)
             -> ext::optional<user_contact_t>;
 };

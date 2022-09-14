@@ -49,7 +49,7 @@ public cpp_properties:
         behaviour_method(
                 dom::nodes::node* clone,
                 dom::nodes::document* document_to_clone_into,
-                ext::boolean&& deep_clone)
+                ext::boolean deep_clone)
                 cloning_steps;
 
         behaviour_method(

@@ -227,7 +227,7 @@ auto dom::nodes::node::normalize()
 
 
 auto dom::nodes::node::clone_node(
-        ext::boolean&& deep)
+        ext::boolean deep)
         -> node*
 {
     ce_reactions_method_def

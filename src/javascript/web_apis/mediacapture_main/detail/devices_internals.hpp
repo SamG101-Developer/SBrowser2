@@ -71,7 +71,7 @@ namespace mediacapture::detail
 
     auto set_device_information_exposure(
             ext::set<ext::string>&& requested_types,
-            ext::boolean&& value)
+            ext::boolean value)
             -> void;
 };
 

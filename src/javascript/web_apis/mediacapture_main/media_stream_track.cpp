@@ -8,7 +8,7 @@
 
 mediacapture::main::media_stream_track::media_stream_track(
         detail::media_stream_track_source& source,
-        ext::boolean&& tie_source_to_context)
+        ext::boolean tie_source_to_context)
 
         : id{ext::to_string(ext::uuid_system_generator{}())}
         , kind{std::is_same_v<decltype(source)::source_type, audio_stream_track> ? "audio" : "video"}
@@ -55,7 +55,7 @@ auto mediacapture::main::media_stream_track::stop() -> void
 
 
 auto mediacapture::main::media_stream_track::set_muted(
-        const ext::boolean& val)
+        ext::boolean  val)
         -> void
 {
     // don't do anything if the 'new_state' is the same as the current state, because otherwise multiple "mute" /

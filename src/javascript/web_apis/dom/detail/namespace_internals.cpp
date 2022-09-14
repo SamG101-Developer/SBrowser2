@@ -57,8 +57,8 @@ auto dom::detail::validate_and_extract(
 
 auto dom::detail::html_adjust_string(
         ext::string&& string,
-        ext::boolean&& adjust,
-        ext::boolean&& lower)
+        ext::boolean adjust,
+        ext::boolean lower)
         -> ext::string
 {
     // TODO : rework so that `(ext::string)` conversion is not required

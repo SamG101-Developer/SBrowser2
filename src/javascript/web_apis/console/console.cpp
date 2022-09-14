@@ -21,7 +21,7 @@
 
 template <typename ...Args>
 auto console::console::assert_(
-        ext::boolean&& condition,
+        ext::boolean condition,
         Args&& ...data) -> void
 {
     // If the condition is true, then the assertion check has passed, and no information needs to be outputted, so

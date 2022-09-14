@@ -49,7 +49,7 @@ auto html::detail::determine_density_corrected_intrinsic_width_and_height(
 
 auto html::detail::update_image_data(
         elements::html_image_element* element,
-        ext::boolean&& restart_animation_flag)
+        ext::boolean restart_animation_flag)
         -> void
 {
     if (!dom::detail::is_document_fully_active(element->owner_document()))

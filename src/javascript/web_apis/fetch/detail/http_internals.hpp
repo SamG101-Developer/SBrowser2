@@ -69,7 +69,7 @@ namespace fetch::detail
     auto collect_http_quoted_string(
             ext::string& input,
             ext::string::iterator position,
-            const ext::boolean& extract_value_flag = false)
+            ext::boolean  extract_value_flag = false)
             -> ext::string;
 
     auto is_cors_safelisted_method(

@@ -37,8 +37,8 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 protected cpp_methods:
-    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> void override;
-    auto m_deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean&& for_storage) -> blob* override;
+    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> void override;
+    auto m_deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> blob* override;
 
 protected js_slots:
     ext::slot<ext::string> s_snapshot_state;

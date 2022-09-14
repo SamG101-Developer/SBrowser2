@@ -14,7 +14,7 @@ class console::console
 {
     // Logging
     template <typename ...Args>
-    static auto assert_(ext::boolean&& condition = false, Args&&... data) -> void;
+    static auto assert_(ext::boolean condition = false, Args&&... data) -> void;
 
     static auto clear() -> void;
 

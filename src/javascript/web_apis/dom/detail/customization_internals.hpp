@@ -29,7 +29,7 @@ namespace dom::detail
             const ext::string& namespace_,
             const ext::string& prefix = "",
             const ext::string& is = "",
-            const ext::boolean& synchronous_custom_elements_flag = false)
+            ext::boolean  synchronous_custom_elements_flag = false)
             -> nodes::element*;
 
     auto upgrade_element(

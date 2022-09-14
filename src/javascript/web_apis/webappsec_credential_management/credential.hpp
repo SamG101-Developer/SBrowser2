@@ -24,10 +24,10 @@ public js_properties:
     ext::property<ext::string> type;
 
 private js_slot_methods:
-    auto s_collect_from_credential_store(const html::detail::origin_t& origin, detail::credential_request_options_t&& options, ext::boolean&& same_origin_with_ancestors) -> ext::set<credential*>;
-    auto s_discover_from_external_source(const html::detail::origin_t& origin, detail::credential_request_options_t&& options, ext::boolean&& same_origin_with_ancestors) -> credential*;
-    auto s_store(credential* credential, ext::boolean&& same_origin_with_ancestors) -> void;
-    auto s_create(const html::detail::origin_t& origin, detail::credential_request_options_t&& options, ext::boolean&& same_origin_with_ancestors) -> credential*;
+    auto s_collect_from_credential_store(const html::detail::origin_t& origin, detail::credential_request_options_t&& options, ext::boolean same_origin_with_ancestors) -> ext::set<credential*>;
+    auto s_discover_from_external_source(const html::detail::origin_t& origin, detail::credential_request_options_t&& options, ext::boolean same_origin_with_ancestors) -> credential*;
+    auto s_store(credential* credential, ext::boolean same_origin_with_ancestors) -> credential*;
+    auto s_create(const html::detail::origin_t& origin, detail::credential_request_options_t&& options, ext::boolean same_origin_with_ancestors) -> credential*;
 
 private js_slots:
     ext::slot<ext::string> s_type;

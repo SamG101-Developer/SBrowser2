@@ -244,7 +244,7 @@ auto mediacapture::detail::other_information_can_be_exposed(
 
 auto mediacapture::detail::set_device_information_exposure(
         ext::set<ext::string>&& requested_types,
-        ext::boolean&& value)
+        ext::boolean value)
         -> void
 {
     JS_REALM_GET_RELEVANT(nullptr);

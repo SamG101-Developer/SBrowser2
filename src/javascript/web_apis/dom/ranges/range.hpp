@@ -7,7 +7,7 @@ namespace dom::node_ranges {class range;}
 #include "ext/type_traits.hpp"
 namespace dom::nodes {class document_fragment;}
 namespace dom::detail {auto contains(nodes::node*, const node_ranges::range*) -> ext::boolean;}
-namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, ext::number<ulong>, const ext::boolean&) -> void;}
+namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, ext::number<ulong>, ext::boolean ) -> void;}
 
 
 class dom::node_ranges::range
@@ -19,7 +19,7 @@ public friends:
 
     friend auto dom::detail::set_start_or_end(
             node_ranges::range* range, nodes::node* new_container, ext::number<ulong> new_offset,
-            const ext::boolean& start) -> void;
+            ext::boolean  start) -> void;
 
 public constructors:
     range();
@@ -53,7 +53,7 @@ public js_methods:
     auto delete_contents() -> nodes::document_fragment*;
     auto surround_contents(nodes::node* parent) -> nodes::document_fragment*;
 
-    auto collapse(const ext::boolean& to_start = false) -> void;
+    auto collapse(ext::boolean  to_start = false) -> void;
     auto clone_range() const -> range;
 
     /* DOM_PARSING */

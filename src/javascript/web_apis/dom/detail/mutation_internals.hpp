@@ -43,7 +43,7 @@ namespace dom::detail
             const nodes::node* node,
             const nodes::node* parent,
             const nodes::node* child,
-            const ext::boolean& suppress_observers_flag = false)
+            ext::boolean  suppress_observers_flag = false)
             -> nodes::node*;
 
     auto append(
@@ -64,7 +64,7 @@ namespace dom::detail
 
     auto remove(
             const nodes::node* node,
-            const ext::boolean& suppress_observers_flag = false)
+            ext::boolean  suppress_observers_flag = false)
             -> nodes::node*;
 }
 

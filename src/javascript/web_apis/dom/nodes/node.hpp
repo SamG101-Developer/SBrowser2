@@ -51,7 +51,7 @@ public js_methods:
     auto has_child_nodes() -> ext::boolean;
 
     auto normalize() -> node*;
-    auto clone_node(ext::boolean&& deep = false) -> node*;
+    auto clone_node(ext::boolean deep = false) -> node*;
     auto is_equal_node(node* other) -> ext::boolean;
 
     auto is_default_namespace(ext::string_view namespace_) -> ext::boolean;

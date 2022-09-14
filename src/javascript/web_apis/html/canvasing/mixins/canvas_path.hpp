@@ -41,12 +41,12 @@ public js_methods:
 
     auto arc(ext::number<double> x, ext::number<double> y, ext::number<double> radius,
              ext::number<double> start_angle, ext::number<double> end_angle,
-             ext::boolean&& counter_clockwise = false) -> void;
+             ext::boolean counter_clockwise = false) -> void;
 
     auto ellipse(ext::number<double> x, ext::number<double> Y, ext::number<double> radius_x,
                  ext::number<double> radius_y, ext::number<double> rotation,
                  ext::number<double> start_angle, ext::number<double> end_angle,
-                 ext::boolean&& counter_clockwaise = false) -> void;
+                 ext::boolean counter_clockwaise = false) -> void;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;

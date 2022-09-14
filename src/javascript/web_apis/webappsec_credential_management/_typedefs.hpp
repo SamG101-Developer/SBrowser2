@@ -9,7 +9,9 @@
 namespace webappsec::detail
 {
     enum class discovery_t {CREDENTIAL_STORE, REMOTE};
-    enum class credential_mediation_requirement {SILENT, OPTIONAL, CONDITIONAL, REQUIRED};
+    enum class credential_mediation_requirement_t {SILENT, OPTIONAL, CONDITIONAL, REQUIRED};
+
+    struct credential_store_t;
 
     using credential_creation_options_t = ext::map<ext::string, ext::any>;
     using credential_request_options_t = ext::map<ext::string, ext::any>;

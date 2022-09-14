@@ -25,7 +25,7 @@ namespace html::detail
     auto navigate(
             const browsing_context_t& context,
             const browsing_context_t& source_context,
-            ext::boolean&& exceptions_enabled = false,
+            ext::boolean exceptions_enabled = false,
             history_handling_behaviour_t history_handling_behaviour = history_handling_behaviour_t::DEFAULT,
             const html::detail::policy_container_t& history_policy_container = nullptr,
             ext::string_view navigation_type = "",
@@ -147,7 +147,7 @@ namespace html::detail
     auto choose_browsing_context(
             ext::string_view name,
             const browsing_context_t& context,
-            ext::boolean&& noopener)
+            ext::boolean noopener)
             -> ext::pair<browsing_context_t&, ext::string>;
 
     template <typename T>

@@ -57,7 +57,7 @@ auto html::canvasing::image_bitmap::close()
 
 auto html::canvasing::image_bitmap::m_serialize(
         ext::map<ext::string, ext::any>& serialized,
-        ext::boolean&& for_storage)
+        ext::boolean for_storage)
         -> void
 {
     // Throw a DATA_CLONE_ERR is the origin of the this object doesn't have a clean origin, so that onyl origin clean
@@ -73,7 +73,7 @@ auto html::canvasing::image_bitmap::m_serialize(
 
 auto html::canvasing::image_bitmap::m_deserialize(
         ext::map<ext::string, ext::any>& serialized,
-        ext::boolean&& for_storage)
+        ext::boolean for_storage)
         -> serializable*
 {
     // The only option that needs to be set when deserializing is the m_bitmap_data QPixmap yte data - this is accessed

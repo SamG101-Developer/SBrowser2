@@ -35,7 +35,7 @@ file_api::file::file(
 
 auto file_api::file::m_serialize(
         ext::map<ext::string, ext::any>& serialized,
-        ext::boolean&& for_storage)
+        ext::boolean for_storage)
         -> void
 {
     serialized.insert_or_assign("$SnapshotState", s_snapshot_state());
@@ -47,7 +47,7 @@ auto file_api::file::m_serialize(
 
 auto file_api::file::m_deserialize(
         ext::map<ext::string, ext::any>& serialized,
-        ext::boolean&& for_storage)
+        ext::boolean for_storage)
         -> file*
 {
     s_snapshot_state = serialized.at("$SnapshotState").to<decltype(s_snapshot_state)::value_t>();

@@ -16,7 +16,7 @@ namespace hr_time::detail
 
     auto coarsen_time(
             const dom_high_res_time_stamp& time_stamp,
-            ext::boolean&& cross_origin_isolated_capability = false)
+            ext::boolean cross_origin_isolated_capability = false)
             -> dom_high_res_time_stamp;
 
     auto relative_hr_time(
@@ -34,7 +34,7 @@ namespace hr_time::detail
             -> dom_high_res_time_stamp;
 
     auto coarsen_shared_current_time(
-            ext::boolean&& cross_origin_isolated_capability = false)
+            ext::boolean cross_origin_isolated_capability = false)
             -> dom_high_res_time_stamp;
 
     auto unsafe_shared_current_time()

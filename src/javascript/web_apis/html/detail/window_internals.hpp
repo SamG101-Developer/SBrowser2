@@ -26,7 +26,7 @@ namespace html::detail
     auto check_if_window_feature_is_set(
             ext::vector_view<ext::string> tokenized_features,
             ext::string_view feature_name,
-            ext::boolean&& default_value)
+            ext::boolean default_value)
             -> ext::boolean;
 
     auto check_if_popup_window_is_requested(

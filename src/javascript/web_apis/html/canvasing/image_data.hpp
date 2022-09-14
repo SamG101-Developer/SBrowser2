@@ -26,8 +26,8 @@ public js_properties:
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-    auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> void override;
-    auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean &&for_storage) -> image_data* override;
+    auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
+    auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> image_data* override;
 
 private cpp_properties:
     ext::vector<detail::color_t> m_canvas_pixel_array_buffer;

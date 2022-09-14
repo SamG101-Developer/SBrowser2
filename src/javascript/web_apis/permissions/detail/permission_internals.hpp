@@ -32,7 +32,7 @@ namespace permissions::detail
 
     auto prompt_user_to_choose(
             permissions_descriptor_t&& permission_descriptor,
-            ext::boolean&& allow_multiple = false)
+            ext::boolean allow_multiple = false)
             -> ext::variant<ext::vector<permissions_policy::detail::feature_t>, permission_state_t>;
 
     auto extra_permissions_data()

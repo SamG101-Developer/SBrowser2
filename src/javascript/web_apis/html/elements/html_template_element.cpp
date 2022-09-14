@@ -20,7 +20,7 @@ html::elements::html_template_element::html_template_element()
             };
 
     m_dom_behaviour.cloning_steps =
-            [this](dom::nodes::node* clone, dom::nodes::document* document, ext::boolean&& deep)
+            [this](dom::nodes::node* clone, dom::nodes::document* document, ext::boolean deep)
             {
                 return_if (!deep);
                 auto copied_contents = content()->child_nodes() | ranges::views::transform(ext::bind_back{dom::detail::clone<dom::nodes::document_fragment>, content()->owner_document(), true});

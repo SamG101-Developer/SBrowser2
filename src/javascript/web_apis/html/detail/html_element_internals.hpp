@@ -161,12 +161,12 @@ namespace html::detail
     // HTMLIFrameElement
     auto process_iframe_attributes(
             elements::html_iframe_element* element,
-            ext::boolean&& initial_insertion = false)
+            ext::boolean initial_insertion = false)
             -> void;
 
     auto shared_attribute_processing_steps_for_iframe_and_frame_elements(
             elements::html_iframe_element* element,
-            ext::boolean&& initial_insertion = false)
+            ext::boolean initial_insertion = false)
             -> void;
 
     template <type_is<fetch::detail::response_t, fetch::detail::request_t> T>

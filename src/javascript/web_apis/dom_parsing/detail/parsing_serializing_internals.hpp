@@ -32,12 +32,12 @@ namespace dom_parsing::detail
             ext::string_view namespace_uri,
             namespace_prefix_map_t&& prefix_map,
             generated_namespace_prefix_index_t&& prefix_index,
-            ext::boolean&& require_well_formed)
+            ext::boolean require_well_formed)
             -> ext::string;
 
     auto produce_document_type_serialization(
             dom::nodes::node* node,
-            ext::boolean&& require_wel_formed_flag)
+            ext::boolean require_wel_formed_flag)
             -> ext::string;
 
     auto record_namespace_information(
@@ -57,14 +57,14 @@ namespace dom_parsing::detail
             dom::nodes::element* elemebt,
             namespace_prefix_map_t&& prefix_map,
             generated_namespace_prefix_index_t&& prefix_index,
-            ext::boolean&& ignore_namespace_definition_attribute,
+            ext::boolean ignore_namespace_definition_attribute,
             ext::string_view duplicate_prefix_definition,
-            ext::boolean&& require_wel_formed)
+            ext::boolean require_wel_formed)
             -> ext::string;
 
     auto serialize_attribute_value(
             ext::string_view attribute_value,
-            ext::boolean&& required_well_formed)
+            ext::boolean required_well_formed)
             -> ext::string;
 }
 

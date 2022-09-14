@@ -41,7 +41,7 @@ namespace dom::detail
             nodes::event_target* shadow_adjusted_target,
             nodes::event_target* related_target,
             ext::vector<nodes::event_target*>&& touch_targets,
-            const ext::boolean& slot_in_closed_tree)
+            ext::boolean  slot_in_closed_tree)
             -> void;
 
     auto invoke(
@@ -54,7 +54,7 @@ namespace dom::detail
             events::event* event,
             ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
             ext::number<uchar> phase,
-            const ext::boolean& invocation_target_in_shadow_tree)
+            ext::boolean  invocation_target_in_shadow_tree)
             -> void;
 
     template <inherit<events::event> T=events::event>

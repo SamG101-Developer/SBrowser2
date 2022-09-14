@@ -233,7 +233,7 @@ auto dom::nodes::document::create_range()
 
 auto dom::nodes::document::import_node(
         node* new_node,
-        ext::boolean&& deep)
+        ext::boolean deep)
         -> node*
 {
     ce_reactions_method_def

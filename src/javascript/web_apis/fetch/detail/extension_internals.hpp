@@ -61,14 +61,14 @@ namespace fetch::detail
             ext::string_view origin,
             html::detail::embedder_policy_value_t embedder_policy_value,
             response_t& response_object,
-            const ext::boolean& for_navigation)
+            ext::boolean  for_navigation)
             -> void;
 
     auto queue_cross_origin_embedder_corp_violation_report(
             response_t& response_object,
             v8::Local<v8::Object> settings_object,
             ext::string_view destination,
-            const ext::boolean& report_only)
+            ext::boolean  report_only)
             -> void;
 }
 

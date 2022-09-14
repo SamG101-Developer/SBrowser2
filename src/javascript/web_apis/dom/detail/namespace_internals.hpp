@@ -36,8 +36,8 @@ namespace dom::detail
 
     auto html_adjust_string(
             ext::string&& string,
-            ext::boolean&& adjust,
-            ext::boolean&& lower = true)
+            ext::boolean adjust,
+            ext::boolean lower = true)
             -> ext::string;
 }
 

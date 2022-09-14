@@ -43,7 +43,7 @@ auto dom::detail::create_an_element(
         const ext::string& namespace_,
         const ext::string& prefix,
         const ext::string& is,
-        const ext::boolean& synchronous_custom_elements_flag)
+        ext::boolean  synchronous_custom_elements_flag)
         -> nodes::element*
 {
     using detail::custom_element_state_t;

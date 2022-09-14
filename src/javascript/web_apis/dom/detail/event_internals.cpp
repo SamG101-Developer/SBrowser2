@@ -229,7 +229,7 @@ auto dom::detail::append_to_event_path(
         nodes::event_target* shadow_adjusted_target,
         nodes::event_target* related_target,
         ext::vector<nodes::event_target*>&& touch_targets,
-        const ext::boolean& slot_in_closed_tree)
+        ext::boolean  slot_in_closed_tree)
         -> void
 {
     // the 'invocation_target' is in the shadow tree if it has a ShadowRoot root node, and the 'invocation_target' is
@@ -284,7 +284,7 @@ auto dom::detail::inner_invoke(
         events::event* const event,
         ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
         ext::number<uchar> phase,
-        const ext::boolean& invocation_target_in_shadow_tree)
+        ext::boolean  invocation_target_in_shadow_tree)
         -> void
 {
     // loop through all the event listeners that have the same type as the event, and that match the capture or bubbling

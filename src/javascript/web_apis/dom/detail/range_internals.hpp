@@ -29,7 +29,7 @@ namespace dom::detail
             node_ranges::range* range,
             nodes::node* new_container,
             ext::number<ulong> new_offset,
-            const ext::boolean& start)
+            ext::boolean  start)
             -> void;
 
     auto position_relative(
@@ -52,7 +52,7 @@ namespace dom::detail
             nodes::character_data* container,
             ext::number<ulong> start_offset,
             ext::number<ulong> end_offset,
-            const ext::boolean& replace)
+            ext::boolean  replace)
             -> nodes::document_fragment*;
 
     auto append_to_sub_fragment(

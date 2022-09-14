@@ -52,7 +52,7 @@ namespace intersection_observer::detail
             css::geometry::dom_rect* root_bounds,
             css::geometry::dom_rect* bounding_client_rect,
             css::geometry::dom_rect* intersection_rect,
-            ext::boolean&& intersecting_flag,
+            ext::boolean intersecting_flag,
             dom::nodes::element* target)
             -> void;
 

@@ -21,7 +21,7 @@ public constructors:
     media_stream_track() = delete;
 
 private constructors:
-    media_stream_track(detail::media_stream_track_source& source, ext::boolean&& tie_source_to_context = true);
+    media_stream_track(detail::media_stream_track_source& source, ext::boolean tie_source_to_context = true);
 
 public js_methods:
     auto clone() const -> media_stream_track;

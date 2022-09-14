@@ -33,7 +33,7 @@ namespace url::detail
 
     auto domain_to_ascii(
             domain_t&& domain,
-            ext::boolean&& be_strict)
+            ext::boolean be_strict)
             -> ext::optional<ext::string>;
 
     auto domain_to_unicode(
@@ -62,7 +62,7 @@ namespace url::detail
 
     auto host_parser(
             domain_t&& input,
-            ext::boolean&& is_not_special = false)
+            ext::boolean is_not_special = false)
             -> ext::optional<domain_t>;
 
     auto ipv4_parser(

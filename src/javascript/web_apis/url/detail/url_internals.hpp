@@ -161,7 +161,7 @@ namespace url::detail
 
     auto url_serializer(
             const url_t& url,
-            ext::boolean&& exclude_fragment  = false)
+            ext::boolean exclude_fragment  = false)
             -> ext::string;
 
     auto url_path_serializer(
@@ -171,7 +171,7 @@ namespace url::detail
     auto urls_are_equal(
             const url_t& url_a,
             const url_t& url_b,
-            ext::boolean&& exclude_fragments)
+            ext::boolean exclude_fragments)
             -> ext::boolean;
 
     auto origin(

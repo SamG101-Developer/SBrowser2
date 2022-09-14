@@ -48,7 +48,7 @@ public js_methods:
 
     auto modify(ext::string_view alter, ext::string_view direction = "", ext::string_view granularity = "") -> void;
     auto delete_from_document() -> void;
-    auto contains_node(dom::nodes::node* node, ext::boolean&& allow_partial_containment = false) -> ext::boolean;
+    auto contains_node(dom::nodes::node* node, ext::boolean allow_partial_containment = false) -> ext::boolean;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
