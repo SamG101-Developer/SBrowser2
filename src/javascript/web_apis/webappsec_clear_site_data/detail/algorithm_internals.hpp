@@ -7,7 +7,7 @@
 #include USE_INNER_TYPES(fetch)
 
 
-namespace clear_site_data::detail
+namespace webappsec::detail
 {
     auto parse_response_clear_site_data_header(
             const fetch::detail::response_t& response)
