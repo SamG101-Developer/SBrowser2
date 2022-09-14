@@ -45,7 +45,7 @@
 custom_operator(try_or)
 {
     try {return a();}
-    catch_all {return b;}
+    catch (...) {return b;}
 }
 
 #define try_or <try_or>
@@ -62,7 +62,8 @@ custom_operator(clamp)
 
 custom_operator(enforce_range)
 {
-    if (b < b.min() || b > b.max()) throw std::out_of_range{"Number out of range"};
+    if (b < b.min() || b > b.max())
+        throw std::out_of_range{"Number out of range"};
 }
 #define js_enforce_range 0 <enforce_range>
 
@@ -107,9 +108,9 @@ custom_operator(go)
     }
 
 
-#define HTML_CONSTRUCTOR     \
-    {                        \
-        JS_REALM_GET_CURRENT \
+#define HTML_CONSTRUCTOR      \
+    {                         \
+        JS_REALM_GET_CURRENT; \
     }
 
 #endif //SBROWSER2_CUSTOM_OPERATOR_HPP
