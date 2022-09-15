@@ -79,6 +79,7 @@ public:
     auto operator()() const -> decltype(auto) {return m_meta.m_getter();}
     auto operator=(const value_t& value) -> decltype(auto) {return m_meta.m_setter(value);}
     auto operator=(value_t&& value) -> decltype(auto) {return m_meta.m_setter(std::move(value));}
+    auto operator=(std::unique_ptr<T>&& value) -> decltype(auto) {return m_meta.m_setter(std::move(value).get());} // TODO
 
     // Dereferencing accesses the inner value type of the property (for custom getters and setters), so move the
     // std::unique_ptr out of the meta property to the return value. Check the property is unlocked before accessing the
@@ -450,6 +451,35 @@ private:
 #define DEFINE_SETTER(p) auto set_##p(const typename decltype(p)::value_t& val) -> void
 #define DEFINE_GETTER(p) auto get_##p() const -> typename decltype(this->p)::value_t
 #define DEFINE_DELETER(p) auto del_##p() -> void
+
+
+_EXT_BEGIN
+
+template <typename T, typename U, typename V>
+class attribute_watcher
+{
+public constructors:
+    attribute_watcher(T&& object, U&& attribute)
+            : m_object{std::forward<T>(object)}
+            , m_attribute{std::forward<U>(attribute)}
+            , m_start_value{current_value()}
+    {};
+
+public cpp_methods:
+    auto has_changed() -> ext::boolean {return m_start_value != current_value();};
+    auto current_value() -> V {return std::mem_fn(m_attribute)(m_object);}
+
+private:
+    T m_object;
+    U m_attribute;
+    V m_start_value;
+};
+
+
+template <typename T, typename U>
+attribute_watcher(T&& object, U&& attribute) -> attribute_watcher<T, U, decltype(std::mem_fn(std::forward<U>(attribute))(std::forward<T>(object)))>;
+
+_EXT_END
 
 
 #endif //SBROWSER2_PROPERTY_HPP
