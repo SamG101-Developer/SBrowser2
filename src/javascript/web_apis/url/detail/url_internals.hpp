@@ -192,7 +192,8 @@ struct url::detail::url_t
     ext::string query;
     ext::string fragment;
 
-    file_api::detail::blob_url_entry_t* blob_url_entry = nullptr;
+    std::unique_ptr<file_api::detail::blob_url_entry_t> blob_url_entry {nullptr};
+    std::unique_ptr<dom_object> object {nullptr};
 };
 
 
