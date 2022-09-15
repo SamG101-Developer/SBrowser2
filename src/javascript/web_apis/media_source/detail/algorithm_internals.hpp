@@ -3,7 +3,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_DETAIL_ALGORITHM_INTERNALS_HPP
 
 #include "ext/concepts.hpp"
+#include "ext/optional.hpp"
 #include "ext/variant.hpp"
+#include USE_INNER_TYPES(media_source)
 namespace dom::nodes {class window;}
 namespace html::workers {class dedicated_worker_global_scope;}
 namespace media::source {class media_source;}
@@ -34,7 +36,8 @@ namespace media::detail
             -> void;
 
     auto end_of_stream(
-            source::media_source* media_source)
+            source::media_source* media_source,
+            ext::optional<detail::end_of_stream_error_t>)
             -> void;
 
     template <callable F>
