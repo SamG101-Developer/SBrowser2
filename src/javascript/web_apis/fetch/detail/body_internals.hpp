@@ -18,11 +18,11 @@ namespace fetch::detail
     using algorithm_t = ext::function<void()>;
 
     auto clone_body(
-            internal_body& body_object)
-            -> internal_body;
+            body_t& body_object)
+            -> body_t;
 
     auto incrementally_read_body(
-            internal_body& body_object,
+            body_t& body_object,
             algorithm_t&& process_body_chunk,
             algorithm_t&& process_end_of_body,
             algorithm_t&& process_body_error,
@@ -38,24 +38,24 @@ namespace fetch::detail
             -> void;
 
     auto fully_read_body(
-            internal_body& body_object,
+            body_t& body_object,
             algorithm_t&& process_body,
             algorithm_t&& process_body_error,
             v8::Local<v8::Object> task_destination)
             -> void;
 
     auto fully_read_body_as_promise(
-            internal_body& body_object)
+            body_t& body_object)
             -> void;
 
     auto safely_extract_body(
             body_init_t object)
-            -> ext::pair<internal_body, ext::string>;
+            -> ext::pair<body_t, ext::string>;
 
     auto extract(
             body_init_t object,
-            ext::boolean  keepalive = false)
-            -> ext::pair<internal_body, ext::string>;
+            ext::boolean keepalive = false)
+            -> ext::pair<body_t, ext::string>;
 
     auto is_unusable(
             mixins::body* body)
