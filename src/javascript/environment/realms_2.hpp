@@ -68,6 +68,15 @@
     auto object ## _associated_global_object = object ## _relevant_global_object; \
     auto object ## _associated_settings_object = object ## _relevant_settings_object
 
+#define JS_REALM_GET_CREATION(object)                                                                            \
+    auto object ## _creation_realm = v8pp::to_v8(v8::Isolate::GetCurrent(), object)->CreationContext();          \
+    auto object ## _creation_agent = object ## _creation_realm->GetIsolate();                                    \
+    auto object ## _creation_global_object = _JS_GLOBAL_OBJECT_FROM_REALM(object ## _creation).As<v8::Object>(); \
+    auto object ## _creation_settings_object = _JS_SETTINGS_OBJECT_FROM_REALM(object ## _creation)
+
+
+//#undef _JS_GLOBAL_OBJECT_FROM_REALM
+//#undef _JS_SETTINGS_OBJECT_FROM_REALM
 
 namespace javascript::environment::realms_2
 {
