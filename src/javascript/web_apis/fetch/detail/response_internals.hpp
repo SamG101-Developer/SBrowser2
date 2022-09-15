@@ -96,8 +96,8 @@ struct fetch::detail::response_t
     ext::number<int> status;
     ext::string status_message;
 
-    headers_t& header_list;
-    body_t& body;
+    std::unique_ptr<headers_t> header_list;
+    std::unique_ptr<body_t> body;
 
     cache_t cache_state;
     header_names_t cors_exposed_header_name_list;
