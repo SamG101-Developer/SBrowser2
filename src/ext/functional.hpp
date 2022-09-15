@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_FUNCTIONAL_HPP
 #define SBROWSER2_FUNCTIONAL_HPP
 
+#include "ext/concepts.hpp"
 #include "ext/tuple.hpp"
 #include <function2/function2.hpp>
 
@@ -20,6 +21,29 @@ struct identity
     template <typename T>
     constexpr auto operator()(T&& object) const -> decltype(auto)
     {return std::forward<T>(object);}
+};
+
+
+struct negate
+{
+    template <typename T>
+    constexpr auto operator()(T&& object) const -> decltype(auto)
+    {return !std::forward<T>(object);}
+};
+
+
+template <callable F>
+struct negate_function
+{
+    explicit negate_function(F&& predicate)
+    {m_predicate = std::forward<F>(predicate);}
+
+    template <typename ...Args>
+    constexpr auto operator()(Args&&... arguments) const -> decltype(auto)
+    {return !m_predicate(std::forward<Args>(arguments)...);}
+
+private:
+    F&& m_predicate;
 };
 
 
@@ -90,7 +114,7 @@ struct ne
 
 // bind arguments to the back of a method, so that when the partial-method is called with arguments, they will the front
 // n arguments (using because std::bind_back isn't available yet on MSVC)
-template <typename F, typename ...Args0>
+template <callable F, typename ...Args0>
 struct bind_back
 {
 public:
@@ -99,7 +123,7 @@ public:
             , m_back_args{_EXT make_tuple(std::forward<Args0>(fixed_args)...)}
     {
         // initialize the function and the back arguments, by forwarding the arguments into a tuple and setting this as
-        // 'm_back_args' TODO: std::forward_as_tuple doesn't work here
+        // 'm_back_args'
     }
 
     template <typename ...Args1>
@@ -107,14 +131,17 @@ public:
     {
         // forward the new arguments into a tuple, concatenate this to the front of the 'm_front_args', and apply this
         // tuple to the 'm_function', so that the function is invoked with all the arguments
-        auto m_front_args = _EXT make_tuple(std::forward<Args1>(variable_args)...);
-        return _EXT apply(m_function, _EXT tuple_cat(m_front_args, m_back_args));
+        return _EXT apply(std::forward<F>(m_function), _EXT tuple_cat(_EXT forward_as_tuple(std::forward<Args1>(variable_args)...), std::move(m_back_args)));
     }
 
 private:
-    const F& m_function;
-    tuple<Args0...> m_back_args;
+    F&& m_function;
+    _EXT tuple<Args0...> m_back_args;
 };
+
+
+template <callable F, typename ...Args0>
+bind_back(F&&, Args0&&...) -> bind_back<F, Args0...>;
 
 
 // bind arguments to the front of a method, so that when the partial-method is called with arguments, they will the back
@@ -128,7 +155,7 @@ public:
             , m_front_args{_EXT make_tuple(std::forward<Args0>(fixed_args)...)}
     {
         // initialize the function and the front arguments, by forwarding the arguments into a tuple and setting this as
-        // as 'm_front_args' TODO: std::forward_as_tuple doesn't work here
+        // as 'm_front_args'
     };
 
     template <typename ...Args1>
@@ -136,14 +163,17 @@ public:
     {
         // forward the new arguments into a tuple, concatenate this to the back of the 'm_back_args', and apply this
         // tuple to the 'm_function', so that the function is invoked with all the arguments
-        auto m_back_args = _EXT make_tuple(std::forward<Args1>(variable_args)...);
-        return _EXT apply(m_function, _EXT tuple_cat(m_front_args, m_back_args));
+        return _EXT apply(std::forward<F>(m_function), _EXT tuple_cat(std::move(m_front_args), _EXT forward_as_tuple(std::forward<Args1>(variable_args)...)));
     }
 
 private:
-    const F& m_function;
-    tuple<Args0...> m_front_args;
+    F&& m_function;
+    _EXT tuple<Args0...> m_front_args;
 };
+
+
+template <callable F, typename ...Args0>
+bind_front(F&&, Args0&&...) -> bind_front<F, Args0...>;
 
 _EXT_END
 
