@@ -1,5 +1,6 @@
 #include "miscellaneous_internals.hpp"
 
+#include "fetch/detail/body_internals.hpp"
 #include "fetch/detail/request_internals.hpp"
 
 
