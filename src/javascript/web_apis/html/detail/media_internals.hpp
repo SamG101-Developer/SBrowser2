@@ -9,10 +9,12 @@
 #include "ext/boolean.hpp"
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
+
 #include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(url)
 
+namespace dom::other {class dom_exception;}
 namespace html::basic_media {class text_track;}
 namespace html::basic_media {class time_ranges;}
 namespace html::elements {class html_media_element;}
@@ -45,11 +47,12 @@ namespace html::detail
 
     auto resource_fetch_algorithm(
             elements::html_media_element* element,
-            const url::detail::url_t& url)
+            ext::variant<url::detail::url_t, dom_object*> url_or_media_provider)
             -> void;
 
     auto media_data_processing_steps_list(
-            elements::html_media_element* element)
+            elements::html_media_element* element,
+            detail::media_data_processing_t how)
             -> void;
 
     auto forget_media_element_media_resource_specific_tracks(
@@ -107,11 +110,12 @@ namespace html::detail
             -> ext::vector<ext::promise<>>;
 
     auto resolve_pending_play_promises(
-            elements::html_media_element* element)
+            const ext::vector<ext::promise<>>& promises)
             -> void;
 
     auto reject_pending_play_promises(
-            elements::html_media_element* element)
+            const ext::vector<ext::promise<>>& promises,
+            dom::other::dom_exception&& exception)
             -> void;
 
     auto notify_about_playing(
