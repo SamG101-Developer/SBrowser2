@@ -8,14 +8,18 @@
 #include "ext/functional.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
+#include "range/v3/action/remove_if.hpp"
 
 #include <range/v3/range/conversion.hpp>
+
 #include <range/v3/action.hpp>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/action/transform.hpp>
+
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
+
 #include <range/v3/view/drop_while.hpp>
 #include <range/v3/view/enumerate.hpp>
 #include <range/v3/view/filter.hpp>
@@ -244,7 +248,12 @@ namespace ranges::actions
                 | ranges::actions::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
                 | ranges::views::values;
     };
-};
+
+    auto filter = []<callable F>(F&& predicate)
+    {
+        return ranges::actions::remove_if(_EXT negate_function{std::move(predicate)});
+    };
+}
 
 
 /* ALGORITHMS */
