@@ -7,7 +7,10 @@ namespace media::source {class media_source;}
 
 #include "ext/optional.hpp"
 #include "ext/number.hpp"
+#include "ext/slot.hpp"
 #include USE_INNER_TYPES(media_source)
+namespace html::basic_media {class time_ranges;}
+namespace html::messaging {class message_port;}
 namespace media::source {class media_source_handle;}
 namespace media::source {class source_buffer;}
 
@@ -36,7 +39,8 @@ public js_properties:
     static ext::property<ext::boolean> can_construct_in_dedicated_worker;
 
 private js_slots:
-    // TODO : [[live_seekable_range]]
+    ext::slot<std::unique_ptr<html::basic_media::time_ranges>> s_live_seekable_range;
+    ext::slot<std::unique_ptr<html::messaging::message_port>> s_port_to_main;
 
 private cpp_accessors:
     DEFINE_GETTER(handle);
