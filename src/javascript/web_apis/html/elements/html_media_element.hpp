@@ -5,13 +5,17 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_media_element;}
 
+#include USE_INNER_TYPES(fetch)
 #include USE_INNER_TYPES(html)
+
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class audio_track;}
 namespace html::basic_media {class video_track;}
 namespace html::basic_media {class text_track;}
 namespace html::basic_media {class text_track_cue;}
+namespace html::messaging {class message_channel;}
+namespace html::messaging {class message_port;}
 namespace mediacapture::main {class media_stream;}
 
 
@@ -21,6 +25,7 @@ class html::elements::html_media_element
 public constructors:
     DOM_CTORS(html_media_element);
     html_media_element() = default;
+    ~html_media_element();
 
 public js_static_constants:
     constexpr static const ext::number<ushort> NETWORK_EMPTY = 0;
@@ -53,7 +58,7 @@ public js_methods:
 public js_properties:
     ext::property<basic_media::media_error*> error;
 
-    ext::property<ext::string> cross_origin;
+    ext::property<fetch::detail::mode_t> cross_origin;
     ext::property<ext::string> preload;
     ext::property<ext::string> src;
     ext::property<detail::media_provider_t> src_object;
@@ -86,6 +91,11 @@ public js_properties:
 
     /* MEDIACAPTURE_OUTPUT */
     ext::property<ext::string> sink_id;
+
+private js_slots:
+    /* MEDIA_SOURCE */
+    ext::slot<std::unique_ptr<html::messaging::message_port>> s_port_to_worker;
+    ext::slot<std::unique_ptr<html::messaging::message_channel>> s_channel_with_worker;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
