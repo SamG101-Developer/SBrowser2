@@ -11,6 +11,7 @@
 #include USE_INNER_TYPES(url)
 
 namespace file_api {class blob;}
+namespace media::source {class media_source;}
 namespace streams::readable {class readable_stream;}
 
 
@@ -46,5 +47,13 @@ namespace file_api::detail
             const url::detail::url_t&)
             -> ext::boolean;
 }
+
+
+struct file_api::detail::blob_url_entry_t
+{
+    ext::variant<blob*, media::source::media_source*> object;
+    v8::Local<v8::Object> settings;
+};
+
 
 #endif //SBROWSER2_BLOB_INTERNALS_HPP
