@@ -144,5 +144,23 @@ auto media::source::media_source::end_of_stream(
             [buffers = source_buffers()] {return ranges::any_of(buffers | ranges::views::transform_to_attr(&source_buffer::updating), ext::bind_front{ext::cmp::eq{}, true})},
             "Cannot end a stream that contains updating buffers");
 
-    detail::end_of_stream(this);
+    detail::end_of_stream(this, error);
+}
+
+
+auto media::source::media_source::set_live_seekable_range(
+        ext::number<double> start,
+        ext::number<double> end)
+        -> void
+{
+    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+            [state = ready_state()] {return state != detail::ready_state_t::OPEN;},
+            "State must be 'open'");
+
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+            [&start, &end] {return start < 0 || start > end;},
+            "'start' must be positive and less than 'end'");
+
+    s_live_seekable_range = std::make_unique<html::basic_media::time_ranges>();
+    s_live_seekable_range()->m_ranges.emplace_back(start, end);
 }
