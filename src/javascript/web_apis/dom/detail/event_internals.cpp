@@ -367,6 +367,10 @@ auto dom::detail::fire_event(
         string_case("gotpointercapture"):
         string_case("lostpointercapture"):
         string_case("select"):
+        string_case("animationstart"):
+        string_case("animationend"):
+        string_case("animationiteration"):
+        string_case("animationcancelable"):
             init.template insert_or_assign("bubbles", true);
             init.template insert_or_assign("cancelable", false);
             break;
