@@ -2,11 +2,13 @@
 #define SBROWSER2_PROCESSING_INSTRUCTION_HPP
 
 #include "dom/nodes/character_data.hpp"
+#include "css/cssom/mixins/link_style.hpp"
 namespace dom::nodes {class processing_instruction;}
 
 
 class dom::nodes::processing_instruction final
         : public character_data
+        , public css::cssom::mixins::link_style
 {
 public cpp_properties:
     ext::property<ext::string> target;
@@ -16,6 +18,9 @@ public cpp_methods:
 
 private cpp_accessors:
     DEFINE_GETTER(node_type) override {return PROCESSING_INSTRUCTION_NODE;}
+
+    /* CSSOM */
+    DEFINE_SETTER(data);
 };
 
 

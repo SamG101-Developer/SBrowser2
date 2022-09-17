@@ -2,6 +2,8 @@
 
 #include "ext/casting.hpp"
 
+#include "css/cssom/detail/miscellaneous_query_internals.hpp"
+
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/shadow_internals.hpp"
@@ -9,15 +11,16 @@
 #include "dom/detail/observer_internals.hpp"
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
-
 #include "dom/nodes/text.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_fragment.hpp"
 #include "dom/nodes/document_type.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/processing_instruction.hpp"
 #include "dom/nodes/shadow_root.hpp"
-
 #include "dom/ranges/range.hpp"
+
+#include "html/elements/html_slot_element.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/find.hpp>
@@ -98,10 +101,10 @@ auto dom::detail::ensure_pre_insertion_validity(
     common_checks(node, parent, child);
 
     // all the checks only apply if the parent is a document
-    if (const auto* const cast_parent = dynamic_cast<const nodes::document*>(parent))
+    if (decltype(auto) cast_parent = dynamic_cast<const nodes::document*>(parent))
     {
         // if the node is a document fragment
-        if (auto* const cast_node = dynamic_cast<const nodes::document_fragment*>(node))
+        if (decltype(auto) cast_node = dynamic_cast<const nodes::document_fragment*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                     [&cast_node] {return cast_node->children().size() > 1;},
@@ -129,7 +132,7 @@ auto dom::detail::ensure_pre_insertion_validity(
         }
 
         // otherwise, if the node is an element (document element)
-        else if (const auto* const cast_node = dynamic_cast<const nodes::element*>(node))
+        else if (decltype(auto) cast_node = dynamic_cast<const nodes::element*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                     [&cast_node] {return !cast_node->children().empty();},
@@ -145,7 +148,7 @@ auto dom::detail::ensure_pre_insertion_validity(
         }
 
         // otherwise, if the node is a document type
-        else if (const auto* const cast_node = dynamic_cast<const nodes::document_type*>(node))
+        else if (decltype(auto) cast_node = dynamic_cast<const nodes::document_type*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                     [&cast_parent] {return ranges::any_of(*cast_parent->child_nodes(), &is_document_type_node);},
@@ -203,8 +206,8 @@ auto dom::detail::insert(
     // special case for DocumentFragment nodes: all tof it's child nodes need to be re-inserted; otherwise, for any
     // other element extending Node, the single 'child' will be inserted. if there are no children to insert, then
     // return from the method early
-    const auto nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
-    const auto count = nodes.size();
+    decltype(auto) nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
+    decltype(auto) count = nodes.size();
     if (count <= 0) return nullptr;
 
     // special case for DocumentFragment: remove all of its children first, and then queue a mutation tree record for
@@ -218,9 +221,9 @@ auto dom::detail::insert(
     // live range modifications for when the child exists (ie the node is being inserted and not appended)
     if (child)
     {
-        JS_REALM_GET_SURROUNDING(nullptr)
-        const auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(nullptr_surrounding_global_object, "live_ranges");
-        const auto child_index = index(child);
+        JS_REALM_GET_SURROUNDING(nullptr);
+        decltype(auto) live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(nullptr_surrounding_global_object, "live_ranges");
+        decltype(auto) child_index = index(child);
 
         // ranges whose starting node is 'parent' and whose starting offset is greater that the index of 'child':
         // increment the start offset by the number of children being inserted
@@ -237,7 +240,7 @@ auto dom::detail::insert(
 
     // save the previous sibling here (used later, but mutations in the ext step would distort this value as the nodes
     // are inserted next, changing the tree structure / sibling layout)
-    auto* const previous_sibling = child ? child->previous_sibling() : parent->last_child();
+    decltype(auto) previous_sibling = child ? child->previous_sibling() : parent->last_child();
     for (nodes::node* const node_to_add: nodes)
     {
         // adopt 'node' into 'parent''s document, and insert the node into the parent's child nodes list, before the
@@ -249,7 +252,7 @@ auto dom::detail::insert(
         // if the parent is a shadow host (shadow_root attribute is set), the parent's shadow_root's slot assignment is
         // "named", and 'node' is a slottable, assign a slot to 'node'
         if (is_shadow_host(parent)
-            && dynamic_cast<const nodes::element*>(parent)->shadow_root_node->slot_assignment() == "named"
+            && dynamic_cast<const nodes::element*>(parent)->shadow_root_node()->slot_assignment() == "named"
             && is_slottable(node_to_add))
             assign_slot(node_to_add);
 
@@ -257,7 +260,7 @@ auto dom::detail::insert(
         // 'parent''s assigned nodes are empty, then 'signal_a_slot_change()' for 'parent'
         if (is_root_shadow_root(parent)
             && is_slot(parent)
-            && dynamic_cast<const html::elements::html_slot_element*>(parent)->m_assigned_nodes->empty())
+            && dynamic_cast<const html::elements::html_slot_element*>(parent)->assigned_nodes().empty())
             signal_slot_change(parent);
 
         // assign slottables for the tree whose root is the root of 'node'
@@ -266,7 +269,7 @@ auto dom::detail::insert(
         for (nodes::node* inclusive_descendant: shadow_including_descendants(node_to_add))
         {
             inclusive_descendant->m_dom_behaviour.insertion_steps();
-            if (auto* inclusive_descendant_element = dynamic_cast<nodes::element*>(inclusive_descendant);
+            if (decltype(auto) inclusive_descendant_element = dynamic_cast<nodes::element*>(inclusive_descendant);
                     inclusive_descendant_element && is_connected(inclusive_descendant))
 
                 is_custom(dynamic_cast<nodes::element*>(inclusive_descendant))
@@ -277,6 +280,11 @@ auto dom::detail::insert(
 
     if (!suppress_observers_flag) queue_tree_mutation_record(parent, nodes, {}, previous_sibling, child);
     parent->m_dom_behaviour.children_changed_steps();
+
+    /* CSSOM */
+    if (decltype(auto) processing_instruction = dom_cast<const nodes::processing_instruction*>(node);
+            processing_instruction && index(node) < index(node->owner_document()->document_element()))
+        css::detail::processing_instruction_prolog_steps(processing_instruction);
 }
 
 
@@ -301,10 +309,10 @@ auto dom::detail::replace(
     common_checks(node, parent, child);
 
     // all the checks only apply if the parent is a document
-    if (const auto* const cast_parent = dynamic_cast<const nodes::document*>(parent))
+    if (decltype(auto) cast_parent = dynamic_cast<const nodes::document*>(parent))
     {
         // if the node is a document fragment
-        if (auto* const cast_node = dynamic_cast<const nodes::document_fragment*>(node))
+        if (decltype(auto) cast_node = dynamic_cast<const nodes::document_fragment*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                     [&cast_node] {return cast_node->children().size() > 1;},
@@ -328,10 +336,10 @@ auto dom::detail::replace(
         }
 
         // otherwise, if the node is an element (document element)
-        else if (const auto* const cast_node = dynamic_cast<const nodes::element*>(node))
+        else if (decltype(auto) cast_node = dynamic_cast<const nodes::element*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node, &child] {return ranges::any_of(cast_node->children(), ext::bind_front(std::not_equal_to{}, std::move(child)));},
+                    [&cast_node, &child] {return ranges::any_of(cast_node->children(), BIND_FRONT(std::not_equal_to{}, child));},
                     "An Element with a Document parent cannot have an Element child that isn't 'child'");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -340,7 +348,7 @@ auto dom::detail::replace(
         }
 
         // otherwise, if the node is a document type
-        else if (const auto* const cast_node = dynamic_cast<const nodes::document_type*>(node))
+        else if (decltype(auto) cast_node = dynamic_cast<const nodes::document_type*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                     [&cast_parent, &child] {return ranges::any_of(*cast_parent->child_nodes(), [child](nodes::node* child_node) {return is_document_type_node(child_node) and child_node != child;});},
@@ -356,8 +364,8 @@ auto dom::detail::replace(
     // case set it to the sibling after 'node' - this works because 'node' is replacing 'child', so the index point has
     // to be before the 'child''s next sibling ie where 'child' is, unless the next sibling is 'node', in which case the
     // 'node' is moving in the sibling order, so the reference child has to be the sibling after 'node'
-    auto* const reference_child  = child->next_sibling() != node ? child->next_sibling() : node->next_sibling();
-    auto* const previous_sibling = child->previous_sibling();
+    decltype(auto) reference_child  = child->next_sibling() != node ? child->next_sibling() : node->next_sibling();
+    decltype(auto) previous_sibling = child->previous_sibling();
     ext::vector<const nodes::node*> removed_nodes;
 
     // if there is a parent node, save the child to the removed nodes (it is being replaced), and remove the child node;
@@ -371,7 +379,7 @@ auto dom::detail::replace(
     // the nodes being added is a list of 'node', unless it is for a DocumentFragment parent, in which the special case
     // dictates that all the children are to be re-added - insert the 'added_nodes', and queue a mutation record for
     // this
-    const auto added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
+    decltype(auto) added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
     insert(node, parent, reference_child, true);
     queue_tree_mutation_record(parent, added_nodes, removed_nodes, previous_sibling, reference_child);
     return child;
@@ -386,8 +394,8 @@ auto dom::detail::replace_all(
     // all the 'parent''s children are going to be replaces with 'node, so all the children are the 'removed_nodes'; the
     // added nodes is a list of 'node', unless it is for a DocumentFragment parent, in which the special case
     //    // dictates that all the children are to be re-added
-    const auto removed_nodes = *parent->child_nodes();
-    const auto added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<nodes::node*>{node};
+    decltype(auto) removed_nodes = *parent->child_nodes();
+    decltype(auto) added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<nodes::node*>{node};
 
     // remove each node in 'remove_nodes', and then insert the node into parent (before nullptr) as that is the only
     // accessible interator in an empty list
@@ -398,3 +406,10 @@ auto dom::detail::replace_all(
     if (!added_nodes.empty() || !removed_nodes.empty())
         queue_tree_mutation_record(parent, added_nodes, removed_nodes, nullptr, nullptr);
 }
+
+
+// TODO : remove(...) -> place below code at start of method
+// /* CSSOM */
+//    if (decltype(auto) processing_instruction = dom_cast<const nodes::processing_instruction*>(node);
+//            processing_instruction && index(node) < index(node->owner_document()->document_element()))
+//        css::detail::processing_instruction_prolog_steps(processing_instruction);
