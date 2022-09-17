@@ -33,6 +33,8 @@ public js_properties:
     ext::property<ext::string> _webkit_cased_attribute;
     ext::property<ext::string> _dashed_attribute;
 
+    PUT_FORWARDS(css_text);
+
 private cpp_properties:
     std::unique_ptr<detail::css_declaration_block_t> m_declaration_block;
 
