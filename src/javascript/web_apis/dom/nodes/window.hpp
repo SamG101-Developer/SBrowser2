@@ -13,6 +13,7 @@ namespace dom::nodes {class window;}
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(html)
 namespace background_tasks {class idle_deadline;}
+namespace css::cssom::other {class css_style_declaration;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class window_proxy;}
@@ -30,29 +31,6 @@ class dom::nodes::window final
         : public event_target
         , public ext::vector_like<html::detail::browsing_context_t*>
 {
-public js_properties:
-    /* HTML */
-    ext::property<std::unique_ptr<window_proxy>> window;
-    ext::property<std::unique_ptr<window_proxy>> self;
-    ext::property<std::unique_ptr<document>> document;
-    ext::property<ext::string> name;
-
-    ext::property<std::unique_ptr<html::other::location>> location;
-    ext::property<std::unique_ptr<html::other::history>> history;
-    ext::property<std::unique_ptr<html::other::custom_element_registry>> custom_elements;
-
-    ext::property<ext::string> status;
-    ext::property<ext::boolean> closed;
-
-    ext::property<std::unique_ptr<window_proxy>> frames;
-    ext::property<std::unique_ptr<window_proxy>> top;
-    ext::property<std::unique_ptr<window_proxy>> parent;
-    ext::property<ext::any> opener;
-    ext::property<std::unique_ptr<dom::nodes::element>> frame_element;
-
-    ext::property<std::unique_ptr<html::other::navigator>> navigator;
-    ext::property<ext::boolean> origin_agent_cluster;
-
 public js_methods:
     /* HTML */
     auto close() -> void;
@@ -82,6 +60,32 @@ public js_methods:
 
     /* SELECTION */
     auto get_selection() -> selection::selection*;
+
+    /* CSSOM */
+    auto get_computed_style(element* element, ext::string_view pseudo_element = "") -> css::cssom::other::css_style_declaration;
+
+public js_properties:
+    /* HTML */
+    ext::property<std::unique_ptr<window_proxy>> window;
+    ext::property<std::unique_ptr<window_proxy>> self;
+    ext::property<std::unique_ptr<document>> document;
+    ext::property<ext::string> name;
+
+    ext::property<std::unique_ptr<html::other::location>> location;
+    ext::property<std::unique_ptr<html::other::history>> history;
+    ext::property<std::unique_ptr<html::other::custom_element_registry>> custom_elements;
+
+    ext::property<ext::string> status;
+    ext::property<ext::boolean> closed;
+
+    ext::property<std::unique_ptr<window_proxy>> frames;
+    ext::property<std::unique_ptr<window_proxy>> top;
+    ext::property<std::unique_ptr<window_proxy>> parent;
+    ext::property<ext::any> opener;
+    ext::property<std::unique_ptr<dom::nodes::element>> frame_element;
+
+    ext::property<std::unique_ptr<html::other::navigator>> navigator;
+    ext::property<ext::boolean> origin_agent_cluster;
 
 private js_slots:
     ext::slot<html::detail::cross_origin_property_descriptor_map_t> s_cross_origin_property_descriptor_map;

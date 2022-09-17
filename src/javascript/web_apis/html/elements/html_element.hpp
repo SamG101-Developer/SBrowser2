@@ -4,7 +4,9 @@
 #include "dom/nodes/element.hpp"
 #include "html/mixins/content_editable.hpp"
 #include "html/mixins/html_or_svg_element.hpp"
+#include "css/cssom/mixins/element_css_inline_style.hpp"
 namespace html::elements {class html_element;}
+
 
 #include USE_INNER_TYPES(html)
 namespace html::other {class element_internals;}
@@ -14,6 +16,7 @@ class html::elements::html_element
         : public dom::nodes::element
         , public mixins::content_editable
         , public mixins::html_or_svg_element
+        , css::cssom::mixins::element_css_inline_style
 {
 public constructors:
     DOM_CTORS(html_element);

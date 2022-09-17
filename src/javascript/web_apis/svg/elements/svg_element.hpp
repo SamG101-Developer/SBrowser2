@@ -2,6 +2,7 @@
 #define SBROWSER2_SVG_ELEMENT_HPP
 
 #include "dom/nodes/element.hpp"
+#include "css/cssom/mixins/element_css_inline_style.hpp"
 namespace svg::elements {class svg_element;}
 
 namespace svg::elements {class svg_svg_element;}
@@ -12,6 +13,7 @@ class svg::elements::svg_element
         : public dom::nodes::element
         , public svg::mixins::svg_element_instance
         , public html::mixins::html_or_svg_element
+        , public css::cssom::mixins::element_css_inline_style
 {
 public constructors:
     DOM_CTORS(svg_element);
