@@ -42,10 +42,10 @@ private:
     QPolygonF m_polygon;
 
 private cpp_accessors:
-    DEFINE_GETTER(p1);
-    DEFINE_GETTER(p2);
-    DEFINE_GETTER(p3);
-    DEFINE_GETTER(p4);
+    DEFINE_CUSTOM_GETTER(p1);
+    DEFINE_CUSTOM_GETTER(p2);
+    DEFINE_CUSTOM_GETTER(p3);
+    DEFINE_CUSTOM_GETTER(p4);
 };
 
 

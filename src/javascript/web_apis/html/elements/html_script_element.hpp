@@ -43,11 +43,11 @@ private cpp_properties:
     ext::variant<ext::string, std::unique_ptr<detail::script_t>> m_result;
 
 private cpp_accessors:
-    DEFINE_GETTER(async);
-    DEFINE_GETTER(text);
+    DEFINE_CUSTOM_GETTER(async);
+    DEFINE_CUSTOM_GETTER(text);
 
-    DEFINE_SETTER(async);
-    DEFINE_SETTER(text);
+    DEFINE_CUSTOM_SETTER(async);
+    DEFINE_CUSTOM_SETTER(text);
 };
 
 

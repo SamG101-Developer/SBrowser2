@@ -36,8 +36,8 @@ private cpp_properties:
     ext::number<int> m_dropped_video_frame_count = 0;
 
 private cpp_accessors:
-    DEFINE_GETTER(video_width);
-    DEFINE_GETTER(video_height);
+    DEFINE_CUSTOM_GETTER(video_width);
+    DEFINE_CUSTOM_GETTER(video_height);
 };
 
 

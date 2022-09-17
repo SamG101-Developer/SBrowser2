@@ -26,9 +26,9 @@ public cpp_properties:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(pressed) {return s_pressed();}
-    DEFINE_GETTER(touched) {return s_touched();}
-    DEFINE_GETTER(value) {return s_value();}
+    DEFINE_CUSTOM_GETTER(pressed) {return s_pressed();}
+    DEFINE_CUSTOM_GETTER(touched) {return s_touched();}
+    DEFINE_CUSTOM_GETTER(value) {return s_value();}
 };
 
 

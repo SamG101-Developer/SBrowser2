@@ -32,15 +32,15 @@ private cpp_properties:
     dom::events::event* m_event;
 
 private cpp_accessors:
-    DEFINE_GETTER(processing_start);
-    DEFINE_GETTER(processing_end);
-    DEFINE_GETTER(cancelable);
-    DEFINE_GETTER(target);
-    DEFINE_GETTER(interaction_id);
-    DEFINE_GETTER(name) override;
-    DEFINE_GETTER(entry_type) override;
-    DEFINE_GETTER(start_time) override;
-    DEFINE_GETTER(duration) override;
+    DEFINE_CUSTOM_GETTER(processing_start);
+    DEFINE_CUSTOM_GETTER(processing_end);
+    DEFINE_CUSTOM_GETTER(cancelable);
+    DEFINE_CUSTOM_GETTER(target);
+    DEFINE_CUSTOM_GETTER(interaction_id);
+    DEFINE_CUSTOM_GETTER(name) override;
+    DEFINE_CUSTOM_GETTER(entry_type) override;
+    DEFINE_CUSTOM_GETTER(start_time) override;
+    DEFINE_CUSTOM_GETTER(duration) override;
 };
 
 

@@ -23,13 +23,13 @@ public js_methods:
     auto read(detail::read_options_t&& read_options) -> ext::promise<detail::geolocation_sensor_reading_t>;
 
 private cpp_accessors:
-    DEFINE_GETTER(latitude);
-    DEFINE_GETTER(longitude);
-    DEFINE_GETTER(altitude);
-    DEFINE_GETTER(accuracy);
-    DEFINE_GETTER(altitude_accuracy);
-    DEFINE_GETTER(heading);
-    DEFINE_GETTER(speed);
+    DEFINE_CUSTOM_GETTER(latitude);
+    DEFINE_CUSTOM_GETTER(longitude);
+    DEFINE_CUSTOM_GETTER(altitude);
+    DEFINE_CUSTOM_GETTER(accuracy);
+    DEFINE_CUSTOM_GETTER(altitude_accuracy);
+    DEFINE_CUSTOM_GETTER(heading);
+    DEFINE_CUSTOM_GETTER(speed);
 };
 
 

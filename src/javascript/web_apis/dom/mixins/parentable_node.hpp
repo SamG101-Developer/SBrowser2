@@ -37,10 +37,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(children);
-    DEFINE_GETTER(first_element_child);
-    DEFINE_GETTER(last_element_child);
-    DEFINE_GETTER(child_element_count);
+    DEFINE_CUSTOM_GETTER(children);
+    DEFINE_CUSTOM_GETTER(first_element_child);
+    DEFINE_CUSTOM_GETTER(last_element_child);
+    DEFINE_CUSTOM_GETTER(child_element_count);
 };
 
 

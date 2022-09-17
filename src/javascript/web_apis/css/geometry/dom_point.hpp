@@ -22,10 +22,10 @@ public cpp_methods:
 
 
 private cpp_accessors:
-    DEFINE_SETTER(x) {m_point.setX(*val.as<float>());};
-    DEFINE_SETTER(y) {m_point.setY(*val.as<float>());};
-    DEFINE_SETTER(z) {m_point.setZ(*val.as<float>());};
-    DEFINE_SETTER(w) {m_point.setW(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(x) {m_point.setX(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(y) {m_point.setY(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(z) {m_point.setZ(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(w) {m_point.setW(*val.as<float>());};
 };
 
 

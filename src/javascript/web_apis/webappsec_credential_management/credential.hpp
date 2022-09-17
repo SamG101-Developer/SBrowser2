@@ -37,7 +37,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(type) {return s_type();}
+    DEFINE_CUSTOM_GETTER(type) {return s_type();}
 };
 
 

@@ -18,13 +18,13 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(node_type) override {return DOCUMENT_TYPE_NODE;}
-    DEFINE_GETTER(node_name) override {return name();};
-    DEFINE_GETTER(node_value) override {return "";};
-    DEFINE_GETTER(text_content) override {return "";};
+    DEFINE_CUSTOM_GETTER(node_type) override {return DOCUMENT_TYPE_NODE;}
+    DEFINE_CUSTOM_GETTER(node_name) override {return name();};
+    DEFINE_CUSTOM_GETTER(node_value) override {return "";};
+    DEFINE_CUSTOM_GETTER(text_content) override {return "";};
 
-    DEFINE_SETTER(node_value) override {};
-    DEFINE_SETTER(text_content) override {};
+    DEFINE_CUSTOM_SETTER(node_value) override {};
+    DEFINE_CUSTOM_SETTER(text_content) override {};
 };
 
 

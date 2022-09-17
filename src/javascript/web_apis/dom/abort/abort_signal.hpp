@@ -49,7 +49,7 @@ private cpp_properties:
     abort_signal_callbacks_t m_abort_algorithms;
 
 private cpp_accessors:
-    DEFINE_GETTER(aborted);
+    DEFINE_CUSTOM_GETTER(aborted);
 };
 
 

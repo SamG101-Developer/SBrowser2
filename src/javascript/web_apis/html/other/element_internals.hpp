@@ -32,7 +32,7 @@ private cpp_properties:
     std::unique_ptr<dom::nodes::node*> m_target_element;
 
 private cpp_accessors:
-    DEFINE_GETTER(shadow_root_node);
+    DEFINE_CUSTOM_GETTER(shadow_root_node);
 };
 
 

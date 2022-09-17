@@ -25,8 +25,8 @@ public js_properties:
     ext::property<svg_element*> viewport_element;
 
 private cpp_accessors:
-    DEFINE_GETTER(owner_svg_element);
-    DEFINE_GETTER(viewport_element);
+    DEFINE_CUSTOM_GETTER(owner_svg_element);
+    DEFINE_CUSTOM_GETTER(viewport_element);
 };
 
 

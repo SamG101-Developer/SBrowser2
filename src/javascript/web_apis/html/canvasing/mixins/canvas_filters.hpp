@@ -16,7 +16,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 public cpp_properties:
-    DEFINE_SETTER(filter);
+    DEFINE_CUSTOM_SETTER(filter);
 };
 
 

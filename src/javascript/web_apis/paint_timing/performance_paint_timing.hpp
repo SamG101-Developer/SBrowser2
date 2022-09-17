@@ -17,10 +17,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(name) override;
-    DEFINE_GETTER(entry_type) override;
-    DEFINE_GETTER(start_time) override;
-    DEFINE_GETTER(duration) override;
+    DEFINE_CUSTOM_GETTER(name) override;
+    DEFINE_CUSTOM_GETTER(entry_type) override;
+    DEFINE_CUSTOM_GETTER(start_time) override;
+    DEFINE_CUSTOM_GETTER(duration) override;
 };
 
 

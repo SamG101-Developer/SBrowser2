@@ -47,26 +47,26 @@ private cpp_properties:
     std::unique_ptr<url_search_params> m_query_object;
 
 private cpp_accessors:
-    DEFINE_GETTER(href);
-    DEFINE_GETTER(origin);
-    DEFINE_GETTER(username);
-    DEFINE_GETTER(password);
-    DEFINE_GETTER(host);
-    DEFINE_GETTER(hostname);
-    DEFINE_GETTER(port);
-    DEFINE_GETTER(pathname);
-    DEFINE_GETTER(search);
-    DEFINE_GETTER(hash);
-    DEFINE_GETTER(search_params);
+    DEFINE_CUSTOM_GETTER(href);
+    DEFINE_CUSTOM_GETTER(origin);
+    DEFINE_CUSTOM_GETTER(username);
+    DEFINE_CUSTOM_GETTER(password);
+    DEFINE_CUSTOM_GETTER(host);
+    DEFINE_CUSTOM_GETTER(hostname);
+    DEFINE_CUSTOM_GETTER(port);
+    DEFINE_CUSTOM_GETTER(pathname);
+    DEFINE_CUSTOM_GETTER(search);
+    DEFINE_CUSTOM_GETTER(hash);
+    DEFINE_CUSTOM_GETTER(search_params);
 
-    DEFINE_SETTER(href);
-    DEFINE_SETTER(username);
-    DEFINE_SETTER(password);
-    DEFINE_SETTER(host);
-    DEFINE_SETTER(hostname);
-    DEFINE_SETTER(port);
-    DEFINE_SETTER(pathname);
-    DEFINE_SETTER(hash);
+    DEFINE_CUSTOM_SETTER(href);
+    DEFINE_CUSTOM_SETTER(username);
+    DEFINE_CUSTOM_SETTER(password);
+    DEFINE_CUSTOM_SETTER(host);
+    DEFINE_CUSTOM_SETTER(hostname);
+    DEFINE_CUSTOM_SETTER(port);
+    DEFINE_CUSTOM_SETTER(pathname);
+    DEFINE_CUSTOM_SETTER(hash);
 };
 
 

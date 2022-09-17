@@ -33,11 +33,11 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(fill_style);
-    DEFINE_GETTER(stroke_style);
+    DEFINE_CUSTOM_GETTER(fill_style);
+    DEFINE_CUSTOM_GETTER(stroke_style);
 
-    DEFINE_SETTER(fill_style);
-    DEFINE_SETTER(stroke_style);
+    DEFINE_CUSTOM_SETTER(fill_style);
+    DEFINE_CUSTOM_SETTER(stroke_style);
 };
 
 

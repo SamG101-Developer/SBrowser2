@@ -24,7 +24,7 @@ private cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(assigned_slot);
+    DEFINE_CUSTOM_GETTER(assigned_slot);
 };
 
 

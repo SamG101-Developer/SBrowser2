@@ -118,10 +118,10 @@ private cpp_properties:
     std::unique_ptr<event_timing::interaction_counts> m_interaction_counts;
 
 private cpp_accessors:
-    DEFINE_GETTER(name);
-    DEFINE_GETTER(closed);
+    DEFINE_CUSTOM_GETTER(name);
+    DEFINE_CUSTOM_GETTER(closed);
 
-    DEFINE_SETTER(name);
+    DEFINE_CUSTOM_SETTER(name);
 };
 
 

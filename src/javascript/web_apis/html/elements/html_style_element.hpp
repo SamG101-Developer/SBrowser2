@@ -20,8 +20,8 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(disabled);
-    DEFINE_SETTER(disabled);
+    DEFINE_CUSTOM_GETTER(disabled);
+    DEFINE_CUSTOM_SETTER(disabled);
 };
 
 

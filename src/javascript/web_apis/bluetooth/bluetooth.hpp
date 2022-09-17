@@ -32,7 +32,7 @@ private js_slots:
     ext::slot<std::unique_ptr<bluetooth_device>> s_referring_device;
 
 private cpp_accessors:
-    DEFINE_GETTER(referring_device) {return s_referring_device().get();};
+    DEFINE_CUSTOM_GETTER(referring_device) {return s_referring_device().get();};
 };
 
 

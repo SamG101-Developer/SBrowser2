@@ -19,8 +19,8 @@ public js_properties:
     ext::property<std::unique_ptr<other::css_style_declaration>> style;
 
 private cpp_accessors:
-    DEFINE_GETTER(type) {return MARGIN_RULE;};
-    DEFINE_GETTER(name);
+    DEFINE_CUSTOM_GETTER(type) {return MARGIN_RULE;};
+    DEFINE_CUSTOM_GETTER(name);
 };
 
 

@@ -28,14 +28,14 @@ private cpp_methods:
     [[nodiscard]] auto qualified_name() const -> ext::string;
 
 private cpp_accessors:
-    DEFINE_GETTER(node_type) override {return ATTRIBUTE_NODE;}
-    DEFINE_GETTER(node_name) override {return qualified_name();};
-    DEFINE_GETTER(node_value) override {return value();};
-    DEFINE_GETTER(text_content) override {return value();};
+    DEFINE_CUSTOM_GETTER(node_type) override {return ATTRIBUTE_NODE;}
+    DEFINE_CUSTOM_GETTER(node_name) override {return qualified_name();};
+    DEFINE_CUSTOM_GETTER(node_value) override {return value();};
+    DEFINE_CUSTOM_GETTER(text_content) override {return value();};
 
-    DEFINE_SETTER(node_value) override {value = val;};
-    DEFINE_SETTER(text_content) override {value = val;};
-    DEFINE_SETTER(value);
+    DEFINE_CUSTOM_SETTER(node_value) override {value = val;};
+    DEFINE_CUSTOM_SETTER(text_content) override {value = val;};
+    DEFINE_CUSTOM_SETTER(value);
 };
 
 

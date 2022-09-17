@@ -23,8 +23,8 @@ public js_properties:
     ext::property<ext::any> value;
 
 private cpp_accessors:
-    DEFINE_GETTER(value);
-    DEFINE_SETTER(value);
+    DEFINE_CUSTOM_GETTER(value);
+    DEFINE_CUSTOM_SETTER(value);
 };
 
 

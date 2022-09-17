@@ -41,25 +41,25 @@ public cpp_methods:
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_matrix* override;
 
 private cpp_accessors:
-    DEFINE_SETTER(m11) {m_matrix(0, 0) = *val;}
-    DEFINE_SETTER(m12) {m_matrix(1, 0) = *val;}
-    DEFINE_SETTER(m13) {m_matrix(2, 0) = *val;}
-    DEFINE_SETTER(m14) {m_matrix(3, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m11) {m_matrix(0, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m12) {m_matrix(1, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m13) {m_matrix(2, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m14) {m_matrix(3, 0) = *val;}
 
-    DEFINE_SETTER(m21) {m_matrix(0, 1) = *val;}
-    DEFINE_SETTER(m22) {m_matrix(1, 1) = *val;}
-    DEFINE_SETTER(m23) {m_matrix(2, 1) = *val;}
-    DEFINE_SETTER(m24) {m_matrix(3, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m21) {m_matrix(0, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m22) {m_matrix(1, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m23) {m_matrix(2, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m24) {m_matrix(3, 1) = *val;}
 
-    DEFINE_SETTER(m31) {m_matrix(0, 2) = *val;}
-    DEFINE_SETTER(m32) {m_matrix(1, 2) = *val;}
-    DEFINE_SETTER(m33) {m_matrix(2, 2) = *val;}
-    DEFINE_SETTER(m34) {m_matrix(3, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m31) {m_matrix(0, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m32) {m_matrix(1, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m33) {m_matrix(2, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m34) {m_matrix(3, 2) = *val;}
 
-    DEFINE_SETTER(m41) {m_matrix(0, 3) = *val;}
-    DEFINE_SETTER(m42) {m_matrix(1, 3) = *val;}
-    DEFINE_SETTER(m43) {m_matrix(2, 3) = *val;}
-    DEFINE_SETTER(m44) {m_matrix(3, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m41) {m_matrix(0, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m42) {m_matrix(1, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m43) {m_matrix(2, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m44) {m_matrix(3, 3) = *val;}
 };
 
 

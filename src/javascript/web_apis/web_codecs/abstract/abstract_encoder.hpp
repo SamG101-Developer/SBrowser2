@@ -32,7 +32,7 @@ protected js_slots:
     ext::slot<ext::map<ext::string, ext::any>> s_active_output_config;
 
 private cpp_accessors:
-    DEFINE_GETTER(encode_queue_size);
+    DEFINE_CUSTOM_GETTER(encode_queue_size);
 };
 
 

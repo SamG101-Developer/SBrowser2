@@ -38,7 +38,7 @@ private js_slots:
     ext::slot<ext::vector<intersection_observer*>> s_queued_entries;
 
 private cpp_accessors:
-    DEFINE_GETTER(s_root_margin);
+    DEFINE_CUSTOM_GETTER(s_root_margin);
 };
 
 

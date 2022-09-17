@@ -19,9 +19,9 @@ public js_properties:
     ext::property<std::unique_ptr<other::css_style_declaration>> style;
 
 private cpp_accessors:
-    DEFINE_GETTER(type) override {return PAGE_RULE;}
-    DEFINE_GETTER(selector_text);
-    DEFINE_SETTER(selector_text);
+    DEFINE_CUSTOM_GETTER(type) override {return PAGE_RULE;}
+    DEFINE_CUSTOM_GETTER(selector_text);
+    DEFINE_CUSTOM_SETTER(selector_text);
 };
 
 

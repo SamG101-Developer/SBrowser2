@@ -52,7 +52,7 @@ private cpp_properties:
     detail::media_stream_track_source& m_source;
 
 private cpp_accessors:
-    DEFINE_SETTER(muted);
+    DEFINE_CUSTOM_SETTER(muted);
 };
 
 

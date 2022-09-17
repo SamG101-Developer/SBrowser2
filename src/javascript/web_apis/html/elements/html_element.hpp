@@ -50,14 +50,14 @@ private cpp_properties:
     ext::boolean m_attached_internals;
 
 private cpp_accessors:
-    DEFINE_GETTER(inner_text);
-    DEFINE_GETTER(outer_text) {return inner_text();};
-    DEFINE_GETTER(hidden);
-    DEFINE_GETTER(autocapitalize);
+    DEFINE_CUSTOM_GETTER(inner_text);
+    DEFINE_CUSTOM_GETTER(outer_text) {return inner_text();};
+    DEFINE_CUSTOM_GETTER(hidden);
+    DEFINE_CUSTOM_GETTER(autocapitalize);
 
-    DEFINE_SETTER(inner_text);
-    DEFINE_SETTER(outer_text);
-    DEFINE_SETTER(hidden);
+    DEFINE_CUSTOM_SETTER(inner_text);
+    DEFINE_CUSTOM_SETTER(outer_text);
+    DEFINE_CUSTOM_SETTER(hidden);
 };
 
 

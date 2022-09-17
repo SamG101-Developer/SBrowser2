@@ -24,7 +24,7 @@ public js_properties:
     ext::property<html_form_element*> form;
 
 private cpp_accessors:
-    DEFINE_GETTER(type) {return "fieldset";}
+    DEFINE_CUSTOM_GETTER(type) {return "fieldset";}
 };
 
 

@@ -26,7 +26,7 @@ public js_properties:
     ext::property<ext::number<long>> index;
 
 private cpp_accessors:
-    DEFINE_GETTER(index);
+    DEFINE_CUSTOM_GETTER(index);
 };
 
 

@@ -41,7 +41,7 @@ protected js_slots:
     ext::slot<ext::boolean> s_dequeue_event_scheduled;
 
 private cpp_accessors:
-    DEFINE_GETTER(state) {return s_state();}
+    DEFINE_CUSTOM_GETTER(state) {return s_state();}
 };
 
 

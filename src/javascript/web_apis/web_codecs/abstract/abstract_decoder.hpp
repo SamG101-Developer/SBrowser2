@@ -27,8 +27,8 @@ protected js_slots:
     ext::slot<ext::map<ext::string, ext::any>> s_active_decode_config;
 
 private cpp_accessors:
-    DEFINE_SETTER(decode_queue_size);
-    DEFINE_GETTER(decode_queue_size) {return s_decode_queue_size();}
+    DEFINE_CUSTOM_SETTER(decode_queue_size);
+    DEFINE_CUSTOM_GETTER(decode_queue_size) {return s_decode_queue_size();}
 };
 
 

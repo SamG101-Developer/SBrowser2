@@ -21,7 +21,7 @@ public js_properties:
     ext::property<ext::string> html_for;
 
 private cpp_accessors:
-    DEFINE_GETTER(form);
+    DEFINE_CUSTOM_GETTER(form);
 };
 
 

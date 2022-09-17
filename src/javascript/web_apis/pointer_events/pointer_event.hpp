@@ -40,7 +40,7 @@ private cpp_properties:
     std::unique_ptr<ext::vector<pointer_event*>> m_predicted_events;
 
 private cpp_accessors:
-    DEFINE_SETTER(target);
+    DEFINE_CUSTOM_SETTER(target);
 };
 
 

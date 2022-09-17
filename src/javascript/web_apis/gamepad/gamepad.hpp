@@ -45,10 +45,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(connected) {return s_connected();}
-    DEFINE_GETTER(timestamp) {return ext::round(s_timestamp(), 5);}
-    DEFINE_GETTER(axes) {return s_axes();}
-    DEFINE_GETTER(buttons) {return s_buttons();};
+    DEFINE_CUSTOM_GETTER(connected) {return s_connected();}
+    DEFINE_CUSTOM_GETTER(timestamp) {return ext::round(s_timestamp(), 5);}
+    DEFINE_CUSTOM_GETTER(axes) {return s_axes();}
+    DEFINE_CUSTOM_GETTER(buttons) {return s_buttons();};
 };
 
 

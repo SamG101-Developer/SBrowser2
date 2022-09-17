@@ -12,11 +12,14 @@ class css::css_animations::rules::css_keyframe_rule
         : public cssom::rules::css_rule
 {
 public constructors:
-    css_keyframe_rule() = default;
+    css_keyframe_rule();
 
 public js_properties:
     ext::property<ext::string> key_text;
     ext::property<std::unique_ptr<cssom::other::css_style_declaration>> style;
+
+private cpp_accessors:
+    DEFINE_CUSTOM_SETTER(key_text);
 };
 
 

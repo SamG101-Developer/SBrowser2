@@ -42,15 +42,15 @@ protected cpp_properties:
     QRectF m_rect;
 
 private cpp_accessors:
-    DEFINE_GETTER(x) {return m_rect.x();}
-    DEFINE_GETTER(y) {return m_rect.y();}
-    DEFINE_GETTER(w) {return m_rect.width();}
-    DEFINE_GETTER(h) {return m_rect.height();}
+    DEFINE_CUSTOM_GETTER(x) {return m_rect.x();}
+    DEFINE_CUSTOM_GETTER(y) {return m_rect.y();}
+    DEFINE_CUSTOM_GETTER(w) {return m_rect.width();}
+    DEFINE_CUSTOM_GETTER(h) {return m_rect.height();}
 
-    DEFINE_GETTER(top) {return m_rect.top();}
-    DEFINE_GETTER(right) {return m_rect.right();}
-    DEFINE_GETTER(bottom) {return m_rect.bottom();}
-    DEFINE_GETTER(left) {return m_rect.left();}
+    DEFINE_CUSTOM_GETTER(top) {return m_rect.top();}
+    DEFINE_CUSTOM_GETTER(right) {return m_rect.right();}
+    DEFINE_CUSTOM_GETTER(bottom) {return m_rect.bottom();}
+    DEFINE_CUSTOM_GETTER(left) {return m_rect.left();}
 };
 
 

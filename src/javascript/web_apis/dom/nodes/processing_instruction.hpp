@@ -17,10 +17,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(node_type) override {return PROCESSING_INSTRUCTION_NODE;}
+    DEFINE_CUSTOM_GETTER(node_type) override {return PROCESSING_INSTRUCTION_NODE;}
 
     /* CSSOM */
-    DEFINE_SETTER(data);
+    DEFINE_CUSTOM_SETTER(data);
 };
 
 

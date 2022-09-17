@@ -57,15 +57,15 @@ private cpp_properties:
     ext::number<int> m_source_size;
 
 private cpp_accessors:
-    DEFINE_GETTER(current_src);
-    DEFINE_GETTER(srcset);
-    DEFINE_GETTER(width);
-    DEFINE_GETTER(height);
-    DEFINE_GETTER(natural_width);
-    DEFINE_GETTER(natural_height);
-    DEFINE_GETTER(complete);
+    DEFINE_CUSTOM_GETTER(current_src);
+    DEFINE_CUSTOM_GETTER(srcset);
+    DEFINE_CUSTOM_GETTER(width);
+    DEFINE_CUSTOM_GETTER(height);
+    DEFINE_CUSTOM_GETTER(natural_width);
+    DEFINE_CUSTOM_GETTER(natural_height);
+    DEFINE_CUSTOM_GETTER(complete);
 
-    DEFINE_SETTER(loading);
+    DEFINE_CUSTOM_SETTER(loading);
 };
 
 

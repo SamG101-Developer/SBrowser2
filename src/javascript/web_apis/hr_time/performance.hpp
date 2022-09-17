@@ -43,11 +43,11 @@ public cpp_properties:
 
 private cpp_accessors:
     /* HIGH_RESOLUTION_TIME */
-    DEFINE_GETTER(time_origin);
+    DEFINE_CUSTOM_GETTER(time_origin);
 
     /* EVENT_TIMING */
-    DEFINE_GETTER(event_counts);
-    DEFINE_GETTER(interaction_counts);
+    DEFINE_CUSTOM_GETTER(event_counts);
+    DEFINE_CUSTOM_GETTER(interaction_counts);
 };
 
 

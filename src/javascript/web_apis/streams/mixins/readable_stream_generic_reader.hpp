@@ -27,7 +27,7 @@ protected js_slots:
     readable::readable_stream* s_stream;
 
 private cpp_accessors:
-    DEFINE_GETTER(closed);
+    DEFINE_CUSTOM_GETTER(closed);
 };
 
 

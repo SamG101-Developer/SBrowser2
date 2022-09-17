@@ -89,22 +89,22 @@ protected cpp_properties:
     std::unique_ptr<ext::vector<detail::registered_observer_t*>> m_registered_observer_list;
 
 protected cpp_accessors:
-    virtual DEFINE_GETTER(node_type) = 0;
-    virtual DEFINE_GETTER(node_name) = 0;
-    virtual DEFINE_GETTER(text_content) = 0;
-    virtual DEFINE_GETTER(node_value) = 0;
+    virtual DEFINE_CUSTOM_GETTER(node_type) = 0;
+    virtual DEFINE_CUSTOM_GETTER(node_name) = 0;
+    virtual DEFINE_CUSTOM_GETTER(text_content) = 0;
+    virtual DEFINE_CUSTOM_GETTER(node_value) = 0;
 
-    virtual DEFINE_SETTER(node_value) = 0;
-    virtual DEFINE_SETTER(text_content) = 0;
+    virtual DEFINE_CUSTOM_SETTER(node_value) = 0;
+    virtual DEFINE_CUSTOM_SETTER(text_content) = 0;
 
 private cpp_accessors:
-    DEFINE_GETTER(is_connected);
-    DEFINE_GETTER(base_uri);
-    DEFINE_GETTER(first_child) {return *child_nodes()->begin();}
-    DEFINE_GETTER(last_child) {return *child_nodes()->end();}
-    DEFINE_GETTER(previous_sibling);
-    DEFINE_GETTER(next_sibling);
-    DEFINE_GETTER(parent_element);
+    DEFINE_CUSTOM_GETTER(is_connected);
+    DEFINE_CUSTOM_GETTER(base_uri);
+    DEFINE_CUSTOM_GETTER(first_child) {return *child_nodes()->begin();}
+    DEFINE_CUSTOM_GETTER(last_child) {return *child_nodes()->end();}
+    DEFINE_CUSTOM_GETTER(previous_sibling);
+    DEFINE_CUSTOM_GETTER(next_sibling);
+    DEFINE_CUSTOM_GETTER(parent_element);
 
 };
 

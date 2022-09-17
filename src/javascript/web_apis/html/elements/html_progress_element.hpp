@@ -20,7 +20,7 @@ public js_properties:
     ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
 
 private cpp_accessors:
-    DEFINE_GETTER(value);
+    DEFINE_CUSTOM_GETTER(value);
 };
 
 

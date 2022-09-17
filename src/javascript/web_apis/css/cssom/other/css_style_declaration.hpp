@@ -39,12 +39,12 @@ private cpp_properties:
     std::unique_ptr<detail::css_declaration_block_t> m_declaration_block;
 
 private cpp_accessors:
-    DEFINE_GETTER(css_text);
-    DEFINE_GETTER(css_float);
-    DEFINE_GETTER(parent_rule);
+    DEFINE_CUSTOM_GETTER(css_text);
+    DEFINE_CUSTOM_GETTER(css_float);
+    DEFINE_CUSTOM_GETTER(parent_rule);
 
-    DEFINE_SETTER(css_text);
-    DEFINE_SETTER(css_float);
+    DEFINE_CUSTOM_SETTER(css_text);
+    DEFINE_CUSTOM_SETTER(css_float);
 };
 
 

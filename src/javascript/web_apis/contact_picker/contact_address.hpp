@@ -31,16 +31,16 @@ private:
     std::unique_ptr<detail::physical_address_t> m_address;
 
 private cpp_accessors:
-    DEFINE_GETTER(city);
-    DEFINE_GETTER(country);
-    DEFINE_GETTER(dependant_locality);
-    DEFINE_GETTER(organization);
-    DEFINE_GETTER(phone);
-    DEFINE_GETTER(postal_code);
-    DEFINE_GETTER(recipient);
-    DEFINE_GETTER(region);
-    DEFINE_GETTER(sorting_code);
-    DEFINE_GETTER(address_line);
+    DEFINE_CUSTOM_GETTER(city);
+    DEFINE_CUSTOM_GETTER(country);
+    DEFINE_CUSTOM_GETTER(dependant_locality);
+    DEFINE_CUSTOM_GETTER(organization);
+    DEFINE_CUSTOM_GETTER(phone);
+    DEFINE_CUSTOM_GETTER(postal_code);
+    DEFINE_CUSTOM_GETTER(recipient);
+    DEFINE_CUSTOM_GETTER(region);
+    DEFINE_CUSTOM_GETTER(sorting_code);
+    DEFINE_CUSTOM_GETTER(address_line);
 };
 
 

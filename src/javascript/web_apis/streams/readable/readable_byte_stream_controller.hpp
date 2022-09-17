@@ -30,8 +30,8 @@ private js_slot_methods:
     auto s_cancel_steps(ext::any&& reason) -> void override;
 
 private cpp_accessors:
-    DEFINE_GETTER(desired_size) override;
-    DEFINE_GETTER(byob_request);
+    DEFINE_CUSTOM_GETTER(desired_size) override;
+    DEFINE_CUSTOM_GETTER(byob_request);
 
 };
 

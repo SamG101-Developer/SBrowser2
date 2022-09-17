@@ -29,11 +29,11 @@ private cpp_properties:
     ext::string m_default_value_override;
 
 private cpp_accessors:
-    DEFINE_GETTER(default_value);
+    DEFINE_CUSTOM_GETTER(default_value);
 
-    DEFINE_GETTER(type) {return "output";}
-    DEFINE_SETTER(default_value);
-    DEFINE_SETTER(value);
+    DEFINE_CUSTOM_GETTER(type) {return "output";}
+    DEFINE_CUSTOM_SETTER(default_value);
+    DEFINE_CUSTOM_SETTER(value);
 };
 
 

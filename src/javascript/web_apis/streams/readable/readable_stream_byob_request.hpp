@@ -27,7 +27,7 @@ private js_slots:
     v8::ArrayBufferView s_view;
 
 private cpp_accessors:
-    DEFINE_GETTER(view);
+    DEFINE_CUSTOM_GETTER(view);
 };
 
 

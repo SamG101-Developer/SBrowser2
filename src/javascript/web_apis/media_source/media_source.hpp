@@ -43,10 +43,10 @@ private js_slots:
     ext::slot<std::unique_ptr<html::messaging::message_port>> s_port_to_main;
 
 private cpp_accessors:
-    DEFINE_GETTER(handle);
-    DEFINE_GETTER(duration);
+    DEFINE_CUSTOM_GETTER(handle);
+    DEFINE_CUSTOM_GETTER(duration);
 
-    DEFINE_SETTER(duration);
+    DEFINE_CUSTOM_SETTER(duration);
 };
 
 

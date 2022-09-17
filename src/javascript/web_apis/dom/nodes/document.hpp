@@ -258,45 +258,45 @@ private cpp_properties:
 
 private cpp_accessors:
     /* DOM */
-    DEFINE_GETTER(node_type) override {return DOCUMENT_NODE;}
-    DEFINE_GETTER(node_name) override {return "#document";}
-    DEFINE_GETTER(node_value) override {return "";}
-    DEFINE_GETTER(text_content) override {return "";}
+    DEFINE_CUSTOM_GETTER(node_type) override {return DOCUMENT_NODE;}
+    DEFINE_CUSTOM_GETTER(node_name) override {return "#document";}
+    DEFINE_CUSTOM_GETTER(node_value) override {return "";}
+    DEFINE_CUSTOM_GETTER(text_content) override {return "";}
 
-    DEFINE_SETTER(node_value) override {};
-    DEFINE_SETTER(text_content) override {}
+    DEFINE_CUSTOM_SETTER(node_value) override {};
+    DEFINE_CUSTOM_SETTER(text_content) override {}
 
-    DEFINE_GETTER(compat_mode);
-    DEFINE_GETTER(character_set);
-    DEFINE_GETTER(doctype);
-    DEFINE_GETTER(document_element);
+    DEFINE_CUSTOM_GETTER(compat_mode);
+    DEFINE_CUSTOM_GETTER(character_set);
+    DEFINE_CUSTOM_GETTER(doctype);
+    DEFINE_CUSTOM_GETTER(document_element);
 
     /* HTML */
-    DEFINE_GETTER(last_modified);
-    DEFINE_GETTER(cookie);
-    DEFINE_GETTER(body);
-    DEFINE_GETTER(head);
-    DEFINE_GETTER(title);
-    DEFINE_GETTER(images);
-    DEFINE_GETTER(links);
-    DEFINE_GETTER(forms);
-    DEFINE_GETTER(scripts);
-    DEFINE_GETTER(dir);
-    DEFINE_GETTER(design_mode);
-    DEFINE_GETTER(domain);
+    DEFINE_CUSTOM_GETTER(last_modified);
+    DEFINE_CUSTOM_GETTER(cookie);
+    DEFINE_CUSTOM_GETTER(body);
+    DEFINE_CUSTOM_GETTER(head);
+    DEFINE_CUSTOM_GETTER(title);
+    DEFINE_CUSTOM_GETTER(images);
+    DEFINE_CUSTOM_GETTER(links);
+    DEFINE_CUSTOM_GETTER(forms);
+    DEFINE_CUSTOM_GETTER(scripts);
+    DEFINE_CUSTOM_GETTER(dir);
+    DEFINE_CUSTOM_GETTER(design_mode);
+    DEFINE_CUSTOM_GETTER(domain);
 
-    DEFINE_SETTER(ready_state);
-    DEFINE_SETTER(cookie);
-    DEFINE_SETTER(title);
-    DEFINE_SETTER(body);
-    DEFINE_SETTER(design_mode);
-    DEFINE_SETTER(domain);
+    DEFINE_CUSTOM_SETTER(ready_state);
+    DEFINE_CUSTOM_SETTER(cookie);
+    DEFINE_CUSTOM_SETTER(title);
+    DEFINE_CUSTOM_SETTER(body);
+    DEFINE_CUSTOM_SETTER(design_mode);
+    DEFINE_CUSTOM_SETTER(domain);
 
     /* PAGE_VISIBILITY */
-    DEFINE_GETTER(hidden);
-    DEFINE_GETTER(visibility_state);
+    DEFINE_CUSTOM_GETTER(hidden);
+    DEFINE_CUSTOM_GETTER(visibility_state);
 
-    DEFINE_SETTER(visibility_state);
+    DEFINE_CUSTOM_SETTER(visibility_state);
 };
 
 

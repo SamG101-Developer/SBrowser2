@@ -43,7 +43,7 @@ protected js_slot_methods:
     virtual auto s_cancel_steps(ext::any&& reason) -> void = 0;
 
 private cpp_accessors:
-    virtual DEFINE_GETTER(desired_size) = 0;
+    virtual DEFINE_CUSTOM_GETTER(desired_size) = 0;
 };
 
 

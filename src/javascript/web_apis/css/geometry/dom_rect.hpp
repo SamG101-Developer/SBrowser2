@@ -21,10 +21,10 @@ public cpp_methods:
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_rect* override;
 
 private cpp_accessors:
-    DEFINE_SETTER(x) {m_rect.setX(*val);};
-    DEFINE_SETTER(y) {m_rect.setY(*val);};
-    DEFINE_SETTER(w) {m_rect.setWidth(*val);};
-    DEFINE_SETTER(h) {m_rect.setHeight(*val);};
+    DEFINE_CUSTOM_SETTER(x) {m_rect.setX(*val);};
+    DEFINE_CUSTOM_SETTER(y) {m_rect.setY(*val);};
+    DEFINE_CUSTOM_SETTER(w) {m_rect.setWidth(*val);};
+    DEFINE_CUSTOM_SETTER(h) {m_rect.setHeight(*val);};
 };
 
 

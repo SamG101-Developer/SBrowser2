@@ -27,7 +27,7 @@ public js_properties:
     ext::property<ext::vector<rules::css_rule*>> css_rules;
 
 private cpp_accessors:
-    DEFINE_GETTER(css_rules);
+    DEFINE_CUSTOM_GETTER(css_rules);
 };
 
 

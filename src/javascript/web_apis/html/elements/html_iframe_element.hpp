@@ -55,10 +55,10 @@ private cpp_properties:
     ext::boolean m_iframe_fullscreen_flag;
 
 private cpp_accessors:
-    DEFINE_GETTER(content_document);
-    DEFINE_GETTER(content_window);
-    DEFINE_SETTER(sandbox);
-    DEFINE_SETTER(loading);
+    DEFINE_CUSTOM_GETTER(content_document);
+    DEFINE_CUSTOM_GETTER(content_window);
+    DEFINE_CUSTOM_SETTER(sandbox);
+    DEFINE_CUSTOM_SETTER(loading);
 };
 
 

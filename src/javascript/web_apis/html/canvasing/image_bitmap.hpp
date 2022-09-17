@@ -41,8 +41,8 @@ private cpp_properties:
     QPixmap m_bitmap_data;
 
 private cpp_accessors:
-    DEFINE_GETTER(width);
-    DEFINE_GETTER(height);
+    DEFINE_CUSTOM_GETTER(width);
+    DEFINE_CUSTOM_GETTER(height);
 };
 
 

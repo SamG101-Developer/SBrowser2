@@ -117,7 +117,7 @@ private cpp_properties:
     ext::number<double> m_playback_volume;
 
 private cpp_accessors:
-    DEFINE_GETTER(src_object) {return m_assigned_media_provider_object;};
+    DEFINE_CUSTOM_GETTER(src_object) {return m_assigned_media_provider_object;};
 };
 
 

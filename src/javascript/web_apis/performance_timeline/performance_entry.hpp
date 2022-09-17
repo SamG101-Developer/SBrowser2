@@ -25,10 +25,10 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 protected cpp_accessors:
-    virtual DEFINE_GETTER(name) = 0;
-    virtual DEFINE_GETTER(entry_type) = 0;
-    virtual DEFINE_GETTER(start_time) = 0;
-    virtual DEFINE_GETTER(duration) = 0;
+    virtual DEFINE_CUSTOM_GETTER(name) = 0;
+    virtual DEFINE_CUSTOM_GETTER(entry_type) = 0;
+    virtual DEFINE_CUSTOM_GETTER(start_time) = 0;
+    virtual DEFINE_CUSTOM_GETTER(duration) = 0;
 };
 
 

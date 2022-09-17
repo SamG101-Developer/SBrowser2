@@ -157,15 +157,15 @@ private cpp_properties:
     ext::boolean m_click_in_progress_flag;
 
 private cpp_accessors:
-    DEFINE_GETTER(node_type) override {return ELEMENT_NODE;}
-    DEFINE_GETTER(node_name) override {return html_uppercase_qualified_name();};
-    DEFINE_GETTER(node_value) override;
-    DEFINE_GETTER(text_content) override;
-    DEFINE_SETTER(node_value) override;
-    DEFINE_SETTER(text_content) override;
+    DEFINE_CUSTOM_GETTER(node_type) override {return ELEMENT_NODE;}
+    DEFINE_CUSTOM_GETTER(node_name) override {return html_uppercase_qualified_name();};
+    DEFINE_CUSTOM_GETTER(node_value) override;
+    DEFINE_CUSTOM_GETTER(text_content) override;
+    DEFINE_CUSTOM_SETTER(node_value) override;
+    DEFINE_CUSTOM_SETTER(text_content) override;
 
-    DEFINE_GETTER(tag_name) {return html_uppercase_qualified_name();};
-    DEFINE_GETTER(shadow_root_node);
+    DEFINE_CUSTOM_GETTER(tag_name) {return html_uppercase_qualified_name();};
+    DEFINE_CUSTOM_GETTER(shadow_root_node);
 };
 
 

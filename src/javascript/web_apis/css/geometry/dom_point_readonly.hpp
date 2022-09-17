@@ -41,10 +41,10 @@ protected cpp_properties:
     QVector4D m_point;
 
 private cpp_properties:
-    DEFINE_GETTER(x) {return m_point.x();};
-    DEFINE_GETTER(y) {return m_point.y();};
-    DEFINE_GETTER(z) {return m_point.z();};
-    DEFINE_GETTER(w) {return m_point.w();};
+    DEFINE_CUSTOM_GETTER(x) {return m_point.x();};
+    DEFINE_CUSTOM_GETTER(y) {return m_point.y();};
+    DEFINE_CUSTOM_GETTER(z) {return m_point.z();};
+    DEFINE_CUSTOM_GETTER(w) {return m_point.w();};
 };
 
 

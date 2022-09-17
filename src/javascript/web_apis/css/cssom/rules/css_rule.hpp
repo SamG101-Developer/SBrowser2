@@ -39,12 +39,12 @@ public js_properties:
     ext::property<ext::number<ushort>> type;
 
 protected cpp_accessors:
-    virtual DEFINE_GETTER(type) = 0;
+    virtual DEFINE_CUSTOM_GETTER(type) = 0;
 
 private cpp_accessors:
-    DEFINE_GETTER(css_text);
-    DEFINE_GETTER(parent_rule);
-    DEFINE_GETTER(parent_style_sheet);
+    DEFINE_CUSTOM_GETTER(css_text);
+    DEFINE_CUSTOM_GETTER(parent_rule);
+    DEFINE_CUSTOM_GETTER(parent_style_sheet);
 };
 
 

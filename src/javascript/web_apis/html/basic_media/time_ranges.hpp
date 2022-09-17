@@ -27,7 +27,7 @@ private cpp_properties:
     ext::vector<ext::pair<ext::number<double>, ext::number<double>>> m_ranges;
 
 private cpp_accessors:
-    DEFINE_GETTER(length);
+    DEFINE_CUSTOM_GETTER(length);
 };
 
 

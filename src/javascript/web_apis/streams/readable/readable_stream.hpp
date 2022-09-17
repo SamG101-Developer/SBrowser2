@@ -49,7 +49,7 @@ private js_slots:
     ext::string s_error;
 
 private cpp_accessors:
-    DEFINE_GETTER(locked);
+    DEFINE_CUSTOM_GETTER(locked);
 };
 
 

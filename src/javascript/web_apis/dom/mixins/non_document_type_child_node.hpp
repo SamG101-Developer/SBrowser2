@@ -22,8 +22,8 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(previous_element_sibling);
-    DEFINE_GETTER(next_element_sibling);
+    DEFINE_CUSTOM_GETTER(previous_element_sibling);
+    DEFINE_CUSTOM_GETTER(next_element_sibling);
 };
 
 

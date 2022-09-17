@@ -24,9 +24,9 @@ public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(x);
-    DEFINE_GETTER(y);
-    DEFINE_GETTER(z);
+    DEFINE_CUSTOM_GETTER(x);
+    DEFINE_CUSTOM_GETTER(y);
+    DEFINE_CUSTOM_GETTER(z);
 };
 
 

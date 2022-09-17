@@ -89,32 +89,32 @@ protected cpp_properties:
     QMatrix4x4 m_matrix;
 
 private cpp_accessors:
-    DEFINE_GETTER(a) {return m11();};
-    DEFINE_GETTER(b) {return m12();};
-    DEFINE_GETTER(c) {return m13();};
-    DEFINE_GETTER(d) {return m14();};
-    DEFINE_GETTER(e) {return m21();};
-    DEFINE_GETTER(f) {return m22();};
+    DEFINE_CUSTOM_GETTER(a) {return m11();};
+    DEFINE_CUSTOM_GETTER(b) {return m12();};
+    DEFINE_CUSTOM_GETTER(c) {return m13();};
+    DEFINE_CUSTOM_GETTER(d) {return m14();};
+    DEFINE_CUSTOM_GETTER(e) {return m21();};
+    DEFINE_CUSTOM_GETTER(f) {return m22();};
 
-    DEFINE_GETTER(m11) {return m_matrix(0, 0);}
-    DEFINE_GETTER(m12) {return m_matrix(1, 0);}
-    DEFINE_GETTER(m13) {return m_matrix(2, 0);}
-    DEFINE_GETTER(m14) {return m_matrix(3, 0);}
+    DEFINE_CUSTOM_GETTER(m11) {return m_matrix(0, 0);}
+    DEFINE_CUSTOM_GETTER(m12) {return m_matrix(1, 0);}
+    DEFINE_CUSTOM_GETTER(m13) {return m_matrix(2, 0);}
+    DEFINE_CUSTOM_GETTER(m14) {return m_matrix(3, 0);}
 
-    DEFINE_GETTER(m21) {return m_matrix(0, 1);}
-    DEFINE_GETTER(m22) {return m_matrix(1, 1);}
-    DEFINE_GETTER(m23) {return m_matrix(2, 1);}
-    DEFINE_GETTER(m24) {return m_matrix(3, 1);}
+    DEFINE_CUSTOM_GETTER(m21) {return m_matrix(0, 1);}
+    DEFINE_CUSTOM_GETTER(m22) {return m_matrix(1, 1);}
+    DEFINE_CUSTOM_GETTER(m23) {return m_matrix(2, 1);}
+    DEFINE_CUSTOM_GETTER(m24) {return m_matrix(3, 1);}
 
-    DEFINE_GETTER(m31) {return m_matrix(0, 2);}
-    DEFINE_GETTER(m32) {return m_matrix(1, 2);}
-    DEFINE_GETTER(m33) {return m_matrix(2, 2);}
-    DEFINE_GETTER(m34) {return m_matrix(3, 2);}
+    DEFINE_CUSTOM_GETTER(m31) {return m_matrix(0, 2);}
+    DEFINE_CUSTOM_GETTER(m32) {return m_matrix(1, 2);}
+    DEFINE_CUSTOM_GETTER(m33) {return m_matrix(2, 2);}
+    DEFINE_CUSTOM_GETTER(m34) {return m_matrix(3, 2);}
 
-    DEFINE_GETTER(m41) {return m_matrix(0, 3);}
-    DEFINE_GETTER(m42) {return m_matrix(1, 3);}
-    DEFINE_GETTER(m43) {return m_matrix(2, 3);}
-    DEFINE_GETTER(m44) {return m_matrix(3, 3);}
+    DEFINE_CUSTOM_GETTER(m41) {return m_matrix(0, 3);}
+    DEFINE_CUSTOM_GETTER(m42) {return m_matrix(1, 3);}
+    DEFINE_CUSTOM_GETTER(m43) {return m_matrix(2, 3);}
+    DEFINE_CUSTOM_GETTER(m44) {return m_matrix(3, 3);}
 };
 
 

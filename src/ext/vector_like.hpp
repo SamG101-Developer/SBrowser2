@@ -26,7 +26,7 @@ public cpp_properties:
     property<number<size_t>> length;
 
 protected cpp_accessors:
-    virtual DEFINE_GETTER(length) = 0;
+    virtual DEFINE_CUSTOM_GETTER(length) = 0;
 };
 
 
@@ -46,7 +46,7 @@ private cpp_properties:
     std::unique_ptr<vector<T>> m_linked_vector;
 
 private cpp_accessors:
-    DEFINE_GETTER(length) override {return m_linked_vector->size();}
+    DEFINE_CUSTOM_GETTER(length) override {return m_linked_vector->size();}
 };
 
 _EXT_END

@@ -38,7 +38,7 @@ private cpp_properties:
     ext::vector<text_track_cue*> m_text_track_cues;
 
 private cpp_accessors:
-    DEFINE_GETTER(source_buffer);
+    DEFINE_CUSTOM_GETTER(source_buffer);
 };
 
 

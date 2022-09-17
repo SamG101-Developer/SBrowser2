@@ -34,8 +34,8 @@ private cpp_properties:
     // TODO : task queue ???
 
 private cpp_accessors:
-    DEFINE_GETTER(controller);
-    DEFINE_GETTER(ready);
+    DEFINE_CUSTOM_GETTER(controller);
+    DEFINE_CUSTOM_GETTER(ready);
 };
 
 

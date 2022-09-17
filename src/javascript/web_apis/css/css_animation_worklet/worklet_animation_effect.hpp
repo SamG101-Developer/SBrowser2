@@ -26,8 +26,8 @@ private cpp_properties:
     std::unique_ptr<detail::animator_effect_t> m_animator_effect;
 
 private cpp_accessors:
-    DEFINE_GETTER(local_time);
-    DEFINE_SETTER(local_time);
+    DEFINE_CUSTOM_GETTER(local_time);
+    DEFINE_CUSTOM_SETTER(local_time);
 };
 
 

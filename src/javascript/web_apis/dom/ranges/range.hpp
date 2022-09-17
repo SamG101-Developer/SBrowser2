@@ -70,7 +70,7 @@ private cpp_properties:
     nodes::node* m_root;
 
 private cpp_accessors:
-    DEFINE_GETTER(common_ancestor_container);
+    DEFINE_CUSTOM_GETTER(common_ancestor_container);
 };
 
 

@@ -42,12 +42,12 @@ private js_slots:
     ext::slot<ext::boolean> s_generate_timestamps_flag;
 
 private cpp_accessors:
-    DEFINE_GETTER(buffered);
+    DEFINE_CUSTOM_GETTER(buffered);
 
-    DEFINE_SETTER(mode);
-    DEFINE_SETTER(timestamp_offset);
-    DEFINE_SETTER(append_window_start);
-    DEFINE_SETTER(append_window_end);
+    DEFINE_CUSTOM_SETTER(mode);
+    DEFINE_CUSTOM_SETTER(timestamp_offset);
+    DEFINE_CUSTOM_SETTER(append_window_start);
+    DEFINE_CUSTOM_SETTER(append_window_end);
 };
 
 

@@ -16,7 +16,7 @@ public js_properties:
     ext::property<ext::number<float>> value;
 
 private cpp_accessors:
-    DEFINE_SETTER(value);
+    DEFINE_CUSTOM_SETTER(value);
 };
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SVG_TYPES_SVG_NUMBER_HPP

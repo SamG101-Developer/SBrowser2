@@ -20,10 +20,10 @@ public js_properties:
     ext::property<style_sheets::css_style_sheet*> style_sheet;
 
 private cpp_accessors:
-    DEFINE_GETTER(href);
-    DEFINE_GETTER(media);
-    DEFINE_GETTER(style_sheet);
-    DEFINE_GETTER(type) override {return IMPORT_RULE;}
+    DEFINE_CUSTOM_GETTER(href);
+    DEFINE_CUSTOM_GETTER(media);
+    DEFINE_CUSTOM_GETTER(style_sheet);
+    DEFINE_CUSTOM_GETTER(type) override {return IMPORT_RULE;}
 };
 
 

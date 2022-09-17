@@ -30,9 +30,9 @@ private cpp_properties:
     std::unique_ptr<html::detail::browsing_context_t> m_browsing_context;
 
 private cpp_accessors:
-    DEFINE_GETTER(visibility_state)
-    DEFINE_GETTER(focused)
-    DEFINE_GETTER(ancestor_origins)
+    DEFINE_CUSTOM_GETTER(visibility_state)
+    DEFINE_CUSTOM_GETTER(focused)
+    DEFINE_CUSTOM_GETTER(ancestor_origins)
 };
 
 

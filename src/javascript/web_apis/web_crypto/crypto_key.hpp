@@ -37,10 +37,10 @@ private js_slots:
     ext::slot<void*> s_handle;
 
 private cpp_accessors:
-    DEFINE_GETTER(type) {return s_type();}
-    DEFINE_GETTER(extractable) {return s_extractable();}
-    DEFINE_GETTER(algorithm);
-    DEFINE_GETTER(usages);
+    DEFINE_CUSTOM_GETTER(type) {return s_type();}
+    DEFINE_CUSTOM_GETTER(extractable) {return s_extractable();}
+    DEFINE_CUSTOM_GETTER(algorithm);
+    DEFINE_CUSTOM_GETTER(usages);
 };
 
 

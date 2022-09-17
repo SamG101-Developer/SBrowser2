@@ -24,9 +24,9 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(distance);
-    DEFINE_GETTER(max);
-    DEFINE_GETTER(near);
+    DEFINE_CUSTOM_GETTER(distance);
+    DEFINE_CUSTOM_GETTER(max);
+    DEFINE_CUSTOM_GETTER(near);
 };
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_HPP

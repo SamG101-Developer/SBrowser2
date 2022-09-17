@@ -34,8 +34,8 @@ private cpp_properties:
     ext::vector<ext::string> m_types_array;
 
 private cpp_accessors:
-    DEFINE_GETTER(presentation_style);
-    DEFINE_GETTER(types);
+    DEFINE_CUSTOM_GETTER(presentation_style);
+    DEFINE_CUSTOM_GETTER(types);
 };
 
 

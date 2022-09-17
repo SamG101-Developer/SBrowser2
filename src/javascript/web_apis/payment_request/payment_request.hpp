@@ -40,7 +40,7 @@ private js_slots:
     ext::slot<detail::payment_handler_t<>*> s_handler;
 
 private cpp_accessors:
-    DEFINE_GETTER(id);
+    DEFINE_CUSTOM_GETTER(id);
 };
 
 

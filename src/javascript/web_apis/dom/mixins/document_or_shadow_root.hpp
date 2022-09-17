@@ -40,7 +40,7 @@ public cpp_properties:
 
 private cpp_accessors:
     /* CSSOM */
-    DEFINE_GETTER(style_sheets);
+    DEFINE_CUSTOM_GETTER(style_sheets);
 };
 
 

@@ -29,10 +29,10 @@ private js_slots:
     ext::slot<ext::number<double>> s_level;
 
 private cpp_accessors:
-    DEFINE_GETTER(charging) {return s_charging();}
-    DEFINE_GETTER(charging_time) {return s_charging_time();}
-    DEFINE_GETTER(discharging_time) {return s_discharging_time();}
-    DEFINE_GETTER(level) {return s_level();}
+    DEFINE_CUSTOM_GETTER(charging) {return s_charging();}
+    DEFINE_CUSTOM_GETTER(charging_time) {return s_charging_time();}
+    DEFINE_CUSTOM_GETTER(discharging_time) {return s_discharging_time();}
+    DEFINE_CUSTOM_GETTER(level) {return s_level();}
 };
 
 

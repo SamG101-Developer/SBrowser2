@@ -46,22 +46,22 @@ private cpp_properties:
     std::unique_ptr<fetch::detail::response_body_info_t> response_body_info;
 
 private cpp_accessors:
-    DEFINE_GETTER(next_hop_protocol);
-    DEFINE_GETTER(worker_start);
-    DEFINE_GETTER(redirect_start);
-    DEFINE_GETTER(redirect_end);
-    DEFINE_GETTER(fetch_start);
-    DEFINE_GETTER(domain_lookup_start);
-    DEFINE_GETTER(domain_lookup_end);
-    DEFINE_GETTER(connect_start);
-    DEFINE_GETTER(connect_end);
-    DEFINE_GETTER(secure_connection_start);
-    DEFINE_GETTER(secure_connection_end);
-    DEFINE_GETTER(response_start);
-    DEFINE_GETTER(response_end);
-    DEFINE_GETTER(transfer_size);
-    DEFINE_GETTER(encoded_body_size);
-    DEFINE_GETTER(decoded_body_size);
+    DEFINE_CUSTOM_GETTER(next_hop_protocol);
+    DEFINE_CUSTOM_GETTER(worker_start);
+    DEFINE_CUSTOM_GETTER(redirect_start);
+    DEFINE_CUSTOM_GETTER(redirect_end);
+    DEFINE_CUSTOM_GETTER(fetch_start);
+    DEFINE_CUSTOM_GETTER(domain_lookup_start);
+    DEFINE_CUSTOM_GETTER(domain_lookup_end);
+    DEFINE_CUSTOM_GETTER(connect_start);
+    DEFINE_CUSTOM_GETTER(connect_end);
+    DEFINE_CUSTOM_GETTER(secure_connection_start);
+    DEFINE_CUSTOM_GETTER(secure_connection_end);
+    DEFINE_CUSTOM_GETTER(response_start);
+    DEFINE_CUSTOM_GETTER(response_end);
+    DEFINE_CUSTOM_GETTER(transfer_size);
+    DEFINE_CUSTOM_GETTER(encoded_body_size);
+    DEFINE_CUSTOM_GETTER(decoded_body_size);
 };
 
 

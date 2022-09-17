@@ -32,13 +32,13 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_GETTER(node_name) override {return "";};
-    DEFINE_GETTER(node_value) override {return data();};
-    DEFINE_GETTER(text_content) override {return data();};
-    DEFINE_GETTER(length) {return data().length();};
+    DEFINE_CUSTOM_GETTER(node_name) override {return "";};
+    DEFINE_CUSTOM_GETTER(node_value) override {return data();};
+    DEFINE_CUSTOM_GETTER(text_content) override {return data();};
+    DEFINE_CUSTOM_GETTER(length) {return data().length();};
 
-    DEFINE_SETTER(node_value) override {replace_data(0, length(), std::move(val));};
-    DEFINE_SETTER(text_content) override {replace_data(0, length(), std::move(val));};
+    DEFINE_CUSTOM_SETTER(node_value) override {replace_data(0, length(), std::move(val));};
+    DEFINE_CUSTOM_SETTER(text_content) override {replace_data(0, length(), std::move(val));};
 };
 
 

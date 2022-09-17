@@ -24,9 +24,9 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 public cpp_accessors:
-    DEFINE_GETTER(x_bias);
-    DEFINE_GETTER(y_bias);
-    DEFINE_GETTER(z_bias);
+    DEFINE_CUSTOM_GETTER(x_bias);
+    DEFINE_CUSTOM_GETTER(y_bias);
+    DEFINE_CUSTOM_GETTER(z_bias);
 };
 
 

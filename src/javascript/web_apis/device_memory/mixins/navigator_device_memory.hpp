@@ -13,7 +13,7 @@ public js_properties:
     ext::property<double> device_memory;
 
 private cpp_accessors:
-    DEFINE_GETTER(device_memory);
+    DEFINE_CUSTOM_GETTER(device_memory);
 };
 
 

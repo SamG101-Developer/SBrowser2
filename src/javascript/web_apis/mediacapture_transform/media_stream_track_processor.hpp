@@ -32,7 +32,7 @@ public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
 private cpp_accessors:
-    DEFINE_SETTER(s_track);
+    DEFINE_CUSTOM_SETTER(s_track);
 };
 
 

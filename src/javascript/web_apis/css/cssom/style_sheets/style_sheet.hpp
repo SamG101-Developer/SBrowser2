@@ -31,15 +31,15 @@ protected cpp_properties:
     std::unique_ptr<detail::css_style_sheet_t> m_style_sheet;
 
 private cpp_accessors:
-    DEFINE_GETTER(type);
-    DEFINE_GETTER(href);
-    DEFINE_GETTER(title);
-    DEFINE_GETTER(owner_node);
-    DEFINE_GETTER(parent_style_sheet);
-    DEFINE_GETTER(media);
-    DEFINE_GETTER(disabled);
+    DEFINE_CUSTOM_GETTER(type);
+    DEFINE_CUSTOM_GETTER(href);
+    DEFINE_CUSTOM_GETTER(title);
+    DEFINE_CUSTOM_GETTER(owner_node);
+    DEFINE_CUSTOM_GETTER(parent_style_sheet);
+    DEFINE_CUSTOM_GETTER(media);
+    DEFINE_CUSTOM_GETTER(disabled);
 
-    DEFINE_SETTER(disabled);
+    DEFINE_CUSTOM_SETTER(disabled);
 };
 
 
