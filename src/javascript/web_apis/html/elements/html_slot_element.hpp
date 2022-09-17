@@ -19,8 +19,8 @@ public constructors:
     html_slot_element() = default;
 
 public js_methods:
-    auto assigned_nodes(detail::assigned_node_options_t&& = {}) -> ext::vector<dom::nodes::node*>;
-    auto assigned_elements(detail::assigned_node_options_t&& = {}) -> ext::vector<dom::nodes::element*>;
+    auto assigned_nodes(detail::assigned_node_options_t&& = {}) const -> ext::vector<dom::nodes::node*>;
+    auto assigned_elements(detail::assigned_node_options_t&& = {}) const -> ext::vector<dom::nodes::element*>;
     auto assign(type_is<dom::nodes::element*, dom::nodes::text*> auto*... nodes) -> void;
 
 public js_properties:
