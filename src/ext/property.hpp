@@ -451,6 +451,7 @@ private:
 #define DEFINE_SETTER(p) auto set_##p(const typename decltype(p)::value_t& val) -> void
 #define DEFINE_GETTER(p) auto get_##p() const -> typename decltype(this->p)::value_t
 #define DEFINE_DELETER(p) auto del_##p() -> void
+#define PUT_FORWARDS(p) auto operator=(const typename decltype(p)::value_t& val) -> decltype(auto) {p = val; return *this;}
 
 
 _EXT_BEGIN
