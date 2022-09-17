@@ -16,6 +16,9 @@ class css::css
 
     /* CSS_LAYOUT */
     static ext::property<std::unique_ptr<html::workers::worklet>> layout_worklet;
+
+    /* CSSOM */
+    auto escape(ext::string_view identifier) -> ext::string;
 };
 
 
