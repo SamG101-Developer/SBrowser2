@@ -1,9 +1,11 @@
 #pragma once
+#include "css/cssom/_typedefs.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_DETAIL_SERIALIZE_PARSE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_DETAIL_SERIALIZE_PARSE_INTERNALS_HPP
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include USE_INNER_TYPES(css/css_syntax)
 #include USE_INNER_TYPES(css/media_queries)
 
 
@@ -63,6 +65,23 @@ namespace css::detail
 
     auto serialize_simple_selector(
             const selector_t& selector)
+            -> ext::string;
+
+    auto parse_value(
+            ext::string_view value,
+            ext::string_view property)
+            -> void;
+
+    auto serialize_value(
+            const css_declaration_t& declaration)
+            -> ext::string;
+
+    auto serialize_value(
+            ext::vector_view<ext::string>)
+            -> ext::string;
+
+    auto serialize_component_value(
+            const token_t& value)
             -> ext::string;
 };
 
