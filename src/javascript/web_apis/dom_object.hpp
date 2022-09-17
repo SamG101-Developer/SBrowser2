@@ -18,7 +18,7 @@ namespace dom::events {class event;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class node;}
 
-#define behaviour_method(...) ext::function<void(__VA_ARGS__)>
+#define behaviour_method(...) ext::function<void(__VA_ARGS__) const>
 
 #define DOM_CTORS(type)  \
     DISALLOW_COPY(type); \
