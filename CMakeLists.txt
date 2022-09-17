@@ -27,6 +27,10 @@ FetchContent_Declare(CoroutineReplacement
         GIT_REPOSITORY "https://github.com/andreasbuhr/cppcoro.git"
         GIT_TAG "origin/main")
 
+FetchContent_Declare(ExpectedReplacement
+        GIT_REPOSITORY "https://github.com/TartanLlama/expected.git"
+        GIT_TAG "origin/master")
+
 FetchContent_Declare(FilesystemReplacement
         GIT_REPOSITORY "https://github.com/cginternals/cppfs.git"
         GIT_TAG "origin/master")
@@ -104,10 +108,10 @@ FetchContent_Declare(V8PP
         GIT_TAG "origin/master")
 
 FetchContent_MakeAvailable(
-        AssertReplacement CoroutineReplacement FilesystemReplacement FunctionReplacement HashMapSetReplacement
-        OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
-        StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime MagicEnum UUIDs
-        V8PP) # TODO : Qt
+        AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
+        HashMapSetReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement
+        StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime
+        MagicEnum UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -128,9 +132,9 @@ add_library(veque INTERFACE)
 target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorreplacement-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro cppfs function2::function2 tsl::robin_map optional effolkronium_random range-v3::range-v3
-        ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo asap magic_enum::magic_enum
-        stduuid v8pp)
+        assert cppcoro expected cppfs function2::function2 tsl::robin_map optional effolkronium_random
+        range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo asap
+        magic_enum::magic_enum stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()
