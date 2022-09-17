@@ -15,12 +15,19 @@ public constructors:
     css_rule();
 
 public js_static_constants:
+    /* [CSSOM] */
     constexpr static const ext::number<ushort> STYLE_RULE = 1;
     constexpr static const ext::number<ushort> CHARSET_RULE = 2;
     constexpr static const ext::number<ushort> IMPORT_RULE = 3;
     constexpr static const ext::number<ushort> MEDIA_RULE = 4;
     constexpr static const ext::number<ushort> FONT_FACE_RULE = 5;
     constexpr static const ext::number<ushort> PAGE_RULE = 6;
+
+    /* [CSS-ANIMATIONS] */
+    constexpr static const ext::number<ushort> KEYFRAMES_RULE = 7;
+    constexpr static const ext::number<ushort> KEYFRAME_RULE = 8;
+
+    /* [CSSOM] */
     constexpr static const ext::number<ushort> MARGIN_RULE = 9;
     constexpr static const ext::number<ushort> NAMESPACE_RULE = 10;
 
