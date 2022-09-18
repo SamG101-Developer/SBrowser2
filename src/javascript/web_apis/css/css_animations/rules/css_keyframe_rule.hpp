@@ -20,6 +20,7 @@ public js_properties:
 
 private cpp_accessors:
     DEFINE_CUSTOM_SETTER(key_text);
+
 };
 
 
