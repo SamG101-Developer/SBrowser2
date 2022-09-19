@@ -146,6 +146,8 @@ inline auto javascript::interop::expose(
         }
     }
 
+    environment::realms_2::set(local_context->Global(), "$GlobalAnimationList", ext::vector<css::detail::animation_t>{});
+
     return persistent_context;
 }
 
