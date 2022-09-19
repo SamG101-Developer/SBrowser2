@@ -20,6 +20,9 @@ public js_properties:
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+
+public cpp_accessors:
+    DEFINE_CUSTOM_GETTER(elapsed_time);
 };
 
 
