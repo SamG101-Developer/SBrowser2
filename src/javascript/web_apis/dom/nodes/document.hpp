@@ -1,7 +1,6 @@
 #ifndef SBROWSER2_DOCUMENT_HPP
 #define SBROWSER2_DOCUMENT_HPP
 
-#include "css/css_animation_worklet/detail/animation_internals.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/mixins/document_or_element_node.hpp"
 #include "dom/mixins/document_or_shadow_root.hpp"
@@ -22,6 +21,7 @@ namespace dom::nodes {class document;}
 
 #include USE_INNER_TYPES(css/css_animation_worklet)
 #include USE_INNER_TYPES(css/css_layout)
+#include USE_INNER_TYPES(css/css_web_animations)
 #include USE_INNER_TYPES(html)
 #include USE_INNER_TYPES(permissions_policy)
 #include USE_INNER_TYPES(page_visibility)
@@ -91,7 +91,7 @@ public constructors:
     document();
 
 public js_methods:
-    /* DOM */
+    /* [DOM] */
     [[nodiscard]] auto create_element(ext::string&& local_name, ext::map<ext::string, ext::any>&& options = {}) const -> element;
     [[nodiscard]] auto create_element_ns(ext::string&& namespace_, ext::string&& qualified_name, ext::map<ext::string, ext::any>&& options = {}) const -> element;
     [[nodiscard]] auto create_document_fragment() const -> document_fragment;
@@ -109,7 +109,7 @@ public js_methods:
     auto import_node(node* new_node, ext::boolean deep = false) -> node*;
     auto adopt_node(node* new_node) -> node*;
 
-    /* HTML */
+    /* [HTML] */
     auto open() -> document*;
     auto open(ext::string_view url, ext::string_view name, ext::string_view features) -> window_proxy*;
     auto close() -> void;
@@ -123,20 +123,20 @@ public js_methods:
     auto query_command_supported(ext::string_view command_id) -> ext::boolean;
     auto query_command_value(ext::string_view command_id) -> ext::boolean;
 
-    /* POINTER_LOCK */
+    /* [POINTER_LOCK] */
     auto exit_pointer_lock() -> void;
 
-    /* FULLSCREEN */
+    /* [FULLSCREEN] */
     auto exit_fullscreen() -> ext::promise<void>;
 
-    /* SELECTION */
+    /* [SELECTION] */
     auto get_selection() -> selection::selection*;
 
-    /* CSS_BOX_TREE */
+    /* [CSS_BOX_TREE] */
     auto layout_now() -> void;
 
 public js_properties:
-    /* DOM */
+    /* [DOM] */
     ext::property<url::detail::url_t> url;
     ext::property<ext::string> compat_mode;
     ext::property<ext::string> character_set;
@@ -145,7 +145,7 @@ public js_properties:
     ext::property<std::unique_ptr<element>> document_element;
     ext::property<std::unique_ptr<other::dom_implementation>> implementation;
 
-    /* HTML */
+    /* [HTML] */
     ext::property<std::unique_ptr<html::other::location>> location;
     ext::property<ext::string> domain;
     ext::property<ext::string> referrer;
@@ -166,14 +166,14 @@ public js_properties:
     ext::property<std::unique_ptr<window_proxy>> default_view;
     ext::property<ext::string> design_mode;
 
-    /* PERMISSIONS_POLICY */
+    /* [PERMISSIONS_POLICY] */
     ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
 
-    /* PAGE_VISIBILITY */
+    /* [PAGE_VISIBILITY] */
     ext::property<ext::boolean> hidden;
     ext::property<page_visibility::detail::visibility_state_t> visibility_state;
 
-    /* FULLSCREEN */
+    /* [FULLSCREEN] */
     ext::property<ext::boolean> fullscreen_enabled;
 
 public cpp_methods:
@@ -183,25 +183,25 @@ public cpp_operators:
     auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
 
 private js_slots:
-    /* DEVICE_POSTURE */
+    /* [DEVICE_POSTURE] */
     ext::number<double> s_current_posture;
 
 private cpp_methods:
-    /* HTML */
+    /* [HTML] */
     [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
     [[nodiscard]] auto get_m_title_element() const -> html::elements::html_title_element*;
 
-    /* FULLSCREEN */
+    /* [FULLSCREEN] */
     auto m_fullscreen_element() -> element*;
 
 private cpp_properties:
-    /* DOM */
+    /* [DOM] */
     std::unique_ptr<encoding::encoding> m_encoding;
     ext::string m_type = "xml";
     ext::string m_mode = "no-quirks";
     html::detail::origin_t m_origin;
 
-    /* HTML */
+    /* [HTML] */
     // Policies & Permissions
     std::unique_ptr<html::detail::policy_container_t> m_policy_container;
     std::unique_ptr<html::detail::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
@@ -241,23 +241,26 @@ private cpp_properties:
     ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order;
     ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order_when_document_finished_parsing;
 
-    /* FULLSCREEN */
+    /* [FULLSCREEN] */
     ext::vector<ext::tuple<ext::string, element*>> m_list_of_pending_fullscreen_events;
 
-    /* PAINT_TIMING */
+    /* [PAINT_TIMING] */
     ext::set<ext::string> m_previously_reported_paints;
 
-    /* CSS_ANIMATION_WORKLET */
+    /* [CSS_ANIMATION_WORKLET] */
     ext::map<ext::string, css::detail::document_animator_definition_t*> m_document_animator_definitions;
 
-    /* CSS_LAYOUT */
+    /* [CSS_LAYOUT] */
     ext::map<ext::string, css::detail::document_layout_definition_t*> m_document_layout_definitions;
 
-    /* INTERSECTION_OBSERVERS */
+    /* [INTERSECTION_OBSERVERS] */
     ext::boolean m_intersection_observer_task_queued;
 
+    /* [CSS_WEB_ANIMATIONS] */
+    std::unique_ptr<css::detail::document_timeline_t> m_default_timeline;
+
 private cpp_accessors:
-    /* DOM */
+    /* [DOM] */
     DEFINE_CUSTOM_GETTER(node_type) override {return DOCUMENT_NODE;}
     DEFINE_CUSTOM_GETTER(node_name) override {return "#document";}
     DEFINE_CUSTOM_GETTER(node_value) override {return "";}
@@ -271,7 +274,7 @@ private cpp_accessors:
     DEFINE_CUSTOM_GETTER(doctype);
     DEFINE_CUSTOM_GETTER(document_element);
 
-    /* HTML */
+    /* [HTML] */
     DEFINE_CUSTOM_GETTER(last_modified);
     DEFINE_CUSTOM_GETTER(cookie);
     DEFINE_CUSTOM_GETTER(body);
@@ -292,7 +295,7 @@ private cpp_accessors:
     DEFINE_CUSTOM_SETTER(design_mode);
     DEFINE_CUSTOM_SETTER(domain);
 
-    /* PAGE_VISIBILITY */
+    /* [PAGE_VISIBILITY] */
     DEFINE_CUSTOM_GETTER(hidden);
     DEFINE_CUSTOM_GETTER(visibility_state);
 
