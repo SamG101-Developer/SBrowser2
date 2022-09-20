@@ -53,6 +53,7 @@ namespace html::elements {class html_title_element;}
 namespace html::elements {class html_element;}
 namespace html::other {class location;}
 
+namespace css::css_web_animation {class document_timeline;}
 namespace encoding {class encoding;}
 namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
@@ -176,6 +177,9 @@ public js_properties:
     /* [FULLSCREEN] */
     ext::property<ext::boolean> fullscreen_enabled;
 
+    /* [CSS_WEB_ANIMATIONS] */
+    ext::property<css::css_web_animation::document_timeline*> timeline;
+
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
@@ -184,7 +188,7 @@ public cpp_operators:
 
 private js_slots:
     /* [DEVICE_POSTURE] */
-    ext::number<double> s_current_posture;
+    ext::slot<ext::number<double>> s_current_posture;
 
 private cpp_methods:
     /* [HTML] */
@@ -300,6 +304,11 @@ private cpp_accessors:
     DEFINE_CUSTOM_GETTER(visibility_state);
 
     DEFINE_CUSTOM_SETTER(visibility_state);
+
+    /* [CSS_WEB_ANIMATIONS] */
+    DEFINE_CUSTOM_GETTER(timeline);
+
+
 };
 
 

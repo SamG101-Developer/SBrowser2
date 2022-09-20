@@ -5,6 +5,7 @@
 namespace dom::mixins {class document_or_shadow_root;}
 
 #include USE_INNER_TYPES(css/cssom)
+namespace css::css_web_animations {class animation;}
 namespace css::cssom::style_sheets {class css_style_sheet;}
 namespace dom::nodes {class element;}
 
@@ -15,6 +16,10 @@ class dom::mixins::document_or_shadow_root
 public constructors:
     DOM_CTORS(document_or_shadow_root);
     document_or_shadow_root() = default;
+
+public js_methods:
+    /* [CSS_WEB_ANIMATIONS] */
+    auto get_animations() -> ext::vector<css::css_web_animations::animation*>;
 
 public js_properties:
     /* HTML */

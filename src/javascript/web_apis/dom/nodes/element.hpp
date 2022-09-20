@@ -8,7 +8,10 @@
 #include "dom/mixins/parentable_node.hpp"
 #include "dom/mixins/slottable.hpp"
 #include "aria/mixins/aria_mixin.hpp"
+#include "css/css_web_animations/mixins/animatable.hpp"
+
 namespace dom::nodes {class element;}
+
 
 #include "ext/optional.hpp"
 #include "ext/queue.hpp"
@@ -16,6 +19,7 @@ namespace dom::nodes {class element;}
 #include "ext/vector.hpp"
 #include "ext/promise.hpp"
 #include <range/v3/view/any_view.hpp>
+
 #include USE_INNER_TYPES(css/box_tree)
 #include USE_INNER_TYPES(dom)
 #include USE_INNER_TYPES(html)
@@ -40,6 +44,7 @@ class dom::nodes::element
         , public mixins::parentable_node
         , public mixins::slottable
         , public aria::mixins::aria_mixin
+        , public css::css_web_animations::mixins::animatable
 {
 public friends:
     friend class node;
