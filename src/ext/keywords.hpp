@@ -2,6 +2,8 @@
 #ifndef SBROWSER2_KEYWORDS_HPP
 #define SBROWSER2_KEYWORDS_HPP
 
+#include <self_macro.h>
+
 #define _EXT ::ext::
 #define _EXT_BEGIN namespace ext {
 #define _EXT_END } // namespace ext
@@ -45,8 +47,7 @@
 #define js_slots
 
 #define cpp_static_methods
-#define cpp_methods
-#define cpp_properties
+#define cpp_members
 #define cpp_accessors
 #define cpp_operators
 #define cpp_nested_classes

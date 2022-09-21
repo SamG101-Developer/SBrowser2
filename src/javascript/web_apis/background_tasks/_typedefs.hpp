@@ -9,11 +9,14 @@
 
 namespace background_tasks {class idle_deadline;}
 
+
 namespace background_tasks::detail
 {
     using idle_request_options_t = ext::map<ext::string, ext::any>;
     using idle_request_callback_t = ext::function<void(idle_deadline&&)>;
     using deadline_time_algorithm_t = ext::function<hr_time::dom_high_res_time_stamp()>;
+
+    struct idle_deadline_t;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS__TYPEDEFS_HPP

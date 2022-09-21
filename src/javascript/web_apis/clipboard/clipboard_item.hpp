@@ -16,6 +16,7 @@ class clipboard::clipboard_item
         : public virtual dom_object
 {
 public constructors:
+    clipboard_item();
     clipboard_item(detail::clipboard_item_t&& underlying_data);
     clipboard_item(ext::map<ext::string, detail::clipboard_item_data_t>&& items, ext::map<ext::string, ext::any>&& options = {});
 
@@ -26,12 +27,9 @@ public js_properties:
     ext::property<detail::presentation_style_t> presentation_style;
     ext::property<ext::vector<ext::string>> types;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_properties:
-    detail::clipboard_item_t m_clipboard_item;
-    ext::vector<ext::string> m_types_array;
+public cpp_members:
+    MAKE_PIMPL(clipboard_item);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(presentation_style);

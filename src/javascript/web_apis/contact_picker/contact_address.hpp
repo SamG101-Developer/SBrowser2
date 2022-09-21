@@ -12,8 +12,7 @@ class contact_picker::contact_address
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(contact_address);
-    contact_address() = default;
+    contact_address();
 
 public js_properties:
     ext::property<ext::string> city;
@@ -25,10 +24,11 @@ public js_properties:
     ext::property<ext::string> recipient;
     ext::property<ext::string> region;
     ext::property<ext::string> sorting_code;
-    ext::property<const ext::vector<ext::string>> address_line;
+    ext::property<ext::vector<ext::string>> address_line; // TODO : const
 
-private:
-    std::unique_ptr<detail::physical_address_t> m_address;
+private cpp_members:
+    MAKE_PIMPL(contact_address);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(city);

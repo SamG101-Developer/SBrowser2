@@ -33,4 +33,11 @@ namespace background_tasks::detail
             -> ext::boolean;
 }
 
+
+struct background_tasks::detail::idle_deadline_t
+{
+    ext::boolean timeout;
+    deadline_time_algorithm_t get_deadline_time = [] {return 0.0;};
+};
+
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_DETAIL_PROCESSING_INTERNALS_HPP

@@ -3,9 +3,9 @@
 
 auto aria::mixins::aria_mixin::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<aria_mixin>{isolate}
+    decltype(auto) conversion = v8pp::class_<aria_mixin>{isolate}
         .inherit<dom_object>()
         .var("role", &aria_mixin::role, false)
         .var("ariaAtomic", &aria_mixin::aria_atomic, false)
@@ -57,4 +57,6 @@ auto aria::mixins::aria_mixin::to_v8(
         .var("ariaActiveDescendantElement", &aria_mixin::aria_active_descendant_element, false)
         .var("ariaErrorMessageElement", &aria_mixin::aria_error_message_element, false)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

@@ -5,6 +5,7 @@
 #include "ext/custom_operator.hpp"
 #include "ext/functional.hpp"
 #include "ext/keywords.hpp"
+#include "ext/pimpl.hpp"
 #include "ext/property.hpp"
 #include "ext/slot.hpp"
 #include "ext/string.hpp"
@@ -24,6 +25,15 @@ namespace dom::nodes {class node;}
     DISALLOW_COPY(type); \
     ALLOW_MOVE(type)
 
+#define MAKE_V8_AVAILABLE \
+public:                   \
+    SELF_MACRO_DEFINE_SELF(self_t, public);\
+    static auto to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+
+#define MAKE_STRINGIFIER \
+public:                  \
+    operator ext::string()
+
 
 class dom_object
 {
@@ -31,11 +41,10 @@ public constructors:
     dom_object() = default;
     virtual ~dom_object() = default;
 
-public cpp_methods:
-    virtual auto to_v8(v8::Isolate* isolate) const && -> ext::any = 0;
-    virtual auto to_json() const -> ext::string {return "";}
+public cpp_members:
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER {return "";}
 
-public cpp_properties:
     struct // TODO : move to dom::nodes::event_target
     {
         behaviour_method(
@@ -72,9 +81,10 @@ public cpp_properties:
 };
 
 
-inline auto dom_object::to_v8(v8::Isolate* isolate) const && -> ext::any
+auto dom_object::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
-    return v8pp::class_<dom_object>{isolate}.auto_wrap_objects();
+    decltype(auto) conversion = v8pp::class_<dom_object>{isolate}.auto_wrap_objects();
+    return std::move(conversion);
 }
 
 

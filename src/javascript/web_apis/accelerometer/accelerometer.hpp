@@ -13,15 +13,16 @@ class accelerometer::accelerometer
 {
 public constructors:
     DOM_CTORS(accelerometer);
-    accelerometer(detail::accelerometer_sensor_options_t&& options = {});
+    accelerometer() = default;
+    accelerometer(detail::accelerometer_sensor_options_t&& options);
 
 public js_properties:
     ext::property<ext::number<double>> x;
     ext::property<ext::number<double>> y;
     ext::property<ext::number<double>> z;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(x);

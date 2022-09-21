@@ -99,6 +99,10 @@ FetchContent_Declare(Qt
         GIT_REPOSITORY https://github.com/SamG101-Developer/Qt6WindowsBinaries.git
         GIT_TAG "origin/master")
 
+FetchContent_Declare(SelfMacro
+        GIT_REPOSITORY https://github.com/MitalAshok/self_macro.git
+        GIT_TAG "origin/master")
+
 FetchContent_Declare(UUIDs
         GIT_REPOSITORY "https://github.com/mariusbancila/stduuid.git"
         GIT_TAG "origin/master")
@@ -111,7 +115,7 @@ FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
         HashMapSetReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement
         StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo DateTime
-        MagicEnum UUIDs V8PP) # TODO : Qt
+        MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -134,7 +138,7 @@ target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorrepla
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro expected cppfs function2::function2 tsl::robin_map optional effolkronium_random
         range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo asap
-        magic_enum::magic_enum stduuid v8pp)
+        magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()

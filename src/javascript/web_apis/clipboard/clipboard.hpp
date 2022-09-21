@@ -20,6 +20,9 @@ public js_methods:
     auto read_text() -> ext::promise<ext::string>;
     auto write(ext::vector<clipboard_item*> data) -> ext::promise<void>;
     auto write_text(ext::string&& data) -> ext::promise<void>;
+
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

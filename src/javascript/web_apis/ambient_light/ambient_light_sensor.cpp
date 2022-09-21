@@ -26,11 +26,13 @@ auto ambient_light_sensor::ambient_light_sensor::get_illuminance()
 
 auto ambient_light_sensor::ambient_light_sensor::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<ambient_light_sensor>{isolate}
+    decltype(auto) conversion = v8pp::class_<ambient_light_sensor>{isolate}
         .ctor<sensors::detail::sensor_options_t&&>()
         .inherit<sensors::sensor>()
         .var("illuminance", &ambient_light_sensor::illuminance, true)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

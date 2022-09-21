@@ -25,7 +25,7 @@ namespace clipboard::detail
 
 struct clipboard::detail::representation_t
 {
-    mimesniff::detail::mime_type_t mime_type;
+    std::unique_ptr<mimesniff::detail::mime_type_t> mime_type;
     clipboard_item_data_t data;
 };
 
@@ -33,6 +33,7 @@ struct clipboard::detail::representation_t
 struct clipboard::detail::clipboard_item_t
 {
     ext::vector<representation_t> list_of_representations;
+    ext::vector<ext::string> types_array;
     presentation_style_t presentation_style;
 };
 

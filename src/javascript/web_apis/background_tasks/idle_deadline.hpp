@@ -12,8 +12,7 @@ class background_tasks::idle_deadline
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(idle_deadline);
-    idle_deadline() = default;
+    idle_deadline();
 
 public js_methods:
     auto time_remaining() -> hr_time::dom_high_res_time_stamp;
@@ -21,12 +20,9 @@ public js_methods:
 public js_properties:
     ext::property<ext::boolean> did_timeout;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::boolean m_timeout;
-    detail::deadline_time_algorithm_t m_get_deadline_time = [] {return 0.0;};
+public cpp_members:
+    MAKE_PIMPL(idle_deadline);
+    MAKE_V8_AVAILABLE;
 };
 
 

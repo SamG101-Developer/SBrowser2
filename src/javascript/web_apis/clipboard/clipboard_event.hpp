@@ -17,6 +17,9 @@ public constructors:
 
 public js_properties:
     ext::property<std::unique_ptr<html::dnd::data_transfer>> clipboard_data;
+
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

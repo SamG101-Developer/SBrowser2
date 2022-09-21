@@ -1,5 +1,6 @@
 #include "contacts_manager.hpp"
 
+#include "ext/casting.hpp"
 #include "javascript/environment/realms_2.hpp"
 
 #include "contact_picker/detail/contact_internals.hpp"
@@ -16,6 +17,11 @@
 #include <range/v3/view/set_algorithm.hpp>
 
 
+contact_picker::contacts_manager::contacts_manager()
+        : INIT_PIMPL
+{}
+
+
 auto contact_picker::contacts_manager::get_properties()
         -> ext::promise<ext::vector<detail::contact_property_t>>
 {
@@ -23,7 +29,7 @@ auto contact_picker::contacts_manager::get_properties()
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
     ext::promise<ext::vector<detail::contact_property_t>> promise;
-    std::jthread{ext::bind_front{&decltype(promise)::resolve, promise, m_contact_source->supported_properties}};
+    go [properties = d_ptr->supported_properties, &promise] mutable {promise.resolve(std::move(properties));};
     return promise;
 }
 
@@ -72,7 +78,7 @@ auto contact_picker::contacts_manager::select(
     // If any of the properties aren't supported, then this is a JavaScript TypeError (invalid properties are detected
     // by discovering any properties in the 'properties' list that aren't in the supported properties with a
     // 'set_difference' check.
-    if (!ranges::views::set_difference(m_contact_source->supported_properties, properties).empty())
+    if (!ranges::views::set_difference(d_ptr->supported_properties, properties).empty())
     {
         promise.reject(); // TODO : JavaScript TypeError
         return promise;
@@ -84,14 +90,14 @@ auto contact_picker::contacts_manager::select(
 
     // In another thread (so GUI is non-blocking), begin the selection process to select a contact from the contacts
     // picker.
-    go [&promise, &relevant_browsing_context, options = std::move(options), properties = std::move(properties)]
+    go [options, &promise, &relevant_browsing_context, &properties]
     {
         // Launch the contacts picker with the 'multiple' boolean option from the 'options', with the resulting selected
         // contact being 'selected_contacts' -- this is potentially thread blocking, because of the gUI, which is why
         // this part of the method is ran in another thread.
         JS_EXCEPTION_HANDLER;
-        auto multiple = options.at("multiple").to<ext::boolean>();
-        auto selected_contacts = detail::launch(std::move(multiple), std::move(properties));
+        decltype(auto) multiple = options.at("multiple").to<ext::boolean>();
+        decltype(auto) selected_contacts = detail::launch(multiple, properties);
 
         // Reject the promise if there was an issue with selecting a contact in the gUI, or if no contact was selected
         // TODO: is selecting no contact an error?
@@ -111,4 +117,18 @@ auto contact_picker::contacts_manager::select(
     };
 
     return promise;
+}
+
+
+auto contact_picker::contacts_manager::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<contacts_manager>{isolate}
+        .inherit<dom_object>()
+        .function("getProperties", &contacts_manager::get_properties)
+        .function("select", &contacts_manager::select)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }

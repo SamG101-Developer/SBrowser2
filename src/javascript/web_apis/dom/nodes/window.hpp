@@ -101,9 +101,6 @@ private cpp_properties:
     ext::vector<background_tasks::detail::idle_request_callback_t> m_idle_request_callbacks;
     ext::vector<background_tasks::detail::idle_request_callback_t> m_runnable_idle_callbacks;
     ext::number<ulong> m_idle_callback_identifier;
-    ext::queue<std::jthread> m_current_threads;
-    std::condition_variable m_condition_variable;
-    std::mutex m_mutex;
 
     /* EVENT_TIMING */
     ext::vector<event_timing::performance_event_timing*> m_entries_to_be_queued;

@@ -53,13 +53,15 @@ auto accelerometer::accelerometer::get_z()
 
 auto accelerometer::accelerometer::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<accelerometer>{isolate}
+    decltype(auto) conversion = v8pp::class_<accelerometer>{isolate}
         .ctor<detail::accelerometer_sensor_options_t&&>()
         .inherit<sensors::sensor>()
         .var("x", &accelerometer::x, true)
         .var("y", &accelerometer::y, true)
         .var("z", &accelerometer::z, true)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

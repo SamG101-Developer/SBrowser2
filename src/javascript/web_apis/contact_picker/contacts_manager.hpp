@@ -11,17 +11,18 @@ namespace contact_picker {class contacts_manager;}
 
 
 class contact_picker::contacts_manager
+        : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(contacts_manager);
-    contacts_manager() = default;
+    contacts_manager();
 
 public js_methods:
     auto get_properties() -> ext::promise<ext::vector<detail::contact_property_t>>;
     auto select(ext::vector<detail::contact_property_t*>& properties, detail::contacts_select_options_t&& options = {}) -> ext::promise<ext::vector<detail::contact_info_t>>;
 
-private cpp_properties:
-    std::unique_ptr<detail::contact_source_t> m_contact_source;
+private cpp_members:
+    MAKE_PIMPL(contacts_manager);
+    MAKE_V8_AVAILABLE;
 };
 
 

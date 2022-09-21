@@ -5,6 +5,8 @@
 #include "dom/nodes/event_target.hpp"
 namespace battery {class battery_manager;}
 
+#include USE_INNER_TYPES(battery)
+
 
 class battery::battery_manager
         : public dom::nodes::event_target
@@ -19,20 +21,15 @@ public js_properties:
     ext::property<ext::number<double>> discharging_time;
     ext::property<ext::number<double>> level;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_slots:
-    ext::slot<ext::boolean> s_charging;
-    ext::slot<ext::number<double>> s_charging_time;
-    ext::slot<ext::number<double>> s_discharging_time;
-    ext::slot<ext::number<double>> s_level;
+public cpp_members:
+    MAKE_PIMPL(battery_manager);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(charging) {return s_charging();}
-    DEFINE_CUSTOM_GETTER(charging_time) {return s_charging_time();}
-    DEFINE_CUSTOM_GETTER(discharging_time) {return s_discharging_time();}
-    DEFINE_CUSTOM_GETTER(level) {return s_level();}
+    DEFINE_CUSTOM_GETTER(charging);
+    DEFINE_CUSTOM_GETTER(charging_time);
+    DEFINE_CUSTOM_GETTER(discharging_time);
+    DEFINE_CUSTOM_GETTER(level);
 };
 
 

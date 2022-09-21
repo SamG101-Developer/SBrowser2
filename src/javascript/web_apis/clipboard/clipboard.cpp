@@ -1,5 +1,6 @@
 #include "clipboard.hpp"
 
+#include "dom/events/event.hpp"
 #include "ext/ranges.hpp"
 
 #include USE_INNER_TYPES(clipboard)
@@ -118,4 +119,18 @@ auto clipboard::clipboard::read_text()
             return promise;
         });
     };
+}
+
+
+auto clipboard::clipboard::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<clipboard>{isolate}
+        .inherit<dom::nodes::event_target>()
+        .function("read", &clipboard::read)
+        .function("readText", &clipboard::read_text)
+        .function("write", &clipboard::write)
+        .function("writeText", &clipboard::write_text)
+        .auto_wrap_objects();
 }

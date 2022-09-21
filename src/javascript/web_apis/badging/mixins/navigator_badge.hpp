@@ -21,8 +21,8 @@ public js_methods:
     auto set_app_badge(ext::number<ulonglong> contents) -> ext::promise<void>;
     auto clear_app_badge() -> ext::promise<void>;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

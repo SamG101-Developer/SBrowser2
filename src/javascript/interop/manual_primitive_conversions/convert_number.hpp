@@ -6,6 +6,7 @@
 
 #include <concepts>
 #include <v8-primitive.h>
+#include <v8-primitive-object.h>
 #include <v8pp/convert.hpp>
 
 
@@ -13,7 +14,7 @@ template <typename T>
 struct v8pp::convert<ext::number<T>>
 {
     using from_type = ext::number<T>;
-    using to_type = v8::Local<v8::BigInt>;
+    using to_type = v8::Local<v8::Value>;
 
     auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean;
     auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
@@ -56,7 +57,7 @@ inline auto v8pp::convert<ext::number<T>>::from_v8(
     else
     {
         // create the ext::number<T> object from the primitive number conversion
-        auto v8_value_number            = v8_value.template As<v8::BigInt>();
+        auto v8_value_number            = v8_value.template As<v8::BigIntObject>();
         auto cpp_value_number_primitive = convert<T>::from_v8(isolate, v8_value_number);
         auto cpp_value_number_object    = from_type{std::move(cpp_value_number_primitive)};
         return cpp_value_number_object;
@@ -85,7 +86,7 @@ inline auto v8pp::convert<ext::number<T>>::to_v8(
         // create the v8::BigInt object from the primitive number conversion
         auto cpp_value_number_primitive = *cpp_value_number_object;
         auto v8_value                   = convert<bool>::to_v8(isolate, cpp_value_number_primitive);
-        auto v8_value_number            = v8_value.template As<v8::BigInt>();
+        auto v8_value_number            = v8_value.template As<v8::BigIntObject>();
         return javascript_scope.Escape(v8_value_number);
     }
 }

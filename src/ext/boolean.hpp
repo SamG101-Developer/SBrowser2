@@ -14,15 +14,13 @@ public constructors:
     constexpr boolean(bool other = false) : internal_boolean(other) {}
     auto operator=(bool other) -> boolean& {internal_boolean = other; return *this;}
 
-public cpp_methods:
+public cpp_members:
     static auto FALSE_() -> boolean {return boolean{false};};
     static auto TRUE_ () -> boolean {return boolean{true };};
 
-public cpp_properties:
     operator bool() const {return internal_boolean;}
-    auto operator !() const -> bool {return internal_boolean ^ true;}
+    auto operator !() const -> bool {return !internal_boolean;}
 
-private cpp_properties:
     bool internal_boolean;
 };
 

@@ -16,8 +16,8 @@ public constructors:
 public js_properties:
     ext::property<ext::number<double>> illuminance;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(illuminance);
