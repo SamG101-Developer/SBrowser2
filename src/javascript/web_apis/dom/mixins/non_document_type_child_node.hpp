@@ -18,8 +18,8 @@ public js_properties:
     ext::property<nodes::element*> previous_element_sibling;
     ext::property<nodes::element*> next_element_sibling;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(previous_element_sibling);

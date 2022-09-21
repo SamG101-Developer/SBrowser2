@@ -14,14 +14,13 @@ public friends:
     friend class html::elements::html_slot_element;
 
 public constructors:
-    DOM_CTORS(slottable);
     slottable();
 
 public js_properties:
     ext::property<std::unique_ptr<html::elements::html_slot_element>> assigned_slot;
 
-private cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(assigned_slot);

@@ -20,8 +20,8 @@ public js_methods:
     [[nodiscard]] auto get_elements_by_tag_name(ext::string_view qualified_name) const -> ranges::any_view<nodes::element*>;
     [[nodiscard]] auto get_elements_by_tag_name_ns(ext::string_view namespace_, ext::string_view local_name) const -> ranges::any_view<nodes::element*>;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

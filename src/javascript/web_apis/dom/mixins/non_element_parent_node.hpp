@@ -11,14 +11,13 @@ class dom::mixins::non_element_parent_node
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(non_element_parent_node);
     non_element_parent_node() = default;
 
 public js_methods:
     auto get_element_by_id(ext::string_view id) -> nodes::element*;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 
