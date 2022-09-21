@@ -9,7 +9,8 @@
 dom::events::event::event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
-        : type(event_type)
+        : INIT_PIMPL
+        , type(event_type)
         , SET_PROPERTY_FROM_OPTIONS(event_init, bubbles, false)
         , SET_PROPERTY_FROM_OPTIONS(event_init, cancelable, false)
         , SET_PROPERTY_FROM_OPTIONS(event_init, composed, false)
@@ -28,7 +29,7 @@ auto dom::events::event::stop_propagation()
         -> void
 {
     // set the stop propagation flag, to stop the event propagating to the next target
-    m_stop_propagation_flag = true;
+    d_ptr->stop_propagation_flag = true;
 }
 
 
@@ -36,7 +37,7 @@ auto dom::events::event::stop_immediate_propagation()
         -> void
 {
     // set the stop immediate propagation flag, to stop the event propagating to the next listener
-    m_stop_immediate_propagation_flag = true;
+    d_ptr->stop_immediate_propagation_flag = true;
 }
 
 
@@ -44,7 +45,7 @@ auto dom::events::event::prevent_default()
         -> void
 {
     // set the cancelled flag if the event is cancelled and isn't in a passive listener
-    m_canceled_flag = cancelable() && !m_in_passive_listener_flag;
+    d_ptr->canceled_flag = cancelable() && !d_ptr->in_passive_listener_flag;
 }
 
 
@@ -124,9 +125,9 @@ auto dom::events::event::composed_path()
 
 auto dom::events::event::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<event>{isolate}
+    decltype(auto) conversion = v8pp::class_<event>{isolate}
             .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
             .inherit<dom_object>()
             .static_("NONE", event::NONE, true)
@@ -150,4 +151,6 @@ auto dom::events::event::to_v8(
             .var("touchTargets", &event::touch_targets, true)
             .var("path", &event::path, true)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

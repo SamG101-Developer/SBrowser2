@@ -5,9 +5,13 @@
 #include "dom/nodes/event_target.hpp"
 namespace dom::abort {class abort_signal;}
 
+#include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/optional.hpp"
 #include "ext/type_traits.hpp"
+
+#include USE_INNER_TYPES(dom)
+
 namespace dom::nodes {class event_target;}
 namespace dom::detail {auto signal_abort(abort::abort_signal*, const ext::any&) -> void;}
 namespace dom::detail {auto follow_signal(abort::abort_signal*, abort::abort_signal*) -> void;}
@@ -16,10 +20,6 @@ namespace dom::detail {auto follow_signal(abort::abort_signal*, abort::abort_sig
 class dom::abort::abort_signal final
         : public nodes::event_target
 {
-public aliases:
-    using abort_signal_callback_t  = ext::function<void()>;
-    using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
-
 public friends:
     friend class nodes::event_target;
 
@@ -42,11 +42,9 @@ public js_properties:
     ext::property<ext::boolean> aborted;
     ext::property<ext::any> reason;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_properties:
-    abort_signal_callbacks_t m_abort_algorithms;
+public cpp_members:
+    MAKE_PIMPL(abort_signal);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(aborted);

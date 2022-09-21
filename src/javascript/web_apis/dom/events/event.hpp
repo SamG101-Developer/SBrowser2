@@ -2,13 +2,17 @@
 #define SBROWSER2_EVENT_HPP
 
 #include "dom_object.hpp"
+#include "ext/pimpl.hpp"
 namespace dom::events {class event;}
+
 
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
+
 #include USE_INNER_TYPES(dom)
+
 namespace dom::nodes {class event_target;}
 namespace dom::detail {auto dispatch(events::event*, nodes::event_target*) -> ext::boolean;}
 namespace dom::detail {auto invoke(event_path_struct_t*, events::event*, ext::number<uchar>) -> void;}
@@ -69,16 +73,9 @@ public: js_properties
     ext::property<touch_targets_t> touch_targets;
     ext::property<path_t> path;
 
-public: cpp_methods
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private: cpp_properties
-    bool m_stop_propagation_flag = false;
-    bool m_stop_immediate_propagation_flag = false;
-    bool m_canceled_flag = false;
-    bool m_in_passive_listener_flag = false;
-    bool m_initialized_flag = true;
-    bool m_dispatch_flag = false;
+protected: cpp_members
+    MAKE_PIMPL_PROTECTED(event);
+    MAKE_V8_AVAILABLE;
 };
 
 

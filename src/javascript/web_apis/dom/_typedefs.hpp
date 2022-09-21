@@ -1,8 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP
 
+#include "ext/any.hpp"
 #include "ext/functional.hpp"
+#include "ext/map.hpp"
 #include "ext/string.hpp"
+#include "ext/variant.hpp"
+#include "ext/vector.hpp"
 namespace dom::events {class event;}
 
 namespace dom::detail
@@ -15,6 +19,9 @@ namespace dom::detail
     struct event_path_struct_t;
     struct registered_observer_t;
     struct transient_registered_observer_t;
+    struct abort_signal_t;
+    struct event_t;
+    struct abstract_iterator_t;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
@@ -24,6 +31,8 @@ namespace dom::detail
     enum class traversal_child_t {FIRST_CHILD, LAST_CHILD};
     enum class traversal_sibling_t {NEXT_SIBLING, PREVIOUS_SIBLING};
 
+    using abort_signal_callback_t  = ext::function<void()>;
+    using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
     using event_listener_options_t = ext::variant<ext::boolean, ext::map<ext::string, ext::any>>;
     using exception_condiditional_t = ext::function<bool()>;
     using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;

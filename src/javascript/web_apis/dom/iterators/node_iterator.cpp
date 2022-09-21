@@ -7,8 +7,8 @@
 
 
 dom::node_iterators::node_iterator::node_iterator()
-        : reference_node(nullptr)
-        , pointer_before_reference_node(false)
+        : reference_node{nullptr}
+        , pointer_before_reference_node{false}
 {}
 
 
@@ -34,13 +34,15 @@ auto dom::node_iterators::node_iterator::prev_node()
 
 auto dom::node_iterators::node_iterator::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<node_iterator>{isolate}
+    decltype(auto) conversion = v8pp::class_<node_iterator>{isolate}
             .inherit<abstract_iterator>()
             .function("nextNode", &node_iterator::next_node)
             .function("previousNode", &node_iterator::prev_node)
             .var("referenceNode", &node_iterator::reference_node, true)
             .var("pointerBeforeReferenceNode", &node_iterator::pointer_before_reference_node, true)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

@@ -1,16 +1,22 @@
 #include "abort_signal.hpp"
 
 #include "javascript/environment/realms_2.hpp"
+
+#include "dom/detail/aborting_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
 #include "dom/other/dom_exception.hpp"
 
+#include "html/detail/task_internals.hpp"
+
+
 
 dom::abort::abort_signal::abort_signal()
-        : reason{ext::nullopt}
+        : INIT_PIMPL
+        , reason{ext::nullopt}
 {
     // create an abort signal
-    bind_get(aborted)
+    bind_get(aborted);
 }
 
 
@@ -19,7 +25,7 @@ auto dom::abort::abort_signal::abort(
         -> abort_signal
 {
     // create a signal, mark it as aborted by giving it a reason, and return it
-    abort_signal signal;
+    auto signal = abort_signal{};
     signal.reason = reason.value_or(other::dom_exception{"", ABORT_ERR});
     return signal;
 }
@@ -30,11 +36,14 @@ auto dom::abort::abort_signal::timeout(
         -> abort_signal
 {
     // create a signal, and abort it after a timer has executed (TODO https://dom.spec.whatwg.org/#dom-abortsignal-timeout)
-    abort_signal signal;
-    JS_REALM_GET_RELEVANT(signal)
+    auto signal = abort_signal{};
+    JS_REALM_GET_RELEVANT(signal);
 
     auto timeout_error_callback = [] {detail::throw_v8_exception_formatted<TIMEOUT_ERR>();};
-    auto callback = [&signal_relevant_global_object, timeout_error_callback] {detail::queue_global_task(html::detail::timer_task_source(), signal_relevant_global_object, timeout_error_callback);};
+    auto callback =
+            [signal_relevant_global_object, callback = std::move(timeout_error_callback)] mutable
+            {detail::queue_global_task(html::detail::timer_task_source, signal_relevant_global_object, std::move(callback));};
+
     html::detail::run_steps_after_timeout(signal_relevant_global_object, "AbortSignal-timeout", milliseconds, callback);
 
     // return the signal
@@ -52,19 +61,15 @@ auto dom::abort::abort_signal::throw_if_aborted()
 }
 
 
-auto dom::abort::abort_signal::get_aborted()
-        const -> decltype(this->aborted)::value_t
-{
-    // the signal has aborted if the reason attribute has been set
-    return reason().has_value();
-}
+auto dom::abort::abort_signal::get_aborted() const -> decltype(this->aborted)::value_t
+{return reason().has_value();}
 
 
 auto dom::abort::abort_signal::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<abort_signal>{isolate}
+    decltype(auto) conversion = v8pp::class_<abort_signal>{isolate}
             .inherit<event_target>()
             .function("timeout", &abort_signal::timeout)
             .function("abort", &abort_signal::abort)
@@ -72,4 +77,6 @@ auto dom::abort::abort_signal::to_v8(
             .var("aborted", &abort_signal::aborted, true)
             .var("reason", &abort_signal::reason, false)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

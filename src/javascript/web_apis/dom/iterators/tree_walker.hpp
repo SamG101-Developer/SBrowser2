@@ -10,7 +10,6 @@ class dom::node_iterators::tree_walker
         : public abstract_iterator
 {
 public constructors:
-    DOM_CTORS(tree_walker);
     tree_walker();
 
 public js_methods:
@@ -22,11 +21,11 @@ public js_methods:
     auto next_node() -> nodes::node*;
     auto prev_node() -> nodes::node*;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
 public js_properties:
-    ext::property<std::unique_ptr<nodes::node>> current_node;
+    ext::property<nodes::node*> current_node;
+
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

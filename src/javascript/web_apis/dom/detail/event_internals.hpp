@@ -72,12 +72,23 @@ struct dom::detail::event_path_struct_t
     nodes::event_target* shadow_adjusted_target = nullptr;
     nodes::event_target* related_target         = nullptr;
 
-    ext::vector<nodes::event_target*>&& touch_targets;
+    ext::vector<nodes::event_target*> touch_targets;
     ext::boolean invocation_target_in_shadow_tree;
     ext::boolean root_of_closed_tree;
     ext::boolean slot_in_closed_tree;
 
     auto operator==(const event_path_struct_t&) const -> bool = default;
+};
+
+
+struct dom::detail::event_t
+{
+    bool stop_propagation_flag = false;
+    bool stop_immediate_propagation_flag = false;
+    bool canceled_flag = false;
+    bool in_passive_listener_flag = false;
+    bool initialized_flag = true;
+    bool dispatch_flag = false;
 };
 
 

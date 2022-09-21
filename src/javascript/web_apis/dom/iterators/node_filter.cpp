@@ -2,15 +2,15 @@
 
 
 dom::node_iterators::node_filter::node_filter()
-        : accept_node([](const nodes::node* node) {return FILTER_ACCEPT;})
+        : accept_node([](const nodes::node*) {return FILTER_ACCEPT;})
 {}
 
 
 auto dom::node_iterators::node_filter::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<node_filter>{isolate}
+    decltype(auto) conversion = v8pp::class_<node_filter>{isolate}
             .static_("FILTER_ACCEPT", node_filter::FILTER_ACCEPT, true)
             .static_("FILTER_SKIP", node_filter::FILTER_SKIP, true)
             .static_("FILTER_REJECT", node_filter::FILTER_REJECT, true)
@@ -26,4 +26,6 @@ auto dom::node_iterators::node_filter::to_v8(
             .static_("SHOW_ALL", node_filter::SHOW_ALL, true)
             .var("acceptNode", &node_filter::accept_node, false)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

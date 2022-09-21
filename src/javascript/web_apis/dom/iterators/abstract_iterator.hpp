@@ -5,9 +5,9 @@
 #include "dom_object.hpp"
 namespace dom::node_iterators {class abstract_iterator;}
 
+#include USE_INNER_TYPES(dom)
 namespace dom::node_iterators {class node_filter;}
 namespace dom::nodes {class node;}
-
 namespace dom::detail {auto filter(const nodes::node*, node_iterators::abstract_iterator*) -> ext::number<ushort>;}
 
 
@@ -27,11 +27,9 @@ public js_properties:
     ext::property<std::unique_ptr<nodes::node>> root;
     ext::property<ext::number<ulong>> what_to_show;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::boolean m_active_flag;
+public cpp_members:
+    MAKE_PIMPL_PROTECTED(abstract_iterator);
+    MAKE_V8_AVAILABLE;
 };
 
 

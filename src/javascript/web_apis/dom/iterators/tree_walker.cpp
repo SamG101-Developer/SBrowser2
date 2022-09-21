@@ -1,5 +1,6 @@
 #include "tree_walker.hpp"
 
+#include "abstract_iterator.hpp"
 #include "ext/functional.hpp"
 
 #include "dom/detail/tree_internals.hpp"
@@ -16,7 +17,7 @@
 
 
 dom::node_iterators::tree_walker::tree_walker()
-        : current_node(nullptr)
+        : current_node{nullptr}
 {}
 
 
@@ -25,8 +26,8 @@ auto dom::node_iterators::tree_walker::parent_node()
 {
     auto current_node_ancestors = detail::ancestors(current_node());
     auto filtered_ancestors = current_node_ancestors
-            | ranges::views::filter(ext::bind_back{detail::filter, this})
-            | ranges::views::take_while(ext::bind_back(std::not_equal_to{}, root()));
+            | ranges::views::filter(BIND_BACK(detail::filter, this))
+            | ranges::views::take_while(BIND_BACK(std::not_equal_to{}, root()));
 
     return *filtered_ancestors.begin();
 }
@@ -147,3 +148,22 @@ auto dom::node_iterators::tree_walker::next_node()
     }
 }
 
+
+auto dom::node_iterators::tree_walker::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<tree_walker>{isolate}
+        .inherit<abstract_iterator>()
+        .function("parentNode", &tree_walker::parent_node)
+        .function("firstChild", &tree_walker::first_child)
+        .function("lastChild", &tree_walker::last_child)
+        .function("nextSibling", &tree_walker::next_sibling)
+        .function("previousSibling", &tree_walker::prev_sibling)
+        .function("nextNode", &tree_walker::next_node)
+        .function("previousNode", &tree_walker::prev_node)
+        .var("currentNode", &tree_walker::current_node, true)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
+}

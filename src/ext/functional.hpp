@@ -118,7 +118,7 @@ struct ne
 
 #define BIND_BACK(function, ...)                  \
     [&]<typename ...Args>(Args&&... args) mutable \
-    {return function(std::forward<Args>(args...), __VA_ARGS__);}
+    {return function(std::forward<Args>(args)..., __VA_ARGS__);}
 
 
 _EXT_END

@@ -1,5 +1,6 @@
 #include "abstract_iterator.hpp"
 
+#include "dom/detail/traversal_internals.hpp"
 #include "dom/iterators/node_filter.hpp"
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
@@ -7,20 +8,22 @@
 
 
 dom::node_iterators::abstract_iterator::abstract_iterator()
-        : filter(nullptr)
-        , root(nullptr)
-        , what_to_show(0)
+        : filter{nullptr}
+        , root{nullptr}
+        , what_to_show{0}
 {}
 
 
 auto dom::node_iterators::abstract_iterator::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<abstract_iterator>{isolate}
+    decltype(auto) conversion = v8pp::class_<abstract_iterator>{isolate}
             .inherit<dom_object>()
             .var("filter", &abstract_iterator::filter, true)
             .var("root", &abstract_iterator::root, true)
             .var("whatToShow", &abstract_iterator::what_to_show, true)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

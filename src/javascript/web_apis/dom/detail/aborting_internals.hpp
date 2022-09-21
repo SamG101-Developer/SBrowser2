@@ -2,6 +2,7 @@
 #define SBROWSER2_ABORTING_INTERNALS_HPP
 
 #include "ext/any.hpp"
+#include USE_INNER_TYPES(dom)
 namespace dom::abort {class abort_signal;}
 
 
@@ -17,6 +18,12 @@ namespace dom::detail
             abort::abort_signal* parent_signal)
             -> void;
 }
+
+
+struct dom::detail::abort_signal_t
+{
+    abort_signal_callbacks_t m_abort_algorithms;
+};
 
 
 

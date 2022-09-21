@@ -15,7 +15,6 @@ public aliases:
     using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
 
 public constructors:
-    DOM_CTORS(node_filter);
     node_filter();
 
 public js_static_constants:
@@ -37,8 +36,8 @@ public js_static_constants:
 public js_properties:
     ext::property<accept_callback_t> accept_node;
     
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 
