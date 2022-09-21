@@ -122,7 +122,7 @@ auto dom::node_ranges::range::insert_node(
         nodes::node* new_container)
         -> nodes::node*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
                 [this, new_container]{return ext::multi_cast<nodes::comment*, nodes::processing_instruction*>(start_container())
                         || dynamic_cast<nodes::text*>(start_container()) && !new_container->parent_node()
@@ -169,7 +169,7 @@ auto dom::node_ranges::range::insert_node(
 
         return new_container;
 
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -330,7 +330,7 @@ auto dom::node_ranges::range::is_point_in_range(
 auto dom::node_ranges::range::extract_contents()
         -> nodes::document_fragment*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         // create a DocumentFragment node, and set its document to the same document that owns the 'start_container' of this
         // range; if this range is collapsed, then it doesn't contain anything, so return the empty DocumentFragment
         auto fragment = new nodes::document_fragment{};
@@ -389,14 +389,14 @@ auto dom::node_ranges::range::extract_contents()
         ext::tie(start_container, start_offset) = ext::make_tuple(new_node, new_offset);
         ext::tie(end_container  , end_offset  ) = ext::make_tuple(new_node, new_offset);
         return fragment;
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::node_ranges::range::clone_contents()
         -> nodes::document_fragment*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         // create a DocumentFragment node, and set its document to the same document that owns the 'start_container' of this
         // range; if this range is collapsed, then it doesn't contain anything, so return the empty DocumentFragment
         auto fragment = new nodes::document_fragment{};
@@ -448,14 +448,14 @@ auto dom::node_ranges::range::clone_contents()
                         end_offset(), detail::CLONE);
 
         return fragment;
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::node_ranges::range::delete_contents()
         -> nodes::document_fragment*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         return_if(collapsed()) static_cast<nodes::document_fragment*>(nullptr);
 
         // check if the start container of this Range is a textual container or not, ie is it / does it inherit the
@@ -494,7 +494,7 @@ auto dom::node_ranges::range::delete_contents()
         ext::tie(end_container  , end_offset  ) = ext::make_tuple(new_node, new_offset);
 
         return static_cast<nodes::document_fragment*>(nullptr); // TODO : return value
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -502,7 +502,7 @@ auto dom::node_ranges::range::surround_contents(
         nodes::node* parent)
         -> nodes::document_fragment*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
                 [this] {return ranges::any_of(
                         detail::descendants(m_root) | ranges::views::filter(ext::bind_back(detail::partially_contains, this)),
@@ -520,7 +520,7 @@ auto dom::node_ranges::range::surround_contents(
         select_node(parent);
 
         return fragment;
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
