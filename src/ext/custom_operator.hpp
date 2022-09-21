@@ -81,14 +81,14 @@ custom_operator(go)
 // annotation operators
 #define new_object
 #define same_object
-#define unscopable // TODO -> link to JS @@unscopable
+#define UNSCOPABLE v8::DontEnum // TODO -> link to JS @@unscopable
 
 
-#define ce_reactions_method_def \
-    auto _ce_method = [&]{;
+#define CE_REACTIONS_METHOD_DEF \
+    auto _ce_method = [&]{
 
 
-#define ce_reactions_method_exe                                                                                                   \
+#define CE_REACTIONS_METHOD_EXE                                                                                                   \
     };                                                                                                                            \
     {                                                                                                                             \
         using _stack_t = dom::detail::custom_element_reactions_stack_t;                                                           \
