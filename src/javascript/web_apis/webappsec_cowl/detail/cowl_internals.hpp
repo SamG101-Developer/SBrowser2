@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_DETAIL_COWL_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(webappsec_cowl)
+#include INCLUDE_INNER_TYPES(webappsec_cowl)
 
 namespace webappsec::cowl {class label;}
 

@@ -7,7 +7,7 @@ namespace device_orientation {class device_orientation_event;}
 
 #include "ext/promise.hpp"
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(device_orientation)
+#include INCLUDE_INNER_TYPES(device_orientation)
 
 
 class device_orientation::device_orientation_event

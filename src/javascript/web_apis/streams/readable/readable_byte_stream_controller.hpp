@@ -5,7 +5,7 @@
 #include "streams/readable/abstract_readable_stream_controller.hpp"
 namespace streams::readable {class readable_byte_stream_controller;}
 
-#include USE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(streams)
 namespace streams::readable {class readable_stream_byob_request;}
 
 class streams::readable::readable_byte_stream_controller

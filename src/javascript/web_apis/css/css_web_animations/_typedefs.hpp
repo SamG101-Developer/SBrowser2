@@ -9,11 +9,6 @@
 
 namespace css::detail
 {
-    struct animation_timeline_t;
-    struct document_timeline_t;
-    struct animation_t;
-    struct animation_effect_t;
-    struct keyframe_effect_t;
     struct keyframe_t;
 
     enum class animation_play_state_t {IDLE, RUNNING, PAUSED, FINISHED};

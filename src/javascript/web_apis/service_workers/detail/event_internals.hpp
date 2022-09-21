@@ -4,7 +4,7 @@
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::events {class extendable_event;}
 
 namespace service_workers::detail

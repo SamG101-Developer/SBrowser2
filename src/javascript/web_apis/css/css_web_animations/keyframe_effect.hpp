@@ -5,7 +5,9 @@
 #include "css/css_web_animations/animation_effect.hpp"
 namespace css::css_web_animations {class keyframe_effect;}
 
-#include USE_INNER_TYPES(css/css_web_animations)
+
+#include "css/css_web_animations/keyframe_effect_private.hpp"
+#include INCLUDE_INNER_TYPES(css/css_web_animations)
 namespace dom::nodes {class element;}
 
 

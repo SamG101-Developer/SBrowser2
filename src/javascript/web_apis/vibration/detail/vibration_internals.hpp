@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(vibration)
+#include INCLUDE_INNER_TYPES(vibration)
 
 namespace vibration::detail
 {

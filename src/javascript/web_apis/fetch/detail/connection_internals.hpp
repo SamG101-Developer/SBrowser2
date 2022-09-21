@@ -7,9 +7,9 @@
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace fetch::detail

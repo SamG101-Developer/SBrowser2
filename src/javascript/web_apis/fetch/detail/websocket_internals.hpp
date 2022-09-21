@@ -5,8 +5,8 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace fetch::detail
 {

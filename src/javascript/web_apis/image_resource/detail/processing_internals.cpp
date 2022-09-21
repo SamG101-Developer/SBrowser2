@@ -3,8 +3,8 @@
 #include "fetch/_typedefs.hpp"
 #include "javascript/environment/realms_2.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(image_resource)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(image_resource)
 
 #include "fetch/detail/body_internals.hpp"
 #include "fetch/detail/fetch_internals.hpp"

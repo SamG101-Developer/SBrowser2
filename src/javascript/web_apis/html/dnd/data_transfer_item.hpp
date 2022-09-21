@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::dnd {class data_transfer_item;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace file_api {class file;}
 
 

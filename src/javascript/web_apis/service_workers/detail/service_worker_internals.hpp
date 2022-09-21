@@ -8,12 +8,12 @@
 #include "ext/promise.hpp"
 #include <v8-forward.h>
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(service_workers)
-#include USE_INNER_TYPES(storage)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(storage)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace service_workers::events {class extendable_event;}
 namespace service_workers::workers {class service_worker;}

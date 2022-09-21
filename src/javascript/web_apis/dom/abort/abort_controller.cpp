@@ -16,7 +16,7 @@ auto dom::abort::abort_controller::abort(
         const -> void
 {
     // abort the signal with the reason
-    detail::signal_abort(signal(), reason);
+    detail::signal_abort(d_ptr->, reason);
 }
 
 

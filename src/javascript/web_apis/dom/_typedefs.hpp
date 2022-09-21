@@ -21,10 +21,6 @@ namespace dom::detail
     struct event_path_struct_t;
     struct registered_observer_t;
     struct transient_registered_observer_t;
-    struct abort_signal_t;
-    struct event_t;
-    struct abstract_iterator_t;
-    struct mutation_observer_t;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
@@ -36,7 +32,8 @@ namespace dom::detail
 
     using abort_signal_callback_t  = ext::function<void()>;
     using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
-    using event_listener_options_t = ext::variant<ext::boolean, ext::map<ext::string, ext::any>>;
+    using event_listener_options_t = ext::map<ext::string, ext::any>;
+    using add_event_listener_options_t = ext::map<ext::string, ext::any>;
     using exception_condiditional_t = ext::function<bool()>;
     using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
     using window_post_message_options_t = ext::map<ext::string, ext::any>;

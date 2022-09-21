@@ -22,7 +22,7 @@ namespace dom::detail
     // general mutations to attributes
     auto change(
             nodes::attr* attribute,
-            ext::string_view new_value)
+            ext::string&& new_value)
             -> nodes::attr*;
 
     auto append(
@@ -68,8 +68,13 @@ namespace dom::detail
     // setter helpers
     auto set_existing_attribute_value(
             nodes::attr* attribute,
-            ext::string_view value)
+            ext::string&& value)
             -> void;
+
+    // other
+    auto qualified_name(
+            nodes::attr* attribute)
+            -> ext::string;
 }
 
 

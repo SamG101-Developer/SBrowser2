@@ -1,0 +1,14 @@
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_OTHER_CSS_STYLE_DECLARATION_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_OTHER_CSS_STYLE_DECLARATION_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+#include INCLUDE_INNER_TYPES(css/cssom)
+
+
+DEFINE_PRIVATE_CLASS(css::cssom, css_style_declaration)
+{
+    std::unique_ptr<detail::css_declaration_block_t> declarations;
+};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_OTHER_CSS_STYLE_DECLARATION_PRIVATE_HPP

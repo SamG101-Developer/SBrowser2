@@ -28,8 +28,8 @@ public js_properties:
     ext::property<ext::string> data;
     ext::property<ext::number<ulong>> length;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_name) override {return "";};

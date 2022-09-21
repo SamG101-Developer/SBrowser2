@@ -3,8 +3,8 @@
 
 #include "ext/optional.hpp"
 
-#include USE_INNER_TYPES(service_workers)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace service_workers::detail
 {

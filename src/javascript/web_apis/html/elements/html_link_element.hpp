@@ -4,8 +4,8 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_link_element;}
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 
 
 class html::elements::html_link_element

@@ -11,7 +11,7 @@ namespace file_api {class blob;}
 #include "ext/vector.hpp"
 #include "ext/promise.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(file_api)
+#include INCLUDE_INNER_TYPES(file_api)
 namespace streams::readable {class readable_stream;}
 
 

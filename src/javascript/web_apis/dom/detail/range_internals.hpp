@@ -5,7 +5,7 @@
 #include "ext/tuple.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class character_data;}
 namespace dom::nodes {class document_fragment;}

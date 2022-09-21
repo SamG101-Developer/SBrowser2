@@ -5,7 +5,7 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace largest_contentful_paint {class largest_contentful_paint;}
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class element;}
 
 

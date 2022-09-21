@@ -1,7 +1,7 @@
 #include "abstract_encoder_decoder.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(web_codecs)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(web_codecs)
 
 #include "dom/detail/exception_internals.hpp"
 #include "dom/other/dom_exception.hpp"

@@ -6,8 +6,8 @@
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(webappsec_credential_management)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(webappsec_credential_management)
 
 namespace webappsec::credential_management {class credential;}
 

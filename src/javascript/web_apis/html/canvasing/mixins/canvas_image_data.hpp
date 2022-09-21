@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_image_data;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::canvasing {class image_data;}
 
 

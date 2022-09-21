@@ -6,8 +6,8 @@
 #include "html/mixins/html_hyperlink_element_utils.hpp"
 namespace html::elements {class html_area_element;}
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 
 
 class html::elements::html_area_element

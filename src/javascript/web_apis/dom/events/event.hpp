@@ -11,7 +11,7 @@ namespace dom::events {class event;}
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 namespace dom::nodes {class event_target;}
 namespace dom::detail {auto dispatch(events::event*, nodes::event_target*) -> ext::boolean;}

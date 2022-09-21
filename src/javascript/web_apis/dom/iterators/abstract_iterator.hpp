@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace dom::node_iterators {class abstract_iterator;}
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::node_iterators {class node_filter;}
 namespace dom::nodes {class node;}
 namespace dom::detail {auto filter(const nodes::node*, node_iterators::abstract_iterator*) -> ext::number<ushort>;}

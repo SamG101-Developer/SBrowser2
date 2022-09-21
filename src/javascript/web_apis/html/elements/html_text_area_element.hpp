@@ -6,7 +6,7 @@
 #include "html/mixins/validatable.hpp"
 namespace html::elements {class html_text_area_element;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::elements {class html_form_element;}
 
 

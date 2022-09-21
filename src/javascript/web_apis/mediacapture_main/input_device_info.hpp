@@ -6,7 +6,7 @@
 namespace mediacapture::main {class input_device_info;}
 
 #include "ext/map.hpp"
-#include USE_INNER_TYPES(mediacapture_main)
+#include INCLUDE_INNER_TYPES(mediacapture_main)
 
 class mediacapture::main::input_device_info
         : public media_device_info

@@ -6,8 +6,8 @@
 namespace service_workers::caches {class cache;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(service_workers)
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(fetch)
 namespace fetch {class response;}
 
 class service_workers::caches::cache

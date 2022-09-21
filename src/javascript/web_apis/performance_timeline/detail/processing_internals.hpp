@@ -5,7 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(performance_timeline)
+#include INCLUDE_INNER_TYPES(performance_timeline)
 namespace performance_timeline {class performance_entry;}
 
 

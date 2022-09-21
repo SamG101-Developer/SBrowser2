@@ -1,6 +1,6 @@
 #include "abstract_decoder.hpp"
 
-#include USE_INNER_TYPES(web_codecs)
+#include INCLUDE_INNER_TYPES(web_codecs)
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "web_codecs/detail/algorithm_internals.hpp"

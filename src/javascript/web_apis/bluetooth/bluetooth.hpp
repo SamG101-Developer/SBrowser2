@@ -8,7 +8,7 @@ namespace bluetooth {class bluetooth;}
 #include "ext/boolean.hpp"
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(bluetooth)
+#include INCLUDE_INNER_TYPES(bluetooth)
 namespace bluetooth {class bluetooth_device;}
 
 

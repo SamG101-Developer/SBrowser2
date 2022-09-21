@@ -9,8 +9,8 @@
 #include "ext/vector.hpp"
 
 #include <v8-forward.h>
-#include USE_INNER_TYPES(indexed_db)
-#include USE_INNER_TYPES(storage)
+#include INCLUDE_INNER_TYPES(indexed_db)
+#include INCLUDE_INNER_TYPES(storage)
 
 namespace indexed_db {class idb_open_request;}
 namespace indexed_db {class idb_transaction;}

@@ -5,9 +5,9 @@
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(network_error_logging)
-#include USE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(network_error_logging)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 
 
 namespace network_error_logging::detail

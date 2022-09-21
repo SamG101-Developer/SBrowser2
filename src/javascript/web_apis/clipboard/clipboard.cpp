@@ -3,11 +3,11 @@
 #include "dom/events/event.hpp"
 #include "ext/ranges.hpp"
 
-#include USE_INNER_TYPES(clipboard)
+#include INCLUDE_INNER_TYPES(clipboard)
 #include "clipboard/clipboard_item.hpp"
 #include "clipboard/detail/clipboard_internals.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 #include "dom/detail/observer_internals.hpp"
 #include "dom/other/dom_exception.hpp"
 

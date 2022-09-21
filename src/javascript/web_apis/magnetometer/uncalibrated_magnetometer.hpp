@@ -5,7 +5,7 @@
 #include "magnetometer/magnetometer.hpp"
 namespace magnetometer {class uncalibrated_magnetometer;}
 
-#include USE_INNER_TYPES(magnetometer)
+#include INCLUDE_INNER_TYPES(magnetometer)
 
 
 class magnetometer::uncalibrated_magnetometer

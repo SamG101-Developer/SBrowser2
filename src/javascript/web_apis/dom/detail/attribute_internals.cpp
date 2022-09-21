@@ -47,12 +47,12 @@ auto dom::detail::handle_attributes_changes(
 
 auto dom::detail::change(
         nodes::attr* const attribute,
-        ext::string_view new_value)
+        ext::string&& new_value)
         -> nodes::attr*
 {
     // handle the attribute changes, and set the attribute 'value' to 'new_value'
     handle_attributes_changes(attribute, attribute->owner_element(), attribute->value(), new_value);
-    attribute->value = new_value;
+    attribute->value = std::move(new_value);
     return attribute;
 }
 
@@ -190,12 +190,20 @@ auto dom::detail::toggle_attribute(
 
 auto dom::detail::set_existing_attribute_value(
         nodes::attr* const attribute,
-        ext::string_view value)
+        ext::string&& value)
         -> void
 {
     // if there is not 'owner_element', then change the value normally (no need to call update methods), but if there is
     // an 'owner_element', then call the 'change(...)' method to call all the necessary updates
     !attribute->owner_element()
             ? static_cast<void>(attribute->value = ext::string{value})
-            : static_cast<void>(change(attribute, value));
+            : static_cast<void>(change(attribute, std::move(value)));
+}
+
+
+auto dom::detail::qualified_name(
+        nodes::attr* attribute)
+        -> ext::string
+{
+    return attribute->prefix() + ":" + attribute->local_name();
 }

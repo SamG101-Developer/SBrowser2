@@ -26,7 +26,7 @@ auto dom::abort::abort_signal::abort(
 {
     // create a signal, mark it as aborted by giving it a reason, and return it
     auto signal = abort_signal{};
-    signal.reason = reason.value_or(other::dom_exception{"", ABORT_ERR});
+    signal.d_ptr->abort_reason = reason.value_or(other::dom_exception{"", ABORT_ERR});
     return signal;
 }
 
@@ -56,13 +56,17 @@ auto dom::abort::abort_signal::throw_if_aborted()
 {
     // if the reason attribute has been set, throw a v8 exception
     detail::throw_v8_exception_formatted<ABORT_ERR>(
-            [this] {return reason().to<ext::boolean>();},
-            reason().to<other::dom_exception>().message());
+            [this] {return detail::is_signal_aborted(this);},
+            d_ptr->abort_reason);
 }
 
 
 auto dom::abort::abort_signal::get_aborted() const -> decltype(this->aborted)::value_t
-{return reason().has_value();}
+{return detail::is_signal_aborted(this);}
+
+
+auto dom::abort::abort_signal::get_reason() const -> decltype(this->reason)::value_t
+{return d_ptr->abort_reason;}
 
 
 auto dom::abort::abort_signal::to_v8(

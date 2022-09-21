@@ -1,7 +1,7 @@
 #include "abstract_operations_internals.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(geolocation_sensor)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(geolocation_sensor)
 #include "dom/detail/exception_internals.hpp"
 #include "geolocation_sensor/geolocation_sensor.hpp"
 #include "sensors/detail/sensor_internals.hpp"

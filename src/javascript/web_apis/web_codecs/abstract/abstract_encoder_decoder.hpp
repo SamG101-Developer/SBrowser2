@@ -7,7 +7,7 @@ namespace web_codecs::abstract {class abstract_encoder_decoder;}
 
 #include "ext/promise.hpp"
 #include "ext/queue.hpp"
-#include USE_INNER_TYPES(web_codecs)
+#include INCLUDE_INNER_TYPES(web_codecs)
 
 
 class web_codecs::abstract::abstract_encoder_decoder

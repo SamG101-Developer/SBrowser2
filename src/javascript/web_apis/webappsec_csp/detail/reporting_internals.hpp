@@ -2,8 +2,8 @@
 #define SBROWSER2_REPORTING_INTERNALS_HPP
 
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(webappsec_csp)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(webappsec_csp)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace webappsec::detail

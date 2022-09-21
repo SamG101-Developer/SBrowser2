@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_path;}
 
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 
 
 class html::canvasing::mixins::canvas_path

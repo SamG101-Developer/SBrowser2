@@ -5,13 +5,12 @@
 #include "dom/nodes/event_target.hpp"
 namespace dom::abort {class abort_signal;}
 
+
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/optional.hpp"
 #include "ext/type_traits.hpp"
-
-#include USE_INNER_TYPES(dom)
-
+#include "dom/abort/abort_signal_private.hpp"
 namespace dom::nodes {class event_target;}
 namespace dom::detail {auto signal_abort(abort::abort_signal*, const ext::any&) -> void;}
 namespace dom::detail {auto follow_signal(abort::abort_signal*, abort::abort_signal*) -> void;}
@@ -42,12 +41,13 @@ public js_properties:
     ext::property<ext::boolean> aborted;
     ext::property<ext::any> reason;
 
-public cpp_members:
+private cpp_members:
     MAKE_PIMPL(abort_signal);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(aborted);
+    DEFINE_CUSTOM_GETTER(reason);
 };
 
 

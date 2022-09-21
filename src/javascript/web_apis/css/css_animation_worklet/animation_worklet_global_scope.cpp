@@ -2,8 +2,8 @@
 
 #include "javascript/environment/realms_2.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(css/css_animation_worklet)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(css/css_animation_worklet)
 
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"

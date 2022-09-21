@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace file_api {class file_reader;}
 
-#include USE_INNER_TYPES(file_api)
+#include INCLUDE_INNER_TYPES(file_api)
 namespace dom::other {class dom_exception;}
 namespace file_api {class blob;}
 

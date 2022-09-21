@@ -6,7 +6,7 @@
 #include "ext/vector_like.hpp"
 namespace html::elements {class html_select_element;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class node;}
 namespace html::elements {class html_form_element;}
 

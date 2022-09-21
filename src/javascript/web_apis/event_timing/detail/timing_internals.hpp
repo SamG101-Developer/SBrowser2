@@ -4,8 +4,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EVENT_TIMING_DETAIL_TIMING_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(event_timing)
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(event_timing)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}

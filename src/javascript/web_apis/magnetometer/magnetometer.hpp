@@ -5,7 +5,7 @@
 #include "sensors/sensor.hpp"
 namespace magnetometer {class magnetometer;}
 
-#include USE_INNER_TYPES(magnetometer)
+#include INCLUDE_INNER_TYPES(magnetometer)
 
 
 class magnetometer::magnetometer

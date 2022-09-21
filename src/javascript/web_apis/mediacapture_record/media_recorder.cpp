@@ -2,8 +2,8 @@
 
 #include "ext/ranges.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(mediacapture_record)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(mediacapture_record)
 
 #include "dom/detail/exception_internals.hpp"
 #include "mediacapture_main/detail/track_internals.hpp"

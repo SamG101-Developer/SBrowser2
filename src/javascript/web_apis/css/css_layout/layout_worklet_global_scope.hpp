@@ -5,7 +5,7 @@
 #include "html/workers/worklet_global_scope.hpp"
 namespace css::css_layout {class layout_worklet_global_scope;}
 
-#include USE_INNER_TYPES(.)
+#include INCLUDE_INNER_TYPES(.)
 
 
 class css::css_layout::layout_worklet_global_scope

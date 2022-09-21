@@ -9,7 +9,7 @@ namespace reporting {class reporting_observer;}
 #include "ext/map.hpp"
 #include "ext/queue.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(reporting)
+#include INCLUDE_INNER_TYPES(reporting)
 namespace reporting {class report;}
 
 

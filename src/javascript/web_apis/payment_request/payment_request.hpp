@@ -8,7 +8,7 @@ namespace payment::request {class payment_request;}
 #include "ext/promise.hpp"
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
-#include USE_INNER_TYPES(payment_request)
+#include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::request {class payment_details_base;}
 namespace payment::request {class payment_response;}
 

@@ -5,7 +5,7 @@
 namespace intersection_observer {class intersection_observer_entry;}
 
 #include "ext/map.hpp"
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class element;}
 namespace geometry {class dom_rect_readonly;}
 

@@ -1,8 +1,8 @@
 #include "abstract_operations_internals.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(gyroscope)
-#include USE_INNER_TYPES(sensors)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(gyroscope)
+#include INCLUDE_INNER_TYPES(sensors)
 #include "dom/detail/exception_internals.hpp"
 #include "gyroscope/gyroscope.hpp"
 #include "sensors/detail/sensor_internals.hpp"

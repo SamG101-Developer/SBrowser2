@@ -6,8 +6,8 @@
 #include "html/mixins/lazy_loadable.hpp"
 namespace html::elements {class html_iframe_element;}
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class window_proxy;}
 namespace permissions_policy {class permissions_policy_object;}

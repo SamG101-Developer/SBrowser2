@@ -5,8 +5,8 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_transform;}
 
-#include USE_INNER_TYPES(css/geometry)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(html)
 namespace css::geometry {class dom_matrix;}
 
 

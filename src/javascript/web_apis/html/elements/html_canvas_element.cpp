@@ -2,8 +2,8 @@
 
 #include "javascript/environment/feature_support.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"

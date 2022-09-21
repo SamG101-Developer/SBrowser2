@@ -4,8 +4,8 @@
 
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(service_workers)
 namespace dom::nodes {class document;}
 
 namespace navigation_timing::detail

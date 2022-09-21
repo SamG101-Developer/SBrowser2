@@ -2,7 +2,7 @@
 #include "css/css_syntax/_typedefs.hpp"
 #include "style_sheet.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 #include "css/cssom/detail/style_sheet_internals.hpp"
 #include "css/css_syntax/detail/parsing_internals.hpp"

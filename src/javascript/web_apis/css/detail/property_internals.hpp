@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_DETAIL_PROPERTY_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(css)
+#include INCLUDE_INNER_TYPES(css)
 
 class QPainter;
 class QWidget;

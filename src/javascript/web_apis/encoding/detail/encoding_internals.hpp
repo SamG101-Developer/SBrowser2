@@ -5,7 +5,7 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(encoding)
+#include INCLUDE_INNER_TYPES(encoding)
 
 namespace encoding {class encoding;}
 namespace encoding::mixins {class text_decoder_common;}

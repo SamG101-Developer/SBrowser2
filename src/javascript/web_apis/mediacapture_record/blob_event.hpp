@@ -5,7 +5,7 @@
 #include "dom/events/event.hpp"
 namespace mediacapture::record {class blob_event;}
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace file_api {class blob;}
 
 

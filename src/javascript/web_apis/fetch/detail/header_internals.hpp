@@ -7,7 +7,7 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(fetch)
 
 namespace fetch::detail
 {

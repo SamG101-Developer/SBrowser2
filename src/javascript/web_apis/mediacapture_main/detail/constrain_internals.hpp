@@ -8,7 +8,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(mediacapture_main)
+#include INCLUDE_INNER_TYPES(mediacapture_main)
 namespace mediacapture::main::mixins {class constrainable;}
 
 namespace mediacapture::detail

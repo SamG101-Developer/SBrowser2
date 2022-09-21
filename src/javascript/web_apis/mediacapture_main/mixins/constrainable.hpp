@@ -7,7 +7,7 @@ namespace mediacapture::main::mixins {class constrainable;}
 
 #include "ext/promise.hpp"
 #include "ext/map.hpp"
-#include USE_INNER_TYPES(mediacapture_main)
+#include INCLUDE_INNER_TYPES(mediacapture_main)
 
 
 class mediacapture::main::mixins::constrainable

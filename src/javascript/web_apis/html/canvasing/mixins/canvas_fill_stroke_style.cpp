@@ -1,6 +1,6 @@
 #include "canvas_fill_stroke_style.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 #include "dom/detail/exception_internals.hpp"
 #include "html/canvasing/canvas_gradient.hpp"

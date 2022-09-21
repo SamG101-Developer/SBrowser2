@@ -6,7 +6,7 @@
 #include "mixins/canvas_path.hpp"
 namespace html::canvasing {class path_2d;}
 
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 #include <qpainterpath.h>
 
 

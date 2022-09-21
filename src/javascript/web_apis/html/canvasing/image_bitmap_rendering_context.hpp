@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing {class image_bitmap_rendering_context;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::canvasing {class image_bitmap;}
 namespace html::canvasing {class offscreen_canvas;}
 namespace html::elements {class html_canvas_element;}

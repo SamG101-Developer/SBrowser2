@@ -5,7 +5,7 @@
 #include "ext/optional.hpp"
 #include <v8-local-handle.h>
 #include <v8-object.h>
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace hr_time::hr_time {class performance;}
 
 namespace hr_time::detail

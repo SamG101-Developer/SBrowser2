@@ -6,7 +6,7 @@
 namespace webgl2::other {class webgl_active_info;}
 
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(webgl2)
+#include INCLUDE_INNER_TYPES(webgl2)
 
 
 class webgl2::other::webgl_active_info

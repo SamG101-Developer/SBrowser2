@@ -21,14 +21,9 @@ public js_properties:
     ext::property<ext::string> slot_assignment;
     ext::property<ext::boolean> delegates_focus;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_methods:
-    auto get_the_parent(events::event* event) -> event_target* override;
-
-private cpp_properties:
-    ext::boolean m_available_to_element_internals;
+private cpp_members:
+    MAKE_PIMPL(shadow_root);
+    MAKE_V8_AVAILABLE;
 };
 
 

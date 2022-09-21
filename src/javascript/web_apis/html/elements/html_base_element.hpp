@@ -4,7 +4,7 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_base_element;}
 
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(url)
 
 class html::elements::html_base_element
         : html_element

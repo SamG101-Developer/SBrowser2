@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_HPP
 
 #include "dom/nodes/event_target.hpp"
-#include USE_INNER_TYPES(media_source)
+#include INCLUDE_INNER_TYPES(media_source)
 namespace media::source {class source_buffer;}
 
 namespace html::basic_media {class time_ranges;}

@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LARGEST_CONTENTFUL_PAINT_DETAIL_PROCESSING_INTERNALS_HPP
 
 #include "ext/map.hpp"
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class document; class element;}
 namespace fetch {class request;}
 namespace geometry {class dom_rect_readonly;}

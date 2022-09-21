@@ -7,7 +7,7 @@
 namespace css::geometry {class dom_rect_readonly;}
 
 #include <qrect.h>
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 
 
 class css::geometry::dom_rect_readonly

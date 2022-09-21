@@ -4,7 +4,7 @@
 #include "blob.hpp"
 namespace file_api {class file;}
 
-#include USE_INNER_TYPES(file_api)
+#include INCLUDE_INNER_TYPES(file_api)
 
 
 class file_api::file

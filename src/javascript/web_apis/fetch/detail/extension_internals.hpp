@@ -6,8 +6,8 @@
 #include "ext/string.hpp"
 #include <v8-object.h>
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
 
 
 namespace fetch::detail

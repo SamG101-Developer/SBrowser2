@@ -5,7 +5,7 @@
 #include "ext/expected.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(css/css_syntax)
+#include INCLUDE_INNER_TYPES(css/css_syntax)
 
 
 namespace css::detail

@@ -6,8 +6,8 @@
 namespace notifications {class notification;}
 
 #include "ext/type_traits.hpp"
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(notifications)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(notifications)
 
 
 class notifications::notification

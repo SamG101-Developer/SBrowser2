@@ -7,7 +7,8 @@
 
 
 dom::nodes::shadow_root::shadow_root()
-        : delegates_focus(false)
+        : INIT_PIMPL
+        , delegates_focus{false}
 {}
 
 
@@ -15,10 +16,7 @@ auto dom::nodes::shadow_root::get_the_parent(
         events::event* event)
         -> event_target*
 {
-    auto event_composed = event->composed();
-    auto* event_root = detail::root(dynamic_cast<node*>(event->path()->front()->invocation_target));
 
-    return !event_composed && event_root == this ? nullptr : host();
 }
 
 

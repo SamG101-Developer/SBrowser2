@@ -7,10 +7,10 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(image_resource)
-#include USE_INNER_TYPES(mimesniff)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(image_resource)
+#include INCLUDE_INNER_TYPES(mimesniff)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace image_resource::detail

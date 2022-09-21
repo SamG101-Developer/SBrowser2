@@ -5,7 +5,7 @@
 namespace svg::elements {class svg_geometry_element;}
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 namespace css::geometry {class dom_point;}
 
 

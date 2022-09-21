@@ -20,7 +20,7 @@
 #include "html/canvasing/mixins/canvas_path.hpp"
 namespace html::canvasing {class offscreen_canvas_rendering_context_2d;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::canvasing {class offscreen_canvas;}
 
 

@@ -6,7 +6,7 @@
 #include "html/mixins/serializable.hpp"
 namespace web_crypto {class crypto_key;}
 
-#include USE_INNER_TYPES(web_crypto)
+#include INCLUDE_INNER_TYPES(web_crypto)
 
 
 class web_crypto::crypto_key

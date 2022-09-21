@@ -11,28 +11,34 @@
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 
+#include "dom_object_private.hpp"
+
 #include <memory>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
-namespace dom::events {class event;}
 namespace dom::nodes {class document;}
+namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 
-#define behaviour_method(...) ext::function<void(__VA_ARGS__) const>
+
+#define BEHAVIOUR_METHOD(...) ext::function<void(__VA_ARGS__) const>
+
 
 #define DOM_CTORS(type)  \
     DISALLOW_COPY(type); \
     ALLOW_MOVE(type)
+
 
 #define MAKE_V8_AVAILABLE \
 public:                   \
     SELF_MACRO_DEFINE_SELF(self_t, public);\
     static auto to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 
+
 #define MAKE_STRINGIFIER \
 public:                  \
-    operator ext::string()
+    operator ext::string() const
 
 
 class dom_object
@@ -41,43 +47,44 @@ public constructors:
     dom_object() = default;
     virtual ~dom_object() = default;
 
-private cpp_members:
-    MAKE_V8_AVAILABLE;
-    MAKE_STRINGIFIER {return "";}
-
-    struct // TODO : move to dom::nodes::event_target
+public:
+    struct
     {
-        behaviour_method(
+        BEHAVIOUR_METHOD(
                 dom::events::event* event_causing_activation)
                 activation_behaviour;
 
-        behaviour_method(
+        BEHAVIOUR_METHOD(
                 dom::nodes::node* node_to_remove)
                 remove_steps;
 
-        behaviour_method(
+        BEHAVIOUR_METHOD(
                 dom::nodes::node* clone,
                 dom::nodes::document* document_to_clone_into,
                 ext::boolean deep_clone)
                 cloning_steps;
 
-        behaviour_method(
+        BEHAVIOUR_METHOD(
                 ext::string local_name,
                 ext::string old_value,
                 ext::string new_value,
                 ext::string namespace_)
                 attribute_change_steps;
 
-        behaviour_method()
+        BEHAVIOUR_METHOD()
                 adopting_steps;
 
-        behaviour_method()
+        BEHAVIOUR_METHOD()
                 children_changed_steps;
 
-        behaviour_method()
+        BEHAVIOUR_METHOD()
                 insertion_steps;
 
     } m_dom_behaviour;
+
+private cpp_members:
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER {return "";}
 };
 
 

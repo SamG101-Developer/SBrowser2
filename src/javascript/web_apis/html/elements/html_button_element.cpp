@@ -2,7 +2,7 @@
 
 #include "dom/detail/node_internals.hpp"
 #include "dom/nodes/node.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 html::elements::html_button_element::html_button_element()

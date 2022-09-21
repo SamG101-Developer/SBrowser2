@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAINT_TIMING_DETAIL_PAINT_TIMING_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace css::geometry {class dom_rect;}
 namespace dom::nodes {class element;}
 

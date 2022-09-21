@@ -8,13 +8,10 @@
 
 namespace css::detail
 {
-    struct css_rule_t;
-    struct css_style_sheet_t;
     struct css_declaration_t;
     struct css_declaration_block_t;
 
     using css_style_sheet_init_t = ext::map<ext::string, ext::any>;
-    using css_style_declaration_t = css_declaration_block_t;
 }
 
 

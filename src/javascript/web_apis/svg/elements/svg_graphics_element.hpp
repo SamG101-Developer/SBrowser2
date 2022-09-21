@@ -4,7 +4,7 @@
 #include "svg/elements/svg_element.hpp"
 namespace svg::elements {class svg_graphics_element;}
 
-#include USE_INNER_TYPES(svg)
+#include INCLUDE_INNER_TYPES(svg)
 namespace css::geometry {class dom_rect;}
 
 

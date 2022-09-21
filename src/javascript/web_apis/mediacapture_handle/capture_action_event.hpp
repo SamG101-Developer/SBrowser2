@@ -5,7 +5,7 @@
 #include "dom/events/event.hpp"
 namespace mediacapture::handle {class capture_action_event;}
 
-#include USE_INNER_TYPES(mediacapture_handle)
+#include INCLUDE_INNER_TYPES(mediacapture_handle)
 
 
 class mediacapture::handle::capture_action_event

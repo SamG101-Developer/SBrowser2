@@ -3,9 +3,11 @@
 
 auto dom::nodes::cdata_section::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<cdata_section>{isolate}
+    decltype(auto) conversion = v8pp::class_<cdata_section>{isolate}
             .inherit<text>()
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

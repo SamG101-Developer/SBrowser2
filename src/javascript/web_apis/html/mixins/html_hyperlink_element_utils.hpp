@@ -4,7 +4,7 @@
 #include "dom_object.hpp"
 namespace html::mixins {class html_hyperlink_element_utils;}
 
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(url)
 
 class html::mixins::html_hyperlink_element_utils
         : public virtual dom_object

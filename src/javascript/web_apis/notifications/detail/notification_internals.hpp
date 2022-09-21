@@ -5,12 +5,12 @@
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(notifications)
-#include USE_INNER_TYPES(permissions)
-#include USE_INNER_TYPES(service_workers)
-#include USE_INNER_TYPES(vibration)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(notifications)
+#include INCLUDE_INNER_TYPES(permissions)
+#include INCLUDE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(vibration)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace notifications::detail

@@ -5,7 +5,11 @@
 #include "dom_object.hpp"
 namespace css::css_web_animations {class animation_effect;}
 
-#include USE_INNER_TYPES(css/css_web_animations)
+
+#include INCLUDE_INNER_TYPES(css/css_web_animations)
+
+
+#include "css/css_web_animations/animation_effect_private.hpp"
 
 
 class css::css_web_animations::animation_effect

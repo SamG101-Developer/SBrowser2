@@ -5,7 +5,7 @@
 namespace dom::other {class dom_exception;}
 
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 
 class dom::other::dom_exception

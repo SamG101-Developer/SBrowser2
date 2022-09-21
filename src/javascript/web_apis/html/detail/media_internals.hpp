@@ -10,9 +10,9 @@
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace dom::other {class dom_exception;}
 namespace html::basic_media {class text_track;}

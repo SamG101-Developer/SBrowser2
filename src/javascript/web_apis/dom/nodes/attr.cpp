@@ -1,9 +1,11 @@
 #include "attr.hpp"
 
 #include "dom/detail/attribute_internals.hpp"
+#include "dom/nodes/element.hpp"
 
 
 dom::nodes::attr::attr()
+        : INIT_PIMPL
 {
     bind_get(node_value);
     bind_get(text_content);
@@ -23,19 +25,11 @@ auto dom::nodes::attr::set_value(
 }
 
 
-auto dom::nodes::attr::qualified_name()
-        const -> ext::string
-{
-    ext::string concat = prefix() + ":" + local_name();
-    return concat;
-}
-
-
 auto dom::nodes::attr::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<attr>{isolate}
+    decltype(auto) conversion = v8pp::class_<attr>{isolate}
             .inherit<node>()
             .var("namespaceURI", &attr::namespace_uri, true)
             .var("prefix", &attr::prefix, true)
@@ -43,4 +37,6 @@ auto dom::nodes::attr::to_v8(
             .var("name", &attr::name, true)
             .var("value", &attr::value, false)
             .var("ownerElement", &attr::owner_element, true);
+
+    return std::move(conversion);
 }

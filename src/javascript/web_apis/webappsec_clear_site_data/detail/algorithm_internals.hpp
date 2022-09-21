@@ -3,8 +3,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLEAR_SITE_DATA_DETAIL_ALGORITHM_INTERNALS_HPP
 
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(fetch)
 
 
 namespace webappsec::detail

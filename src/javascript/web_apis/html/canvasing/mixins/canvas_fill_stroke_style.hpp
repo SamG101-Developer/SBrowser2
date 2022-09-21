@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_fill_stroke_style;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::canvasing {class canvas_gradient;}
 namespace html::canvasing {class canvas_pattern;}
 

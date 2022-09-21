@@ -5,7 +5,8 @@
 #include "dom_object.hpp"
 namespace css::cssom::style_sheets {class style_sheet;}
 
-#include USE_INNER_TYPES(css/cssom)
+#include "css/cssom/style_sheets/style_sheet_private.hpp"
+#include INCLUDE_INNER_TYPES(css/cssom)
 namespace css::cssom::style_sheets {class css_style_sheet;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class processing_instruction;}
@@ -28,7 +29,7 @@ public js_properties:
     ext::property<ext::boolean> disabled;
 
 private cpp_members:
-    MAKE_PIMPL_PROTECTED(css_style_sheet);
+    MAKE_PIMPL(css_style_sheet);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:

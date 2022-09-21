@@ -7,9 +7,9 @@
 #include "html/detail/document_internals.hpp"
 #include "permissions/detail/permission_internals.hpp"
 
-#include USE_INNER_TYPES(geolocation)
-#include USE_INNER_TYPES(page_visibility)
-#include USE_INNER_TYPES(permissions)
+#include INCLUDE_INNER_TYPES(geolocation)
+#include INCLUDE_INNER_TYPES(page_visibility)
+#include INCLUDE_INNER_TYPES(permissions)
 
 #include <range/v3/action/remove.hpp>
 

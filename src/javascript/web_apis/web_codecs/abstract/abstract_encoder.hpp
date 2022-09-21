@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_CODECS_ABSTRACT_ABSTRACT_ENCODER_HPP
 
 #include "web_codecs/abstract/abstract_encoder_decoder.hpp"
-#include USE_INNER_TYPES(web_codecs)
+#include INCLUDE_INNER_TYPES(web_codecs)
 
 namespace web_codecs::abstract {class abstract_encoder;}
 namespace web_codecs::audio {class audio_data;}

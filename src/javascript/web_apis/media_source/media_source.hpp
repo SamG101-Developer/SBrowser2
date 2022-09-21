@@ -8,7 +8,7 @@ namespace media::source {class media_source;}
 #include "ext/optional.hpp"
 #include "ext/number.hpp"
 #include "ext/slot.hpp"
-#include USE_INNER_TYPES(media_source)
+#include INCLUDE_INNER_TYPES(media_source)
 namespace html::basic_media {class time_ranges;}
 namespace html::messaging {class message_port;}
 namespace media::source {class media_source_handle;}

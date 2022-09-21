@@ -5,7 +5,7 @@
 #include "sensors/sensor.hpp"
 namespace gyroscope {class gyroscope;};
 
-#include USE_INNER_TYPES(gyroscope)
+#include INCLUDE_INNER_TYPES(gyroscope)
 
 
 class gyroscope::gyroscope

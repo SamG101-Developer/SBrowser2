@@ -4,7 +4,7 @@
 #include "dom_object.hpp"
 namespace url {class url;}
 
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(url)
 namespace file_api {class blob;}
 namespace url {class url_search_params;}
 

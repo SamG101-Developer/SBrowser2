@@ -1,7 +1,7 @@
 #include "integration_internals.hpp"
 #include "directive_internals.hpp"
 
-#include USE_INNER_TYPES(content_security_policy)
+#include INCLUDE_INNER_TYPES(content_security_policy)
 
 #include "ext/boolean.hpp"
 #include "ext/ranges.hpp"

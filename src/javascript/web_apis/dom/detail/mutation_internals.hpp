@@ -7,7 +7,7 @@
 #include "ext/map.hpp"
 #include "ext/queue.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
 namespace dom::mutations {class mutation_observer;}
 
@@ -81,15 +81,6 @@ struct dom::detail::transient_registered_observer_t : public registered_observer
 {
     registered_observer_t* source = nullptr;
 };
-
-
-struct dom::detail::mutation_observer_t
-{
-    mutation_callback_t m_callback;
-    ext::vector<nodes::node*> m_node_list;
-    ext::queue<mutations::mutation_record*> m_record_queue;
-};
-
 
 
 #endif //SBROWSER2_MUTATION_INTERNALS_HPP

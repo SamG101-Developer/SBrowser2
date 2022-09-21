@@ -4,15 +4,18 @@
 #include "dom/nodes/text.hpp"
 namespace dom::nodes {class cdata_section;}
 
+#include "dom/nodes/cdata_section_private.hpp"
+
 
 class dom::nodes::cdata_section final
         : public text
 {
 public constructors:
-    cdata_section() = default;
+    cdata_section();
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_PIMPL(cdata_section);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return CDATA_SECTION_NODE;}

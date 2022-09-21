@@ -6,7 +6,7 @@
 namespace html::workers {class worker_global_scope;}
 
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(reporting)
+#include INCLUDE_INNER_TYPES(reporting)
 namespace reporting {class registered_observer;}
 
 

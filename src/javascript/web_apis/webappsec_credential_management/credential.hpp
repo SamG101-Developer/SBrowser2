@@ -5,8 +5,8 @@
 #include "dom_object.hpp"
 namespace webappsec::credential_management {class credential;}
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(webappsec_credential_management)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(webappsec_credential_management)
 #include "ext/promise.hpp"
 
 

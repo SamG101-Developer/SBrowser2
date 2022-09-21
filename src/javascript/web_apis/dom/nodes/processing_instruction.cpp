@@ -15,10 +15,12 @@ auto dom::nodes::processing_instruction::set_data(
 
 auto dom::nodes::processing_instruction::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<processing_instruction>{isolate}
+    decltype(auto) conversion = v8pp::class_<processing_instruction>{isolate}
             .inherit<character_data>()
             .var("target", &processing_instruction::target, true)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

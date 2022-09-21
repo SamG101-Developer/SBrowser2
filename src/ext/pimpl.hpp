@@ -2,23 +2,19 @@
 #define SBROWSER2_SRC_EXT_PIMPL_HPP
 
 #include <memory>
+#include "ext/keywords.hpp"
+
 
 #define MAKE_PIMPL(c) \
 private:              \
-    std::unique_ptr<detail:: c ## _t> d_ptr;
+    std::unique_ptr<c ## _private> d_ptr
 
-#define MAKE_PIMPL_PROTECTED(c) \
-protected:                       \
-    std::unique_ptr<detail:: c ## _t> d_ptr;
+#define DECLARE_PRIVATE_CLASS(ns, c) \
+    namespace ns {class c ## _private;}\
 
-#define MAKE_PIMPL_QT(c) \
-private:                 \
-    std::unique_ptr<c> d_ptr
-
-#define MAKE_PIMPL_QT_PROTECTED(c) \
-protected:                         \
-    std::unique_ptr<c> d_ptr
-
+#define DEFINE_PRIVATE_CLASS(ns, c) \
+    DECLARE_PRIVATE_CLASS(ns, c);   \
+    struct ns:: c ## _private
 
 #define INIT_PIMPL \
         d_ptr{std::make_unique<decltype(d_ptr)::element_type>()}

@@ -6,7 +6,7 @@
 
 #include "ext/keywords.hpp"
 #include USE_CONCEPTS(html)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}

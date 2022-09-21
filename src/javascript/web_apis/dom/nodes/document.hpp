@@ -19,13 +19,13 @@ namespace dom::nodes {class document;}
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 
-#include USE_INNER_TYPES(css/css_animation_worklet)
-#include USE_INNER_TYPES(css/css_layout)
-#include USE_INNER_TYPES(css/css_web_animations)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(permissions_policy)
-#include USE_INNER_TYPES(page_visibility)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(css/css_animation_worklet)
+#include INCLUDE_INNER_TYPES(css/css_layout)
+#include INCLUDE_INNER_TYPES(css/css_web_animations)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(permissions_policy)
+#include INCLUDE_INNER_TYPES(page_visibility)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
@@ -72,9 +72,9 @@ class dom::nodes::document
         , public xpath::xpath_evaluator_base
         , public ext::map_like<ext::string, ranges::any_view<element*>>
 {
-public aliases:
+public aliases: // TODO : move to _typedefs.hpp
     using module_map_t = ext::map<
-            ext::tuple<ext::string, url::detail::url_t>,
+            ext::tuple<ext::string, url::detail::url_t*>,
             ext::string>;
 
     using html_or_svg_script_element_t = ext::variant<
@@ -138,7 +138,7 @@ public js_methods:
 
 public js_properties:
     /* [DOM] */
-    ext::property<url::detail::url_t> url;
+    ext::property<std::unique_ptr<url::detail::url_t>> url;
     ext::property<ext::string> compat_mode;
     ext::property<ext::string> character_set;
     ext::property<ext::string> content_type;
@@ -156,15 +156,15 @@ public js_properties:
     ext::property<ext::string> title; // TODO : CE_REACTIONS
     ext::property<ext::string> dir; // TODO : CE_REACTIONS
 
-    ext::property<std::unique_ptr<html::elements::html_body_element>> body; // TODO : CE_REACTIONS
-    ext::property<std::unique_ptr<html::elements::html_head_element>> head; // TODO : CE_REACTIONS
+    ext::property<html::elements::html_body_element*> body; // TODO : CE_REACTIONS
+    ext::property<html::elements::html_head_element*> head; // TODO : CE_REACTIONS
     ext::property<ranges::any_view<html::elements::html_image_element*>> images;
     ext::property<ranges::any_view<html::elements::html_link_element*>> links;
     ext::property<ranges::any_view<html::elements::html_form_element*>> forms;
     ext::property<ranges::any_view<html::elements::html_script_element*>> scripts;
     ext::property<html_or_svg_script_element_t> current_script;
 
-    ext::property<std::unique_ptr<window_proxy>> default_view;
+    ext::property<window_proxy*> default_view;
     ext::property<ext::string> design_mode;
 
     /* [PERMISSIONS_POLICY] */
@@ -180,8 +180,8 @@ public js_properties:
     /* [CSS_WEB_ANIMATIONS] */
     ext::property<css::css_web_animation::document_timeline*> timeline;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 
 public cpp_operators:
     auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
@@ -190,7 +190,7 @@ private js_slots:
     /* [DEVICE_POSTURE] */
     ext::slot<ext::number<double>> s_current_posture;
 
-private cpp_methods:
+private cpp_members: // TODO : make into free functions
     /* [HTML] */
     [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
     [[nodiscard]] auto get_m_title_element() const -> html::elements::html_title_element*;
@@ -198,7 +198,7 @@ private cpp_methods:
     /* [FULLSCREEN] */
     auto m_fullscreen_element() -> element*;
 
-private cpp_properties:
+private cpp_members: // TODO : move to PIMPL
     /* [DOM] */
     std::unique_ptr<encoding::encoding> m_encoding;
     ext::string m_type = "xml";
@@ -307,8 +307,6 @@ private cpp_accessors:
 
     /* [CSS_WEB_ANIMATIONS] */
     DEFINE_CUSTOM_GETTER(timeline);
-
-
 };
 
 

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace media::playback_quality {class video_playback_quality;}
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 
 class media::playback_quality::video_playback_quality

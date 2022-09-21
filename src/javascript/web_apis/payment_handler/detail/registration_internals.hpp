@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_HANDLER_DETAIL_REGISTRATION_INTERNALS_HPP
 
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(payment_handler)
+#include INCLUDE_INNER_TYPES(payment_handler)
 
 
 namespace payment::detail

@@ -3,10 +3,14 @@
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+namespace dom::nodes {class document;}
+namespace dom::nodes {class element;}
+namespace dom::nodes {class node;}
+namespace dom::nodes {class event_target;}
 
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/text.hpp"
+
+#include INCLUDE_INNER_TYPES(dom)
+
 
 namespace dom::detail
 {
@@ -60,7 +64,7 @@ namespace dom::detail
     auto is_document_available_to_user(
             nodes::document* document,
             ext::string_view)
-            -> ext::boolean;  // TODO name [-1]
+            -> ext::boolean; // TODO name [-1]
 
     auto is_document_fully_active(
             nodes::document* document)
@@ -83,5 +87,28 @@ namespace dom::detail
             type_is<nodes::node*, ext::string> auto&&... nodes)
             -> nodes::node*;
 }
+
+
+struct dom::detail::event_target_t
+{
+    virtual auto get_the_parent(events::event* event) -> nodes::event_target* {return nullptr;};
+
+    ext::vector<ext::map<ext::string, ext::any>> event_listeners;
+};
+
+
+struct dom::detail::node_t : public event_target_t
+{
+    ext::vector<std::unique_ptr<detail::registered_observer_t>> m_registered_observer_list;
+};
+
+
+struct dom::detail::shadow_root_t : public node_t
+{
+    auto get_the_parent(events::event* event) -> nodes::event_target* override;
+
+    ext::boolean m_available_to_element_internals;
+};
+
 
 #endif //SBROWSER2_NODE_INTERNALS_HPP

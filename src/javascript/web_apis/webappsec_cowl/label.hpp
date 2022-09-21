@@ -6,7 +6,7 @@
 namespace webappsec::cowl {class label;}
 
 #include "ext/set.hpp"
-#include USE_INNER_TYPES(webappsec_cowl)
+#include INCLUDE_INNER_TYPES(webappsec_cowl)
 namespace webappsec::cowl {class privelege;}
 
 

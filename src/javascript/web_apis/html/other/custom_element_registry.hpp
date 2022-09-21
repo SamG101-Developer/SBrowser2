@@ -9,8 +9,8 @@ namespace html::other {class custom_element_registry;}
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class node;}
 namespace html::elements {class html_element;}
 

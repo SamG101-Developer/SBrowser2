@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 namespace html::detail

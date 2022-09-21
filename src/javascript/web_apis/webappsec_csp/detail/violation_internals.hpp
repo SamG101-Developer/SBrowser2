@@ -9,9 +9,9 @@
 
 #include <v8-local-handle.h>
 #include <v8-object.h>
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(url)
-#include USE_INNER_TYPES(webappsec_csp)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(webappsec_csp)
 
 namespace dom::nodes {class element;}
 

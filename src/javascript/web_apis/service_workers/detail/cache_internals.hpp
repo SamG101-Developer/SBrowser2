@@ -4,8 +4,8 @@
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(service_workers)
 
 
 namespace service_workers::detail

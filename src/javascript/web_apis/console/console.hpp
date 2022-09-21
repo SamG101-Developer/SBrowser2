@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace console {class console;}
 
-#include USE_INNER_TYPES(console)
+#include INCLUDE_INNER_TYPES(console)
 #include "ext/map.hpp"
 #include "ext/stack.hpp"
 #include "ext/vector.hpp"

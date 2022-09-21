@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace geolocation {class geolocation;}
 
-#include USE_INNER_TYPES(geolocation);
+#include INCLUDE_INNER_TYPES(geolocation);
 
 
 class geolocation::geolocation

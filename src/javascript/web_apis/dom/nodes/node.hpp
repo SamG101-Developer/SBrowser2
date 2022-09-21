@@ -8,10 +8,9 @@ namespace dom::nodes {class node;}
 #include "ext/map.hpp"
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
-
 namespace dom::detail {auto notify_mutation_observers() -> void;}
 
 
@@ -82,11 +81,9 @@ public js_properties:
     ext::property<node*> previous_sibling;
     ext::property<node*> next_sibling;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-protected cpp_properties:
-    std::unique_ptr<ext::vector<detail::registered_observer_t*>> m_registered_observer_list;
+private cpp_members:
+    MAKE_PIMPL(node);
+    MAKE_V8_AVAILABLE;
 
 protected cpp_accessors:
     virtual DEFINE_CUSTOM_GETTER(node_type) = 0;

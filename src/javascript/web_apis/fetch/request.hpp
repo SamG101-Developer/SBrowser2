@@ -7,7 +7,7 @@ namespace fetch {class request;}
 
 #include "ext/map.hpp"
 #include "ext/variant.hpp"
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(fetch)
 namespace dom::abort {class abort_signal;}
 namespace fetch {class headers;}
 

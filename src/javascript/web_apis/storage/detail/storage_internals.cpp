@@ -3,7 +3,7 @@
 #include "ext/functional.hpp"
 #include "ext/type_traits.hpp"
 
-#include USE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(streams)
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/filter.hpp>

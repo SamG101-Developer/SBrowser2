@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GYROSCOPE_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(gyroscope)
+#include INCLUDE_INNER_TYPES(gyroscope)
 namespace gyroscope {class gyroscope;}
 
 

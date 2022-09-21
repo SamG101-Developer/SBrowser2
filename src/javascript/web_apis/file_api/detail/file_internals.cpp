@@ -1,6 +1,6 @@
 #include "file_internals.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
 

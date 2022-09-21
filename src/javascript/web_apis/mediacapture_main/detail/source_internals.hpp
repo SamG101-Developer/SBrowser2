@@ -10,7 +10,7 @@
 
 #include <v8-local-handle.h>
 #include <v8-object.h>
-#include USE_INNER_TYPES(mediacapture_main)
+#include INCLUDE_INNER_TYPES(mediacapture_main)
 
 namespace mediacapture::main {class media_stream_track;}
 

@@ -8,7 +8,7 @@ namespace xhr {class xml_http_request;}
 #include "fetch/detail/http_internals.hpp"
 #include "fetch/detail/header_internals.hpp"
 
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace fetch {class response;}
 namespace xhr {class xml_http_request_upload;}

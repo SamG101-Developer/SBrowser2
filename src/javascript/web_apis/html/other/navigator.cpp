@@ -25,8 +25,8 @@
 
 #include <range/v3/view/filter.hpp>
 
-#include USE_INNER_TYPES(badging)
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(badging)
+#include INCLUDE_INNER_TYPES(dom)
 
 
 auto html::other::navigator::get_user_media(

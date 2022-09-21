@@ -7,7 +7,7 @@
 namespace css::geometry {class dom_quad;}
 
 #include <qpolygon.h>
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 namespace css::geometry {class dom_point;}
 namespace css::geometry {class dom_rect;}
 

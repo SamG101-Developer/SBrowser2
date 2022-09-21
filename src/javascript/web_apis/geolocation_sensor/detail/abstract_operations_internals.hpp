@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_SENSOR_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(geolocation_sensor)
+#include INCLUDE_INNER_TYPES(geolocation_sensor)
 namespace geolocation_sensor {class geolocation_sensor;}
 
 

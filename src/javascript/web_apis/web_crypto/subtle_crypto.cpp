@@ -1,7 +1,7 @@
 #include "subtle_crypto.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(web_crypto)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(web_crypto)
 
 #include "dom/detail/exception_internals.hpp"
 

@@ -5,7 +5,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(css/css_animation_worklet)
+#include INCLUDE_INNER_TYPES(css/css_animation_worklet)
 
 namespace css::css_animation_worklet {class animation_worklet_global_scope;}
 

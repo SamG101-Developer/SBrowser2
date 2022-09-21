@@ -26,12 +26,14 @@ auto dom::nodes::document_fragment::set_text_content(
 
 auto dom::nodes::document_fragment::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<document_fragment>{isolate}
+    decltype(auto) conversion = v8pp::class_<document_fragment>{isolate}
             .ctor<>()
             .inherit<node>()
             .inherit<mixins::non_element_parent_node>()
             .inherit<parentable_node>()
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

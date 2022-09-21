@@ -8,7 +8,7 @@ namespace web_assembly::js {class module;}
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(web_assembly_js)
+#include INCLUDE_INNER_TYPES(web_assembly_js)
 
 
 class web_assembly::js::module

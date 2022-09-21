@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace css::css_animation_worklet {class worklet_animation_effect;}
 
-#include USE_INNER_TYPES(css/css_animation_worklet)
+#include INCLUDE_INNER_TYPES(css/css_animation_worklet)
 
 
 class css::css_animation_worklet::worklet_animation_effect

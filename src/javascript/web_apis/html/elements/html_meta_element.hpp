@@ -4,7 +4,7 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_meta_element;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 class html::elements::html_meta_element
         : public html_element

@@ -5,7 +5,7 @@
 #include "css/css_web_animations/animation_timeline.hpp"
 namespace css::css_web_animations {class document_timeline;}
 
-#include USE_INNER_TYPES(css/css_web_animations)
+#include INCLUDE_INNER_TYPES(css/css_web_animations)
 
 
 class css::css_web_animations::document_timeline

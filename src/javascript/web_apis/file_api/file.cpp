@@ -5,7 +5,7 @@
 
 #include "file_api/detail/blob_internals.hpp"
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 #include <range/v3/view/iota.hpp>
 

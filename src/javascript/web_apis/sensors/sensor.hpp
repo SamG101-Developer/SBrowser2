@@ -6,8 +6,8 @@
 namespace sensors {class sensor;}
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(sensors)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(sensors)
 
 
 class sensors::sensor

@@ -1,6 +1,6 @@
 #include "canvas_draw_image.hpp"
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 #include "html/detail/canvas_internals.hpp"
 #include "html/canvasing/canvas_rendering_context_2d.hpp"

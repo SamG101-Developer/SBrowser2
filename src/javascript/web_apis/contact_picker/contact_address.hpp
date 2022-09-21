@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace contact_picker {class contact_address;}
 
-#include USE_INNER_TYPES(contact_picker)
+#include "contact_picker/contact_address_private.hpp"
 
 
 class contact_picker::contact_address

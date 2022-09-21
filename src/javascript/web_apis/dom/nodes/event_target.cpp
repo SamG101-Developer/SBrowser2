@@ -1,6 +1,7 @@
 #include "event_target.hpp"
 
 #include "ext/functional.hpp"
+#include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 
 #include "dom/abort/abort_signal.hpp"
@@ -10,12 +11,20 @@
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/remove_if.hpp>
+#include <utility>
+
+#include "dom/detail/node_internals.hpp"
+
+
+dom::nodes::event_target::event_target()
+        : INIT_PIMPL
+{}
 
 
 auto dom::nodes::event_target::add_event_listener(
         ext::string&& type,
-        event_listener_callback_t&& callback,
-        ext::map<ext::string, ext::any>&& options)
+        detail::event_listener_callback_t&& callback,
+        ext::variant<detail::add_event_listener_options_t, ext::boolean> options)
         -> void
 {
     // create an event listener that is the flattened options, and insert the callback and type
@@ -24,29 +33,29 @@ auto dom::nodes::event_target::add_event_listener(
     event_listener.insert_or_assign("type", std::move(type));
 
     // get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map
-    auto* signal = event_listener.try_emplace("signal", nullptr).first->second.to<abort::abort_signal*>();
+    decltype(auto) signal = event_listener.try_emplace("signal", nullptr).first->second.to<abort::abort_signal*>();
 
     // return if
     //  - there is no callback - invoking the event listener would have no effect and would waste cycles;
     //  - there is a signal that has already aborted - no need for the event listener to exist;
     //  - the event listener is already stored in the event listeners list - no duplicates allowed;
-    if (event_listener.at("callback").empty()
+    if (!event_listener.contains("callback")
             || signal && signal->aborted()
-            || ranges::contains(m_event_listeners, event_listener))
+            || ranges::contains(d_ptr->event_listeners, event_listener))
         return;
 
     // append the event listener to the event listeners list and if there is an abort signal, add an abort algorithm
     // that removes the event_listener from the event_target->m_event_listeners list
-    m_event_listeners.push_back(event_listener);
+    d_ptr->event_listeners.push_back(event_listener);
     if (signal)
-        signal->m_abort_algorithms.push_back(ext::bind_front(event_target::remove_event_listener, this, event_listener));
+        signal->m_abort_algorithms.push_back(BIND_FRONT(event_target::remove_event_listener, this, event_listener));
 }
 
 
 auto dom::nodes::event_target::remove_event_listener(
         ext::string&& type,
-        event_listener_callback_t&& callback,
-        ext::map<ext::string, ext::any>&& options)
+        detail::event_listener_callback_t&& callback,
+        ext::variant<detail::event_listener_options_t, ext::boolean> options)
         -> void
 {
     // create a dummy event listener that is the flattened options, and insert the callback and type
@@ -62,13 +71,13 @@ auto dom::nodes::event_target::remove_event_listener(
     // capture attribute to event_listener
     auto event_listener_equality_check = [event_listener](ext::map<ext::string, ext::any>&& e)
     {
-        using callback_t = typename nodes::event_target::event_listener_callback_t;
+        using callback_t = detail::event_listener_callback_t;
         return e.try_emplace("callback", nullptr).first->second.to<callback_t>() == event_listener.at("callback").to<callback_t>()
                 && e.try_emplace("type", nullptr).first->second.to<ext::string_view>() == event_listener.at("type").to<ext::string_view>()
                 && e.try_emplace("capture", nullptr).first->second.to<ext::boolean>() == event_listener.at("capture").to<ext::boolean>();
     };
 
-    m_event_listeners |= ranges::actions::remove_if(event_listener_equality_check);
+    d_ptr->event_listeners |= ranges::actions::remove_if(event_listener_equality_check);
 }
 
 
@@ -78,7 +87,7 @@ auto dom::nodes::event_target::dispatch_event(
 {
     // if the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
     detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
-            [event] {return event->m_dispatch_flag || not event->m_initialized_flag;},
+            [event] {return event->d_ptr->dispatch_flag || not event->d_ptr->initialized_flag;},
             "Event must be initialized and not dispatched in order be dispatched");
 
     // set the event trusted to false (manual dispatch), and dispatch the event through the tree
@@ -87,24 +96,17 @@ auto dom::nodes::event_target::dispatch_event(
 }
 
 
-auto dom::nodes::event_target::get_the_parent(
-        events::event* event)
-        -> event_target*
-{
-    // default behaviour for getting the parent in event traversal is that there is no parent
-    return nullptr;
-}
-
-
 auto dom::nodes::event_target::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<event_target>{isolate}
+    decltype(auto) conversion = v8pp::class_<event_target>{isolate}
             .ctor<>()
             .inherit<dom_object>()
             .function("addEventListener", &event_target::add_event_listener)
             .function("removeEventListener", &event_target::remove_event_listener)
             .function("dispatchEvent", &event_target::dispatch_event)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

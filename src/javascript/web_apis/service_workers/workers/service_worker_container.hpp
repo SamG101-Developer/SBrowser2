@@ -7,7 +7,7 @@ namespace service_workers::workers {class service_worker_container;}
 
 #include "ext/promise.hpp"
 #include <memory>
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::workers {class service_worker_registration;}
 

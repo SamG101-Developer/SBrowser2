@@ -12,7 +12,7 @@ namespace dom::nodes {class event_target;}
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::events {class event;}
 
 namespace dom::detail {auto remove_all_event_listeners(nodes::event_target*) -> void;}
@@ -40,21 +40,16 @@ public friends:
 
 public constructors:
     DOM_CTORS(event_target);
-    event_target() = default;
+    event_target();
 
 public js_methods:
-    auto    add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
-    auto remove_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::map<ext::string, ext::any>&& options) -> void;
+    auto    add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::add_event_listener_options_t, ext::boolean> options = {}) -> void;
+    auto remove_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::event_listener_options_t, ext::boolean> options = {}) -> void;
     auto dispatch_event(events::event* event) -> ext::boolean;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-protected cpp_methods:
-    virtual auto get_the_parent(events::event* event) -> event_target*;
-
-private cpp_properties:
-    ext::vector<ext::map<ext::string, ext::any>> m_event_listeners;
+public cpp_members:
+    MAKE_PIMPL(event_target);
+    MAKE_V8_AVAILABLE;
 };
 
 

@@ -4,7 +4,7 @@
 #include "infra/detail/infra_strings_internals.hpp"
 #include "streams/readable/readable_stream.hpp"
 
-#include USE_INNER_TYPES(file_api)
+#include INCLUDE_INNER_TYPES(file_api)
 
 
 auto file_api::detail::get_stream(

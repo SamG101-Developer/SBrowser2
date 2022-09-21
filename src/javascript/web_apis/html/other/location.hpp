@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::other {class location;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::other::location

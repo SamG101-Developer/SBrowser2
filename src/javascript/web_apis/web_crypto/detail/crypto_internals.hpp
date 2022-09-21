@@ -7,8 +7,8 @@
 #include "ext/slot.hpp"
 #include <v8-forward.h>
 
-#include USE_INNER_TYPES(web_crypto)
-#include USE_INNER_TYPES(web_idl)
+#include INCLUDE_INNER_TYPES(web_crypto)
+#include INCLUDE_INNER_TYPES(web_idl)
 
 namespace web_crypto {class crypto_key;}
 

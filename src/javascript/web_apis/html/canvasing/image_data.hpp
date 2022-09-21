@@ -6,7 +6,7 @@
 #include "html/mixins/serializable.hpp"
 namespace html::canvasing {class image_data;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::canvasing::image_data

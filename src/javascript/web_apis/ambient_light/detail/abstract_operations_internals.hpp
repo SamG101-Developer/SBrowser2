@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AMBIENT_LIGHT_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(sensors)
+#include INCLUDE_INNER_TYPES(sensors)
 namespace ambient_light_sensor {class ambient_light_sensor;}
 
 

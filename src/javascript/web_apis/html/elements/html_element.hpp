@@ -8,7 +8,7 @@
 namespace html::elements {class html_element;}
 
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::other {class element_internals;}
 
 

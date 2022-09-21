@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class document;}
 
 

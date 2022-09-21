@@ -12,8 +12,8 @@ class dom::nodes::document_fragment
         , public mixins::non_element_parent_node
         , public mixins::parentable_node
 {
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return DOCUMENT_FRAGMENT_NODE;}

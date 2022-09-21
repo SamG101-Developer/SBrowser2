@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace performance_timeline {class performance_entry;}
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 
 class performance_timeline::performance_entry

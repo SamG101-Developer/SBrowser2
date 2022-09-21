@@ -5,8 +5,8 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace resource_timing {class performance_resource_timing;}
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 
 class resource_timing::performance_resource_timing

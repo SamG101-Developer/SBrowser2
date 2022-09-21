@@ -9,9 +9,9 @@ namespace dom::nodes {class window;}
 #include "ext/type_traits.hpp"
 #include "ext/queue.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(background_tasks)
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(background_tasks)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 namespace background_tasks {class idle_deadline;}
 namespace css::cssom::other {class css_style_declaration;}
 namespace dom::nodes {class document;}

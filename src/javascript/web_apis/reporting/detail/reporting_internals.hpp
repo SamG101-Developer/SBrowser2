@@ -9,11 +9,11 @@
 #include "ext/string.hpp"
 #include <v8-forward.h>
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(url)
-#include USE_INNER_TYPES(reporting)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(reporting)
 
 namespace dom::nodes {class document;}
 namespace html::mixins {class serializable;}

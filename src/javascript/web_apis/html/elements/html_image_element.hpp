@@ -7,8 +7,8 @@ namespace html::elements {class html_image_element;}
 
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 namespace dom::nodes {class window_proxy;}
 
 #define _IMAGES_SUPPORTED 1 /* TODO : move to another file where all MACRO configs are stored */

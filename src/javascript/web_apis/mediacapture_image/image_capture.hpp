@@ -6,8 +6,8 @@
 namespace mediacapture::image {class image_capture;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(mediacapture_image)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(mediacapture_image)
 namespace file_api {class blob;}
 namespace mediacapture::main {class media_stream_track;}
 

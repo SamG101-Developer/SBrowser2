@@ -2,7 +2,7 @@
 #define SBROWSER2_HEADERS_HPP
 
 #include "dom_object.hpp"
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(fetch)
 namespace fetch {class headers;}
 
 

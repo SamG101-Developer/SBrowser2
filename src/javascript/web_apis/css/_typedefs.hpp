@@ -3,7 +3,7 @@
 
 #include "ext/concepts.hpp"
 
-#include USE_INNER_TYPES(css/css_web_animations)
+#include INCLUDE_INNER_TYPES(css/css_web_animations)
 
 
 namespace css::detail

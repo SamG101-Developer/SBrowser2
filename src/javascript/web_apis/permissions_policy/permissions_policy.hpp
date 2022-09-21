@@ -6,7 +6,7 @@
 namespace permissions_policy {class permissions_policy_object;}
 
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(permissions_policy)
+#include INCLUDE_INNER_TYPES(permissions_policy)
 namespace dom::nodes {class node;}
 
 

@@ -5,11 +5,11 @@
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(storage)
-#include USE_INNER_TYPES(service_workers)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(storage)
+#include INCLUDE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace service_workers::detail

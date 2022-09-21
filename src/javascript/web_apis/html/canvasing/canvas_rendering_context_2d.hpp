@@ -21,7 +21,7 @@
 #include "html/canvasing/mixins/canvas_path.hpp"
 namespace html::canvasing {class canvas_rendering_context_2d;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::elements {class html_canvas_element;}
 namespace html::canvasing {class canvas_rendering_context_2d_settings;}
 

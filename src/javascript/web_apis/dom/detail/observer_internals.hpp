@@ -7,8 +7,8 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "html/_typedefs.hpp"
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 
 #include <memory>
 #include <v8-forward.h>

@@ -6,7 +6,7 @@
 namespace mediacapture::transform {class media_stream_track_processor;}
 
 #include "ext/queue.hpp"
-#include USE_INNER_TYPES(mediacapture_transform)
+#include INCLUDE_INNER_TYPES(mediacapture_transform)
 namespace streams::readable {class readable_stream;}
 namespace mediacapture::main {class media_stream_track;}
 

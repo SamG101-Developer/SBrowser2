@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace mediacapture::record {class media_recorder;}
 
-#include USE_INNER_TYPES(mediacapture_record)
+#include INCLUDE_INNER_TYPES(mediacapture_record)
 namespace mediacapture::main {class media_stream;}
 
 

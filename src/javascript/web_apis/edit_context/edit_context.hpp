@@ -7,7 +7,7 @@ namespace edit_context {class edit_context;}
 
 #include "ext/boolean.hpp"
 #include "ext/type_traits.hpp"
-#include USE_INNER_TYPES(edit_context)
+#include INCLUDE_INNER_TYPES(edit_context)
 namespace dom::nodes {class element;}
 namespace css::geometry {class dom_rect;}
 

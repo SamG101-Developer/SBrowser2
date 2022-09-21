@@ -2,8 +2,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_DETAIL_PROCESSING_INTERNALS_HPP
 
 #include "ext/number.hpp"
-#include USE_INNER_TYPES(background_tasks)
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(background_tasks)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class window;}
 
 
@@ -33,11 +33,5 @@ namespace background_tasks::detail
             -> ext::boolean;
 }
 
-
-struct background_tasks::detail::idle_deadline_t
-{
-    ext::boolean timeout;
-    deadline_time_algorithm_t get_deadline_time = [] {return 0.0;};
-};
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_DETAIL_PROCESSING_INTERNALS_HPP

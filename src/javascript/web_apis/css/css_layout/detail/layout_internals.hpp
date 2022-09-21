@@ -4,7 +4,7 @@
 
 #include "ext/functional.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(css/css_layout)
+#include INCLUDE_INNER_TYPES(css/css_layout)
 
 
 namespace css::detail

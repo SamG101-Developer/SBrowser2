@@ -3,9 +3,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SECURE_CONTEXTS_DETAIL_ALGORITHM_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(secure_contexts)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(secure_contexts)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace secure_contexts::detail

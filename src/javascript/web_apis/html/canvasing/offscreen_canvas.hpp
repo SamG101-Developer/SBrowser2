@@ -7,7 +7,7 @@
 namespace html::canvasing {class offscreen_canvas;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::canvasing::offscreen_canvas

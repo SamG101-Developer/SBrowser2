@@ -3,8 +3,8 @@
 
 #include "ext/promise.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::clients {class client;}
 namespace service_workers::clients {class window_client;}
 

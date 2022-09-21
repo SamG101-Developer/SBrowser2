@@ -6,10 +6,10 @@
 namespace navigation_timing {class performance_navigation_timing;}
 
 #include <memory>
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(navigation_timing)
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(navigation_timing)
+#include INCLUDE_INNER_TYPES(service_workers)
 
 class navigation_timing::performance_navigation_timing
         : public resource_timing::performance_resource_timing

@@ -3,6 +3,7 @@
 
 #include "node.hpp"
 
+#include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 #include "javascript/environment/realms_2.hpp"
 
@@ -15,6 +16,7 @@
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/attr.hpp"
 #include "dom/nodes/character_data.hpp"
+#include "dom/nodes/document.hpp"
 #include "dom/nodes/document_fragment.hpp"
 #include "dom/nodes/document_type.hpp"
 #include "dom/nodes/element.hpp"
@@ -40,9 +42,9 @@ namespace dom::nodes {class window;}
 
 
 dom::nodes::node::node()
-        : child_nodes(std::make_unique<ext::vector<node*>>())
+        : INIT_PIMPL
+        , child_nodes(std::make_unique<ext::vector<node*>>())
         , parent_node(nullptr)
-        , m_registered_observer_list{std::make_unique<ext::vector<detail::registered_observer_t*>>()}
 {
     bind_get(node_name);
     bind_get(node_value);
@@ -60,10 +62,12 @@ dom::nodes::node::node()
     /* FULLSCREEN */
     m_dom_behaviour.remove_steps = [this](dom::nodes::node*)
     {
-        auto* document = owner_document();
+        using enum ranges::views::filter_compare_t;
+
+        decltype(auto) document = owner_document();
         auto nodes = detail::shadow_including_descendants(document)
-                | ranges::views::cast_all_to<element*>()
-                | ranges::views::filter_eq<ranges::views::EQ>(&element::m_fullscreen_flag, true, ext::identity{});
+                | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<element*>()
+                | ranges::views::filter_eq<EQ>(&element::m_fullscreen_flag, true, ext::identity{});
 
         for (element* element: nodes)
         {
@@ -87,10 +91,10 @@ auto dom::nodes::node::compare_document_position(
     if (this == other) return 0;
 
     // set the nodes to the other node and this node, and the attributes to nullptr (don't exist yet)
-    auto* node_1 = other;
-    auto* node_2 = this;
-    attr* attr_1 = dynamic_cast<attr*>(node_1);
-    attr* attr_2 = dynamic_cast<attr*>(node_2);
+    decltype(auto) node_1 = other;
+    decltype(auto) node_2 = this;
+    decltype(auto) attr_1 = dynamic_cast<attr*>(node_1);
+    decltype(auto) attr_2 = dynamic_cast<attr*>(node_2);
 
     // if the nodes are attributes, set the 'attr' variables, and the nodes to the attributes' owner elements
     node_1 = attr_1 ? attr_1->owner_element() : node_1;
@@ -180,7 +184,7 @@ auto dom::nodes::node::normalize()
             // get the current node as the next text node (whose text has been combined into the text node's text)
             auto* current_node = text_node->next_sibling();
 
-            JS_REALM_GET_SURROUNDING(this)
+            JS_REALM_GET_SURROUNDING(this);
             auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(this_surrounding_global_object, "live_ranges");
 
             // iterate by incrementing the current_node to the next sibling
@@ -237,7 +241,7 @@ auto dom::nodes::node::clone_node(
                 "Cannot clone a ShadowRoot node");
 
         // clone the node and return it
-        return detail::clone(this, nullptr, std::move(deep));
+        return detail::clone(this, nullptr, deep);
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -381,43 +385,45 @@ auto dom::nodes::node::get_parent_element()
 
 auto dom::nodes::node::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<node>{isolate}
-            .inherit<event_target>() // TODO : other static attributes
-            .static_("DOCUMENT_POSITION_DISCONNECTED", node::DOCUMENT_POSITION_DISCONNECTED, true)
-            .static_("DOCUMENT_POSITION_PRECEDING", node::DOCUMENT_POSITION_PRECEDING, true)
-            .static_("DOCUMENT_POSITION_FOLLOWING", node::DOCUMENT_POSITION_FOLLOWING, true)
-            .static_("DOCUMENT_POSITION_CONTAINS", node::DOCUMENT_POSITION_CONTAINS, true)
-            .static_("DOCUMENT_POSITION_CONTAINED_BY", node::DOCUMENT_POSITION_CONTAINED_BY, true)
-            .static_("DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC", node::DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, true)
-            .function("normalize", &node::normalize)
-            .function("hasChildNodes", &node::has_child_nodes)
-            .function("contains", &node::contains)
-            .function("isEqualNode", &node::is_equal_node)
-            .function("isDefaultNamespace", &node::is_default_namespace)
-            .function("lookupPrefix", &node::lookup_prefix)
-            .function("lookupNamespaceURI", &node::lookup_namespace_uri)
-            .function("compareDocumentPosition", &node::compare_document_position)
-            .function("getRootNode", &node::get_root_node)
-            .function("cloneNode", &node::clone_node)
-            .function("insertBefore", &node::insert_before)
-            .function("appendChild", &node::append_child)
-            .function("replaceChild", &node::replace_child)
-            .function("removeChild", &node::remove_child)
-            .var("nodeType", &node::node_type, true)
-            .var("nodeName", &node::node_name, true)
-            .var("nodeValue", &node::node_value, false)
-            .var("textContent", &node::text_content, false)
-            .var("baseURI", &node::base_uri, true)
-            .var("isConnected", &node::is_connected, true)
-            .var("childNodes", &node::child_nodes, true)
-            .var("parentNode", &node::parent_node, true)
-            .var("parentElement", &node::parent_element, true)
-            .var("ownerDocument", &node::owner_document, true)
-            .var("firstChild", &node::first_child, true)
-            .var("lastChild", &node::last_child, true)
-            .var("previousSibling", &node::previous_sibling, true)
-            .var("nextSibling", &node::next_sibling, true)
-            .auto_wrap_objects();
+    decltype(auto) conversion = v8pp::class_<node>{isolate}
+        .inherit<event_target>() // TODO : other static attributes
+        .static_("DOCUMENT_POSITION_DISCONNECTED", node::DOCUMENT_POSITION_DISCONNECTED, true)
+        .static_("DOCUMENT_POSITION_PRECEDING", node::DOCUMENT_POSITION_PRECEDING, true)
+        .static_("DOCUMENT_POSITION_FOLLOWING", node::DOCUMENT_POSITION_FOLLOWING, true)
+        .static_("DOCUMENT_POSITION_CONTAINS", node::DOCUMENT_POSITION_CONTAINS, true)
+        .static_("DOCUMENT_POSITION_CONTAINED_BY", node::DOCUMENT_POSITION_CONTAINED_BY, true)
+        .static_("DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC", node::DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, true)
+        .function("normalize", &node::normalize)
+        .function("hasChildNodes", &node::has_child_nodes)
+        .function("contains", &node::contains)
+        .function("isEqualNode", &node::is_equal_node)
+        .function("isDefaultNamespace", &node::is_default_namespace)
+        .function("lookupPrefix", &node::lookup_prefix)
+        .function("lookupNamespaceURI", &node::lookup_namespace_uri)
+        .function("compareDocumentPosition", &node::compare_document_position)
+        .function("getRootNode", &node::get_root_node)
+        .function("cloneNode", &node::clone_node)
+        .function("insertBefore", &node::insert_before)
+        .function("appendChild", &node::append_child)
+        .function("replaceChild", &node::replace_child)
+        .function("removeChild", &node::remove_child)
+        .var("nodeType", &node::node_type, true)
+        .var("nodeName", &node::node_name, true)
+        .var("nodeValue", &node::node_value, false)
+        .var("textContent", &node::text_content, false)
+        .var("baseURI", &node::base_uri, true)
+        .var("isConnected", &node::is_connected, true)
+        .var("childNodes", &node::child_nodes, true)
+        .var("parentNode", &node::parent_node, true)
+        .var("parentElement", &node::parent_element, true)
+        .var("ownerDocument", &node::owner_document, true)
+        .var("firstChild", &node::first_child, true)
+        .var("lastChild", &node::last_child, true)
+        .var("previousSibling", &node::previous_sibling, true)
+        .var("nextSibling", &node::next_sibling, true)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing {class canvas_pattern;}
 
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 
 
 class html::canvasing::canvas_pattern

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace webappsec::credential_management {class credentials_container;}
 
-#include USE_INNER_TYPES(webappsec_credential_management)
+#include INCLUDE_INNER_TYPES(webappsec_credential_management)
 #include "ext/promise.hpp"
 namespace webappsec::credential_management {class credential;}
 

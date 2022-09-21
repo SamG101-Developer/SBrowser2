@@ -1,8 +1,8 @@
 #include "abstract_operations_internals.hpp"
 
-#include USE_INNER_TYPES(accelerometer)
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(sensors)
+#include INCLUDE_INNER_TYPES(accelerometer)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(sensors)
 #include "dom/detail/exception_internals.hpp"
 #include "accelerometer/accelerometer.hpp"
 #include "sensors/detail/sensor_internals.hpp"

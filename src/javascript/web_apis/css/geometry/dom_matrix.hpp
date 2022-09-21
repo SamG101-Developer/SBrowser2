@@ -7,7 +7,7 @@ namespace css::geometry {class dom_matrix;}
 
 #include "qmatrix4x4.h"
 #include "qpointer.h"
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 
 
 class css::geometry::dom_matrix

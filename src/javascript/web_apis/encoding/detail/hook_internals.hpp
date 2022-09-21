@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_DETAIL_HOOK_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(encoding)
+#include INCLUDE_INNER_TYPES(encoding)
 
 namespace encoding::detail
 {

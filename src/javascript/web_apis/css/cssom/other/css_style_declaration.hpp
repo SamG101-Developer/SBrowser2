@@ -6,7 +6,9 @@
 #include "ext/vector_like.hpp"
 namespace css::cssom::other {class css_style_declaration;}
 
-#include USE_INNER_TYPES(css/cssom)
+
+#include "css/cssom/other/css_style_declaration_private.hpp"
+#include INCLUDE_INNER_TYPES(css/cssom)
 namespace css::cssom::rules {class css_rule;}
 
 

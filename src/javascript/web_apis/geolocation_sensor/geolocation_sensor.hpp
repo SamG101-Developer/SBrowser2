@@ -8,7 +8,7 @@ namespace geolocation_sensor {class geolocation_sensor;}
 
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(geolocation_sensor)
+#include INCLUDE_INNER_TYPES(geolocation_sensor)
 
 
 class geolocation_sensor::geolocation_sensor

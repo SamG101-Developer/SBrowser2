@@ -5,7 +5,7 @@
 #include <memory>
 #include "ext/number.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(gamepad)
+#include INCLUDE_INNER_TYPES(gamepad)
 
 namespace gamepad {class gamepad;}
 namespace gamepad {class gamepad_button;}

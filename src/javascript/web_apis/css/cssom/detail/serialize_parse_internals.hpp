@@ -5,8 +5,8 @@
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(css/css_syntax)
-#include USE_INNER_TYPES(css/media_queries)
+#include INCLUDE_INNER_TYPES(css/css_syntax)
+#include INCLUDE_INNER_TYPES(css/media_queries)
 
 
 namespace css::detail

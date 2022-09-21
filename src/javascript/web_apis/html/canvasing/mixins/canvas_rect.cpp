@@ -3,7 +3,7 @@
 #include "ext/variant.hpp"
 #include "html/detail/canvas_internals.hpp"
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 #include "html/canvasing/canvas_rendering_context_2d.hpp"
 #include "html/canvasing/image_bitmap.hpp"

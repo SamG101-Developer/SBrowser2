@@ -13,9 +13,9 @@
 #include <range/v3/to_container.hpp>
 #include <range/v3/view/iota.hpp>
 #include <v8-forward.h>
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace fetch::detail
 {

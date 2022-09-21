@@ -10,7 +10,7 @@ namespace streams::readable {class readable_stream;}
 #include "ext/map.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(streams)
 namespace streams::readable {class readable_byte_stream_controller;}
 namespace streams::readable {class readable_stream_default_controller;}
 namespace streams::readable {class readable_stream_default_reader;}

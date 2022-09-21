@@ -3,9 +3,12 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_IDLE_DEADLINE_HPP
 
 #include "dom_object.hpp"
-#include USE_INNER_TYPES(background_tasks)
-#include USE_INNER_TYPES(hr_time)
 namespace background_tasks {class idle_deadline;}
+
+
+#include "background_tasks/idle_deadline_private.hpp"
+#include INCLUDE_INNER_TYPES(background_tasks)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 
 class background_tasks::idle_deadline

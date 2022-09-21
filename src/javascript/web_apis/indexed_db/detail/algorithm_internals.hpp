@@ -6,8 +6,8 @@
 #include "ext/optional.hpp"
 #include "ext/variant.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(indexed_db)
-#include USE_INNER_TYPES(storage)
+#include INCLUDE_INNER_TYPES(indexed_db)
+#include INCLUDE_INNER_TYPES(storage)
 namespace dom::other {class dom_exception;}
 namespace indexed_db {class idb_request;}
 namespace indexed_db {class idb_transaction;}

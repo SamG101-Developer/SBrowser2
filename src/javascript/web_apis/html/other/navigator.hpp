@@ -11,9 +11,9 @@ namespace html::other {class navigator;}
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(autoplay)
-#include USE_INNER_TYPES(vibration)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(autoplay)
+#include INCLUDE_INNER_TYPES(vibration)
 namespace battery {class battery_manager;}
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}

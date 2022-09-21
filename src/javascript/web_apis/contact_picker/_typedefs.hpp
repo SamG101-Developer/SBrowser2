@@ -9,7 +9,6 @@
 
 namespace contact_picker::detail
 {
-    struct physical_address_t;
     struct user_contact_t;
     struct contact_source_t;
 
@@ -17,8 +16,6 @@ namespace contact_picker::detail
 
     using contact_info_t = ext::map<ext::string, ext::any>;
     using contacts_select_options_t = ext::map<ext::string, ext::any>;
-    using contact_address_t = physical_address_t;
-    using contacts_manager_t = contact_source_t;
 }
 
 

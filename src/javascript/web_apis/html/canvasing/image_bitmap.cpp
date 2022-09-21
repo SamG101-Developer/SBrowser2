@@ -2,7 +2,7 @@
 
 #include "dom_object.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 #include "dom/detail/exception_internals.hpp"
 

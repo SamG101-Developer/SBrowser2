@@ -5,7 +5,7 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_slot_element;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 namespace dom::nodes {class text;}

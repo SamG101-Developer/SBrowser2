@@ -9,7 +9,7 @@
 
 #include <v8-object.h>
 #include <v8-array-buffer.h>
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(fetch)
 namespace fetch::mixins {class body;}
 namespace streams::readable {class readable_stream_default_reader;}
 

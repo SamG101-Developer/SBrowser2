@@ -4,7 +4,7 @@
 
 #include "dom/abort/abort_signal.hpp"
 #include "dom/detail/exception_internals.hpp"
-#include USE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(streams)
 
 
 streams::readable::readable_stream::readable_stream()

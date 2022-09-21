@@ -6,7 +6,7 @@
 namespace media::capabilities {class media_capabilities;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(media_capabilities)
+#include INCLUDE_INNER_TYPES(media_capabilities)
 
 
 class media::capabilities::media_capabilities

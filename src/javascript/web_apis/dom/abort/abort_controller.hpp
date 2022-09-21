@@ -4,6 +4,7 @@
 #include "dom_object.hpp"
 namespace dom::abort {class abort_controller;}
 
+#include "dom/abort/abort_controller_private.hpp"
 namespace dom::abort {class abort_signal;}
 
 
@@ -17,10 +18,14 @@ public js_methods:
     auto abort(const ext::any& reason) const -> void;
 
 public js_properties:
-    ext::property<std::unique_ptr<abort_signal>> signal;
+    ext::property<abort_signal*> signal;
 
 public cpp_members:
+    MAKE_PIMPL(abort_controller);
     MAKE_V8_AVAILABLE;
+
+private cpp_accessors:
+    DEFINE_CUSTOM_GETTER(signal) {return d_ptr->signal.get();}
 };
 
 

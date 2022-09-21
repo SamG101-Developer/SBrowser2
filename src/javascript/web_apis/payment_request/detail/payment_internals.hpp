@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_DETAIL_PAYMENT_INTERNALS_HPP
 
 #include "ext/functional.hpp"
-#include USE_INNER_TYPES(payment_request)
+#include INCLUDE_INNER_TYPES(payment_request)
 
 namespace payment::request {class payment_request;}
 

@@ -1,0 +1,15 @@
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_TIMELINE_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_TIMELINE_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+
+namespace dom::nodes {class document;}
+
+
+DEFINE_PRIVATE_CLASS(css::css_web_animations, animation_timeline)
+{
+    dom::nodes::document* document;
+};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_TIMELINE_PRIVATE_HPP

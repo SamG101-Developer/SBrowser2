@@ -5,7 +5,7 @@
 #include "dom/events/event.hpp"
 namespace payment::handler {class can_make_payment_event;}
 
-#include USE_INNER_TYPES(payment_request)
+#include INCLUDE_INNER_TYPES(payment_request)
 #include "ext/promise.hpp"
 
 

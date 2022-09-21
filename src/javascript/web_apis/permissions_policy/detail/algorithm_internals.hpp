@@ -5,10 +5,10 @@
 #include "ext/concepts.hpp"
 #include "ext/property.hpp"
 #include <v8-object.h>
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(permissions_policy)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(permissions_policy)
+#include INCLUDE_INNER_TYPES(url)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace html::elements {class html_element;}

@@ -5,8 +5,8 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_media_element;}
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
 
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class time_ranges;}

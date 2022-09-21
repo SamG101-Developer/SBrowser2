@@ -8,7 +8,7 @@ namespace dom::mutations {class mutation_observer;}
 #include "ext/functional.hpp"
 #include "ext/queue.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::mutations {class mutation_record;}
 
 namespace dom::detail {auto notify_mutation_observers() -> void;}

@@ -4,7 +4,7 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(dom_parsing)
+#include INCLUDE_INNER_TYPES(dom_parsing)
 namespace dom::nodes {class document_fragment; class element; class node;}
 
 

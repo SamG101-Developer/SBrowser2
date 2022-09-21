@@ -10,12 +10,12 @@ namespace mediacapture::main {class media_devices;}
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(mediacapture_extensions)
-#include USE_INNER_TYPES(mediacapture_handle)
-#include USE_INNER_TYPES(mediacapture_main)
-#include USE_INNER_TYPES(mediacapture_output)
-#include USE_INNER_TYPES(mediacapture_screenshare)
-#include USE_INNER_TYPES(mediacapture_viewport)
+#include INCLUDE_INNER_TYPES(mediacapture_extensions)
+#include INCLUDE_INNER_TYPES(mediacapture_handle)
+#include INCLUDE_INNER_TYPES(mediacapture_main)
+#include INCLUDE_INNER_TYPES(mediacapture_output)
+#include INCLUDE_INNER_TYPES(mediacapture_screenshare)
+#include INCLUDE_INNER_TYPES(mediacapture_viewport)
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}
 

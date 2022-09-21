@@ -3,8 +3,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAGE_VISIBILITY_DETAIL_VISIBILITY_INTERNALS_HPP
 
 #include "ext/assertion.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(page_visibility)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(page_visibility)
 
 
 namespace page_visibility::detail

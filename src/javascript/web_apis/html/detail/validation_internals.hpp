@@ -5,7 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/tuple.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace html::elements {class html_element;};
 namespace html::elements {class html_form_element;};
 

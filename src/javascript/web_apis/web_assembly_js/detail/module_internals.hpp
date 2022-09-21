@@ -6,7 +6,7 @@
 #include "ext/promise.hpp"
 #include <v8-wasm.h>
 #include <v8-forward.h>
-#include USE_INNER_TYPES(web_assembly_js)
+#include INCLUDE_INNER_TYPES(web_assembly_js)
 namespace web_assembly::js {class instance;}
 namespace web_assembly::js {class module;}
 

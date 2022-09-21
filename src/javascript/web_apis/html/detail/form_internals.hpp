@@ -6,7 +6,7 @@
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class node;}
 namespace encoding {class encoding;}
 namespace html::elements {class html_element;}

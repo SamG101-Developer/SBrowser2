@@ -5,7 +5,7 @@
 #include "html/basic_media/abstract_track.hpp"
 namespace html::basic_media {class text_track;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 namespace media::source {class source_buffer;}
 namespace html::basic_media {class text_track_cue;}
 

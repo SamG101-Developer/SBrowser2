@@ -6,7 +6,7 @@
 namespace geolocation {class geolocation_position;}
 
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace geolocation {class geolocation_coordinates;}
 
 

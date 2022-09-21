@@ -8,7 +8,7 @@ namespace streams::readable {class abstract_readable_stream_controller;}
 #include "ext/queue.hpp"
 #include "ext/promise.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(streams)
 namespace streams::readable {class readable_stream;}
 
 class streams::readable::abstract_readable_stream_controller

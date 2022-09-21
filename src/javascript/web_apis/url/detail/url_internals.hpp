@@ -8,9 +8,9 @@
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(file_api)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(file_api)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace url::detail
@@ -182,6 +182,8 @@ namespace url::detail
 
 struct url::detail::url_t
 {
+    url_t(ext::string&& url_string);
+
     ext::string scheme;
     ext::string username;
     ext::string password;

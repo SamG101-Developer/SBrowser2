@@ -5,8 +5,8 @@
 namespace html::elements {class html_script_element;}
 
 #include "ext/variant.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 
 
 class html::elements::html_script_element

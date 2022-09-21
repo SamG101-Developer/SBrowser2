@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(css/media_queries)
+#include INCLUDE_INNER_TYPES(css/media_queries)
 
 namespace dom::nodes {class processing_instruction;}
 

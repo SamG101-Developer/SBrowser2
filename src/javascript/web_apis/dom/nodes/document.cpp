@@ -19,6 +19,7 @@
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/processing_instruction.hpp"
 #include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/window.hpp"
 #include "dom/other/dom_implementation.hpp"
 #include "dom/ranges/range.hpp"
 
@@ -30,10 +31,12 @@
 #include "html/elements/html_script_element.hpp"
 #include "html/elements/html_title_element.hpp"
 
+#include "file_api/detail/blob_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 #include "permissions_policy/permissions_policy.hpp"
 #include "svg/elements/svg_title_element.hpp"
+#include "url/detail/url_internals.hpp"
 
 #include <ctime>
 #include <iomanip>
@@ -78,8 +81,8 @@ dom::nodes::document::document()
     bind_set(title);
     bind_set(body);
 
-    JS_REALM_GET_SURROUNDING(this)
-    m_origin = javascript::environment::realms_2::get<ext::string>(this_surrounding_global_object, "origin");
+    JS_REALM_GET_SURROUNDING(this);
+    m_origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
     permissions_policy()->m_associated_node = this;
 }
 
@@ -510,13 +513,13 @@ auto dom::nodes::document::get_m_title_element()
 {
     // the HTMLTitleElement of a Document is the first HTMLTitleElement in the Document's descendants; if there isn't
     // one, then nullptr is returned, as the de-referenced begin() iterator
-    return ranges::front(detail::descendants(this) | ranges::views::cast_all_to<html::elements::html_title_element*>());
+    return ranges::front(detail::descendants(this) | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_title_element*>());
 }
 
 
 auto dom::nodes::document::operator[](
         const ext::string& name)
-        -> ranges::any_view<element*>
+        -> ranges::any_view<element*>&
 {
     // return all descendant element in this tree whose name attribute (only present on certain element interfaces) is
     // equal to the 'name' parameter; TODO: named_element concept with property `name` -> cast all, filter, and cast back
@@ -524,10 +527,13 @@ auto dom::nodes::document::operator[](
             | ranges::views::filter([name](element* descendant) {return descendant->name() == name;});
 }
 
+
 auto dom::nodes::document::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<document>{isolate}
+    decltype(auto) conversion = v8pp::class_<document>{isolate}
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }

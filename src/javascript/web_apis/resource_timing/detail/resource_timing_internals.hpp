@@ -3,9 +3,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_RESOURCE_TIMING_DETAIL_RESOURCE_TIMING_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(hr_time)
-#include USE_INNER_TYPES(performance_timeline)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(performance_timeline)
 namespace resource_timing {class performance_resource_timing;}
 
 namespace resource_timing::detail

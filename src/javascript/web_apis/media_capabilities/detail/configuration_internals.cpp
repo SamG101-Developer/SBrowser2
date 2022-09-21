@@ -3,7 +3,7 @@
 #include "ext/hashing.hpp"
 #include "ext/any.hpp"
 
-#include USE_INNER_TYPES(media_capabilities)
+#include INCLUDE_INNER_TYPES(media_capabilities)
 
 #include "mimesniff/detail/mimetype_internals.hpp"
 

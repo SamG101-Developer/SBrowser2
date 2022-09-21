@@ -6,8 +6,8 @@
 namespace service_workers::clients {class window_client;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(page_visibility)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(page_visibility)
 
 class service_workers::clients::window_client
         : public client

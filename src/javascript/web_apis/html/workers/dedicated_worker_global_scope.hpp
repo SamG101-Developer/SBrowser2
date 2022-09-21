@@ -5,7 +5,7 @@
 #include "html/workers/worker_global_scope.hpp"
 namespace html::workers {class dedicated_worker_global_scope;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::workers::dedicated_worker_global_scope

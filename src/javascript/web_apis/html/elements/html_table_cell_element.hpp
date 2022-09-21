@@ -5,7 +5,7 @@
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_table_cell_element;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::elements::html_table_cell_element

@@ -5,7 +5,8 @@
 #include "dom/nodes/event_target.hpp"
 namespace device_posture {class device_posture;}
 
-#include USE_INNER_TYPES(device_posture)
+#include "device_posture/device_posture_private.hpp"
+#include INCLUDE_INNER_TYPES(device_posture)
 
 class device_posture::device_posture
         : public dom::nodes::event_target
@@ -17,8 +18,12 @@ public constructors:
 public js_properties:
     ext::property<detail::device_posture_type_t> type;
 
-public cpp_members:
+private cpp_members:
+    MAKE_PIMPL(device_posture);
     MAKE_V8_AVAILABLE;
+
+private cpp_accessors:
+    DEFINE_CUSTOM_GETTER(type) {return d_ptr->current_posture;}
 };
 
 

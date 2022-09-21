@@ -3,8 +3,8 @@
 
 #include "ext/boolean.hpp"
 
-#include USE_INNER_TYPES(media_capabilities)
-#include USE_INNER_TYPES(mimesniff)
+#include INCLUDE_INNER_TYPES(media_capabilities)
+#include INCLUDE_INNER_TYPES(mimesniff)
 
 
 namespace media::detail

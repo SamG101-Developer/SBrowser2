@@ -8,7 +8,7 @@ namespace css::geometry {class dom_point_readonly;}
 
 #include "ext/number.hpp"
 #include <qvectornd.h>
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 namespace css::geometry {class dom_point;}
 
 

@@ -7,7 +7,7 @@ namespace permissions {class permission;}
 
 #include "ext/map.hpp"
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(permissions)
+#include INCLUDE_INNER_TYPES(permissions)
 namespace permissions {class permission_status;}
 
 

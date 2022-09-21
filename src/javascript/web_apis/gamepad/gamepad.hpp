@@ -5,8 +5,8 @@
 #include "dom_object.hpp"
 namespace gamepad {class gamepad;}
 
-#include USE_INNER_TYPES(gamepad)
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(gamepad)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace gamepad {class gamepad_button;}
 
 

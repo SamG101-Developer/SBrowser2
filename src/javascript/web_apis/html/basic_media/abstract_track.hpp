@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::basic_media {class abstract_track;}
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::basic_media::abstract_track

@@ -5,7 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(css/cssom)
+#include INCLUDE_INNER_TYPES(css/cssom)
 namespace dom::nodes {class element;}
 
 
@@ -60,7 +60,7 @@ struct css::detail::css_declaration_block_t
     ext::boolean computed_flag = false;
     ext::boolean updating_flag = false;
 
-    css_rule_t* parent_css_rule;
+    css_rule_private* parent_css_rule;
     dom::nodes::element* owner_node;
 };
 

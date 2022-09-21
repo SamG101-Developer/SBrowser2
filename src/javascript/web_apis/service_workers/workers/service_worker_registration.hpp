@@ -7,8 +7,8 @@ namespace service_workers::workers {class service_worker_registration;}
 
 #include "ext/promise.hpp"
 #include <memory>
-#include USE_INNER_TYPES(notifications)
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(notifications)
+#include INCLUDE_INNER_TYPES(service_workers)
 namespace notifications {class notification;}
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::workers {class service_worker;}

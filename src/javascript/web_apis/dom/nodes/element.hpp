@@ -20,11 +20,11 @@ namespace dom::nodes {class element;}
 #include "ext/promise.hpp"
 #include <range/v3/view/any_view.hpp>
 
-#include USE_INNER_TYPES(css/box_tree)
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(intersection_observer)
-#include USE_INNER_TYPES(fullscreen)
+#include INCLUDE_INNER_TYPES(css/box_tree)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(intersection_observer)
+#include INCLUDE_INNER_TYPES(fullscreen)
 
 namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
@@ -140,15 +140,15 @@ private js_slots:
     /* INTERSECTION_OBSERVERS */
     ext::slot<ext::vector<intersection_observer::detail::intersection_observer_registration_t*>> s_registration_intersection_observers;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 
-protected cpp_methods:
+protected cpp_members: // TODO : make free functions
     [[nodiscard]] auto qualified_name() const -> ext::string;
     [[nodiscard]] auto html_uppercase_qualified_name() const -> ext::string;
     [[nodiscard]] auto html_lowercase_qualified_name() const -> ext::string;
 
-private cpp_properties:
+private cpp_members: // TODO : make PIMPL
     ext::string m_is;
     detail::custom_element_definition_t* m_custom_element_definition;
     detail::custom_element_state_t m_custom_element_state;

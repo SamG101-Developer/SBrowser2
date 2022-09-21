@@ -6,7 +6,7 @@
 namespace payment::request {class payment_response;};
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(payment_request)
+#include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::request {class payment_request;};
 
 

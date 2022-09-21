@@ -9,7 +9,7 @@ namespace intersection_observer {class intersection_observer;}
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(intersection_observer)
+#include INCLUDE_INNER_TYPES(intersection_observer)
 namespace dom::nodes {class element;}
 namespace intersection_observer {class intersection_observer_entry;}
 

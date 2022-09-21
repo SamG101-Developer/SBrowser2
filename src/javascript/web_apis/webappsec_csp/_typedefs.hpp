@@ -6,7 +6,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(url)
 namespace dom::nodes {class element;}
 
 

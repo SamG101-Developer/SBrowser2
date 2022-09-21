@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace webgl2::other {class webgl_shader_precision_format;}
 
-#include USE_INNER_TYPES(webgl2)
+#include INCLUDE_INNER_TYPES(webgl2)
 
 
 class webgl2::other::webgl_shader_precision_format

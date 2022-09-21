@@ -10,7 +10,7 @@
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include "ext/type_traits.hpp"
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 #include <range/v3/view/any_view.hpp>
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}
@@ -19,7 +19,7 @@ namespace dom::nodes {class event_target;}
 namespace dom::detail
 {
     auto flatten_more(
-            event_listener_options_t&& options)
+            ext::variant<ext::map<ext::string, ext::any>, ext::boolean> options)
             -> ext::map<ext::string, ext::any>;
 
     auto flatten(

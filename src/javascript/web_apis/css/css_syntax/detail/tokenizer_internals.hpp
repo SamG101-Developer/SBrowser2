@@ -4,7 +4,7 @@
 
 #include "ext/string.hpp"
 #include "ext/optional.hpp"
-#include USE_INNER_TYPES(css/css_syntax)
+#include INCLUDE_INNER_TYPES(css/css_syntax)
 
 
 namespace css::detail

@@ -4,6 +4,7 @@
 #include "dom/nodes/node.hpp"
 namespace dom::nodes {class attr;}
 
+#include "dom/nodes/attr_private.hpp"
 namespace dom::nodes {class element;}
 
 
@@ -21,15 +22,12 @@ public js_properties:
     ext::property<ext::string> value; // TODO : CE_REACTIONS
     ext::property<std::unique_ptr<element>> owner_element;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_methods:
-    [[nodiscard]] auto qualified_name() const -> ext::string;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return ATTRIBUTE_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return qualified_name();};
+    DEFINE_CUSTOM_GETTER(node_name) override;
     DEFINE_CUSTOM_GETTER(node_value) override {return value();};
     DEFINE_CUSTOM_GETTER(text_content) override {return value();};
 

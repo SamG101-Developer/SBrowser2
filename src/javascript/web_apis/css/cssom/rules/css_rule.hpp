@@ -5,7 +5,8 @@
 #include "dom_object.hpp"
 namespace css::cssom::rules {class css_rule;}
 
-#include USE_INNER_TYPES(css/cssom)
+#include "css/cssom/rules/css_rule_private.hpp"
+#include INCLUDE_INNER_TYPES(css/cssom)
 namespace css::cssom::rules {class css_style_sheet;}
 
 

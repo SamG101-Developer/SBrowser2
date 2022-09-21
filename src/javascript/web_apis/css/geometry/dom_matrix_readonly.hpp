@@ -6,7 +6,7 @@
 #include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_matrix_readonly;}
 
-#include USE_INNER_TYPES(css/geometry)
+#include INCLUDE_INNER_TYPES(css/geometry)
 #include "ext/number.hpp"
 #include <qmatrix4x4.h>
 #include <qpointer.h>

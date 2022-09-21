@@ -6,7 +6,7 @@
 #include "ext/map_like.hpp"
 namespace payment::handler {class payment_instruments;}
 
-#include USE_INNER_TYPES(payment_handler)
+#include INCLUDE_INNER_TYPES(payment_handler)
 
 
 class payment::handler::payment_instruments

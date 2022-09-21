@@ -8,9 +8,9 @@
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
-#include USE_INNER_TYPES(permissions)
-#include USE_INNER_TYPES(permissions_policy)
-#include USE_INNER_TYPES(sensors)
+#include INCLUDE_INNER_TYPES(permissions)
+#include INCLUDE_INNER_TYPES(permissions_policy)
+#include INCLUDE_INNER_TYPES(sensors)
 
 namespace ambient_light_sensor {class ambient_light_sensor;}
 namespace dom::other {class dom_exception;}

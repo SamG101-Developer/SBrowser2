@@ -6,8 +6,8 @@
 #include "ext/vector.hpp"
 #include <memory>
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}

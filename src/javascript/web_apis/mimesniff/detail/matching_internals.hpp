@@ -5,7 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 #include "ext/set.hpp"
-#include USE_INNER_TYPES(mimesniff)
+#include INCLUDE_INNER_TYPES(mimesniff)
 
 namespace mimesniff::detail
 {

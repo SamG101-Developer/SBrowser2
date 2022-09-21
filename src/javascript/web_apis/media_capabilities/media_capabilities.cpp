@@ -1,6 +1,6 @@
 #include "media_capabilities.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 #include "dom/other/dom_exception.hpp"
 #include "html/workers/worker_global_scope.hpp"

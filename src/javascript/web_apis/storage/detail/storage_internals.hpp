@@ -6,7 +6,7 @@
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
-#include USE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(streams)
 
 #include <v8-forward.h>
 

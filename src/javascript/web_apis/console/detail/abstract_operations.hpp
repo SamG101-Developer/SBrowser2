@@ -3,7 +3,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(console)
+#include INCLUDE_INNER_TYPES(console)
 
 namespace console::detail
 {

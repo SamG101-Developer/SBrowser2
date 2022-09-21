@@ -5,7 +5,7 @@
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(clipboard)
+#include INCLUDE_INNER_TYPES(clipboard)
 
 #include <QtGui/QClipboard>
 
@@ -20,7 +20,7 @@ namespace clipboard::detail
 
     auto check_clipboard_read_permission()
             -> ext::boolean;
-};
+}
 
 
 struct clipboard::detail::representation_t
@@ -36,7 +36,6 @@ struct clipboard::detail::clipboard_item_t
     ext::vector<ext::string> types_array;
     presentation_style_t presentation_style;
 };
-
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_DETAIL_CLIPBOARD_INTERNALS_HPP

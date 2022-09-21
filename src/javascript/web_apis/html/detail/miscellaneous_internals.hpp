@@ -4,8 +4,8 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace html::detail
 {

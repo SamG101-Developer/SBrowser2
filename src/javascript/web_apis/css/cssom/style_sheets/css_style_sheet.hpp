@@ -6,7 +6,7 @@
 namespace css::cssom::style_sheets {class css_style_sheet;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(css/cssom)
+#include INCLUDE_INNER_TYPES(css/cssom)
 namespace css::cssom::rules {class css_rule;}
 
 

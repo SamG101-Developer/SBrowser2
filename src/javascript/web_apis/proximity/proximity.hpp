@@ -5,7 +5,7 @@
 #include "sensors/sensor.hpp"
 namespace proximity {class proximity;}
 
-#include USE_INNER_TYPES(proximity)
+#include INCLUDE_INNER_TYPES(proximity)
 
 
 class proximity::proximity

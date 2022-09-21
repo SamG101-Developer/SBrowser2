@@ -7,7 +7,7 @@
 namespace encoding::detail {class text_decoder;}
 
 #include <v8-forward.h>
-#include USE_INNER_TYPES(encoding)
+#include INCLUDE_INNER_TYPES(encoding)
 
 
 class encoding::detail::text_decoder

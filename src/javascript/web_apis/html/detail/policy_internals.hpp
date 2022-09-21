@@ -4,10 +4,10 @@
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(content_security_policy)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(referrer_policy)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(content_security_policy)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(referrer_policy)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace html::detail

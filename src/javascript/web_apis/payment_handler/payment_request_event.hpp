@@ -6,8 +6,8 @@
 namespace payment::handler {class payment_request_event;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(payment_handler)
-#include USE_INNER_TYPES(payment_request)
+#include INCLUDE_INNER_TYPES(payment_handler)
+#include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::handler {class window_client;}
 
 

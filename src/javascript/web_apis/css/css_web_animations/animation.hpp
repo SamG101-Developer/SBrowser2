@@ -5,10 +5,14 @@
 #include "dom/nodes/event_target.hpp"
 namespace css::css_web_animations {class animation;}
 
+
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(css/css_web_animations)
+#include INCLUDE_INNER_TYPES(css/css_web_animations)
 namespace css::css_web_animations {class animation_effect;}
 namespace css::css_web_animations {class animation_timeline;}
+
+
+#include "css/css_web_animations/animation_private.hpp"
 
 
 class css::css_web_animations::animation

@@ -6,9 +6,9 @@
 #include "ext/set.hpp"
 #include "ext/tuple.hpp"
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace html::elements {class html_element;}
 namespace html::elements {class html_image_element;}

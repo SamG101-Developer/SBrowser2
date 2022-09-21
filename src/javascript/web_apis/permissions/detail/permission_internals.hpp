@@ -8,8 +8,8 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 
-#include USE_INNER_TYPES(permissions)
-#include USE_INNER_TYPES(permissions_policy)
+#include INCLUDE_INNER_TYPES(permissions)
+#include INCLUDE_INNER_TYPES(permissions_policy)
 
 #include <v8-object.h>
 namespace permissions {class permission_status;}

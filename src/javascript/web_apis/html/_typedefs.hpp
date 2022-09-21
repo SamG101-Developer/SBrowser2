@@ -14,8 +14,8 @@
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include <QtGui/QTransform>
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace file_api {class blob;}
 namespace file_api {class file;}

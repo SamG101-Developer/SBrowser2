@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace battery {class battery_manager;}
 
-#include USE_INNER_TYPES(battery)
+#include "battery/battery_manager_private.hpp"
 
 
 class battery::battery_manager
@@ -26,10 +26,10 @@ private cpp_members:
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(charging);
-    DEFINE_CUSTOM_GETTER(charging_time);
-    DEFINE_CUSTOM_GETTER(discharging_time);
-    DEFINE_CUSTOM_GETTER(level);
+    DEFINE_CUSTOM_GETTER(charging) {return d_ptr->charging;}
+    DEFINE_CUSTOM_GETTER(charging_time) {return d_ptr->charging_time;}
+    DEFINE_CUSTOM_GETTER(discharging_time) {return d_ptr->discharging_time;}
+    DEFINE_CUSTOM_GETTER(level) {return d_ptr->level;}
 };
 
 

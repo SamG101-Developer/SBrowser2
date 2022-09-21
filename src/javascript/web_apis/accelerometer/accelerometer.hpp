@@ -5,7 +5,7 @@
 #include "sensors/sensor.hpp"
 namespace accelerometer {class accelerometer;}
 
-#include USE_INNER_TYPES(accelerometer)
+#include INCLUDE_INNER_TYPES(accelerometer)
 
 
 class accelerometer::accelerometer

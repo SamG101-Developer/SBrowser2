@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace dom_parsing {class dom_parser;}
 
-#include USE_INNER_TYPES(dom_parsing)
+#include INCLUDE_INNER_TYPES(dom_parsing)
 namespace dom::nodes {class document;}
 
 

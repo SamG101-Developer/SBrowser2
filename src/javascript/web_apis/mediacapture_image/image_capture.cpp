@@ -1,6 +1,6 @@
 #include "image_capture.hpp"
 
-#include USE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(dom)
 
 #include "dom/detail/exception_internals.hpp"
 #include "mediacapture_main/media_stream_track.hpp"

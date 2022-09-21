@@ -5,8 +5,8 @@
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(webappsec_csp)
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(webappsec_csp)
+#include INCLUDE_INNER_TYPES(url)
 
 namespace dom::nodes {class element;}
 namespace fetch {class request;}

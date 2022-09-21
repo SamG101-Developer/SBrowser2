@@ -5,8 +5,8 @@
 #include "dom/nodes/event_target.hpp"
 namespace service_workers::workers {class service_worker;}
 
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(service_workers)
 
 class service_workers::workers::service_worker
         : public dom::nodes::event_target

@@ -2,8 +2,8 @@
 #define SBROWSER2_DOCUMENT_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(hr_time)
 
 namespace dom::nodes {class document; class node;}
 namespace html::elements {class html_meta_element;}

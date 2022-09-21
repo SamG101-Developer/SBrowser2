@@ -4,7 +4,7 @@
 
 #include "ext/optional.hpp"
 #include "ext/type_traits.hpp"
-#include USE_INNER_TYPES(geolocation)
+#include INCLUDE_INNER_TYPES(geolocation)
 
 namespace geolocation {class geolocation;}
 

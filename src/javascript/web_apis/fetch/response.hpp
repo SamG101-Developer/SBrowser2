@@ -5,7 +5,7 @@
 #include "mixins/body.hpp"
 namespace fetch {class response;}
 
-#include USE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(fetch)
 
 
 class fetch::response

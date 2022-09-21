@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MAGNETOMETER_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
 #include "ext/keywords.hpp"
-#include USE_INNER_TYPES(magnetometer)
+#include INCLUDE_INNER_TYPES(magnetometer)
 namespace magnetometer {class magnetometer;}
 
 

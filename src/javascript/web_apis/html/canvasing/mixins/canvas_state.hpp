@@ -6,7 +6,7 @@
 namespace html::canvasing::mixins {class canvas_state;}
 
 #include "ext/stack.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::canvasing::mixins::canvas_state

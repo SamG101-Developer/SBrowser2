@@ -4,7 +4,7 @@
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(mediacapture_automation)
+#include INCLUDE_INNER_TYPES(mediacapture_automation)
 
 namespace mediacapture::detail
 {

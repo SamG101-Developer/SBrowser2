@@ -1,7 +1,7 @@
 #include "canvas_image_data.hpp"
 
-#include USE_INNER_TYPES(dom)
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 
 #include "dom/detail/exception_internals.hpp"
 

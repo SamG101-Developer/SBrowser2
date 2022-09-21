@@ -5,7 +5,7 @@
 #include "ext/concepts.hpp"
 #include "ext/optional.hpp"
 #include "ext/variant.hpp"
-#include USE_INNER_TYPES(media_source)
+#include INCLUDE_INNER_TYPES(media_source)
 namespace dom::nodes {class window;}
 namespace html::workers {class dedicated_worker_global_scope;}
 namespace media::source {class media_source;}

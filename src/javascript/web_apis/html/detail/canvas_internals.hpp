@@ -9,7 +9,7 @@
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 namespace dom::nodes {class node;}
 namespace html::canvasing {class image_bitmap;}

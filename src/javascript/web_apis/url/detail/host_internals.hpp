@@ -6,7 +6,7 @@
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace url::detail

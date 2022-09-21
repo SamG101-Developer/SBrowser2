@@ -62,19 +62,21 @@ auto dom::nodes::character_data::replace_data(
 
 auto dom::nodes::character_data::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<character_data>{isolate}
-            .inherit<node>()
-            .inherit<dom::mixins::child_node>()
-            .inherit<dom::mixins::non_document_type_child_node>()
-            .function("substringData", &character_data::substring_data)
-            .function("appendData", &character_data::append_data)
-            .function("insertData", &character_data::insert_data)
-            .function("replaceData", &character_data::replace_data)
-            .function("deleteData", &character_data::delete_data)
-            .var("data", &character_data::data, false)
-            .var("length", &character_data::length, true)
-            .auto_wrap_objects();
+    decltype(auto) conversion = v8pp::class_<character_data>{isolate}
+        .inherit<node>()
+        .inherit<dom::mixins::child_node>()
+        .inherit<dom::mixins::non_document_type_child_node>()
+        .function("substringData", &character_data::substring_data)
+        .function("appendData", &character_data::append_data)
+        .function("insertData", &character_data::insert_data)
+        .function("replaceData", &character_data::replace_data)
+        .function("deleteData", &character_data::delete_data)
+        .var("data", &character_data::data, false)
+        .var("length", &character_data::length, true)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }
 

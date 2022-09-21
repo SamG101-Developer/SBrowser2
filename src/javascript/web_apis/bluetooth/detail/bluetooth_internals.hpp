@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/set.hpp"
-#include USE_INNER_TYPES(bluetooth)
+#include INCLUDE_INNER_TYPES(bluetooth)
 
 
 namespace bluetooth::detail

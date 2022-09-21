@@ -11,8 +11,8 @@ class dom::nodes::comment final
 public constructors:
     explicit comment(ext::string&& new_data = "");
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return COMMENT_NODE;}

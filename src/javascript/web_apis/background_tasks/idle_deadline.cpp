@@ -2,7 +2,6 @@
 
 #include "javascript/environment/realms_2.hpp"
 
-#include "background_tasks/detail/processing_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"
 
 

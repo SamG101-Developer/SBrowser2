@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace mediacapture::main {class media_device_info;}
 
-#include USE_INNER_TYPES(mediacapture_main)
+#include INCLUDE_INNER_TYPES(mediacapture_main)
 
 
 class mediacapture::main::media_device_info

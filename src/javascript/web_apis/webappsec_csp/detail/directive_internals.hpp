@@ -6,9 +6,9 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
-#include USE_INNER_TYPES(fetch)
-#include USE_INNER_TYPES(html)
-#include USE_INNER_TYPES(webappsec_csp)
+#include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(webappsec_csp)
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}

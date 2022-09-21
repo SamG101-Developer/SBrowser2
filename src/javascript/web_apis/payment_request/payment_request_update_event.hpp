@@ -6,7 +6,7 @@
 namespace payment::request {class payment_request_update_event;}
 
 #include "ext/promise.hpp"
-#include USE_INNER_TYPES(payment_request)
+#include INCLUDE_INNER_TYPES(payment_request)
 
 
 class payment::request::payment_request_update_event

@@ -6,7 +6,7 @@
 namespace service_workers::clients {class client;}
 
 #include "ext/vector.hpp"
-#include USE_INNER_TYPES(service_workers)
+#include INCLUDE_INNER_TYPES(service_workers)
 
 
 class service_workers::clients::client

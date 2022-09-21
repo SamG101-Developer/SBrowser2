@@ -4,7 +4,7 @@
 
 #include "ext/number.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(css/css_animations)
+#include INCLUDE_INNER_TYPES(css/css_animations)
 namespace dom::nodes {class element;}
 
 

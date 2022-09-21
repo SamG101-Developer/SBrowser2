@@ -14,7 +14,6 @@ class badging::mixins::navigator_badge
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(navigator_badge);
     navigator_badge() = default;
 
 public js_methods:

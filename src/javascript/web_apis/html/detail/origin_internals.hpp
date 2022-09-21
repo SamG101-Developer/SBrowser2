@@ -4,7 +4,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/string.hpp"
-#include USE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(html)
 
 
 namespace html::detail

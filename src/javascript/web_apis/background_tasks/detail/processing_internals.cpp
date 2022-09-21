@@ -3,10 +3,8 @@
 #include "ext/optional.hpp"
 
 #include "background_tasks/idle_deadline.hpp"
-
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/window.hpp"
-
 #include "hr_time/detail/time_internals.hpp"
 #include "html/detail/task_internals.hpp"
 
@@ -85,9 +83,9 @@ auto background_tasks::detail::invoke_idle_callback_timeout_algorithm(
     // callback is empty / doesn't exist;
     idle_request_callback_t callback;
     if (window->m_idle_request_callbacks.size() < handle)
-        callback = window->m_idle_request_callbacks.at(std::move(handle));
+        callback = window->m_idle_request_callbacks.at(handle);
     else if (window->m_runnable_idle_callbacks.size() < handle)
-        callback = window->m_runnable_idle_callbacks.at(std::move(handle));
+        callback = window->m_runnable_idle_callbacks.at(handle);
 
     // Only continue if there is a callback (ext::function<Ts...> can hold 'empty' functions)
     if (!callback.empty())
@@ -104,8 +102,8 @@ auto background_tasks::detail::invoke_idle_callback_timeout_algorithm(
         // create an IdleDeadline object, assign the get deadline method to return the time 'now', and set the 'timeout'
         // attribute to true; as the deadline is 'now', it has already expired.
         idle_deadline deadline_arg;
-        deadline_arg.m_get_deadline_time = [now = std::move(now)] {return now;};
-        deadline_arg.m_timeout = true;
+        deadline_arg->d_ptr->get_deadline_time = [now] {return now;};
+        deadline_arg->d_ptr->timeout = true;
 
         // Call the callback with exception handling, and report any JavaScript exception throws during execution of the
         // algorithm.

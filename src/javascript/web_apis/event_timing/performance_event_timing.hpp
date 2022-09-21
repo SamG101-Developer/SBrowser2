@@ -5,7 +5,7 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace event_timing {class performance_event_timing;}
 
-#include USE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class event_target;}
 namespace dom::events {class event;}
 
