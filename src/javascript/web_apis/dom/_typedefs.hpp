@@ -8,6 +8,8 @@
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 namespace dom::events {class event;}
+namespace dom::mutations {class mutation_observer;}
+namespace dom::mutations {class mutation_record;}
 
 namespace dom::detail
 {
@@ -22,6 +24,7 @@ namespace dom::detail
     struct abort_signal_t;
     struct event_t;
     struct abstract_iterator_t;
+    struct mutation_observer_t;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
@@ -37,6 +40,7 @@ namespace dom::detail
     using exception_condiditional_t = ext::function<bool()>;
     using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
+    using mutation_callback_t = ext::function<void(const ext::vector<mutations::mutation_record*>&, mutations::mutation_observer*)>;
 }
 
 

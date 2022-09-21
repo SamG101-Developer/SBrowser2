@@ -11,7 +11,6 @@ class dom::mutations::mutation_record
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(mutation_record);
     mutation_record() = default;
 
 public js_properties:
@@ -27,8 +26,8 @@ public js_properties:
     ext::property<std::unique_ptr<ext::vector<nodes::node*>>> added_nodes;
     ext::property<std::unique_ptr<ext::vector<nodes::node*>>> removed_nodes;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

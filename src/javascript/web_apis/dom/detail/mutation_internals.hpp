@@ -5,6 +5,7 @@
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
+#include "ext/queue.hpp"
 #include "ext/string.hpp"
 #include USE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
@@ -71,15 +72,22 @@ namespace dom::detail
 
 struct dom::detail::registered_observer_t
 {
-    std::unique_ptr<mutations::mutation_observer> observer;
+    mutations::mutation_observer* observer = nullptr;
     ext::map<ext::string, ext::any> options;
-    virtual registered_observer_t() = default;
 };
 
 
 struct dom::detail::transient_registered_observer_t : public registered_observer_t
 {
-    std::unique_ptr<registered_observer_t> source;
+    registered_observer_t* source = nullptr;
+};
+
+
+struct dom::detail::mutation_observer_t
+{
+    mutation_callback_t m_callback;
+    ext::vector<nodes::node*> m_node_list;
+    ext::queue<mutations::mutation_record*> m_record_queue;
 };
 
 
