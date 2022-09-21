@@ -20,9 +20,9 @@ auto css::geometry::dom_point::from_point(
 
 auto css::geometry::dom_point::to_v8(
         v8::Isolate* isolate)
-        const&& -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<dom_point>{isolate}
+    decltype(auto) conversion = v8pp::class_<dom_point>{isolate}
         .ctor<ext::number<double>, ext::number<double>, ext::number<double>, ext::number<double>>()
         .inherit<dom_point_readonly>()
         .function("fromPoint", &dom_point_readonly::from_point)
@@ -31,4 +31,6 @@ auto css::geometry::dom_point::to_v8(
         .var("x", &dom_point_readonly::z, false)
         .var("x", &dom_point_readonly::w, false)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

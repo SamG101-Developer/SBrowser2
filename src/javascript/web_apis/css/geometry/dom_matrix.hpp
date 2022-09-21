@@ -6,6 +6,7 @@
 namespace css::geometry {class dom_matrix;}
 
 #include "qmatrix4x4.h"
+#include "qpointer.h"
 #include USE_INNER_TYPES(css/geometry)
 
 
@@ -14,7 +15,7 @@ class css::geometry::dom_matrix
 {
 public constructors:
     using dom_matrix_readonly::dom_matrix_readonly;
-    dom_matrix(QMatrix4x4 other) {m_matrix = other;};
+    dom_matrix(QMatrix4x4 other) {d_ptr.reset(&other);};
 
 public js_methods:
     static auto from_matrix(detail::dom_matrix_init_t&& other = {}) -> dom_matrix;
@@ -33,33 +34,32 @@ public js_methods:
     auto skew_y_self(ext::number<double> sy = 0) const -> dom_matrix;
     auto invert_self() -> dom_matrix;
 
-public cpp_operators:
-    auto operator*=(const dom_matrix_readonly& other) -> dom_matrix& {m_matrix *= other.m_matrix; return *this;}
+private cpp_members:
+    auto operator*=(const dom_matrix_readonly& other) -> dom_matrix& {(*d_ptr) *= *(other.d_ptr); return *this;}
 
-public cpp_methods:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_matrix* override;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_SETTER(m11) {m_matrix(0, 0) = *val;}
-    DEFINE_CUSTOM_SETTER(m12) {m_matrix(1, 0) = *val;}
-    DEFINE_CUSTOM_SETTER(m13) {m_matrix(2, 0) = *val;}
-    DEFINE_CUSTOM_SETTER(m14) {m_matrix(3, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m11) {(*d_ptr)(0, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m12) {(*d_ptr)(1, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m13) {(*d_ptr)(2, 0) = *val;}
+    DEFINE_CUSTOM_SETTER(m14) {(*d_ptr)(3, 0) = *val;}
 
-    DEFINE_CUSTOM_SETTER(m21) {m_matrix(0, 1) = *val;}
-    DEFINE_CUSTOM_SETTER(m22) {m_matrix(1, 1) = *val;}
-    DEFINE_CUSTOM_SETTER(m23) {m_matrix(2, 1) = *val;}
-    DEFINE_CUSTOM_SETTER(m24) {m_matrix(3, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m21) {(*d_ptr)(0, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m22) {(*d_ptr)(1, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m23) {(*d_ptr)(2, 1) = *val;}
+    DEFINE_CUSTOM_SETTER(m24) {(*d_ptr)(3, 1) = *val;}
 
-    DEFINE_CUSTOM_SETTER(m31) {m_matrix(0, 2) = *val;}
-    DEFINE_CUSTOM_SETTER(m32) {m_matrix(1, 2) = *val;}
-    DEFINE_CUSTOM_SETTER(m33) {m_matrix(2, 2) = *val;}
-    DEFINE_CUSTOM_SETTER(m34) {m_matrix(3, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m31) {(*d_ptr)(0, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m32) {(*d_ptr)(1, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m33) {(*d_ptr)(2, 2) = *val;}
+    DEFINE_CUSTOM_SETTER(m34) {(*d_ptr)(3, 2) = *val;}
 
-    DEFINE_CUSTOM_SETTER(m41) {m_matrix(0, 3) = *val;}
-    DEFINE_CUSTOM_SETTER(m42) {m_matrix(1, 3) = *val;}
-    DEFINE_CUSTOM_SETTER(m43) {m_matrix(2, 3) = *val;}
-    DEFINE_CUSTOM_SETTER(m44) {m_matrix(3, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m41) {(*d_ptr)(0, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m42) {(*d_ptr)(1, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m43) {(*d_ptr)(2, 3) = *val;}
+    DEFINE_CUSTOM_SETTER(m44) {(*d_ptr)(3, 3) = *val;}
 };
 
 

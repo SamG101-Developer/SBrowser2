@@ -12,15 +12,14 @@ class css::css_animation_worklet::animation_worklet_global_scope
         : public html::workers::worklet_global_scope
 {
 public constructors:
-    DOM_CTORS(animation_worklet_global_scope);
-    animation_worklet_global_scope() = default;
+    animation_worklet_global_scope();
 
 public js_methods:
     auto register_animator(ext::string&& name, detail::animator_instance_constructor_t&& animator) -> void;
 
-private cpp_properties:
-    ext::map<ext::string, detail::animator_definition_t*> m_animator_definitions;
-    ext::vector<detail::animator_instance_t*> m_animator_instance_set;
+private cpp_members:
+    MAKE_PIMPL(animation_worklet_global_scope);
+    MAKE_V8_AVAILABLE;
 };
 
 

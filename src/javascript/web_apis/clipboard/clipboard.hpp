@@ -21,7 +21,7 @@ public js_methods:
     auto write(ext::vector<clipboard_item*> data) -> ext::promise<void>;
     auto write_text(ext::string&& data) -> ext::promise<void>;
 
-public cpp_members:
+private cpp_members:
     MAKE_V8_AVAILABLE;
 };
 

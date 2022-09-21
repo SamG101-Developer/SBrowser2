@@ -15,8 +15,9 @@ public constructors:
     document_timeline() = default;
     document_timeline(detail::document_timeline_options_t&& options = {});
 
-private cpp_properties:
-    std::unique_ptr<detail::document_timeline_t> m_timeline;
+private cpp_members:
+    MAKE_PIMPL(document_timeline);
+    MAKE_V8_AVAILABLE;
 };
 
 

@@ -22,6 +22,9 @@ public js_methods:
 public js_properties:
     ext::property<ext::string> name;
     ext::property<ext::vector<cssom::rules::css_rule*>> css_rules;
+
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

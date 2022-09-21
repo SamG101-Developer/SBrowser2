@@ -16,7 +16,7 @@ public constructors:
 public js_properties:
     ext::property<ext::number<double>> illuminance;
 
-public cpp_members:
+private cpp_members:
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:

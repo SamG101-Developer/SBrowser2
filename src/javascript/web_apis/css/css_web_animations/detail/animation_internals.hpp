@@ -22,11 +22,11 @@ namespace dom::nodes {class element;}
 namespace css::detail
 {
     auto is_inactive_timeline(
-            const timeline_t& timeline)
+            const animation_timeline_t& timeline)
             -> ext::boolean;
 
     auto is_monotonically_increasing(
-            const timeline_t& timeline)
+            const animation_timeline_t& timeline)
             -> ext::boolean;
 
     auto update_animations_and_send_events(
@@ -36,12 +36,12 @@ namespace css::detail
 
     auto set_timeline_of_animation(
             animation_t& animation,
-            const timeline_t& timeline)
+            const animation_timeline_t& timeline)
             -> void;
 
     auto set_associated_effect_of_animation(
             animation_t& animation,
-            const timeline_t& timeline)
+            const animation_timeline_t& timeline)
             -> void;
 
     auto current_time(
@@ -270,21 +270,21 @@ namespace css::detail
 }
 
 
-struct css::detail::timeline_t
+struct css::detail::animation_timeline_t
 {
     dom::nodes::document* document;
 };
 
 
 struct css::detail::document_timeline_t
-        : public timeline_t
+        : public animation_timeline_t
 {};
 
 
 struct css::detail::animation_t
 {
     std::unique_ptr<animation_effect_t> animation_effect;
-    std::unique_ptr<timeline_t> timeline;
+    std::unique_ptr<animation_timeline_t> timeline;
 
     ext::optional<time_value_t> start_time;
     ext::optional<time_value_t> hold_time;

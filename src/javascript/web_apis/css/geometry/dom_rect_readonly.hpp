@@ -31,26 +31,24 @@ public js_properties:
     ext::property<ext::number<double>> bottom;
     ext::property<ext::number<double>> left;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-    auto to_json() const -> ext::string override;
+public cpp_members:
+    MAKE_PIMPL_QT_PROTECTED(QRectF);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_rect_readonly* override;
 
-protected cpp_properties:
-    QRectF m_rect;
-
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(x) {return m_rect.x();}
-    DEFINE_CUSTOM_GETTER(y) {return m_rect.y();}
-    DEFINE_CUSTOM_GETTER(w) {return m_rect.width();}
-    DEFINE_CUSTOM_GETTER(h) {return m_rect.height();}
+    DEFINE_CUSTOM_GETTER(x) {return d_ptr->x();}
+    DEFINE_CUSTOM_GETTER(y) {return d_ptr->y();}
+    DEFINE_CUSTOM_GETTER(w) {return d_ptr->width();}
+    DEFINE_CUSTOM_GETTER(h) {return d_ptr->height();}
 
-    DEFINE_CUSTOM_GETTER(top) {return m_rect.top();}
-    DEFINE_CUSTOM_GETTER(right) {return m_rect.right();}
-    DEFINE_CUSTOM_GETTER(bottom) {return m_rect.bottom();}
-    DEFINE_CUSTOM_GETTER(left) {return m_rect.left();}
+    DEFINE_CUSTOM_GETTER(top) {return d_ptr->top();}
+    DEFINE_CUSTOM_GETTER(right) {return d_ptr->right();}
+    DEFINE_CUSTOM_GETTER(bottom) {return d_ptr->bottom();}
+    DEFINE_CUSTOM_GETTER(left) {return d_ptr->left();}
 };
 
 

@@ -17,8 +17,9 @@ public constructors:
 public js_properties:
     ext::property<ext::number<double>> current_time;
 
-private cpp_properties:
-    std::unique_ptr<detail::timeline_t> m_timeline;
+private cpp_members:
+    MAKE_PIMPL(animation_timeline);
+    MAKE_V8_AVAILABLE;
 };
 
 

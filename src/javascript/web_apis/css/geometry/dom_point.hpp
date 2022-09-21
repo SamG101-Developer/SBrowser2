@@ -15,17 +15,18 @@ public constructors:
 public js_methods:
     static auto from_point(detail::dom_point_init_t&& other = {}) -> dom_point;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
+
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_point* override;
 
 
 private cpp_accessors:
-    DEFINE_CUSTOM_SETTER(x) {m_point.setX(*val.as<float>());};
-    DEFINE_CUSTOM_SETTER(y) {m_point.setY(*val.as<float>());};
-    DEFINE_CUSTOM_SETTER(z) {m_point.setZ(*val.as<float>());};
-    DEFINE_CUSTOM_SETTER(w) {m_point.setW(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(x) {d_ptr->setX(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(y) {d_ptr->setY(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(z) {d_ptr->setZ(*val.as<float>());};
+    DEFINE_CUSTOM_SETTER(w) {d_ptr->setW(*val.as<float>());};
 };
 
 

@@ -15,7 +15,7 @@ class css::css_web_animations::animation
         : public dom::nodes::event_target
 {
 public constructors:
-    animation() = default;
+    animation();
     animation(animation_effect* effect = nullptr, animation_timeline* timeline = nullptr);
 
 public js_methods:
@@ -44,8 +44,9 @@ public js_properties:
     ext::property<ext::promise<animation*>> ready;
     ext::property<ext::promise<animation*>> finished;
 
-private:
-    std::unique_ptr<detail::animation_t> m_animation;
+private cpp_members:
+    MAKE_PIMPL(animation);
+    MAKE_V8_AVAILABLE;
 };
 
 

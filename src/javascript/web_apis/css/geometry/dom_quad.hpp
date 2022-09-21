@@ -30,16 +30,13 @@ public js_properties:
     ext::property<std::unique_ptr<dom_point>> p3;
     ext::property<std::unique_ptr<dom_point>> p4;
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-    auto to_v8(v8::Isolate*isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_PIMPL_QT(QPolygonF);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_quad* override;
-
-
-private:
-    QPolygonF m_polygon;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(p1);

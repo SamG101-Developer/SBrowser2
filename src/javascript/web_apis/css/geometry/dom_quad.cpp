@@ -9,10 +9,10 @@ css::geometry::dom_quad::dom_quad(
         detail::dom_point_init_t&& p3,
         detail::dom_point_init_t&& p4)
 {
-    m_polygon.emplace_back(*p1.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p1.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
-    m_polygon.emplace_back(*p2.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p2.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
-    m_polygon.emplace_back(*p3.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p3.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
-    m_polygon.emplace_back(*p4.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p4.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
+    d_ptr->emplace_back(*p1.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p1.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
+    d_ptr->emplace_back(*p2.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p2.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
+    d_ptr->emplace_back(*p3.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p3.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
+    d_ptr->emplace_back(*p4.try_emplace("x", 0.0).first->second.to<ext::number<double>>(), *p4.try_emplace("y", 0.0).first->second.to<ext::number<double>>());
 }
 
 

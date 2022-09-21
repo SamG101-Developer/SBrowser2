@@ -18,6 +18,10 @@ public js_methods:
     auto get_timing() -> detail::effect_timing_t;
     auto get_computed_timing() -> detail::computed_effect_timing_t;
     auto update_timing(detail::optional_effect_timing_t&& timing = {}) -> void;
+
+private cpp_members:
+    MAKE_PIMPL(animation_effect);
+    MAKE_V8_AVAILABLE;
 };
 
 

@@ -21,7 +21,7 @@ public js_properties:
     ext::property<ext::number<double>> discharging_time;
     ext::property<ext::number<double>> level;
 
-public cpp_members:
+private cpp_members:
     MAKE_PIMPL(battery_manager);
     MAKE_V8_AVAILABLE;
 

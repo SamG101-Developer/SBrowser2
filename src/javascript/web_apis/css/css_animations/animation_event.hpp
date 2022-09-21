@@ -18,8 +18,8 @@ public js_properties:
     ext::property<ext::string> pseudo_element;
     ext::property<ext::number<double>> elapsed_time;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 
 public cpp_accessors:
     DEFINE_CUSTOM_GETTER(elapsed_time);

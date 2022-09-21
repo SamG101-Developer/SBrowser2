@@ -41,7 +41,7 @@ public constructors:
     dom_object() = default;
     virtual ~dom_object() = default;
 
-public cpp_members:
+private cpp_members:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER {return "";}
 

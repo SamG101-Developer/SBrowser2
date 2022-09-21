@@ -21,7 +21,7 @@ public js_properties:
     ext::property<ext::number<double>> y;
     ext::property<ext::number<double>> z;
 
-public cpp_members:
+private cpp_members:
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:

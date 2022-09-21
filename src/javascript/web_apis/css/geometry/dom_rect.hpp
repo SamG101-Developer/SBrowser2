@@ -16,15 +16,15 @@ public constructors:
 public js_methods:
     static auto from_rect(detail::dom_rect_init_t&& other = {}) -> dom_rect;
 
-public cpp_methods:
+public cpp_members:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_rect* override;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_SETTER(x) {m_rect.setX(*val);};
-    DEFINE_CUSTOM_SETTER(y) {m_rect.setY(*val);};
-    DEFINE_CUSTOM_SETTER(w) {m_rect.setWidth(*val);};
-    DEFINE_CUSTOM_SETTER(h) {m_rect.setHeight(*val);};
+    DEFINE_CUSTOM_SETTER(x) {d_ptr->setX(*val);};
+    DEFINE_CUSTOM_SETTER(y) {d_ptr->setY(*val);};
+    DEFINE_CUSTOM_SETTER(w) {d_ptr->setWidth(*val);};
+    DEFINE_CUSTOM_SETTER(h) {d_ptr->setHeight(*val);};
 };
 
 

@@ -27,7 +27,7 @@ public js_properties:
     ext::property<detail::presentation_style_t> presentation_style;
     ext::property<ext::vector<ext::string>> types;
 
-public cpp_members:
+private cpp_members:
     MAKE_PIMPL(clipboard_item);
     MAKE_V8_AVAILABLE;
 

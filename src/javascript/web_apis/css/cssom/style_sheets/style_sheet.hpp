@@ -27,8 +27,9 @@ public js_properties:
     ext::property<ext::vector<ext::string>> media;
     ext::property<ext::boolean> disabled;
 
-protected cpp_properties:
-    std::unique_ptr<detail::css_style_sheet_t> m_style_sheet;
+private cpp_members:
+    MAKE_PIMPL_PROTECTED(css_style_sheet);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(type);

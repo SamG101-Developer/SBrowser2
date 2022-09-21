@@ -44,17 +44,19 @@ auto css::geometry::dom_point_readonly::matrix_transform(
 
 auto css::geometry::dom_point_readonly::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<dom_point_readonly>{isolate}
+    decltype(auto) conversion = v8pp::class_<dom_point_readonly>{isolate}
         .ctor<ext::number<double>, ext::number<double>, ext::number<double>, ext::number<double>>()
         .inherit<dom_object>()
         .function("fromPoint", &dom_point_readonly::from_point)
         .function("matrixTransform", &dom_point_readonly::matrix_transform)
-        .function("toJSON", &dom_point_readonly::to_json)
+        .function("toJSON", &dom_point_readonly::operator ext::string)
         .var("x", &dom_point_readonly::x, true)
         .var("x", &dom_point_readonly::y, true)
         .var("x", &dom_point_readonly::z, true)
         .var("x", &dom_point_readonly::w, true)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

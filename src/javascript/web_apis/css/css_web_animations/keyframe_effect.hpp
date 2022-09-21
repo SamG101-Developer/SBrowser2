@@ -13,7 +13,7 @@ class css::css_web_animations::keyframe_effect
         : public animation_effect
 {
 public constructors:
-    keyframe_effect() = default;
+    keyframe_effect();
     keyframe_effect(dom::nodes::element* element, void* key_frames, ext::variant<detail::keyframe_effect_options_t, ext::number<double>> options = {});
     keyframe_effect(keyframe_effect* source);
 
@@ -26,8 +26,9 @@ public js_properties:
     ext::property<ext::string> pseudo_element;
     ext::property<detail::composite_operation_t> composite;
 
-private cpp_properties:
-    std::unique_ptr<keyframe_effect> m_effect;
+private cpp_members:
+    MAKE_PIMPL(keyframe_effect);
+    MAKE_V8_AVAILABLE;
 };
 
 

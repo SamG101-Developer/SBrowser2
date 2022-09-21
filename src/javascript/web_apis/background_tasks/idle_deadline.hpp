@@ -20,7 +20,7 @@ public js_methods:
 public js_properties:
     ext::property<ext::boolean> did_timeout;
 
-public cpp_members:
+private cpp_members:
     MAKE_PIMPL(idle_deadline);
     MAKE_V8_AVAILABLE;
 };

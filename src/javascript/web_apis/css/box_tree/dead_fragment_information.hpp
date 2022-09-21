@@ -12,7 +12,6 @@ class css::box_tree::dead_fragment_information
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(dead_fragment_information);
     dead_fragment_information() = default;
 
 public js_properties:
@@ -29,8 +28,8 @@ public js_properties:
     ext::property<dead_fragment_information*> next_in_box;
     ext::property<dead_fragment_information*> prev_in_box;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+private cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

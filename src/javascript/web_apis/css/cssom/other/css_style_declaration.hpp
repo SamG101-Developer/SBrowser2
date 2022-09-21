@@ -35,8 +35,9 @@ public js_properties:
 
     PUT_FORWARDS(css_text);
 
-private cpp_properties:
-    std::unique_ptr<detail::css_declaration_block_t> m_declaration_block;
+private cpp_members:
+    MAKE_PIMPL(css_style_declaration);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(css_text);

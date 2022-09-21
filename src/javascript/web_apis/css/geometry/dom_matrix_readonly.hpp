@@ -9,6 +9,7 @@ namespace css::geometry {class dom_matrix_readonly;}
 #include USE_INNER_TYPES(css/geometry)
 #include "ext/number.hpp"
 #include <qmatrix4x4.h>
+#include <qpointer.h>
 namespace css::geometry {class dom_matrix;}
 namespace css::geometry {class dom_point;}
 
@@ -18,9 +19,9 @@ class css::geometry::dom_matrix_readonly
         , public html::mixins::serializable
 {
 public constructors:
-    dom_matrix_readonly() = default;
-    dom_matrix_readonly(ext::vector_view<ext::number<double>> init);
-    dom_matrix_readonly(const QMatrix4x4& other): m_matrix{other} {};
+    dom_matrix_readonly();
+    explicit dom_matrix_readonly(ext::vector_view<ext::number<double>> init);
+    explicit dom_matrix_readonly(QMatrix4x4 other): dom_matrix_readonly{} {d_ptr.reset(&other);};
 
 public js_methods:
     static auto from_matrix(detail::dom_matrix_init_t&& other = {}) -> dom_matrix_readonly;
@@ -76,17 +77,15 @@ public js_properties:
     ext::property<ext::boolean> is_2d;
     ext::property<ext::boolean> is_identity;
 
-public cpp_operators:
-    auto operator*(const dom_matrix_readonly& other) -> dom_matrix_readonly {return dom_matrix_readonly{m_matrix * other.m_matrix};}
+public cpp_members:
+    auto operator*(const dom_matrix_readonly& other) -> dom_matrix_readonly {return dom_matrix_readonly{*d_ptr * *d_ptr};}
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-    auto to_json() const -> ext::string override;
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_matrix_readonly* override;
 
-protected cpp_properties:
-    QMatrix4x4 m_matrix;
+    MAKE_PIMPL_QT_PROTECTED(QMatrix4x4);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(a) {return m11();};
@@ -96,25 +95,25 @@ private cpp_accessors:
     DEFINE_CUSTOM_GETTER(e) {return m21();};
     DEFINE_CUSTOM_GETTER(f) {return m22();};
 
-    DEFINE_CUSTOM_GETTER(m11) {return m_matrix(0, 0);}
-    DEFINE_CUSTOM_GETTER(m12) {return m_matrix(1, 0);}
-    DEFINE_CUSTOM_GETTER(m13) {return m_matrix(2, 0);}
-    DEFINE_CUSTOM_GETTER(m14) {return m_matrix(3, 0);}
+    DEFINE_CUSTOM_GETTER(m11) {return (*d_ptr)(0, 0);}
+    DEFINE_CUSTOM_GETTER(m12) {return (*d_ptr)(1, 0);}
+    DEFINE_CUSTOM_GETTER(m13) {return (*d_ptr)(2, 0);}
+    DEFINE_CUSTOM_GETTER(m14) {return (*d_ptr)(3, 0);}
 
-    DEFINE_CUSTOM_GETTER(m21) {return m_matrix(0, 1);}
-    DEFINE_CUSTOM_GETTER(m22) {return m_matrix(1, 1);}
-    DEFINE_CUSTOM_GETTER(m23) {return m_matrix(2, 1);}
-    DEFINE_CUSTOM_GETTER(m24) {return m_matrix(3, 1);}
+    DEFINE_CUSTOM_GETTER(m21) {return (*d_ptr)(0, 1);}
+    DEFINE_CUSTOM_GETTER(m22) {return (*d_ptr)(1, 1);}
+    DEFINE_CUSTOM_GETTER(m23) {return (*d_ptr)(2, 1);}
+    DEFINE_CUSTOM_GETTER(m24) {return (*d_ptr)(3, 1);}
 
-    DEFINE_CUSTOM_GETTER(m31) {return m_matrix(0, 2);}
-    DEFINE_CUSTOM_GETTER(m32) {return m_matrix(1, 2);}
-    DEFINE_CUSTOM_GETTER(m33) {return m_matrix(2, 2);}
-    DEFINE_CUSTOM_GETTER(m34) {return m_matrix(3, 2);}
+    DEFINE_CUSTOM_GETTER(m31) {return (*d_ptr)(0, 2);}
+    DEFINE_CUSTOM_GETTER(m32) {return (*d_ptr)(1, 2);}
+    DEFINE_CUSTOM_GETTER(m33) {return (*d_ptr)(2, 2);}
+    DEFINE_CUSTOM_GETTER(m34) {return (*d_ptr)(3, 2);}
 
-    DEFINE_CUSTOM_GETTER(m41) {return m_matrix(0, 3);}
-    DEFINE_CUSTOM_GETTER(m42) {return m_matrix(1, 3);}
-    DEFINE_CUSTOM_GETTER(m43) {return m_matrix(2, 3);}
-    DEFINE_CUSTOM_GETTER(m44) {return m_matrix(3, 3);}
+    DEFINE_CUSTOM_GETTER(m41) {return (*d_ptr)(0, 3);}
+    DEFINE_CUSTOM_GETTER(m42) {return (*d_ptr)(1, 3);}
+    DEFINE_CUSTOM_GETTER(m43) {return (*d_ptr)(2, 3);}
+    DEFINE_CUSTOM_GETTER(m44) {return (*d_ptr)(3, 3);}
 };
 
 

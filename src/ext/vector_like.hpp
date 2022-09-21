@@ -18,11 +18,9 @@ public constructors:
     vector_like()
     {bind_get(length);}
 
-public cpp_operators:
+public cpp_members:
     virtual auto operator[](const number<size_t>& index) -> T& = 0;
     virtual auto operator[](ext::string_view index) -> T& = 0;
-
-public cpp_properties:
     property<number<size_t>> length;
 
 protected cpp_accessors:
@@ -38,11 +36,9 @@ public constructors:
             : m_linked_vector{container ?: std::make_unique<vector<T>>()}
     {bind_get(length);}
 
-public cpp_operators:
+public cpp_members:
     auto operator[](const number<size_t>& index) -> T& override {return m_linked_vector->at(index);}
     auto operator[](ext::string_view index) -> T& override {return m_linked_vector->front();};
-
-private cpp_properties:
     std::unique_ptr<vector<T>> m_linked_vector;
 
 private cpp_accessors:

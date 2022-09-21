@@ -11,7 +11,6 @@ class dom::abort::abort_controller
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(abort_controller);
     abort_controller();
 
 public js_methods:
@@ -20,8 +19,8 @@ public js_methods:
 public js_properties:
     ext::property<std::unique_ptr<abort_signal>> signal;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_V8_AVAILABLE;
 };
 
 

@@ -5,6 +5,7 @@
 #include "dom_object.hpp"
 namespace css::cssom::rules {class css_rule;}
 
+#include USE_INNER_TYPES(css/cssom)
 namespace css::cssom::rules {class css_style_sheet;}
 
 
@@ -37,6 +38,10 @@ public js_properties:
     ext::property<css_style_sheet*> parent_style_sheet;
 
     ext::property<ext::number<ushort>> type;
+
+private cpp_members:
+    MAKE_PIMPL(css_rule);
+    MAKE_V8_AVAILABLE;
 
 protected cpp_accessors:
     virtual DEFINE_CUSTOM_GETTER(type) = 0;

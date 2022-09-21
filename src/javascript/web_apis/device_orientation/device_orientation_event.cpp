@@ -23,9 +23,9 @@ auto device_orientation::device_orientation_event::request_permission()
 
 auto device_orientation::device_orientation_event::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<device_orientation_event>{isolate}
+    decltype(auto) conversion = v8pp::class_<device_orientation_event>{isolate}
         .ctor<ext::string, ext::map<ext::string, ext::any>>()
         .inherit<dom::events::event>()
         .var("alpha", &device_orientation_event::alpha, true)
@@ -33,4 +33,6 @@ auto device_orientation::device_orientation_event::to_v8(
         .var("gamma", &device_orientation_event::gamma, true)
         .var("absolute", &device_orientation_event::absolute, true)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

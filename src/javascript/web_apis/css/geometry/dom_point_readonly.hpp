@@ -30,21 +30,19 @@ public js_properties:
     ext::property<ext::number<double>> z;
     ext::property<ext::number<double>> w;
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_PIMPL_QT_PROTECTED(QVector4D);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
+
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_point_readonly* override;
 
-
-protected cpp_properties:
-    QVector4D m_point;
-
-private cpp_properties:
-    DEFINE_CUSTOM_GETTER(x) {return m_point.x();};
-    DEFINE_CUSTOM_GETTER(y) {return m_point.y();};
-    DEFINE_CUSTOM_GETTER(z) {return m_point.z();};
-    DEFINE_CUSTOM_GETTER(w) {return m_point.w();};
+private cpp_accessors:
+    DEFINE_CUSTOM_GETTER(x) {return d_ptr->x();};
+    DEFINE_CUSTOM_GETTER(y) {return d_ptr->y();};
+    DEFINE_CUSTOM_GETTER(z) {return d_ptr->z();};
+    DEFINE_CUSTOM_GETTER(w) {return d_ptr->w();};
 };
 
 

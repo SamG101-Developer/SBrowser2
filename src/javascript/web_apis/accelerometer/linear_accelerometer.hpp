@@ -14,7 +14,7 @@ public constructors:
     linear_accelerometer() = default;
     linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
 
-public cpp_members:
+private cpp_members:
     MAKE_V8_AVAILABLE;
 };
 

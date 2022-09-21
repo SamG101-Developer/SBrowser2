@@ -18,12 +18,17 @@
 #include <v8pp/convert.hpp>
 
 
+css::css_animation_worklet::animation_worklet_global_scope::animation_worklet_global_scope()
+        : INIT_PIMPL
+{}
+
+
 auto css::css_animation_worklet::animation_worklet_global_scope::register_animator(
         ext::string&& name,
         detail::animator_instance_constructor_t&& animator)
         -> void
 {
-    JS_REALM_GET_CURRENT
+    JS_REALM_GET_CURRENT;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [name = std::move(name)] {return false /* TODO */;},

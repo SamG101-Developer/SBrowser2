@@ -96,4 +96,11 @@ struct css::detail::worklet_animator_definition_t
 };
 
 
+struct css::detail::animation_worklet_global_scope_t
+{
+    ext::map<ext::string, std::unique_ptr<animator_definition_t>> animator_definitions;
+    ext::vector<std::unique_ptr<animator_instance_t>> animator_instance_set;
+};
+
+
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATION_WORKLET_DETAIL_ANIMATION_INTERNALS_HPP

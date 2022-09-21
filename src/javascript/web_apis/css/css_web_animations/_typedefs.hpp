@@ -9,7 +9,7 @@
 
 namespace css::detail
 {
-    struct timeline_t;
+    struct animation_timeline_t;
     struct document_timeline_t;
     struct animation_t;
     struct animation_effect_t;
