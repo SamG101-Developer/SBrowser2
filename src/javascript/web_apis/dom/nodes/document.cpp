@@ -89,7 +89,7 @@ auto dom::nodes::document::create_element(
         ext::map<ext::string, ext::any>&& options)
         const -> element
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
         auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), m_type == "html");
@@ -98,7 +98,7 @@ auto dom::nodes::document::create_element(
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -108,7 +108,7 @@ auto dom::nodes::document::create_element_ns(
         ext::map<ext::string, ext::any>&& options)
         const -> element
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
         // 'validate_and_extract(...)' method
         auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
@@ -116,7 +116,7 @@ auto dom::nodes::document::create_element_ns(
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, local_name, std::move(namespace_), prefix, is, true);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -236,7 +236,7 @@ auto dom::nodes::document::import_node(
         ext::boolean deep)
         -> node*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*, nodes::shadow_root*>(new_node);},
                 "Node being imported cannot be a Document or ShadowRoot");
@@ -244,7 +244,7 @@ auto dom::nodes::document::import_node(
         // to import a node, a clone of the node is made, with the Document set tot this node; the node is basically copied
         // into this Document
         return detail::clone(new_node, this, true);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -252,7 +252,7 @@ auto dom::nodes::document::adopt_node(
         node* new_node)
         -> node*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*>(new_node);},
                 "Node being imported cannot be a Document");
@@ -264,7 +264,7 @@ auto dom::nodes::document::adopt_node(
         // to adopt a node, the node is moved, not copied, from its current Document node to this Document Node; no cloning
         // takes place
         return detail::adopt(new_node, this);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 

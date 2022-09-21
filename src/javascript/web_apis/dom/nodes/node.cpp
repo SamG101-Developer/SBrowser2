@@ -162,7 +162,7 @@ auto dom::nodes::node::has_child_nodes()
 auto dom::nodes::node::normalize()
         -> node*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         for (nodes::text* text_node: detail::descendant_text_nodes(this))
         {
             // if the length of the text node (ie the length of the text) is 0 then remove the text node
@@ -222,7 +222,7 @@ auto dom::nodes::node::normalize()
         }
 
         return this; // TODO : what to return
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -230,7 +230,7 @@ auto dom::nodes::node::clone_node(
         ext::boolean deep)
         -> node*
 {
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         // throw an error if there is an attempt to clone a shadow node
         detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [this] {return detail::is_shadow_root(this);},
@@ -238,7 +238,7 @@ auto dom::nodes::node::clone_node(
 
         // clone the node and return it
         return detail::clone(this, nullptr, std::move(deep));
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -312,9 +312,9 @@ auto dom::nodes::node::insert_before(
         -> node*
 {
     // insert 'new_node' into 'this->child_nodes', directly before 'child' node
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         return detail::pre_insert(new_node, this, child);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -323,9 +323,9 @@ auto dom::nodes::node::append_child(
         -> node*
 {
     // append 'new_node' to 'this->child_nodes', at the end
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         return detail::append(new_node, this);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -335,9 +335,9 @@ auto dom::nodes::node::replace_child(
         -> node*
 {
     // replace 'old_node' with 'new_node' in 'this->child_nodes'
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         return detail::replace(new_node, old_node, this);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -346,9 +346,9 @@ auto dom::nodes::node::remove_child(
         -> node*
 {
     // remove 'old_node' from 'this->child_nodes'
-    ce_reactions_method_def
+    CE_REACTIONS_METHOD_DEF
         return detail::pre_remove(old_node, this);
-    ce_reactions_method_exe
+    CE_REACTIONS_METHOD_EXE
 }
 
 
