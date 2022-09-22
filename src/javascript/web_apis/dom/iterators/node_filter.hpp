@@ -6,16 +6,18 @@
 namespace dom::node_iterators {class node_filter;}
 
 #include "ext/functional.hpp"
+#include INCLUDE_INNER_TYPES(dom)
+
+#include "dom/iterators/node_filter_private.hpp"
 
 
 class dom::node_iterators::node_filter
         : public virtual dom_object
 {
-public aliases:
-    using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
-
 public constructors:
     node_filter();
+    MAKE_PIMPL(node_filter);
+    MAKE_V8_AVAILABLE;
 
 public js_static_constants:
     constexpr static const ext::number<ushort> FILTER_ACCEPT = 1;
@@ -34,10 +36,8 @@ public js_static_constants:
     constexpr static const ext::number<ulong> SHOW_ALL                     = 0xFFFFFFFF;
     
 public js_properties:
-    ext::property<accept_callback_t> accept_node;
-    
-private cpp_members:
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(accept_node, detail::accept_callback_t) {return d_ptr->accept_node_callback;}
+    DEFINE_SETTER(accept_node, detail::accept_callback_t) {return d_ptr->accept_node_callback = std::move(new_accept_node);}
 };
 
 

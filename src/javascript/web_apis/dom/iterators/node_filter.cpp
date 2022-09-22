@@ -2,8 +2,10 @@
 
 
 dom::node_iterators::node_filter::node_filter()
-        : accept_node([](const nodes::node*) {return FILTER_ACCEPT;})
-{}
+        : INIT_PIMPL
+{
+    d_ptr->accept_node_callback = [](const nodes::node*) {return FILTER_ACCEPT;};
+}
 
 
 auto dom::node_iterators::node_filter::to_v8(
@@ -24,7 +26,7 @@ auto dom::node_iterators::node_filter::to_v8(
             .static_("SHOW_DOCUMENT_TYPE", node_filter::SHOW_DOCUMENT_TYPE, true)
             .static_("SHOW_DOCUMENT_FRAGMENT", node_filter::SHOW_DOCUMENT_FRAGMENT, true)
             .static_("SHOW_ALL", node_filter::SHOW_ALL, true)
-            .var("acceptNode", &node_filter::accept_node, false)
+            .property("acceptNode", &node_filter::get_accept_node, &node_filter::set_accept_node)
             .auto_wrap_objects();
 
     return std::move(conversion);

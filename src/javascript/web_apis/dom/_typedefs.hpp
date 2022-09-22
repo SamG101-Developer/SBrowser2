@@ -11,6 +11,7 @@ namespace dom::events {class event;}
 namespace dom::mutations {class mutation_observer;}
 namespace dom::mutations {class mutation_record;}
 namespace dom::nodes {class event_target;}
+namespace dom::nodes {class node;}
 
 
 namespace dom::detail
@@ -46,6 +47,7 @@ namespace dom::detail
     using static_range_init_t = ext::map<ext::string, ext::any>;
     using touch_targets_t = ext::vector<nodes::event_target*>;
     using path_t = ext::vector<detail::event_path_struct_t*>;
+    using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
 }
 
 
