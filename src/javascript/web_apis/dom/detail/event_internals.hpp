@@ -81,16 +81,4 @@ struct dom::detail::event_path_struct_t
 };
 
 
-struct dom::detail::event_t
-{
-    bool stop_propagation_flag = false;
-    bool stop_immediate_propagation_flag = false;
-    bool canceled_flag = false;
-    bool in_passive_listener_flag = false;
-    bool initialized_flag = true;
-    bool dispatch_flag = false;
-};
-
-
-
 #endif //SBROWSER2_EVENT_INTERNALS_HPP

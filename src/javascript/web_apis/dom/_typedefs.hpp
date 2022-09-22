@@ -10,6 +10,8 @@
 namespace dom::events {class event;}
 namespace dom::mutations {class mutation_observer;}
 namespace dom::mutations {class mutation_record;}
+namespace dom::nodes {class event_target;}
+
 
 namespace dom::detail
 {
@@ -42,6 +44,8 @@ namespace dom::detail
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
     using mutation_callback_t = ext::function<void(const ext::vector<mutations::mutation_record*>&, mutations::mutation_observer*)>;
     using static_range_init_t = ext::map<ext::string, ext::any>;
+    using touch_targets_t = ext::vector<nodes::event_target*>;
+    using path_t = ext::vector<detail::event_path_struct_t*>;
 }
 
 
@@ -54,6 +58,7 @@ enum v8_custom_error_t
     INVALID_NODE_TYPE_ERR, DATA_CLONE_ERR, ENCODING_ERR, NOT_READABLE_ERR, UNKNOWN_ERR, CONSTRAINT_ERR, DATA_ERR,
     TRANSACTION_INACTIVE_ERR, READONLY_ERR, VERSION_ERR, OPERATION_ERR, NOT_ALLOWED_ERR
 };
+
 
 enum v8_primitive_error_t
 {

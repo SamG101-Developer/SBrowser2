@@ -1,7 +1,7 @@
 #include "event.hpp"
 
 #include "dom/detail/event_internals.hpp"
-#include "hr_time/performance.hpp"
+#include "hr_time/detail/time_internals.hpp"
 
 #include <range/v3/range/operations.hpp>
 
@@ -10,19 +10,22 @@ dom::events::event::event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : INIT_PIMPL
-        , type(event_type)
-        , SET_PROPERTY_FROM_OPTIONS(event_init, bubbles, false)
-        , SET_PROPERTY_FROM_OPTIONS(event_init, cancelable, false)
-        , SET_PROPERTY_FROM_OPTIONS(event_init, composed, false)
-        , target(nullptr)
-        , current_target(nullptr)
-        , related_target(nullptr)
-        , event_phase(std::bit_cast<ushort>(NONE))
-        , time_stamp(hr_time::performance{}.now()) // TODO: use hr_time::detail::current-hr-time(...)
-        , is_trusted(false)
-        , touch_targets(touch_targets_t{})
-        , path(path_t{})
-{}
+{
+    JS_REALM_GET_RELEVANT(this);
+
+    d_ptr->type = std::move(event_type);
+    d_ptr->bubbles = event_init.try_emplace("bubbles", false).first->second.to<ext::boolean>();
+    d_ptr->cancelable = event_init.try_emplace("cancelable", false).first->second.to<ext::boolean>();
+    d_ptr->composed = event_init.try_emplace("composed", false).first->second.to<ext::boolean>();
+    d_ptr->target = nullptr;
+    d_ptr->current_target = nullptr;
+    d_ptr->related_target = nullptr;
+    d_ptr->event_phase = std::bit_cast<ushort>(NONE);
+    d_ptr->time_stamp = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d_ptr->is_trusted = false;
+    d_ptr->touch_targets = {};
+    d_ptr->path = {};
+}
 
 
 auto dom::events::event::stop_propagation()
@@ -45,7 +48,7 @@ auto dom::events::event::prevent_default()
         -> void
 {
     // set the cancelled flag if the event is cancelled and isn't in a passive listener
-    d_ptr->canceled_flag = cancelable() && !d_ptr->in_passive_listener_flag;
+    d_ptr->canceled_flag = d_ptr->cancelable && !d_ptr->in_passive_listener_flag;
 }
 
 
@@ -55,12 +58,12 @@ auto dom::events::event::composed_path()
     using composed_path_t = ext::vector<nodes::event_target*>;
 
     // create the default vectors, and return if the current event traversal path is empty
-    composed_path_t composed_path_vector{};
-    path_t path_vector{};
+    auto composed_path_vector = composed_path_t{};
+    auto path_vector = detail::path_t{};
     if (path_vector.empty())
         return composed_path_vector;
 
-    composed_path_vector.push_back(current_target());
+    composed_path_vector.push_back(d_ptr->current_target);
 
     // create the default indexing variables for node identification in the tree
     ext::number<int> current_target_hidden_subtree_level {1};
@@ -75,7 +78,7 @@ auto dom::events::event::composed_path()
     {
         auto* path_struct = *iterator;
         if (path_struct->root_of_closed_tree) ++current_target_hidden_subtree_level;
-        if (path_struct->invocation_target == current_target()) {current_target_index = iterator; break;}
+        if (path_struct->invocation_target == d_ptr->current_target) {current_target_index = iterator; break;}
         if (path_struct->slot_in_closed_tree) --current_target_hidden_subtree_level;
         ranges::advance(iterator, -1);
     }
@@ -96,7 +99,7 @@ auto dom::events::event::composed_path()
             --current_hidden_level;
             max_hidden_level = ext::min(max_hidden_level, current_hidden_level);
         }
-        ranges::advance(iterator, -1);;
+        ranges::advance(iterator, -1);
     }
 
     // set the current and max hidden subtree level to the target's hidden subtree level, and the index to the target
@@ -115,7 +118,7 @@ auto dom::events::event::composed_path()
             --current_hidden_level;
             max_hidden_level = ext::min(max_hidden_level, current_hidden_level);
         }
-        ranges::advance(iterator, 1);;
+        ranges::advance(iterator, 1);
     }
 
     // return the generated composed path
@@ -128,29 +131,29 @@ auto dom::events::event::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<event>{isolate}
-            .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
-            .inherit<dom_object>()
-            .static_("NONE", event::NONE, true)
-            .static_("CAPTURING_PHASE", event::CAPTURING_PHASE, true)
-            .static_("AT_TARGET", event::AT_TARGET, true)
-            .static_("BUBBLING_PHASE", event::BUBBLING_PHASE, true)
-            .function("stopImmediatePropagation", &event::stop_immediate_propagation)
-            .function("stopPropagation", &event::stop_propagation)
-            .function("preventDefault", &event::prevent_default)
-            .function("composedPath", &event::composed_path)
-            .var("type", &event::type, true)
-            .var("bubbles", &event::bubbles, true)
-            .var("cancelable", &event::cancelable, true)
-            .var("composed", &event::composed, true)
-            .var("target", &event::target, true)
-            .var("currentTarget", &event::current_target, true)
-            .var("relatedTarget", &event::related_target, true)
-            .var("eventPhase", &event::event_phase, true)
-            .var("timeStamp", &event::time_stamp, true)
-            .var("isTrusted", &event::is_trusted, true)
-            .var("touchTargets", &event::touch_targets, true)
-            .var("path", &event::path, true)
-            .auto_wrap_objects();
+        .inherit<dom_object>()
+        .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
+        .static_("NONE", event::NONE, true)
+        .static_("CAPTURING_PHASE", event::CAPTURING_PHASE, true)
+        .static_("AT_TARGET", event::AT_TARGET, true)
+        .static_("BUBBLING_PHASE", event::BUBBLING_PHASE, true)
+        .function("stopImmediatePropagation", &event::stop_immediate_propagation)
+        .function("stopPropagation", &event::stop_propagation)
+        .function("preventDefault", &event::prevent_default)
+        .function("composedPath", &event::composed_path)
+        .property("type", &event::get_type)
+        .property("bubbles", &event::get_bubbles)
+        .property("cancelable", &event::get_cancelable)
+        .property("composed", &event::get_composed)
+        .property("target", &event::get_target)
+        .property("currentTarget", &event::get_current_target)
+        .property("relatedTarget", &event::get_related_target)
+        .property("eventPhase", &event::get_event_phase)
+        .property("timeStamp", &event::get_time_stamp)
+        .property("isTrusted", &event::get_is_trusted)
+        .property("touchTargets", &event::get_touch_targets)
+        .property("path", &event::get_path)
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }

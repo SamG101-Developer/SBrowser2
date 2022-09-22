@@ -4,6 +4,8 @@
 #include "dom/events/event.hpp"
 namespace dom::events {class custom_event;}
 
+#include "dom/events/custom_event_private.hpp"
+
 
 class dom::events::custom_event final
         : public event
@@ -12,11 +14,11 @@ public constructors:
     custom_event() = default;
     custom_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
-    ext::property<ext::any> detail;
-
-public cpp_members:
+    MAKE_PIMPL(custom_event);
     MAKE_V8_AVAILABLE;
+
+private js_properties:
+    DEFINE_GETTER(detail, ext::any) {return d_ptr->detail;};
 };
 
 
