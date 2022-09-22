@@ -5,12 +5,17 @@
 #include "dom/iterators/abstract_iterator.hpp"
 namespace dom::node_iterators {class tree_walker;}
 
+#include "dom/iterators/tree_walker_private.hpp"
+
 
 class dom::node_iterators::tree_walker
         : public abstract_iterator
 {
 public constructors:
     tree_walker();
+
+    MAKE_PIMPL(tree_walker);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto parent_node() -> nodes::node*;
@@ -22,10 +27,8 @@ public js_methods:
     auto prev_node() -> nodes::node*;
 
 public js_properties:
-    ext::property<nodes::node*> current_node;
-
-private cpp_members:
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(current_node, nodes::node*) {return d_ptr->current;}
+    DEFINE_SETTER(current_node, nodes::node*) {d_ptr->current = new_current_node;}
 };
 
 

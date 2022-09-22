@@ -37,11 +37,4 @@ namespace dom::detail
 }
 
 
-struct dom::detail::abstract_iterator_t
-{
-    ext::boolean active_flag;
-    ext::vector<nodes::node*> iterator_collection;
-};
-
-
 #endif //SBROWSER2_TRAVERSAL_INTERNALS_HPP

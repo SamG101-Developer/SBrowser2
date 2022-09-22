@@ -8,28 +8,22 @@ namespace dom::node_iterators {class abstract_iterator;}
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::node_iterators {class node_filter;}
 namespace dom::nodes {class node;}
-namespace dom::detail {auto filter(const nodes::node*, node_iterators::abstract_iterator*) -> ext::number<ushort>;}
+
+#include "dom/iterators/abstract_iterator_private.hpp"
 
 
 class dom::node_iterators::abstract_iterator
         : public virtual dom_object
 {
-public friends:
-    friend auto dom::detail::filter(
-            const nodes::node* node, node_iterators::abstract_iterator* iterator) -> ext::number<ushort>;
-
 public constructors:
     DOM_CTORS(abstract_iterator);
-    abstract_iterator();
+    MAKE_PIMPL(abstract_iterator);
+    MAKE_V8_AVAILABLE;
 
 public js_properties:
-    ext::property<std::unique_ptr<node_filter>> filter;
-    ext::property<std::unique_ptr<nodes::node>> root;
-    ext::property<ext::number<ulong>> what_to_show;
-
-public cpp_members:
-    MAKE_PIMPL_PROTECTED(abstract_iterator);
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(filter, node_filter*) {return d_ptr->filter.get();}
+    DEFINE_GETTER(root, nodes::node*) {return d_ptr->root;}
+    DEFINE_GETTER(what_to_show, ext::number<ulong>) {return d_ptr->what_to_show;}
 };
 
 

@@ -4,12 +4,15 @@
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/other/dom_implementation.hpp"
+#include "dom/iterators/node_filter.hpp"
 
 
 dom::node_iterators::node_iterator::node_iterator()
-        : reference_node{nullptr}
-        , pointer_before_reference_node{false}
-{}
+    : INIT_PIMPL
+{
+    d_ptr->reference = nullptr;
+    d_ptr->pointer_before_reference = false;
+}
 
 
 auto dom::node_iterators::node_iterator::next_node()
@@ -37,12 +40,12 @@ auto dom::node_iterators::node_iterator::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<node_iterator>{isolate}
-            .inherit<abstract_iterator>()
-            .function("nextNode", &node_iterator::next_node)
-            .function("previousNode", &node_iterator::prev_node)
-            .var("referenceNode", &node_iterator::reference_node, true)
-            .var("pointerBeforeReferenceNode", &node_iterator::pointer_before_reference_node, true)
-            .auto_wrap_objects();
+        .inherit<abstract_iterator>()
+        .function("nextNode", &node_iterator::next_node)
+        .function("previousNode", &node_iterator::prev_node)
+        .property("referenceNode", &node_iterator::get_reference_node)
+        .property("pointerBeforeReferenceNode", &node_iterator::get_pointer_before_reference_node)
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }

@@ -24,10 +24,10 @@ dom::node_iterators::tree_walker::tree_walker()
 auto dom::node_iterators::tree_walker::parent_node()
         -> nodes::node*
 {
-    auto current_node_ancestors = detail::ancestors(current_node());
-    auto filtered_ancestors = current_node_ancestors
+    decltype(auto) current_node_ancestors = detail::ancestors(d_ptr->current);
+    decltype(auto) filtered_ancestors = current_node_ancestors
             | ranges::views::filter(BIND_BACK(detail::filter, this))
-            | ranges::views::take_while(BIND_BACK(std::not_equal_to{}, root()));
+            | ranges::views::take_while(BIND_BACK(std::not_equal_to{}, abstract_iterator::d_ptr->root));
 
     return *filtered_ancestors.begin();
 }
@@ -37,7 +37,7 @@ auto dom::node_iterators::tree_walker::first_child()
         -> nodes::node*
 {
     using detail::traversal_child_t;
-    auto* const first_child_node = detail::traverse_children(this, traversal_child_t::FIRST_CHILD);
+    decltype(auto) first_child_node = detail::traverse_children(this, traversal_child_t::FIRST_CHILD);
     return first_child_node;
 }
 
@@ -46,7 +46,7 @@ auto dom::node_iterators::tree_walker::last_child()
         -> nodes::node*
 {
     using detail::traversal_child_t;
-    auto* const last_child_node = detail::traverse_children(this, traversal_child_t::LAST_CHILD);
+    decltype(auto) last_child_node = detail::traverse_children(this, traversal_child_t::LAST_CHILD);
     return last_child_node;
 }
 
@@ -55,7 +55,7 @@ auto dom::node_iterators::tree_walker::prev_sibling()
         -> nodes::node*
 {
     using detail::traversal_sibling_t;
-    auto* const prev_sibling_node = detail::traverse_siblings(this, traversal_sibling_t::PREVIOUS_SIBLING);
+    decltype(auto) prev_sibling_node = detail::traverse_siblings(this, traversal_sibling_t::PREVIOUS_SIBLING);
     return prev_sibling_node;
 }
 
@@ -64,7 +64,7 @@ auto dom::node_iterators::tree_walker::next_sibling()
         -> nodes::node*
 {
     using detail::traversal_sibling_t;
-    auto* const next_sibling_node = detail::traverse_siblings(this, traversal_sibling_t::NEXT_SIBLING);
+    decltype(auto) next_sibling_node = detail::traverse_siblings(this, traversal_sibling_t::NEXT_SIBLING);
     return next_sibling_node;
 }
 
@@ -72,10 +72,10 @@ auto dom::node_iterators::tree_walker::next_sibling()
 auto dom::node_iterators::tree_walker::prev_node()
         -> nodes::node*
 {
-    auto* node = current_node();
-    while (node != root())
+    decltype(auto) node = d_ptr->current;
+    while (node != abstract_iterator::d_ptr->root)
     {
-        auto* sibling = node->previous_sibling();
+        decltype(auto) sibling = node->previous_sibling();
         while (sibling)
         {
             node = sibling;
@@ -92,7 +92,7 @@ auto dom::node_iterators::tree_walker::prev_node()
             // child of the previous sibling (so going forward from this node would traverse up the tree and forward to
             // 'sibling'
             if (result == node_filter::FILTER_ACCEPT)
-                return current_node = node;
+                return d_ptr->current = node;
 
             // move the sibling back to the previous sibling, as no nodes have been accepted yet (only rejected and
             // skipped), and the previous node has to be a n-level last child of a previous sibling
@@ -102,9 +102,8 @@ auto dom::node_iterators::tree_walker::prev_node()
         // the sibling is nullptr, ie there are no more previous siblings under the current parent, so set the node to
         // its parent, and begin checking nodes again (as long as the parent exists and the node isn't 'root', as the
         // parent would be outside the subtree rooted at 'root'); also check the parent first before its siblings
-        if (!node->parent_node() || node == root()) return nullptr;
-        if (detail::filter(node = node->parent_node(), this) == node_filter::FILTER_ACCEPT)
-            return current_node = node;
+        return_if (!node->parent_node() || node == abstract_iterator::d_ptr->root) nullptr;
+        return_if (detail::filter(node = node->parent_node(), this) == node_filter::FILTER_ACCEPT) d_ptr->current = node;
     }
 }
 
@@ -112,8 +111,8 @@ auto dom::node_iterators::tree_walker::prev_node()
 auto dom::node_iterators::tree_walker::next_node()
         -> nodes::node*
 {
-    auto* node = current_node();
-    auto result = node_filter::FILTER_ACCEPT;
+    decltype(auto) node = d_ptr->current;
+    decltype(auto) result = node_filter::FILTER_ACCEPT;
 
     while (true)
     {
@@ -127,14 +126,14 @@ auto dom::node_iterators::tree_walker::next_node()
         // of the next sibling (so going backwards from this node would traverse down the tree and backwards to
         // 'sibling'
         if (result == node_filter::FILTER_ACCEPT)
-            return current_node = node;
+            return d_ptr->current = node;
 
-        const auto* temporary = node;
+        decltype(auto) temporary = node;
         // next sibling, otherwise parent node to move up tree
         while (temporary)
         {
-            return_if(temporary == root()) nullptr;
-            if (auto* const sibling = temporary->next_sibling())
+            return_if(temporary == abstract_iterator::d_ptr->root) nullptr;
+            if (decltype(auto) sibling = temporary->next_sibling())
             {
                 node = sibling;
                 break;
@@ -144,7 +143,7 @@ auto dom::node_iterators::tree_walker::next_node()
 
         result = detail::filter(node, this);
         if (result == node_filter::FILTER_ACCEPT)
-            return current_node = node;
+            return d_ptr->current = node;
     }
 }
 
@@ -162,7 +161,7 @@ auto dom::node_iterators::tree_walker::to_v8(
         .function("previousSibling", &tree_walker::prev_sibling)
         .function("nextNode", &tree_walker::next_node)
         .function("previousNode", &tree_walker::prev_node)
-        .var("currentNode", &tree_walker::current_node, true)
+        .property("currentNode", &tree_walker::get_current_node, &tree_walker::set_current_node)
         .auto_wrap_objects();
 
     return std::move(conversion);

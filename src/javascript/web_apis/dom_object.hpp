@@ -24,7 +24,7 @@ namespace dom::nodes {class node;}
 
 
 #define DOM_CTORS(type)  \
-    type()               \
+    type();              \
     DISALLOW_COPY(type); \
     ALLOW_MOVE(type)
 
