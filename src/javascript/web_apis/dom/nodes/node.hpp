@@ -6,12 +6,12 @@
 namespace dom::nodes {class node;}
 
 #include "ext/map.hpp"
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
 namespace dom::detail {auto notify_mutation_observers() -> void;}
+
+#include "dom/nodes/node_private.hpp"
 
 
 class dom::nodes::node
@@ -95,13 +95,14 @@ protected cpp_accessors:
     virtual DEFINE_CUSTOM_SETTER(text_content) = 0;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(is_connected);
     DEFINE_CUSTOM_GETTER(base_uri);
+    DEFINE_CUSTOM_GETTER(is_connected);
+    DEFINE_CUSTOM_GETTER(parent_element);
+    DEFINE_CUSTOM_GETTER(owner_document) {return d_ptr->node_document;}
     DEFINE_CUSTOM_GETTER(first_child) {return *child_nodes()->begin();}
     DEFINE_CUSTOM_GETTER(last_child) {return *child_nodes()->end();}
     DEFINE_CUSTOM_GETTER(previous_sibling);
     DEFINE_CUSTOM_GETTER(next_sibling);
-    DEFINE_CUSTOM_GETTER(parent_element);
 
 };
 

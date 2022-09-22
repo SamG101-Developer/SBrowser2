@@ -16,7 +16,14 @@ auto multi_cast(auto pointer) -> bool
     // check if the pointer can be cast into any of the types in Ts parameter pack - the function returns a boolean
     // rather than a cast pointer, because it could return a cast into any successful type, so it is more used for yes/
     // no the pointer is this type, as opposed to using the functionality of a dynamically cast type
-    return ((dynamic_cast<Ts>(pointer)) || ...);
+    using U = decltype(pointer);
+
+    if constexpr (is_pointer<U>)
+        return type_is<typename std::remove_pointer_t<U>::self_t*, Ts...>;
+    else if constexpr (is_reference<U>)
+        return type_is<typename std::remove_reference_t<U>::self_t&, Ts...>;
+    else
+        return type_is<typename U::self_t, Ts...>;
 }
 
 

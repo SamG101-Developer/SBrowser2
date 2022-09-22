@@ -5,6 +5,8 @@
 #include "css/cssom/mixins/link_style.hpp"
 namespace dom::nodes {class processing_instruction;}
 
+#include "dom/nodes/processing_instruction_private.hpp"
+
 
 class dom::nodes::processing_instruction final
         : public character_data
@@ -14,12 +16,14 @@ public js_properties:
     ext::property<ext::string> target;
 
 public cpp_members:
+    MAKE_PIMPL(processing_instruction);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return PROCESSING_INSTRUCTION_NODE;}
 
     /* CSSOM */
+    DEFINE_CUSTOM_GETTER(target) {return d_ptr->target;}
     DEFINE_CUSTOM_SETTER(data);
 };
 

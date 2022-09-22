@@ -5,6 +5,9 @@
 namespace dom::nodes {class comment;}
 
 
+#include "dom/nodes/comment_private.hpp"
+
+
 class dom::nodes::comment final
         : public character_data
 {
@@ -12,6 +15,7 @@ public constructors:
     explicit comment(ext::string&& new_data = "");
 
 public cpp_members:
+    MAKE_PIMPL(comment);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:

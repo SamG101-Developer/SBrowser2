@@ -453,6 +453,9 @@ private:
 #define DEFINE_CUSTOM_DELETER(p) auto del_##p() -> void
 #define PUT_FORWARDS(p) auto operator=(const typename decltype(p)::value_t& val) -> decltype(auto) {p = val; return *this;}
 
+#define DEFINE_GETTER(p, t) _EXT_NODISCARD auto get_##p() const -> t
+#define DEFINE_SETTER(p, t) auto set_##p(const t& new_ ## p) -> void
+
 
 _EXT_BEGIN
 
@@ -466,7 +469,7 @@ public constructors:
             , m_start_value{current_value()}
     {};
 
-public cpp_methods:
+public cpp_members:
     auto has_changed() -> ext::boolean {return m_start_value != current_value();};
     auto current_value() -> V {return std::mem_fn(m_attribute)(m_object);}
 

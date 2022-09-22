@@ -17,8 +17,8 @@ auto accelerometer::gravity_sensor::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<gravity_sensor>{isolate}
-        .ctor<detail::accelerometer_local_coordinate_system_t&&>()
         .inherit<accelerometer>()
+        .ctor<detail::accelerometer_local_coordinate_system_t&&>()
         .auto_wrap_objects();
 
     return std::move(conversion);

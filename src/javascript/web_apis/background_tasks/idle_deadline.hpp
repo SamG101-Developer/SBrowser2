@@ -17,15 +17,14 @@ class background_tasks::idle_deadline
 public constructors:
     idle_deadline();
 
+    MAKE_PIMPL(idle_deadline);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
     auto time_remaining() -> hr_time::dom_high_res_time_stamp;
 
 public js_properties:
-    ext::property<ext::boolean> did_timeout;
-
-private cpp_members:
-    MAKE_PIMPL(idle_deadline);
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(did_timeout, ext::boolean) {return d_ptr->timeout;};
 };
 
 

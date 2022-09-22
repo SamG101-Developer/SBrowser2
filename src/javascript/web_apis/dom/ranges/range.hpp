@@ -9,6 +9,8 @@ namespace dom::nodes {class document_fragment;}
 namespace dom::detail {auto contains(nodes::node*, const node_ranges::range*) -> ext::boolean;}
 namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, ext::number<ulong>, ext::boolean ) -> void;}
 
+#include "dom/ranges/range_private.hpp"
+
 
 class dom::node_ranges::range
         : public abstract_range
@@ -62,12 +64,10 @@ public js_methods:
 public js_properties:
     ext::property<nodes::node*> common_ancestor_container;
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_properties:
-    nodes::node* m_root;
+public cpp_members:
+    MAKE_PIMPL(range);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(common_ancestor_container);

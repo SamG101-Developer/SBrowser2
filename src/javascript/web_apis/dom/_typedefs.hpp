@@ -21,6 +21,7 @@ namespace dom::detail
     struct event_path_struct_t;
     struct registered_observer_t;
     struct transient_registered_observer_t;
+    struct boundary_point_t;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
@@ -29,6 +30,8 @@ namespace dom::detail
     enum class traversal_direction_t {NEXT, PREVIOUS};
     enum class traversal_child_t {FIRST_CHILD, LAST_CHILD};
     enum class traversal_sibling_t {NEXT_SIBLING, PREVIOUS_SIBLING};
+    enum class shadow_root_mode_t {OPEN, CLOSED};
+    enum class slot_assignment_mode_t {MANUAL, NAMED};
 
     using abort_signal_callback_t  = ext::function<void()>;
     using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
@@ -38,6 +41,7 @@ namespace dom::detail
     using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
     using mutation_callback_t = ext::function<void(const ext::vector<mutations::mutation_record*>&, mutations::mutation_observer*)>;
+    using static_range_init_t = ext::map<ext::string, ext::any>;
 }
 
 

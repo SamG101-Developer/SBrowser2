@@ -1,0 +1,15 @@
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_FRAGMENT_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_FRAGMENT_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+
+namespace dom::nodes {class element;}
+
+
+DEFINE_PRIVATE_CLASS(dom::nodes, document_fragment)
+{
+    dom::nodes::element* host;
+};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_FRAGMENT_PRIVATE_HPP

@@ -6,6 +6,8 @@ namespace dom::node_ranges {class abstract_range;}
 
 namespace dom::nodes {class node;}
 
+#include "dom/ranges/abstract_range_private.hpp"
+
 
 class dom::node_ranges::abstract_range
         : public virtual dom_object
@@ -14,14 +16,22 @@ public constructors:
     abstract_range() = default;
 
 public js_properties:
-    ext::property<ext::boolean> collapsed;
-    ext::property<std::unique_ptr<nodes::node>> start_container;
-    ext::property<std::unique_ptr<nodes::node>> end_container;
+    ext::property<nodes::node*> start_container;
+    ext::property<nodes::node*> end_container;
     ext::property<ext::number<ulong>> start_offset;
     ext::property<ext::number<ulong>> end_offset;
+    ext::property<ext::boolean> collapsed;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_PIMPL(abstract_range);
+    MAKE_V8_AVAILABLE;
+
+private cpp_accessors:
+    DEFINE_CUSTOM_GETTER(start_container);
+    DEFINE_CUSTOM_GETTER(end_container);
+    DEFINE_CUSTOM_GETTER(start_offset);
+    DEFINE_CUSTOM_GETTER(end_offset);
+    DEFINE_CUSTOM_GETTER(collapsed);
 };
 
 

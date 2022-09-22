@@ -5,6 +5,10 @@
 #include "dom/mixins/child_node.hpp"
 namespace dom::nodes {class document_type;}
 
+
+#include "dom/nodes/document_type_private.hpp"
+
+
 class dom::nodes::document_type final
         : public node
         , public mixins::child_node
@@ -15,6 +19,7 @@ public js_methods:
     ext::property<ext::string> system_id;
 
 public cpp_members:
+    MAKE_PIMPL(document_type);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
@@ -25,6 +30,10 @@ private cpp_accessors:
 
     DEFINE_CUSTOM_SETTER(node_value) override {};
     DEFINE_CUSTOM_SETTER(text_content) override {};
+
+    DEFINE_CUSTOM_GETTER(name) {return d_ptr->name;}
+    DEFINE_CUSTOM_GETTER(public_id) {return d_ptr->public_id;}
+    DEFINE_CUSTOM_GETTER(system_id) {return d_ptr->system_id;}
 };
 
 

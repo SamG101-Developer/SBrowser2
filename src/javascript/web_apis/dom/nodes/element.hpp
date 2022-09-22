@@ -35,6 +35,8 @@ namespace dom::detail {auto upgrade_element(custom_element_definition_t*, nodes:
 namespace dom::detail {auto try_to_upgrade_element(nodes::element* element) -> void;}
 namespace edit_context {class edit_context;}
 
+#include "dom/nodes/element_private.hpp"
+
 
 class dom::nodes::element
         : public node
@@ -136,40 +138,19 @@ public js_properties:
     /* EDIT_CONTENT */
     ext::property<std::unique_ptr<edit_context::edit_context>> edit_context;
 
-private js_slots:
-    /* INTERSECTION_OBSERVERS */
-    ext::slot<ext::vector<intersection_observer::detail::intersection_observer_registration_t*>> s_registration_intersection_observers;
-
 public cpp_members:
+    MAKE_PIMPL(element);
     MAKE_V8_AVAILABLE;
-
-protected cpp_members: // TODO : make free functions
-    [[nodiscard]] auto qualified_name() const -> ext::string;
-    [[nodiscard]] auto html_uppercase_qualified_name() const -> ext::string;
-    [[nodiscard]] auto html_lowercase_qualified_name() const -> ext::string;
-
-private cpp_members: // TODO : make PIMPL
-    ext::string m_is;
-    detail::custom_element_definition_t* m_custom_element_definition;
-    detail::custom_element_state_t m_custom_element_state;
-    ext::queue<detail::reaction_t*> m_custom_element_reaction_queue;
-    std::unique_ptr<html::detail::browsing_context_t> m_nested_browsing_context;
-
-    /* FULLSCREEN */
-    ext::boolean m_fullscreen_flag;
-
-    /* HTML */
-    ext::boolean m_click_in_progress_flag;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return ELEMENT_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return html_uppercase_qualified_name();};
+    DEFINE_CUSTOM_GETTER(node_name) override;
     DEFINE_CUSTOM_GETTER(node_value) override;
     DEFINE_CUSTOM_GETTER(text_content) override;
     DEFINE_CUSTOM_SETTER(node_value) override;
     DEFINE_CUSTOM_SETTER(text_content) override;
 
-    DEFINE_CUSTOM_GETTER(tag_name) {return html_uppercase_qualified_name();};
+    DEFINE_CUSTOM_GETTER(tag_name);
     DEFINE_CUSTOM_GETTER(shadow_root_node);
 };
 

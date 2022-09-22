@@ -22,6 +22,15 @@
 #include <range/v3/view/filter.hpp>
 
 
+auto dom::detail::is_range_collapsed(
+        const node_ranges::abstract_range* range)
+        -> ext::boolean
+{
+    return range->d_ptr->start->node == range->d_ptr->end->node
+            && range->d_ptr->start->offset == range->d_ptr->end->offset;
+}
+
+
 auto dom::detail::contains(
         nodes::node* const new_container,
         const node_ranges::range* const range)

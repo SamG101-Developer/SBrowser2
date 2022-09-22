@@ -7,7 +7,7 @@
 
 accelerometer::accelerometer::accelerometer(
         detail::accelerometer_sensor_options_t&& options)
-        : x{0.0}, y{0.0}, z{0.0}
+        : INIT_PIMPL
 {
     // Construct an Accelerometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -16,7 +16,7 @@ accelerometer::accelerometer::accelerometer(
 
 
 auto accelerometer::accelerometer::get_x()
-        const -> decltype(this->x)::value_t
+        -> const ext::number<double>&
 {
     // Get the latest reading for the "x" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -28,7 +28,7 @@ auto accelerometer::accelerometer::get_x()
 
 
 auto accelerometer::accelerometer::get_y()
-        const -> decltype(this->y)::value_t
+        -> const ext::number<double>&
 {
     // Get the latest reading for the "y" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -40,7 +40,7 @@ auto accelerometer::accelerometer::get_y()
 
 
 auto accelerometer::accelerometer::get_z()
-        const -> decltype(this->z)::value_t
+        -> const ext::number<double>&
 {
     // Get the latest reading for the "z" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -56,11 +56,11 @@ auto accelerometer::accelerometer::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<accelerometer>{isolate}
-        .ctor<detail::accelerometer_sensor_options_t&&>()
         .inherit<sensors::sensor>()
-        .var("x", &accelerometer::x, true)
-        .var("y", &accelerometer::y, true)
-        .var("z", &accelerometer::z, true)
+        .ctor<detail::accelerometer_sensor_options_t&&>()
+        .property("x", &accelerometer::get_x)
+        .property("y", &accelerometer::get_y)
+        .property("z", &accelerometer::get_z)
         .auto_wrap_objects();
 
     return std::move(conversion);

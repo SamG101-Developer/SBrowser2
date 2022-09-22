@@ -14,33 +14,20 @@ class contact_picker::contact_address
 public constructors:
     contact_address();
 
-public js_properties:
-    ext::property<ext::string> city;
-    ext::property<ext::string> country;
-    ext::property<ext::string> dependant_locality;
-    ext::property<ext::string> organization;
-    ext::property<ext::string> phone;
-    ext::property<ext::string> postal_code;
-    ext::property<ext::string> recipient;
-    ext::property<ext::string> region;
-    ext::property<ext::string> sorting_code;
-    ext::property<ext::vector<ext::string>> address_line; // TODO : const
-
-private cpp_members:
     MAKE_PIMPL(contact_address);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(city);
-    DEFINE_CUSTOM_GETTER(country);
-    DEFINE_CUSTOM_GETTER(dependant_locality);
-    DEFINE_CUSTOM_GETTER(organization);
-    DEFINE_CUSTOM_GETTER(phone);
-    DEFINE_CUSTOM_GETTER(postal_code);
-    DEFINE_CUSTOM_GETTER(recipient);
-    DEFINE_CUSTOM_GETTER(region);
-    DEFINE_CUSTOM_GETTER(sorting_code);
-    DEFINE_CUSTOM_GETTER(address_line);
+private js_properties:
+    DEFINE_GETTER(city, ext::string);
+    DEFINE_GETTER(country, ext::string);
+    DEFINE_GETTER(dependant_locality, ext::string);
+    DEFINE_GETTER(organization, ext::string);
+    DEFINE_GETTER(phone, ext::string);
+    DEFINE_GETTER(postal_code, ext::string);
+    DEFINE_GETTER(recipient, ext::string);
+    DEFINE_GETTER(region, ext::string);
+    DEFINE_GETTER(sorting_code, ext::string);
+    DEFINE_GETTER(address_line, ext::vector<ext::string>);
 };
 
 

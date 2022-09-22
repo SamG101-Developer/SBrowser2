@@ -5,22 +5,21 @@
 #include "sensors/sensor.hpp"
 namespace ambient_light_sensor {class ambient_light_sensor;}
 
+#include "ambient_light/ambient_light_sensor_private.hpp"
+
+
 class ambient_light_sensor::ambient_light_sensor
         : public sensors::sensor
 {
 public constructors:
     DOM_CTORS(ambient_light_sensor);
-    ambient_light_sensor() = default;
-    ambient_light_sensor(sensors::detail::sensor_options_t&& options);
+    ambient_light_sensor(sensors::detail::sensor_options_t&& options = {});
 
-public js_properties:
-    ext::property<ext::number<double>> illuminance;
-
-private cpp_members:
+    MAKE_PIMPL(ambient_light_sensor);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(illuminance);
+    DEFINE_GETTER(illuminance, ext::number<double>);
 };
 
 

@@ -13,11 +13,7 @@
 
 dom::abort::abort_signal::abort_signal()
         : INIT_PIMPL
-        , reason{ext::nullopt}
-{
-    // create an abort signal
-    bind_get(aborted);
-}
+{}
 
 
 auto dom::abort::abort_signal::abort(
@@ -61,11 +57,11 @@ auto dom::abort::abort_signal::throw_if_aborted()
 }
 
 
-auto dom::abort::abort_signal::get_aborted() const -> decltype(this->aborted)::value_t
+auto dom::abort::abort_signal::get_aborted() const -> ext::boolean
 {return detail::is_signal_aborted(this);}
 
 
-auto dom::abort::abort_signal::get_reason() const -> decltype(this->reason)::value_t
+auto dom::abort::abort_signal::get_reason() const -> ext::any
 {return d_ptr->abort_reason;}
 
 
@@ -74,13 +70,13 @@ auto dom::abort::abort_signal::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<abort_signal>{isolate}
-            .inherit<event_target>()
-            .function("timeout", &abort_signal::timeout)
-            .function("abort", &abort_signal::abort)
-            .function("throwIfAborted", &abort_signal::throw_if_aborted)
-            .var("aborted", &abort_signal::aborted, true)
-            .var("reason", &abort_signal::reason, false)
-            .auto_wrap_objects();
+        .inherit<event_target>()
+        .function("timeout", &abort_signal::timeout)
+        .function("abort", &abort_signal::abort)
+        .function("throwIfAborted", &abort_signal::throw_if_aborted)
+        .property("aborted", &abort_signal::get_aborted)
+        .property("reason", &abort_signal::get_reason)
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }

@@ -6,9 +6,7 @@
 auto dom::nodes::processing_instruction::set_data(
         const decltype(data)::value_t & val) -> void
 {
-    guard_property(data);
-    *data = val;
-
+    character_data::d_ptr->data = val;
     css::detail::processing_instruction_prolog_steps(this);
 }
 

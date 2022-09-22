@@ -6,13 +6,19 @@
 #include "dom/mixins/parentable_node.hpp"
 namespace dom::nodes {class document_fragment;}
 
+#include "dom/nodes/document_fragment_private.hpp"
+
 
 class dom::nodes::document_fragment
         : public node
         , public mixins::non_element_parent_node
         , public mixins::parentable_node
 {
+public:
+    document_fragment();
+
 private cpp_members:
+    MAKE_PIMPL(document_fragment);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:

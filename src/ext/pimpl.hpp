@@ -6,7 +6,7 @@
 
 
 #define MAKE_PIMPL(c) \
-private:              \
+protected:              \
     std::unique_ptr<c ## _private> d_ptr
 
 #define DECLARE_PRIVATE_CLASS(ns, c) \

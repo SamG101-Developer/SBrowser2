@@ -10,10 +10,24 @@
 namespace dom::nodes {class character_data;}
 namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class node;}
+namespace dom::node_ranges {class abstract_range;}
 namespace dom::node_ranges {class range;}
+namespace dom::node_ranges {class static_range;}
 
 namespace dom::detail
 {
+    auto is_range_collapsed(
+            const node_ranges::abstract_range* range)
+            -> ext::boolean;
+
+    auto is_Valid(
+            const node_ranges::static_range* range)
+            -> ext::boolean;
+
+    auto root(
+            const node_ranges::range* range)
+            -> dom::nodes::node*;
+
     // containment and position checks
     auto contains(
             nodes::node* new_container,
@@ -71,5 +85,12 @@ namespace dom::detail
             ext::number<ulong> start_offset)
             -> ext::tuple<nodes::node*, ext::number<ulong>>;
 }
+
+
+struct dom::detail::boundary_point_t
+{
+    dom::nodes::node* node;
+    ext::number<ulong> offset;
+};
 
 #endif //SBROWSER2_RANGE_INTERNALS_HPP

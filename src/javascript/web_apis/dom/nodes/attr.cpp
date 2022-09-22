@@ -1,6 +1,7 @@
 #include "attr.hpp"
 
 #include "dom/detail/attribute_internals.hpp"
+#include "dom/detail/customization_internals.hpp"
 #include "dom/nodes/element.hpp"
 
 
@@ -15,14 +16,16 @@ dom::nodes::attr::attr()
     bind_set(value);
 }
 
+auto dom::nodes::attr::get_name() const -> typename decltype(this->name)::value_t
+{return detail::qualified_name(this);}
 
-auto dom::nodes::attr::set_value(
-        const ext::string& val)
-        -> void
-{
-    // overwrite the current value in this attribute class with the new value
-    detail::set_existing_attribute_value(this, val);
-}
+
+auto dom::nodes::attr::get_value() const -> typename decltype(this->value)::value_t
+{CE_REACTIONS_METHOD_DEF return d_ptr->value; CE_REACTIONS_METHOD_EXE}
+
+
+auto dom::nodes::attr::set_value(const ext::string& val) -> void
+{CE_REACTIONS_METHOD_DEF detail::set_existing_attribute_value(this, val); CE_REACTIONS_METHOD_EXE}
 
 
 auto dom::nodes::attr::to_v8(

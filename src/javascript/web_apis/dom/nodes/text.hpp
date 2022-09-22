@@ -5,6 +5,8 @@
 #include "dom/mixins/slottable.hpp"
 namespace dom::nodes {class text;}
 
+#include "dom/nodes/text_private.hpp"
+
 
 class dom::nodes::text
         : public character_data
@@ -19,8 +21,9 @@ public js_methods:
 public js_properties:
     ext::property<ext::string> whole_text;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_PIMPL(text);
+    MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
     DEFINE_CUSTOM_GETTER(node_type) override {return TEXT_NODE;}

@@ -62,6 +62,8 @@ namespace svg::elements {class svg_script_element;}
 
 namespace dom::detail {auto lookup_custom_element_definition(const nodes::document*, ext::string_view, ext::string_view, ext::string_view) -> custom_element_definition_t*;}
 
+#include "dom/nodes/document_private.hpp"
+
 
 class dom::nodes::document
         : public node
@@ -138,13 +140,13 @@ public js_methods:
 
 public js_properties:
     /* [DOM] */
-    ext::property<std::unique_ptr<url::detail::url_t>> url;
+    ext::property<ext::string> url;
     ext::property<ext::string> compat_mode;
     ext::property<ext::string> character_set;
     ext::property<ext::string> content_type;
     ext::property<document_type*> doctype;
-    ext::property<std::unique_ptr<element>> document_element;
-    ext::property<std::unique_ptr<other::dom_implementation>> implementation;
+    ext::property<element*> document_element;
+    ext::property<other::dom_implementation*> implementation;
 
     /* [HTML] */
     ext::property<std::unique_ptr<html::other::location>> location;
@@ -181,87 +183,11 @@ public js_properties:
     ext::property<css::css_web_animation::document_timeline*> timeline;
 
 private cpp_members:
+    MAKE_PIMPL(document);
     MAKE_V8_AVAILABLE;
 
 public cpp_operators:
     auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
-
-private js_slots:
-    /* [DEVICE_POSTURE] */
-    ext::slot<ext::number<double>> s_current_posture;
-
-private cpp_members: // TODO : make into free functions
-    /* [HTML] */
-    [[nodiscard]] auto get_m_html_element() const -> html::elements::html_html_element*;
-    [[nodiscard]] auto get_m_title_element() const -> html::elements::html_title_element*;
-
-    /* [FULLSCREEN] */
-    auto m_fullscreen_element() -> element*;
-
-private cpp_members: // TODO : move to PIMPL
-    /* [DOM] */
-    std::unique_ptr<encoding::encoding> m_encoding;
-    ext::string m_type = "xml";
-    ext::string m_mode = "no-quirks";
-    html::detail::origin_t m_origin;
-
-    /* [HTML] */
-    // Policies & Permissions
-    std::unique_ptr<html::detail::policy_container_t> m_policy_container;
-    std::unique_ptr<html::detail::cross_origin_opener_policy_value_t> m_cross_origin_opener_policy;
-    std::unique_ptr<permissions_policy::detail::internal_permissions_policy_t> m_permissions_policy;
-
-    module_map_t m_module_map;
-    ext::boolean m_is_initial = false;
-
-    // Document Timing & Context
-    std::unique_ptr<html::detail::document_load_timing_info_t> m_load_timing_info;
-    std::unique_ptr<html::detail::document_unload_timing_info_t> m_unload_timing_info;
-    std::unique_ptr<html::detail::browsing_context_t> m_browsing_context;
-
-    ext::set<element*> m_render_blocking_elements;
-
-    ext::boolean m_will_declaratively_refresh;
-
-    ext::number<int> m_script_blocking_style_sheet_counter = 0;
-
-    ext::map<html::detail::preload_key_t*, html::detail::preload_entry_t*> m_preloaded_resources;
-
-    std::unique_ptr<intersection_observer::intersection_observer> m_lazy_load_intersection_observer;
-
-    ext::map<html::detail::available_image_t*, std::byte[]> m_list_of_available_images;
-
-    ext::boolean m_design_mode_enabled;
-
-    html::detail::sandboxing_flag_set_t active_sandboxing_set;
-
-    // IFrame
-    ext::boolean m_iframe_load_in_progress_flag;
-    ext::boolean m_mute_iframe_flag;
-
-    // Scripts
-    html::elements::html_script_element* pending_paring_blocking_script;
-    ext::set<html::elements::html_script_element*> set_of_scripts_to_execute;
-    ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order;
-    ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order_when_document_finished_parsing;
-
-    /* [FULLSCREEN] */
-    ext::vector<ext::tuple<ext::string, element*>> m_list_of_pending_fullscreen_events;
-
-    /* [PAINT_TIMING] */
-    ext::set<ext::string> m_previously_reported_paints;
-
-    /* [CSS_ANIMATION_WORKLET] */
-    ext::map<ext::string, css::detail::document_animator_definition_t*> m_document_animator_definitions;
-
-    /* [CSS_LAYOUT] */
-    ext::map<ext::string, css::detail::document_layout_definition_t*> m_document_layout_definitions;
-
-    /* [INTERSECTION_OBSERVERS] */
-    ext::boolean m_intersection_observer_task_queued;
-
-    /* [CSS_WEB_ANIMATIONS] */
-    std::unique_ptr<css::detail::document_timeline_t> m_default_timeline;
 
 private cpp_accessors:
     /* [DOM] */
@@ -273,10 +199,13 @@ private cpp_accessors:
     DEFINE_CUSTOM_SETTER(node_value) override {};
     DEFINE_CUSTOM_SETTER(text_content) override {}
 
+    DEFINE_CUSTOM_GETTER(url);
     DEFINE_CUSTOM_GETTER(compat_mode);
     DEFINE_CUSTOM_GETTER(character_set);
+    DEFINE_CUSTOM_GETTER(content_type) {return d_ptr->content_type;}
     DEFINE_CUSTOM_GETTER(doctype);
     DEFINE_CUSTOM_GETTER(document_element);
+    DEFINE_CUSTOM_GETTER(implementation) {return d_ptr->implementation;}
 
     /* [HTML] */
     DEFINE_CUSTOM_GETTER(last_modified);

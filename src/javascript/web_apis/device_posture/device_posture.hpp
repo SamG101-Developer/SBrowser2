@@ -15,15 +15,11 @@ public constructors:
     DOM_CTORS(device_posture);
     device_posture() = default;
 
-public js_properties:
-    ext::property<detail::device_posture_type_t> type;
-
-private cpp_members:
     MAKE_PIMPL(device_posture);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(type) {return d_ptr->current_posture;}
+    DEFINE_GETTER(type, detail::device_posture_type_t) {return d_ptr->current_posture;}
 };
 
 

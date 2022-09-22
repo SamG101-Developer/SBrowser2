@@ -9,7 +9,7 @@ class dom::nodes::xml_document final
         : public document
 {
 public:
-    xml_document(); // TODO
+    xml_document();
 };
 
 

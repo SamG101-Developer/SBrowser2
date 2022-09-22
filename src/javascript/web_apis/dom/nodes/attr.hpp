@@ -23,6 +23,7 @@ public js_properties:
     ext::property<std::unique_ptr<element>> owner_element;
 
 private cpp_members:
+    MAKE_PIMPL(attr);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
@@ -33,6 +34,14 @@ private cpp_accessors:
 
     DEFINE_CUSTOM_SETTER(node_value) override {value = val;};
     DEFINE_CUSTOM_SETTER(text_content) override {value = val;};
+
+    DEFINE_CUSTOM_GETTER(namespace_uri) {return d_ptr->namespace_;}
+    DEFINE_CUSTOM_GETTER(prefix) {return d_ptr->namespace_prefix;}
+    DEFINE_CUSTOM_GETTER(local_name) {return d_ptr->local_name;}
+    DEFINE_CUSTOM_GETTER(name);
+    DEFINE_CUSTOM_GETTER(value);
+    DEFINE_CUSTOM_GETTER(owner_element) {return d_ptr->element;}
+
     DEFINE_CUSTOM_SETTER(value);
 };
 

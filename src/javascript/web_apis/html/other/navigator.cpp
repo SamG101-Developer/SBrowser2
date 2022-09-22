@@ -1,5 +1,6 @@
 #include "navigator.hpp"
 
+#include "environment/environment_settings.hpp"
 #include "ext/threading.hpp"
 #include "javascript/environment/realms_2.hpp"
 
@@ -47,10 +48,11 @@ auto html::other::navigator::send_beacon(
         -> void
 {
     JS_REALM_GET_RELEVANT(this);
-    decltype(auto) base   = javascript::environment::realms_2::get<ext::string>(this_relevant_global_object, "abi_base_url");
-    decltype(auto) origin = javascript::environment::realms_2::get<ext::string>(this_relevant_global_object, "origin");
+    decltype(auto) base   = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_global_object)->api_base_url.get();
+    decltype(auto) origin = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_global_object)->origin;
 
     auto parsed_url = url::detail::url_parser(std::move(url), base);
+
 }
 
 

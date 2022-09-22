@@ -29,7 +29,7 @@ auto background_tasks::idle_deadline::to_v8(
     decltype(auto) conversion = v8pp::class_<idle_deadline>{isolate}
         .inherit<dom_object>()
         .function("timeRemaining", &idle_deadline::time_remaining)
-        .var("didTimeout", &idle_deadline::did_timeout, true)
+        .property("didTimeout", &idle_deadline::get_did_timeout)
         .auto_wrap_objects();
 
     return std::move(conversion);

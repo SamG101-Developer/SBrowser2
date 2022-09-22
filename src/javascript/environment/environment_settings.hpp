@@ -11,7 +11,7 @@ namespace javascript::environment {struct settings_t;}
 
 struct javascript::environment::settings_t
 {
-    url::detail::url_t& api_base_url;
+    std::unique_ptr<url::detail::url_t> api_base_url;
     html::detail::origin_t origin;
 
     auto to_v8_object(v8::Isolate* isolate)

@@ -57,7 +57,10 @@ dom::nodes::node::node()
 
     bind_set(node_value);
     bind_set(text_content);
-    bind_set(parent_node);
+
+    event_target::d_ptr->get_the_parent =
+            [this](events::event* event)
+            {return detail::is_assigned(this) ? ext::cross_cast<mixins::slottable*>(this)->assigned_slot() : parent_node();};
 
     /* FULLSCREEN */
     m_dom_behaviour.remove_steps = [this](dom::nodes::node*)

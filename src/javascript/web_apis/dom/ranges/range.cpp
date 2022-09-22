@@ -39,8 +39,6 @@ dom::node_ranges::range::range()
     end_container   = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->document();
     start_offset    = 0;
     end_offset      = 0;
-
-    m_root = nullptr;
 }
 
 
@@ -544,7 +542,14 @@ auto dom::node_ranges::range::clone_range()
 }
 
 
-auto dom::node_ranges::range::to_json()
+auto dom::node_ranges::range::get_common_ancestor_container()
+        const -> decltype(this->common_ancestor_container)::value_t
+{
+    return detail::common_ancestor(start_container(), end_container());
+}
+
+
+auto dom::node_ranges::range::operator ext::string()
         const -> ext::string
 {
     ext::string s;
@@ -556,7 +561,7 @@ auto dom::node_ranges::range::to_json()
 
     if (textual_start_container)
         s += detail::substring_data(textual_start_container, start_offset(), detail::length(textual_start_container) - start_offset());
-    
+
     s += detail::descendant_text_nodes(m_root)
             | ranges::views::filter(ext::bind_back(detail::contains, this))
             | ranges::views::transform([](nodes::text* text_node) {return text_node->data();})
@@ -567,44 +572,37 @@ auto dom::node_ranges::range::to_json()
 }
 
 
-auto dom::node_ranges::range::get_common_ancestor_container()
-        const -> decltype(this->common_ancestor_container)::value_t
-{
-    return detail::common_ancestor(start_container(), end_container());
-}
-
-
 auto dom::node_ranges::range::to_v8(
         v8::Isolate* isolate)
         const && -> ext::any
 {
     return v8pp::class_<range>{isolate}
-            .ctor<>()
-            .inherit<abstract_range>()
-            .static_("START_TO_START", range::START_TO_START)
-            .static_("START_TO_END", range::START_TO_END)
-            .static_("END_TO_END", range::END_TO_END)
-            .static_("END_TO_START", range::END_TO_START)
-            .function("setStart", &range::set_start)
-            .function("setStartAfter", &range::set_start_after)
-            .function("setStartBefore", &range::set_start_before)
-            .function("setEnd", &range::set_end)
-            .function("setEndAfter", &range::set_end_after)
-            .function("setEndBefore", &range::set_end_before)
-            .function("insertNode", &range::insert_node)
-            .function("intersectsNode", &range::intersects_node)
-            .function("selectNode", &range::select_node)
-            .function("selectNodeContents", &range::select_node_contents)
-            .function("compareBoundaryPoints", &range::compare_boundary_points)
-            .function("comparePoint", &range::compare_point)
-            .function("extractContents", &range::extract_contents)
-            .function("cloneContents", &range::clone_contents)
-            .function("deleteContents", &range::delete_contents)
-            .function("surroundContents", &range::surround_contents)
-            .function("collapse", &range::collapse)
-            .function("cloneRange", &range::clone_range)
-            .function("isPointInRange", &range::is_point_in_range)
-            .function("toJSON", &range::to_json)
-            .var("commonAncestorContainer", &range::common_ancestor_container, true)
-            .auto_wrap_objects();
+        .ctor<>()
+        .inherit<abstract_range>()
+        .static_("START_TO_START", range::START_TO_START)
+        .static_("START_TO_END", range::START_TO_END)
+        .static_("END_TO_END", range::END_TO_END)
+        .static_("END_TO_START", range::END_TO_START)
+        .function("setStart", &range::set_start)
+        .function("setStartAfter", &range::set_start_after)
+        .function("setStartBefore", &range::set_start_before)
+        .function("setEnd", &range::set_end)
+        .function("setEndAfter", &range::set_end_after)
+        .function("setEndBefore", &range::set_end_before)
+        .function("insertNode", &range::insert_node)
+        .function("intersectsNode", &range::intersects_node)
+        .function("selectNode", &range::select_node)
+        .function("selectNodeContents", &range::select_node_contents)
+        .function("compareBoundaryPoints", &range::compare_boundary_points)
+        .function("comparePoint", &range::compare_point)
+        .function("extractContents", &range::extract_contents)
+        .function("cloneContents", &range::clone_contents)
+        .function("deleteContents", &range::delete_contents)
+        .function("surroundContents", &range::surround_contents)
+        .function("collapse", &range::collapse)
+        .function("cloneRange", &range::clone_range)
+        .function("isPointInRange", &range::is_point_in_range)
+        .function("toJSON", &range::to_json)
+        .var("commonAncestorContainer", &range::common_ancestor_container, true)
+        .auto_wrap_objects();
 }

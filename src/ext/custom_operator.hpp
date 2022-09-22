@@ -88,6 +88,7 @@ custom_operator(go)
     auto _ce_method = [&]{
 
 
+// TODO : if the function '_ce_method(...)' doesn't have a return value then branch and complete with no return
 #define CE_REACTIONS_METHOD_EXE                                                                                                   \
     };                                                                                                                            \
     {                                                                                                                             \

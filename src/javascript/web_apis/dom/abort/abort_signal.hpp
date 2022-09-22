@@ -30,24 +30,17 @@ public friends:
 
 public constructors:
     DOM_CTORS(abort_signal);
-    abort_signal();
+    MAKE_PIMPL(abort_signal);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     static auto abort(const ext::optional<ext::any>& reason) -> abort_signal;
     static auto timeout(ext::number<ulonglong> milliseconds) -> abort_signal;
     auto throw_if_aborted() -> void;
 
-public js_properties:
-    ext::property<ext::boolean> aborted;
-    ext::property<ext::any> reason;
-
-private cpp_members:
-    MAKE_PIMPL(abort_signal);
-    MAKE_V8_AVAILABLE;
-
-private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(aborted);
-    DEFINE_CUSTOM_GETTER(reason);
+private js_properties:
+    DEFINE_GETTER(aborted, ext::boolean);
+    DEFINE_GETTER(reason, ext::any);
 };
 
 

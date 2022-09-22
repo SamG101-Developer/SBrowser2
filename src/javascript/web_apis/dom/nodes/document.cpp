@@ -12,6 +12,7 @@
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/namespace_internals.hpp"
 #include "dom/detail/node_internals.hpp"
+#include "dom/events/event.hpp"
 #include "dom/nodes/attr.hpp"
 #include "dom/nodes/cdata_section.hpp"
 #include "dom/nodes/comment.hpp"
@@ -53,7 +54,8 @@
 
 
 dom::nodes::document::document()
-        : url{std::make_unique<url::detail::url_t>("about:blank")}
+        : INIT_PIMPL
+        , url{std::make_unique<url::detail::url_t>("about:blank")}
         , implementation{std::make_unique<other::dom_implementation>()}
         , content_type{"application/xml"}
         , ready_state{"complete"}
@@ -82,7 +84,17 @@ dom::nodes::document::document()
     bind_set(body);
 
     JS_REALM_GET_SURROUNDING(this);
-    m_origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
+    d_ptr->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
+    this->event_target::d_ptr->get_the_parent =
+            [this](events::event* event)
+            {
+                JS_REALM_GET_RELEVANT(this);
+                return_if(event->type() == "load" || !d_ptr->browsing_context) ext::nullptr_cast<event_target*>();
+
+                decltype(auto) global_object = v8pp::from_v8<event_target*>(this_relevant_agent, this_relevant_global_object);
+                return global_object;
+            };
+
     permissions_policy()->m_associated_node = this;
 }
 

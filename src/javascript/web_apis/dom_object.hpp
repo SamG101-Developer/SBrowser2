@@ -11,8 +11,6 @@
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 
-#include "dom_object_private.hpp"
-
 #include <memory>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
@@ -26,6 +24,7 @@ namespace dom::nodes {class node;}
 
 
 #define DOM_CTORS(type)  \
+    type()               \
     DISALLOW_COPY(type); \
     ALLOW_MOVE(type)
 

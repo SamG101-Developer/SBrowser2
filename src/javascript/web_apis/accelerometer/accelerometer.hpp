@@ -7,27 +7,23 @@ namespace accelerometer {class accelerometer;}
 
 #include INCLUDE_INNER_TYPES(accelerometer)
 
+#include "accelerometer/accelerometer_private.hpp"
+
 
 class accelerometer::accelerometer
         : public sensors::sensor
 {
 public constructors:
     DOM_CTORS(accelerometer);
-    accelerometer() = default;
-    accelerometer(detail::accelerometer_sensor_options_t&& options);
+    accelerometer(detail::accelerometer_sensor_options_t&& options = {});
 
-public js_properties:
-    ext::property<ext::number<double>> x;
-    ext::property<ext::number<double>> y;
-    ext::property<ext::number<double>> z;
-
-private cpp_members:
+    MAKE_PIMPL(accelerometer);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(x);
-    DEFINE_CUSTOM_GETTER(y);
-    DEFINE_CUSTOM_GETTER(z);
+private js_properties:
+    DEFINE_GETTER(x, ext::number<double>);
+    DEFINE_GETTER(y, ext::number<double>);
+    DEFINE_GETTER(z, ext::number<double>);
 };
 
 

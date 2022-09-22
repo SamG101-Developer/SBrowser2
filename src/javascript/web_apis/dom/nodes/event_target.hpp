@@ -20,6 +20,8 @@ namespace dom::detail {auto dispatch(events::event*, nodes::event_target*) -> ex
 namespace dom::detail {auto invoke(event_path_struct_t*, events::event*, ext::number<uchar>) -> void;}
 namespace dom::detail {auto inner_invoke(events::event*, ext::vector_view<ext::map<ext::string, ext::any>>, ext::number<uchar>, ext::boolean ) -> void;}
 
+#include "dom/nodes/event_target_private.hpp"
+
 
 class dom::nodes::event_target
         : public virtual dom_object

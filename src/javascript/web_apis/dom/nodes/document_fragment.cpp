@@ -4,6 +4,11 @@
 #include "dom/detail/tree_internals.hpp"
 
 
+dom::nodes::document_fragment::document_fragment()
+        : INIT_PIMPL
+{}
+
+
 auto dom::nodes::document_fragment::get_text_content()
         const -> decltype(this->text_content)::value_t
 {
@@ -29,11 +34,11 @@ auto dom::nodes::document_fragment::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<document_fragment>{isolate}
-            .ctor<>()
-            .inherit<node>()
-            .inherit<mixins::non_element_parent_node>()
-            .inherit<parentable_node>()
-            .auto_wrap_objects();
+        .ctor<>()
+        .inherit<node>()
+        .inherit<mixins::non_element_parent_node>()
+        .inherit<parentable_node>()
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }

@@ -6,16 +6,20 @@
 namespace dom::node_ranges {class static_range;}
 
 #include "ext/map.hpp"
+#include INCLUDE_INNER_TYPES(dom)
+
+#include "dom/ranges/static_range_private.hpp"
 
 
 class dom::node_ranges::static_range
         : public abstract_range
 {
 public constructors:
-    static_range(ext::map<ext::string, ext::any>&& init = {});
+    static_range(detail::static_range_init_t&& init = {});
 
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public cpp_members:
+    MAKE_PIMPL(static_range);
+    MAKE_V8_AVAILABLE;
 };
 
 

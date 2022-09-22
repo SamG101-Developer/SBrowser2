@@ -86,29 +86,20 @@ namespace dom::detail
             const nodes::document* document,
             type_is<nodes::node*, ext::string> auto&&... nodes)
             -> nodes::node*;
+
+    // element stuff
+    auto qualified_name(
+            nodes::element* element)
+            -> ext::string;
+
+    auto html_uppercase_qualified_name(
+            nodes::element* element)
+            -> ext::string;
+
+    auto html_lowercase_qualified_name(
+            nodes::element* element)
+            -> ext::string;
 }
-
-
-struct dom::detail::event_target_t
-{
-    virtual auto get_the_parent(events::event* event) -> nodes::event_target* {return nullptr;};
-
-    ext::vector<ext::map<ext::string, ext::any>> event_listeners;
-};
-
-
-struct dom::detail::node_t : public event_target_t
-{
-    ext::vector<std::unique_ptr<detail::registered_observer_t>> m_registered_observer_list;
-};
-
-
-struct dom::detail::shadow_root_t : public node_t
-{
-    auto get_the_parent(events::event* event) -> nodes::event_target* override;
-
-    ext::boolean m_available_to_element_internals;
-};
 
 
 #endif //SBROWSER2_NODE_INTERNALS_HPP

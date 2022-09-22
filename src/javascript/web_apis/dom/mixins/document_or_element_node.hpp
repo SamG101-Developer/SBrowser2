@@ -16,9 +16,9 @@ public constructors:
     DOM_CTORS(document_or_element_node);
 
 public js_methods:
-    [[nodiscard]] auto get_elements_by_class_name(ext::string_view class_names) const -> ranges::any_view<nodes::element*>;
-    [[nodiscard]] auto get_elements_by_tag_name(ext::string_view qualified_name) const -> ranges::any_view<nodes::element*>;
-    [[nodiscard]] auto get_elements_by_tag_name_ns(ext::string_view namespace_, ext::string_view local_name) const -> ranges::any_view<nodes::element*>;
+    _EXT_NODISCARD auto get_elements_by_class_name(ext::string_view class_names) const -> ranges::any_view<nodes::element*>;
+    _EXT_NODISCARD auto get_elements_by_tag_name(ext::string_view qualified_name) const -> ranges::any_view<nodes::element*>;
+    _EXT_NODISCARD auto get_elements_by_tag_name_ns(ext::string_view namespace_, ext::string_view local_name) const -> ranges::any_view<nodes::element*>;
 
 public cpp_members:
     MAKE_V8_AVAILABLE;

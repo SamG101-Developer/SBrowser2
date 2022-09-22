@@ -5,8 +5,13 @@
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(hr_time)
 
-namespace dom::nodes {class document; class node;}
+namespace dom::nodes {class document;}
+namespace dom::nodes {class element;}
+namespace dom::nodes {class node;}
+namespace html::elements {class html_html_element;}
 namespace html::elements {class html_meta_element;}
+namespace html::elements {class html_title_element;}
+
 
 namespace html::detail
 {
@@ -60,6 +65,19 @@ namespace html::detail
     auto is_blocked_by_modal_dialog(
             dom::nodes::document* document)
             -> ext::boolean;
+
+    auto html_html_element(
+            dom::nodes::document* document)
+            -> html::elements::html_html_element*;
+
+    auto html_title_element(
+            dom::nodes::document* document)
+            -> html::elements::html_title_element*;
+
+    /* [FULLSCREEN] TODO : move to correct file */
+    auto m_fullscreen_element(
+            dom::nodes::document* document)
+            -> dom::nodes::element*;
 }
 
 

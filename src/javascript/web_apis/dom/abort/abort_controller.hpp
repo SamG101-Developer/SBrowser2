@@ -17,15 +17,12 @@ public constructors:
 public js_methods:
     auto abort(const ext::any& reason) const -> void;
 
-public js_properties:
-    ext::property<abort_signal*> signal;
-
 public cpp_members:
     MAKE_PIMPL(abort_controller);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(signal) {return d_ptr->signal.get();}
+    DEFINE_GETTER(signal, abort_signal*) {return d_ptr->signal.get();}
 };
 
 

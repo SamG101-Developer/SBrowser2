@@ -9,7 +9,8 @@
 #include <QtWidgets/QVBoxLayout>
 
 
-dom::nodes::text::text(ext::string&& new_data)
+dom::nodes::text::text(
+        ext::string&& new_data)
 {
     bind_get(whole_text);
 
@@ -39,9 +40,9 @@ auto dom::nodes::text::get_whole_text()
 
 auto dom::nodes::text::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<text>{isolate}
+    decltype(auto) conversion = v8pp::class_<text>{isolate}
             .ctor<>()
             .ctor<ext::string_view>()
             .inherit<character_data>()
@@ -49,4 +50,6 @@ auto dom::nodes::text::to_v8(
             .function("splitText", &text::split_text)
             .var("wholeText", &text::whole_text, true)
             .auto_wrap_objects();
+
+    return std::move(conversion);
 }
