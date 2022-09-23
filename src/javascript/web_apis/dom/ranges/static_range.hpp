@@ -16,8 +16,6 @@ class dom::node_ranges::static_range
 {
 public constructors:
     static_range(detail::static_range_init_t&& init = {});
-
-public cpp_members:
     MAKE_PIMPL(static_range);
     MAKE_V8_AVAILABLE;
 };

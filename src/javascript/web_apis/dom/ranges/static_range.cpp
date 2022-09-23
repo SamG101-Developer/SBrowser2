@@ -25,3 +25,16 @@ dom::node_ranges::static_range::static_range(
             [this] {return ext::multi_cast<nodes::document_type*, nodes::attr*>(abstract_range::d_ptr->end->node);},
             "End container can not be a DocumentType or Attribute node");
 }
+
+
+auto dom::node_ranges::static_range::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<static_range>{isolate}
+        .inherit<abstract_range>()
+        .ctor<detail::static_range_init_t>()
+        .auto_wrap_objects();
+
+    return std::move(conversion);
+}
