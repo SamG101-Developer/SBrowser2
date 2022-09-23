@@ -24,19 +24,19 @@
 #include "dom/nodes/text.hpp"
 #include "dom/ranges/range.hpp"
 
+#include "file_api/detail/blob_internals.hpp"
 #include "fullscreen/detail/fullscreen_internals.hpp"
+#include "html/detail/document_internals.hpp"
+#include "url/detail/url_internals.hpp"
 
 #include <range/v3/to_container.hpp>
 #include <range/v3/algorithm/all_of.hpp>
+#include <range/v3/algorithm/find.hpp>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/remove.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/zip.hpp>
-
-#include <QtWidgets/QLayout>
-#include <QtWidgets/QScrollArea>
-#include <QtWidgets/QWidgetAction>
 
 namespace dom::nodes {class window;}
 
@@ -46,18 +46,6 @@ dom::nodes::node::node()
         , child_nodes(std::make_unique<ext::vector<node*>>())
         , parent_node(nullptr)
 {
-    bind_get(node_name);
-    bind_get(node_value);
-    bind_get(text_content);
-    bind_get(base_uri);
-    bind_get(first_child);
-    bind_get(last_child);
-    bind_get(previous_sibling);
-    bind_get(next_sibling);
-
-    bind_set(node_value);
-    bind_set(text_content);
-
     event_target::d_ptr->get_the_parent =
             [this](events::event* event)
             {return detail::is_assigned(this) ? ext::cross_cast<mixins::slottable*>(this)->assigned_slot() : parent_node();};
@@ -359,30 +347,51 @@ auto dom::nodes::node::remove_child(
 }
 
 
-auto dom::nodes::node::get_previous_sibling()
-        const -> decltype(this->previous_sibling)::value_t
+auto dom::nodes::node::get_base_uri() const -> ext::string
+{return url::detail::url_serializer(html::detail::document_base_url(d_ptr->node_document));}
+
+
+auto dom::nodes::node::get_is_connected() const -> ext::boolean
+{return detail::is_connected(this);}
+
+
+auto dom::nodes::node::get_child_nodes() const -> ranges::any_view<node*>
+{return d_ptr->child_nodes | ranges::views::transform([](auto&& child) {return child.get();});}
+
+
+auto dom::nodes::node::get_parent_node() const -> node*
+{return d_ptr->parent_node;}
+
+
+auto dom::nodes::node::get_parent_element() const -> element*
+{return dom_cast<element*>(d_ptr->parent_node);}
+
+
+auto dom::nodes::node::get_owner_document() const -> document*
+{return d_ptr->node_document;}
+
+
+auto dom::nodes::node::get_first_child() const -> node*
+{return d_ptr->child_nodes.front().get();}
+
+
+auto dom::nodes::node::get_last_child() const -> node*
+{return d_ptr->child_nodes.back().get();}
+
+
+auto dom::nodes::node::get_previous_sibling() const -> node*
 {
-    decltype(auto) siblings = parent_node()->child_nodes();
-    decltype(auto) this_node_iter = std::ranges::find(*siblings, this);
-    return this_node_iter != siblings->begin() ? *(this_node_iter - 1) : nullptr;
+    decltype(auto) siblings = d_ptr->parent_node->d_ptr->child_nodes;
+    decltype(auto) this_node_iter = ranges::find(siblings, this, &std::unique_ptr<node>::get);
+    return this_node_iter != siblings.begin() ? *(this_node_iter - 1) : nullptr;
 }
 
 
-auto dom::nodes::node::get_next_sibling()
-        const -> decltype(this->next_sibling)::value_t
+auto dom::nodes::node::get_next_sibling() const -> node*
 {
-    decltype(auto) siblings = parent_node()->child_nodes();
-    decltype(auto) this_node_iter = std::ranges::find(*siblings, this);
-    return (this_node_iter + 1 != siblings->end()) ? *(this_node_iter + 1) : nullptr;
-}
-
-
-auto dom::nodes::node::get_parent_element()
-        const -> decltype(this->parent_element)::value_t
-{
-    decltype(auto) parent_as_node = parent_node();
-    decltype(auto) parent_as_element = dynamic_cast<element*>(parent_as_node);
-    return parent_as_element;
+    decltype(auto) siblings = d_ptr->parent_node->d_ptr->child_nodes;
+    decltype(auto) this_node_iter = ranges::find(siblings, this, &std::unique_ptr<node>::get);
+    return (this_node_iter + 1 != siblings.end()) ? *(this_node_iter + 1) : nullptr;
 }
 
 
@@ -412,20 +421,20 @@ auto dom::nodes::node::to_v8(
         .function("appendChild", &node::append_child)
         .function("replaceChild", &node::replace_child)
         .function("removeChild", &node::remove_child)
-        .var("nodeType", &node::node_type, true)
-        .var("nodeName", &node::node_name, true)
-        .var("nodeValue", &node::node_value, false)
-        .var("textContent", &node::text_content, false)
-        .var("baseURI", &node::base_uri, true)
-        .var("isConnected", &node::is_connected, true)
-        .var("childNodes", &node::child_nodes, true)
-        .var("parentNode", &node::parent_node, true)
-        .var("parentElement", &node::parent_element, true)
-        .var("ownerDocument", &node::owner_document, true)
-        .var("firstChild", &node::first_child, true)
-        .var("lastChild", &node::last_child, true)
-        .var("previousSibling", &node::previous_sibling, true)
-        .var("nextSibling", &node::next_sibling, true)
+        .property("nodeType", &node::get_node_type)
+        .property("nodeName", &node::get_node_name)
+        .property("nodeValue", &node::get_node_value, &node::set_node_value)
+        .property("textContent", &node::get_text_content, &node::set_text_content)
+        .property("baseURI", &node::get_base_uri)
+        .property("isConnected", &node::get_is_connected)
+        .property("childNodes", &node::get_child_nodes)
+        .property("parentNode", &node::get_parent_node)
+        .property("parentElement", &node::get_parent_element)
+        .property("ownerDocument", &node::get_owner_document)
+        .property("firstChild", &node::get_first_child)
+        .property("lastChild", &node::get_last_child)
+        .property("previousSibling", &node::get_previous_sibling)
+        .property("nextSibling", &node::get_next_sibling)
         .auto_wrap_objects();
 
     return std::move(conversion);

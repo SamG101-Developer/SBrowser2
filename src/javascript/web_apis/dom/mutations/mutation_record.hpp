@@ -6,28 +6,29 @@ namespace dom::mutations {class mutation_record;}
 
 #include "ext/vector.hpp"
 
+#include "dom/mutations/mutation_record_private.hpp"
+
 
 class dom::mutations::mutation_record
         : public virtual dom_object
 {
 public constructors:
     mutation_record() = default;
+    MAKE_PIMPL(mutation_record);
+    MAKE_V8_AVAILABLE;
 
 public js_properties:
-    ext::property<ext::string> type;
-    ext::property<ext::string> attribute_name;
-    ext::property<ext::string> attribute_namespace;
-    ext::property<ext::string> old_value;
+    DEFINE_GETTER(type, ext::string) {return d_ptr->type;}
+    DEFINE_GETTER(attribute_name, ext::string) {return d_ptr->attribute_name;}
+    DEFINE_GETTER(attribute_namespace, ext::string) {return d_ptr->attribute_namespace;}
+    DEFINE_GETTER(old_value, ext::string) {return d_ptr->old_value;}
 
-    ext::property<std::unique_ptr<nodes::node>> target;
-    ext::property<std::unique_ptr<nodes::node>> previous_sibling;
-    ext::property<std::unique_ptr<nodes::node>> next_sibling;
+    DEFINE_GETTER(target, nodes::node*) {return d_ptr->target;}
+    DEFINE_GETTER(previous_sibling, nodes::node*) {return d_ptr->previous_sibling;}
+    DEFINE_GETTER(next_sibling, nodes::node*) {return d_ptr->next_sibling;}
 
-    ext::property<std::unique_ptr<ext::vector<nodes::node*>>> added_nodes;
-    ext::property<std::unique_ptr<ext::vector<nodes::node*>>> removed_nodes;
-
-public cpp_members:
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(added_nodes, ext::vector<nodes::node*>&) {return d_ptr->added_nodes;}
+    DEFINE_GETTER(removed_nodes, ext::vector<nodes::node*>&) {return d_ptr->added_nodes;}
 };
 
 

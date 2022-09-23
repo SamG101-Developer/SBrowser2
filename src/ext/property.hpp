@@ -453,7 +453,7 @@ private:
 #define DEFINE_CUSTOM_DELETER(p) auto del_##p() -> void
 #define PUT_FORWARDS(p) auto operator=(const typename decltype(p)::value_t& val) -> decltype(auto) {p = val; return *this;}
 
-#define DEFINE_GETTER(p, t) _EXT_NODISCARD auto get_##p() const -> t
+#define DEFINE_GETTER(p, t) auto get_##p() const -> t
 #define DEFINE_SETTER(p, t) auto set_##p(t new_ ## p) -> t
 
 

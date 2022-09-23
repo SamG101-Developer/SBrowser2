@@ -6,10 +6,10 @@
 namespace dom::nodes {class node;}
 
 #include "ext/map.hpp"
+#include <range/v3/view/any_view.hpp>
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
-namespace dom::detail {auto notify_mutation_observers() -> void;}
 
 #include "dom/nodes/node_private.hpp"
 
@@ -17,13 +17,8 @@ namespace dom::detail {auto notify_mutation_observers() -> void;}
 class dom::nodes::node
         : public event_target
 {
-public friends:
-    friend auto dom::detail::notify_mutation_observers()
-            -> void;
-
 public constructors:
     DOM_CTORS(node);
-    node();
 
 public js_static_constants:
     constexpr static const ext::number<ushort> ELEMENT_NODE = 1;
@@ -62,48 +57,29 @@ public js_methods:
     auto replace_child(node* old_node, node* new_node) -> node*;
     auto remove_child(node* old_node) -> node*;
 
-public js_properties:
-    ext::property<ext::number<ushort>> node_type;
-    ext::property<ext::string> node_name; // TODO CE_REACTIONS
-    ext::property<ext::string> node_value; // TODO CE_REACTIONS
-    ext::property<ext::string> text_content; // TODO CE_REACTIONS
-
-    ext::property<ext::string> base_uri;
-    ext::property<ext::boolean> is_connected;
-
-    ext::property<std::unique_ptr<ext::vector<node*>>> child_nodes;
-    ext::property<std::unique_ptr<node>> parent_node;
-    ext::property<std::unique_ptr<document>> owner_document;
-    ext::property<element*> parent_element;
-
-    ext::property<node*> first_child;
-    ext::property<node*> last_child;
-    ext::property<node*> previous_sibling;
-    ext::property<node*> next_sibling;
-
 private cpp_members:
     MAKE_PIMPL(node);
     MAKE_V8_AVAILABLE;
 
-protected cpp_accessors:
-    virtual DEFINE_CUSTOM_GETTER(node_type) = 0;
-    virtual DEFINE_CUSTOM_GETTER(node_name) = 0;
-    virtual DEFINE_CUSTOM_GETTER(text_content) = 0;
-    virtual DEFINE_CUSTOM_GETTER(node_value) = 0;
-
-    virtual DEFINE_CUSTOM_SETTER(node_value) = 0;
-    virtual DEFINE_CUSTOM_SETTER(text_content) = 0;
-
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(base_uri);
-    DEFINE_CUSTOM_GETTER(is_connected);
-    DEFINE_CUSTOM_GETTER(parent_element);
-    DEFINE_CUSTOM_GETTER(owner_document) {return d_ptr->node_document;}
-    DEFINE_CUSTOM_GETTER(first_child) {return *child_nodes()->begin();}
-    DEFINE_CUSTOM_GETTER(last_child) {return *child_nodes()->end();}
-    DEFINE_CUSTOM_GETTER(previous_sibling);
-    DEFINE_CUSTOM_GETTER(next_sibling);
+    virtual DEFINE_GETTER(node_type, ext::number<ushort>) = 0;
+    virtual DEFINE_GETTER(node_name, ext::string) = 0; // TODO CE_REACTIONS
+    virtual DEFINE_GETTER(text_content, ext::string) = 0; // TODO CE_REACTIONS
+    virtual DEFINE_GETTER(node_value, ext::string) = 0; // TODO CE_REACTIONS
 
+    virtual DEFINE_SETTER(text_content, ext::string) = 0; // TODO CE_REACTIONS
+    virtual DEFINE_SETTER(node_value, ext::string) = 0; // TODO CE_REACTIONS
+
+    DEFINE_GETTER(base_uri, ext::string);
+    DEFINE_GETTER(is_connected, ext::boolean);
+    DEFINE_GETTER(child_nodes, ranges::any_view<node*>);
+    DEFINE_GETTER(parent_node, node*);
+    DEFINE_GETTER(parent_element, element*);
+    DEFINE_GETTER(owner_document, document*);
+    DEFINE_GETTER(first_child, node*);
+    DEFINE_GETTER(last_child, node*);
+    DEFINE_GETTER(previous_sibling, node*);
+    DEFINE_GETTER(next_sibling, node*);
 };
 
 

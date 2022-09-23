@@ -57,42 +57,21 @@ _EXT_END
 
 
 template <typename T>
-auto dom_cast(dom_object* pointer) -> T
-{
-    return dynamic_cast<T>(pointer);
-}
-
-
-template <typename T>
-auto dom_cast(const dom_object* pointer) -> T
+auto dom_cast(auto pointer) -> T
 {
     return dynamic_cast<T>(pointer);
 }
 
 
 template <typename ...Ts>
-auto dom_multi_cast(dom_object* pointer) -> bool
-{
-    return _EXT multi_cast<Ts...>(pointer);
-}
-
-
-template <typename ...Ts>
-auto dom_multi_cast(const dom_object* pointer) -> bool
+auto dom_multi_cast(auto pointer) -> bool
 {
     return _EXT multi_cast<Ts...>(pointer);
 }
 
 
 template <typename T>
-auto dom_cross_cast(dom_object* pointer) -> T
-{
-    return _EXT cross_cast<T>(pointer);
-}
-
-
-template <typename T>
-auto dom_cross_cast(const dom_object* pointer) -> T
+auto dom_cross_cast(auto pointer) -> T
 {
     return _EXT cross_cast<T>(pointer);
 }
