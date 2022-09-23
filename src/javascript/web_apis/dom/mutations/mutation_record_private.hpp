@@ -1,13 +1,15 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_RECORD_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_RECORD_PRIVATE_HPP
 
+#include "dom_object_private"
+
 #include "ext/pimpl.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mutations, mutation_record)
+DEFINE_PRIVATE_CLASS(dom::mutations, mutation_record) : dom_object_private
 {
     ext::string type;
     ext::string attribute_name;

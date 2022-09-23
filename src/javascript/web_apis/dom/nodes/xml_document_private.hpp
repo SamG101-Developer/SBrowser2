@@ -1,10 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_XML_DOCUMENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_XML_DOCUMENT_PRIVATE_HPP
 
+#include "dom/nodes/document_private.hpp"
+
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, xml_document) {};
+DEFINE_PRIVATE_CLASS(dom::nodes, xml_document) : document_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_XML_DOCUMENT_PRIVATE_HPP

@@ -1,10 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MIXINS_NON_ELEMENT_PARENT_NODE_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MIXINS_NON_ELEMENT_PARENT_NODE_PRIVATE_HPP
 
+#include "dom_object_private.hpp"
+
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(dom::mixins, non_element_parent_node) {};
+DEFINE_PRIVATE_CLASS(dom::mixins, non_element_parent_node) : dom_object_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MIXINS_NON_ELEMENT_PARENT_NODE_PRIVATE_HPP

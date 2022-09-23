@@ -1,11 +1,16 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_TYPE_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_TYPE_PRIVATE_HPP
 
+#include "dom/nodes/node_private.hpp"
+#include "dom/mixins/child_node.hpp"
+
 #include "ext/pimpl.hpp"
 #include "ext/string.hpp"
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, document_type)
+        : node_private
+        , mixins::child_node_private
 {
     ext::string name;
     ext::string public_id;

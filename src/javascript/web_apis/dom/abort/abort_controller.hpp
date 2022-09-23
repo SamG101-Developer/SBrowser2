@@ -13,16 +13,14 @@ class dom::abort::abort_controller
 {
 public constructors:
     abort_controller();
+    MAKE_PIMPL(abort_controller);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto abort(const ext::any& reason) const -> void;
 
-public cpp_members:
-    MAKE_PIMPL(abort_controller);
-    MAKE_V8_AVAILABLE;
-
 private js_properties:
-    DEFINE_GETTER(signal, abort_signal*) {return d_ptr->signal.get();}
+    DEFINE_GETTER(signal, abort_signal*);
 };
 
 

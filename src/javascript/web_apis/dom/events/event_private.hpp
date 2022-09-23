@@ -1,6 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP
 
+#include "dom_object_private"
+
 #include "ext/boolean.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/number.hpp"
@@ -10,7 +12,7 @@
 namespace dom::nodes {class event_target;}
 
 
-DEFINE_PRIVATE_CLASS(dom::events, event)
+DEFINE_PRIVATE_CLASS(dom::events, event) : dom_object_private
 {
     ext::string  type;
     ext::boolean bubbles;

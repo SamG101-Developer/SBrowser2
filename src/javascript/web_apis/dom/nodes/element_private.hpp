@@ -1,6 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP
 
+#include "dom/nodes/node_private.hpp"
+
 #include "ext/boolean.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/queue.hpp"
@@ -10,6 +12,14 @@
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, element)
+        : node_private
+        , mixins::child_node_private
+        , mixins::document_or_element_node_private
+        , mixins::non_document_type_child_node_private
+        , mixins::parentable_node_private
+        , mixins::slottable_private
+        , aria::mixins::aria_mixin_private
+        , css::css_web_animations::mixins::animatable_private
 {
     ext::string namespace_;
     ext::string namespace_prefix;

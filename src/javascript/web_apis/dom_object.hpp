@@ -44,7 +44,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER {return "";}
 
-private:
+protected:
     std::unique_ptr<dom_object_private> d_ptr;
 };
 

@@ -15,29 +15,17 @@ class sensors::sensor
 {
 public constructors:
     DOM_CTORS(sensor);
-    sensor() = default;
+    MAKE_PIMPL(sensor);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto start() -> void;
     auto stop() -> void;
 
 private js_properties:
-    ext::property<ext::boolean> activated;
-    ext::property<ext::boolean> has_reading;
-    ext::property<hr_time::dom_high_res_time_stamp> timestamp;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_slots:
-    detail::state_t s_state;
-    ext::number<double> s_frequency;
-    hr_time::dom_high_res_time_stamp s_last_event_fired_at;
-    ext::boolean s_pending_reading_notification;
-
-private cpp_properties:
-    detail::coordinate_system_t m_coordinate_system;
-    std::unique_ptr<detail::sensor_type_t> m_sensor;
+    DEFINE_GETTER(activated, ext::boolean);
+    DEFINE_GETTER(has_reading, ext::boolean);
+    DEFINE_GETTER(timestamp, hr_time::dom_high_res_time_stamp);
 };
 
 

@@ -1,12 +1,14 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ATTR_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ATTR_PRIVATE_HPP
 
+#include "dom/nodes/node_private.hpp"
+
 #include "ext/pimpl.hpp"
 #include "ext/string.hpp"
 namespace dom::nodes {class element;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, attr)
+DEFINE_PRIVATE_CLASS(dom::nodes, attr) : node_private
 {
     ext::string namespace_;
     ext::string namespace_prefix;

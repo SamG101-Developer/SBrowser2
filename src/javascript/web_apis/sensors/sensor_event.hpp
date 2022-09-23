@@ -12,11 +12,12 @@ class sensors::sensor_event
 {
 public constructors:
     DOM_CTORS(sensor_event);
-    sensor_event() = default;
     sensor_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(sensor_event);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<std::unique_ptr<dom::other::dom_exception>> error;
+    DEFINE_GETTER(error, dom::other::dom_exception*);
 };
 
 

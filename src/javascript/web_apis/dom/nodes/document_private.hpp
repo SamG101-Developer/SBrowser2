@@ -1,6 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_PRIVATE_HPP
 
+#include "dom/nodes/node_private.hpp"
+
 #include "ext/pimpl.hpp"
 #include "ext/string.hpp"
 
@@ -15,6 +17,12 @@ namespace intersection_observer {class intersection_observer;}
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, document)
+        : node_private
+        , mixins::document_or_element_node_private
+        , mixins::document_or_shadow_root_private
+        , mixins::non_element_parent_node_private
+        , mixins::parentable_node_private
+        , xpath::xpath_evaluator_base_private
 {
     /* [DOM] */
     std::unique_ptr<encoding::encoding> encoding;
@@ -31,7 +39,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
     std::unique_ptr<html::detail::cross_origin_opener_policy_value_t> cross_origin_opener_policy;
     std::unique_ptr<permissions_policy::detail::internal_permissions_policy_t> permissions_policy;
 
-    module_map_t module_map;
+    detail::module_map_t module_map;
     ext::boolean is_initial = false;
 
     // Document Timing & Context
