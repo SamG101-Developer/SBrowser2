@@ -36,8 +36,8 @@ public js_static_constants:
     constexpr static const ext::number<ulong> SHOW_ALL                     = 0xFFFFFFFF;
     
 private js_properties:
-    DEFINE_GETTER(accept_node, detail::accept_callback_t) {return d_ptr->accept_node_callback;}
-    DEFINE_SETTER(accept_node, detail::accept_callback_t) {return d_ptr->accept_node_callback = std::move(new_accept_node);}
+    DEFINE_GETTER(accept_node, detail::accept_callback_t);
+    DEFINE_SETTER(accept_node, detail::accept_callback_t);
 };
 
 

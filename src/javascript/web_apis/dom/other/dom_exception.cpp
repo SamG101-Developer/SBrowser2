@@ -17,7 +17,7 @@ auto dom::other::dom_exception::to_v8(
         v8::Isolate* isolate)
         -> v8pp::class_<self_t>
 {
-    return v8pp::class_<dom_exception>{isolate}
+    decltype(auto) conversion = v8pp::class_<dom_exception>{isolate}
         .ctor<ext::string_view, v8_custom_error_t>()
         .property("message", &dom::other::dom_exception::get_message)
         .property("type", &dom::other::dom_exception::get_type)
@@ -58,4 +58,6 @@ auto dom::other::dom_exception::to_v8(
         .static_("OPERATION_ERR", OPERATION_ERR, true)
         .static_("NOT_ALLOWED_ERR", NOT_ALLOWED_ERR, true)
         .auto_wrap_objects();
+
+    return std::move(conversion)
 }

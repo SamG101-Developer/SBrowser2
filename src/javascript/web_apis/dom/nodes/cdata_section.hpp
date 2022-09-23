@@ -12,8 +12,6 @@ class dom::nodes::cdata_section final
 {
 public constructors:
     cdata_section();
-
-public cpp_members:
     MAKE_PIMPL(cdata_section);
     MAKE_V8_AVAILABLE;
 

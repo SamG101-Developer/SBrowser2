@@ -15,6 +15,7 @@ class dom::other::dom_implementation
         : public virtual dom_object
 {
 public constructors:
+    dom_implementation();
     MAKE_PIMPL(dom_implementation);
     MAKE_V8_AVAILABLE;
 

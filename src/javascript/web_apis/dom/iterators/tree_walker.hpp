@@ -13,7 +13,6 @@ class dom::node_iterators::tree_walker
 {
 public constructors:
     tree_walker();
-
     MAKE_PIMPL(tree_walker);
     MAKE_V8_AVAILABLE;
 

@@ -22,7 +22,6 @@ class dom::events::event
 public: constructors
     event() = default;
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
-
     MAKE_PIMPL(event);
     MAKE_V8_AVAILABLE;
 

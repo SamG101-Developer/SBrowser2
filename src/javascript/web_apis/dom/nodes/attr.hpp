@@ -13,8 +13,6 @@ class dom::nodes::attr final
 {
 public constructors:
     attr();
-
-private cpp_members:
     MAKE_PIMPL(attr);
     MAKE_V8_AVAILABLE;
 

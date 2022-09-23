@@ -17,8 +17,6 @@ class dom::nodes::shadow_root final
 {
 public constructors:
     shadow_root();
-
-private cpp_members:
     MAKE_PIMPL(shadow_root);
     MAKE_V8_AVAILABLE;
 

@@ -14,7 +14,6 @@ class dom::mixins::non_element_parent_node
 {
 public constructors:
     non_element_parent_node() = default;
-
     MAKE_PIMPL(non_element_parent_node);
     MAKE_V8_AVAILABLE;
 

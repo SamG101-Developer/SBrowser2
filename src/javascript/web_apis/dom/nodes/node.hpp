@@ -19,6 +19,8 @@ class dom::nodes::node
 {
 public constructors:
     DOM_CTORS(node);
+    MAKE_PIMPL(node);
+    MAKE_V8_AVAILABLE;
 
 public js_static_constants:
     constexpr static const ext::number<ushort> ELEMENT_NODE = 1;
@@ -56,10 +58,6 @@ public js_methods:
     auto append_child(node* new_node) -> node*;
     auto replace_child(node* old_node, node* new_node) -> node*;
     auto remove_child(node* old_node) -> node*;
-
-private cpp_members:
-    MAKE_PIMPL(node);
-    MAKE_V8_AVAILABLE;
 
 private js_properties:
     virtual DEFINE_GETTER(node_type, ext::number<ushort>) = 0;

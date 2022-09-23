@@ -16,7 +16,6 @@ class dom::node_iterators::node_iterator
 {
 public constructors:
     node_iterator();
-
     MAKE_PIMPL(node_iterator);
     MAKE_V8_AVAILABLE;
 
