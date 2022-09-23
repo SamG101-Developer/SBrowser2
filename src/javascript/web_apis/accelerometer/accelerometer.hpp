@@ -16,7 +16,6 @@ class accelerometer::accelerometer
 public constructors:
     DOM_CTORS(accelerometer);
     accelerometer(detail::accelerometer_sensor_options_t&& options = {});
-
     MAKE_PIMPL(accelerometer);
     MAKE_V8_AVAILABLE;
 

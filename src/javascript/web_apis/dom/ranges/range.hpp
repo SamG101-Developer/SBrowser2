@@ -6,8 +6,6 @@ namespace dom::node_ranges {class range;}
 
 #include "ext/type_traits.hpp"
 namespace dom::nodes {class document_fragment;}
-namespace dom::detail {auto contains(nodes::node*, const node_ranges::range*) -> ext::boolean;}
-namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, ext::number<ulong>, ext::boolean ) -> void;}
 
 #include "dom/ranges/range_private.hpp"
 
@@ -15,16 +13,11 @@ namespace dom::detail {auto set_start_or_end(node_ranges::range*, nodes::node*, 
 class dom::node_ranges::range
         : public abstract_range
 {
-public friends:
-    friend auto dom::detail::contains(
-            nodes::node* new_container, const node_ranges::range* range) -> ext::boolean;
-
-    friend auto dom::detail::set_start_or_end(
-            node_ranges::range* range, nodes::node* new_container, ext::number<ulong> new_offset,
-            ext::boolean  start) -> void;
-
 public constructors:
     range();
+    MAKE_PIMPL(range);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 public js_static_constants:
     constexpr static const ext::number<short> START_TO_START = 0;
@@ -62,15 +55,7 @@ public js_methods:
     auto create_contextual_fragmnt(ext::string&& fragment) -> nodes::document_fragment;
 
 private js_properties:
-    ext::property<nodes::node*> common_ancestor_container;
-
-public cpp_members:
-    MAKE_PIMPL(range);
-    MAKE_V8_AVAILABLE;
-    MAKE_STRINGIFIER;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(common_ancestor_container);
+    DEFINE_GETTER(common_ancestor_container, nodes::node*);
 };
 
 

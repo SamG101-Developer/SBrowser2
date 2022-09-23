@@ -5,16 +5,16 @@
 #include "accelerometer/accelerometer.hpp"
 namespace accelerometer {class linear_accelerometer;}
 
+#include "accelerometer/linear_accelerometer_private.hpp"
+
 
 class accelerometer::linear_accelerometer
         : public accelerometer
 {
 public constructors:
     DOM_CTORS(linear_accelerometer);
-    linear_accelerometer() = default;
-    linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
-
-private cpp_members:
+    linear_accelerometer(detail::accelerometer_sensor_options_t&& options = {});
+    MAKE_PIMPL(linear_accelerometer);
     MAKE_V8_AVAILABLE;
 };
 

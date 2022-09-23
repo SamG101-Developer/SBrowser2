@@ -1,10 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_GRAVITY_SENSOR_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_GRAVITY_SENSOR_PRIVATE_HPP
 
+#include "accelerometer/accelerometer_private.hpp"
+
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(accelerometer, gravity_sensor) {};
+DEFINE_PRIVATE_CLASS(accelerometer, gravity_sensor) : accelerometer_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_GRAVITY_SENSOR_PRIVATE_HPP

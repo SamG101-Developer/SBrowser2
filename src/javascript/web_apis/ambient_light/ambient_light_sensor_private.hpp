@@ -1,10 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AMBIENT_LIGHT_AMBIENT_LIGHT_SENSOR_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AMBIENT_LIGHT_AMBIENT_LIGHT_SENSOR_PRIVATE_HPP
 
+#include "sensors/sensor_private.hpp"
+
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(ambient_light_sensor, ambient_light_sensor) {};
+DEFINE_PRIVATE_CLASS(ambient_light_sensor, ambient_light_sensor) : sensors::sensor_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_AMBIENT_LIGHT_AMBIENT_LIGHT_SENSOR_PRIVATE_HPP
