@@ -13,7 +13,6 @@ class contact_picker::contact_address
 {
 public constructors:
     contact_address();
-
     MAKE_PIMPL(contact_address);
     MAKE_V8_AVAILABLE;
 

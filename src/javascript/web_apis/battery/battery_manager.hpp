@@ -13,16 +13,14 @@ class battery::battery_manager
 {
 public constructors:
     DOM_CTORS(battery_manager);
-    battery_manager();
-
     MAKE_PIMPL(battery_manager);
     MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_GETTER(charging, ext::boolean) {return d_ptr->charging;}
-    DEFINE_GETTER(charging_time, ext::number<double>) {return d_ptr->charging_time;}
-    DEFINE_GETTER(discharging_time, ext::number<double>) {return d_ptr->discharging_time;}
-    DEFINE_GETTER(level, ext::number<double>) {return d_ptr->level;}
+    DEFINE_GETTER(charging, ext::boolean);
+    DEFINE_GETTER(charging_time, ext::number<double>);
+    DEFINE_GETTER(discharging_time, ext::number<double>);
+    DEFINE_GETTER(level, ext::number<double>);
 };
 
 

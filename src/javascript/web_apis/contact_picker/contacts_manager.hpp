@@ -19,7 +19,6 @@ class contact_picker::contacts_manager
 {
 public constructors:
     contacts_manager();
-
     MAKE_PIMPL(contacts_manager);
     MAKE_V8_AVAILABLE;
 

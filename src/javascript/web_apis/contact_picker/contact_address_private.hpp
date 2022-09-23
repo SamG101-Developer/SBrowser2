@@ -1,12 +1,14 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_PRIVATE_HPP
 
+#include "dom_object_private.hpp"
+
 #include "ext/pimpl.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
 
-DEFINE_PRIVATE_CLASS(contact_picker, contact_address)
+DEFINE_PRIVATE_CLASS(contact_picker, contact_address) : dom_object_private
 {
     ext::string country;
     ext::vector<ext::string> address_line;

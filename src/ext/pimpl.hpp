@@ -25,7 +25,7 @@
 // it acts like the 'this' pointer, for the PIMPL private class. In const-interface-methods, it will act as a
 // const-pointer-const pointer. Accessed as a raw pointer.
 #define ACCESS_PIMPL(Class) \
-    Class##_Private* const d = d_func()
+    Class##_private* const d = d_func()
 
 
 // Forward declare the existence of a private class in a namespace, and then begin the definition of the struct. Follow

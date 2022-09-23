@@ -4,16 +4,21 @@
 
 
 contact_picker::contact_address::contact_address()
-        : INIT_PIMPL
-{}
+{INIT_PIMPL(contact_address);}
 
 
 auto contact_picker::contact_address::get_city() const -> ext::string
-{return d_ptr->city;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->city;
+}
 
 
 auto contact_picker::contact_address::get_country() const -> ext::string
-{return d_ptr->country;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->country;
+}
 
 
 auto contact_picker::contact_address::get_dependant_locality() const -> ext::string
