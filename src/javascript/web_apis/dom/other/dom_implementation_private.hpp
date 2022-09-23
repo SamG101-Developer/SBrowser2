@@ -3,8 +3,13 @@
 
 #include "ext/pimpl.hpp"
 
+namespace dom::nodes {class document;}
 
-DEFINE_PRIVATE_CLASS(dom::other, dom_implementation) {};
+
+DEFINE_PRIVATE_CLASS(dom::other, dom_implementation)
+{
+    nodes::document* document;
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_OTHER_DOM_IMPLEMENTATION_PRIVATE_HPP

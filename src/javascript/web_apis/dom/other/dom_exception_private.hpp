@@ -9,7 +9,7 @@
 DEFINE_PRIVATE_CLASS(dom::other, dom_exception)
 {
     ext::string message;
-    v8_custom_error_t type;
+    v8_custom_error_t code;
 };
 
 
