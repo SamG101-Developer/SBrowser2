@@ -74,24 +74,11 @@ class dom::nodes::document
         , public xpath::xpath_evaluator_base
         , public ext::map_like<ext::string, ranges::any_view<element*>>
 {
-public aliases: // TODO : move to _typedefs.hpp
-    using module_map_t = ext::map<
-            ext::tuple<ext::string, url::detail::url_t*>,
-            ext::string>;
-
-    using html_or_svg_script_element_t = ext::variant<
-            std::unique_ptr<html::elements::html_script_element>,
-            std::unique_ptr<svg::elements::svg_script_element>>;
-
-public friends:
-    friend struct mixins::document_or_element_node;
-
-    friend auto dom::detail::lookup_custom_element_definition(
-            const nodes::document* document, ext::string_view namespace_, ext::string_view local_name,
-            ext::string_view is) -> detail::custom_element_definition_t*;
-
 public constructors:
     document();
+    MAKE_PIMPL(document);
+    MAKE_V8_AVAILABLE;
+    auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
 
 public js_methods:
     /* [DOM] */
@@ -139,14 +126,6 @@ public js_methods:
     auto layout_now() -> void;
 
 public js_properties:
-    /* [DOM] */
-    ext::property<ext::string> url;
-    ext::property<ext::string> compat_mode;
-    ext::property<ext::string> character_set;
-    ext::property<ext::string> content_type;
-    ext::property<document_type*> doctype;
-    ext::property<element*> document_element;
-    ext::property<other::dom_implementation*> implementation;
 
     /* [HTML] */
     ext::property<std::unique_ptr<html::other::location>> location;
@@ -182,60 +161,53 @@ public js_properties:
     /* [CSS_WEB_ANIMATIONS] */
     ext::property<css::css_web_animation::document_timeline*> timeline;
 
-private cpp_members:
-    MAKE_PIMPL(document);
-    MAKE_V8_AVAILABLE;
-
-public cpp_operators:
-    auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
-
-private cpp_accessors:
+private js_properties:
     /* [DOM] */
-    DEFINE_CUSTOM_GETTER(node_type) override {return DOCUMENT_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return "#document";}
-    DEFINE_CUSTOM_GETTER(node_value) override {return "";}
-    DEFINE_CUSTOM_GETTER(text_content) override {return "";}
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_NODE;}
+    DEFINE_GETTER(node_name, ext::string) override {return "#document";}
+    DEFINE_GETTER(node_value, ext::string) override {return "";}
+    DEFINE_GETTER(text_content, ext::string) override {return "";}
 
-    DEFINE_CUSTOM_SETTER(node_value) override {};
-    DEFINE_CUSTOM_SETTER(text_content) override {}
+    DEFINE_SETTER(node_value, ext::string) override {};
+    DEFINE_SETTER(text_content, ext::string) override {}
 
-    DEFINE_CUSTOM_GETTER(url);
-    DEFINE_CUSTOM_GETTER(compat_mode);
-    DEFINE_CUSTOM_GETTER(character_set);
-    DEFINE_CUSTOM_GETTER(content_type) {return d_ptr->content_type;}
-    DEFINE_CUSTOM_GETTER(doctype);
-    DEFINE_CUSTOM_GETTER(document_element);
-    DEFINE_CUSTOM_GETTER(implementation) {return d_ptr->implementation;}
+    DEFINE_GETTER(url, ext::string);
+    DEFINE_GETTER(compat_mode, ext::string);
+    DEFINE_GETTER(character_set, ext::string);
+    DEFINE_GETTER(content_type, ext::string);
+    DEFINE_GETTER(doctype, document_type*);
+    DEFINE_GETTER(document_element, element*);
+    DEFINE_GETTER(implementation, other::dom_implementation*);
 
     /* [HTML] */
-    DEFINE_CUSTOM_GETTER(last_modified);
-    DEFINE_CUSTOM_GETTER(cookie);
-    DEFINE_CUSTOM_GETTER(body);
-    DEFINE_CUSTOM_GETTER(head);
-    DEFINE_CUSTOM_GETTER(title);
-    DEFINE_CUSTOM_GETTER(images);
-    DEFINE_CUSTOM_GETTER(links);
-    DEFINE_CUSTOM_GETTER(forms);
-    DEFINE_CUSTOM_GETTER(scripts);
-    DEFINE_CUSTOM_GETTER(dir);
-    DEFINE_CUSTOM_GETTER(design_mode);
-    DEFINE_CUSTOM_GETTER(domain);
+    DEFINE_GETTER(last_modified);
+    DEFINE_GETTER(cookie);
+    DEFINE_GETTER(body);
+    DEFINE_GETTER(head);
+    DEFINE_GETTER(title);
+    DEFINE_GETTER(images);
+    DEFINE_GETTER(links);
+    DEFINE_GETTER(forms);
+    DEFINE_GETTER(scripts);
+    DEFINE_GETTER(dir);
+    DEFINE_GETTER(design_mode);
+    DEFINE_GETTER(domain);
 
-    DEFINE_CUSTOM_SETTER(ready_state);
-    DEFINE_CUSTOM_SETTER(cookie);
-    DEFINE_CUSTOM_SETTER(title);
-    DEFINE_CUSTOM_SETTER(body);
-    DEFINE_CUSTOM_SETTER(design_mode);
-    DEFINE_CUSTOM_SETTER(domain);
+    DEFINE_SETTER(ready_state);
+    DEFINE_SETTER(cookie);
+    DEFINE_SETTER(title);
+    DEFINE_SETTER(body);
+    DEFINE_SETTER(design_mode);
+    DEFINE_SETTER(domain);
 
     /* [PAGE_VISIBILITY] */
-    DEFINE_CUSTOM_GETTER(hidden);
-    DEFINE_CUSTOM_GETTER(visibility_state);
+    DEFINE_GETTER(hidden);
+    DEFINE_GETTER(visibility_state);
 
     DEFINE_CUSTOM_SETTER(visibility_state);
 
     /* [CSS_WEB_ANIMATIONS] */
-    DEFINE_CUSTOM_GETTER(timeline);
+    DEFINE_GETTER(timeline);
 };
 
 

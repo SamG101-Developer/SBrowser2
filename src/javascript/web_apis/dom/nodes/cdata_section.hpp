@@ -18,8 +18,8 @@ public cpp_members:
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_type) override {return CDATA_SECTION_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return "#cdata-section";};
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return CDATA_SECTION_NODE;}
+    DEFINE_GETTER(node_name, ext::string) override {return "#cdata-section";}
 };
 
 

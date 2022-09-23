@@ -13,14 +13,12 @@ class dom::nodes::comment final
 {
 public constructors:
     explicit comment(ext::string&& new_data = "");
-
-public cpp_members:
     MAKE_PIMPL(comment);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_type) override {return COMMENT_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return "#comment";}
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return COMMENT_NODE;}
+    DEFINE_GETTER(node_name, ext::string) override {return "#comment";}
 };
 
 

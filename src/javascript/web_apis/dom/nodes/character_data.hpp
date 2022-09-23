@@ -16,32 +16,29 @@ class dom::nodes::character_data
 {
 public constructors:
     character_data();
-
-public js_methods:
-    [[nodiscard]] auto substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string;
-    auto append_data(ext::string&& new_data) -> void;
-    auto insert_data(ext::number<ulong> offset, ext::string&& new_data) -> void;
-    auto delete_data(ext::number<ulong> offset, ext::number<ulong> count) -> void;
-    auto replace_data(ext::number<ulong> offset, ext::number<ulong> count, ext::string&& new_data) -> void;
-
-public js_properties:
-    ext::property<ext::string> data;
-    ext::property<ext::number<ulong>> length;
-
-public cpp_members:
     MAKE_PIMPL(character_data);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_name) override {return "";};
-    DEFINE_CUSTOM_GETTER(node_value) override {return data();};
-    DEFINE_CUSTOM_GETTER(text_content) override {return data();};
-    DEFINE_CUSTOM_GETTER(data) {return d_ptr->data;}
-    DEFINE_CUSTOM_GETTER(length) {return d_ptr->data.length();};
+public js_methods:
+    [[nodiscard]] auto substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string;
+    auto append_data(ext::string&& new_data) -> ext::string;
+    auto insert_data(ext::number<ulong> offset, ext::string&& new_data) -> ext::string;
+    auto delete_data(ext::number<ulong> offset, ext::number<ulong> count) -> ext::string;
+    auto replace_data(ext::number<ulong> offset, ext::number<ulong> count, ext::string&& new_data) -> ext::string;
 
-    DEFINE_CUSTOM_SETTER(node_value) override {replace_data(0, length(), std::move(val));};
-    DEFINE_CUSTOM_SETTER(text_content) override {replace_data(0, length(), std::move(val));};
-    DEFINE_CUSTOM_SETTER(data) {d_ptr->data = val;}
+private cpp_accessors:
+    DEFINE_GETTER(node_name, ext::string) override {return "";};
+    DEFINE_GETTER(node_value, ext::string) override {return d_ptr->data;};
+    DEFINE_GETTER(text_content, ext::string) override {return d_ptr->data;};
+
+    DEFINE_SETTER(node_value, ext::string) override {return replace_data(0, d_ptr->data.length(), std::move(new_node_value));};
+    DEFINE_SETTER(text_content, ext::string) override {return replace_data(0, d_ptr->data.length(), std::move(new_text_content));};
+
+
+    DEFINE_GETTER(data, ext::string) {return d_ptr->data;}
+    DEFINE_GETTER(length, ext::number<ulong>) {return d_ptr->data.length();};
+
+    DEFINE_SETTER(data, ext::string) {return d_ptr->data = std::move(new_data);}
 };
 
 
