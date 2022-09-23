@@ -3,8 +3,10 @@
 #include "css/cssom/detail/miscellaneous_query_internals.hpp"
 
 
-auto dom::nodes::processing_instruction::set_data(
-        const decltype(data)::value_t & val) -> void
+dom::nodes::processing_instruction::processing_instruction() : INIT_PIMPL {}
+
+
+auto dom::nodes::processing_instruction::set_data(ext::string val) -> ext::string
 {
     character_data::d_ptr->data = val;
     css::detail::processing_instruction_prolog_steps(this);
@@ -17,7 +19,7 @@ auto dom::nodes::processing_instruction::to_v8(
 {
     decltype(auto) conversion = v8pp::class_<processing_instruction>{isolate}
             .inherit<character_data>()
-            .var("target", &processing_instruction::target, true)
+            .property("target", &processing_instruction::get_target)
             .auto_wrap_objects();
 
     return std::move(conversion);

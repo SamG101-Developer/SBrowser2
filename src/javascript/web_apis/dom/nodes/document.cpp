@@ -31,6 +31,7 @@
 #include "html/elements/html_link_element.hpp"
 #include "html/elements/html_script_element.hpp"
 #include "html/elements/html_title_element.hpp"
+#include "html/other/location.hpp"
 
 #include "file_api/detail/blob_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"
@@ -55,35 +56,11 @@
 
 dom::nodes::document::document()
         : INIT_PIMPL
-        , url{std::make_unique<url::detail::url_t>("about:blank")}
-        , implementation{std::make_unique<other::dom_implementation>()}
-        , content_type{"application/xml"}
-        , ready_state{"complete"}
-        , current_script{nullptr}
-        , permissions_policy{std::make_unique<permissions_policy::permissions_policy_object>()}
 {
-    bind_get(compat_mode);
-    bind_get(character_set);
-    bind_get(doctype);
-    bind_get(document_element);
-
-    bind_get(last_modified);
-    bind_get(cookie);
-    bind_get(body);
-    bind_get(head);
-    bind_get(title);
-    bind_get(images);
-    bind_get(links);
-    bind_get(forms);
-    bind_get(scripts);
-    bind_get(dir);
-
-    bind_set(ready_state);
-    bind_set(cookie);
-    bind_set(title);
-    bind_set(body);
-
     JS_REALM_GET_SURROUNDING(this);
+    d_ptr->url = std::make_unique<url::detail::url_t>("about:blank");
+    d_ptr->content_type = "application/xml";
+    d_ptr->ready_state = "complete";
     d_ptr->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
     this->event_target::d_ptr->get_the_parent =
             [this](events::event* event)
@@ -107,8 +84,8 @@ auto dom::nodes::document::create_element(
     CE_REACTIONS_METHOD_DEF
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
-        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), m_type == "html");
-        auto html_adjusted_namespace_ = m_type == "html" || content_type() == "application/xhtml+xml" ? detail::HTML : "";
+        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d_ptr->type == "html");
+        auto html_adjusted_namespace_ = d_ptr->type == "html" || d_ptr->content_type == "application/xhtml+xml" ? detail::HTML : "";
         auto is = options.try_emplace("is", "").first->second.to<ext::string>();
 
         // create the Element node with the html adjusted variables
@@ -139,8 +116,8 @@ auto dom::nodes::document::create_document_fragment()
         const -> document_fragment
 {
     // create a DocumentFragment node, and set its owner document to this document
-    document_fragment node;
-    node.owner_document = const_cast<document*>(this);
+    auto node = document_fragment{};
+    node.node::d_ptr->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -150,9 +127,9 @@ auto dom::nodes::document::create_text_node(
         const -> text
 {
     // create a Text node, and set its data and owner document to the 'data' parameter and this document
-    text node;
-    node.data = std::move(data);
-    node.owner_document = const_cast<document*>(this);
+    auto node = text{};
+    node.character_data::d_ptr->data = std::move(data);
+    node.node::d_ptr->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -162,16 +139,16 @@ auto dom::nodes::document::create_cdata_section_node(
         const -> cdata_section
 {
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [this] {return m_type == "html";},
+            [this, type = d_ptr->type] {return type == "html";},
             "Cannot create a CDataSection node in a HTML Document");
 
     detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
             [data = std::move(data)] {return ranges::contains(data, "]]>");},
             "Cannot create a CDataSection node with ']]>' in the data");
 
-    cdata_section node;
-    node.data = std::move(data);
-    node.owner_document = const_cast<document*>(this);
+    auto node = cdata_section{};
+    node.character_data::d_ptr->data = std::move(data);
+    node.node::d_ptr->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -180,9 +157,9 @@ auto dom::nodes::document::create_comment(
         ext::string&& data)
         const -> comment
 {
-    comment node;
-    node.data = std::move(data);
-    node.owner_document = const_cast<document*>(this);
+    auto node = comment{};
+    node.character_data::d_ptr->data = std::move(data);
+    node.node::d_ptr->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -196,10 +173,10 @@ auto dom::nodes::document::create_processing_instruction(
             [data = std::move(data)] {return ranges::contains(data, "?>");},
             "Cannot create a CDataSection node with '?>' in the data");
 
-    processing_instruction node;
-    node.data = std::move(data);
-    node.target = std::move(target);
-    node.owner_document = const_cast<document*>(this);
+    auto node = processing_instruction{};
+    node.character_data::d_ptr->data = std::move(data);
+    node.d_ptr->target = std::move(target);
+    node.node::d_ptr->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -208,13 +185,13 @@ auto dom::nodes::document::create_attribute(
         ext::string&& local_name)
         const -> attr
 {
-    auto html_adjusted_local_name = m_type == "html"
+    auto html_adjusted_local_name = d_ptr->type == "html"
             ? local_name | ranges::views::lowercase() | ranges::to<ext::string>
             : std::move(local_name);
 
-    attr node;
-    node.local_name = html_adjusted_local_name;
-    node.owner_document = const_cast<document*>(this);
+    auto node = attr{};
+    node.d_ptr->local_name = html_adjusted_local_name;
+    node.node::d_ptr->owner_document = const_cast<document*>(this);
     return node;
 }
 
@@ -227,10 +204,10 @@ auto dom::nodes::document::create_attribute_ns(
     auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
 
     attr node;
-    node.local_name = std::move(local_name);
-    node.prefix = std::move(prefix);
-    node.namespace_uri = std::move(namespace_);
-    node.owner_document = const_cast<document*>(this);
+    node.d_ptr->local_name = std::move(local_name);
+    node.d_ptr->namespace_prefix = std::move(prefix);
+    node.d_ptr->namespace_ = std::move(namespace_);
+    node.node::d_ptr->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -238,7 +215,7 @@ auto dom::nodes::document::create_attribute_ns(
 auto dom::nodes::document::create_range()
         const -> node_ranges::range
 {
-    node_ranges::range live_range;
+    auto live_range = node_ranges::range{};
 
     tuplet::tie(live_range.start_container, live_range.start_offset) = tuplet::make_tuple(const_cast<document*>(this), 0);
     tuplet::tie(live_range.end_container, live_range.end_offset) = tuplet::make_tuple(const_cast<document*>(this), 0);
@@ -545,7 +522,7 @@ auto dom::nodes::document::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<document>{isolate}
-            .auto_wrap_objects();
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }

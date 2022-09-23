@@ -18,21 +18,15 @@ class dom::nodes::shadow_root final
 public constructors:
     shadow_root();
 
-public js_properties:
-    ext::property<std::unique_ptr<element>> host;
-    ext::property<detail::shadow_root_mode_t> mode;
-    ext::property<detail::slot_assignment_mode_t> slot_assignment;
-    ext::property<ext::boolean> delegates_focus;
-
 private cpp_members:
     MAKE_PIMPL(shadow_root);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(host) {return document_fragment::d_ptr->host;}
-    DEFINE_CUSTOM_GETTER(mode) {return d_ptr->mode;}
-    DEFINE_CUSTOM_GETTER(slot_assignment) {return d_ptr->slot_assignment;}
-    DEFINE_CUSTOM_GETTER(delegates_focus) {return d_ptr->delegates_focus;}
+    DEFINE_GETTER(host, dom::nodes::element*) {return document_fragment::d_ptr->host;}
+    DEFINE_GETTER(mode, detail::shadow_root_mode_t) {return d_ptr->mode;}
+    DEFINE_GETTER(slot_assignment, detail::slot_assignment_mode_t) {return d_ptr->slot_assignment;}
+    DEFINE_GETTER(delegates_focus, ext::boolean) {return d_ptr->delegates_focus;}
 };
 
 

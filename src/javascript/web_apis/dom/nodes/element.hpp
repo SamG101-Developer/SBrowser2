@@ -29,11 +29,8 @@ namespace dom::nodes {class element;}
 namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
-namespace dom::detail {auto handle_attributes_changes(const nodes::attr*, nodes::element*, const ext::string&, const ext::string&) -> void;}
-namespace dom::detail {auto create_an_element(nodes::document*, const ext::string&, const ext::string&, const ext::string&, const ext::string&, ext::boolean ) -> nodes::element*;}
-namespace dom::detail {auto upgrade_element(custom_element_definition_t*, nodes::element*) -> void;}
-namespace dom::detail {auto try_to_upgrade_element(nodes::element* element) -> void;}
 namespace edit_context {class edit_context;}
+
 
 #include "dom/nodes/element_private.hpp"
 
@@ -48,29 +45,10 @@ class dom::nodes::element
         , public aria::mixins::aria_mixin
         , public css::css_web_animations::mixins::animatable
 {
-public friends:
-    friend class node;
-    friend struct mixins::document_or_element_node;
-
-    friend auto detail::handle_attributes_changes(
-            const nodes::attr* attribute, nodes::element* owner_element, const ext::string& old_value,
-            const ext::string& new_value) -> void;
-
-    friend auto detail::create_an_element(
-            nodes::document* document, const ext::string& local_name, const ext::string& namespace_,
-            const ext::string& prefix, const ext::string& is, ext::boolean  synchronous_custom_elements_flag)
-            -> nodes::element*;
-
-    friend auto detail::upgrade_element(
-            detail::custom_element_definition_t* definition, nodes::element* element) -> void;
-
-    friend auto detail::try_to_upgrade_element(
-            nodes::element* element) -> void;
-
 public constructors:
     DOM_CTORS(element);
-    element();
-    ~element() override;
+    MAKE_PIMPL(element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     /* DOM */
@@ -124,34 +102,28 @@ public js_methods:
     auto get_fragment_information(css::detail::fragment_filter_t filter) -> ext::promise<css::box_tree::dead_fragent_information*>;
     
 public js_properties:
-    ext::property<ext::string> namespace_uri;
-    ext::property<ext::string> prefix;
-    ext::property<ext::string> local_name;
-    ext::property<ext::string> tag_name;
-    ext::property<ext::string> class_name; // TODO CE_REACTIONS
-    ext::property<ext::string> slot; // TODO CE_REACTIONS
-    ext::property<ext::string> id; // TODO CE_REACTIONS
-    ext::property<std::unique_ptr<shadow_root>> shadow_root_node;
-    ext::property<std::unique_ptr<ext::vector<attr*>>> attributes;
-    ext::property<std::unique_ptr<ext::vector<ext::string>>> class_list;
+    /* [DOM] */
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return ELEMENT_NODE;}
+    DEFINE_GETTER(node_name, ext::string) override;
+    DEFINE_GETTER(node_value, ext::string) override;
+    DEFINE_GETTER(text_content, ext::string) override;
 
-    /* EDIT_CONTENT */
-    ext::property<std::unique_ptr<edit_context::edit_context>> edit_context;
+    DEFINE_SETTER(node_value, ext::string) override;
+    DEFINE_SETTER(text_content, ext::string) override;
 
-public cpp_members:
-    MAKE_PIMPL(element);
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(namespace_uri, ext::string);
+    DEFINE_GETTER(prefix, ext::string);
+    DEFINE_GETTER(local_name, ext::string);
+    DEFINE_GETTER(tag_name, ext::string);
+    DEFINE_GETTER(class_list, ext::vector<ext::string>);
+    DEFINE_GETTER(class_name, ext::string); // TODO : ce-reactions
+    DEFINE_GETTER(slot, ext::string); // TODO : ce-reactions
+    DEFINE_GETTER(id, ext::string); // TODO : ce-reactions
+    DEFINE_GETTER(shadow_root, nodes::shadow_root*);
+    DEFINE_GETTER(attributes, ranges::any_view<attr*>);
 
-private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_type) override {return ELEMENT_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override;
-    DEFINE_CUSTOM_GETTER(node_value) override;
-    DEFINE_CUSTOM_GETTER(text_content) override;
-    DEFINE_CUSTOM_SETTER(node_value) override;
-    DEFINE_CUSTOM_SETTER(text_content) override;
-
-    DEFINE_CUSTOM_GETTER(tag_name);
-    DEFINE_CUSTOM_GETTER(shadow_root_node);
+    /* [EDIT_CONTENT] */
+    DEFINE_GETTER(edit_contxt, edit_context::edit_context*);
 };
 
 

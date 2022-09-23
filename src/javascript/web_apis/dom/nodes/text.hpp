@@ -13,22 +13,17 @@ class dom::nodes::text
         , public mixins::slottable
 {
 public constructors:
-    explicit text(ext::string&& new_data = "");
+    text(ext::string&& new_data = "");
+    MAKE_PIMPL(text);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto split_text(ext::number<ulong> offset) -> text;
 
 public js_properties:
-    ext::property<ext::string> whole_text;
-
-public cpp_members:
-    MAKE_PIMPL(text);
-    MAKE_V8_AVAILABLE;
-
-private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_type) override {return TEXT_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return "#text";};
-    DEFINE_CUSTOM_GETTER(whole_text);
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return TEXT_NODE;}
+    DEFINE_GETTER(node_name, ext::string) override {return "#text";};
+    DEFINE_GETTER(whole_text, ext::string);
 };
 
 

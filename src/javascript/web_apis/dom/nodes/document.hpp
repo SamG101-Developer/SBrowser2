@@ -22,6 +22,7 @@ namespace dom::nodes {class document;}
 #include INCLUDE_INNER_TYPES(css/css_animation_worklet)
 #include INCLUDE_INNER_TYPES(css/css_layout)
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
+#include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(permissions_policy)
 #include INCLUDE_INNER_TYPES(page_visibility)
@@ -143,7 +144,7 @@ public js_properties:
     ext::property<ranges::any_view<html::elements::html_link_element*>> links;
     ext::property<ranges::any_view<html::elements::html_form_element*>> forms;
     ext::property<ranges::any_view<html::elements::html_script_element*>> scripts;
-    ext::property<html_or_svg_script_element_t> current_script;
+    ext::property<detail::html_or_svg_script_element_t> current_script;
 
     ext::property<window_proxy*> default_view;
     ext::property<ext::string> design_mode;

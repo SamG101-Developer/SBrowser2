@@ -91,7 +91,7 @@ auto dom::nodes::event_target::dispatch_event(
             "Event must be initialized and not dispatched in order be dispatched");
 
     // set the event trusted to false (manual dispatch), and dispatch the event through the tree
-    event->is_trusted = ext::boolean::FALSE_();
+    event->d_ptr->is_trusted = ext::boolean::FALSE_();
     return detail::dispatch(event, this);
 }
 

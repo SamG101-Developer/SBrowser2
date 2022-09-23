@@ -183,7 +183,7 @@ namespace ranges::views
                 | ranges::views::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
                 | ranges::views::values;
     };
-};
+}
 
 
 /* ACTIONS */

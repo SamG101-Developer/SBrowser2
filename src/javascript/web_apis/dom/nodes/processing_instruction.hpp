@@ -12,19 +12,17 @@ class dom::nodes::processing_instruction final
         : public character_data
         , public css::cssom::mixins::link_style
 {
-public js_properties:
-    ext::property<ext::string> target;
-
 public cpp_members:
+    processing_instruction();
     MAKE_PIMPL(processing_instruction);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_type) override {return PROCESSING_INSTRUCTION_NODE;}
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return PROCESSING_INSTRUCTION_NODE;}
 
     /* CSSOM */
-    DEFINE_CUSTOM_GETTER(target) {return d_ptr->target;}
-    DEFINE_CUSTOM_SETTER(data);
+    DEFINE_GETTER(target, ext::string) {return d_ptr->target;}
+    DEFINE_SETTER(data, ext::string);
 };
 
 

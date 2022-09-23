@@ -11,9 +11,20 @@
 
 DEFINE_PRIVATE_CLASS(dom::nodes, element)
 {
-    ext::string is;
+    ext::string namespace_;
+    ext::string namespace_prefix;
+    ext::string local_name;
     detail::custom_element_definition_t* custom_element_definition;
     detail::custom_element_state_t custom_element_state;
+    ext::string is;
+
+    shadow_root* shadow_root;
+    ext::string id;
+    ext::string class_;
+    ext::string slot;
+
+    ext::vector<std::unique_ptr<attr>> attribute_list;
+
     ext::queue<detail::reaction_t*> custom_element_reaction_queue;
     std::unique_ptr<html::detail::browsing_context_t> nested_browsing_context;
 

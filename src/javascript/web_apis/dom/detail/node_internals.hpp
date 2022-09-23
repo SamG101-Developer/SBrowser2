@@ -3,13 +3,11 @@
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 namespace dom::nodes {class event_target;}
-
-
-#include INCLUDE_INNER_TYPES(dom)
 
 
 namespace dom::detail
@@ -89,15 +87,15 @@ namespace dom::detail
 
     // element stuff
     auto qualified_name(
-            nodes::element* element)
+            const nodes::element* element)
             -> ext::string;
 
     auto html_uppercase_qualified_name(
-            nodes::element* element)
+            const nodes::element* element)
             -> ext::string;
 
     auto html_lowercase_qualified_name(
-            nodes::element* element)
+            const nodes::element* element)
             -> ext::string;
 }
 

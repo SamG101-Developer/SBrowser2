@@ -13,27 +13,24 @@ class dom::nodes::document_type final
         : public node
         , public mixins::child_node
 {
-public js_methods:
-    ext::property<ext::string> name;
-    ext::property<ext::string> public_id;
-    ext::property<ext::string> system_id;
 
-public cpp_members:
+public constructors:
+    document_type();
     MAKE_PIMPL(document_type);
     MAKE_V8_AVAILABLE;
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(node_type) override {return DOCUMENT_TYPE_NODE;}
-    DEFINE_CUSTOM_GETTER(node_name) override {return name();};
-    DEFINE_CUSTOM_GETTER(node_value) override {return "";};
-    DEFINE_CUSTOM_GETTER(text_content) override {return "";};
+    DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_TYPE_NODE;}
+    DEFINE_GETTER(node_name, ext::string) override {return d_ptr->name;}
+    DEFINE_GETTER(node_value, ext::string) override {return "";}
+    DEFINE_GETTER(text_content, ext::string) override {return "";}
 
-    DEFINE_CUSTOM_SETTER(node_value) override {};
-    DEFINE_CUSTOM_SETTER(text_content) override {};
+    DEFINE_SETTER(node_value, ext::string) override {}
+    DEFINE_SETTER(text_content, ext::string) override {}
 
-    DEFINE_CUSTOM_GETTER(name) {return d_ptr->name;}
-    DEFINE_CUSTOM_GETTER(public_id) {return d_ptr->public_id;}
-    DEFINE_CUSTOM_GETTER(system_id) {return d_ptr->system_id;}
+    DEFINE_GETTER(name, ext::string) {return d_ptr->name;}
+    DEFINE_GETTER(public_id, ext::string) {return d_ptr->public_id;}
+    DEFINE_GETTER(system_id, ext::string) {return d_ptr->system_id;}
 };
 
 
