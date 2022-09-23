@@ -18,7 +18,7 @@ public constructors:
     extendable_message_event() = default;
     extendable_message_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::any> data;
     ext::property<ext::string> origin;
     ext::property<ext::string> last_event_id;

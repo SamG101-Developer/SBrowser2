@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(html_meter_element);
     html_meter_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> value;
     ext::property<ext::number<double>> min;
     ext::property<ext::number<double>> max;

@@ -14,7 +14,7 @@ public constructors:
     file(ext::vector<detail::blob_part_t>&& file_bits, ext::string&& file_name, detail::file_property_bag_t&& options = {});
     ~file() override = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<ext::number<longlong>> last_modified;
 

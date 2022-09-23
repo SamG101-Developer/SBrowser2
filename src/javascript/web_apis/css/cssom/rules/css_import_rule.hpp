@@ -14,12 +14,12 @@ class css::cssom::rules::css_import_rule
 public constructors:
     css_import_rule();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> href;
     ext::property<ext::vector<ext::string>> media;
     ext::property<style_sheets::css_style_sheet*> style_sheet;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(href);
     DEFINE_CUSTOM_GETTER(media);
     DEFINE_CUSTOM_GETTER(style_sheet);

@@ -24,7 +24,7 @@ public js_methods:
     auto next_node() -> nodes::node*;
     auto prev_node() -> nodes::node*;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(reference_node, nodes::node*) {return d_ptr->reference;}
     DEFINE_GETTER(pointer_before_reference_node, ext::boolean) {return d_ptr->pointer_before_reference;}
 };

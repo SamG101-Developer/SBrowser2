@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(dom_exception);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(message, ext::string) {return d_ptr->message;}
     DEFINE_GETTER(code, v8_custom_error_t) {return d_ptr->code;};
     DEFINE_GETTER(name, ext::string_view) {return magic_enum::enum_name(d_ptr->code);}

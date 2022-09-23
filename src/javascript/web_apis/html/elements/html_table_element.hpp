@@ -32,7 +32,7 @@ public js_methods:
     auto insert_row(ext::number<long> index = -1) -> html_table_row_element;
     auto delete_row(ext::number<long> index = -1) -> html_table_row_element;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<html_table_caption_element>> caption;
     ext::property<std::unique_ptr<html_table_section_element>> t_head;
     ext::property<std::unique_ptr<html_table_section_element>> t_foot;

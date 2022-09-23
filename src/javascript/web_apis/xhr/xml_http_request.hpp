@@ -40,7 +40,7 @@ public js_methods:
     auto get_all_response_header() -> ext::string_view;
     auto override_mimetype(ext::string_view mime) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ushort>> ready_state;
 
     ext::property<ext::string> response_url;

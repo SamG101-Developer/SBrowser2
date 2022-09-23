@@ -19,7 +19,7 @@ public constructors:
 public js_methods:
     static auto is_conditional_mediation_available() -> ext::promise<ext::boolean>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> id;
     ext::property<ext::string> type;
 
@@ -36,7 +36,7 @@ private js_slots:
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(type) {return s_type();}
 };
 

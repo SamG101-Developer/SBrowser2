@@ -21,7 +21,7 @@ public js_methods:
 
     auto clone() -> response;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> type; // TODO : constrain property value
     ext::property<ext::string> url;
     ext::property<ext::boolean> redirected;

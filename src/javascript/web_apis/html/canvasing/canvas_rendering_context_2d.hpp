@@ -52,7 +52,7 @@ public constructors:
 public js_methods:
     auto get_context_attributes() -> canvas_rendering_context_2d_settings;
 
-public js_properties:
+private js_properties:
     ext::property<elements::html_canvas_element*> canvas;
 
 public cpp_methods:

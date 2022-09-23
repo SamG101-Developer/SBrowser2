@@ -23,7 +23,7 @@ public constructors:
 public js_methods:
     auto get_svg_document() -> dom::nodes::document*;
 
-public js_properties:
+private js_properties:
     /* HTML */
     ext::property<ext::string> src;
     ext::property<ext::string> srcdoc;
@@ -54,7 +54,7 @@ private cpp_properties:
     /* FULLSCREEN */
     ext::boolean m_iframe_fullscreen_flag;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(content_document);
     DEFINE_CUSTOM_GETTER(content_window);
     DEFINE_CUSTOM_SETTER(sandbox);

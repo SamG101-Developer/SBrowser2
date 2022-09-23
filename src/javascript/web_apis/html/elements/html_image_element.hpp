@@ -24,7 +24,7 @@ public constructors:
 public js_methods:
     auto decode() -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> alt;
     ext::property<ext::string> src;
     ext::property<ext::string> srcset;
@@ -56,7 +56,7 @@ private cpp_properties:
     ext::set<html::detail::image_source_t*> m_source_set;
     ext::number<int> m_source_size;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(current_src);
     DEFINE_CUSTOM_GETTER(srcset);
     DEFINE_CUSTOM_GETTER(width);

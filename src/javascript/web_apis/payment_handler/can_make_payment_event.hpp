@@ -19,7 +19,7 @@ public constructors:
 public js_methods:
     auto response_with(const ext::promise<ext::boolean>& can_make_payment_response) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> top_origin;
     ext::property<ext::string> payment_request_origin;
     ext::property<const ext::vector<detail::payment_method_data_t>> method_data;

@@ -70,7 +70,7 @@ public js_methods:
     /* GAMEPAD */
     auto get_gamepads() -> ext::vector<gamepad::gamepad*>&;
 
-public js_properties:
+private js_properties:
     /* MEDIACAPTURE_MAIN */
     ext::property<std::unique_ptr<mediacapture::main::media_devices>> media_devices;
 

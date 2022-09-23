@@ -18,7 +18,7 @@ public constructors:
     DOM_CTORS(html_area_element);
     html_area_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> alt;
     ext::property<ext::string> coords;
     ext::property<detail::area_shape_t> shape;

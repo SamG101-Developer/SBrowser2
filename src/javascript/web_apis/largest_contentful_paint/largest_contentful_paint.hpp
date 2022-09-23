@@ -16,7 +16,7 @@ public constructors:
     DOM_CTORS(largest_contentful_paint);
     largest_contentful_paint() = default;
 
-public js_properties:
+private js_properties:
     ext::property<hr_time::dom_high_res_time_stamp> render_time;
     ext::property<hr_time::dom_high_res_time_stamp> load_time;
     ext::property<ext::number<ulong>> size;

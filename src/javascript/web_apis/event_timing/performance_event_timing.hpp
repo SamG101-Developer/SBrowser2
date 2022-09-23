@@ -16,7 +16,7 @@ class event_timing::performance_event_timing
 public constructors:
     performance_event_timing();
 
-public js_properties:
+private js_properties:
     ext::property<hr_time::dom_high_res_time_stamp> processing_start;
     ext::property<hr_time::dom_high_res_time_stamp> processing_end;
     ext::property<ext::boolean> cancelable;
@@ -31,7 +31,7 @@ private cpp_properties:
     dom::nodes::event_target* m_event_target;
     dom::events::event* m_event;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(processing_start);
     DEFINE_CUSTOM_GETTER(processing_end);
     DEFINE_CUSTOM_GETTER(cancelable);

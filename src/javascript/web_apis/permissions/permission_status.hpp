@@ -14,7 +14,7 @@ public constructors:
     permission_status();
     permission_status(detail::permissions_descriptor_t&& permission_descriptor);
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> state;
     ext::property<ext::string> name;
 

@@ -23,7 +23,7 @@ public js_methods:
     virtual auto encode(audio::audio_data* data) -> void {};
     virtual auto encode(video::video_data* data) -> void {};
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> encode_queue_size;
 
 protected js_slots:
@@ -31,7 +31,7 @@ protected js_slots:
     ext::slot<ext::map<ext::string, ext::any>> s_active_encode_config;
     ext::slot<ext::map<ext::string, ext::any>> s_active_output_config;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(encode_queue_size);
 };
 

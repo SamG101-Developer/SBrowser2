@@ -18,7 +18,7 @@ public js_methods:
     auto focus(ext::map<ext::string, ext::any>&& options = {}) -> void;
     auto blur();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> nonce;
     ext::property<ext::map<ext::string, ext::any>> dataset;
 

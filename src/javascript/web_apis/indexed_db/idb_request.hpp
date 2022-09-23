@@ -37,7 +37,7 @@ private cpp_properties:
     ext::boolean m_done_flag;
     ext::boolean m_processed_flag;
 
-private cpp_accessors:
+private js_properties:
     _EXT_NODISCARD auto get_result() const -> ext::any;
     _EXT_NODISCARD auto get_error() const -> dom::other::dom_exception;
     _EXT_NODISCARD auto get_ready_state() const -> idb_request_ready_state;

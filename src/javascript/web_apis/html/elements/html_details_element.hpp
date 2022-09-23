@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(html_details_element);
     html_details_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> open;
 
 public cpp_methods:

@@ -22,7 +22,7 @@ private cpp_members:
     MAKE_PIMPL(shadow_root);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(host, dom::nodes::element*) {return document_fragment::d_ptr->host;}
     DEFINE_GETTER(mode, detail::shadow_root_mode_t) {return d_ptr->mode;}
     DEFINE_GETTER(slot_assignment, detail::slot_assignment_mode_t) {return d_ptr->slot_assignment;}

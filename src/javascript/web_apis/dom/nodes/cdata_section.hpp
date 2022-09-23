@@ -17,7 +17,7 @@ public cpp_members:
     MAKE_PIMPL(cdata_section);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return CDATA_SECTION_NODE;}
     DEFINE_GETTER(node_name, ext::string) override {return "#cdata-section";}
 };

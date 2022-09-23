@@ -19,7 +19,7 @@ public constructors:
     DOM_CTORS(html_select_element);
     html_select_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> autocomplete;
     ext::property<ext::string> name;
     ext::property<ext::string> type;

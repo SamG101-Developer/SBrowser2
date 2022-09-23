@@ -29,7 +29,7 @@ public js_methods:
     auto attached_element() -> ext::vector<dom::nodes::element*>;
     auto character_bounds() -> ext::vector<css::geometry::dom_rect*>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> text;
     ext::property<ext::number<ulong>> selection_start;
     ext::property<ext::number<ulong>> selection_end;

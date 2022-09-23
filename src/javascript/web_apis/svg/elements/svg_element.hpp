@@ -19,12 +19,12 @@ public constructors:
     DOM_CTORS(svg_element);
     svg_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<types::svg_animated_string> class_name;
     ext::property<svg_svg_element*> owner_svg_element;
     ext::property<svg_element*> viewport_element;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(owner_svg_element);
     DEFINE_CUSTOM_GETTER(viewport_element);
 };

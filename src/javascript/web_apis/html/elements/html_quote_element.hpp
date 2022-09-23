@@ -11,7 +11,7 @@ class html::elements::html_quote_element
 public constructors:
     html_quote_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string, true> cite;
 
 public cpp_methods:

@@ -18,7 +18,7 @@ class css::cssom::style_sheets::style_sheet
 public constructors:
     style_sheet();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> type;
     ext::property<ext::string> href;
     ext::property<ext::string> title;
@@ -32,7 +32,7 @@ private cpp_members:
     MAKE_PIMPL(css_style_sheet);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(type);
     DEFINE_CUSTOM_GETTER(href);
     DEFINE_CUSTOM_GETTER(title);

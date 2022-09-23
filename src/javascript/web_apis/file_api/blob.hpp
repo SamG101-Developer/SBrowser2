@@ -29,7 +29,7 @@ public js_methods:
     auto text() -> ext::promise<ext::string>;
     auto array_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulonglong>> size;
     ext::property<ext::string> type;
 

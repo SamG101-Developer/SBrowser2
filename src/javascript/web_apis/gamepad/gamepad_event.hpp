@@ -15,7 +15,7 @@ public constructors:
     gamepad_event() = default;
     gamepad_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<gamepad>> gamepad;
 
 public cpp_methods:

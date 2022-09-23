@@ -101,7 +101,7 @@ public js_methods:
     /* CSS_BOX_TREE */
     auto get_fragment_information(css::detail::fragment_filter_t filter) -> ext::promise<css::box_tree::dead_fragent_information*>;
     
-public js_properties:
+private js_properties:
     /* [DOM] */
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return ELEMENT_NODE;}
     DEFINE_GETTER(node_name, ext::string) override;
@@ -120,7 +120,7 @@ public js_properties:
     DEFINE_GETTER(slot, ext::string); // TODO : ce-reactions
     DEFINE_GETTER(id, ext::string); // TODO : ce-reactions
     DEFINE_GETTER(shadow_root, nodes::shadow_root*);
-    DEFINE_GETTER(attributes, ranges::any_view<attr*>);
+    DEFINE_GETTER(attributes, std::span<std::unique_ptr<attr> const>);
 
     /* [EDIT_CONTENT] */
     DEFINE_GETTER(edit_contxt, edit_context::edit_context*);

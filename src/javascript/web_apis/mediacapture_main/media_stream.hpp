@@ -19,7 +19,7 @@ public constructors:
     explicit media_stream(media_stream* stream);
     explicit media_stream(ext::vector<media_stream_track*>&& tracks);
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> active;
     ext::property<ext::string> id;
 

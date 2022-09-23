@@ -18,7 +18,7 @@ public constructors:
 protected js_methods:
     virtual auto decode(abstract_encoded_chunk* chunk) -> void {};
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> decode_queue_size;
 
 protected js_slots:
@@ -26,7 +26,7 @@ protected js_slots:
     ext::slot<ext::number<ulong>> s_decode_queue_size;
     ext::slot<ext::map<ext::string, ext::any>> s_active_decode_config;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(decode_queue_size);
     DEFINE_CUSTOM_GETTER(decode_queue_size) {return s_decode_queue_size();}
 };

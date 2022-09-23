@@ -26,7 +26,7 @@ public js_methods:
     auto click() -> void;
     auto attach_internals() -> other::element_internals;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> title; // TODO : CE_REACTIONS
     ext::property<ext::string> lang; // TODO : CE_REACTIONS
     ext::property<ext::string> translate; // TODO : CE_REACTIONS
@@ -49,7 +49,7 @@ public cpp_methods:
 private cpp_properties:
     ext::boolean m_attached_internals;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(inner_text);
     DEFINE_CUSTOM_GETTER(outer_text) {return inner_text();};
     DEFINE_CUSTOM_GETTER(hidden);

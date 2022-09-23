@@ -13,7 +13,7 @@ class html::elements::html_anchor_element
 public constructors:
     html_anchor_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> target;
     ext::property<ext::string> download;
     ext::property<ext::string> ping;
@@ -26,7 +26,7 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(text);
     DEFINE_CUSTOM_SETTER(text);
 };

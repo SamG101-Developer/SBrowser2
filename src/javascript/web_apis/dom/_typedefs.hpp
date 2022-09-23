@@ -7,11 +7,14 @@
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
+#include INCLUDE_INNER_TYPES(url)
 namespace dom::events {class event;}
 namespace dom::mutations {class mutation_observer;}
 namespace dom::mutations {class mutation_record;}
 namespace dom::nodes {class event_target;}
 namespace dom::nodes {class node;}
+namespace html::elements {class html_script_element;}
+namespace svg::elements {class svg_script_element;}
 
 
 namespace dom::detail
@@ -25,6 +28,7 @@ namespace dom::detail
     struct registered_observer_t;
     struct transient_registered_observer_t;
     struct boundary_point_t;
+    struct xpath_ns_resolver_t;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};

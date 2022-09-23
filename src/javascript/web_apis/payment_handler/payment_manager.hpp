@@ -11,7 +11,7 @@ namespace payment::handler {class payment_instruments;}
 class payment::handler::payment_manager
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<payment_instruments>> instruments;
     ext::property<ext::string> user_hint;
 };

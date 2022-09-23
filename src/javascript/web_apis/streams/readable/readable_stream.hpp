@@ -34,7 +34,7 @@ public js_methods:
     auto pipe_to(writeable::writeable_stream* destination, ext::map<ext::string, ext::any>&& options = {}) -> ext::promise<void>;
     auto tee() -> ext::vector<readable_stream*>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> locked;
 
 public cpp_methods:
@@ -48,7 +48,7 @@ private js_slots:
     detail::readable_stream_state_t s_state;
     ext::string s_error;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(locked);
 };
 

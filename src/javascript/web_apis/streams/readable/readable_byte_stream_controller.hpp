@@ -16,7 +16,7 @@ public js_methods:
     auto enqueue(v8::Local<v8::ArrayBufferView> chunk) -> void override;
     auto error(ext::any&& error) -> void override;
 
-public js_properties:
+private js_properties:
     ext::property<readable_stream_byob_request*> byob_request;
 
 private js_slots:
@@ -29,7 +29,7 @@ private js_slot_methods:
     auto s_release_steps() -> void override;
     auto s_cancel_steps(ext::any&& reason) -> void override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(desired_size) override;
     DEFINE_CUSTOM_GETTER(byob_request);
 

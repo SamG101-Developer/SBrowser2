@@ -14,7 +14,7 @@ class touch_events::touch
 public constructors:
     touch(ext::map<ext::string, ext::any>&& options);
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<long>> identifier;
     ext::property<ext::number<dom::nodes::event_target*>> target;
     ext::property<ext::number<double>> screen_x;

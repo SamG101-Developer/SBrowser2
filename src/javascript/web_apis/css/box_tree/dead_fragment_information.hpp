@@ -14,7 +14,7 @@ class css::box_tree::dead_fragment_information
 public constructors:
     dead_fragment_information() = default;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<dom::nodes::node>> node;
     ext::property<ext::number<double>> width;
     ext::property<ext::number<double>> height;

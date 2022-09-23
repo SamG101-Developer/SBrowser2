@@ -18,7 +18,7 @@ public js_methods:
     auto get_random_values(v8::Local<v8::ArrayBufferView> array) -> v8::Local<v8::ArrayBufferView>;
     auto random_uuid() -> ext::string;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<subtle_crypto>> subtle;
 };
 

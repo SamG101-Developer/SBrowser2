@@ -20,7 +20,7 @@ public constructors:
 public js_methods:
     static auto supports(ext::string_view type) -> ext::boolean;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> src;
     ext::property<ext::string> type;
     ext::property<ext::boolean> no_module;
@@ -42,7 +42,7 @@ private cpp_properties:
     ext::boolean m_delaying_load_event;
     ext::variant<ext::string, std::unique_ptr<detail::script_t>> m_result;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(async);
     DEFINE_CUSTOM_GETTER(text);
 

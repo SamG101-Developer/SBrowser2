@@ -28,7 +28,7 @@ public js_methods:
 
     auto abort() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ushort>> ready_state;
     ext::property<ext::string> result;
     ext::property<dom::other::dom_exception*> error;

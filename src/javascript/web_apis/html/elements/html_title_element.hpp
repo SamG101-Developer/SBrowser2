@@ -11,13 +11,13 @@ class html::elements::html_title_element
 public constructors:
     html_title_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> text;
 
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(text);
     DEFINE_CUSTOM_SETTER(text);
 };

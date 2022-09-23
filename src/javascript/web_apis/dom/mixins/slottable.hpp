@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(slottable);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(assigned_slot, html::elements::html_slot_element*);
 };
 

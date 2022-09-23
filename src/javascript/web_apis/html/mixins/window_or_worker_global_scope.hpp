@@ -13,7 +13,7 @@ namespace web_crypto {class crypto;}
 class html::mixins::window_or_worker_global_scope
         : public dom_object
 {
-public js_properties:
+private js_properties:
     /* INDEX_DB */
     ext::property<indexed_db::idb_factory*> indexed_db;
 

@@ -16,13 +16,13 @@ public constructors:
     DOM_CTORS(performance_longtask_timing);
     performance_longtask_timing() = default;
 
-public js_properties:
+private js_properties:
     ext::property<const ext::vector<task_attribution_timing*>> attribution;
 
 public cpp_methods:
     auto to_json() const -> ext::string override;
 
-private cpp_accessors:
+private js_properties:
     // TODO (inherited properties)
 };
 

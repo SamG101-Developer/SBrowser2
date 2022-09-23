@@ -21,7 +21,7 @@ public js_methods:
     auto complete(detail::payment_complete_t result = detail::payment_complete_t::UNKNOWN, detail::payment_complete_details_t&& details = {}) -> ext::promise<void>;
     auto retry(detail::payment_validation_errors_t&& error_fields = {}) -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> request_id;
     ext::property<ext::string> method_name;
     ext::property<void*> details;

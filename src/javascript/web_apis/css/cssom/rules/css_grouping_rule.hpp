@@ -16,7 +16,7 @@ public js_methods:
     auto insert_rule(ext::string_view rule, ext::number<ulong> index = 0) -> ext::number<ulong>;
     auto delete_rule(ext::number<ulong> index) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::vector<css_rule*>> css_rules;
 };
 

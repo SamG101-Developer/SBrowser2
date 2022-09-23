@@ -25,14 +25,14 @@ public js_methods:
     auto create_conic_gradient(ext::number<double> start_angle, ext::number<double> x, ext::number<double> y) -> canvas_gradient;
     auto create_pattern(detail::canvas_image_source_t&& image, canvas_pattern_repeat_t repetition) -> canvas_pattern;
 
-public js_properties:
+private js_properties:
     ext::property<ext::variant<ext::string, canvas_gradient*, canvas_pattern*>> fill_style;
     ext::property<ext::variant<ext::string, canvas_gradient*, canvas_pattern*>> stroke_style;
 
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(fill_style);
     DEFINE_CUSTOM_GETTER(stroke_style);
 

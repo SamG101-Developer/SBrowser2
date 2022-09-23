@@ -14,7 +14,7 @@ class media::playback_quality::video_playback_quality
 public constructors:
     video_playback_quality() = default;
 
-public js_properties:
+private js_properties:
     ext::property<hr_time::dom_high_res_time_stamp> creation_time;
     ext::property<ext::number<ulong>> dropped_video_frames;
     ext::property<ext::number<ulong>> total_video_frames;

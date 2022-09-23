@@ -20,7 +20,7 @@ public js_methods:
     auto post_message(const ext::any& message, const ext::vector<ext::any>& transfer) -> void;
     auto post_message(const ext::any& message, html::detail::structure_serialize_options_t&& options = {}) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> script_url;
     ext::property<detail::service_worker_state_t> state;
 

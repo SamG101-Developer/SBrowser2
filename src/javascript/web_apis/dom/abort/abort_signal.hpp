@@ -12,22 +12,11 @@ namespace dom::abort {class abort_signal;}
 #include "ext/type_traits.hpp"
 #include "dom/abort/abort_signal_private.hpp"
 namespace dom::nodes {class event_target;}
-namespace dom::detail {auto signal_abort(abort::abort_signal*, const ext::any&) -> void;}
-namespace dom::detail {auto follow_signal(abort::abort_signal*, abort::abort_signal*) -> void;}
 
 
 class dom::abort::abort_signal final
         : public nodes::event_target
 {
-public friends:
-    friend class nodes::event_target;
-
-    friend auto dom::detail::signal_abort(
-            abort::abort_signal* signal, const ext::any& reason) -> void;
-
-    friend auto dom::detail::follow_signal(
-            abort::abort_signal* following_signal, abort::abort_signal* parent_signal) -> void;
-
 public constructors:
     DOM_CTORS(abort_signal);
     MAKE_PIMPL(abort_signal);

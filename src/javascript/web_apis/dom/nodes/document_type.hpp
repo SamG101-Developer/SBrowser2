@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(document_type);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_TYPE_NODE;}
     DEFINE_GETTER(node_name, ext::string) override {return d_ptr->name;}
     DEFINE_GETTER(node_value, ext::string) override {return "";}

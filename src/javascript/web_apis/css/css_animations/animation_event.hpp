@@ -13,7 +13,7 @@ public constructors:
     animation_event() = default;
     animation_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> animation_name;
     ext::property<ext::string> pseudo_element;
     ext::property<ext::number<double>> elapsed_time;

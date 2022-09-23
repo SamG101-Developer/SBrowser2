@@ -14,11 +14,11 @@ class css::cssom::rules::css_margin_rule
 public constructors:
     css_margin_rule();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<std::unique_ptr<other::css_style_declaration>> style;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(type) {return MARGIN_RULE;};
     DEFINE_CUSTOM_GETTER(name);
 };

@@ -12,7 +12,7 @@ class html::mixins::html_hyperlink_element_utils
 public constructors:
     html_hyperlink_element_utils();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> origin;
     ext::property<ext::string> href;
     ext::property<ext::string> protocol;
@@ -32,7 +32,7 @@ public cpp_methods:
 private cpp_properties:
     url::detail::url_t m_url;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(origin);
     DEFINE_CUSTOM_GETTER(href);
     DEFINE_CUSTOM_GETTER(protocol);

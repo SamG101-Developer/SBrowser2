@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(ambient_light_sensor);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(illuminance, ext::number<double>);
 };
 

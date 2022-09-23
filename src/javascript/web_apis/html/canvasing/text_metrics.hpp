@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(text_metrics);
     text_metrics() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> width;
     ext::property<ext::number<double>> actual_bounding_box_left;
     ext::property<ext::number<double>> actual_bounding_box_right;

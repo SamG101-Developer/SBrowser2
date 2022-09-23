@@ -12,7 +12,7 @@ class mediacapture::main::other::overconstrained_error
 public constructors:
     explicit overconstrained_error(ext::string&& constraint, ext::string&& message = "");
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> constraint;
 
 public cpp_methods:

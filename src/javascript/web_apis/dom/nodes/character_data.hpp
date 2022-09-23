@@ -26,7 +26,7 @@ public js_methods:
     auto delete_data(ext::number<ulong> offset, ext::number<ulong> count) -> ext::string;
     auto replace_data(ext::number<ulong> offset, ext::number<ulong> count, ext::string&& new_data) -> ext::string;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(node_name, ext::string) override {return "";};
     DEFINE_GETTER(node_value, ext::string) override {return d_ptr->data;};
     DEFINE_GETTER(text_content, ext::string) override {return d_ptr->data;};

@@ -20,7 +20,7 @@ public js_static_constants:
     constexpr const static ext::number<ulong> DOM_KEY_LOCATION_RIGHT = 0x02;
     constexpr const static ext::number<ulong> DOM_KEY_LOCATION_NUMPAD = 0x03;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> key;
     ext::property<ext::number<ushort>> code;
     ext::property<ext::number<ulong>> location;

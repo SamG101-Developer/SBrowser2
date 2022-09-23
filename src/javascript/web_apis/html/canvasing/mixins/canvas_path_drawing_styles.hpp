@@ -15,7 +15,7 @@ public js_methods:
     auto set_line_dash(const ext::vector<ext::number<double>>& segments) -> void;
     auto get_line_dash() -> const ext::vector<ext::number<double>>&;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> line_dash_offset;
     ext::property<ext::number<double>> line_width;
     ext::property<ext::number<double>> miter_limit;

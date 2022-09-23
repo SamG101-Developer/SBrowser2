@@ -20,7 +20,7 @@ public aliases:
 public constructors:
     form_data(html::elements::html_form_element* form = nullptr);
 
-public js_properties:
+private js_properties:
     auto append(ext::string_view name, ext::string_view value) -> void;
     auto append(ext::string_view name, file_api::blob* blob_object, ext::string_view file_name = "") -> void;
     auto set(ext::string_view name, ext::string_view value) -> void;

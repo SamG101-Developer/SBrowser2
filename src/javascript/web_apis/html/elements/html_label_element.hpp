@@ -15,12 +15,12 @@ public constructors:
     DOM_CTORS(html_label_element);
     html_label_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<html_form_element*> form;
     ext::property<html_element*> control;
     ext::property<ext::string> html_for;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(form);
 };
 

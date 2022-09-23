@@ -16,7 +16,7 @@ class gamepad::gamepad
 public constructors:
     gamepad();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> id;
     ext::property<ext::number<long>> index;
     ext::property<ext::boolean> connected;
@@ -44,7 +44,7 @@ private js_slots:
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(connected) {return s_connected();}
     DEFINE_CUSTOM_GETTER(timestamp) {return ext::round(s_timestamp(), 5);}
     DEFINE_CUSTOM_GETTER(axes) {return s_axes();}

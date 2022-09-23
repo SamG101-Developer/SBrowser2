@@ -41,7 +41,7 @@ public cpp_members:
     auto operator[](ext::string_view index) -> T& override {return m_linked_vector->front();};
     std::unique_ptr<vector<T>> m_linked_vector;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(length) override {return m_linked_vector->size();}
 };
 

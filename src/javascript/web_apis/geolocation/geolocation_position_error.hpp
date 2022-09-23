@@ -18,7 +18,7 @@ public js_static_constants:
     constexpr static const ext::number<ushort> POSITION_UNAVAILABLE = 2;
     constexpr static const ext::number<ushort> TIMEOUT = 3;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ushort>> code;
     ext::property<ext::string> message;
 };

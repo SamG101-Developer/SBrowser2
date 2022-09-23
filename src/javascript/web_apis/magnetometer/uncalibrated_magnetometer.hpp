@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(uncalibrated_magnetometer);
     uncalibrated_magnetometer(detail::magnetometer_sensor_options_t&& options = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> x_bias;
     ext::property<ext::number<double>> y_bias;
     ext::property<ext::number<double>> z_bias;

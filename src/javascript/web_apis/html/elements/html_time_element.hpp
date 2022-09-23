@@ -11,7 +11,7 @@ class html::elements::html_time_element
 public constructors:
     html_time_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> date_time;
 
 public cpp_methods:

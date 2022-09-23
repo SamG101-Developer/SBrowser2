@@ -20,7 +20,7 @@ public constructors:
 public js_methods:
     auto split_text(ext::number<ulong> offset) -> text;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return TEXT_NODE;}
     DEFINE_GETTER(node_name, ext::string) override {return "#text";};
     DEFINE_GETTER(whole_text, ext::string);

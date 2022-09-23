@@ -30,7 +30,7 @@ public js_methods:
     auto show_notification(ext::string&& title, notifications::detail::notification_options_t&& options = {}) -> ext::promise<void>;
     auto show_notifications(notifications::detail::get_notification_options_t&& options = {}) -> ext::promise<ext::vector<notifications::notification*>>;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<service_worker>> installing;
     ext::property<std::unique_ptr<service_worker>> waiting;
     ext::property<std::unique_ptr<service_worker>> active;

@@ -16,7 +16,7 @@ class mediacapture::transform::video_track_generator
 public constructors:
     video_track_generator() = default;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<streams::writable::writable_stream>> writable;
     ext::property<std::unique_ptr<main::media_stream_track>> track;
     ext::property<ext::boolean> muted;

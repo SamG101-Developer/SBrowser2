@@ -9,7 +9,7 @@ namespace permissions_policy {class permissions_policy_violation_report_body;}
 class permissions_policy::permissions_policy_violation_report_body
         : public reporting::report
 {
-public js_properties:
+private js_properties:
     ext::property<ext::string> feature_id;
     ext::property<ext::string> source_file;
     ext::property<ext::string> disposition;

@@ -13,7 +13,7 @@ public constructors:
     payment_request_change_event() = default;
     payment_request_change_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> method_name;
     ext::property<ext::string> method_details;
 };

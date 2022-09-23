@@ -19,14 +19,14 @@ public js_methods:
     auto respond(ext::number<ulonglong> bytes_written) -> void;
     auto respond_with_new_view(v8::Local<v8::ArrayBufferView> view) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<v8::ArrayBufferView> view;
 
 private js_slots:
     readable_byte_stream_controller* s_controller;
     v8::ArrayBufferView s_view;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(view);
 };
 

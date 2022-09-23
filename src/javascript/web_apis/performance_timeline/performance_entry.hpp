@@ -14,7 +14,7 @@ class performance_timeline::performance_entry
 public constructors:
     performance_entry() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<ext::string> entry_type;
     ext::property<hr_time::dom_high_res_time_stamp> start_time;

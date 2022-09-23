@@ -14,7 +14,7 @@ class aria::mixins::aria_mixin
 public constructors:
     DOM_CTORS(aria_mixin);
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> role;
     ext::property<ext::string> aria_atomic;
     ext::property<ext::string> aria_auto_complete;

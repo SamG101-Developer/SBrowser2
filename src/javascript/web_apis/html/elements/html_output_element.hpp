@@ -16,7 +16,7 @@ public constructors:
     DOM_CTORS(html_output_element);
     html_output_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> html_for;
     ext::property<ext::string> name;
     ext::property<ext::string> type;
@@ -28,7 +28,7 @@ public js_properties:
 private cpp_properties:
     ext::string m_default_value_override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(default_value);
 
     DEFINE_CUSTOM_GETTER(type) {return "output";}

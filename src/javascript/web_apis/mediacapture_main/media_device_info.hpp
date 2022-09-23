@@ -11,7 +11,7 @@ namespace mediacapture::main {class media_device_info;}
 class mediacapture::main::media_device_info
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<ext::string> device_id;
     ext::property<ext::string> label;
     ext::property<ext::string> group_id;

@@ -11,7 +11,7 @@ auto dom::detail::is_signal_aborted(
         abort::abort_signal* signal)
         -> ext::boolean
 {
-    return signal->d_ptr->abort_reason.has_value();
+    return signal->get_reason().has_value();
 }
 
 
@@ -42,7 +42,9 @@ auto dom::detail::follow_signal(
 
     // abort the following signal if the parent signal has aborted, otherwise when the parent signal does abort, tell
     // the following signal to abort as well, using the reason of the parent signal
-    parent_signal->aborted()
-            ? signal_abort(following_signal, parent_signal->d_ptr->abort_reason)
-            : parent_signal->d_ptr->abort_algorithms.push_back([&f = following_signal, &p = parent_signal] {signal_abort(f, p->reason());});
+    detail::is_signal_aborted(parent_signal)
+            ? signal_abort(following_signal, parent_signal->get_reason())
+            : parent_signal->d_ptr->abort_algorithms.push_back(
+                    [&following_signal, &parent_signal]
+                    {signal_abort(following_signal, parent_signal->get_reason());});
 }

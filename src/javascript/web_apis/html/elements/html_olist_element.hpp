@@ -11,7 +11,7 @@ class html::elements::html_olist_element
 public constructors:
     html_olist_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean, true> reversed;
     ext::property<ext::number<long>, true> start;
     ext::property<ext::string, true> type;

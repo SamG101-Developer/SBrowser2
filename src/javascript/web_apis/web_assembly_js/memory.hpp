@@ -20,7 +20,7 @@ public constructors:
 public js_methods:
     auto grow(ext::number<ulong> delta) -> ext::number<ulong>;
 
-public js_properties:
+private js_properties:
     ext::property<v8::ArrayBuffer> buffer;
 
 public cpp_methods:

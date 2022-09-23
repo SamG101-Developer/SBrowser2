@@ -19,7 +19,7 @@ public constructors:
     DOM_CTORS(source_buffer);
     source_buffer() = default;
 
-public js_properties:
+private js_properties:
     ext::property<detail::append_mode_t> mode;
     ext::property<ext::boolean> updating;
     ext::property<ext::number<double>> timestamp_offset;
@@ -41,7 +41,7 @@ public js_methods:
 private js_slots:
     ext::slot<ext::boolean> s_generate_timestamps_flag;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(buffered);
 
     DEFINE_CUSTOM_SETTER(mode);

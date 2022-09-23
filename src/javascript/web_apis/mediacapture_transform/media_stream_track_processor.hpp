@@ -18,7 +18,7 @@ public constructors:
     media_stream_track_processor() = default;
     media_stream_track_processor(detail::media_stream_track_processor_init_t&& init);
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<streams::readable::readable_stream>> readable;
 
 private js_slots:
@@ -31,7 +31,7 @@ private js_slots:
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(s_track);
 };
 

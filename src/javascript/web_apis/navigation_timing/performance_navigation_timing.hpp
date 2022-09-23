@@ -18,7 +18,7 @@ public constructors:
     DOM_CTORS(performance_navigation_timing);
     performance_navigation_timing() = default;
 
-public js_properties:
+private js_properties:
     ext::property<hr_time::dom_high_res_time_stamp> unload_event_start;
     ext::property<hr_time::dom_high_res_time_stamp> unload_event_end;
     ext::property<hr_time::dom_high_res_time_stamp> dom_interactive;

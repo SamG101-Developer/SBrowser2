@@ -23,7 +23,7 @@ public constructors:
 public js_methods:
     auto time_remaining() -> hr_time::dom_high_res_time_stamp;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(did_timeout, ext::boolean) {return d_ptr->timeout;};
 };
 

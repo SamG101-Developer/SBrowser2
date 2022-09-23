@@ -14,7 +14,7 @@ class html::elements::html_link_element
 public constructors:
     html_link_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string, true> href;
     ext::property<ext::string, true> cross_origin;
     ext::property<detail::rel_t, true> rel;

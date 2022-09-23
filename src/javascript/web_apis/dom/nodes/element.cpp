@@ -391,5 +391,5 @@ auto dom::nodes::element::get_shadow_root() const -> nodes::shadow_root*
 {return d_ptr->shadow_root;}
 
 
-auto dom::nodes::element::get_attributes() const -> ranges::any_view<attr*>
-{return d_ptr->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);}
+auto dom::nodes::element::get_attributes() const -> std::span<std::unique_ptr<attr> const>
+{return {d_ptr->attribute_list.begin(), d_ptr->attribute_list.end()};}

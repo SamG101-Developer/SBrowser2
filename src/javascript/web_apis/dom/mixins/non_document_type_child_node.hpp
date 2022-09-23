@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(non_document_type_child_node);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(previous_element_sibling, nodes::element*);
     DEFINE_GETTER(next_element_sibling, nodes::element*);
 };

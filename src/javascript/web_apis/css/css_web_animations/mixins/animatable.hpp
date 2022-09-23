@@ -11,7 +11,7 @@ namespace css::css_web_animations {class animation;}
 
 
 class css::css_web_animations::mixins::animatable
-        : public dom_object
+        : public virtual dom_object
 {
 public js_methods:
     auto animate(void* keyframes, ext::variant<detail::keyframe_animation_options_t, ext::number<double>> = {}) -> animation;

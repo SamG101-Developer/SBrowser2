@@ -23,7 +23,7 @@ class html::other::element_internals
 public js_methods:
     auto set_form_value(ext::variant<file_api::file*, ext::string, xhr::form_data*> value, ext::variant<file_api::file*, ext::string, xhr::form_data*> state = "") -> void;
 
-public js_properties:
+private js_properties:
     ext::property<dom::nodes::shadow_root*> shadow_root_node;
     ext::property<elements::html_form_element*> form;
     ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
@@ -31,7 +31,7 @@ public js_properties:
 private cpp_properties:
     std::unique_ptr<dom::nodes::node*> m_target_element;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(shadow_root_node);
 };
 

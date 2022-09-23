@@ -17,13 +17,13 @@ public constructors:
     DOM_CTORS(html_field_set_element);
     html_field_set_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> disabled;
     ext::property<ext::string> name;
     ext::property<ext::string> type;
     ext::property<html_form_element*> form;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(type) {return "fieldset";}
 };
 

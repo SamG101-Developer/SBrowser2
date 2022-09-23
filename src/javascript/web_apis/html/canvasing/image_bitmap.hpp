@@ -23,7 +23,7 @@ public constructors:
 public js_methods:
     auto close() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> width;
     ext::property<ext::number<ulong>> height;
 
@@ -40,7 +40,7 @@ private cpp_properties:
     ext::boolean m_origin_clean_flag;
     QPixmap m_bitmap_data;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(width);
     DEFINE_CUSTOM_GETTER(height);
 };

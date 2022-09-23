@@ -21,7 +21,7 @@ public js_methods:
     auto start() -> void;
     auto stop() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> activated;
     ext::property<ext::boolean> has_reading;
     ext::property<hr_time::dom_high_res_time_stamp> timestamp;

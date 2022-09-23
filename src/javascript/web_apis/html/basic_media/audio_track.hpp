@@ -14,7 +14,7 @@ class html::basic_media::audio_track
 public constructors:
     audio_track() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> enabled;
 
     /* MEDIA_SOURCE */
@@ -23,7 +23,7 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(source_buffer);
 };
 

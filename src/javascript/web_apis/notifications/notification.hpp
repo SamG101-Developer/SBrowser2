@@ -21,7 +21,7 @@ public constructors:
 public js_methods:
     auto close() -> void;
 
-public js_properties:
+private js_properties:
     static ext::property<ext::number<ulong>> max_actions;
     ext::property<ext::string> title;
     ext::property<ext::string> lang;

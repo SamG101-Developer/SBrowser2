@@ -23,7 +23,7 @@ public js_methods:
     auto assigned_elements(detail::assigned_node_options_t&& = {}) const -> ext::vector<dom::nodes::element*>;
     auto assign(type_is<dom::nodes::element*, dom::nodes::text*> auto*... nodes) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
 
 public cpp_methods:

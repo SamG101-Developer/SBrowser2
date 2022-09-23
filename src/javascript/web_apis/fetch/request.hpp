@@ -21,7 +21,7 @@ public constructors:
 public js_methods:
     auto clone() -> request;
 
-public js_properties: // TODO : constrain attributes
+private js_properties: // TODO : constrain attributes
     ext::property<ext::string> method;
     ext::property<ext::string> url;
     ext::property<std::unique_ptr<headers>> headers_;

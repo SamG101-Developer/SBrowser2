@@ -21,7 +21,7 @@ public constructors:
 public js_methods:
     auto skip_waiting() -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<clients::clients>> clients;
     ext::property<std::unique_ptr<service_worker_registration>> registration;
     ext::property<std::unique_ptr<service_worker>> service_worker;

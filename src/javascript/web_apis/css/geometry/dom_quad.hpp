@@ -24,7 +24,7 @@ public js_methods:
     static auto from_quad(detail::dom_quad_init_t&& other = {}) -> dom_quad;
     auto get_bouunds() -> dom_rect;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<dom_point>> p1;
     ext::property<std::unique_ptr<dom_point>> p2;
     ext::property<std::unique_ptr<dom_point>> p3;
@@ -38,7 +38,7 @@ public cpp_members:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_quad* override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(p1);
     DEFINE_CUSTOM_GETTER(p2);
     DEFINE_CUSTOM_GETTER(p3);

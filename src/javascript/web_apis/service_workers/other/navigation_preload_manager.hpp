@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(navigation_preload_manager);
     navigation_preload_manager() = default;
 
-public js_properties:
+private js_properties:
     auto enable() -> ext::promise<void>;
     auto disable() -> ext::promise<void>;
     auto set_header_value(ext::string_view value) -> ext::promise<void>;

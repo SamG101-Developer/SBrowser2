@@ -11,7 +11,7 @@ namespace storage {class storage_manager;}
 class storage::mixins::navigator_storage
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<storage_manager*> storage;
 
 public cpp_methods:

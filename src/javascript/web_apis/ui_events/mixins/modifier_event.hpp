@@ -15,7 +15,7 @@ public constructors:
 public js_methods:
     auto get_modifier_state(ext::string_view arg) -> ext::boolean;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> ctrl_key;
     ext::property<ext::boolean> shift_key;
     ext::property<ext::boolean> alt_key;

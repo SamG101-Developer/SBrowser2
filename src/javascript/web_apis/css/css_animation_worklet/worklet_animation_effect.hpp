@@ -19,13 +19,13 @@ public js_methods:
     auto get_timing() -> detail::effect_timing_t&;
     auto get_computed_timing() -> computed_effect_timing_t&;
 
-public js_properties:
+private js_properties:
     ext::property<double> local_time;
 
 private cpp_properties:
     std::unique_ptr<detail::animator_effect_t> m_animator_effect;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(local_time);
     DEFINE_CUSTOM_SETTER(local_time);
 };

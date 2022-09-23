@@ -46,7 +46,7 @@ public js_methods:
     auto to_float32_array() const -> ext::vector<float>;
     auto to_float64_array() const -> ext::vector<double>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> m11;
     ext::property<ext::number<double>> m12;
     ext::property<ext::number<double>> m13;
@@ -87,7 +87,7 @@ public cpp_members:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(a) {return m11();};
     DEFINE_CUSTOM_GETTER(b) {return m12();};
     DEFINE_CUSTOM_GETTER(c) {return m13();};

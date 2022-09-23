@@ -23,7 +23,7 @@ namespace mediacapture::main {class media_stream;}
 class mediacapture::main::media_devices
         : public dom::nodes::event_target
 {
-public js_properties:
+private js_properties:
     /* MEDIACAPTURE_EXTENSIONS */
     detail::get_user_media_semantics_t default_semantics;
 

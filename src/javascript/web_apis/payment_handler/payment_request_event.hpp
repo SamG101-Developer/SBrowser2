@@ -23,7 +23,7 @@ public js_methods:
     auto change_payment_method(ext::string_view method_name, ext::map<ext::string, ext::any>&& options = {}); // TODO: detail::payment_request_update_t
     auto respond_with(ext::promise<detail::payment_handler_reponse_t> handler_response_promise) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> payment_request_id;
     ext::property<std::unique_ptr<void>> total;
     ext::property<const ext::vector<detail::payment_details_modifier_t>> modifiers;

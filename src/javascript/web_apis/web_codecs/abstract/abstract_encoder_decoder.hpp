@@ -25,7 +25,7 @@ public js_methods:
     auto close() -> void;
     static auto is_config_supported() -> ext::promise<detail::audio_decoder_support_t>;
 
-public js_properties:
+private js_properties:
     ext::property<detail::codec_state_t> state;
 
 protected js_slots:
@@ -40,7 +40,7 @@ protected js_slots:
     ext::slot<ext::vector<ext::promise<void>>> s_pending_flush_promise;
     ext::slot<ext::boolean> s_dequeue_event_scheduled;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(state) {return s_state();}
 };
 

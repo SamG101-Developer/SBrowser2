@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(html_option_element);
     html_option_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> disabled;
     ext::property<html_form_element*> form;
     ext::property<ext::string> label;
@@ -25,7 +25,7 @@ public js_properties:
     ext::property<ext::string> text;
     ext::property<ext::number<long>> index;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(index);
 };
 

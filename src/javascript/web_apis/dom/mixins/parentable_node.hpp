@@ -29,7 +29,7 @@ public js_methods:
     auto query_selector(ext::string_view selectors) -> nodes::element*; // TODO: return type
     auto query_selector_all(ext::string_view selectors) -> ext::vector<nodes::element*>; // TODO: return type
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(children, ranges::any_view<nodes::element*>);
     DEFINE_GETTER(first_element_child, nodes::element*);
     DEFINE_GETTER(last_element_child, nodes::element*);

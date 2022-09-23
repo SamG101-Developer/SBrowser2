@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(proximity);
     proximity(detail::proximity_sensor_options_t&& options = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> distance;
     ext::property<ext::number<double>> max;
     ext::property<ext::boolean> near;
@@ -23,7 +23,7 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(distance);
     DEFINE_CUSTOM_GETTER(max);
     DEFINE_CUSTOM_GETTER(near);

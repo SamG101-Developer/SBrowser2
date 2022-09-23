@@ -26,7 +26,7 @@ public js_methods:
     auto abort() -> ext::promise<void>;
     auto can_make_payment() -> ext::promise<ext::boolean>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> id;
 
 private js_slots:
@@ -39,7 +39,7 @@ private js_slots:
     ext::slot<payment_response*> s_response;
     ext::slot<detail::payment_handler_t<>*> s_handler;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(id);
 };
 

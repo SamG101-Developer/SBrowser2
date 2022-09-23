@@ -23,7 +23,7 @@ public js_methods:
     auto get_devices() -> ext::promise<ext::vector<bluetooth_device*>>;
     auto request_device(detail::request_device_options_t&& options=  {}) -> ext::promise<bluetooth_device*>;
 
-public js_properties:
+private js_properties:
     ext::property<bluetooth_device*> referring_device;
 
 private js_slots:
@@ -31,7 +31,7 @@ private js_slots:
     ext::slot<ext::map<detail::bluetooth_cache_t*, ext::promise<ext::map<ext::string, ext::any>>>> m_attribute_instance_map;
     ext::slot<std::unique_ptr<bluetooth_device>> s_referring_device;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(referring_device) {return s_referring_device().get();};
 };
 

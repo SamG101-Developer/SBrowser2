@@ -9,7 +9,7 @@ namespace webappsec::credential_management {class credential_user_data;}
 class webappsec::credential_management::credential_user_data
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<ext::string> icon_url;
 

@@ -23,7 +23,7 @@ public js_methods:
     auto transfer_to_image_bitmap() -> image_bitmap;
     auto convert_to_block(detail::image_encode_options_t&& options = {}) -> ext::promise<file_api::blob>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulonglong>> width;
     ext::property<ext::number<ulonglong>> height;
 

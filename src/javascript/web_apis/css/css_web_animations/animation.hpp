@@ -32,7 +32,7 @@ public js_methods:
     auto persist() -> void;
     auto commit_styles();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> id;
     ext::property<std::unique_ptr<animation_effect>> effect;
     ext::property<std::unique_ptr<animation_timeline>> timeline;

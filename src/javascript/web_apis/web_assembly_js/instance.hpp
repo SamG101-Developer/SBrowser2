@@ -16,7 +16,7 @@ public constructors:
     instance() = default;
     instance(module* module, const ext::any& import_object);
 
-public js_properties:
+private js_properties:
     ext::property<ext::any> exports;
 
 public cpp_methods:

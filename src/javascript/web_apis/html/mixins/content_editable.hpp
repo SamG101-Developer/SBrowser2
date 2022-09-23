@@ -10,7 +10,7 @@ namespace html::mixins {class content_editable;}
 
 class html::mixins::content_editable
 {
-public js_properties:
+private js_properties:
     ext::property<ext::bool_string_t> content_editable;
     ext::property<ext::string> enter_key_hit;
     ext::property<ext::string> input_mode;

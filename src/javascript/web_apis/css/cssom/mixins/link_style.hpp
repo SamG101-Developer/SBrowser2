@@ -11,7 +11,7 @@ namespace css::cssom::style_sheets {class css_style_sheet;}
 class css::cssom::mixins::link_style
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<style_sheets::css_style_sheet>> sheet;
 };
 

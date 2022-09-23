@@ -23,7 +23,7 @@ public js_methods:
     auto json() -> ext::promise<ext::any>;
     auto text() -> ext::promise<ext::string>;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<streams::readable::readable_stream>> body;
     ext::property<ext::boolean> body_used;
 

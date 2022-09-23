@@ -13,7 +13,7 @@ public constructors:
     mouse_event() = default;
     mouse_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<long>> screen_x;
     ext::property<ext::number<long>> screen_y;
     ext::property<ext::number<long>> client_x;

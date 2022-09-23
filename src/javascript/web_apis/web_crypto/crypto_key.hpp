@@ -16,7 +16,7 @@ class web_crypto::crypto_key
 public constructors:
     crypto_key() = default;
 
-public js_properties:
+private js_properties:
     ext::property<detail::key_type_t> type;
     ext::property<ext::boolean> extractable;
     ext::property<void*> algorithm;
@@ -36,7 +36,7 @@ private js_slots:
     ext::slot<ext::vector<detail::key_usage_t>> s_usages_cached;
     ext::slot<void*> s_handle;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(type) {return s_type();}
     DEFINE_CUSTOM_GETTER(extractable) {return s_extractable();}
     DEFINE_CUSTOM_GETTER(algorithm);

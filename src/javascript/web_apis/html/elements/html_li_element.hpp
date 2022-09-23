@@ -11,7 +11,7 @@ class html::elements::html_li_element
 public constructors:
     html_li_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<long>, true> value;
 
 public cpp_methods:

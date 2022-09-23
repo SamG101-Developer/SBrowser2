@@ -61,7 +61,7 @@ private cpp_members:
     MAKE_PIMPL(node);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     virtual DEFINE_GETTER(node_type, ext::number<ushort>) = 0;
     virtual DEFINE_GETTER(node_name, ext::string) = 0; // TODO CE_REACTIONS
     virtual DEFINE_GETTER(text_content, ext::string) = 0; // TODO CE_REACTIONS

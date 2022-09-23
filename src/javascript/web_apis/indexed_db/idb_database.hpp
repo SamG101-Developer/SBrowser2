@@ -24,7 +24,7 @@ public js_methods:
     auto close() -> void;
     auto delete_object_store(ext::string_view object_store_name) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<detail::database_version_t> version;
     ext::property<ext::vector<ext::string>> object_store_names;
@@ -35,7 +35,7 @@ public cpp_methods:
 private cpp_properties:
     std::unique_ptr<idb_transaction> m_upgrade_transaction;
 
-private cpp_accessors:
+private js_properties:
     auto get_object_store_names() const -> ext::vector<ext::string>;
 };
 

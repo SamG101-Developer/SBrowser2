@@ -226,11 +226,11 @@ namespace ranges::actions
     };
 
 
-    auto replace = []<typename T>(T&& old_value, T&& new_value) mutable
+    auto replace = []<typename T, callable F>(T&& old_value, T&& new_value, F&& predicate = _EXT identity{}) mutable
     {
         return ranges::actions::transform(
-                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value)]<typename U>(U&& current_value) mutable
-                {return current_value == old_value ? std::forward<T>(new_value) : std::forward<U>(current_value);});
+                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value), predicate = std::forward<F>(predicate)]<typename U>(U&& current_value) mutable
+                {return predicate(current_value) == old_value ? std::forward<T>(new_value) : std::forward<U>(current_value);});
     };
 
 

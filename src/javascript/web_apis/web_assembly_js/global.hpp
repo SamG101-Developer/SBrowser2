@@ -19,10 +19,10 @@ public constructors:
 public js_methods:
     auto value_of() -> ext::any;
 
-public js_properties:
+private js_properties:
     ext::property<ext::any> value;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(value);
     DEFINE_CUSTOM_SETTER(value);
 };

@@ -9,7 +9,7 @@ namespace html::canvasing::mixins {class canvas_compositing;}
 class html::canvasing::mixins::canvas_compositing
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> global_alpha;
     ext::property<ext::string> global_composite_operation;
 

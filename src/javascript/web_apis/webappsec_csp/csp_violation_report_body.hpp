@@ -12,7 +12,7 @@ class webappsec::csp::csp_violation_report_body
 public constructors:
     DOM_CTORS(csp_violation_report_body);
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> document_url;
     ext::property<ext::string> referrer;
     ext::property<ext::string> blocked_url;

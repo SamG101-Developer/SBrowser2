@@ -22,7 +22,7 @@ public js_methods:
     virtual auto enqueue(v8::Local<v8::ArrayBufferView> chunk) -> void = 0;
     virtual auto error(ext::any&& error) -> void = 0;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> desired_size;
 
 protected js_slots:
@@ -42,7 +42,7 @@ protected js_slot_methods:
     virtual auto s_release_steps() -> void = 0;
     virtual auto s_cancel_steps(ext::any&& reason) -> void = 0;
 
-private cpp_accessors:
+private js_properties:
     virtual DEFINE_CUSTOM_GETTER(desired_size) = 0;
 };
 

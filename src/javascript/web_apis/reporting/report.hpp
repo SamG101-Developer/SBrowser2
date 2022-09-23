@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(report);
     report() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> type;
     ext::property<ext::string> url;
     ext::property<std::unique_ptr<report_body>> body;

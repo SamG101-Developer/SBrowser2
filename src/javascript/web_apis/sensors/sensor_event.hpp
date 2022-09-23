@@ -15,7 +15,7 @@ public constructors:
     sensor_event() = default;
     sensor_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<dom::other::dom_exception>> error;
 };
 

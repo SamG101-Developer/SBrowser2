@@ -28,7 +28,7 @@ public js_methods:
     /* MEDIACAPTURE-FROMELEMENT */
     auto capture_stream(ext::number<double> frame_request_rate) -> mediacapture::main::media_stream;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> width;
     ext::property<ext::number<ulong>> height;
 

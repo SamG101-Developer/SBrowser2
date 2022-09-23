@@ -21,7 +21,7 @@ public js_static_constants:
     constexpr static const ext::number<ushort> LOADED = 2;
     constexpr static const ext::number<ushort> ERROR = 3;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> kind;
     ext::property<ext::string> src;
     ext::property<ext::string> srclang;

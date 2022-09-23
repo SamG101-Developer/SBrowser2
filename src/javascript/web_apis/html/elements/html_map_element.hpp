@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(html_map_element);
     html_map_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> areas;
 

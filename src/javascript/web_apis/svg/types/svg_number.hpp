@@ -12,10 +12,10 @@ public constructors:
     DOM_CTORS(svg_number);
     svg_number() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<float>> value;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(value);
 };
 

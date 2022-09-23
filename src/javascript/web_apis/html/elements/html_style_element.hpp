@@ -11,7 +11,7 @@ class html::elements::html_style_element
 public constructors:
     html_style_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> disabled;
     ext::property<ext::string> media;
     ext::property<std::unique_ptr<ext::vector<ext::string>>> blocking;
@@ -19,7 +19,7 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(disabled);
     DEFINE_CUSTOM_SETTER(disabled);
 };

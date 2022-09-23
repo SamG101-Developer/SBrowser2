@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(html_opt_group_element);
     html_opt_group_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> disabled;
     ext::property<ext::string> label;
 

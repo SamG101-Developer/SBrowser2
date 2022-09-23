@@ -12,7 +12,7 @@ public constructors:
     DOM_CTORS(task_attribution_timing);
     task_attribution_timing() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> container_type;
     ext::property<ext::string> container_src;
     ext::property<ext::string> container_id;

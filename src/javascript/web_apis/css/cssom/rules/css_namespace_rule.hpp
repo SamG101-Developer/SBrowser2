@@ -12,7 +12,7 @@ class css::cssom::rules::css_namespace_rule
 public constructors:
     css_namespace_rule();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> namespace_uri;
     ext::property<ext::string> prefix;
 };

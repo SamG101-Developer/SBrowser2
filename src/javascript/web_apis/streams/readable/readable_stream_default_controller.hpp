@@ -27,7 +27,7 @@ private js_slot_methods:
     auto s_release_steps() -> void override {}
     auto s_cancel_steps(ext::any&& reason) -> void override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(desired_size) override;
 };
 

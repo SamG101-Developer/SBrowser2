@@ -11,7 +11,7 @@ class html::elements::html_data_element
 public constructors:
     html_data_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> value;
 
 public cpp_methods:

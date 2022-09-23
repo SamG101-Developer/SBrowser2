@@ -24,7 +24,7 @@ public js_methods:
     /* [CSS_WEB_ANIMATIONS] */
     auto get_animations() -> ext::vector<css::css_web_animations::animation*>;
 
-private cpp_accessors:
+private js_properties:
     /* [HTML] */
     DEFINE_GETTER(active_element, nodes::element*);
 

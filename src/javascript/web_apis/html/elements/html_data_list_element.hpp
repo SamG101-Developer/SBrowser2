@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(html_data_list_element);
     html_data_list_element();
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<ext::vector<html_element*>>> options;
 
 public cpp_methods:

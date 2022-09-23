@@ -20,7 +20,7 @@ public cpp_members:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_rect* override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(x) {d_ptr->setX(*val);};
     DEFINE_CUSTOM_SETTER(y) {d_ptr->setY(*val);};
     DEFINE_CUSTOM_SETTER(w) {d_ptr->setWidth(*val);};

@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(text_encoder_common);
     text_encoder_common() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> encoding;
 };
 

@@ -14,7 +14,7 @@ namespace permissions {class permission_status;}
 class permissions::permission
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     auto query(detail::permissions_descriptor_t&& permission_descriptor) -> ext::promise<permission_status*>;
 };
 

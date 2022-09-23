@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(html_table_col_element);
     html_table_col_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> span;
 
 public cpp_methods:

@@ -20,7 +20,7 @@ public js_methods:
     auto add_cue(text_track_cue* cue) -> void;
     auto remove_cue(text_track_cue* cue) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> in_band_dispatch_type;
     ext::property<detail::track_readiness_state_t> readiness_state;
     ext::property<detail::track_mode_t> mode;
@@ -37,7 +37,7 @@ public cpp_methods:
 private cpp_properties:
     ext::vector<text_track_cue*> m_text_track_cues;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(source_buffer);
 };
 

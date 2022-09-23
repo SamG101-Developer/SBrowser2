@@ -18,7 +18,7 @@ public constructors:
 public js_methods:
     auto respond_with(ext::promise<fetch::response*> r) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<fetch::request>> request;
     ext::property<ext::promise<ext::any>> preload_response;
     ext::property<ext::promise<void>> handled;

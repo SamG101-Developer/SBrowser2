@@ -55,7 +55,7 @@ public js_methods:
     /* MEDIACAPTURE_OUTPUT */
     auto set_sink_id(ext::string&& sink_id) -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     ext::property<basic_media::media_error*> error;
 
     ext::property<fetch::detail::mode_t> cross_origin;
@@ -116,7 +116,7 @@ private cpp_properties:
     ext::boolean m_pending_track_change_notification_flag;
     ext::number<double> m_playback_volume;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(src_object) {return m_assigned_media_provider_object;};
 };
 

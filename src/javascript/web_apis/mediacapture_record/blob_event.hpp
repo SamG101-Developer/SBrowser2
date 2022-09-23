@@ -16,7 +16,7 @@ public constructors:
     blob_event() = default;
     blob_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<file_api::blob>> blob;
     ext::property<hr_time::dom_high_res_time_stamp> timecode;
 };

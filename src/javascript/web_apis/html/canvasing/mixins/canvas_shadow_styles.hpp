@@ -9,7 +9,7 @@ namespace html::canvasing::mixins {class canvas_shadow_styles;}
 class html::canvasing::mixins::canvas_shadow_styles
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> shadow_offset_x;
     ext::property<ext::number<double>> shadow_offset_y;
     ext::property<ext::number<double>> shadow_blur;

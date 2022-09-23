@@ -18,7 +18,7 @@ public constructors:
     DOM_CTORS(text_encoder);
     text_encoder() = default;
 
-public js_properties:
+private js_properties:
     auto encode(ext::string&& input = "") -> v8::Uint8Array;
     auto encode_into(ext::string&& source, v8::Local<v8::Uint8Array> destination) -> detail::text_encoder_encoder_into_result_t;
 };

@@ -11,7 +11,7 @@ class html::elements::html_mod_element
 public constructors:
     html_mod_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string, true> cite;
     ext::property<ext::string, true> date_time;
 

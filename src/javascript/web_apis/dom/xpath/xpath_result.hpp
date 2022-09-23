@@ -28,7 +28,7 @@ public js_methods:
     auto iterate_next() -> nodes::node*;
     auto  snapshot_item(ext::optional<ext::number<ulong>>) -> nodes::node*;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> number_value;
     ext::property<ext::string> string_value;
     ext::property<ext::boolean> boolean_value;

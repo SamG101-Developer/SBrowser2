@@ -30,7 +30,7 @@ public js_methods:
     auto clear_resource_timings() -> void;
     auto set_resource_timing_buffer_size(ext::number<ulong> max_size) -> void;
 
-public js_properties:
+private js_properties:
     /* HIGH_RESOLUTION_TIME */
     ext::property<dom_high_res_time_stamp> time_origin;
 
@@ -41,7 +41,7 @@ public js_properties:
 public cpp_properties:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     /* HIGH_RESOLUTION_TIME */
     DEFINE_CUSTOM_GETTER(time_origin);
 

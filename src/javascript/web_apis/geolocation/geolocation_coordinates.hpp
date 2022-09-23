@@ -13,7 +13,7 @@ public constructors:
     DOM_CTORS(geolocation_coordinates);
     geolocation_coordinates() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> accuracy;
     ext::property<ext::number<double>> latitude;
     ext::property<ext::number<double>> longitude;

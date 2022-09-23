@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(battery_manager);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(charging, ext::boolean) {return d_ptr->charging;}
     DEFINE_GETTER(charging_time, ext::number<double>) {return d_ptr->charging_time;}
     DEFINE_GETTER(discharging_time, ext::number<double>) {return d_ptr->discharging_time;}

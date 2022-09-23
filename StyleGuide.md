@@ -10,7 +10,7 @@ class class_name
 {
 public constructors:
 public js_methods:
-public js_properties:
+private js_properties:
     
 protected cpp_methods:
 protected cpp_properties:

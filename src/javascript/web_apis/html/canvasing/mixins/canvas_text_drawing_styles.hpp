@@ -11,7 +11,7 @@ namespace html::canvasing::mixins {class canvas_text_drawing_styles;}
 class html::canvasing::mixins::canvas_text_drawing_styles
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<ext::string> font;
     ext::property<detail::canvas_text_align_t> text_align;
     ext::property<detail::canvas_text_baseline_t> text_baseline;

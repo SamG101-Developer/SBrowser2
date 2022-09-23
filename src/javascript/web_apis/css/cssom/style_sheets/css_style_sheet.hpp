@@ -22,11 +22,11 @@ public js_methods:
     auto replace(ext::string_view text) -> ext::promise<css_style_sheet*>;
     auto replace_sync(ext::string_view text) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<rules::css_rule*> owner_rule;
     ext::property<ext::vector<rules::css_rule*>> css_rules;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(css_rules);
 };
 

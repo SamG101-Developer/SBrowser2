@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(magnetometer);
     magnetometer(detail::magnetometer_sensor_options_t&& options = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> x;
     ext::property<ext::number<double>> y;
     ext::property<ext::number<double>> z;
@@ -23,7 +23,7 @@ public js_properties:
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(x);
     DEFINE_CUSTOM_GETTER(y);
     DEFINE_CUSTOM_GETTER(z);

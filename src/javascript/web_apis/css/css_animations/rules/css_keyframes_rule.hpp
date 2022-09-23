@@ -19,7 +19,7 @@ public js_methods:
     auto delete_rule(ext::string_view select) -> void;
     auto find_rule(ext::string_view select) -> css_keyframe_rule*;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> name;
     ext::property<ext::vector<cssom::rules::css_rule*>> css_rules;
 

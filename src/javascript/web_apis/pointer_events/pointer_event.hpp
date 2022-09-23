@@ -18,7 +18,7 @@ public js_methods:
     auto get_coalesced_events() const -> ext::vector<pointer_event*>*;
     auto get_predicted_events() const -> ext::vector<pointer_event*>*;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<long>> pointer_id;
     ext::property<ext::number<double>> width;
     ext::property<ext::number<double>> height;
@@ -39,7 +39,7 @@ private cpp_properties:
     std::unique_ptr<ext::vector<pointer_event*>> m_coalesced_events;
     std::unique_ptr<ext::vector<pointer_event*>> m_predicted_events;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(target);
 };
 

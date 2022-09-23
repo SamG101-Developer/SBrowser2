@@ -26,7 +26,7 @@ public js_methods:
     auto disconnect() -> void;
     auto take_records() -> ext::vector<intersection_observer_entry*>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::variant<dom::nodes::element*, dom::nodes::document*>> root;
     ext::property<ext::string> root_margin;
     ext::property<ext::vector<ext::number<double>>> thresholds;
@@ -37,7 +37,7 @@ private js_slots:
     ext::slot<ext::vector<dom::nodes::element*>> s_observation_targets;
     ext::slot<ext::vector<intersection_observer*>> s_queued_entries;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(s_root_margin);
 };
 

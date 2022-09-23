@@ -14,7 +14,7 @@ class dom::xslt::xslt_processor
 public constructors:
     xslt_processor();
 
-public js_properties:
+private js_properties:
     auto import_stylesheet(nodes::node* style) -> void;
     auto transform_to_fragment(nodes::node* source, nodes::document* output) -> nodes::document_fragment*;
     auto transform_to_document(nodes::node* source) -> nodes::document*;

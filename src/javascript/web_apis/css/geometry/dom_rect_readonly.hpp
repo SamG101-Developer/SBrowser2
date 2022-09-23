@@ -20,7 +20,7 @@ public constructors:
 public js_methods:
     static auto from_rect(detail::dom_rect_init_t&& other = {}) -> dom_rect_readonly;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> x;
     ext::property<ext::number<double>> y;
     ext::property<ext::number<double>> w;
@@ -39,7 +39,7 @@ public cpp_members:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_rect_readonly* override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(x) {return d_ptr->x();}
     DEFINE_CUSTOM_GETTER(y) {return d_ptr->y();}
     DEFINE_CUSTOM_GETTER(w) {return d_ptr->width();}

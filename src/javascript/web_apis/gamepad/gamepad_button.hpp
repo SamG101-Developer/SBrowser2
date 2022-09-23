@@ -12,7 +12,7 @@ class gamepad::gamepad_button
 public constructors:
     gamepad_button() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> pressed;
     ext::property<ext::boolean> touched;
     ext::property<ext::number<double>> value;
@@ -25,7 +25,7 @@ private js_slots:
 public cpp_properties:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(pressed) {return s_pressed();}
     DEFINE_CUSTOM_GETTER(touched) {return s_touched();}
     DEFINE_CUSTOM_GETTER(value) {return s_value();}

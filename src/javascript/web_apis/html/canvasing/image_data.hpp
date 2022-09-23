@@ -18,7 +18,7 @@ public constructors:
     image_data(ext::number<ulong> sw, ext::number<ulong> sh, detail::image_data_settings_t&& = {});
     image_data(ext::vector<ext::number<uchar>>&& data, ext::number<ulong> sw, ext::number<ulong> sh, detail::image_data_settings_t&& = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> width;
     ext::property<ext::number<ulong>> height;
     ext::property<std::unique_ptr<ext::vector<ext::number<uchar>>>> data;

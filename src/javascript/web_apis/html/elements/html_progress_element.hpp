@@ -13,13 +13,13 @@ public constructors:
     DOM_CTORS(html_progress_element);
     html_progress_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> value;
     ext::property<ext::number<double>> max;
     ext::property<ext::number<double>> position;
     ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(value);
 };
 

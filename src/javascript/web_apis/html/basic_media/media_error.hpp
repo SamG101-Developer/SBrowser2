@@ -22,7 +22,7 @@ public js_static_constants:
 public cpp_methods:
     auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ushort>> code;
     ext::property<ext::string> message;
 };

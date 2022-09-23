@@ -26,7 +26,7 @@ public js_methods:
     auto resume() -> void;
     auto request_data() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<main::media_stream>> stream;
     ext::property<ext::string> mime_type;
     ext::property<detail::recording_state_t> state;

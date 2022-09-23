@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(html_legend_element);
     html_legend_element() = default;
 
-public js_properties:
+private js_properties:
     ext::property<html_form_element*> form;
 
 public cpp_methods:

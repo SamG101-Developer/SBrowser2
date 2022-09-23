@@ -30,7 +30,7 @@ public js_methods:
     static auto is_type_supported(ext::string_view type) -> ext::boolean;
 
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<media_source_handle>> handle;
     ext::property<ext::vector<source_buffer*>> source_buffers;
     ext::property<ext::vector<source_buffer*>> active_source_buffers;
@@ -42,7 +42,7 @@ private js_slots:
     ext::slot<std::unique_ptr<html::basic_media::time_ranges>> s_live_seekable_range;
     ext::slot<std::unique_ptr<html::messaging::message_port>> s_port_to_main;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(handle);
     DEFINE_CUSTOM_GETTER(duration);
 

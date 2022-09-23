@@ -17,7 +17,7 @@ public constructors:
     text_format() = default;
     text_format(detail::touch_format_init_t&& options = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> range_start;
     ext::property<ext::number<ulong>> range_end;
     ext::property<ext::string> text_color;

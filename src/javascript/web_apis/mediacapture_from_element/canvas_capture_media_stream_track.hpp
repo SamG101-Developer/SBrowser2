@@ -14,7 +14,7 @@ class mediacapture::from_element::canvas_capture_media_stream_track
 public js_methods:
     auto request_frame() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<html::elements::html_canvas_element>> canvas;
 };
 

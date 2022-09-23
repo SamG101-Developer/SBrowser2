@@ -22,7 +22,7 @@ public cpp_members:
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_point* override;
 
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(x) {d_ptr->setX(*val.as<float>());};
     DEFINE_CUSTOM_SETTER(y) {d_ptr->setY(*val.as<float>());};
     DEFINE_CUSTOM_SETTER(z) {d_ptr->setZ(*val.as<float>());};

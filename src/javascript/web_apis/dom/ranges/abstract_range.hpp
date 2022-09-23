@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(abstract_range);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(start_container, nodes::node*);
     DEFINE_GETTER(start_offset, ext::number<ulong>);
     DEFINE_GETTER(end_container, nodes::node*);

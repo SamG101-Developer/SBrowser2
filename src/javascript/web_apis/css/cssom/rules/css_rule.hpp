@@ -33,7 +33,7 @@ public js_static_constants:
     constexpr static const ext::number<ushort> MARGIN_RULE = 9;
     constexpr static const ext::number<ushort> NAMESPACE_RULE = 10;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> css_text;
     ext::property<css_rule*> parent_rule;
     ext::property<css_style_sheet*> parent_style_sheet;
@@ -47,7 +47,7 @@ private cpp_members:
 protected cpp_accessors:
     virtual DEFINE_CUSTOM_GETTER(type) = 0;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(css_text);
     DEFINE_CUSTOM_GETTER(parent_rule);
     DEFINE_CUSTOM_GETTER(parent_style_sheet);

@@ -19,7 +19,7 @@ public js_static_constants:
     constexpr const static ext::number<ulong> DOM_DELTA_LINE = 0x01;
     constexpr const static ext::number<ulong> DOM_DELTA_PAGE = 0x02;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> delta_x;
     ext::property<ext::number<double>> delta_y;
     ext::property<ext::number<double>> delta_z;

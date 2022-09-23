@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(html_template_element);
     html_template_element();
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<dom::nodes::document_fragment>> content;
 
 public cpp_methods:

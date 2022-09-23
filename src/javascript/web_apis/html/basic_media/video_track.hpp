@@ -12,7 +12,7 @@ class html::basic_media::video_track
 public constructors:
     video_track() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> selected;
 
     /* MEDIA_SOURCE */

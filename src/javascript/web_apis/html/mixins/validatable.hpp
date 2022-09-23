@@ -20,7 +20,7 @@ public js_methods:
     auto report_validity() -> ext::boolean;
     auto set_custom_validity(ext::string&& error) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> will_validate;
     ext::property<other::validity_state*> validity;
     ext::property<ext::string> validation_message;

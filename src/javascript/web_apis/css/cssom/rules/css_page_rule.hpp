@@ -14,11 +14,11 @@ class css::cssom::rules::css_style_rule
 public constructors:
     css_style_rule();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> selector_text;
     ext::property<std::unique_ptr<other::css_style_declaration>> style;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(type) override {return PAGE_RULE;}
     DEFINE_CUSTOM_GETTER(selector_text);
     DEFINE_CUSTOM_SETTER(selector_text);

@@ -22,7 +22,7 @@ public js_methods:
     auto request_submit(html_element* submitter = nullptr);
     auto reset() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> accept_charset;
     ext::property<ext::string> action;
     ext::property<ext::string> autocomplete;

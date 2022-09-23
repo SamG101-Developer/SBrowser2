@@ -11,7 +11,7 @@ class html::elements::html_source_element
 public constructors:
     html_source_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string, true> src;
     ext::property<ext::string, true> type;
     ext::property<ext::string, true> srcset;

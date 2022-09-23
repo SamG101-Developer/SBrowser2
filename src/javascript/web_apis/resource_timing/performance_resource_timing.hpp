@@ -16,7 +16,7 @@ public constructors:
     DOM_CTORS(performance_resource_timing);
     performance_resource_timing() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> initiator_type;
     ext::property<ext::string> next_hop_protocol;
     ext::property<hr_time::dom_high_res_time_stamp> worker_start;
@@ -45,7 +45,7 @@ private cpp_properties:
     std::unique_ptr<fetch::detail::fetch_timing_info_t> timing_info;
     std::unique_ptr<fetch::detail::response_body_info_t> response_body_info;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(next_hop_protocol);
     DEFINE_CUSTOM_GETTER(worker_start);
     DEFINE_CUSTOM_GETTER(redirect_start);

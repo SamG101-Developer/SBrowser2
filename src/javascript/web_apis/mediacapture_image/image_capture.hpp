@@ -25,7 +25,7 @@ public js_methods:
     auto get_photo_settings() -> ext::promise<detail::photo_settings_t>;
     auto grab_frame() -> ext::promise<html::canvasing::image_bitmap*>;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<main::media_stream_track>> track;
 };
 

@@ -18,7 +18,7 @@ public constructors:
     DOM_CTORS(html_button_element);
     html_button_element();
 
-public js_properties:
+private js_properties:
     ext::property<html_form_element*> form;
     ext::property<ext::boolean> disabled;
     ext::property<ext::boolean> form_no_validate;

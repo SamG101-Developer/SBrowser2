@@ -23,7 +23,7 @@ public js_methods:
     auto set_range_text(ext::string&& replacement, ext::number<long> start = 0, ext::number<long> end = 0, detail::selection_mode_t selection_mode = detail::selection_mode_t::PRESERVE) -> void;
     auto set_selection_range(ext::number<long> start, ext::number<long> end, detail::selection_mode_t selection_mode);
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> autocomplete;
     ext::property<ext::number<ulong>> cols;
     ext::property<ext::number<ulong>> rows;

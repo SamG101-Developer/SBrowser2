@@ -25,7 +25,7 @@ public js_methods:
     auto set_property_value(ext::string_view property, ext::string&& value, ext::string&& priority) -> void;
     auto remove_property_value(ext::string_view property) -> ext::string_view;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> css_text;
     ext::property<ext::string> css_float;
     ext::property<rules::css_rule*> parent_rule;
@@ -41,7 +41,7 @@ private cpp_members:
     MAKE_PIMPL(css_style_declaration);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(css_text);
     DEFINE_CUSTOM_GETTER(css_float);
     DEFINE_CUSTOM_GETTER(parent_rule);

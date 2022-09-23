@@ -13,7 +13,7 @@ public constructors:
     animation_playback_event() = default;
     animation_playback_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> current_time;
     ext::property<ext::number<double>> timeline_time;
 };

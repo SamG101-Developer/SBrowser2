@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(text_track_cue);
     text_track_cue() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> id;
     ext::property<ext::number<double>> start_time;
     ext::property<ext::number<double>> end_time;

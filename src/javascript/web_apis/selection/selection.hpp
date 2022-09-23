@@ -19,7 +19,7 @@ public constructors:
     DOM_CTORS(selection);
     selection() = default;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<dom::nodes::node>> anchor_node;
     ext::property<std::unique_ptr<dom::nodes::node>> focus_node;
     ext::property<ext::number<ulong>> anchor_offset;

@@ -126,7 +126,7 @@ public js_methods:
     /* [CSS_BOX_TREE] */
     auto layout_now() -> void;
 
-public js_properties:
+private js_properties:
 
     /* [HTML] */
     ext::property<std::unique_ptr<html::other::location>> location;

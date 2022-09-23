@@ -18,7 +18,7 @@ public constructors:
 public js_methods:
     auto set_drag_image(dom::nodes::element* element, ext::number<long> x, ext::number<long> y) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> drop_effect;
     ext::property<ext::string> effect_allowed;
     ext::property<std::unique_ptr<ext::vector<data_transfer*>>> items;

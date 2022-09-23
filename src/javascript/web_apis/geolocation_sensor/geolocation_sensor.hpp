@@ -22,7 +22,7 @@ public constructors:
 public js_methods:
     auto read(detail::read_options_t&& read_options) -> ext::promise<detail::geolocation_sensor_reading_t>;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(latitude);
     DEFINE_CUSTOM_GETTER(longitude);
     DEFINE_CUSTOM_GETTER(altitude);

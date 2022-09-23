@@ -15,7 +15,7 @@ public constructors:
     DOM_CTORS(webgl_shader_precision_format);
     webgl_shader_precision_format() = default;
     
-public js_properties:
+private js_properties:
     ext::property<detail::glint_t> range_min;
     ext::property<detail::glint_t> range_max;
     ext::property<detail::glint_t> precision;

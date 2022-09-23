@@ -64,7 +64,7 @@ public js_methods:
     /* CSSOM */
     auto get_computed_style(element* element, ext::string_view pseudo_element = "") -> css::cssom::other::css_style_declaration;
 
-public js_properties:
+private js_properties:
     /* HTML */
     ext::property<std::unique_ptr<window_proxy>> window;
     ext::property<std::unique_ptr<window_proxy>> self;
@@ -114,7 +114,7 @@ private cpp_properties:
     std::unique_ptr<event_timing::event_counts> m_event_counts;
     std::unique_ptr<event_timing::interaction_counts> m_interaction_counts;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(name);
     DEFINE_CUSTOM_GETTER(closed);
 

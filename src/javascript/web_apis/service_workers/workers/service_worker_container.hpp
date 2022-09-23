@@ -24,7 +24,7 @@ public js_methods:
     auto get_registrations() -> ext::promise<const ext::vector<service_worker_registration>>;
     auto start_messages() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<service_worker>> controller;
     ext::property<ext::promise<std::unique_ptr<service_worker_registration>>> ready;
 
@@ -33,7 +33,7 @@ private cpp_properties:
     ext::promise<void> ready_promise;
     // TODO : task queue ???
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(controller);
     DEFINE_CUSTOM_GETTER(ready);
 };

@@ -18,7 +18,7 @@ public js_methods:
     auto show_modal() -> void;
     auto close(ext::string&& return_value = "") -> void;
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> open;
     ext::property<ext::string> return_value;
 

@@ -26,7 +26,7 @@ public js_methods:
     auto next_node() -> nodes::node*;
     auto prev_node() -> nodes::node*;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(current_node, nodes::node*) {return d_ptr->current;}
     DEFINE_SETTER(current_node, nodes::node*) {d_ptr->current = new_current_node;}
 };

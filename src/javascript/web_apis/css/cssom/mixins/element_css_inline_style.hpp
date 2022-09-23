@@ -11,7 +11,7 @@ namespace css::cssom::other {class css_style_declaration;}
 class css::cssom::mixins::element_css_inline_style
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<other::css_style_declaration>> style;
 };
 

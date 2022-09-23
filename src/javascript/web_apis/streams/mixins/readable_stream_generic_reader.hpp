@@ -19,14 +19,14 @@ public js_methods:
     template <typename T>
     auto cancel(T&& reason = nullptr) -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::promise<void>> closed;
 
 protected js_slots:
     ext::promise<void> s_closed_promise;
     readable::readable_stream* s_stream;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(closed);
 };
 

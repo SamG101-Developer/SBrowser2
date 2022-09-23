@@ -18,7 +18,7 @@ private cpp_members:
     MAKE_PIMPL(attr);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return ATTRIBUTE_NODE;}
     DEFINE_GETTER(node_name, ext::string) override;
     DEFINE_GETTER(node_value, ext::string) override {return d_ptr->value;}

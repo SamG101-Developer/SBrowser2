@@ -16,7 +16,7 @@ public constructors:
     capture_action_event() = default;
     capture_action_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     detail::capture_action_t action;
 };
 

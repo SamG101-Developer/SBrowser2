@@ -23,7 +23,7 @@ public constructors:
 public js_methods:
     auto get_type(ext::string&& type) -> ext::promise<file_api::blob*>;
 
-public js_properties:
+private js_properties:
     ext::property<detail::presentation_style_t> presentation_style;
     ext::property<ext::vector<ext::string>> types;
 
@@ -31,7 +31,7 @@ private cpp_members:
     MAKE_PIMPL(clipboard_item);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(presentation_style);
     DEFINE_CUSTOM_GETTER(types);
 };

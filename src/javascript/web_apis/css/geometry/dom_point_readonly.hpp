@@ -24,7 +24,7 @@ public js_methods:
     static auto from_point(detail::dom_point_init_t&& other = {}) -> dom_point_readonly;
     auto matrix_transform(detail::dom_matrix_init_t&& matrix = {}) -> dom_point;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> x;
     ext::property<ext::number<double>> y;
     ext::property<ext::number<double>> z;
@@ -38,7 +38,7 @@ public cpp_members:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_point_readonly* override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(x) {return d_ptr->x();};
     DEFINE_CUSTOM_GETTER(y) {return d_ptr->y();};
     DEFINE_CUSTOM_GETTER(z) {return d_ptr->z();};

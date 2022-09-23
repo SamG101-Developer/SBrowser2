@@ -21,7 +21,7 @@ public cpp_members:
     MAKE_PIMPL(abort_controller);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(signal, abort_signal*) {return d_ptr->signal.get();}
 };
 

@@ -18,7 +18,7 @@ public constructors:
 public js_methods:
     auto populate_matrix(detail::rotation_matrix_type_t target_matrix);
 
-public js_properties:
+private js_properties:
     ext::property<const std::unique_ptr<ext::number<double>>> quaternion;
 };
 

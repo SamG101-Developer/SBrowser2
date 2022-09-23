@@ -12,7 +12,7 @@ class html::elements::html_base_element
 public constructors:
     html_base_element();
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> href;
     ext::property<ext::string> target;
 
@@ -22,7 +22,7 @@ public cpp_methods:
 private cpp_properties:
     url::detail::url_t m_frozen_base_url;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(href);
 };
 

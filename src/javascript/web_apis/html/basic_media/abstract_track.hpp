@@ -14,7 +14,7 @@ class html::basic_media::abstract_track
 public constructors:
     abstract_track() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> id;
     ext::property<html::detail::text_track_kind_t> kind;
     ext::property<ext::string> label;

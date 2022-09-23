@@ -15,7 +15,7 @@ class css::css_web_animations::animation_timeline
 public constructors:
     animation_timeline() = default;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> current_time;
 
 private cpp_members:

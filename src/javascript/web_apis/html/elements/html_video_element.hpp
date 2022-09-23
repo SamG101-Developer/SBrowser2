@@ -19,7 +19,7 @@ public js_methods:
     /* MEDIA_PLAYBACK_QUALITY*/
     auto get_video_playback_quality() -> media::playback_quality::video_playback_quality;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> width;
     ext::property<ext::number<ulong>> height;
     ext::property<ext::number<ulong>> video_width;
@@ -35,7 +35,7 @@ private cpp_properties:
     ext::number<int> m_total_video_frame_count = 0;
     ext::number<int> m_dropped_video_frame_count = 0;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(video_width);
     DEFINE_CUSTOM_GETTER(video_height);
 };

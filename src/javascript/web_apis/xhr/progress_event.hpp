@@ -12,7 +12,7 @@ public constructors:
     progress_event() = default;
     progress_event(ext::string_view event_type, ext::string_any_map_view event_init);
 
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> length_computable;
     ext::property<ext::number<ulonglong>> loaded;
     ext::property<ext::number<ulonglong>> total;

@@ -23,7 +23,7 @@ public js_methods:
     template <typename T> auto get_keyframes() -> ext::vector<T*>;
     template <typename T> auto set_keyframes(ext::vector_view<T> keyframes) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<dom::nodes::element>> target;
     ext::property<ext::string> pseudo_element;
     ext::property<detail::composite_operation_t> composite;

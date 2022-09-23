@@ -11,7 +11,7 @@ namespace html::canvasing::mixins {class canvas_image_smoothing;}
 class html::canvasing::mixins::canvas_image_smoothing
         : public virtual dom_object
 {
-public js_properties:
+private js_properties:
     ext::property<ext::boolean> image_smoothing_enabled;
     ext::property<detail::image_smoothing_quality_t> global_composite_operation;
 

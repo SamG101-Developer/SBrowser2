@@ -25,7 +25,7 @@ public js_methods:
     ext::property<detail::frame_type_t> frame_type;
     ext::property<detail::frame_type_t> client_type;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(url);
     DEFINE_CUSTOM_GETTER(id);
     DEFINE_CUSTOM_GETTER(frame_type);

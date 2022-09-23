@@ -14,7 +14,7 @@ public constructors:
     touch_event() = default;
     touch_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<ext::vector<touch*>>> touches;
     ext::property<std::unique_ptr<ext::vector<touch*>>> target_touches;
     ext::property<std::unique_ptr<ext::vector<touch*>>> changed_touches;

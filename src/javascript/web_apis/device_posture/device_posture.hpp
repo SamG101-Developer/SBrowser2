@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(device_posture);
     MAKE_V8_AVAILABLE;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_GETTER(type, detail::device_posture_type_t) {return d_ptr->current_posture;}
 };
 

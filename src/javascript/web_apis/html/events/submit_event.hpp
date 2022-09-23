@@ -16,7 +16,7 @@ public constructors:
     submit_event() = default;
     submit_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_properties:
+private js_properties:
     ext::property<elements::html_form_element*> submitter;
 };
 

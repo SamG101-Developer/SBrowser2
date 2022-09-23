@@ -20,7 +20,7 @@ public js_methods:
     static auto create_object_url(file_api::blob* blob) -> ext::string;
     static auto revoke_object_url(ext::string_view url);
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> href;
     ext::property<ext::string> origin;
     ext::property<ext::string> protocol;
@@ -46,7 +46,7 @@ private cpp_properties:
     std::unique_ptr<detail::url_t> m_url;
     std::unique_ptr<url_search_params> m_query_object;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(href);
     DEFINE_CUSTOM_GETTER(origin);
     DEFINE_CUSTOM_GETTER(username);

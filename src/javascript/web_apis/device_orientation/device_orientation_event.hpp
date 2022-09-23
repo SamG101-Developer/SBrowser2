@@ -21,7 +21,7 @@ public constructors:
 public js_methods:
     static auto request_permission() -> ext::promise<detail::permission_state_t>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<double>> alpha;
     ext::property<ext::number<double>> beta;
     ext::property<ext::number<double>> gamma;

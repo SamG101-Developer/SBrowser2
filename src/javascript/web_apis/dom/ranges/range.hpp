@@ -61,7 +61,7 @@ public js_methods:
     /* DOM_PARSING */
     auto create_contextual_fragmnt(ext::string&& fragment) -> nodes::document_fragment;
 
-public js_properties:
+private js_properties:
     ext::property<nodes::node*> common_ancestor_container;
 
 public cpp_members:
@@ -69,7 +69,7 @@ public cpp_members:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(common_ancestor_container);
 };
 

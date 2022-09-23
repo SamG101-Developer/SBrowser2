@@ -17,7 +17,7 @@ public js_methods:
     auto start(ext::number<long> index) -> ext::number<double>;
     auto end(ext::number<long> index) -> ext::number<double>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::number<ulong>> length;
 
 public cpp_methods:
@@ -26,7 +26,7 @@ public cpp_methods:
 private cpp_properties:
     ext::vector<ext::pair<ext::number<double>, ext::number<double>>> m_ranges;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_GETTER(length);
 };
 

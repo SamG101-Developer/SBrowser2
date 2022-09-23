@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(mutation_record);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(type, ext::string) {return d_ptr->type;}
     DEFINE_GETTER(attribute_name, ext::string) {return d_ptr->attribute_name;}
     DEFINE_GETTER(attribute_namespace, ext::string) {return d_ptr->attribute_namespace;}

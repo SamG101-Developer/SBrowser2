@@ -21,7 +21,7 @@ public constructors:
 public js_methods:
     auto transfer_from_image_bitmap(image_bitmap* bitmap) -> void;
 
-public js_properties:
+private js_properties:
     ext::property<elements::html_canvas_element*, offscreen_canvas*> canvas;
 
 public cpp_methods:

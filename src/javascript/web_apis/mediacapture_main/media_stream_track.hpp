@@ -32,7 +32,7 @@ public js_methods:
     auto get_supported_capture_actions() -> ext::vector_view<ext::string>;
     auto send_capture_action(detail::capture_action_t action) -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     ext::property<ext::string> kind;
     ext::property<ext::string> id;
     ext::property<ext::string> label;
@@ -51,7 +51,7 @@ public cpp_methods:
 private cpp_properties:
     detail::media_stream_track_source& m_source;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(muted);
 };
 

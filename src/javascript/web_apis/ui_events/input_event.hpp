@@ -23,7 +23,7 @@ public js_methods:
     /* INPUT_EVENTS */
     auto get_target_ranges() -> ext::vector<dom::node_ranges::static_range*>*;
 
-public js_properties:
+private js_properties:
     /* UI_EVENTS */
     ext::property<ext::string> data;
     ext::property<ext::string> input_type;

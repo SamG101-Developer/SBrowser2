@@ -48,7 +48,7 @@ public constructors:
 public js_methods:
     auto commit() -> void;
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<offscreen_canvas>> canvas;
 
 public cpp_methods:

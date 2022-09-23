@@ -17,7 +17,7 @@ public constructors:
     DOM_CTORS(geolocation_position);
     geolocation_position();
 
-public js_properties:
+private js_properties:
     ext::property<std::unique_ptr<geolocation_coordinates>> coords;
     ext::property<hr_time::epoch_time_stamp> timestamp;
 

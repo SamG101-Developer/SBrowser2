@@ -16,7 +16,7 @@ public constructors:
     DOM_CTORS(webgl_active_info);
     webgl_active_info() = default;
     
-public js_properties:
+private js_properties:
     ext::property<detail::glint_t> size;
     ext::property<detail::glenum_t> type;
     ext::property<ext::string> name;

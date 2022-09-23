@@ -40,7 +40,7 @@ private cpp_members:
     auto m_serialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> void override;
     auto m_deserialize(ext::map<ext::string, ext::any> &serialized, ext::boolean for_storage) -> dom_matrix* override;
 
-private cpp_accessors:
+private js_properties:
     DEFINE_CUSTOM_SETTER(m11) {(*d_ptr)(0, 0) = *val;}
     DEFINE_CUSTOM_SETTER(m12) {(*d_ptr)(1, 0) = *val;}
     DEFINE_CUSTOM_SETTER(m13) {(*d_ptr)(2, 0) = *val;}
