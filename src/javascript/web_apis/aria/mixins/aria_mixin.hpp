@@ -7,69 +7,70 @@ namespace dom::nodes {class element;}
 
 #include "ext/vector.hpp"
 
+#include "aria/mixins/aria_mixin_private.hpp"
+
 
 class aria::mixins::aria_mixin
         : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(aria_mixin);
+    MAKE_PIMPL(aria_mixin);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> role;
-    ext::property<ext::string> aria_atomic;
-    ext::property<ext::string> aria_auto_complete;
-    ext::property<ext::string> aria_busy;
-    ext::property<ext::string> aria_checked;
-    ext::property<ext::string> area_col_count;
-    ext::property<ext::string> aria_col_index;
-    ext::property<ext::string> aria_col_index_text;
-    ext::property<ext::string> aria_col_span;
-    ext::property<ext::string> aria_current;
-    ext::property<ext::string> aria_description;
-    ext::property<ext::string> aria_disabled;
-    ext::property<ext::string> aria_expanded;
-    ext::property<ext::string> aria_has_popup;
-    ext::property<ext::string> aria_hidden;
-    ext::property<ext::string> aria_invalid;
-    ext::property<ext::string> aria_key_shortcut;
-    ext::property<ext::string> aria_label;
-    ext::property<ext::string> aria_level;
-    ext::property<ext::string> aria_live;
-    ext::property<ext::string> aria_modal;
-    ext::property<ext::string> aria_multiline;
-    ext::property<ext::string> aria_multi_selectable;
-    ext::property<ext::string> aria_orientation;
-    ext::property<ext::string> aria_placeholder;
-    ext::property<ext::string> aria_pos_in_set;
-    ext::property<ext::string> aria_pressed;
-    ext::property<ext::string> aria_read_only;
+    DEFINE_GETTER(role, ext::string);
+    DEFINE_GETTER(aria_atomic, ext::string);
+    DEFINE_GETTER(aria_auto_complete, ext::string);
+    DEFINE_GETTER(aria_busy, ext::string);
+    DEFINE_GETTER(aria_checked, ext::string);
+    DEFINE_GETTER(area_col_count, ext::string);
+    DEFINE_GETTER(aria_col_index, ext::string);
+    DEFINE_GETTER(aria_col_index_text, ext::string);
+    DEFINE_GETTER(aria_col_span, ext::string);
+    DEFINE_GETTER(aria_current, ext::string);
+    DEFINE_GETTER(aria_description, ext::string);
+    DEFINE_GETTER(aria_disabled, ext::string);
+    DEFINE_GETTER(aria_expanded, ext::string);
+    DEFINE_GETTER(aria_has_popup, ext::string);
+    DEFINE_GETTER(aria_hidden, ext::string);
+    DEFINE_GETTER(aria_invalid, ext::string);
+    DEFINE_GETTER(aria_key_shortcut, ext::string);
+    DEFINE_GETTER(aria_label, ext::string);
+    DEFINE_GETTER(aria_level, ext::string);
+    DEFINE_GETTER(aria_live, ext::string);
+    DEFINE_GETTER(aria_modal, ext::string);
+    DEFINE_GETTER(aria_multiline, ext::string);
+    DEFINE_GETTER(aria_multi_selectable, ext::string);
+    DEFINE_GETTER(aria_orientation, ext::string);
+    DEFINE_GETTER(aria_placeholder, ext::string);
+    DEFINE_GETTER(aria_pos_in_set, ext::string);
+    DEFINE_GETTER(aria_pressed, ext::string);
+    DEFINE_GETTER(aria_read_only, ext::string);
 
-    ext::property<ext::string> aria_required;
-    ext::property<ext::string> aria_role_description;
-    ext::property<ext::string> aria_row_count;
-    ext::property<ext::string> aria_row_index;
-    ext::property<ext::string> aria_row_index_text;
-    ext::property<ext::string> aria_row_span;
-    ext::property<ext::string> aria_selected;
-    ext::property<ext::string> aria_set_size;
-    ext::property<ext::string> aria_sort;
-    ext::property<ext::string> aria_value_max;
-    ext::property<ext::string> aria_value_min;
-    ext::property<ext::string> aria_value_now;
-    ext::property<ext::string> aria_value_text;
+    DEFINE_GETTER(aria_required, ext::string);
+    DEFINE_GETTER(aria_role_description, ext::string);
+    DEFINE_GETTER(aria_row_count, ext::string);
+    DEFINE_GETTER(aria_row_index, ext::string);
+    DEFINE_GETTER(aria_row_index_text, ext::string);
+    DEFINE_GETTER(aria_row_span, ext::string);
+    DEFINE_GETTER(aria_selected, ext::string);
+    DEFINE_GETTER(aria_set_size, ext::string);
+    DEFINE_GETTER(aria_sort, ext::string);
+    DEFINE_GETTER(aria_value_max, ext::string);
+    DEFINE_GETTER(aria_value_min, ext::string);
+    DEFINE_GETTER(aria_value_now, ext::string);
+    DEFINE_GETTER(aria_value_text, ext::string);
 
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> aria_controls_elements;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> aria_described_by_elements;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> aria_details_elements;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> aria_flow_to_elements;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> aria_labelled_by_elements;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::element*>>> aria_owns_elements;
+    DEFINE_GETTER(aria_controls_elements, ext::vector_view<dom::nodes::element*>);
+    DEFINE_GETTER(aria_described_by_elements, ext::vector_view<dom::nodes::element*>);
+    DEFINE_GETTER(aria_details_elements, ext::vector_view<dom::nodes::element*>);
+    DEFINE_GETTER(aria_flow_to_elements, ext::vector_view<dom::nodes::element*>);
+    DEFINE_GETTER(aria_labelled_by_elements, ext::vector_view<dom::nodes::element*>);
+    DEFINE_GETTER(aria_owns_elements, ext::vector_view<dom::nodes::element*>);
 
-    ext::property<std::unique_ptr<dom::nodes::element>> aria_active_descendant_element;
-    ext::property<std::unique_ptr<dom::nodes::element>> aria_error_message_element;
-
-private cpp_members:
-    MAKE_V8_AVAILABLE;
+    DEFINE_GETTER(aria_active_descendant_element, dom::nodes::element*);
+    DEFINE_GETTER(aria_error_message_element, dom::nodes::element*);
 };
 
 

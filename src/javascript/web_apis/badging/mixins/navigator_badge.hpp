@@ -9,19 +9,20 @@ namespace badging::mixins {class navigator_badge;}
 #include "ext/number.hpp"
 #include "ext/type_traits.hpp"
 
+#include "badging/mixins/navigator_badge_private.hpp"
+
 
 class badging::mixins::navigator_badge
         : public virtual dom_object
 {
 public constructors:
     navigator_badge() = default;
+    MAKE_PIMPL(navigator_badge);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto set_app_badge(ext::number<ulonglong> contents) -> ext::promise<void>;
     auto clear_app_badge() -> ext::promise<void>;
-
-private cpp_members:
-    MAKE_V8_AVAILABLE;
 };
 
 

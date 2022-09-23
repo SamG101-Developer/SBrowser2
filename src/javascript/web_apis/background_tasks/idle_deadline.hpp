@@ -16,7 +16,6 @@ class background_tasks::idle_deadline
 {
 public constructors:
     idle_deadline();
-
     MAKE_PIMPL(idle_deadline);
     MAKE_V8_AVAILABLE;
 
@@ -24,7 +23,7 @@ public js_methods:
     auto time_remaining() -> hr_time::dom_high_res_time_stamp;
 
 private js_properties:
-    DEFINE_GETTER(did_timeout, ext::boolean) {return d_ptr->timeout;};
+    DEFINE_GETTER(did_timeout, ext::boolean);
 };
 
 
