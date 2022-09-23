@@ -6,14 +6,8 @@
 #include "html/elements/html_slot_element.hpp"
 
 
-dom::mixins::slottable::slottable()
-{
-    bind_get(assigned_slot);
-}
-
-
 auto dom::mixins::slottable::get_assigned_slot()
-        const -> decltype(this->assigned_slot)::value_t
+        const -> html::elements::html_slot_element*;
 {
 
     // find a slot for the 'base' cast version of this class
@@ -29,7 +23,7 @@ auto dom::mixins::slottable::to_v8(
 {
     decltype(auto) conversion = v8pp::class_<slottable>{isolate}
         .inherit<dom_object>()
-        .var("assignedSlot", &slottable::assigned_slot, false)
+        .property("assignedSlot", &slottable::get_assigned_slot)
         .auto_wrap_objects();
 
     return std::move(conversion);

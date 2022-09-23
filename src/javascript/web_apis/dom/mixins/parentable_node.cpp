@@ -6,18 +6,10 @@
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"
+#include "dom/nodes/node.hpp"
 #include "dom/nodes/window.hpp"
 
 #include <range/v3/view/remove.hpp>
-
-
-dom::mixins::parentable_node::parentable_node()
-{
-    bind_get(children);
-    bind_get(first_element_child);
-    bind_get(last_element_child);
-    bind_get(child_element_count);
-}
 
 
 template <type_is<dom::nodes::node*, ext::string> ...T>
@@ -70,7 +62,7 @@ auto dom::mixins::parentable_node::replace_children(
 
 
 auto dom::mixins::parentable_node::get_children()
-        const -> decltype(this->children)::value_t
+        const -> ranges::any_view<nodes::element*>
 {
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) child_nodes = *base->child_nodes();
@@ -78,16 +70,16 @@ auto dom::mixins::parentable_node::get_children()
 }
 
 
-auto dom::mixins::parentable_node::get_first_element_child() const -> decltype(this->first_element_child)::value_t
-{return children().front();}
+auto dom::mixins::parentable_node::get_first_element_child() const -> nodes::element*
+{return get_children().front();}
 
 
-auto dom::mixins::parentable_node::get_last_element_child() const -> decltype(this->last_element_child)::value_t
-{return children().back();}
+auto dom::mixins::parentable_node::get_last_element_child() const -> nodes::element*
+{return get_children().back();}
 
 
-auto dom::mixins::parentable_node::get_child_element_count() const -> decltype(this->child_element_count)::value_t
-{return children().size();}
+auto dom::mixins::parentable_node::get_child_element_count() const -> ext::number<size_t>
+{return get_children().size();}
 
 
 auto dom::mixins::parentable_node::to_v8(
@@ -99,6 +91,12 @@ auto dom::mixins::parentable_node::to_v8(
             .function("prepend", &parentable_node::prepend, UNSCOPABLE)
             .function("append", &parentable_node::append, UNSCOPABLE)
             .function("replaceChildren", &parentable_node::replace_children, UNSCOPABLE)
+            .function("querySelector", &parentable_node::query_selector)
+            .function("querySelectorAll", &parentable_node::query_selector_all)
+            .property("children", &parentable_node::get_children)
+            .property("firstElementChild", &parentable_node::get_first_element_child)
+            .property("lastElementChild", &parentable_node::get_last_element_child)
+            .property("childElementCount", &parentable_node::get_child_element_count)
             .auto_wrap_objects();
     
     return std::move(conversion);

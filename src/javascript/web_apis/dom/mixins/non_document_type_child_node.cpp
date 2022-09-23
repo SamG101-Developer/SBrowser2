@@ -11,15 +11,8 @@
 #include <range/v3/view/subrange.hpp>
 
 
-dom::mixins::non_document_type_child_node::non_document_type_child_node()
-{
-    bind_get(previous_element_sibling);
-    bind_get(next_element_sibling);
-}
-
-
 auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const
-        -> decltype(this->previous_element_sibling)::value_t
+        -> nodes::element*
 {
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) siblings = *base->parent_node()->child_nodes();
@@ -29,7 +22,7 @@ auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() c
 
 
 auto dom::mixins::non_document_type_child_node::get_next_element_sibling()
-        const -> decltype(this->next_element_sibling)::value_t
+        const -> nodes::element*
 {
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) siblings = *base->parent_node()->child_nodes();
@@ -44,8 +37,8 @@ auto dom::mixins::non_document_type_child_node::to_v8(
 {
     decltype(auto) conversion = v8pp::class_<non_document_type_child_node>{isolate}
         .inherit<dom_object>()
-        .var("previousElementSibling", &non_document_type_child_node::previous_element_sibling, true)
-        .var("nextElementSibling", &non_document_type_child_node::next_element_sibling, true)
+        .property("previousElementSibling", &non_document_type_child_node::get_previous_element_sibling)
+        .property("nextElementSibling", &non_document_type_child_node::get_next_element_sibling)
         .auto_wrap_objects();
 
     return std::move(conversion);

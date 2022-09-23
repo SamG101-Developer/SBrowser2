@@ -6,6 +6,8 @@ namespace dom::mixins {class non_element_parent_node;}
 
 namespace dom::nodes {class element;}
 
+#include "dom/mixins/non_element_parent_node_private.hpp"
+
 
 class dom::mixins::non_element_parent_node
         : public virtual dom_object
@@ -13,11 +15,11 @@ class dom::mixins::non_element_parent_node
 public constructors:
     non_element_parent_node() = default;
 
+    MAKE_PIMPL(non_element_parent_node);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
     auto get_element_by_id(ext::string_view id) -> nodes::element*;
-
-private cpp_members:
-    MAKE_V8_AVAILABLE;
 };
 
 

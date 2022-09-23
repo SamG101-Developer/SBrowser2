@@ -3,9 +3,12 @@
 
 auto dom::mixins::document_or_shadow_root::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<document_or_shadow_root>{isolate}
+    decltype(auto) conversion = v8pp::class_<document_or_shadow_root>{isolate}
         .inherit<dom_object>()
+        // TODO
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

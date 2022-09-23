@@ -10,35 +10,30 @@ namespace dom::mixins {class parentable_node;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 
+#include "dom/mixins/parentable_node_private.hpp"
+
 
 class dom::mixins::parentable_node
         : public virtual dom_object
 {
 public constructors:
     parentable_node();
+    MAKE_PIMPL(parentable_node);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     template <type_is<nodes::node*, ext::string> ...T> auto prepend(T&&... nodes) -> nodes::node*;
     template <type_is<nodes::node*, ext::string> ...T> auto append(T&&... nodes) -> nodes::node*;
     template <type_is<nodes::node*, ext::string> ...T> auto replace_children(T&&... nodes) -> nodes::node*;
 
-    auto query_selector(ext::string_view selectors);
-    auto query_selector_all(ext::string_view selectors);
-
-public js_properties:
-    ext::property<ranges::any_view<nodes::element*, ranges::category::sized | ranges::category::forward>> children;
-    ext::property<nodes::element*> first_element_child;
-    ext::property<nodes::element*> last_element_child;
-    ext::property<size_t> child_element_count;
-
-private cpp_members:
-    MAKE_V8_AVAILABLE;
+    auto query_selector(ext::string_view selectors) -> nodes::element*; // TODO: return type
+    auto query_selector_all(ext::string_view selectors) -> ext::vector<nodes::element*>; // TODO: return type
 
 private cpp_accessors:
-    DEFINE_CUSTOM_GETTER(children);
-    DEFINE_CUSTOM_GETTER(first_element_child);
-    DEFINE_CUSTOM_GETTER(last_element_child);
-    DEFINE_CUSTOM_GETTER(child_element_count);
+    DEFINE_GETTER(children, ranges::any_view<nodes::element*>);
+    DEFINE_GETTER(first_element_child, nodes::element*);
+    DEFINE_GETTER(last_element_child, nodes::element*);
+    DEFINE_GETTER(child_element_count, ext::number<size_t>);
 };
 
 

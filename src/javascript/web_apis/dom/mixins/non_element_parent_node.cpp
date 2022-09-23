@@ -19,7 +19,7 @@ auto dom::mixins::non_element_parent_node::get_element_by_id(
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     auto matches = detail::descendants(base)
             | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>()
-            | ranges::views::filter([id](const nodes::element* const element) {return element && element->id() == id;});
+            | ranges::views::filter([id](const nodes::element* const element) {return element && element->id() == id;}); // TODO : optimize (make range call shorter)
 
     return *matches.begin(); // will be nullptr for empty list
 }
