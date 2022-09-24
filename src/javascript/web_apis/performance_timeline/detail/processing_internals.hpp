@@ -38,7 +38,7 @@ namespace performance_timeline::detail
 
 struct performance_timeline::detail::performance_entry_buffer_map_tuple_t
 {
-    performance_entry_buffer_t performance_entry_buffer;
+    performance_entry_list_t performance_entry_buffer;
     ext::number<int> max_buffer_size;
     ext::number<int> dropped_entries_count = 0;
     ext::boolean available_from_timeline;

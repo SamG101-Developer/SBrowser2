@@ -259,7 +259,7 @@ namespace ranges::actions
 /* ALGORITHMS */
 namespace ranges
 {
-    auto contains_any_fn = []<typename R0, typename R1>(R0&& range0, R1&& range1)
+    auto contains_any = []<typename R0, typename R1>(R0&& range0, R1&& range1) mutable
     {
         return ranges::any_of(std::forward<R1>(range1),
                 [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
@@ -267,11 +267,17 @@ namespace ranges
     };
 
 
-    auto contains_all = []<typename R0, typename R1>(R0&& range0, R1&& range1)
+    auto contains_all = []<typename R0, typename R1>(R0&& range0, R1&& range1) mutable
     {
         return ranges::all_of(std::forward<R1>(range1),
                 [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
                 {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
+    };
+
+
+    auto negate_contains = []<typename R, typename T>(R&& range, T&& value) mutable
+    {
+        return !ranges::contains(std::forward<R>(range), std::forward<T>(value));
     };
 
 

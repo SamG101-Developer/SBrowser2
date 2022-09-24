@@ -7,28 +7,23 @@ namespace performance_timeline {class performance_entry;}
 
 #include INCLUDE_INNER_TYPES(hr_time)
 
+#include "performance_timeline/performance_entry_private.hpp"
+
 
 class performance_timeline::performance_entry
         : public dom_object
 {
 public constructors:
-    performance_entry() = default;
-
-private js_properties:
-    ext::property<ext::string> name;
-    ext::property<ext::string> entry_type;
-    ext::property<hr_time::dom_high_res_time_stamp> start_time;
-    ext::property<hr_time::dom_high_res_time_stamp> duration;
-
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    performance_entry();
+    MAKE_PIMPL(performance_entry);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 protected cpp_accessors:
-    virtual DEFINE_CUSTOM_GETTER(name) = 0;
-    virtual DEFINE_CUSTOM_GETTER(entry_type) = 0;
-    virtual DEFINE_CUSTOM_GETTER(start_time) = 0;
-    virtual DEFINE_CUSTOM_GETTER(duration) = 0;
+    virtual DEFINE_GETTER(name, ext::string) = 0;
+    virtual DEFINE_GETTER(entry_type, ext::string) = 0;
+    virtual DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) = 0;
+    virtual DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) = 0;
 };
 
 

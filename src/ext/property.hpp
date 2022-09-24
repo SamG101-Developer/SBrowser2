@@ -455,6 +455,7 @@
 
 #define DEFINE_GETTER(p, t) auto get_##p() const -> t
 #define DEFINE_SETTER(p, t) auto set_##p(t new_ ## p) -> t
+#define DEFINE_STATIC_GETTER(p, t) static auto get_##p() -> t;
 
 
 //_EXT_BEGIN
