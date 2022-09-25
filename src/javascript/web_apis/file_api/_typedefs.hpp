@@ -17,6 +17,7 @@ namespace file_api::detail
 
     using blob_url_store_t = ext::map<ext::string, blob_url_entry_t>;
     using blob_part_t = ext::variant<blob*, ext::string, v8::ArrayBuffer>;
+    using blob_property_bag_t = ext::map<ext::string, ext::any>;
     using file_property_bag_t = ext::map<ext::string, ext::any>;
 }
 

@@ -6,24 +6,21 @@ namespace file_api {class file;}
 
 #include INCLUDE_INNER_TYPES(file_api)
 
+#include "file_private.hpp"
+
 
 class file_api::file
         : public blob
 {
 public constructors:
     file(ext::vector<detail::blob_part_t>&& file_bits, ext::string&& file_name, detail::file_property_bag_t&& options = {});
-    ~file() override = default;
+    MAKE_PIMPL(file);
+    MAKE_V8_AVAILABLE;
+    MAKE_SERIALIZABLE;
 
 private js_properties:
-    ext::property<ext::string> name;
-    ext::property<ext::number<longlong>> last_modified;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-protected cpp_methods:
-    auto m_serialize  (ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> void override;
-    auto m_deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> file* override;
+    DEFINE_GETTER(name, ext::string);
+    DEFINE_GETTER(last_modified, ext::number<longlong>);
 };
 
 

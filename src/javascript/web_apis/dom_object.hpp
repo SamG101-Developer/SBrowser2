@@ -26,12 +26,11 @@
 
 #define MAKE_V8_AVAILABLE \
 public:                   \
-    SELF_MACRO_DEFINE_SELF(self_t, private);\
     static auto to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 
 
 #define MAKE_STRINGIFIER \
-private:                  \
+private:                 \
     operator ext::string() const
 
 

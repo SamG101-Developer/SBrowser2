@@ -111,7 +111,7 @@ auto fetch::detail::get_decode_split_value(
     {
         // append the collection of code points up until a SPEECH_MARK or COMMA from the 'input', starting at the
         // pointer 'position'; these code points are automatically removed from the 'input' string
-        value += infra::detail::infra_string_internals::collect_code_points_not_matching(input, position, char(0x0022), char(0x002c));
+        value += infra::detail::collect_code_points_not_matching(input, position, char(0x0022), char(0x002c));
         if (position != input.end())
         {
             // if the current 'position' pointer is pointing to a SPEECH_MARK, then collect the html-quoted string from
@@ -119,7 +119,7 @@ auto fetch::detail::get_decode_split_value(
             // the 'value', and continue if the 'input's end pointer hasn't been reached yet
             if (*position == char(0x022))
             {
-                value += http_internals::collect_http_quoted_string(input, position);
+                value += collect_http_quoted_string(input, position);
                 continue_if(position != input.end());
             }
 
@@ -134,7 +134,7 @@ auto fetch::detail::get_decode_split_value(
 
         // append the new value with spaces and tabs removed from the back and front of the string, and then reset the
         // value string for the next iteration pass
-        values.push_back(infra::detail::infra_string_internals::strip_leading_and_trailing_ascii_whitespace(value));
+        values.push_back(infra::detail::strip_leading_and_trailing_ascii_whitespace(value));
         value = "";
     }
 
