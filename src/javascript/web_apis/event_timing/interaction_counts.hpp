@@ -6,16 +6,17 @@
 #include "ext/map_like.hpp"
 namespace event_timing {class interaction_counts;}
 
+#include "interaction_counts_private.hpp"
+
 
 class event_timing::interaction_counts
         : public virtual dom_object
         , public ext::map_like_linked<ext::string, ext::number<ulonglong>>
 {
 public constructors:
-    interaction_counts() = default;
-
-public js_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    interaction_counts();
+    MAKE_PIMPL(interaction_counts);
+    MAKE_V8_AVAILABLE;
 };
 
 
