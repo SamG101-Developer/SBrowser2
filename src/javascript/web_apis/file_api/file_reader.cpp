@@ -1,5 +1,16 @@
 #include "file_reader.hpp"
+#include "dom/nodes/event_target.hpp"
+
+#include INCLUDE_INNER_TYPES(file_api)
+
+#include "html/detail/task_internals.hpp"
 #include "file_api/detail/file_internals.hpp"
+
+
+file_api::file_reader::file_reader()
+{
+    INIT_PIMPL(file_reader);
+}
 
 
 auto file_api::file_reader::read_as_array_buffer(
@@ -30,16 +41,56 @@ auto file_api::file_reader::read_as_data_url(
 auto file_api::file_reader::abort()
         -> void
 {
-    if (ready_state() == EMPTY || ready_state() == DONE)
-        return static_cast<void>(result = "");
+    ACCESS_PIMPL(file_reader);
 
-    if (ready_state() == LOADING)
-        ext::tie(ready_state, result) = ext::make_tuple(DONE, "");
+    if (d->state == detail::state_t::EMPTY || d->state == detail::state_t::DONE)
+        return static_cast<void>(d->result = "");
 
-    // TODO : task source stuff
+    if (d->state == detail::state_t::LOADING)
+        ext::tie(d->state, d->result) = ext::make_tuple(detail::state_t::DONE, "");
+
+    html::detail::file_reading_task_source.clear();
     // TODO : algorithm termination
 
     detail::fire_progress_event("abort", this);
-    if (ready_state() != LOADING)
+    if (d->state == detail::state_t::LOADING)
         detail::fire_progress_event("loadend", this);
+}
+
+
+auto file_api::file_reader::get_ready_state() const -> ext::number<ushort>
+{
+    ACCESS_PIMPL(const file_reader);
+    return *magic_enum::enum_index(d->state);
+}
+
+
+auto file_api::file_reader::get_result() const -> detail::result_t
+{
+    ACCESS_PIMPL(const file_reader);
+    return ext::visit([]<typename T>(T&& val) mutable -> detail::result_t {return std::forward<T>(val);}, d->result);
+}
+
+
+auto file_api::file_reader::get_error() const -> dom::other::dom_exception*
+{
+    ACCESS_PIMPL(const file_reader);
+    return d->error.get();
+}
+
+
+auto file_api::file_reader::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<file_reader>{isolate}
+        .inherit<dom::nodes::event_target>()
+        .function("readAsArrayBuffer", &file_reader::read_as_array_buffer)
+        .function("readAsBinaryString", &file_reader::read_as_array_buffer)
+        .function("readAsText", &file_reader::read_as_text)
+        .function("readAsDataURL", &file_reader::read_as_data_url)
+        .function("abort", &file_reader::abort)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }

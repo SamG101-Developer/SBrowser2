@@ -9,12 +9,16 @@ namespace file_api {class file_reader;}
 namespace dom::other {class dom_exception;}
 namespace file_api {class blob;}
 
+#include "file_reader_private.hpp"
+
 
 class file_api::file_reader
         : public dom::nodes::event_target
 {
 public constructors:
     file_reader();
+    MAKE_PIMPL(file_reader);
+    MAKE_V8_AVAILABLE;
 
 public js_static_constants:
     constexpr static const ext::number<ushort> EMPTY = 0;
@@ -25,16 +29,12 @@ public js_methods:
     auto read_as_array_buffer(blob* blob_object) -> void;
     auto read_as_text(blob* blob_object, ext::string_view encoding = "") -> void;
     auto read_as_data_url(blob* blob_object) -> void;
-
     auto abort() -> void;
 
 private js_properties:
-    ext::property<ext::number<ushort>> ready_state;
-    ext::property<ext::string> result;
-    ext::property<dom::other::dom_exception*> error;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DEFINE_GETTER(ready_state, ext::number<ushort>);
+    DEFINE_GETTER(result, detail::result_t);
+    DEFINE_GETTER(error, dom::other::dom_exception*);
 };
 
 
