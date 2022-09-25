@@ -9,46 +9,26 @@ namespace gamepad {class gamepad;}
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace gamepad {class gamepad_button;}
 
+#include "gamepad_private.hpp"
+
 
 class gamepad::gamepad
         : public virtual dom_object
 {
 public constructors:
     gamepad();
+    MAKE_PIMPL(gamepad);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> id;
-    ext::property<ext::number<long>> index;
-    ext::property<ext::boolean> connected;
+    DEFINE_GETTER(id, ext::string);
+    DEFINE_GETTER(index, ext::number<long>);
+    DEFINE_GETTER(connected, ext::boolean);
 
-    ext::property<hr_time::dom_high_res_time_stamp> timestamp;
-    ext::property<detail::gamepad_mapping_type_t> mapping;
-    ext::property<ext::vector<ext::number<double>>*> axes;
-    ext::property<ext::vector<gamepad_button*>*> buttons;
-
-private js_slots:
-    ext::slot<ext::boolean> s_connected;
-    ext::slot<hr_time::dom_high_res_time_stamp> s_timestamp;
-    ext::slot<ext::vector<ext::number<double>>*> s_axes;
-    ext::slot<ext::vector<gamepad_button*>*> s_buttons;
-    ext::slot<ext::boolean> s_exposed;
-
-    ext::slot<ext::map<ext::number<int>, ext::number<int>>*> s_axis_mapping;
-    ext::slot<ext::vector<ext::number<int>>*> s_axis_minimums;
-    ext::slot<ext::vector<ext::number<int>>*> s_axis_maximums;
-
-    ext::slot<ext::map<ext::number<int>, gamepad_button*>*> s_button_mapping;
-    ext::slot<ext::vector<ext::number<int>>*> s_button_minimums;
-    ext::slot<ext::vector<ext::number<int>>*> s_button_maximums;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(connected) {return s_connected();}
-    DEFINE_CUSTOM_GETTER(timestamp) {return ext::round(s_timestamp(), 5);}
-    DEFINE_CUSTOM_GETTER(axes) {return s_axes();}
-    DEFINE_CUSTOM_GETTER(buttons) {return s_buttons();};
+    DEFINE_GETTER(timestamp, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(mapping, detail::gamepad_mapping_type_t);
+    DEFINE_GETTER(axes, ext::vector_view<ext::number<double>>);
+    DEFINE_GETTER(buttons, ext::vector_view<gamepad_button*>);
 };
 
 

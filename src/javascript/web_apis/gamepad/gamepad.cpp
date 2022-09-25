@@ -1,25 +1,50 @@
 #include "gamepad.hpp"
 
+#include "ext/pimpl.hpp"
 #include "ext/uuid.hpp"
 
+#include "dom/nodes/window.hpp"
+#include "hr_time/detail/time_internals.hpp"
 #include "gamepad/detail/construction_internals.hpp"
 
 #include "hr_time/performance.hpp"
 
 
 gamepad::gamepad::gamepad()
-        : id{ext::to_string(ext::uuid_system_generator{}())}
-        , index{detail::select_unused_gamepad_index(this)}
+        : index{detail::select_unused_gamepad_index(this)}
         , mapping{detail::select_mapping(this)}
-        , s_connected{true}
-        , s_timestamp{hr_time::performance{}.now()} // TODO: use hr-time::detail::current-hr-time()
-        , s_axes{detail::initialize_axes(this)}
-        , s_buttons{detail::initialize_buttons(this)}
 {
-    bind_get(connected);
-    bind_get(timestamp);
-    bind_get(axes);
-    bind_get(buttons);
+    INIT_PIMPL(gamepad);
+    ACCESS_PIMPL(gamepad);
+
+    JS_REALM_GET_RELEVANT(this);
+
+    d->id = ext::to_string(ext::uuid_system_generator{}());
+    d->timestamp = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d->axes = detail::initialize_axes(this);
+    d->buttons = detail::initialize_buttons(this);
+}
+
+
+auto gamepad::gamepad::get_id() const -> ext::string
+{
+    ACCESS_PIMPL(const gamepad);
+    return d->id;
+}
+
+
+auto gamepad::gamepad::get_index() const -> ext::number<long>
+{
+    ACCESS_PIMPL(const gamepad);
+    JS_REALM_GET_RELEVANT(this);
+    return *ranges::find(v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->navigator->d_func()->gamepads, this));
+}
+
+
+auto gamepad::gamepad::get_connected() const -> ext::boolean
+{
+    ACCESS_PIMPL(const gamepad);
+    return d->connected;
 }
 
 
