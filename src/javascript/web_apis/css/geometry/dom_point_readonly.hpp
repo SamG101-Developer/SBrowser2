@@ -13,7 +13,7 @@ namespace css::geometry {class dom_point;}
 
 
 class css::geometry::dom_point_readonly
-        : public dom_object
+        : public virtual dom_object
         , public html::mixins::serializable
 {
 public constructors:

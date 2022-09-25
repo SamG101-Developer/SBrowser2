@@ -13,7 +13,7 @@ namespace dom::nodes {class event_target;}
 namespace dom::events {class event;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, event_target) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::nodes, event_target) : virtual dom_object_private
 {
     ext::function<nodes::event_target*(events::event*)> get_the_parent;
     ext::vector<ext::map<ext::string, ext::any>> event_listeners;

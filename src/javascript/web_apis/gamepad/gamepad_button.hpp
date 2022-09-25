@@ -7,7 +7,7 @@ namespace gamepad {class gamepad_button;}
 
 
 class gamepad::gamepad_button
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     gamepad_button() = default;

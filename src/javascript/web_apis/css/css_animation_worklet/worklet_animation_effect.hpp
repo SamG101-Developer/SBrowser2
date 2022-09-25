@@ -9,7 +9,7 @@ namespace css::css_animation_worklet {class worklet_animation_effect;}
 
 
 class css::css_animation_worklet::worklet_animation_effect
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(worklet_animation_effect)

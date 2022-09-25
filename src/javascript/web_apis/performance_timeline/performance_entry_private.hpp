@@ -8,7 +8,7 @@
 #include INCLUDE_INNER_TYPES(hr_time)
 
 
-DEFINE_PRIVATE_CLASS(performance_timeline, performance_entry) : dom_object_private
+DEFINE_PRIVATE_CLASS(performance_timeline, performance_entry) : virtual dom_object_private
 {
     ext::string name;
     ext::string entry_type;

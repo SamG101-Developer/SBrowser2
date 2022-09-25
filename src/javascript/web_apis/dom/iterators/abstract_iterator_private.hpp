@@ -9,7 +9,7 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::node_iterators, abstract_iterator) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::node_iterators, abstract_iterator) : virtual dom_object_private
 {
     ext::boolean active_flag;
 

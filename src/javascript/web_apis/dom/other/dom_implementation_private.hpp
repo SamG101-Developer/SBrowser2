@@ -8,7 +8,7 @@
 namespace dom::nodes {class document;}
 
 
-DEFINE_PRIVATE_CLASS(dom::other, dom_implementation) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::other, dom_implementation) : virtual dom_object_private
 {
     nodes::document* document;
 };

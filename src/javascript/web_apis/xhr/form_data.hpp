@@ -12,7 +12,7 @@ namespace html::elements {class html_form_element;}
 
 
 class xhr::form_data
-        : public dom_object
+        : public virtual dom_object
 {
 public aliases:
     using form_data_entry_t = ext::variant<ext::string_view, file_api::file*>;

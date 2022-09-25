@@ -8,7 +8,7 @@
 namespace dom::abort {class abort_signal;}
 
 
-DEFINE_PRIVATE_CLASS(dom::abort, abort_controller) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::abort, abort_controller) : virtual dom_object_private
 {
     std::unique_ptr<abort_signal> signal;
 };

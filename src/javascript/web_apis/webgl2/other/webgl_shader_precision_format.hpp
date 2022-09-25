@@ -9,7 +9,7 @@ namespace webgl2::other {class webgl_shader_precision_format;}
 
 
 class webgl2::other::webgl_shader_precision_format
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(webgl_shader_precision_format);

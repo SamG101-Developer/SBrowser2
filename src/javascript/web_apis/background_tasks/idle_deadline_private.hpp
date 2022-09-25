@@ -9,7 +9,7 @@
 #include INCLUDE_INNER_TYPES(background_tasks)
 
 
-DEFINE_PRIVATE_CLASS(background_tasks, idle_deadline) : dom_object_private
+DEFINE_PRIVATE_CLASS(background_tasks, idle_deadline) : virtual dom_object_private
 {
     ext::boolean timeout;
     detail::deadline_time_algorithm_t get_deadline_time = [] {return 0.0;};

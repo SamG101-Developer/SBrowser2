@@ -8,7 +8,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 
 
-DEFINE_PRIVATE_CLASS(dom::other, dom_exception) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::other, dom_exception) : virtual dom_object_private
 {
     ext::string message;
     v8_custom_error_t code;

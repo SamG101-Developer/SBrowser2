@@ -14,7 +14,7 @@ namespace reporting {class report;}
 
 
 class reporting::reporting_observer
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     reporting_observer(detail::reporting_observer_callback_t&& callback, detail::reporting_observer_options_t&& options = {});

@@ -11,7 +11,7 @@ namespace web_crypto {class crypto;}
 
 
 class html::mixins::window_or_worker_global_scope
-        : public dom_object
+        : public virtual dom_object
 {
 private js_properties:
     /* INDEX_DB */

@@ -8,7 +8,7 @@
 #include "ext/string.hpp"
 
 
-DEFINE_PRIVATE_CLASS(edit_context, text_format) : dom_object_private
+DEFINE_PRIVATE_CLASS(edit_context, text_format) : virtual dom_object_private
 {
     ext::number<ulong> range_start;
     ext::number<ulong> range_end;

@@ -8,7 +8,7 @@
 #include INCLUDE_INNER_TYPES(dom);
 
 
-DEFINE_PRIVATE_CLASS(dom::node_iterators, node_filter) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::node_iterators, node_filter) : virtual dom_object_private
 {
     detail::accept_callback_t accept_node_callback;
 };

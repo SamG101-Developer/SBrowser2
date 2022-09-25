@@ -11,7 +11,7 @@ namespace performance_timeline {class performance_entry;}
 
 
 class performance_timeline::performance_entry
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     performance_entry();

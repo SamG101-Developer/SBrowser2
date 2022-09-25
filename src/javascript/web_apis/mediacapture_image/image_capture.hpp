@@ -13,7 +13,7 @@ namespace mediacapture::main {class media_stream_track;}
 
 
 class mediacapture::image::image_capture
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     image_capture() = default;

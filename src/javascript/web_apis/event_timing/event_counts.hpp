@@ -6,16 +6,17 @@
 #include "ext/map_like.hpp"
 namespace event_timing {class event_counts;}
 
+#include "event_counts_private.hpp"
+
 
 class event_timing::event_counts
         : public virtual dom_object
         , public ext::map_like_linked<ext::string, ext::number<ulonglong>>
 {
 public constructors:
-    event_counts() = default;
-
-public js_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    event_counts();
+    MAKE_PIMPL(event_counts);
+    MAKE_V8_AVAILABLE;
 };
 
 

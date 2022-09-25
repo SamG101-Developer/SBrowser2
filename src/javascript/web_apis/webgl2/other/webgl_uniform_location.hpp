@@ -7,7 +7,7 @@ namespace webgl2::other {class webgl_uniform_location;}
 
 
 class webgl2::other::webgl_uniform_location
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(webgl_uniform_location);

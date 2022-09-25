@@ -11,7 +11,7 @@ namespace css::cssom::rules {class css_style_sheet;}
 
 
 class css::cssom::rules::css_rule
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     css_rule();

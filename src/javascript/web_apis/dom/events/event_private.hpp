@@ -12,7 +12,7 @@
 namespace dom::nodes {class event_target;}
 
 
-DEFINE_PRIVATE_CLASS(dom::events, event) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::events, event) : virtual dom_object_private
 {
     ext::string  type;
     ext::boolean bubbles;

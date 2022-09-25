@@ -10,7 +10,7 @@ namespace payment::handler {class payment_instruments;}
 
 
 class payment::handler::payment_instruments
-        : public dom_object
+        : public virtual dom_object
         , public ext::map_like_linked<ext::string, detail::payment_instrument_t>
 {
 };

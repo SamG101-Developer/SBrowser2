@@ -7,7 +7,7 @@
 namespace html::elements {class html_slot_element;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mixins, slottable) : dom_object_private {};
+DEFINE_PRIVATE_CLASS(dom::mixins, slottable) : virtual dom_object_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MIXINS_SLOTTABLE_PRIVATE_HPP

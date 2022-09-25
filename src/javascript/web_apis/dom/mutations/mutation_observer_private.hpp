@@ -10,7 +10,7 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mutations, mutation_observer) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::mutations, mutation_observer) : virtual dom_object_private
 {
     detail::mutation_callback_t m_callback;
     ext::vector<nodes::node*> m_node_list;

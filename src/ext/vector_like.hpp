@@ -4,27 +4,45 @@
 
 #include "ext/keywords.hpp"
 #include "ext/number.hpp"
+#include "ext/pimpl.hpp"
 #include "ext/property.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
+#include "dom_object.hpp"
+
 
 _EXT_BEGIN
 
+
 template <typename T>
-class vector_like
+struct vector_like_private : virtual dom_object_private {};
+
+
+template <typename T>
+struct vector_like_linked_private : vector_like_private<T>
+{
+    std::unique_ptr<vector<T>> linked_vector;
+};
+
+
+template <typename T>
+class vector_like : public virtual dom_object
 {
 public constructors:
-    vector_like()
-    {bind_get(length);}
+    MAKE_PIMPL_TEMPLATED(vector_like, T);
 
-public cpp_members:
+    explicit vector_like()
+    {
+        INIT_PIMPL_TEMPLATED(vector_like, T);
+    }
+
+public cpp_operators:
     virtual auto operator[](const number<size_t>& index) -> T& = 0;
     virtual auto operator[](ext::string_view index) -> T& = 0;
-    property<number<size_t>> length;
 
-protected cpp_accessors:
-    virtual DEFINE_CUSTOM_GETTER(length) = 0;
+protected js_properties:
+    virtual DEFINE_GETTER(length, ext::number<size_t>) = 0;
 };
 
 
@@ -32,18 +50,35 @@ template <typename T>
 class vector_like_linked : public vector_like<T>
 {
 public constructors:
+    MAKE_PIMPL_TEMPLATED(vector_like_linked, T);
     explicit vector_like_linked(vector<T>* container = nullptr)
-            : m_linked_vector{container ?: std::make_unique<vector<T>>()}
-    {bind_get(length);}
+    {
+        INIT_PIMPL_TEMPLATED(vector_like_linked, T);
+        ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        d->linked_vector = container ? std::unique_ptr<vector<T>>{container} : std::make_unique<vector<T>>();
+    }
 
 public cpp_members:
-    auto operator[](const number<size_t>& index) -> T& override {return m_linked_vector->at(index);}
-    auto operator[](ext::string_view index) -> T& override {return m_linked_vector->front();};
-    std::unique_ptr<vector<T>> m_linked_vector;
+    auto operator[](const number<size_t>& index) -> T& override
+    {
+        ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        return d->linked_vector->at(index);
+    }
+
+    auto operator[](ext::string_view index) -> T& override
+    {
+        ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        return d->linked_vector->front();
+    };
 
 private js_properties:
-    DEFINE_CUSTOM_GETTER(length) override {return m_linked_vector->size();}
+    DEFINE_GETTER(length, ext::number<size_t>) override
+    {
+        ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        return d->linked_vector->size();
+    }
 };
+
 
 _EXT_END
 

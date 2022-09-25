@@ -8,7 +8,7 @@
 #include INCLUDE_INNER_TYPES(performance_timeline)
 
 
-DEFINE_PRIVATE_CLASS(performance_timeline, performance_observer) : dom_object_private
+DEFINE_PRIVATE_CLASS(performance_timeline, performance_observer) : virtual dom_object_private
 {
     detail::performance_observer_callback_t observer_callback;
     detail::performance_entry_list_t observer_buffer;

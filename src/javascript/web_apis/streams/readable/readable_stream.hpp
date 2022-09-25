@@ -20,7 +20,7 @@ namespace streams::writeable {class writeable_stream;}
 
 
 class streams::readable::readable_stream
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     readable_stream();

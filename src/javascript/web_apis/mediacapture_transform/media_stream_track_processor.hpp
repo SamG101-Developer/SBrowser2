@@ -12,7 +12,7 @@ namespace mediacapture::main {class media_stream_track;}
 
 
 class mediacapture::transform::media_stream_track_processor
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     media_stream_track_processor() = default;

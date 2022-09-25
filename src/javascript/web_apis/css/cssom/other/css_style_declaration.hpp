@@ -13,7 +13,7 @@ namespace css::cssom::rules {class css_rule;}
 
 
 class css::cssom::other::css_style_declaration
-        : public dom_object
+        : public virtual dom_object
         , ext::vector_like_linked<ext::pair<ext::string, ext::string>>
 {
 public constructors:

@@ -6,7 +6,7 @@
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(device_memory, navigator_device_memory) : dom_object_private {};
+DEFINE_PRIVATE_CLASS(device_memory, navigator_device_memory) : virtual dom_object_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_MEMORY_MIXINS_NAVIGATOR_DEVICE_MEMORY_PRIVATE_HPP

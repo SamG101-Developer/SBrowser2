@@ -10,7 +10,7 @@ namespace webgl2::other {class webgl_active_info;}
 
 
 class webgl2::other::webgl_active_info
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(webgl_active_info);

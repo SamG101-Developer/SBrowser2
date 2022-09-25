@@ -7,7 +7,7 @@ namespace html::basic_media {class time_ranges;}
 
 
 class html::basic_media::time_ranges
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(time_ranges);

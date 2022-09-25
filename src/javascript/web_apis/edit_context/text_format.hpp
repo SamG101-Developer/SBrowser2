@@ -12,7 +12,7 @@ namespace edit_context {class text_format;}
 
 
 class edit_context::text_format
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(text_format);

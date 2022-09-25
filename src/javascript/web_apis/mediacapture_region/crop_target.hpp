@@ -10,7 +10,7 @@ namespace dom::nodes {class element;}
 
 
 class mediacapture::region::crop_target
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(crop_target);

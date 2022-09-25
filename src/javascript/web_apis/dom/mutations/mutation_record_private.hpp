@@ -9,7 +9,7 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mutations, mutation_record) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::mutations, mutation_record) : virtual dom_object_private
 {
     ext::string type;
     ext::string attribute_name;

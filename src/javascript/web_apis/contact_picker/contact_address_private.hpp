@@ -8,7 +8,7 @@
 #include "ext/vector.hpp"
 
 
-DEFINE_PRIVATE_CLASS(contact_picker, contact_address) : dom_object_private
+DEFINE_PRIVATE_CLASS(contact_picker, contact_address) : virtual dom_object_private
 {
     ext::string country;
     ext::vector<ext::string> address_line;

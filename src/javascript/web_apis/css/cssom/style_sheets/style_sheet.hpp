@@ -13,7 +13,7 @@ namespace dom::nodes {class processing_instruction;}
 
 
 class css::cssom::style_sheets::style_sheet
-        : public dom_object
+        : public virtual dom_object
 {
 public constructors:
     style_sheet();
