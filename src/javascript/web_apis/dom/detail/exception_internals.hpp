@@ -31,7 +31,7 @@ namespace dom::detail
             const ext::string& exception_message = "")
             -> void;
 
-    template <v8_custom_error_t exception_type, typename ...T>
+    template <dom_exception_error_t exception_type, typename ...T>
     auto throw_v8_exception_formatted(
             exception_condiditional_t&& condition = NO_CONDITION,
             const ext::string& description = "",

@@ -39,6 +39,13 @@ namespace dom::detail
     enum class traversal_sibling_t {NEXT_SIBLING, PREVIOUS_SIBLING};
     enum class shadow_root_mode_t {OPEN, CLOSED};
     enum class slot_assignment_mode_t {MANUAL, NAMED};
+    enum dom_exception_error_t {INDEX_SIZE_ERR, DOMSTRING_SIZE_ERR, HIERARCHY_REQUEST_ERR, WRONG_DOCUMENT_ERR,
+            INVALID_CHARACTER_ERR, NO_DATA_ALLOWED_ERR, NO_MODIFICATION_ALLOWED_ERR, NOT_FOUND_ERR, NOT_SUPPORTED_ERR,
+            INUSE_ATTRIBUTE_ERR, INVALID_STATE_ERR, SYNTAX_ERR, INVALID_MODIFICATION_ERR, NAMESPACE_ERR,
+            INVALID_ACCESS_ERR, VALIDATION_ERR, TYPE_MISMATCH_ERR, SECURITY_ERR, NETWORK_ERR, ABORT_ERR,
+            URL_MISMATCH_ERR, QUOTA_EXCEEDED_ERR, TIMEOUT_ERR, INVALID_NODE_TYPE_ERR, DATA_CLONE_ERR, ENCODING_ERR,
+            NOT_READABLE_ERR, UNKNOWN_ERR, CONSTRAINT_ERR, DATA_ERR, TRANSACTION_INACTIVE_ERR, READONLY_ERR,
+            VERSION_ERR, OPERATION_ERR, NOT_ALLOWED_ERR};
 
     using abort_signal_callback_t  = ext::function<void()>;
     using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
@@ -55,17 +62,6 @@ namespace dom::detail
     using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::elements::html_script_element>, std::unique_ptr<svg::elements::svg_script_element>>;
 }
-
-
-enum v8_custom_error_t
-{
-    INDEX_SIZE_ERR, DOMSTRING_SIZE_ERR, HIERARCHY_REQUEST_ERR, WRONG_DOCUMENT_ERR, INVALID_CHARACTER_ERR,
-    NO_DATA_ALLOWED_ERR, NO_MODIFICATION_ALLOWED_ERR, NOT_FOUND_ERR, NOT_SUPPORTED_ERR, INUSE_ATTRIBUTE_ERR,
-    INVALID_STATE_ERR, SYNTAX_ERR, INVALID_MODIFICATION_ERR, NAMESPACE_ERR, INVALID_ACCESS_ERR, VALIDATION_ERR,
-    TYPE_MISMATCH_ERR, SECURITY_ERR, NETWORK_ERR, ABORT_ERR, URL_MISMATCH_ERR, QUOTA_EXCEEDED_ERR, TIMEOUT_ERR,
-    INVALID_NODE_TYPE_ERR, DATA_CLONE_ERR, ENCODING_ERR, NOT_READABLE_ERR, UNKNOWN_ERR, CONSTRAINT_ERR, DATA_ERR,
-    TRANSACTION_INACTIVE_ERR, READONLY_ERR, VERSION_ERR, OPERATION_ERR, NOT_ALLOWED_ERR
-};
 
 
 enum v8_primitive_error_t

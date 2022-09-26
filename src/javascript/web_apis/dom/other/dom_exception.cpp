@@ -1,27 +1,26 @@
 #include "dom_exception.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 
 
 dom::other::dom_exception::dom_exception(
         ext::string&& message,
-        v8_custom_error_t type)
-        : INIT_PIMPL
+        detail::dom_exception_error_t&& type)
 {
-    d_ptr->message = std::move(message);
-    d_ptr->type = type;
+    INIT_PIMPL(dom_exception);
 }
 
 
-auto dom::other::dom_exception::to_v8(
+auto dom::other::dom_exception<T>::to_v8(
         v8::Isolate* isolate)
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<dom_exception>{isolate}
-        .ctor<ext::string_view, v8_custom_error_t>()
-        .property("message", &dom::other::dom_exception::get_message)
-        .property("type", &dom::other::dom_exception::get_type)
-        .property("name", &dom::other::dom_exception::get_name)
+        .template ctor<ext::string&&, T>()
+        .property("message", &dom::other::dom_exception<T>::get_message)
+        .property("code", &dom::other::dom_exception<T>::get_code)
+        .property("name", &dom::other::dom_exception<T>::get_name)
         .static_("INDEX_SIZE_ERR", INDEX_SIZE_ERR, true)
         .static_("DOMSTRING_SIZE_ERR", DOMSTRING_SIZE_ERR, true)
         .static_("HIERARCHY_REQUEST_ERR", HIERARCHY_REQUEST_ERR, true)
@@ -59,5 +58,5 @@ auto dom::other::dom_exception::to_v8(
         .static_("NOT_ALLOWED_ERR", NOT_ALLOWED_ERR, true)
         .auto_wrap_objects();
 
-    return std::move(conversion)
+    return std::move(conversion);
 }

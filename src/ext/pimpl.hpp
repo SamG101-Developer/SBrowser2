@@ -46,9 +46,13 @@ private:                                                                        
 
 // Forward declare the existence of a private class in a namespace, and then begin the definition of the struct. Follow
 // the macro with an opening brace, the definition of attributes, and a closing brace.
-#define DEFINE_PRIVATE_CLASS(ns, c)     \
-    namespace ns {class c ## _private;} \
+#define DEFINE_PRIVATE_CLASS(ns, c)      \
+    namespace ns {struct c ## _private;} \
     struct ns:: c ## _private
+
+#define DEFINE_PRIVATE_CLASS_TEMPLATED(ns, c, ...)               \
+    namespace ns {template <__VA_ARGS__> struct c ## _private;} \
+    template <__VA_ARGS__> struct ns:: c ## _private
 
 
 #endif //SBROWSER2_SRC_EXT_PIMPL_HPP

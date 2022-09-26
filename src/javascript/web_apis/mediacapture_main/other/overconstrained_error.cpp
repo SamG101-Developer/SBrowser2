@@ -5,5 +5,5 @@
 mediacapture::main::other::overconstrained_error::overconstrained_error(
         ext::string&& constraint,
         ext::string&& message)
-        : dom::other::dom_exception{std::move(message), std::bit_cast<v8_custom_error_t>(0)}
+        : dom::other::dom_exception{std::move(message), std::bit_cast<dom_exception_error_t>(0)}
 {}

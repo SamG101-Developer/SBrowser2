@@ -47,7 +47,7 @@ namespace service_workers::detail
 
     auto reject_job_promise(
             const job_t& job)
-            -> ext::tuple<ext::string, v8_custom_error_t>;
+            -> ext::tuple<ext::string, dom_exception_error_t>;
 
     auto start_register(
             ext::optional<url::detail::url_t> scope_url,
