@@ -1,26 +1,32 @@
 #include "dom_exception.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+#include INCLUDE_INNER_TYPES(dom)
 
 
-dom::other::dom_exception::dom_exception(
-        ext::string&& message,
-        detail::dom_exception_error_t&& type)
+dom::other::dom_exception::dom_exception()
 {
     INIT_PIMPL(dom_exception);
 }
 
 
-auto dom::other::dom_exception<T>::to_v8(
+dom::other::dom_exception::dom_exception(
+        ext::string&& message,
+        exception_t type)
+        : base_exception{std::move(message), std::move(type)}
+{
+    INIT_PIMPL(dom_exception);
+}
+
+
+auto dom::other::dom_exception::to_v8(
         v8::Isolate* isolate)
         -> v8pp::class_<self_t>
 {
+    using enum detail::dom_exception_error_t;
+
     decltype(auto) conversion = v8pp::class_<dom_exception>{isolate}
-        .template ctor<ext::string&&, T>()
-        .property("message", &dom::other::dom_exception<T>::get_message)
-        .property("code", &dom::other::dom_exception<T>::get_code)
-        .property("name", &dom::other::dom_exception<T>::get_name)
+        .inherit<base_exception<exception_t>>()
+        .ctor<ext::string&&, exception_t>()
         .static_("INDEX_SIZE_ERR", INDEX_SIZE_ERR, true)
         .static_("DOMSTRING_SIZE_ERR", DOMSTRING_SIZE_ERR, true)
         .static_("HIERARCHY_REQUEST_ERR", HIERARCHY_REQUEST_ERR, true)

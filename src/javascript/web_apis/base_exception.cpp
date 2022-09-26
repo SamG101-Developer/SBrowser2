@@ -6,6 +6,13 @@
 
 
 template <type_is_enum T>
+base_exception<T>::base_exception()
+{
+    INIT_PIMPL_TEMPLATED(base_exception, T);
+}
+
+
+template <type_is_enum T>
 base_exception<T>::base_exception(
         ext::string&& message,
         T&& code)
@@ -47,7 +54,7 @@ auto base_exception<T>::to_v8(
         v8::Isolate* isolate)
         -> v8pp::class_<self_t>
 {
-    decltype(auto) conversion = v8pp::class_<base_exception>{isolate}
+    decltype(auto) conversion = v8pp::class_<base_exception<T>>{isolate}
         .template inherit<dom_object>()
         .property("message", &base_exception<T>::get_message)
         .property("code", &base_exception<T>::get_code)
@@ -56,3 +63,6 @@ auto base_exception<T>::to_v8(
 
     return std::move(conversion);
 }
+
+
+// TODO : define explicit enum types (DomException, MediaError, GeolocationPositionError corresponding error types)

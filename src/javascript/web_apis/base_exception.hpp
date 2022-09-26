@@ -10,9 +10,13 @@
 
 
 template <type_is_enum T>
-class base_exception : dom_object
+class base_exception : public virtual dom_object
 {
+public aliases:
+    using exception_t = T;
+
 public constructors:
+    base_exception();
     base_exception(ext::string&& message, T&& code);
     MAKE_PIMPL_TEMPLATED(base_exception, T);
     MAKE_V8_AVAILABLE;

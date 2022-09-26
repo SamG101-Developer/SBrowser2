@@ -9,15 +9,26 @@ geolocation::geolocation_position_error::geolocation_position_error()
 }
 
 
+geolocation::geolocation_position_error::geolocation_position_error(
+        ext::string&& message,
+        exception_t type)
+        : base_exception{std::move(message), std::move(type)}
+{
+    INIT_PIMPL(geolocation_position_error);
+}
+
+
 auto geolocation::geolocation_position_error::to_v8(
         v8::Isolate* isolate)
         -> v8pp::class_<self_t>
 {
+    using enum detail::geolocation_position_error_t;
+
     decltype(auto) conversion = v8pp::class_<geolocation_position_error>{isolate}
-        .inherit<dom::other::dom_exception>()
-        .static_("PERMISSION_DENIED", detail::geolocation_position_error_t::PERMISSION_DENIED)
-        .static_("POSITION_UNAVAILABLE", detail::geolocation_position_error_t::POSITION_UNAVAILABLE)
-        .static_("TIMEOUT", detail::geolocation_position_error_t::TIMEOUT)
+        .inherit<base_exception<exception_t>>()
+        .static_("PERMISSION_DENIED", PERMISSION_DENIED)
+        .static_("POSITION_UNAVAILABLE", POSITION_UNAVAILABLE)
+        .static_("TIMEOUT", TIMEOUT)
         .auto_wrap_objects();
 
     return std::move(conversion);
