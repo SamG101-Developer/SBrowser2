@@ -5,24 +5,23 @@
 #include "dom_object.hpp"
 namespace geolocation {class geolocation_position;}
 
-
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace geolocation {class geolocation_coordinates;}
+
+#include "geolocation_position_private.hpp"
 
 
 class geolocation::geolocation_position
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(geolocation_position);
     geolocation_position();
+    MAKE_PIMPL(geolocation_position);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<std::unique_ptr<geolocation_coordinates>> coords;
-    ext::property<hr_time::epoch_time_stamp> timestamp;
-
-private js_slots:
-    ext::slot<ext::boolean> s_is_high_accuracy;
+    DEFINE_GETTER(coords, geolocation_coordinates*);
+    DEFINE_GETTER(timestamp, hr_time::epoch_time_stamp);
 };
 
 

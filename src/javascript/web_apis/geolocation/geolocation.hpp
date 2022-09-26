@@ -7,13 +7,16 @@ namespace geolocation {class geolocation;}
 
 #include INCLUDE_INNER_TYPES(geolocation);
 
+#include "geolocation_private.hpp"
+
 
 class geolocation::geolocation
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(geolocation);
-    geolocation() = default;
+    geolocation();
+    MAKE_PIMPL(geolocation);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto get_current_position(
@@ -31,10 +34,6 @@ public js_methods:
     auto clear_watch(
             ext::number<long> watch_id)
             -> void;
-
-private js_slots:
-    ext::slot<geolocation_position*> s_cached_position;
-    ext::slot<ext::vector<ext::number<unsigned long>>> s_watch_ids;
 };
 
 

@@ -5,30 +5,21 @@
 #include "dom_object.hpp"
 namespace gamepad {class gamepad_button;}
 
+#include "gamepad_button_private.hpp"
+
 
 class gamepad::gamepad_button
         : public virtual dom_object
 {
 public constructors:
-    gamepad_button() = default;
+    gamepad_button();
+    MAKE_PIMPL(gamepad_button);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> pressed;
-    ext::property<ext::boolean> touched;
-    ext::property<ext::number<double>> value;
-
-private js_slots:
-    ext::slot<ext::boolean> s_pressed;
-    ext::slot<ext::boolean> s_touched;
-    ext::slot<ext::number<double>> s_value;
-
-public cpp_properties:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(pressed) {return s_pressed();}
-    DEFINE_CUSTOM_GETTER(touched) {return s_touched();}
-    DEFINE_CUSTOM_GETTER(value) {return s_value();}
+    DEFINE_GETTER(pressed, ext::boolean);
+    DEFINE_GETTER(touched, ext::boolean);
+    DEFINE_GETTER(value, ext::number<double>);
 };
 
 

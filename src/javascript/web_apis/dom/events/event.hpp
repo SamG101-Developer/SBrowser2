@@ -20,7 +20,7 @@ class dom::events::event
         : public virtual dom_object
 {
 public: constructors
-    event() = default;
+    event();
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(event);
     MAKE_V8_AVAILABLE;
@@ -36,24 +36,24 @@ public: js_methods
     auto stop_immediate_propagation() -> void;
     auto prevent_default() -> void;
 
-    [[nodiscard]] auto composed_path() const -> ext::vector<nodes::event_target*>;
+    _EXT_NODISCARD auto composed_path() const -> ext::vector<nodes::event_target*>;
 
 public: js_properties
-    DEFINE_GETTER(type, ext::string) {return d_ptr->type;}
-    DEFINE_GETTER(bubbles, ext::boolean) {return d_ptr->bubbles;}
-    DEFINE_GETTER(cancelable, ext::boolean) {return d_ptr->cancelable;}
-    DEFINE_GETTER(composed, ext::boolean) {return d_ptr->composed;}
+    DEFINE_GETTER(type, ext::string);
+    DEFINE_GETTER(bubbles, ext::boolean);
+    DEFINE_GETTER(cancelable, ext::boolean);
+    DEFINE_GETTER(composed, ext::boolean);
 
-    DEFINE_GETTER(target, nodes::event_target*) {return d_ptr->target;}
-    DEFINE_GETTER(current_target, nodes::event_target*) {return d_ptr->current_target;}
-    DEFINE_GETTER(related_target, nodes::event_target*) {return d_ptr->related_target;}
+    DEFINE_GETTER(target, nodes::event_target*);
+    DEFINE_GETTER(current_target, nodes::event_target*);
+    DEFINE_GETTER(related_target, nodes::event_target*);
 
-    DEFINE_GETTER(event_phase, ext::number<ushort>) {return d_ptr->event_phase;}
-    DEFINE_GETTER(time_stamp, ext::number<double>) {return d_ptr->time_stamp;}
-    DEFINE_GETTER(is_trusted, ext::boolean) {return d_ptr->is_trusted;}
+    DEFINE_GETTER(event_phase, ext::number<ushort>);
+    DEFINE_GETTER(time_stamp, ext::number<double>);
+    DEFINE_GETTER(is_trusted, ext::boolean);
 
-    DEFINE_GETTER(touch_targets, detail::touch_targets_t) {return d_ptr->touch_targets;}
-    DEFINE_GETTER(path, detail::path_t) {return d_ptr->path;}
+    DEFINE_GETTER(touch_targets, detail::touch_targets_t);
+    DEFINE_GETTER(path, detail::path_t);
 };
 
 

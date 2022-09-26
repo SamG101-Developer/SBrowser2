@@ -12,7 +12,6 @@
 
 gamepad::gamepad::gamepad()
         : index{detail::select_unused_gamepad_index(this)}
-        , mapping{detail::select_mapping(this)}
 {
     INIT_PIMPL(gamepad);
     ACCESS_PIMPL(gamepad);
@@ -21,6 +20,7 @@ gamepad::gamepad::gamepad()
 
     d->id = ext::to_string(ext::uuid_system_generator{}());
     d->timestamp = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d->mapping = detail::select_mapping(this);
     d->axes = detail::initialize_axes(this);
     d->buttons = detail::initialize_buttons(this);
 }
@@ -48,30 +48,49 @@ auto gamepad::gamepad::get_connected() const -> ext::boolean
 }
 
 
+auto gamepad::gamepad::get_timestamp() const -> hr_time::dom_high_res_time_stamp
+{
+    ACCESS_PIMPL(const gamepad);
+    return d->timestamp;
+}
+
+
+auto gamepad::gamepad::get_mapping() const -> detail::gamepad_mapping_type_t
+{
+    ACCESS_PIMPL(const gamepad);
+    return d->mapping;
+}
+
+
+auto gamepad::gamepad::get_axes() const -> ext::vector_view<ext::number<double>>
+{
+    ACCESS_PIMPL(const gamepad);
+    return {d->axes.begin(), d->axes.end()};
+}
+
+
+auto gamepad::gamepad::get_buttons() const -> ext::vector_view<gamepad_button*>
+{
+    ACCESS_PIMPL(const gamepad);
+    return {d->buttons.begin(), d->buttons.end()};
+}
+
+
 auto gamepad::gamepad::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<gamepad>{isolate}
-        .ctor<>()
+    decltype(auto) conversion = v8pp::class_<gamepad>{isolate}
         .inherit<dom_object>()
-        .var("id", &gamepad::id, true)
-        .var("index", &gamepad::index, true)
-        .var("connected", &gamepad::connected, true)
-        .var("timestamp", &gamepad::timestamp, true)
-        .var("mapping", &gamepad::mapping, true)
-        .var("axes", &gamepad::axes, true)
-        .var("buttons", &gamepad::buttons, true)
-        .slot("Connected", &gamepad::s_connected)
-        .slot("Timestamp", &gamepad::s_timestamp)
-        .slot("Axes", &gamepad::s_axes)
-        .slot("Buttons", &gamepad::s_buttons)
-        .slot("Exposed", &gamepad::s_exposed)
-        .slot("AxisMapping", &gamepad::s_axis_mapping)
-        .slot("AxisMinimums", &gamepad::s_axis_minimums)
-        .slot("AxisMaximums", &gamepad::s_axis_maximums)
-        .slot("ButtonMapping", &gamepad::s_button_mapping)
-        .slot("ButtonMinimums", &gamepad::s_button_minimums)
-        .slot("ButtonMaximums", &gamepad::s_button_maximums)
+        .ctor<>()
+        .property("id", &gamepad::get_id)
+        .property("index", &gamepad::get_index)
+        .property("connected", &gamepad::get_connected)
+        .property("timestamp", &gamepad::get_timestamp)
+        .property("mapping", &gamepad::get_mapping)
+        .property("axes", &gamepad::get_axes)
+        .property("buttons", &gamepad::get_buttons)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

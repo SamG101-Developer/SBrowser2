@@ -38,7 +38,7 @@ auto gamepad::detail::update_gamepad_state(
 {
     JS_REALM_GET_RELEVANT(gamepad);
     auto now = hr_time::detail::current_hr_time(gamepad_relevant_global_object);
-    gamepad->s_timestamp = now;
+    gamepad->d_func()->timestamp = now;
 
     map_and_normalize_axes(gamepad);
     map_and_normalize_buttons(gamepad);

@@ -7,6 +7,8 @@
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
 #include "ext/vector.hpp"
+
+#include INCLUDE_INNER_TYPES(gamepad)
 #include INCLUDE_INNER_TYPES(hr_time)
 
 namespace gamepad {class gamepad_button;}
@@ -29,6 +31,7 @@ DEFINE_PRIVATE_CLASS(gamepad, gamepad) : virtual dom_object_private
     ext::vector<ext::number<int>> button_maximums;
 
     ext::string id;
+    detail::gamepad_mapping_type_t mapping;
 };
 
 

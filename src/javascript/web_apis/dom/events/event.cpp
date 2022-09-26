@@ -6,13 +6,17 @@
 #include <range/v3/range/operations.hpp>
 
 
+dom::events::event::event()
+{
+    INIT_PIMPL(event);
+}
+
+
 dom::events::event::event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
         : INIT_PIMPL
 {
-    JS_REALM_GET_RELEVANT(this);
-
     d_ptr->type = std::move(event_type);
     d_ptr->bubbles = event_init.try_emplace("bubbles", false).first->second.to<ext::boolean>();
     d_ptr->cancelable = event_init.try_emplace("cancelable", false).first->second.to<ext::boolean>();
