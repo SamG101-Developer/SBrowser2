@@ -10,15 +10,20 @@ namespace intersection_observer {class intersection_observer;}
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(intersection_observer)
+namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace intersection_observer {class intersection_observer_entry;}
+
+#include "intersection_observer_private.hpp"
 
 
 class intersection_observer::intersection_observer
         : public virtual dom_object
 {
 public constructors:
+    MAKE_PIMPL(intersection_observer);
     intersection_observer(detail::intersection_observer_callback_t&& callback, detail::intersection_observer_init_t&& options = {});
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto observe(dom::nodes::element* target) -> void;
@@ -27,18 +32,9 @@ public js_methods:
     auto take_records() -> ext::vector<intersection_observer_entry*>;
 
 private js_properties:
-    ext::property<ext::variant<dom::nodes::element*, dom::nodes::document*>> root;
-    ext::property<ext::string> root_margin;
-    ext::property<ext::vector<ext::number<double>>> thresholds;
-
-private js_slots:
-    ext::slot<detail::intersection_observer_callback_t> s_callback;
-    ext::slot<ext::array<int, 4>> s_root_margin;
-    ext::slot<ext::vector<dom::nodes::element*>> s_observation_targets;
-    ext::slot<ext::vector<intersection_observer*>> s_queued_entries;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(s_root_margin);
+    DEFINE_GETTER(root, detail::document_or_element_t);
+    DEFINE_GETTER(root_margin, ext::string);
+    DEFINE_GETTER(thresholds, ext::vector_view<ext::number<double>>);
 };
 
 

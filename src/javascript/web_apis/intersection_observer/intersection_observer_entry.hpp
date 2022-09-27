@@ -6,28 +6,29 @@ namespace intersection_observer {class intersection_observer_entry;}
 
 #include "ext/map.hpp"
 #include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(intersection_observer)
 namespace dom::nodes {class element;}
-namespace geometry {class dom_rect_readonly;}
+namespace css::geometry {class dom_rect_readonly;}
+
+#include "intersection_observer_entry_private.hpp"
 
 
 class intersection_observer::intersection_observer_entry
         : public virtual dom_object
 {
 public constructors:
-    intersection_observer_entry() = default;
-    intersection_observer_entry(ext::map<ext::string, ext::any>&& init);
+    MAKE_PIMPL(intersection_observer_entry);
+    intersection_observer_entry(detail::intersection_observer_entry_init_t&& init);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<hr_time::dom_high_res_time_stamp> time;
-    ext::property<geometry::dom_rect_readonly*> root_bounds;
-    ext::property<geometry::dom_rect_readonly*> bounding_client_rect;
-    ext::property<geometry::dom_rect_readonly*> intersection_rect;
-    ext::property<ext::boolean> is_intersecting;
-    ext::property<ext::number<double>> intersection_ratio;
-    ext::property<dom::nodes::element*> target;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(time, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(root_bounds, css::geometry::dom_rect_readonly*);
+    DEFINE_GETTER(bounding_client_rect, css::geometry::dom_rect_readonly);
+    DEFINE_GETTER(intersection_rect, css::geometry::dom_rect_readonly);
+    DEFINE_GETTER(is_intersecting, ext::boolean);
+    DEFINE_GETTER(intersection_ratio, ext::number<double>);
+    DEFINE_GETTER(target, dom::nodes::element*);
 };
 
 

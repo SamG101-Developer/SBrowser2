@@ -12,8 +12,8 @@ namespace largest_contentful_paint::detail
     auto potentially_add_largest_contentful_paint_entry(
             geometry::dom_rect_readonly* intersection_rect,
             fetch::request* request,
-            const hr_time::dom_high_res_time_stamp& render_time,
-            const hr_time::dom_high_res_time_stamp& load_time,
+            hr_time::dom_high_res_time_stamp render_time,
+            hr_time::dom_high_res_time_stamp load_time,
             dom::nodes::element* element,
             dom::nodes::document* document)
             -> void;

@@ -2,25 +2,30 @@
 
 #include INCLUDE_INNER_TYPES(dom)
 
+#include "ext/assertion.hpp"
+
 #include "dom/detail/exception_internals.hpp"
+#include "dom/nodes/document.hpp"
 #include "dom/nodes/element.hpp"
 #include "intersection_observer/detail/algorithm_internals.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
-#include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/action/push_front.hpp>
 #include <range/v3/action/sort.hpp>
 #include <range/v3/action/unique.hpp>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/to_container.hpp>
+#include <range/v3/view/for_each.hpp>
 
 
 intersection_observer::intersection_observer::intersection_observer(
         detail::intersection_observer_callback_t&& callback,
         detail::intersection_observer_init_t&& options)
 {
+    INIT_PIMPL(intersection_observer);
+
     // Try to parse the "rootMargin" option (converted to a string) from the 'options' dictionary. The result is an
     // optional list of strings, with no value indicating a failure in the parsing. If there was a parsing failure, then
     // throw a JavaScript syntax error.
@@ -42,11 +47,11 @@ intersection_observer::intersection_observer::intersection_observer(
 
     // Set the callback and root margin slots to the parsed / verified option values, and set the 'thresholds' property
     // to the 'parsed_thresholds' converted to a list if not empty, otherwise {0.0}
-    s_callback = std::move(callback);
-    s_root_margin = *parsed_root_margin;
-    thresholds = parsed_thresholds.empty()
-            ? parsed_thresholds | ranges::to<decltype(thresholds)::value_t>
-            : decltype(thresholds)::value_t{0.0};
+    ACCESS_PIMPL(intersection_observer);
+    d->callback = std::move(callback);
+    d->root = options.try_emplace("root", nullptr).first->second.to<dom::nodes::node*>();
+    d->root_margin = *parsed_root_margin;
+    d->thresholds = parsed_thresholds.empty() ? parsed_thresholds : decltype(d->thresholds){0.0};
 }
 
 
@@ -54,17 +59,23 @@ auto intersection_observer::intersection_observer::observe(
         dom::nodes::element* target)
         -> void
 {
+    ACCESS_PIMPL(intersection_observer);
+
     // Cannot re-observe an Element that is being observed already, so return early if the 'target' is already being
     // observed -- this is determined by checking if the 'target' is contained in the [[ObservationTargets]] slot.
-    return_if (ranges::contains(s_observation_targets(), target));
+    return_if (ranges::contains(d->observation_targets, target));
 
     // Create the 'intersection_observer_registration' struct, setting the 'observer' to 'this', and other attributes
     // that act as defaults to start the observing. Add the registration to the 'target's
     // [[RegistrationIntersectionObservers]], and add the 'target' to this IntersectionObserver's [[ObservationTargets]]
     // slot.
-    auto intersection_observer_registration = detail::intersection_observer_registration_t{.observer = this, .previous_threshold_index = -1, .previous_is_intersecting = false};
-    target->s_registration_intersection_observers().push_back(&intersection_observer_registration);
-    s_observation_targets().push_back(target);
+    auto intersection_observer_registration = std::make_unique<detail::intersection_observer_registration_t>();
+
+    intersection_observer_registration->observer = this;
+    intersection_observer_registration->previous_threshold_index = -1;
+    intersection_observer_registration->previous_is_intersecting = false;
+    target->d_func()->registration_intersection_observers.push_back(std::move(intersection_observer_registration));
+    d->observation_targets.push_back(target);
 }
 
 
@@ -72,29 +83,76 @@ auto intersection_observer::intersection_observer::unobserve(
         dom::nodes::element* target)
         -> void
 {
+    ACCESS_PIMPL(intersection_observer);
+
     // Cannot unobserve a null target, so return early
     return_if (!target);
 
     // Remove the registration from the 'target's [[RegistrationIntersectionObservers]] slot, and remove the 'target'
     // from this IntersectionObserver's [[ObservationTargets]] slot.
-    target->s_registration_intersection_observers() |= ranges::actions::remove_if(ext::bind_back{ext::cmp::eq{}, this, &detail::intersection_observer_registration_t::observer});
-    s_observation_targets() |= ranges::actions::remove(target);
+    target->d_func()->registration_intersection_observers
+            |= ranges::actions::remove_if([this](auto&& unique_registration) {return unique_registration->observer == this;});
+    d->observation_targets |= ranges::actions::remove(target);
 }
 
 
 auto intersection_observer::intersection_observer::disconnect()
         -> void
 {
+    ACCESS_PIMPL(intersection_observer);
+
     // To disconnect this IntersectionObserver, unobserve every Element in the [[ObservationTargets]] slot.
-    ranges::for_each(s_observation_targets(), &intersection_observer::unobserve);
+    d->observation_targets | ranges::views::for_each(&intersection_observer::unobserve);
 }
 
 
 auto intersection_observer::intersection_observer::take_records()
         -> ext::vector<intersection_observer_entry*>
 {
+    ACCESS_PIMPL(intersection_observer);
+
     // To take the records, return a copy of the [[QueuedEntries]] slot, and clear the [[QueuedEntries]] slot
-    auto queue = auto{s_queued_entries()};
-    s_queued_entries().clear();
-    return queue;
+    auto queue = std::move(d->queued_entries);
+    d->queued_entries = {};
+    return {std::make_move_iterator(queue.begin()), std::make_move_iterator(queue.end())};
+}
+
+
+auto intersection_observer::intersection_observer::get_root() const -> detail::document_or_element_t
+{
+    ACCESS_PIMPL(const intersection_observer);
+    return ext::visit([d]<typename T>(T*) -> detail::document_or_element_t {return dynamic_cast<T*>(d->root);}, detail::document_or_element_t{});
+}
+
+
+auto intersection_observer::intersection_observer::get_root_margin() const -> ext::string
+{
+    ACCESS_PIMPL(const intersection_observer);
+    return d->root_margin; // TODO : serialize
+}
+
+
+auto intersection_observer::intersection_observer::get_thresholds() const -> ext::vector_view<ext::number<double>>
+{
+    ACCESS_PIMPL(const intersection_observer);
+    return {d->thresholds.begin(), d->thresholds.end()};
+}
+
+
+auto intersection_observer::intersection_observer::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<intersection_observer>{isolate}
+        .ctor<detail::intersection_observer_callback_t&&, detail::intersection_observer_init_t&&>()
+        .function("observe", &intersection_observer::observe)
+        .function("unobserve", &intersection_observer::unobserve)
+        .function("disconnect", &intersection_observer::disconnect)
+        .function("takeRecords", &intersection_observer::take_records)
+        .property("root", &intersection_observer::get_root)
+        .property("rootMargin", &intersection_observer::get_root_margin)
+        .property("thresholds", &intersection_observer::get_thresholds)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }

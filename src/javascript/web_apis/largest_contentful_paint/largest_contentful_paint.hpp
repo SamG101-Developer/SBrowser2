@@ -8,24 +8,29 @@ namespace largest_contentful_paint {class largest_contentful_paint;}
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class element;}
 
+#include "largest_contentful_paint_private.hpp"
+
 
 class largest_contentful_paint::largest_contentful_paint
         : public performance_timeline::performance_entry
 {
 public constructors:
     DOM_CTORS(largest_contentful_paint);
-    largest_contentful_paint() = default;
+    MAKE_PIMPL(largest_contentful_paint);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<hr_time::dom_high_res_time_stamp> render_time;
-    ext::property<hr_time::dom_high_res_time_stamp> load_time;
-    ext::property<ext::number<ulong>> size;
-    ext::property<ext::string> id;
-    ext::property<ext::string> url;
-    ext::property<std::unique_ptr<dom::nodes::element>> element;
+    DEFINE_GETTER(render_time, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(load_time, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(size, ext::number<ulong>);
+    DEFINE_GETTER(id, ext::string);
+    DEFINE_GETTER(url, ext::string);
+    DEFINE_GETTER(element, dom::nodes::element*);
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
+    DEFINE_GETTER(name, ext::string) override;
+    DEFINE_GETTER(entry_type, ext::string) override;
+    DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
+    DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override;
 };
 
 

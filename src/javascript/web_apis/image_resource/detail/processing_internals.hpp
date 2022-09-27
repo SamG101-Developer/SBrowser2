@@ -2,6 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_IMAGE_RESOURCE_DETAIL_PROCESSING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_IMAGE_RESOURCE_DETAIL_PROCESSING_INTERNALS_HPP
 
+#include "ext/expected.hpp"
 #include "ext/keywords.hpp"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
@@ -20,12 +21,12 @@ namespace image_resource::detail
 
     auto process_image_resource_from_api(
             image_resource_options_t&& image_resource)
-            -> image_resource_t;
+            -> ext::expected<image_resource_t, ext::failure_t>;
 
     auto process_image_resource_from_json(
             v8::Local<v8::Map> json_object,
             const url::detail::url_t& base)
-            -> ext::optional<image_resource_options_t>;
+            -> ext::expected<image_resource_options_t, ext::failure_t>;
 
     auto fetching_image_resource(
             const image_resource_t& image,

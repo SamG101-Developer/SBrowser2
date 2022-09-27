@@ -6,11 +6,6 @@
 #include <function2/function2.hpp>
 
 
-// TODO : test performance against C++ std implementations (bind_front)
-// TODO : are arguments being forwarded out of tuple into method?
-// TODO : are arguments being forwarded correctly?
-
-
 _EXT_BEGIN
 
 using namespace fu2;

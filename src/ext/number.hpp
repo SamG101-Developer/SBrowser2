@@ -99,6 +99,7 @@ public:
 
     constexpr auto operator*() -> T& {return n;}
     constexpr auto operator*() const -> const T& {return n;}
+    constexpr operator bool() const {return n != 0;}
 
     template <arithmetic U>
     auto as() const {return ext::number<U>{static_cast<U>(n)};}

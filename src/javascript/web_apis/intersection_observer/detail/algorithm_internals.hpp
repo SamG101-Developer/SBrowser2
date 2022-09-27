@@ -3,8 +3,8 @@
 
 #include "ext/array.hpp"
 #include "ext/boolean.hpp"
+#include "ext/expected.hpp"
 #include "ext/map.hpp"
-#include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(intersection_observer)
 #include INCLUDE_INNER_TYPES(hr_time)
@@ -13,6 +13,7 @@ namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 namespace intersection_observer {class intersection_observer;}
+namespace css::geometry {class dom_rect;}
 
 
 namespace intersection_observer::detail
@@ -35,11 +36,11 @@ namespace intersection_observer::detail
 
     auto content_clip(
             dom::nodes::element* element)
-            -> css::geometry::dom_rect*;
+            -> css::geometry::dom_rect;
 
     auto parse_root_margin(
             ext::string_view margin_string)
-            -> ext::optional<ext::array<ext::number<int>, 4>>;
+            -> ext::expected<ext::array<ext::number<int>, 4>, ext::failure_t>;
 
     auto queue_intersection_observer_task(
             dom::nodes::document* document)
@@ -73,6 +74,10 @@ namespace intersection_observer::detail
     auto pending_initial_intersection_observer_targets(
             dom::nodes::document* document)
             -> ext::boolean;
+
+    auto root_intersection_rectangle(
+            intersection_observer* observer)
+            -> css::geometry::dom_rect;
 }
 
 

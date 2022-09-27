@@ -45,7 +45,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, element)
     ext::boolean click_in_progress_flag;
 
     /* INTERSECTION_OBSERVERS */
-    ext::vector<intersection_observer::detail::intersection_observer_registration_t*> registration_intersection_observers;
+    ext::vector<std::unique_ptr<intersection_observer::detail::intersection_observer_registration_t>> registration_intersection_observers;
 };
 
 

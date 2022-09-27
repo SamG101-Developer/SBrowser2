@@ -1,7 +1,11 @@
 #include "processing_internals.hpp"
 
+#include "environment/environment_settings.hpp"
+#include "ext/expected.hpp"
 #include "fetch/_typedefs.hpp"
+#include "javascript/environment/environment_settings.hpp"
 #include "javascript/environment/realms_2.hpp"
+#include "tl/expected.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(image_resource)
@@ -22,12 +26,11 @@
 
 auto image_resource::detail::process_image_resource_from_api(
         image_resource_options_t&& image_resource)
-        -> image_resource_t
+        -> ext::expected<image_resource_options_t, ext::failure_t>
 {
     JS_REALM_GET_RELEVANT(nullptr);
-    decltype(auto) base_url = nullptr_relevant_settings_object->api_base_url;
-
-    auto parsed_mime_type = mimesniff::detail::parse_mime_type(image_resource.try_emplace("type").first->first);
+    decltype(auto) base_url = v8pp::from_v8<javascript::environment::settings_t*>(nullptr_relevant_agent, nullptr_relevant_settings_object)->api_base_url.get();
+    decltype(auto) parsed_mime_type = mimesniff::detail::parse_mime_type(image_resource.try_emplace("type").first->first);
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [has_value = parsed_mime_type.has_value()] {return !has_value;},
@@ -52,12 +55,12 @@ auto image_resource::detail::process_image_resource_from_api(
 auto image_resource::detail::process_image_resource_from_json(
         v8::Local<v8::Map> json_object,
         const url::detail::url_t& base)
-        -> ext::optional<image_resource_options_t>
+        -> ext::expected<image_resource_options_t, ext::failure_t>
 {
     JS_REALM_GET_RELEVANT(json_object);
 
-    return_if (!json_object->IsObject() || json_object.IsEmpty()) ext::nullopt;
-    return_if (!json_object->Get(json_object_relevant_realm, v8pp::to_v8(json_object_relevant_agent, "src")).ToLocalChecked()->IsString()) ext::nullopt;
+    return_if (!json_object->IsObject() || json_object.IsEmpty()) ext::failure_t{};
+    return_if (!json_object->Get(json_object_relevant_realm, v8pp::to_v8(json_object_relevant_agent, "src")).ToLocalChecked()->IsString()) ext::failure_t{};
 
     auto image = image_resource_options_t{};
     decltype(auto) base_url = json_object_relevant_settings_object->api_base_url;
