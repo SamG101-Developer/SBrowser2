@@ -84,7 +84,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
 
     /* [Largest-Contentful-Paint] */
     ext::number<int> largest_contentful_paint_size = 0;
-    ext::set<ext::tuple<std::weak_ptr<dom::nodes::element>, fetch::request*>> content_set; // TODO: std::weak-ptr<T> ?
+    ext::set<ext::tuple<dom::nodes::element*, fetch::request*>> content_set; // TODO: std::weak-ptr<T> ?
 
     /* [CSS_ANIMATION_WORKLET] */
     ext::map<ext::string, css::detail::document_animator_definition_t*> document_animator_definitions;
