@@ -33,13 +33,13 @@ public constructors:
             , fixed_size{0}
     {};
 
-    view(const iterator begin, const iterator end)
+    view(const T begin, const T end)
             : fixed_begin{begin}
             , fixed_end{end}
             , fixed_size{std::distance(begin, end)}
     {}
 
-    view(const iterator begin, size_type size)
+    view(const T begin, size_type size)
             : fixed_begin{begin}
             , fixed_end{std::next(begin, size)}
             , fixed_size{size}
@@ -53,8 +53,8 @@ public constructors:
 
     template <typename U>
     view(std::initializer_list<U> other)
-            : fixed_begin{ext::iterator_cast<T>(other.begin())}
-            , fixed_end{ext::iterator_cast<T>(other.end())}
+            : fixed_begin{std::make_move_iterator(ext::iterator_cast<T>(other.begin()))}
+            , fixed_end{std::make_move_iterator(ext::iterator_cast<T>(other.end()))}
             , fixed_size{std::move(other.size())}
     {}
 
@@ -66,7 +66,7 @@ public cpp_operators:
     auto operator==(const view<T>&) const -> bool = default;
     auto operator<=>(const view<T>&) const = default;
 
-public cpp_methods:
+public cpp_members:
     auto data() -> iterator {return fixed_begin;}
     auto empty() -> bool {return fixed_size == 0;}
     auto size() -> size_type {return fixed_size;}
@@ -86,11 +86,15 @@ public cpp_methods:
 
     auto at(size_type where) -> element_type {return *std::next(fixed_begin, where);}
 
-private cpp_properties:
     const iterator fixed_begin;
     const iterator fixed_end;
     const size_type fixed_size;
 };
+
+
+template <typename T>
+view(T, T) -> view<T>;
+
 
 _EXT_END
 

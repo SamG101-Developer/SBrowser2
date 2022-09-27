@@ -11,20 +11,21 @@
 _EXT_BEGIN
 
 
-#define pair_view_iterator V*
+template <typename K, typename V>
+using pair_view_iterator = std::conditional_t<(sizeof(K) > sizeof(V)), K*, V*>;
 
 template <typename K, typename V>
-class pair_view : public view<pair_view_iterator>
+class pair_view : public view<pair_view_iterator<K, V>>
 {
 public constructors:
-    using view<pair_view_iterator>::view;
+    using view<pair_view_iterator<K, V>>::view;
 
     explicit pair_view(pair<K, V>&& other)
-            : view<pair_view_iterator>{std::make_move_iterator(&other.first), std::make_move_iterator(&other.second)}
+            : view<pair_view_iterator<K, V>>{std::make_move_iterator(&other.first), std::make_move_iterator(&other.second)}
     {}
 
     explicit pair_view(const pair<K, V>& other)
-            : view<pair_view_iterator>{&other.first, &other.second}
+            : view<pair_view_iterator<K, V>>{&other.first, &other.second}
     {}
 };
 

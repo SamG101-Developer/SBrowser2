@@ -13,21 +13,22 @@ _EXT_BEGIN
 template <typename T>
 using set = tsl::robin_set<T>;
 
-#define set_view_iterator typename set<T>::iterator
+template <typename T>
+using set_view_iterator = typename set<T>::iterator;
 
 
 template <typename T>
-class set_view : public view<set_view_iterator>
+class set_view : public view<set_view_iterator<T>>
 {
 public constructors:
-    using view<set_view_iterator>::view;
+    using view<set_view_iterator<T>>::view;
 
     explicit set_view(set<T>&& other)
-            : view<set_view_iterator>{std::make_move_iterator(other.begin()), std::make_move_iterator(other.end())}
+            : view<set_view_iterator<T>>{std::make_move_iterator(other.begin()), std::make_move_iterator(other.end())}
     {}
 
     explicit set_view(const set<T>& other)
-            : view<set_view_iterator>{other.begin(), other.end()}
+            : view<set_view_iterator<T>>{other.begin(), other.end()}
     {}
 };
 

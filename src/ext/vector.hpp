@@ -13,21 +13,22 @@ _EXT_BEGIN
 template <typename T>
 using vector = veque::veque<T>;
 
-#define vector_view_iterator typename vector<T>::iterator
+template <typename T>
+using vector_view_iterator = typename vector<T>::iterator;
 
 
 template <typename T>
-struct vector_view : public view<vector_view_iterator>
+struct vector_view : public view<vector_view_iterator<T>>
 {
 public constructors:
-    using view<vector_view_iterator>::view;
+    using view<vector_view_iterator<T>>::view;
 
     explicit vector_view(vector<T>&& other)
-            : view<vector_view_iterator>(std::make_move_iterator(other.begin()), std::make_move_iterator(other.end()))
+            : view<vector_view_iterator<T>>(std::make_move_iterator(other.begin()), std::make_move_iterator(other.end()))
     {}
 
     explicit vector_view(const vector<T>& other)
-            : view<vector_view_iterator>{other.begin(), other.end()}
+            : view<vector_view_iterator<T>>{other.begin(), other.end()}
     {}
 };
 
