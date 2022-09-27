@@ -17,14 +17,14 @@ auto gyroscope::detail::construct_gyroscope_object(
     // If the sensor isn't allowed by a policy, then throw a SecurityError, letting the user know that using this sensor
     // isn't permitted.
     dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
-            [sensor] {return !sensors::detail::check_sensor_policy_controlled_features(*sensor->m_sensor);},
+            [sensor] {return !sensors::detail::check_sensor_policy_controlled_features(*sensor->d_func()->sensor);},
             ext::string{typeid(sensor).name()} + " cannot be created due to a failed check in the sensor policy controlled features");
 
     // Initialize the sensor object, and set the coordinate system of the sensor, depending on the "referenceFrame"
     // option from the 'options' dictionary.
     using enum gyroscope_local_coordinate_system_t;
     sensors::detail::initialize_sensor_object(sensor, std::move(options));
-    sensor->m_coordinate_system = options.template try_emplace("referenceFrame").first->second.template to<gyroscope_local_coordinate_system_t>() == SCREEN
+    sensor->d_func()->coordinate_system = options.template try_emplace("referenceFrame").first->second.template to<gyroscope_local_coordinate_system_t>() == SCREEN
             ? sensors::detail::coordinate_system_t::SCREEN_COORDINATE_SYSTEM
             : sensors::detail::coordinate_system_t::DEVICE_COORDINATE_SYSTEM;
 }

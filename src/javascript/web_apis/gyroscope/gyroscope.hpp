@@ -3,9 +3,11 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GYROSCOPE_GYROSCOPE_HPP
 
 #include "sensors/sensor.hpp"
-namespace gyroscope {class gyroscope;};
+namespace gyroscope {class gyroscope;}
 
 #include INCLUDE_INNER_TYPES(gyroscope)
+
+#include "gyroscope/gyroscope_private.hpp"
 
 
 class gyroscope::gyroscope
@@ -14,19 +16,13 @@ class gyroscope::gyroscope
 public constructors:
     DOM_CTORS(gyroscope);
     gyroscope(detail::gyroscope_sensor_options_t&& sensor_options);
+    MAKE_PIMPL(gyroscope);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::number<double>> x;
-    ext::property<ext::number<double>> y;
-    ext::property<ext::number<double>> z;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(x);
-    DEFINE_CUSTOM_GETTER(y);
-    DEFINE_CUSTOM_GETTER(z);
+    DEFINE_GETTER(x, ext::number<double>);
+    DEFINE_GETTER(y, ext::number<double>);
+    DEFINE_GETTER(z, ext::number<double>);
 };
 
 

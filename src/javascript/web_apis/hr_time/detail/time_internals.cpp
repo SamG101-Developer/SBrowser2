@@ -13,7 +13,7 @@ auto hr_time::detail::get_time_origin_timestamp(
     // coarsened time
     auto time_origin = javascript::environment::realms_2::get<dom_high_res_time_stamp>(global_object, "time_origin");
     auto cross_origin_isolated_capability = javascript::environment::realms_2::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
-    auto coarse_time = coarsen_time(time_origin, std::move(cross_origin_isolated_capability));
+    auto coarse_time = coarsen_time(time_origin, cross_origin_isolated_capability);
     return coarse_time;
 }
 
@@ -39,7 +39,7 @@ auto hr_time::detail::relative_hr_time(
         -> dom_high_res_time_stamp
 {
     auto cross_origin_isolated_capability = javascript::environment::realms_2::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
-    auto coarse_time = coarsen_time(time_stamp, std::move(cross_origin_isolated_capability));
+    auto coarse_time = coarsen_time(time_stamp, cross_origin_isolated_capability);
     auto relative_time = relative_high_resolution_coarse_time(coarse_time, global_object);
     return relative_time;
 }
@@ -71,7 +71,7 @@ auto hr_time::detail::coarsen_shared_current_time(
         -> dom_high_res_time_stamp
 {
     auto current_time = unsafe_shared_current_time();
-    auto coarse_time = coarsen_time(current_time, std::move(cross_origin_isolated_capability));
+    auto coarse_time = coarsen_time(current_time, cross_origin_isolated_capability);
     return coarse_time;
 }
 
@@ -79,7 +79,7 @@ auto hr_time::detail::coarsen_shared_current_time(
 auto hr_time::detail::unsafe_shared_current_time()
         -> dom_high_res_time_stamp
 {
-    auto current_time = std::chrono::steady_clock::now().time_since_epoch().count();
+    auto current_time = std::chrono::steady_clock::now().time_since_epoch().count(); // TODO : cast to double not long long
     return current_time;
 }
 

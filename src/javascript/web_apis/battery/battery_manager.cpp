@@ -4,8 +4,9 @@
 
 
 battery::battery_manager::battery_manager()
-        : INIT_PIMPL
-{}
+{
+    INIT_PIMPL(battery_manager);
+}
 
 
 auto battery::battery_manager::to_v8(

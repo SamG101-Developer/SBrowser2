@@ -10,12 +10,16 @@ namespace performance_timeline {class performance_entry;}
 namespace event_timing {class event_counts;}
 namespace event_timing {class interaction_counts;}
 
+#include "performance_private.hpp"
+
 
 class hr_time::performance
         : public dom::nodes::event_target
 {
 public constructors:
+    MAKE_PIMPL(performance);
     performance();
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     /* HIGH_RESOLUTION_TIME */
@@ -32,22 +36,11 @@ public js_methods:
 
 private js_properties:
     /* HIGH_RESOLUTION_TIME */
-    ext::property<dom_high_res_time_stamp> time_origin;
+    DEFINE_GETTER(time_origin, ext::number<double>);
 
     /* EVENT_TIMING */
-    ext::property<const event_timing::event_counts*> event_counts;
-    ext::property<const event_timing::interaction_counts*> interaction_counts;
-
-public cpp_properties:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_properties:
-    /* HIGH_RESOLUTION_TIME */
-    DEFINE_CUSTOM_GETTER(time_origin);
-
-    /* EVENT_TIMING */
-    DEFINE_CUSTOM_GETTER(event_counts);
-    DEFINE_CUSTOM_GETTER(interaction_counts);
+    DEFINE_GETTER(event_counts, const event_timing::event_counts*);
+    DEFINE_GETTER(interaction_counts, const event_timing::interaction_counts*);
 };
 
 

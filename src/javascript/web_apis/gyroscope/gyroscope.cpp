@@ -7,7 +7,6 @@
 
 gyroscope::gyroscope::gyroscope(
         detail::gyroscope_sensor_options_t&& options)
-        : x{0.0}, y{0.0}, z{0.0}
 {
     // Construct an gyroscope instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -15,8 +14,7 @@ gyroscope::gyroscope::gyroscope(
 }
 
 
-auto gyroscope::gyroscope::get_x()
-        const -> decltype(this->x)::value_t
+auto gyroscope::gyroscope::get_x() const -> ext::number<double>
 {
     // Get the latest reading for the "x" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -27,8 +25,7 @@ auto gyroscope::gyroscope::get_x()
 }
 
 
-auto gyroscope::gyroscope::get_y()
-        const -> decltype(this->y)::value_t
+auto gyroscope::gyroscope::get_y() const -> ext::number<double>
 {
     // Get the latest reading for the "y" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -39,8 +36,7 @@ auto gyroscope::gyroscope::get_y()
 }
 
 
-auto gyroscope::gyroscope::get_z()
-        const -> decltype(this->z)::value_t
+auto gyroscope::gyroscope::get_z() const -> ext::number<double>
 {
     // Get the latest reading for the "z" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -53,13 +49,15 @@ auto gyroscope::gyroscope::get_z()
 
 auto gyroscope::gyroscope::to_v8(
         v8::Isolate* isolate)
-        const && -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<gyroscope>{isolate}
-            .ctor<detail::gyroscope_sensor_options_t&&>()
-            .inherit<sensors::sensor>()
-            .var("x", &gyroscope::x, true)
-            .var("y", &gyroscope::y, true)
-            .var("z", &gyroscope::z, true)
-            .auto_wrap_objects();
+    decltype(auto) conversion = v8pp::class_<gyroscope>{isolate}
+        .ctor<detail::gyroscope_sensor_options_t&&>()
+        .inherit<sensors::sensor>()
+        .property("x", &gyroscope::get_x)
+        .property("y", &gyroscope::get_y)
+        .property("z", &gyroscope::get_z)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }

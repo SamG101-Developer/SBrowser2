@@ -3,33 +3,34 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_SENSOR_GEOLOCATION_SENSOR_HPP
 
 #include "sensors/sensor.hpp"
-#include "geolocation/geolocation_coordinates.hpp"
 namespace geolocation_sensor {class geolocation_sensor;}
-
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(geolocation_sensor)
 
+#include "geolocation_sensor_private.hpp"
+
 
 class geolocation_sensor::geolocation_sensor
         : public sensors::sensor
-        , public geolocation::geolocation_coordinates
 {
 public constructors:
     DOM_CTORS(geolocation_sensor);
-    geolocation_sensor(detail::geolocation_sensor_options_t&& options = {});
+    MAKE_PIMPL(geolocation_sensor);
+    geolocation_sensor(detail::geolocation_sensor_options_t&& options);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto read(detail::read_options_t&& read_options) -> ext::promise<detail::geolocation_sensor_reading_t>;
 
 private js_properties:
-    DEFINE_CUSTOM_GETTER(latitude);
-    DEFINE_CUSTOM_GETTER(longitude);
-    DEFINE_CUSTOM_GETTER(altitude);
-    DEFINE_CUSTOM_GETTER(accuracy);
-    DEFINE_CUSTOM_GETTER(altitude_accuracy);
-    DEFINE_CUSTOM_GETTER(heading);
-    DEFINE_CUSTOM_GETTER(speed);
+    DEFINE_GETTER(latitude, ext::number<double>);
+    DEFINE_GETTER(longitude, ext::number<double>);
+    DEFINE_GETTER(altitude, ext::number<double>);
+    DEFINE_GETTER(accuracy, ext::number<double>);
+    DEFINE_GETTER(altitude_accuracy, ext::number<double>);
+    DEFINE_GETTER(heading, ext::number<double>);
+    DEFINE_GETTER(speed, ext::number<double>);
 };
 
 

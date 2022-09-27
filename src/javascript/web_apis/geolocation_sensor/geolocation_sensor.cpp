@@ -23,17 +23,14 @@ auto geolocation_sensor::geolocation_sensor::read(
     ext::promise<detail::geolocation_sensor_reading_t> promise;
     decltype(auto) signal = read_options.try_emplace("signal", nullptr).first->second.to<dom::abort::abort_signal*>();
 
-    if (signal && signal->aborted())
-        return promise.reject(signal->reason().to<dom::other::dom_exception*>());
+    return_if (signal && signal->aborted()) promise.reject(signal->reason().to<dom::other::dom_exception*>());
 
+    JS_REALM_GET_CURRENT;
     JS_EXCEPTION_HANDLER;
-    geolocation_sensor sensor {};
 
-    if (JS_EXCEPTION_HAS_THROWN)
-    {
-        JS_REALM_GET_CURRENT;
-        return promise.reject(v8pp::from_v8<dom::other::dom_exception>(current_agent, JS_EXCEPTION));
-    }
+    auto sensor = geolocation_sensor{};
+
+    return_if (JS_EXCEPTION_HAS_THROWN) promise.reject(v8pp::from_v8<dom::other::dom_exception>(current_agent, JS_EXCEPTION));
 
     sensor.start();
     if (signal)
@@ -47,8 +44,7 @@ auto geolocation_sensor::geolocation_sensor::read(
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_latitude()
-        const -> decltype(this->latitude)::value_t
+auto geolocation_sensor::geolocation_sensor::get_latitude() const -> ext::number<double>
 {
     // Get the latest reading for the "latitude" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -59,8 +55,7 @@ auto geolocation_sensor::geolocation_sensor::get_latitude()
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_longitude()
-        const -> decltype(this->longitude)::value_t
+auto geolocation_sensor::geolocation_sensor::get_longitude() const -> ext::number<double>
 {
     // Get the latest reading for the "longitude" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -71,8 +66,7 @@ auto geolocation_sensor::geolocation_sensor::get_longitude()
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_altitude()
-        const -> decltype(this->altitude)::value_t
+auto geolocation_sensor::geolocation_sensor::get_altitude() const -> ext::number<double>
 {
     // Get the latest reading for the "altitude" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -83,8 +77,7 @@ auto geolocation_sensor::geolocation_sensor::get_altitude()
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_accuracy()
-        const -> decltype(this->accuracy)::value_t
+auto geolocation_sensor::geolocation_sensor::get_accuracy() const -> ext::number<double>
 {
     // Get the latest reading for the "accuracy" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -95,8 +88,7 @@ auto geolocation_sensor::geolocation_sensor::get_accuracy()
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_altitude_accuracy()
-        const -> decltype(this->altitude_accuracy)::value_t
+auto geolocation_sensor::geolocation_sensor::get_altitude_accuracy() const -> ext::number<double>
 {
     // Get the latest reading for the "altitude_accuracy" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -107,8 +99,7 @@ auto geolocation_sensor::geolocation_sensor::get_altitude_accuracy()
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_heading()
-        const -> decltype(this->heading)::value_t
+auto geolocation_sensor::geolocation_sensor::get_heading() const -> ext::number<double>
 {
     // Get the latest reading for the "heading" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -119,8 +110,7 @@ auto geolocation_sensor::geolocation_sensor::get_heading()
 }
 
 
-auto geolocation_sensor::geolocation_sensor::get_speed()
-        const -> decltype(this->speed)::value_t
+auto geolocation_sensor::geolocation_sensor::get_speed() const -> ext::number<double>
 {
     // Get the latest reading for the "speed" value, default it to 0 if it doesn't exist, and then convert it from
     // the ext::any type to a double. Return the double.
@@ -128,5 +118,25 @@ auto geolocation_sensor::geolocation_sensor::get_speed()
     auto defaulted_speed = candidate_speed.value_or(sensors::detail::sensor_reading_t{});
     auto extracted_speed = defaulted_speed.at("speed").to<ext::number<double>>();
     return extracted_speed;
+}
+
+
+auto geolocation_sensor::geolocation_sensor::to_v8(
+        v8::Isolate* isolate)
+        -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<geolocation_sensor>{isolate}
+        .inherit<sensors::sensor>()
+        .ctor<detail::geolocation_sensor_options_t&&>()
+        .property("latitude", &geolocation_sensor::get_latitude)
+        .property("longitude", &geolocation_sensor::get_longitude)
+        .property("altitude", &geolocation_sensor::get_altitude)
+        .property("accuracy", &geolocation_sensor::get_accuracy)
+        .property("altitudeAccuracy", &geolocation_sensor::get_altitude_accuracy)
+        .property("heading", &geolocation_sensor::get_heading)
+        .property("speed", &geolocation_sensor::get_speed)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }
 
