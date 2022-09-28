@@ -50,4 +50,5 @@ namespace media::detail
             -> ext::boolean;
 }
 
+
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES_DETAIL_CONFIGURATION_INTERNALS_HPP

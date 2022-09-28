@@ -7,19 +7,24 @@ namespace orientation_sensor {class orientation_sensor;}
 
 #include INCLUDE_INNER_TYPES(orientation_sensor)
 
+#include "orientation_sensor_private.hpp"
+
 
 class orientation_sensor::orientation_sensor
         : public sensors::sensor
 {
 public constructors:
-    orientation_sensor() = default;
-    orientation_sensor(detail::orientation_sensor_options_t&& options = {});
+    orientation_sensor(detail::orientation_sensor_options_t&& options);
+    DOM_CTORS(orientation_sensor);
+    MAKE_PIMPL(orientation_sensor);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto populate_matrix(detail::rotation_matrix_type_t target_matrix);
+    auto populate_matrix(ext::vector<ext::number<double>>& target_matrix) -> void;
+    auto populate_matrix(css::geometry::dom_matrix* target_matrix) -> void;
 
 private js_properties:
-    ext::property<const std::unique_ptr<ext::number<double>>> quaternion;
+    DEFINE_GETTER(quaternion, ext::vector_view<ext::number<double>>);
 };
 
 

@@ -103,7 +103,7 @@ auto media::detail::create_media_capabilities_encoding_info(
 {
     return detail::media_capabilities_encoding_info_t
     {
-        {"configuration", auto{configuration}},
+        {"configuration", auto{std::move(configuration)}},
         {"supported", true}, // TODO
         {"smooth", true}, // TODO
         {"powerEfficient", true} // TODO

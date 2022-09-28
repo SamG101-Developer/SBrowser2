@@ -58,7 +58,7 @@
 #define continue_if(condition) if (condition) continue
 #define for_if(if_statement, for_statement) if (if_statement) for (for_statement)
 
-#define constexpr_return_if(condition) if constexpr(condition) return
+#define constexpr_return_if(condition) if constexpr (condition) return
 
 #define _EXT_NODISCARD [[nodiscard]]
 #define _EXT_FALLTHOUGH [[fallthrough]]

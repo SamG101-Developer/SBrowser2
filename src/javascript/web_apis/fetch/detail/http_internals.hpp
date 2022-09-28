@@ -112,6 +112,7 @@ struct fetch::detail::fetch_controller_t
     algorithm_t report_timing_steps;
 };
 
+
 struct fetch::detail::fetch_timing_info_t
 {
     hr_time::dom_high_res_time_stamp start_time{0};
@@ -123,7 +124,7 @@ struct fetch::detail::fetch_timing_info_t
     hr_time::dom_high_res_time_stamp final_network_response_start_time{0};
     hr_time::dom_high_res_time_stamp end_time{0};
 
-    connection_timing_info_t* final_connection_timing_info = nullptr;
+    std::unique_ptr<connection_timing_info_t> final_connection_timing_info = nullptr;
     ext::vector<ext::string> server_timing_headers{};
 };
 
@@ -142,8 +143,8 @@ struct fetch::detail::fetch_params_t
 
     fetch_controller_t controller;
     fetch_timing_info_t timing_info;
-    response_t& preloaded_response_candidate;
-    request_t& request;
+    std::unique_ptr<response_t> preloaded_response_candidate;
+    std::unique_ptr<request_t> request;
 };
 
 

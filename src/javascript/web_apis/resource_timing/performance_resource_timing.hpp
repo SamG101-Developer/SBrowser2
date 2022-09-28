@@ -8,60 +8,41 @@ namespace resource_timing {class performance_resource_timing;}
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(hr_time)
 
+#include "performance_resource_timing_private.hpp"
+
 
 class resource_timing::performance_resource_timing
         : public performance_timeline::performance_entry
 {
 public constructors:
     DOM_CTORS(performance_resource_timing);
-    performance_resource_timing() = default;
+    MAKE_PIMPL(performance_resource_timing);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 private js_properties:
-    ext::property<ext::string> initiator_type;
-    ext::property<ext::string> next_hop_protocol;
-    ext::property<hr_time::dom_high_res_time_stamp> worker_start;
-    ext::property<hr_time::dom_high_res_time_stamp> redirect_start;
-    ext::property<hr_time::dom_high_res_time_stamp> redirect_end;
-    ext::property<hr_time::dom_high_res_time_stamp> fetch_start;
-    ext::property<hr_time::dom_high_res_time_stamp> domain_lookup_start;
-    ext::property<hr_time::dom_high_res_time_stamp> domain_lookup_end;
-    ext::property<hr_time::dom_high_res_time_stamp> connect_start;
-    ext::property<hr_time::dom_high_res_time_stamp> connect_end;
-    ext::property<hr_time::dom_high_res_time_stamp> secure_connection_start;
-    ext::property<hr_time::dom_high_res_time_stamp> secure_connection_end;
-    ext::property<hr_time::dom_high_res_time_stamp> response_start;
-    ext::property<hr_time::dom_high_res_time_stamp> response_end;
-    ext::property<ext::number<ulonglong>> transfer_size;
-    ext::property<ext::number<ulonglong>> encoded_body_size;
-    ext::property<ext::number<ulonglong>> decoded_body_size;
+    DEFINE_GETTER(initiator_type, fetch::detail::initiator_type_t);
+    DEFINE_GETTER(next_hop_protocol, ext::string);
+    DEFINE_GETTER(worker_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(redirect_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(redirect_end, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(fetch_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(domain_lookup_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(domain_lookup_end, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(connect_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(connect_end, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(secure_connection_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(request_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(response_start, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(response_end, hr_time::dom_high_res_time_stamp);
+    DEFINE_GETTER(transfer_size, ext::number<ulonglong>);
+    DEFINE_GETTER(encoded_body_size, ext::number<ulonglong>);
+    DEFINE_GETTER(decoded_body_size, ext::number<ulonglong>);
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-
-private cpp_properties:
-    ext::string m_initiator_type;
-    ext::string m_requested_url;
-    ext::string m_cache_mode;
-    std::unique_ptr<fetch::detail::fetch_timing_info_t> timing_info;
-    std::unique_ptr<fetch::detail::response_body_info_t> response_body_info;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(next_hop_protocol);
-    DEFINE_CUSTOM_GETTER(worker_start);
-    DEFINE_CUSTOM_GETTER(redirect_start);
-    DEFINE_CUSTOM_GETTER(redirect_end);
-    DEFINE_CUSTOM_GETTER(fetch_start);
-    DEFINE_CUSTOM_GETTER(domain_lookup_start);
-    DEFINE_CUSTOM_GETTER(domain_lookup_end);
-    DEFINE_CUSTOM_GETTER(connect_start);
-    DEFINE_CUSTOM_GETTER(connect_end);
-    DEFINE_CUSTOM_GETTER(secure_connection_start);
-    DEFINE_CUSTOM_GETTER(secure_connection_end);
-    DEFINE_CUSTOM_GETTER(response_start);
-    DEFINE_CUSTOM_GETTER(response_end);
-    DEFINE_CUSTOM_GETTER(transfer_size);
-    DEFINE_CUSTOM_GETTER(encoded_body_size);
-    DEFINE_CUSTOM_GETTER(decoded_body_size);
+    DEFINE_GETTER(name, ext::string) override;
+    DEFINE_GETTER(entry_type, ext::string) override {return "resource";}
+    DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
+    DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override;
 };
 
 

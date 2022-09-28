@@ -7,16 +7,16 @@
 
 accelerometer::accelerometer::accelerometer(
         detail::accelerometer_sensor_options_t&& options)
-        : INIT_PIMPL
 {
+    INIT_PIMPL(accelerometer);
+
     // Construct an Accelerometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
     detail::construct_accelerometer_object(this, std::move(options));
 }
 
 
-auto accelerometer::accelerometer::get_x()
-        -> const ext::number<double>&
+auto accelerometer::accelerometer::get_x() const -> ext::number<double>
 {
     // Get the latest reading for the "x" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -27,8 +27,7 @@ auto accelerometer::accelerometer::get_x()
 }
 
 
-auto accelerometer::accelerometer::get_y()
-        -> const ext::number<double>&
+auto accelerometer::accelerometer::get_y() const -> ext::number<double>
 {
     // Get the latest reading for the "y" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.
@@ -39,8 +38,7 @@ auto accelerometer::accelerometer::get_y()
 }
 
 
-auto accelerometer::accelerometer::get_z()
-        -> const ext::number<double>&
+auto accelerometer::accelerometer::get_z() const -> ext::number<double>
 {
     // Get the latest reading for the "z" value, default it to 0 if it doesn't exist, and then convert it from the
     // ext::any type to a double. Return the double.

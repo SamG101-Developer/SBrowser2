@@ -36,14 +36,14 @@ auto hr_time::performance::get_time_origin() const -> dom_high_res_time_stamp
 auto hr_time::performance::get_event_counts() const -> const event_timing::event_counts*
 {
     JS_REALM_GET_RELEVANT(this);
-    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->m_event_counts.get();
+    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->event_counts.get();
 }
 
 
 auto hr_time::performance::get_interaction_counts() const -> const event_timing::interaction_counts*
 {
     JS_REALM_GET_RELEVANT(this);
-    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->m_interaction_counts.get();
+    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->interaction_counts.get();
 }
 
 

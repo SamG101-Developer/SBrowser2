@@ -36,6 +36,11 @@ struct variant_to_tuple<_EXT variant<Types...>>
 template <typename T>
 using variant_to_tuple_t = typename variant_to_tuple<T>::type;
 
+template <typename T, typename F, typename ...Types>
+auto get_and(ext::variant<Types...> variant, F&& function)
+{
+    return ext::holds_alternative<T>(variant) && function(variant);
+}
 
 //template <typename var_t, typename ret_t, typename F>
 //auto variant_transform(F&& function) -> ret_t
