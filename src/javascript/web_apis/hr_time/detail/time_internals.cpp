@@ -8,9 +8,9 @@ auto hr_time::detail::get_time_origin_timestamp(
         v8::Local<v8::Object> global_object)
         -> dom_high_res_time_stamp
 {
-    // get the 'time_origin' of the 'global_object's time origin; when it eas created. get the 'global_objects'
-    // cross-origin isolated capability as a boolean, and coarsen the 'time_origin' wth this boolean. return the
-    // coarsened time
+    // Get the 'time_origin' of the 'global_object's time origin; when it was created. Get the 'global_objects'
+    // cross-origin isolated capability as a boolean, and coarsen the 'time_origin' wth this boolean. Return the
+    // coarsened time.
     auto time_origin = javascript::environment::realms::get<dom_high_res_time_stamp>(global_object, "time_origin");
     auto cross_origin_isolated_capability = javascript::environment::realms::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
     auto coarse_time = coarsen_time(time_origin, cross_origin_isolated_capability);
@@ -23,9 +23,9 @@ auto hr_time::detail::coarsen_time(
         ext::boolean cross_origin_isolated_capability)
         -> dom_high_res_time_stamp
 {
-    // set the 'time_resolution' to 5ms if the 'time_stamp' has 'cross_origin_isolated_capability'; otherwise 100ms.
-    // jitter the time by adding a random value limited by the time_resolution to the 'time_stamp'. next, the time is
-    // coarsened by rounding the 'jitter_time' to the nearest 'time_resolution'. return the 'coarse_time'
+    // Set the 'time_resolution' to 5ms if the 'time_stamp' has 'cross_origin_isolated_capability'; otherwise 100ms.
+    // Jitter the time by adding a random value limited by the time_resolution to the 'time_stamp'. Next, the time is
+    // coarsened by rounding the 'jitter_time' to the nearest 'time_resolution'. Return the 'coarse_time'.
     auto time_resolution = cross_origin_isolated_capability ? 5 : 100;
     auto jitter_time = time_stamp + std::rand() % time_resolution;
     auto coarse_time = ext::round(jitter_time, time_resolution);
