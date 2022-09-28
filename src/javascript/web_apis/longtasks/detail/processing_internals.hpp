@@ -22,7 +22,7 @@ namespace longtasks::detail
             ext::vector_view<html::detail::browsing_context_t*> browsing_contexts,
             html::detail::task_t&& task)
             -> void;
-};
+}
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LONGTASKS_DETAIL_PROCESSING_INTERNALS_HPP

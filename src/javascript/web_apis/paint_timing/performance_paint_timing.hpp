@@ -5,22 +5,22 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace paint_timing {class performance_paint_timing;}
 
+#include "performance_paint_timing_private.hpp"
+
 
 class paint_timing::performance_paint_timing
         : public performance_timeline::performance_entry
 {
 public constructors:
     DOM_CTORS(performance_paint_timing);
-    performance_paint_timing();
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    MAKE_PIMPL(performance_paint_timing);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_CUSTOM_GETTER(name) override;
-    DEFINE_CUSTOM_GETTER(entry_type) override;
-    DEFINE_CUSTOM_GETTER(start_time) override;
-    DEFINE_CUSTOM_GETTER(duration) override;
+    DEFINE_GETTER(name, ext::string) override {return "paint";}
+    DEFINE_GETTER(entry_type, ext::string) override {return "first-paint";} // TODO
+    DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
+    DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override {return 0;};
 };
 
 

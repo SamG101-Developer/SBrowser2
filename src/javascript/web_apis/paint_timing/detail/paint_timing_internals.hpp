@@ -17,13 +17,13 @@ namespace paint_timing::detail
             css::css_images::detail::css_image_t)
             -> ext::boolean;
 
-    auto paintable_boundable_rect(
-            dom::nodes::element* element)
-            -> css::geometry::dom_rect;
-
     auto is_contentful_element(
             dom::nodes::element* element)
             -> ext::boolean;
+
+    auto paintable_boundable_rect(
+            dom::nodes::element* element)
+            -> css::geometry::dom_rect;
 
     auto is_paintable_element(
             dom::nodes::element* element)
