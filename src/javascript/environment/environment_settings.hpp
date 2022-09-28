@@ -13,8 +13,9 @@ struct javascript::environment::settings_t
 {
     std::unique_ptr<url::detail::url_t> api_base_url;
     html::detail::origin_t origin;
+    ext::boolean cross_origin_isolated_capability;
 
-    auto to_v8_object(v8::Isolate* isolate)
+    static auto to_v8(v8::Isolate* isolate)
     {return v8pp::class_<settings_t>{isolate};}
 };
 

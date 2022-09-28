@@ -11,8 +11,8 @@ auto hr_time::detail::get_time_origin_timestamp(
     // get the 'time_origin' of the 'global_object's time origin; when it eas created. get the 'global_objects'
     // cross-origin isolated capability as a boolean, and coarsen the 'time_origin' wth this boolean. return the
     // coarsened time
-    auto time_origin = javascript::environment::realms_2::get<dom_high_res_time_stamp>(global_object, "time_origin");
-    auto cross_origin_isolated_capability = javascript::environment::realms_2::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
+    auto time_origin = javascript::environment::realms::get<dom_high_res_time_stamp>(global_object, "time_origin");
+    auto cross_origin_isolated_capability = javascript::environment::realms::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
     auto coarse_time = coarsen_time(time_origin, cross_origin_isolated_capability);
     return coarse_time;
 }
@@ -38,7 +38,7 @@ auto hr_time::detail::relative_hr_time(
         v8::Local<v8::Object> global_object)
         -> dom_high_res_time_stamp
 {
-    auto cross_origin_isolated_capability = javascript::environment::realms_2::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
+    auto cross_origin_isolated_capability = javascript::environment::realms::get<ext::boolean>(global_object, "cross_origin_isolated_capability");
     auto coarse_time = coarsen_time(time_stamp, cross_origin_isolated_capability);
     auto relative_time = relative_high_resolution_coarse_time(coarse_time, global_object);
     return relative_time;

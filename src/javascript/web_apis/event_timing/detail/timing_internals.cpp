@@ -1,10 +1,10 @@
 #include "timing_internals.hpp"
 
-#include "environment/realms_2.hpp"
 #include "ext/casting.hpp"
 #include "ext/hashing.hpp"
 #include "ext/assertion.hpp"
 #include "ext/string.hpp"
+#include "javascript/environment/realms_2.hpp"
 
 #include "dom/events/event.hpp"
 #include "dom/nodes/node.hpp"

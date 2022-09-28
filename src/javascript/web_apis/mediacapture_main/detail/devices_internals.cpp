@@ -45,31 +45,31 @@ auto mediacapture::detail::on_page_load(
         // primarily concerning the access the web page has to the camera and microphone devices. all the slots are
         // given default values
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[devices_live_map]]",
                 ext::map<ext::string, ext::boolean>{});
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[devices_accessible_map]]",
                 ext::map<ext::string, ext::boolean>{});
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[kinds_accessible_map]]",
                 ext::map<ext::string, ext::boolean>{});
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[stored_device_list]]",
                 ext::vector<main::media_devices*>{});
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[can_expose_camera_info]]",
                 ext::boolean::FALSE_());
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[can_expose_microphone_info]]",
                 ext::boolean::FALSE_());
 
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 media_devices_relevant_global_object, "[[media_stream_track_sources]]",
                 ext::set<media_stream_track_source*>{});
 
@@ -80,9 +80,9 @@ auto mediacapture::detail::on_page_load(
 
         // TODO : this is wrong (should be MediaDeviceInfo somewhere)
         ext::vector<main::media_device_info*> devices; // TODO : where are the devices stored?
-        auto devices_live_map = javascript::environment::realms_2::get<ext::map<ext::string, ext::boolean>>(media_devices_relevant_global_object, "[[devices_live_map]]");
-        auto kinds_accessible_map = javascript::environment::realms_2::get<ext::map<ext::string, ext::boolean>>(media_devices_relevant_global_object, "[[kinds_accessible_map]]");
-        auto devices_accessible_map = javascript::environment::realms_2::get<ext::map<ext::string, ext::boolean>>(media_devices_relevant_global_object, "[[devices_accessible_map]]");
+        auto devices_live_map = javascript::environment::realms::get<ext::map<ext::string, ext::boolean>>(media_devices_relevant_global_object, "[[devices_live_map]]");
+        auto kinds_accessible_map = javascript::environment::realms::get<ext::map<ext::string, ext::boolean>>(media_devices_relevant_global_object, "[[kinds_accessible_map]]");
+        auto devices_accessible_map = javascript::environment::realms::get<ext::map<ext::string, ext::boolean>>(media_devices_relevant_global_object, "[[devices_accessible_map]]");
 
         // iterate through each device
         for (auto* device: devices)
@@ -118,8 +118,8 @@ auto mediacapture::detail::device_change_notification_steps()
 
     // get the associated document of the relevant global objectm the current devices stored by this document, and all
     // of available devices that can be stored by a document
-    auto* associated_document = javascript::environment::realms_2::get<dom::nodes::document*>(nullptr_relevant_global_object, "associated_document");
-    auto stored_device_list = javascript::environment::realms_2::get<ext::vector<main::media_devices*>>(nullptr_relevant_global_object, "[[stored_device_list]]");
+    auto* associated_document = javascript::environment::realms::get<dom::nodes::document*>(nullptr_relevant_global_object, "associated_document");
+    auto stored_device_list = javascript::environment::realms::get<ext::vector<main::media_devices*>>(nullptr_relevant_global_object, "[[stored_device_list]]");
     auto device_list = all_available_devices();
 
     // convert the 2 device lists into MediaDeviceInfo lists
@@ -131,7 +131,7 @@ auto mediacapture::detail::device_change_notification_steps()
     return_if (new_exposed_devices == last_exposed_devices);
 
     // set the [[stored_device_list]] slot in the relevant global object to the new device list that was created
-    javascript::environment::realms_2::set(nullptr_relevant_global_object, "[[stored_device_list]]", std::move(device_list));
+    javascript::environment::realms::set(nullptr_relevant_global_object, "[[stored_device_list]]", std::move(device_list));
 
     // fire a "devicechange" event at each device
     for (auto* device: device_list)
@@ -218,7 +218,7 @@ auto mediacapture::detail::device_enumeration_can_proceed()
     // otherwise, check if the relevant global object's associated document (Document) is fully active, and has focus.
     // if both of these conditions are met, then the devices enumeration can proceed
     JS_REALM_GET_RELEVANT(nullptr);
-    auto* associated_document = javascript::environment::realms_2::get<dom::nodes::document*>(nullptr_relevant_global_object, "associated_document");
+    auto* associated_document = javascript::environment::realms::get<dom::nodes::document*>(nullptr_relevant_global_object, "associated_document");
     return dom::detail::is_document_fully_active(associated_document); // TODO : && must have focus
 }
 
@@ -252,14 +252,14 @@ auto mediacapture::detail::set_device_information_exposure(
     // if any of the requested types contains "video", then set the [[can_expose_camera_info]] slot of the relevant
     // global object to the value parameter
     if (ranges::contains(std::move(requested_types), "video"))
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 nullptr_relevant_global_object, "[[can_expose_camera_info]]",
                 std::move(value));
 
     // if any of the requested types contains "microphone", then set the [[can_expose_camera_info]] slot of the relevant
     // global object to the value parameter
     if (ranges::contains(std::move(requested_types), "audio"))
-        javascript::environment::realms_2::set(
+        javascript::environment::realms::set(
                 nullptr_relevant_global_object, "[[can_expose_microphone_info]]",
                 std::move(value));
 }

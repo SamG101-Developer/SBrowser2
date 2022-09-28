@@ -7,26 +7,22 @@ namespace magnetometer {class uncalibrated_magnetometer;}
 
 #include INCLUDE_INNER_TYPES(magnetometer)
 
+#include "uncalibrated_magnetometer_private.hpp"
+
 
 class magnetometer::uncalibrated_magnetometer
         : public magnetometer::magnetometer
 {
 public constructors:
     DOM_CTORS(uncalibrated_magnetometer);
-    uncalibrated_magnetometer(detail::magnetometer_sensor_options_t&& options = {});
-
-private js_properties:
-    ext::property<ext::number<double>> x_bias;
-    ext::property<ext::number<double>> y_bias;
-    ext::property<ext::number<double>> z_bias;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    uncalibrated_magnetometer(detail::magnetometer_sensor_options_t&& options);
+    MAKE_PIMPL(uncalibrated_magnetometer);
+    MAKE_V8_AVAILABLE;
 
 public cpp_accessors:
-    DEFINE_CUSTOM_GETTER(x_bias);
-    DEFINE_CUSTOM_GETTER(y_bias);
-    DEFINE_CUSTOM_GETTER(z_bias);
+    DEFINE_GETTER(x_bias, ext::number<double>);
+    DEFINE_GETTER(y_bias, ext::number<double>);
+    DEFINE_GETTER(z_bias, ext::number<double>);
 };
 
 

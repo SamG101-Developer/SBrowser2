@@ -222,7 +222,7 @@ auto dom::detail::insert(
     if (child)
     {
         JS_REALM_GET_SURROUNDING(nullptr);
-        decltype(auto) live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(nullptr_surrounding_global_object, "live_ranges");
+        decltype(auto) live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(nullptr_surrounding_global_object, "live_ranges");
         decltype(auto) child_index = index(child);
 
         // ranges whose starting node is 'parent' and whose starting offset is greater that the index of 'child':

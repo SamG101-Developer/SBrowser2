@@ -30,10 +30,10 @@ auto dom::detail::notify_mutation_observers() -> void
     using notify_set_t = ext::set<mutations::mutation_observer*>;
     using signal_set_t = ext::set<html::elements::html_slot_element*>;
 
-    javascript::environment::realms_2::set(nullptr_surrounding_global_object, "mutation_observer_microtask_queued", false);
-    const auto notify_set = javascript::environment::realms_2::get<notify_set_t>(nullptr_surrounding_global_object, "notify_observers");
-    const auto signal_set = javascript::environment::realms_2::get<signal_set_t>(nullptr_surrounding_global_object, "signal_slots");
-    javascript::environment::realms_2::set(nullptr_surrounding_global_object, "signal_slots", signal_set_t{});
+    javascript::environment::realms::set(nullptr_surrounding_global_object, "mutation_observer_microtask_queued", false);
+    const auto notify_set = javascript::environment::realms::get<notify_set_t>(nullptr_surrounding_global_object, "notify_observers");
+    const auto signal_set = javascript::environment::realms::get<signal_set_t>(nullptr_surrounding_global_object, "signal_slots");
+    javascript::environment::realms::set(nullptr_surrounding_global_object, "signal_slots", signal_set_t{});
 
     // iterate every MutationObserver in the 'notify_set'
     for (mutations::mutation_observer* const mo: notify_set)
@@ -193,9 +193,9 @@ auto dom::detail::queue_mutation_observer_microtask() -> void
 
     // get if the surrounding global object's 'mutation_observer_microtask_queued' attribute is set to true; return
     // early if it is, otherwise set it to true, and queue a microtask to 'notify_mutation_observers()'
-    const auto queued = javascript::environment::realms_2::get<ext::boolean>(nullptr_surrounding_global_object, "mutation_observer_microtask_queued");
+    const auto queued = javascript::environment::realms::get<ext::boolean>(nullptr_surrounding_global_object, "mutation_observer_microtask_queued");
     return_if(queued);
-    javascript::environment::realms_2::set(nullptr_surrounding_global_object, "mutation_observer_microtask_queued", true);
+    javascript::environment::realms::set(nullptr_surrounding_global_object, "mutation_observer_microtask_queued", true);
 
     queue_microtask(&notify_mutation_observers);
 }
@@ -233,8 +233,8 @@ auto dom::detail::queue_global_task(
         -> void
 {
     JS_REALM_GET_RELEVANT(global_object)
-    const auto* const document = javascript::environment::realms_2::get<ext::string>(global_object, "type") == "Window"
-                     ? javascript::environment::realms_2::get<nodes::document*>(global_object, "associated_document")
+    const auto* const document = javascript::environment::realms::get<ext::string>(global_object, "type") == "Window"
+                     ? javascript::environment::realms::get<nodes::document*>(global_object, "associated_document")
                      : nullptr;
 
     queue_task(task_source, std::forward<F>(steps), global_object_relevant_agent, document);

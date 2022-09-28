@@ -3,7 +3,7 @@
 #include "ext/boolean.hpp"
 #include "ext/threading.hpp"
 
-#include "environment/realms_2.hpp"
+#include "javascript/environment/realms_2.hpp"
 
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/node_internals.hpp"
@@ -43,7 +43,7 @@ auto mediacapture::main::media_devices::enumerate_devices()
         // get the current stored devices from the [[stored_devices_list]] slot on the relevant global object, and
         // create a MediaDeviceInfo list based on these MediaDevices. set the value of the promise<T> object to this
         // 'result_list'
-        auto stored_device_list = javascript::environment::realms_2::get<ext::vector<main::media_devices*>>(this_relevant_global_object, "[[stored_device_list]]");
+        auto stored_device_list = javascript::environment::realms::get<ext::vector<main::media_devices*>>(this_relevant_global_object, "[[stored_device_list]]");
         auto result_list = detail::create_list_of_device_info_objects(stored_device_list, document);
         promise.resolve(result_list);
     };

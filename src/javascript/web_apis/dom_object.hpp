@@ -29,6 +29,11 @@ public:                   \
     static auto to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 
 
+//#define EXPOSE_TO(...) \
+//public:                \
+//    static ext::variant<__VA_ARGS__> _allowed_v8_contexts;
+
+
 #define MAKE_STRINGIFIER \
 private:                 \
     operator ext::string() const

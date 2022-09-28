@@ -78,7 +78,7 @@
 //#undef _JS_GLOBAL_OBJECT_FROM_REALM
 //#undef _JS_SETTINGS_OBJECT_FROM_REALM
 
-namespace javascript::environment::realms_2
+namespace javascript::environment::realms
 {
     auto has(
             v8::Local<v8::Object> global,
@@ -97,11 +97,13 @@ namespace javascript::environment::realms_2
             ext::string_view cpp_attribute,
             T cpp_value)
             -> ext::boolean;
+
+    using realm_t = v8::Local<v8::Context>;
 }
 
 
 // TODO : isolate as variables in methods (reduce code duplication with calling ...->GetIsolate()
-auto javascript::environment::realms_2::has(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> ext::boolean
+auto javascript::environment::realms::has(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> ext::boolean
 {
     auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
     auto v8_exists = global->HasPrivate(global->GetIsolate()->GetCurrentContext(), v8_private_attribute).FromJust();
@@ -111,7 +113,7 @@ auto javascript::environment::realms_2::has(v8::Local<v8::Object> global, ext::s
 
 
 template <typename T>
-auto javascript::environment::realms_2::get(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> T
+auto javascript::environment::realms::get(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> T
 {
     auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
     auto v8_value = global->GetPrivate(global->GetIsolate()->GetCurrentContext(), v8_private_attribute).ToLocalChecked();
@@ -121,7 +123,7 @@ auto javascript::environment::realms_2::get(v8::Local<v8::Object> global, ext::s
 
 
 template <typename T>
-auto javascript::environment::realms_2::set(v8::Local<v8::Object> global, ext::string_view cpp_attribute, T cpp_value) -> ext::boolean
+auto javascript::environment::realms::set(v8::Local<v8::Object> global, ext::string_view cpp_attribute, T cpp_value) -> ext::boolean
 {
     auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
     auto v8_value = v8pp::to_v8(global->GetIsolate(), cpp_value);

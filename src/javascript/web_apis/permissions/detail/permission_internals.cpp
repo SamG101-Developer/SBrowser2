@@ -45,9 +45,9 @@ auto permissions::detail::permission_state(
 
     // if the feature exists, and the current global object has an associated document, then if teh document isn't
     // allowed to use the certain feature, return the 'DENIED' state
-    if (feature.has_value() && javascript::environment::realms_2::has(current_global_object, "associated_document"))
+    if (feature.has_value() && javascript::environment::realms::has(current_global_object, "associated_document"))
     {
-        auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(current_global_object, "associated_document");
+        auto* document = javascript::environment::realms::get<dom::nodes::document*>(current_global_object, "associated_document");
         return_if(!html::detail::allowed_to_use(document, std::move(feature_string))) permission_state_t::DENIED;
     }
 

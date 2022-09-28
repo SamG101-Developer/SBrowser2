@@ -7,6 +7,8 @@ namespace magnetometer {class magnetometer;}
 
 #include INCLUDE_INNER_TYPES(magnetometer)
 
+#include "magnetometer_private.hpp"
+
 
 class magnetometer::magnetometer
         : public sensors::sensor
@@ -14,19 +16,13 @@ class magnetometer::magnetometer
 public constructors:
     DOM_CTORS(magnetometer);
     magnetometer(detail::magnetometer_sensor_options_t&& options = {});
+    MAKE_PIMPL(magnetometer);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::number<double>> x;
-    ext::property<ext::number<double>> y;
-    ext::property<ext::number<double>> z;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(x);
-    DEFINE_CUSTOM_GETTER(y);
-    DEFINE_CUSTOM_GETTER(z);
+    DEFINE_GETTER(x, ext::number<double>);
+    DEFINE_GETTER(y, ext::number<double>);
+    DEFINE_GETTER(z, ext::number<double>);
 };
 
 

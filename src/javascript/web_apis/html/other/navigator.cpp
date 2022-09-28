@@ -64,7 +64,7 @@ auto html::other::navigator::set_client_badge(
     go [this, &contents]
     {
         JS_REALM_GET_RELEVANT(this);
-        auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
+        auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
         document->m_badge = !contents.has_value()
                 ? badging::detail::badge_value_t::FLAG : *contents == 0
                 ? badging::detail::badge_value_t::NOTHING : std::move(*contents);
@@ -83,7 +83,7 @@ auto html::other::navigator::clear_client_badge()
     go [this]
     {
         JS_REALM_GET_RELEVANT(this);
-        auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
+        auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
         document->m_badge = badging::detail::badge_value_t::NOTHING;
     };
 
@@ -105,7 +105,7 @@ auto html::other::navigator::get_battery()
 
     // Get the associated document of the relevant global object, cast to a Document.
     JS_REALM_GET_RELEVANT(this);
-    auto* document = javascript::environment::realms_2::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
+    auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
 
     // If the Document isn't allowed to use the Battery feature, then reject the [[BatteryPromise]] with a
     // NOT_ALLOWED_ERR, and return the contents of the [[BatteryManager]] slot.

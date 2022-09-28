@@ -176,7 +176,7 @@ auto dom::nodes::node::normalize()
             auto* current_node = text_node->next_sibling();
 
             JS_REALM_GET_SURROUNDING(this);
-            auto live_ranges = javascript::environment::realms_2::get<ext::vector<node_ranges::range*>>(this_surrounding_global_object, "live_ranges");
+            auto live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(this_surrounding_global_object, "live_ranges");
 
             // iterate by incrementing the current_node to the next sibling
             while (detail::is_exclusive_text_node(current_node))
