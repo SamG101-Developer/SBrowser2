@@ -5,21 +5,26 @@
 #include "performance_timeline/performance_entry.hpp"
 namespace longtasks {class task_attribution_timing;}
 
+#include "task_attribution_timing_private.hpp"
+
 class longtasks::task_attribution_timing
         : public performance_timeline::performance_entry
 {
 public constructors:
     DOM_CTORS(task_attribution_timing);
-    task_attribution_timing() = default;
+    MAKE_PIMPL(task_attribution_timing);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> container_type;
-    ext::property<ext::string> container_src;
-    ext::property<ext::string> container_id;
-    ext::property<ext::string> container_name;
+    DEFINE_GETTER(container_type, ext::string);
+    DEFINE_GETTER(container_src, ext::string);
+    DEFINE_GETTER(container_id, ext::string);
+    DEFINE_GETTER(container_name, ext::string);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(name, ext::string) override {return "unknown";}
+    DEFINE_GETTER(entry_type, ext::string) override {return "taskattribution";}
+    DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override {return 0;}
+    DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override {return 0;}
 };
 
 

@@ -1,0 +1,11 @@
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LONGTASKS_TASK_ATTRIBUTION_TIMING_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LONGTASKS_TASK_ATTRIBUTION_TIMING_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+#include "performance_timeline/performance_entry_private.hpp"
+
+
+DEFINE_PRIVATE_CLASS(longtasks, task_attribution_timing) : performance_timeline::performance_entry_private {};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LONGTASKS_TASK_ATTRIBUTION_TIMING_PRIVATE_HPP

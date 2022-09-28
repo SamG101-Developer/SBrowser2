@@ -6,14 +6,21 @@
 #include <v8-platform.h>
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(hr_time)
+namespace dom::nodes {class element;}
+namespace performance_timeline {class performance_entry;}
+
 
 namespace longtasks::detail
 {
+    auto culprit_browsing_context_container(
+            const performance_timeline::performance_entry* performance_entry)
+            -> dom::nodes::element*;
+
     auto report_long_tasks(
-            ext::number<double> start_time,
-            ext::number<double> end_time,
-            html::detail::browsing_context_t* browsing_context,
-            v8::Task& task)
+            hr_time::dom_high_res_time_stamp start_time,
+            hr_time::dom_high_res_time_stamp end_time,
+            ext::vector_view<html::detail::browsing_context_t*> browsing_contexts,
+            html::detail::task_t&& task)
             -> void;
 };
 
