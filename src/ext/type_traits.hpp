@@ -28,45 +28,28 @@
     struct _Name<_Specialization> {using type = _Ret_t;}
 
 
-// pointer deduction for raw and smart pointers together
-
 _EXT_BEGIN
 
-template <typename T>
-struct _unwrap_smart_pointer;
-
-template <smart_pointer T>
-struct _unwrap_smart_pointer<T>
-{using type = typename T::pointer;};
-
-template <typename T>
-struct _unwrap_smart_pointer
-{using type = T;};
-
-template <typename T>
-using unwrap_smart_pointer = _unwrap_smart_pointer<std::remove_cvref_t<T>>;
-
-template <typename T>
-using unwrap_smart_pointer_t = typename unwrap_smart_pointer<T>::type;
-
-
 // extend variant with a new types
-template <typename Old, typename ...New>
-struct _extend_variant;
+template <typename OldType, typename ...NewTypes>
+struct extend_variant
+{using type = void;};
 
-template <typename Old, typename ...New>
-struct _extend_variant
-{using type = Old;};
+template <typename ...OldTypes, typename ...NewTypes>
+struct extend_variant<variant<OldTypes...>, NewTypes...>
+{using type = variant<OldTypes..., NewTypes...>;};
 
-template <typename ...Old, typename ...New>
-struct _extend_variant<variant<Old...>, New...>
-{using type = variant<Old..., New...>;};
+template <typename OldVariant, typename ...NewTypes>
+using extend_variant_t = typename extend_variant<OldVariant, NewTypes...>::type;
 
-template <typename Old, typename ...New>
-using extend_variant = _extend_variant<Old, New...>;
 
-template <typename Old, typename ...New>
-using extend_variant_t = typename _extend_variant<Old, New...>::type;
+// get the first type from a variadic
+template <size_t Index, typename ...Types>
+struct nth_variadic_type
+{using type = decltype(_EXT get<Index>(variant<Types...>{}));}; // TODO : do without constructing object
+
+template <size_t Index, typename ...Types>
+using nth_variadic_type_t = typename nth_variadic_type<Index, Types...>::type;
 
 
 // other

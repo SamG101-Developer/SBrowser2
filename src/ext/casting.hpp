@@ -45,7 +45,6 @@ auto nullptr_cast()
     return static_cast<T>(nullptr);
 }
 
-
 _EXT_END
 
 

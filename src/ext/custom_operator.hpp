@@ -78,11 +78,6 @@ custom_operator(go)
 // postfix unary operators
 
 
-// annotation operators
-#define new_object
-#define same_object
-#define UNSCOPABLE v8::DontEnum // TODO -> link to JS @@unscopable
-
 
 #define CE_REACTIONS_METHOD_DEF \
     auto _ce_method = [&]{

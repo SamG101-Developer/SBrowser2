@@ -7,7 +7,7 @@
 
 _EXT_BEGIN
 
-using namespace asap;
+using asap::datetime;
 
 _EXT_END
 

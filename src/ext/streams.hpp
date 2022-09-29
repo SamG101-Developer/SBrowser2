@@ -9,7 +9,6 @@
 
 _EXT_BEGIN
 
-
 /*
  * https://codereview.stackexchange.com/questions/263749/codewars-kata-converting-snake-case-identifiers-to-camelcase-in-c
  * https://codereview.stackexchange.com/a/263761/211871
@@ -38,7 +37,6 @@ constexpr auto snake_to_camel(
     string.resize(n);
     return string;
 }
-
 
 _EXT_END
 

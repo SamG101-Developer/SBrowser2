@@ -12,7 +12,6 @@
 
 _EXT_BEGIN
 
-
 template <typename K, typename V>
 struct map_like_private : virtual dom_object_private {};
 
@@ -58,7 +57,6 @@ public constructors:
         return d->linked_map.at(key);
     }
 };
-
 
 _EXT_END
 

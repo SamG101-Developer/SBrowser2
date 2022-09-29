@@ -8,13 +8,11 @@
 
 _EXT_BEGIN
 
-
-using namespace tl;
+using tl::expected;
 
 
 struct failure_t {};
 auto failure = failure_t{};
-
 
 _EXT_END
 

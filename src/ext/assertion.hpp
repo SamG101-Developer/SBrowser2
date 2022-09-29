@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SBROWSER2_ASSERTION_HPP
 #define SBROWSER2_ASSERTION_HPP
 

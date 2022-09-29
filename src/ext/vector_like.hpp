@@ -14,7 +14,6 @@
 
 _EXT_BEGIN
 
-
 template <typename T>
 struct vector_like_private : virtual dom_object_private {};
 
@@ -78,7 +77,6 @@ private js_properties:
         return d->linked_vector->size();
     }
 };
-
 
 _EXT_END
 

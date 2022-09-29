@@ -42,7 +42,10 @@ public constructors:
     template <not_any T> auto operator=(const T& value) -> any&;
     template <not_any T> auto operator=(T&& value) noexcept -> any&;
 
-public cpp_methods:
+    auto operator==(const any& other) const -> bool;
+    template <not_any T> auto operator==(T&& other) const -> bool;
+
+public cpp_members:
     [[nodiscard]] auto type() const -> const type_info&;
     [[nodiscard]] auto is_arithmetic_type() const -> boolean;
     [[nodiscard]] auto is_empty() const -> boolean;
@@ -51,11 +54,6 @@ public cpp_methods:
     template <is_rvalue_reference T> auto to() const -> T;
     template <typename T> auto try_to() const -> ext::boolean;
 
-public cpp_operators:
-    auto operator==(const any& other) const -> bool;
-    template <not_any T> auto operator==(T&& other) const -> bool;
-
-private cpp_properties:
     std::any m_any;
     boolean m_is_arithmetic;
     ext::number<size_t> m_hash = 0;

@@ -8,9 +8,7 @@
 
 _EXT_BEGIN
 
-
-using namespace tl;
-
+using tl::optional;
 
 _EXT_END
 

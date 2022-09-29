@@ -2,36 +2,14 @@
 #ifndef SBROWSER2_VECTOR_HPP
 #define SBROWSER2_VECTOR_HPP
 
-#include "ext/view.hpp"
-#include <iterator>
+#include "ext/keywords.hpp"
 #include <veque.hpp>
 
 
 _EXT_BEGIN
 
-
-template <typename T>
-using vector = veque::veque<T>;
-
-template <typename T>
-using vector_view_iterator = typename vector<T>::iterator;
-
-
-template <typename T>
-struct vector_view : public view<vector_view_iterator<T>>
-{
-public constructors:
-    using view<vector_view_iterator<T>>::view;
-
-    explicit vector_view(vector<T>&& other)
-            : view<vector_view_iterator<T>>(std::make_move_iterator(other.begin()), std::make_move_iterator(other.end()))
-    {}
-
-    explicit vector_view(const vector<T>& other)
-            : view<vector_view_iterator<T>>{other.begin(), other.end()}
-    {}
-};
-
+template <typename T, typename ResizeTraits, typename Allocator>
+using vector = veque::veque<T, ResizeTraits, Allocator>;
 
 _EXT_END
 

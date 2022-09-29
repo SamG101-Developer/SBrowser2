@@ -33,7 +33,6 @@ auto time::time_method(
     return duration.count();
 }
 
-
 _EXT_END
 
 

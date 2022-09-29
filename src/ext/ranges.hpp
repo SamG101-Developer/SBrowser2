@@ -20,6 +20,7 @@
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
 
+#include <range/v3/view/any_view.hpp>
 #include <range/v3/view/drop_while.hpp>
 #include <range/v3/view/enumerate.hpp>
 #include <range/v3/view/filter.hpp>
@@ -59,7 +60,7 @@ namespace ranges::views
     // each sub-range into a string, to get {"hello", "world"}.
     auto split_string = [](char delimiter)
     {
-        return ranges::views::split(delimiter) | ranges::views::transform([](range_v3_view auto&& sub_range) {return sub_range | ranges::to<_EXT string>();});
+        return ranges::views::split(delimiter) | ranges::views::transform([](_EXT range_v3_view auto&& sub_range) {return sub_range | ranges::to<_EXT string>();});
     };
 
 
@@ -69,7 +70,7 @@ namespace ranges::views
     auto take_until = []<typename F>(F&& predicate)
     {
         return ranges::views::take_while(
-                [predicate = std::forward<F>(predicate)]<callable T>(T&& element) mutable
+                [predicate = std::forward<F>(predicate)]<_EXT callable T>(T&& element) mutable
                 {return !predicate(std::forward<T>(element));});
     };
 
@@ -77,7 +78,7 @@ namespace ranges::views
     // A drop_until adaptor works by dropping items from a range until a condition is met -- semantically the same as
     // drop_while, but allowing the opposite method; for example, instead of
     // `drop_while([](int i){... return !odd_number(i);}`, it can be written as `drop_until(odd_number);`.
-    auto drop_until = []<callable F>(F&& predicate)
+    auto drop_until = []<_EXT callable F>(F&& predicate)
     {
         return ranges::views::drop_while(
                 [predicate = std::forward<F>(predicate)]<typename T>(T&& element) mutable
@@ -108,9 +109,9 @@ namespace ranges::views
     // container / view, as there is no guarantee that very element will be transformed, so some elements will be
     // left in their original form. A transform_if adaptor works by transforming each element, if '_PredIf' is a true
     // boolean value.
-    auto transform_if = []<typename F0, callable F1>(F0&& predicate_if, F1&& predicate_transform)
+    auto transform_if = []<typename F0, _EXT callable F1>(F0&& predicate_if, F1&& predicate_transform)
     {
-        if constexpr (callable<F0>)
+        if constexpr (_EXT callable<F0>)
             return ranges::views::transform(
                     [predicate_if = std::forward<F0>(predicate_if), predicate_transform = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable
                     {return predicate_if() ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
@@ -212,9 +213,9 @@ namespace ranges::actions
     // container / view, as there is no guarantee that very element will be transformed, so some elements will be
     // left in their original form. A transform_if adaptor works by transforming each element, if '_PredIf' is a true
     // boolean value.
-    auto transform_if = []<typename F0, callable F1>(F0&& predicate_if, F1&& predicate_transform)
+    auto transform_if = []<typename F0, _EXT callable F1>(F0&& predicate_if, F1&& predicate_transform)
     {
-        if constexpr (callable<F0>)
+        if constexpr (_EXT callable<F0>)
             return ranges::actions::transform(
                     [predicate_if = std::forward<F0>(predicate_if), predicate_transform = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable
                     {return predicate_if() ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
@@ -233,7 +234,7 @@ namespace ranges::actions
     };
 
 
-    auto replace = []<typename T, callable F>(T&& old_value, T&& new_value, F&& predicate = _EXT identity{}) mutable
+    auto replace = []<typename T, _EXT callable F>(T&& old_value, T&& new_value, F&& predicate = _EXT identity{}) mutable
     {
         return ranges::actions::transform(
                 [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value), predicate = std::forward<F>(predicate)]<typename U>(U&& current_value) mutable
@@ -241,7 +242,7 @@ namespace ranges::actions
     };
 
 
-    auto replace_if = []<callable F, typename T>(F&& pred, T&& new_value)
+    auto replace_if = []<_EXT callable F, typename T>(F&& pred, T&& new_value)
     {
         return ranges::actions::transform(
                 [pred = std::forward<F>(pred), new_value = std::forward<T>(new_value)]<typename U>(U&& current_value) mutable
@@ -256,7 +257,7 @@ namespace ranges::actions
                 | ranges::views::values;
     };
 
-    auto filter = []<callable F>(F&& predicate)
+    auto filter = []<_EXT callable F>(F&& predicate)
     {
         return ranges::actions::remove_if(_EXT negate_function{std::move(predicate)});
     };
@@ -288,7 +289,7 @@ namespace ranges
     };
 
 
-    auto first_where = []<typename R, callable F>(R&& range, F&& pred)
+    auto first_where = []<typename R, _EXT callable F>(R&& range, F&& pred)
     {
         auto filtered = range | ranges::views::filter(std::forward<F>(pred));
         return filtered.begin();
@@ -300,7 +301,15 @@ namespace ranges
         auto filtered = range | ranges::views::filter(std::forward<F>(function));
         return filtered.end();
     };
-};
+}
+
+
+/* OTHER */
+namespace ranges
+{
+    template <category C = category::input, typename ...Args>
+    auto make_any_view(Args&&... args) -> any_view<_EXT nth_variadic_type_t<0, Args...>, C>;
+}
 
 
 #endif //SBROWSER2_RANGES_HPP

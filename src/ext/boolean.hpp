@@ -27,7 +27,6 @@ public cpp_members:
 
 enum class bool_string_t {_, TRUE, FALSE};
 
-
 _EXT_END
 
 

@@ -7,8 +7,7 @@
 
 _EXT_BEGIN
 
-using namespace effolkronium;
-using random = random_thread_local;
+using random = effolkronium::random_thread_local;
 
 _EXT_END
 

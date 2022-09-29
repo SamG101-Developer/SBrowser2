@@ -10,11 +10,14 @@
 
 
 _EXT_BEGIN
+
 using namespace tuplet;
+
 _EXT_END
 
 
 _EXT_DETAIL_BEGIN
+
 template <class T, class Tuple, size_t... Indices>
 constexpr auto make_from_tuple(Tuple&& tuple, std::index_sequence<Indices...>) -> T
 {
@@ -27,10 +30,12 @@ constexpr auto tuple_foreach(std::index_sequence<Is...>, T&& tuple, F&& function
 {
     (iterable.push_back(function(ext::get<Is>(std::forward<T>(tuple)))), ...);
 }
+
 _EXT_DETAIL_END
 
 
 _EXT_BEGIN
+
 template <class T, class Tuple>
 _EXT_NODISCARD constexpr auto make_from_tuple(Tuple&& tuple) -> T
 {
@@ -49,6 +54,7 @@ constexpr auto tuple_foreach(T&& tuple, F&& function, Iterable&& iterable = null
             std::forward<F>(function),
             std::forward<Iterable>(iterable));
 }
+
 _EXT_END
 
 

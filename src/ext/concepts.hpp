@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SBROWSER2_CONCEPTS_HPP
 #define SBROWSER2_CONCEPTS_HPP
 
@@ -5,6 +6,8 @@
 #include <range/v3/range/concepts.hpp>
 #include <type_traits>
 
+
+_EXT_BEGIN
 
 // check if a templated class is a base of another class (don't need template type to check)
 template <template <typename> typename BaseMixin, typename Derived>
@@ -104,6 +107,8 @@ concept iterator_like = std::is_pointer_v<std::remove_pointer_t<T>>;
 // check if a type is an enum type
 template <typename T>
 concept type_is_enum = std::is_enum_v<T> || std::is_scoped_enum_v<T>;
+
+_EXT_END;
 
 
 #endif //SBROWSER2_CONCEPTS_HPP

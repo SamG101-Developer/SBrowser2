@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SBROWSER2_SRC_EXT_BIT_HPP
 #define SBROWSER2_SRC_EXT_BIT_HPP
 
@@ -14,7 +15,6 @@ auto set_bits(T& input, U what_to, where_t where)
 {
 
 }
-
 
 _EXT_END
 
