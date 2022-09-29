@@ -5,18 +5,23 @@
 #include "dom/nodes/element.hpp"
 
 
-dom::nodes::attr::attr() : INIT_PIMPL
-{}
+dom::nodes::attr::attr()
+{
+    INIT_PIMPL(attr);
+}
 
 
 auto dom::nodes::attr::get_name() const -> ext::string
-{return detail::qualified_name(this);}
+{
+    return detail::qualified_name(this);
+}
 
 
 auto dom::nodes::attr::get_value() const -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
-        return d_ptr->value;
+        ACCESS_PIMPL(const attr);
+        return d->value;
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -24,8 +29,9 @@ auto dom::nodes::attr::get_value() const -> ext::string
 auto dom::nodes::attr::set_value(ext::string new_value) -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const attr);
         detail::set_existing_attribute_value(this, std::move(new_value));
-        return d_ptr->value;
+        return d->value;
     CE_REACTIONS_METHOD_EXE
 }
 

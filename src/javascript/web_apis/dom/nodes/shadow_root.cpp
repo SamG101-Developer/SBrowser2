@@ -6,13 +6,16 @@
 #include "dom/nodes/element.hpp"
 
 
-dom::nodes::shadow_root::shadow_root() : INIT_PIMPL
+dom::nodes::shadow_root::shadow_root()
 {
-    event_target::d_ptr->get_the_parent =
-            [this](events::event* event)
+    INIT_PIMPL(shadow_root);
+    ACCESS_PIMPL(shadow_root);
+
+    d->get_the_parent =
+            [this, d](events::event* event)
             {
-                return event->d_ptr->composed && !event->d_ptr->path.empty() && detail::root(dom_cast<node*>(event->d_ptr->path[0]->invocation_target)) == this
-                        ? nullptr : document_fragment::d_ptr->host;
+                return event->d_func()->composed && !event->d_func()->path.empty() && detail::root(dom_cast<node*>(event->d_func()->path[0]->invocation_target)) == this
+                        ? nullptr : d->host;
             };
 }
 

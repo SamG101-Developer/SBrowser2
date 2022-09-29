@@ -3,6 +3,7 @@
 
 #include "node.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 #include "javascript/environment/realms_2.hpp"
@@ -11,6 +12,7 @@
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"
+#include "dom/detail/range_internals.hpp"
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
@@ -42,27 +44,27 @@ namespace dom::nodes {class window;}
 
 
 dom::nodes::node::node()
-        : INIT_PIMPL
-        , child_nodes(std::make_unique<ext::vector<node*>>())
-        , parent_node(nullptr)
 {
-    event_target::d_ptr->get_the_parent =
-            [this](events::event* event)
-            {return detail::is_assigned(this) ? ext::cross_cast<mixins::slottable*>(this)->assigned_slot() : parent_node();};
+    INIT_PIMPL(node);
+    ACCESS_PIMPL(node);
+
+    d->get_the_parent =
+            [this, d](events::event* event)
+            {return detail::is_assigned(this) ? ext::cross_cast<mixins::slottable*>(this)->d_func()->assigned_slot : d->parent_node;};
 
     /* FULLSCREEN */
-    m_dom_behaviour.remove_steps = [this](dom::nodes::node*)
+    d->remove_steps = [this, d](dom::nodes::node*)
     {
         using enum ranges::views::filter_compare_t;
 
-        decltype(auto) document = owner_document();
+        decltype(auto) document = d->node_document;
         auto nodes = detail::shadow_including_descendants(document)
                 | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<element*>()
                 | ranges::views::filter_eq<EQ>(&element::m_fullscreen_flag, true, ext::identity{});
 
         for (element* element: nodes)
         {
-            if (document->m_fullscreen_element() == element)
+            if (document->d_func()->fullscreen_element == element)
                 fullscreen::detail::fully_exit_fullscreen(document);
             else
                 fullscreen::detail::unfullscreen_element(element);
@@ -88,13 +90,13 @@ auto dom::nodes::node::compare_document_position(
     decltype(auto) attr_2 = dynamic_cast<attr*>(node_2);
 
     // if the nodes are attributes, set the 'attr' variables, and the nodes to the attributes' owner elements
-    node_1 = attr_1 ? attr_1->owner_element() : node_1;
-    node_2 = attr_2 ? attr_2->owner_element() : node_2;
+    node_1 = attr_1 ? attr_1->d_func()->element : node_1;
+    node_2 = attr_2 ? attr_2->d_func()->element : node_2;
 
     // if both the nodes being compared are attributes of the same element, compare their position in the attribute list
     if (attr_1 && attr_2 && node_1 && node_1 == node_2)
     {
-        for (const auto& attr: *dynamic_cast<element*>(node_2)->attributes())
+        for (decltype(auto) attr: dynamic_cast<element*>(node_2)->d_func()->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get))
         {
             if (attr == attr_1) return DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC | DOCUMENT_POSITION_PRECEDING;
             if (attr == attr_2) return DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC | DOCUMENT_POSITION_FOLLOWING;
@@ -150,7 +152,8 @@ auto dom::nodes::node::has_child_nodes()
         -> ext::boolean
 {
     // this node has child nodes if the 'child_nodes' list is not empty
-    return !child_nodes()->empty();
+    ACCESS_PIMPL(node);
+    return !d->child_nodes.empty();
 }
 
 
@@ -166,7 +169,7 @@ auto dom::nodes::node::normalize()
 
             // combine the text from the next consecutive text nodes into the text node
             auto data = dom::detail::contiguous_text_nodes(text_node)
-                        | ranges::views::transform([](nodes::text* contiguous_text_node) {return contiguous_text_node->data();})
+                        | ranges::views::transform([](nodes::text* contiguous_text_node) {return contiguous_text_node->d_func()->data;})
                         | ranges::to<ext::string>();
 
             // replace the data in this node with the combined data from the contiguous nodes
@@ -184,26 +187,26 @@ auto dom::nodes::node::normalize()
                 // ranges whose starting node is current_node: increment the starting offset by the length of the text of
                 // the text node (text has shifted back to previous node) and set the starting node to the text node
                 ranges::for_each(
-                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node;}),
-                        [&text_node, length](node_ranges::range* range) {range->start_offset = range->start_offset() + length; range->start_container = text_node;});
+                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->start->node == current_node;}),
+                        [&text_node, length](node_ranges::range* range) {range->d_func()->start->offset = range->d_func()->start->offset + length; range->d_func()->start->node = text_node;});
 
                 // ranges whose ending node is current_node: increment the ending offset by the length of the text of the
                 // text node (text has shifted back to previous node) abd set the ending node to the text node
                 ranges::for_each(
-                       live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node;}),
-                       [&text_node, length](node_ranges::range* range) {range->end_offset = range->end_offset() + length; range->end_container = text_node;});
+                       live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->end->node == current_node;}),
+                       [&text_node, length](node_ranges::range* range) {range->d_func()->end->offset = range->d_func()->end->offset + length; range->d_func()->end->node = text_node;});
 
                 // ranges whose starting node is current_node's parent: set the starting offset to the length of the text in
                 // the text node and set the starting node to the text node TODO : why?
                 ranges::for_each(
-                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->start_container() == current_node->parent_node();}),
-                        [&text_node, length](node_ranges::range* range) {range->start_offset = length; range->start_container = text_node;});
+                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()start->node == current_node->d_func()->parent_node;}),
+                        [&text_node, length](node_ranges::range* range) {range->d_func()->start->offset = length; range->d_func()->start->node = text_node;});
 
                 // ranges whose ending node is current_node's parent: set the ending offset to the length of the text in the
                 // text node and set the ending node to the text node TODO : why?
                 ranges::for_each(
-                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->end_container() == current_node->parent_node();}),
-                        [&text_node, length](node_ranges::range* range) {range->end_offset = length; range->end_container = text_node;});
+                        live_ranges | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->end->node == current_node->d_func()->parent_node;}),
+                        [&text_node, length](node_ranges::range* range) {range->d_func()->end->offset = length; range->d_func()->end->node = text_node;});
 
                 // increment the length by the current_node's length (so that the next current_node's offset can be
                 // incremented further as needed to be, and set the current node to the next sibling
@@ -225,6 +228,9 @@ auto dom::nodes::node::clone_node(
         ext::boolean deep)
         -> node*
 {
+    ACCESS_PIMPL(node);
+    using enum detail::dom_exception_error_t;
+
     CE_REACTIONS_METHOD_DEF
         // throw an error if there is an attempt to clone a shadow node
         detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
@@ -244,10 +250,12 @@ auto dom::nodes::node::is_equal_node(
     // the nodes aren't equal if the other node is null, there are a different amount of child nodes belonging to each
     // node, or the children aren't equal, (child node length check has to be done so that the zip view matches the
     // children without error)
+    ACCESS_PIMPL(node);
+
     if (not other) return false;
-    if (child_nodes()->size() != other->child_nodes()->size()) return false;
+    if (d->child_nodes.size() != other->d_func()->child_nodes.size()) return false;
     return ranges::all_of(
-            ranges::zip_view(*child_nodes(), *other->child_nodes()),
+            ranges::zip_view(d->child_nodes, other->d_func()->child_nodes),
             [](auto&& compare_children) {return compare_children.first == compare_children.second;});
 }
 
@@ -265,13 +273,15 @@ auto dom::nodes::node::lookup_prefix(
         ext::string_view namespace_)
         -> ext::string
 {
+    ACCESS_PIMPL(node);
+
     // element node: return the lookup for the element
     if (auto* element_cast = dynamic_cast<element*>(this))
         return detail::locate_a_namespace_prefix(element_cast, namespace_);
 
     // document node: return the lookup for the document element
     if (auto* document_cast = dynamic_cast<document*>(this))
-        return detail::locate_a_namespace_prefix(document_cast->document_element(), namespace_);
+        return detail::locate_a_namespace_prefix(document_cast->d_func()->document_element, namespace_);
 
     // document type node: return empty string
     if (auto* document_type_cast = dynamic_cast<document_type*>(this))
@@ -283,11 +293,11 @@ auto dom::nodes::node::lookup_prefix(
 
     // attribute node: return the lookup for the owner element
     if (auto* attribute_cast = dynamic_cast<attr*>(this))
-        return detail::locate_a_namespace_prefix(attribute_cast->owner_element(), namespace_);
+        return detail::locate_a_namespace_prefix(attribute_cast->d_func()->element, namespace_);
 
     // default: return the lookup for the parent element if it exists, otherwise empty string
-    return parent_element()
-           ? detail::locate_a_namespace_prefix(parent_element(), namespace_)
+    return d->parent_element
+           ? detail::locate_a_namespace_prefix(d->parent_element, namespace_)
            : "";
 }
 
@@ -348,49 +358,74 @@ auto dom::nodes::node::remove_child(
 
 
 auto dom::nodes::node::get_base_uri() const -> ext::string
-{return url::detail::url_serializer(html::detail::document_base_url(d_ptr->node_document));}
+{
+    ACCESS_PIMPL(const node);
+    return url::detail::url_serializer(html::detail::document_base_url(d->node_document));
+}
 
 
 auto dom::nodes::node::get_is_connected() const -> ext::boolean
-{return detail::is_connected(this);}
+{
+    return detail::is_connected(this);
+}
 
 
 auto dom::nodes::node::get_child_nodes() const -> ranges::any_view<node*>
-{return d_ptr->child_nodes | ranges::views::transform([](auto&& child) {return child.get();});}
+{
+    ACCESS_PIMPL(const node);
+    return d->child_nodes | ranges::views::transform([](auto&& child) {return child.get();});
+}
 
 
 auto dom::nodes::node::get_parent_node() const -> node*
-{return d_ptr->parent_node;}
+{
+    ACCESS_PIMPL(const node);
+    return d->parent_node;
+}
 
 
 auto dom::nodes::node::get_parent_element() const -> element*
-{return dom_cast<element*>(d_ptr->parent_node);}
+{
+    ACCESS_PIMPL(const node);
+    return dom_cast<element*>(d->parent_node);
+}
 
 
 auto dom::nodes::node::get_owner_document() const -> document*
-{return d_ptr->node_document;}
+{
+    ACCESS_PIMPL(const node);
+    return d->node_document;
+}
 
 
 auto dom::nodes::node::get_first_child() const -> node*
-{return d_ptr->child_nodes.front().get();}
+{
+    ACCESS_PIMPL(const node);
+    return d->child_nodes.front().get();
+}
 
 
 auto dom::nodes::node::get_last_child() const -> node*
-{return d_ptr->child_nodes.back().get();}
+{
+    ACCESS_PIMPL(const node);
+    return d->child_nodes.back().get();
+}
 
 
 auto dom::nodes::node::get_previous_sibling() const -> node*
 {
-    decltype(auto) siblings = d_ptr->parent_node->d_ptr->child_nodes;
-    decltype(auto) this_node_iter = ranges::find(siblings, this, &std::unique_ptr<node>::get);
+    ACCESS_PIMPL(const node);
+    decltype(auto) siblings = d->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<node>::get);
+    decltype(auto) this_node_iter = ranges::find(siblings, this);
     return this_node_iter != siblings.begin() ? *(this_node_iter - 1) : nullptr;
 }
 
 
 auto dom::nodes::node::get_next_sibling() const -> node*
 {
-    decltype(auto) siblings = d_ptr->parent_node->d_ptr->child_nodes;
-    decltype(auto) this_node_iter = ranges::find(siblings, this, &std::unique_ptr<node>::get);
+    ACCESS_PIMPL(const node);
+    decltype(auto) siblings = d->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<node>::get);
+    decltype(auto) this_node_iter = ranges::find(siblings, this);
     return (this_node_iter + 1 != siblings.end()) ? *(this_node_iter + 1) : nullptr;
 }
 

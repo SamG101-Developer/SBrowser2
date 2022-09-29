@@ -6,9 +6,12 @@
 
 dom::nodes::comment::comment(ext::string&& new_data)
 {
+    INIT_PIMPL(comment);
+    ACCESS_PIMPL(comment);
+
     JS_REALM_GET_RELEVANT(this);
-    node::d_ptr->node_document = v8pp::from_v8<window*>(this_relevant_agent, this_relevant_global_object)->document();
-    character_data::d_ptr->data = std::move(new_data);
+    d->node_document = v8pp::from_v8<window*>(this_relevant_agent, this_relevant_global_object)->d_func()->document;
+    d->data = std::move(new_data);
 }
 
 

@@ -12,8 +12,8 @@
 
 dom::nodes::text::text(
         ext::string&& new_data)
-        : INIT_PIMPL
 {
+    INIT_PIMPL(text);
     character_data::d_ptr->data = std::move(new_data);
 }
 
@@ -33,7 +33,7 @@ auto dom::nodes::text::get_whole_text() const -> ext::string
     // TODO -> create contiguous_text_content(...) in detail
     // the whole text of a Text node is the contiguous node data ie the combined data of all the contiguous Text nodes
     dom::detail::contiguous_text_nodes(this)
-            | ranges::views::transform([](nodes::character_data* node) {return node->d_ptr->data;})
+            | ranges::views::transform([](nodes::character_data* node) {return node->d_func()->data;})
             | ranges::to<ext::string>();
 }
 

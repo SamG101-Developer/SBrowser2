@@ -1,7 +1,10 @@
 #include "xml_document.hpp"
 
 
-dom::nodes::xml_document::xml_document() : INIT_PIMPL {}
+dom::nodes::xml_document::xml_document()
+{
+    INIT_PIMPL(xml_document);
+}
 
 
 auto dom::nodes::xml_document::to_v8(

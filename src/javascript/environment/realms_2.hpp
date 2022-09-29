@@ -80,30 +80,32 @@
 
 namespace javascript::environment::realms
 {
+
+    using realm_t = v8::Local<v8::Context>;
+    using global_object_t = v8::Local<v8::Object>;
+
     auto has(
-            v8::Local<v8::Object> global,
+            global_object_t global,
             ext::string_view cpp_attribute)
             -> ext::boolean;
 
     template <typename T>
     auto get(
-            v8::Local<v8::Object> global,
+            global_object_t global,
             ext::string_view cpp_attribute)
             -> T;
 
     template <typename T>
     auto set(
-            v8::Local<v8::Object> global,
+            global_object_t global,
             ext::string_view cpp_attribute,
             T cpp_value)
             -> ext::boolean;
-
-    using realm_t = v8::Local<v8::Context>;
 }
 
 
 // TODO : isolate as variables in methods (reduce code duplication with calling ...->GetIsolate()
-auto javascript::environment::realms::has(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> ext::boolean
+auto javascript::environment::realms::has(global_object_t global, ext::string_view cpp_attribute) -> ext::boolean
 {
     auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
     auto v8_exists = global->HasPrivate(global->GetIsolate()->GetCurrentContext(), v8_private_attribute).FromJust();
@@ -113,7 +115,7 @@ auto javascript::environment::realms::has(v8::Local<v8::Object> global, ext::str
 
 
 template <typename T>
-auto javascript::environment::realms::get(v8::Local<v8::Object> global, ext::string_view cpp_attribute) -> T
+auto javascript::environment::realms::get(global_object_t global, ext::string_view cpp_attribute) -> T
 {
     auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
     auto v8_value = global->GetPrivate(global->GetIsolate()->GetCurrentContext(), v8_private_attribute).ToLocalChecked();
@@ -123,7 +125,7 @@ auto javascript::environment::realms::get(v8::Local<v8::Object> global, ext::str
 
 
 template <typename T>
-auto javascript::environment::realms::set(v8::Local<v8::Object> global, ext::string_view cpp_attribute, T cpp_value) -> ext::boolean
+auto javascript::environment::realms::set(global_object_t global, ext::string_view cpp_attribute, T cpp_value) -> ext::boolean
 {
     auto v8_private_attribute = v8::Private::New(global->GetIsolate(), v8pp::to_v8(global->GetIsolate(), cpp_attribute).As<v8::String>());
     auto v8_value = v8pp::to_v8(global->GetIsolate(), cpp_value);

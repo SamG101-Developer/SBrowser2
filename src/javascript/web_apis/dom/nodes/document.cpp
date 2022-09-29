@@ -1,4 +1,5 @@
 #include "document.hpp"
+#include "dom/_typedefs.hpp"
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 
@@ -12,6 +13,7 @@
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/namespace_internals.hpp"
 #include "dom/detail/node_internals.hpp"
+#include "dom/detail/range_internals.hpp"
 #include "dom/events/event.hpp"
 #include "dom/nodes/attr.hpp"
 #include "dom/nodes/cdata_section.hpp"
@@ -55,18 +57,20 @@
 
 
 dom::nodes::document::document()
-        : INIT_PIMPL
 {
+    INIT_PIMPL(document);
+    ACCESS_PIMPL(document);
+
     JS_REALM_GET_SURROUNDING(this);
-    d_ptr->url = std::make_unique<url::detail::url_t>("about:blank");
-    d_ptr->content_type = "application/xml";
-    d_ptr->ready_state = "complete";
-    d_ptr->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
-    this->event_target::d_ptr->get_the_parent =
-            [this](events::event* event)
+    d->url = std::make_unique<url::detail::url_t>("about:blank");
+    d->content_type = "application/xml";
+    d->ready_state = "complete";
+    d->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
+    d->get_the_parent =
+            [this, d](events::event* event)
             {
                 JS_REALM_GET_RELEVANT(this);
-                return_if(event->type() == "load" || !d_ptr->browsing_context) ext::nullptr_cast<event_target*>();
+                return_if(event->d_func()->type == "load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
 
                 decltype(auto) global_object = v8pp::from_v8<event_target*>(this_relevant_agent, this_relevant_global_object);
                 return global_object;
@@ -117,7 +121,7 @@ auto dom::nodes::document::create_document_fragment()
 {
     // create a DocumentFragment node, and set its owner document to this document
     auto node = document_fragment{};
-    node.node::d_ptr->node_document = const_cast<document*>(this);
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -128,8 +132,8 @@ auto dom::nodes::document::create_text_node(
 {
     // create a Text node, and set its data and owner document to the 'data' parameter and this document
     auto node = text{};
-    node.character_data::d_ptr->data = std::move(data);
-    node.node::d_ptr->node_document = const_cast<document*>(this);
+    node.d_func()->data = std::move(data);
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -138,17 +142,20 @@ auto dom::nodes::document::create_cdata_section_node(
         ext::string&& data)
         const -> cdata_section
 {
+    ACCESS_PIMPL(const document);
+    using enum detail::dom_exception_error_t;
+
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [this, type = d_ptr->type] {return type == "html";},
+            [this, type = d->type] {return type == "html";},
             "Cannot create a CDataSection node in a HTML Document");
 
     detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
-            [data = std::move(data)] {return ranges::contains(data, "]]>");},
+            [data = std::move(data)] {return data.contains("]]>");},
             "Cannot create a CDataSection node with ']]>' in the data");
 
     auto node = cdata_section{};
-    node.character_data::d_ptr->data = std::move(data);
-    node.node::d_ptr->node_document = const_cast<document*>(this);
+    node.d_func()->data = std::move(data);
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -158,8 +165,8 @@ auto dom::nodes::document::create_comment(
         const -> comment
 {
     auto node = comment{};
-    node.character_data::d_ptr->data = std::move(data);
-    node.node::d_ptr->node_document = const_cast<document*>(this);
+    node.d_func()->data = std::move(data);
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -169,14 +176,16 @@ auto dom::nodes::document::create_processing_instruction(
         ext::string&& data)
         const -> processing_instruction
 {
+    using enum detail::dom_exception_error_t;
+
     detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
-            [data = std::move(data)] {return ranges::contains(data, "?>");},
+            [data = std::move(data)] {return data.contains("?>");},
             "Cannot create a CDataSection node with '?>' in the data");
 
     auto node = processing_instruction{};
-    node.character_data::d_ptr->data = std::move(data);
-    node.d_ptr->target = std::move(target);
-    node.node::d_ptr->node_document = const_cast<document*>(this);
+    node.d_func()->data = std::move(data);
+    node.d_func()->target = std::move(target);
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -185,13 +194,14 @@ auto dom::nodes::document::create_attribute(
         ext::string&& local_name)
         const -> attr
 {
-    auto html_adjusted_local_name = d_ptr->type == "html"
+    ACCESS_PIMPL(const document);
+    auto html_adjusted_local_name = d->type == "html"
             ? local_name | ranges::views::lowercase() | ranges::to<ext::string>
             : std::move(local_name);
 
     auto node = attr{};
-    node.d_ptr->local_name = html_adjusted_local_name;
-    node.node::d_ptr->owner_document = const_cast<document*>(this);
+    node.d_func()->local_name = html_adjusted_local_name;
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -204,10 +214,10 @@ auto dom::nodes::document::create_attribute_ns(
     auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
 
     attr node;
-    node.d_ptr->local_name = std::move(local_name);
-    node.d_ptr->namespace_prefix = std::move(prefix);
-    node.d_ptr->namespace_ = std::move(namespace_);
-    node.node::d_ptr->node_document = const_cast<document*>(this);
+    node.d_func()->local_name = std::move(local_name);
+    node.d_func()->namespace_prefix = std::move(prefix);
+    node.d_func()->namespace_ = std::move(namespace_);
+    node.d_func()->node_document = const_cast<document*>(this);
     return node;
 }
 
@@ -217,8 +227,8 @@ auto dom::nodes::document::create_range()
 {
     auto live_range = node_ranges::range{};
 
-    tuplet::tie(live_range.start_container, live_range.start_offset) = tuplet::make_tuple(const_cast<document*>(this), 0);
-    tuplet::tie(live_range.end_container, live_range.end_offset) = tuplet::make_tuple(const_cast<document*>(this), 0);
+    ext::tie(live_range->d_func()->start->node, live_range.d_func()->start->offset) = ext::make_tuple(const_cast<document*>(this), 0);
+    ext::tie(live_range->d_func()->end->node, live_range->d_func()->end->offset) = ext::make_tuple(const_cast<document*>(this), 0);
     return live_range;
 }
 
@@ -228,6 +238,8 @@ auto dom::nodes::document::import_node(
         ext::boolean deep)
         -> node*
 {
+    using enum detail::dom_exception_error_t;
+
     CE_REACTIONS_METHOD_DEF
         detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*, nodes::shadow_root*>(new_node);},
@@ -244,6 +256,8 @@ auto dom::nodes::document::adopt_node(
         node* new_node)
         -> node*
 {
+    using enum detail::dom_exception_error_t;
+
     CE_REACTIONS_METHOD_DEF
         detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*>(new_node);},

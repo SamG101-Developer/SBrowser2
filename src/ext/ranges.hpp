@@ -95,6 +95,13 @@ namespace ranges::views
                 [attribute = std::forward<T>(attribute)]<typename U>(U&& element) mutable
                 {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});};
 
+    auto transform_to_attrs = []<typename ...Args>(Args&&... attributes)
+    {
+        return ranges::views::transform(
+                [...attributes = std::forward<Args>(attributes)]<typename U>(U&& element) mutable
+                {return std::make_tuple(std::mem_fn(std::forward<Args>(attributes))(std::forward<U>(element))...);});
+    };
+
 
     // A transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
     // statement. The return type of the '_PredTransform' method must be the same as the current element type in the

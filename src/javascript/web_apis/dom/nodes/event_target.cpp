@@ -1,5 +1,6 @@
 #include "event_target.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/functional.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
@@ -17,8 +18,9 @@
 
 
 dom::nodes::event_target::event_target()
-        : INIT_PIMPL
-{}
+{
+    INIT_PIMPL(event_target);
+}
 
 
 auto dom::nodes::event_target::add_event_listener(
@@ -27,6 +29,8 @@ auto dom::nodes::event_target::add_event_listener(
         ext::variant<detail::add_event_listener_options_t, ext::boolean> options)
         -> void
 {
+    ACCESS_PIMPL(event_target);
+
     // create an event listener that is the flattened options, and insert the callback and type
     auto event_listener = detail::flatten_more(std::move(options));
     event_listener.insert_or_assign("callback", std::move(callback));
@@ -41,12 +45,12 @@ auto dom::nodes::event_target::add_event_listener(
     //  - the event listener is already stored in the event listeners list - no duplicates allowed;
     if (!event_listener.contains("callback")
             || signal && signal->aborted()
-            || ranges::contains(d_ptr->event_listeners, event_listener))
+            || ranges::contains(d->event_listeners, event_listener))
         return;
 
     // append the event listener to the event listeners list and if there is an abort signal, add an abort algorithm
     // that removes the event_listener from the event_target->m_event_listeners list
-    d_ptr->event_listeners.push_back(event_listener);
+    d->event_listeners.push_back(event_listener);
     if (signal)
         signal->m_abort_algorithms.push_back(BIND_FRONT(event_target::remove_event_listener, this, event_listener));
 }
@@ -58,6 +62,8 @@ auto dom::nodes::event_target::remove_event_listener(
         ext::variant<detail::event_listener_options_t, ext::boolean> options)
         -> void
 {
+    ACCESS_PIMPL(event_target);
+
     // create a dummy event listener that is the flattened options, and insert the callback and type
     auto event_listener = detail::flatten_more(std::move(options));
     event_listener.insert_or_assign("callback", std::move(callback));
@@ -77,7 +83,7 @@ auto dom::nodes::event_target::remove_event_listener(
                 && e.try_emplace("capture", nullptr).first->second.to<ext::boolean>() == event_listener.at("capture").to<ext::boolean>();
     };
 
-    d_ptr->event_listeners |= ranges::actions::remove_if(event_listener_equality_check);
+    d->event_listeners |= ranges::actions::remove_if(event_listener_equality_check);
 }
 
 
@@ -85,13 +91,16 @@ auto dom::nodes::event_target::dispatch_event(
         events::event* event)
         -> ext::boolean
 {
+    ACCESS_PIMPL(event_target);
+    using enum dom::detail::dom_exception_error_t;
+
     // if the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
     detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
-            [event] {return event->d_ptr->dispatch_flag || not event->d_ptr->initialized_flag;},
+            [event] {return event->d_func()->dispatch_flag || !event->d_func()->initialized_flag;},
             "Event must be initialized and not dispatched in order be dispatched");
 
     // set the event trusted to false (manual dispatch), and dispatch the event through the tree
-    event->d_ptr->is_trusted = ext::boolean::FALSE_();
+    event->d_func()->is_trusted = ext::boolean::FALSE_();
     return detail::dispatch(event, this);
 }
 

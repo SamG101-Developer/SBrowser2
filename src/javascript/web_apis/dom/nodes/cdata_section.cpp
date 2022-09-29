@@ -1,8 +1,10 @@
 #include "cdata_section.hpp"
 
 
-dom::nodes::character_data::character_data() : INIT_PIMPL
-{}
+dom::nodes::character_data::character_data()
+{
+    INIT_PIMPL(character_data);
+}
 
 
 auto dom::nodes::cdata_section::to_v8(
