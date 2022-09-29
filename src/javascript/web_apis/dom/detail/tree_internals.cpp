@@ -117,6 +117,26 @@ auto dom::detail::length(
 }
 
 
+auto dom::detail::previous_sibling(
+        const nodes::node* node)
+        -> nodes::node*
+{
+    decltype(auto) siblings = node->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
+    decltype(auto) this_node_iter = ranges::find(siblings, node);
+    return this_node_iter != siblings.begin() ? *(this_node_iter - 1) : nullptr;
+}
+
+
+auto dom::detail::next_sibling(
+        const nodes::node* node)
+        -> nodes::node*
+{
+    decltype(auto) siblings = node->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
+    decltype(auto) this_node_iter = ranges::find(siblings, node);
+    return (this_node_iter + 1 != siblings.end()) ? *(this_node_iter + 1) : nullptr;
+}
+
+
 template <typename T>
 auto dom::detail::all_following(
         const nodes::node* const node_a)

@@ -414,19 +414,13 @@ auto dom::nodes::node::get_last_child() const -> node*
 
 auto dom::nodes::node::get_previous_sibling() const -> node*
 {
-    ACCESS_PIMPL(const node);
-    decltype(auto) siblings = d->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<node>::get);
-    decltype(auto) this_node_iter = ranges::find(siblings, this);
-    return this_node_iter != siblings.begin() ? *(this_node_iter - 1) : nullptr;
+    return detail::previous_sibling(this);
 }
 
 
 auto dom::nodes::node::get_next_sibling() const -> node*
 {
-    ACCESS_PIMPL(const node);
-    decltype(auto) siblings = d->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<node>::get);
-    decltype(auto) this_node_iter = ranges::find(siblings, this);
-    return (this_node_iter + 1 != siblings.end()) ? *(this_node_iter + 1) : nullptr;
+    return detail::next_sibling(this);
 }
 
 

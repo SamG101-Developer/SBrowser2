@@ -47,8 +47,8 @@ namespace dom::detail
 
     auto queue_tree_mutation_record(
             nodes::node* target,
-            const ext::vector<nodes::node*>& added_nodes,
-            const ext::vector<nodes::node*>& removed_nodes,
+            ext::vector_view<nodes::node*> added_nodes,
+            ext::vector_view<nodes::node*> removed_nodes,
             nodes::node* previous_sibling,
             nodes::node* next_sibling)
             -> void;

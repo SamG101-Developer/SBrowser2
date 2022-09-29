@@ -60,7 +60,15 @@ namespace dom::detail
             const nodes::node* node_a)
             -> ext::number<ulong>;
 
-    // lists of nodes preceding or following another node
+    // nodes preceding or following another node
+    auto previous_sibling(
+            const nodes::node* node)
+            -> nodes::node*;
+
+    auto next_sibling(
+            const nodes::node* node)
+            -> nodes::node*;
+
     template <typename T=nodes::node>
     auto all_following(
             const nodes::node* node_a)

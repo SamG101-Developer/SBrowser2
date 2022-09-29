@@ -1,6 +1,7 @@
 #include "mutation_internals.hpp"
 
 #include "ext/casting.hpp"
+#include "ext/ranges.hpp"
 
 #include "css/cssom/detail/miscellaneous_query_internals.hpp"
 
@@ -9,6 +10,7 @@
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
+#include "dom/detail/range_internals.hpp"
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/text.hpp"
@@ -26,6 +28,9 @@
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/view/filter.hpp>
+#include <range/v3/view/any_view.hpp>
+#include <range/v3/view/for_each.hpp>
+#include <range/v3/view/transform.hpp>
 
 
 auto dom::detail::common_checks(
@@ -170,7 +175,7 @@ auto dom::detail::ensure_pre_insertion_validity(
 
 
 auto dom::detail::pre_insert(
-        const nodes::node* const node,
+        std::unique_ptr<nodes::node> node,
         const nodes::node* const parent,
         const nodes::node* const child)
         -> nodes::node*
@@ -178,9 +183,9 @@ auto dom::detail::pre_insert(
     // if the pre insertion is valid, set the 'reference_child' to 'child', unless 'child' is the same node as 'node',
     // in which case set it to the sibling after 'node', and insert 'node' into 'parent' before 'reference_child',
     // returning 'node'
-    ensure_pre_insertion_validity(node, parent, child);
-    const nodes::node* const reference_child = child != node ? child : node->next_sibling();
-    return insert(node, parent, reference_child);
+    ensure_pre_insertion_validity(node.get(), parent, child);
+    decltype(auto) reference_child = child != node.get() ? child : next_sibling(node.get());
+    return insert(std::move(node), parent, reference_child);
 }
 
 
@@ -202,25 +207,29 @@ auto dom::detail::pre_remove(
 
 
 auto dom::detail::insert(
-        const nodes::node* const node,
+        std::unique_ptr<nodes::node> node,
         const nodes::node* const parent,
         const nodes::node* const child,
         ext::boolean  suppress_observers_flag)
         -> nodes::node*
 {
-    // special case for DocumentFragment nodes: all tof it's child nodes need to be re-inserted; otherwise, for any
-    // other element extending Node, the single 'child' will be inserted. if there are no children to insert, then
-    // return from the method early
-    decltype(auto) nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
+    // special case for DocumentFragment nodes: all of it's child nodes need to be re-inserted; otherwise, for any other
+    // element extending Node, the single 'child' will be inserted. if there are no children to insert, then return from
+    // the method early
+    auto is_node_document_fragment = dynamic_cast<nodes::document_fragment*>(node.get());
+    decltype(auto) nodes = is_node_document_fragment
+            ? node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get)
+            : ranges::make_any_view<ranges::category::forward | ranges::category::sized>(node.get());
+
     decltype(auto) count = nodes.size();
     if (count <= 0) return nullptr;
 
     // special case for DocumentFragment: remove all of its children first, and then queue a mutation tree record for
     // any observers
-    if (dynamic_cast<const nodes::document_fragment*>(node))
+    if (is_node_document_fragment)
     {
-        ranges::for_each(nodes, [](nodes::node* const node_to_remove) {remove(node_to_remove, true);});
-        queue_tree_mutation_record(node, {}, nodes, nullptr, nullptr);
+        nodes | ranges::views::for_each([](nodes::node* const node_to_remove) {remove(node_to_remove, true);});
+        queue_tree_mutation_record(node.get(), {}, nodes, nullptr, nullptr);
     }
 
     // live range modifications for when the child exists (ie the node is being inserted and not appended)
@@ -233,26 +242,26 @@ auto dom::detail::insert(
         // ranges whose starting node is 'parent' and whose starting offset is greater that the index of 'child':
         // increment the start offset by the number of children being inserted
         ranges::for_each(
-                live_ranges | ranges::views::filter([parent, child_index](const node_ranges::range* const range) {return range->start_container() == parent && range->start_offset() > child_index;}),
-                [count](node_ranges::range* const range) {range->start_offset += count;});
+                live_ranges | ranges::views::filter([parent, child_index](const node_ranges::range* const range) {return range->d_func()->start->node == parent && range->d_func()->start->offset > child_index;}),
+                [count](node_ranges::range* const range) {range->d_func()->start->offset += count;});
 
         // ranges whose ending node is 'parent' and whose ending offset is greater that the index of 'child': increment
         // the end offset by the number of children being inserted
         ranges::for_each(
-                live_ranges | ranges::views::filter([parent, child_index](const node_ranges::range* const range) {return range->end_container() == parent && range->end_offset() > child_index;}),
-                [count](node_ranges::range* const range) {range->end_offset += count;});
+                live_ranges | ranges::views::filter([parent, child_index](const node_ranges::range* const range) {return range->d_func()->end->node == parent && range->d_func()->end->offset > child_index;}),
+                [count](node_ranges::range* const range) {range->d_func()->end->offset += count;});
     }
 
     // save the previous sibling here (used later, but mutations in the ext step would distort this value as the nodes
     // are inserted next, changing the tree structure / sibling layout)
-    decltype(auto) previous_sibling = child ? child->previous_sibling() : parent->last_child();
+    decltype(auto) previous_sibling = child ? child->previous_sibling() : parent->d_func()->child_nodes.back();
     for (nodes::node* const node_to_add: nodes)
     {
         // adopt 'node' into 'parent''s document, and insert the node into the parent's child nodes list, before the
         // iterator representing 'child'; in the case where child == nullptr, the iterator is ::end(), so the element is
         // appended instead (expected behaviour)
-        adopt(node_to_add, parent->owner_document());
-        parent->child_nodes()->insert(ranges::find(*parent->child_nodes(), child), node_to_add);  // will 'push_back' if child is nullptr
+        adopt(node_to_add, parent->d_func()->node_document);
+        parent->d_func()->child_nodes.insert(ranges::find(*parent->child_nodes(), child), node_to_add);  // will 'push_back' if child is nullptr
 
         // if the parent is a shadow host (shadow_root attribute is set), the parent's shadow_root's slot assignment is
         // "named", and 'node' is a slottable, assign a slot to 'node'
@@ -273,7 +282,7 @@ auto dom::detail::insert(
 
         for (nodes::node* inclusive_descendant: shadow_including_descendants(node_to_add))
         {
-            inclusive_descendant->m_dom_behaviour.insertion_steps();
+            inclusive_descendant->d_func()->insertion_steps();
             if (decltype(auto) inclusive_descendant_element = dynamic_cast<nodes::element*>(inclusive_descendant);
                     inclusive_descendant_element && is_connected(inclusive_descendant))
 
@@ -284,11 +293,11 @@ auto dom::detail::insert(
     }
 
     if (!suppress_observers_flag) queue_tree_mutation_record(parent, nodes, {}, previous_sibling, child);
-    parent->m_dom_behaviour.children_changed_steps();
+    parent->children_changed_steps();
 
     /* CSSOM */
     if (decltype(auto) processing_instruction = dom_cast<const nodes::processing_instruction*>(node);
-            processing_instruction && index(node) < index(node->owner_document()->document_element()))
+            processing_instruction && index(node) < index(node->d_func()->node_document->d_func()->document_element))
         css::detail::processing_instruction_prolog_steps(processing_instruction);
 }
 
@@ -311,6 +320,7 @@ auto dom::detail::replace(
         -> nodes::node*
 {
     // run the common checks
+    using enum dom::detail::dom_exception_error_t;
     common_checks(node, parent, child);
 
     // all the checks only apply if the parent is a document
@@ -320,18 +330,18 @@ auto dom::detail::replace(
         if (decltype(auto) cast_node = dynamic_cast<const nodes::document_fragment*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node] {return cast_node->children().size() > 1;},
+                    [&cast_node] {return cast_node->d_func()->children.size() > 1;},
                     "A DocumentFragment with a Document parent cannot have more than 1 Element child (document element)");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node] {return ranges::any_of(*cast_node->child_nodes(), &is_text_node);},
+                    [&cast_node] {return ranges::any_of(cast_node->d_func()->child_nodes, &is_text_node);},
                     "A DocumentFragment with a Document parent cannot have any Text node children");
 
             // if the document type has one element children
             if (cast_node->children().size() == 1)
             {
                 throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                        [&cast_node, &child] {return cast_node->children().front() != child;},
+                        [&cast_node, &child] {return cast_node->d_func()->children.front() != child;},
                         "A DocumentFragment with a Document parent and an Element child cannot have an Element child that is not 'child'");
 
                 throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -344,7 +354,7 @@ auto dom::detail::replace(
         else if (decltype(auto) cast_node = dynamic_cast<const nodes::element*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node, &child] {return ranges::any_of(cast_node->children(), BIND_FRONT(std::not_equal_to{}, child));},
+                    [&cast_node, &child] {return ranges::any_of(cast_node->d_func()->children, BIND_FRONT(std::not_equal_to{}, child));},
                     "An Element with a Document parent cannot have an Element child that isn't 'child'");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -356,7 +366,7 @@ auto dom::detail::replace(
         else if (decltype(auto) cast_node = dynamic_cast<const nodes::document_type*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_parent, &child] {return ranges::any_of(*cast_parent->child_nodes(), [child](nodes::node* child_node) {return is_document_type_node(child_node) and child_node != child;});},
+                    [&cast_parent, &child] {return ranges::any_of(cast_parent->d_func()->child_nodes, [child](nodes::node* child_node) {return is_document_type_node(child_node) and child_node != child;});},
                     "A DocumentType node with a Document parent cannot have a DocumentType sibling that isn't 'child'");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -375,7 +385,7 @@ auto dom::detail::replace(
 
     // if there is a parent node, save the child to the removed nodes (it is being replaced), and remove the child node;
     // this frees the index for 'node' to be inserted into
-    if (child->parent_node())
+    if (child->d_func()->parent_node)
     {
         removed_nodes.push_back(child);
         remove(child, true);
@@ -384,7 +394,7 @@ auto dom::detail::replace(
     // the nodes being added is a list of 'node', unless it is for a DocumentFragment parent, in which the special case
     // dictates that all the children are to be re-added - insert the 'added_nodes', and queue a mutation record for
     // this
-    decltype(auto) added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<const nodes::node*>{node};
+    decltype(auto) added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? node->d_func()->child_nodes() : ext::vector<const nodes::node*>{node};
     insert(node, parent, reference_child, true);
     queue_tree_mutation_record(parent, added_nodes, removed_nodes, previous_sibling, reference_child);
     return child;
@@ -399,8 +409,8 @@ auto dom::detail::replace_all(
     // all the 'parent''s children are going to be replaces with 'node, so all the children are the 'removed_nodes'; the
     // added nodes is a list of 'node', unless it is for a DocumentFragment parent, in which the special case
     //    // dictates that all the children are to be re-added
-    decltype(auto) removed_nodes = *parent->child_nodes();
-    decltype(auto) added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? *node->child_nodes() : ext::vector<nodes::node*>{node};
+    decltype(auto) removed_nodes = parent->d_func()->child_nodes;
+    decltype(auto) added_nodes = dynamic_cast<const nodes::document_fragment*>(node) ? node->d_func()->child_nodes : ext::vector<nodes::node*>{node};
 
     // remove each node in 'remove_nodes', and then insert the node into parent (before nullptr) as that is the only
     // accessible interator in an empty list
