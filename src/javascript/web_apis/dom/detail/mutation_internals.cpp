@@ -34,6 +34,8 @@ auto dom::detail::common_checks(
         const nodes::node* child)
         -> void
 {
+    using enum detail::dom_exception_error_t;
+
     // if the parent is not a document, document fragment or element, then throw a hierarchy request error
     throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
             [parent] {return !ext::multi_cast<const nodes::document*, const nodes::document_fragment*, const nodes::element*>(parent);},
@@ -56,7 +58,7 @@ auto dom::detail::common_checks(
 
     // if the child has a parent that doesn't equal parent, then throw a not found error
     throw_v8_exception_formatted<NOT_FOUND_ERR>(
-            [parent, child] {return child && child->parent_node() != parent;},
+            [parent, child] {return child && child->d_func()->parent_node != parent;},
             "'Child''s current parent must be 'parent'",
             {
                     "The incorrect node has been passed in as the 'child' parameter",
@@ -72,7 +74,7 @@ auto dom::detail::common_checks(
             P("Node", node),
             P("Parent", parent),
             P("Child", child),
-            P("Child's parent", child->parent_node()));
+            P("Child's parent", child->d_func()->parent_node));
 
     // if the node is not a document fragment, document, element, text node, processing instruction or comment node, then throw a hierarchy request error
     throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -98,6 +100,7 @@ auto dom::detail::ensure_pre_insertion_validity(
         -> void
 {
     // run the common checks
+    using enum detail::dom_exception_error_t;
     common_checks(node, parent, child);
 
     // all the checks only apply if the parent is a document
@@ -107,18 +110,18 @@ auto dom::detail::ensure_pre_insertion_validity(
         if (decltype(auto) cast_node = dynamic_cast<const nodes::document_fragment*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node] {return cast_node->children().size() > 1;},
+                    [&cast_node] {return cast_node->d_func()->children.size() > 1;},
                     "A DocumentFragment with a Document parent cannot have more than 1 Element child (document element)");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node] {return ranges::any_of(*cast_node->child_nodes(), &is_text_node);},
+                    [&cast_node] {return ranges::any_of(*cast_node->d_func()->child_nodes, &is_text_node);},
                     "A DocumentFragment with a Document parent cannot have any Text node children");
 
             // if the document type has one element children
             if (cast_node->children().size() == 1)
             {
                 throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                        [&cast_parent] {return !cast_parent->children().empty();},
+                        [&cast_parent] {return !cast_parent->d_func()->children.empty();},
                         "A DocumentFragment with a Document parent and Element child cannot have an Element sibling");
 
                 throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -135,7 +138,7 @@ auto dom::detail::ensure_pre_insertion_validity(
         else if (decltype(auto) cast_node = dynamic_cast<const nodes::element*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_node] {return !cast_node->children().empty();},
+                    [&cast_node] {return !cast_node->d_func()->children.empty();},
                     "An Element with a Document parent cannot have any Element children");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -151,7 +154,7 @@ auto dom::detail::ensure_pre_insertion_validity(
         else if (decltype(auto) cast_node = dynamic_cast<const nodes::document_type*>(node))
         {
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&cast_parent] {return ranges::any_of(*cast_parent->child_nodes(), &is_document_type_node);},
+                    [&cast_parent] {return ranges::any_of(*cast_parent->d_func()->child_nodes, &is_document_type_node);},
                     "A DocumentType node with a Document parent cannot have any DocumentType siblings");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
@@ -159,7 +162,7 @@ auto dom::detail::ensure_pre_insertion_validity(
                     "A DocumentType with a Document parent cannot be inserted after any Element nodes");
 
             throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                    [&child, &cast_parent] {return !child && ranges::any_of(*cast_parent->child_nodes(), &is_element_node);},
+                    [&child, &cast_parent] {return !child && ranges::any_of(*cast_parent->d_func()->child_nodes, &is_element_node);},
                     "A DocumentType with a Document parent cannot have any Element children");
         }
     }
@@ -186,9 +189,11 @@ auto dom::detail::pre_remove(
         const nodes::node* const parent)
         -> nodes::node*
 {
+    using enum detail::dom_exception_error_t;
+
     // if node's parent doesn't equal the parent, then throw a not found error
     throw_v8_exception_formatted<NOT_FOUND_ERR>(
-            [node, parent] {return node->parent_node() != parent;},
+            [node, parent] {return node->d_func()->parent_node != parent;},
             "node's current parent does not equal parent");
 
     // remove the node and return  it
