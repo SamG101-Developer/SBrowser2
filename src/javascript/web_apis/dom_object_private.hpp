@@ -40,6 +40,9 @@ struct dom_object_private
     BEHAVIOUR_METHOD()
             insertion_steps;
 
+    BEHAVIOUR_METHOD()
+            environment_discarding_steps;
+
     virtual ~dom_object_private() = default;
 };
 

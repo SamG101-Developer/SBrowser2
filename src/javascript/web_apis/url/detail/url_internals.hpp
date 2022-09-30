@@ -1,11 +1,10 @@
 #pragma once
-#include "encoding_internals.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/expected.hpp"
 #include "ext/number.hpp"
-#include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(file_api)
@@ -139,7 +138,7 @@ namespace url::detail
             ext::string_view input,
             ext::string_view base_url = "")
             // TODO: encoding::encoding* encoding = encoding::encoding::utf8)
-            -> ext::optional<url_t>;
+            -> ext::expected<url_t>;
 
     auto basic_url_parser(
             ext::string_view input,
@@ -147,7 +146,7 @@ namespace url::detail
             // TODO: encoding::encoding* encoding = encoding::encoding::utf8,
             ext::optional<const url_t&> url,
             state_override_t state_override = state_override_t::SCHEME_START_STATE)
-            -> ext::optional<url_t>;
+            -> ext::expected<url_t>;
 
     auto set_username(
             url_t& url,

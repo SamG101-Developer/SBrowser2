@@ -11,31 +11,26 @@ namespace service_workers::workers {class service_worker_container;}
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::workers {class service_worker_registration;}
 
+#include "service_worker_container_private.hpp"
+
+
 class service_workers::workers::service_worker_container
         : public dom::nodes::event_target
 {
 public constructors:
     DOM_CTORS(service_worker_container);
-    service_worker_container() = default;
+    MAKE_PIMPL(service_worker_container);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto register(const ext::string& script_url, detail::registration_options_t&& options = {}) -> ext::promise<service_worker_registration>;
+    auto register_(ext::string_view script_url, detail::registration_options_t&& options = {}) -> ext::promise<service_worker_registration>;
     auto get_registration(const ext::string& client_url = "") -> ext::promise<service_worker_registration*>;
     auto get_registrations() -> ext::promise<const ext::vector<service_worker_registration>>;
     auto start_messages() -> void;
 
 private js_properties:
-    ext::property<std::unique_ptr<service_worker>> controller;
-    ext::property<ext::promise<std::unique_ptr<service_worker_registration>>> ready;
-
-private cpp_properties:
-    std::unique_ptr<detail::service_worker_t> m_service_worker_client;
-    ext::promise<void> ready_promise;
-    // TODO : task queue ???
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(controller);
-    DEFINE_CUSTOM_GETTER(ready);
+    DEFINE_GETTER(controller, service_worker*);
+    DEFINE_GETTER(ready, ext::promise<service_worker_registration*>);
 };
 
 

@@ -30,7 +30,7 @@ auto payment::handler::payment_instruments::get(
 
 
 auto payment::handler::payment_instruments::keys()
-        const -> ext::vector<ext::string>
+        const -> ext::promise<ext::vector<ext::string>>
 {
     ACCESS_PIMPL(const payment_instruments);
 
@@ -40,4 +40,24 @@ auto payment::handler::payment_instruments::keys()
 }
 
 
-payment::handler::payment_instruments::
+auto payment::handler::payment_instruments::has(
+        ext::string_view instrument_key)
+        const -> ext::promise<ext::boolean>
+{
+    ACCESS_PIMPL(const payment_instruments);
+
+    auto promise = ext::promise<ext::boolean>{};
+    go [&promise, &instrument_key, d] {promise.resolve(d->map.contains(instrument_key));};
+    return promise;
+}
+
+
+auto payment::handler::payment_instruments::clear()
+        -> ext::promise<void>
+{
+    ACCESS_PIMPL(const payment_instruments);
+
+    auto promise = ext::promise<void>{};
+    go [&promise, d] {d->map.clear(); promise.resolve();};
+    return promise;
+}

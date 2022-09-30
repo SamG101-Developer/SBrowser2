@@ -7,6 +7,7 @@
 #include "ext/keywords.hpp"
 #include "ext/map.hpp"
 
+#include "dom_object_private.hpp"
 #include "dom_object.hpp"
 
 

@@ -16,17 +16,13 @@ namespace fetch {class response;}
 
 namespace service_workers::detail
 {
-    struct service_worker_t;
-    struct service_worker_registration_t;
     struct service_worker_timing_info_t;
-    struct service_worker_client_t;
     struct cache_batch_operation_t;
     struct job_t;
 
     enum class service_worker_state_t {PARSED, INSTALLING, INSTALLED, ACTIVATING, ACTIVATED, REDUNDANT};
     enum class service_worker_type_t {CLASSIC, MODULE};
     enum class update_via_cache_mode_t {IMPORTS, ALL, NONE};
-    enum class service_worker_update_via_cache_t {IMPORTS, ALL, NONE};
     enum class client_type_t {WINDOW, WORKER, SHAREDWORKER, ALL};
     enum class frame_type_t {AUXILIARY, TOP_LEVEL, NESTED, NONE};
     enum class cache_batch_operation_type_t {DELETE, PUT};

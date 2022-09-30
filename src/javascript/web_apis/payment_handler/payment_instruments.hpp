@@ -22,7 +22,7 @@ public constructors:
 public js_methods:
     auto delete_(ext::string_view instrument_key) -> ext::promise<ext::boolean>;
     auto get(ext::string_view instrument_key) const -> ext::promise<ext::any>;
-    auto keys() const -> ext::vector<ext::string>;
+    auto keys() const -> ext::promise<ext::vector<ext::string>>;
     auto has(ext::string_view instrument_key) const -> ext::promise<ext::boolean>;
     auto set(ext::string_view instrument_key, detail::payment_instrument_t&& details) -> ext::promise<void>;
     auto clear() -> ext::promise<void>;

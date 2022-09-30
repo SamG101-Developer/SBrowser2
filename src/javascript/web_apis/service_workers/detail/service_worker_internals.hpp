@@ -109,54 +109,15 @@ namespace service_workers::detail
     auto is_async_module(
             /* TODO */)
             -> ext::boolean;
-};
 
+    auto is_running(...) -> ext::boolean;
 
-struct service_workers::detail::service_worker_t
-{
-    service_worker_state_t state = service_worker_state_t::PARSED;
-    service_worker_type_t type = service_worker_type_t::CLASSIC;
-    script_resource_map_t script_resource_map;
-    service_worker_registration_t& containing_worker_registration;
+    auto is_stale(...) -> ext::boolean;
 
-    url::detail::url_t script_url;
-    html::detail::script_t script;
-    html::detail::policy_container_t& policy_container;
-    workers::service_worker_global_scope* global_object;
+    auto is_unregistered(...) -> ext::boolean;
 
-    ext::boolean has_even_been_evaluated_flag;
-    ext::boolean skip_waiting_flag;
-    ext::boolean classic_scripts_imported_flag;
-
-    ext::set<url::url::detail::url_t> used_scripts;
-    ext::set<ext::string> events_types_to_handle;
-    ext::set<events::extendable_event*> extended_events;
-
-    ext::boolean start_status;
-
-    auto running() -> ext::boolean;
-};
-
-
-struct service_workers::detail::service_worker_registration_t
-{
-    storage::detail::storage_key_t storage_key;
-    url::detail::url_t scope_url;
-    service_worker_t* installing_worker;
-    service_worker_t* waiting_worker;
-    service_worker_t* active_worker;
-
-    ext::number<int> last_registered_check_time;
-    update_via_cache_mode_t update_via_cache_mode = update_via_cache_mode_t::IMPORTS;
-    // TODO : task queues
-
-    other::navigation_preload_manager* manager;
-    ext::boolean navigation_preload_enabled_flag;
-    ext::string preload_header_value = "true";
-
-    auto stale() -> ext::boolean;
-    auto unregistered() -> ext::boolean;
-};
+    auto origin(...) -> ext::string;
+}
 
 
 struct service_workers::detail::service_worker_timing_info_t
@@ -166,13 +127,6 @@ struct service_workers::detail::service_worker_timing_info_t
 };
 
 
-struct service_workers::detail::service_worker_client_t
-{
-    ext::boolean discarded_flag;
-    // TODO : environment discarding steps
-
-    auto origin() -> ext::string;
-};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_SERVICE_WORKER_INTERNALS_HPP

@@ -8,24 +8,24 @@ namespace service_workers::workers {class service_worker;}
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(service_workers)
 
+#include "service_worker_private.hpp"
+
 class service_workers::workers::service_worker
         : public dom::nodes::event_target
-        , public html::mixins::abstract_worker
+        , html::mixins::abstract_worker
 {
 public constructors:
     DOM_CTORS(service_worker);
-    service_worker() = default;
+    MAKE_PIMPL(service_worker);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto post_message(const ext::any& message, const ext::vector<ext::any>& transfer) -> void;
-    auto post_message(const ext::any& message, html::detail::structure_serialize_options_t&& options = {}) -> void;
+    auto post_message(ext::any&& message, ext::vector<ext::any>&& transfer) -> void;
+    auto post_message(ext::any&& message, html::detail::structured_serialize_options_t&& options = {}) -> void;
 
 private js_properties:
-    ext::property<ext::string> script_url;
-    ext::property<detail::service_worker_state_t> state;
-
-private cpp_properties:
-    std::unique_ptr<detail::service_worker_t> m_service_worker;
+    DEFINE_GETTER(script_url, ext::string);
+    DEFINE_GETTER(state, detail::service_worker_state_t);
 };
 
 

@@ -8,28 +8,26 @@ namespace service_workers::clients {class client;}
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)
 
+#include "client_private.hpp"
+
 
 class service_workers::clients::client
+        : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(client);
-    client() = default;
+    client();
+    MAKE_PIMPL(client);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto post_message(const ext::any& message, const ext::vector<ext::any>& transfer) -> void;
-    auto post_message(const ext::any& message, html::detail::structure_serialize_options_t&& options = {}) -> void;
-
-public js_methods:
-    ext::property<ext::string> url;
-    ext::property<ext::string> id;
-    ext::property<detail::frame_type_t> frame_type;
-    ext::property<detail::frame_type_t> client_type;
+    auto post_message(ext::any&& message, ext::vector<ext::any>&& transfer) -> void;
+    auto post_message(ext::any&& message, html::detail::structured_serialize_options_t&& options = {}) -> void;
 
 private js_properties:
-    DEFINE_CUSTOM_GETTER(url);
-    DEFINE_CUSTOM_GETTER(id);
-    DEFINE_CUSTOM_GETTER(frame_type);
-    DEFINE_CUSTOM_GETTER(client_type);
+    DEFINE_GETTER(url, ext::string);
+    DEFINE_GETTER(id, ext::string);
+    DEFINE_GETTER(frame_type, detail::frame_type_t);
+    DEFINE_GETTER(client_type, detail::frame_type_t);
 };
 
 

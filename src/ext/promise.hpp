@@ -28,6 +28,7 @@ public:
 
     ext::boolean is_resolved = false;
     ext::boolean is_rejected = false;
+    ext::boolean is_pending = false;
 
 private:
     v8::Local<v8::Promise::Resolver> m_v8_promise;
@@ -50,6 +51,7 @@ public:
 
     ext::boolean is_resolved = false;
     ext::boolean is_rejected = false;
+    ext::boolean is_pending = false;
 
 private:
     v8::Local<v8::Promise::Resolver> m_v8_promise;

@@ -41,10 +41,10 @@
     auto implied_global_object = _JS_GLOBAL_OBJECT_FROM_REALM(implied); \
     auto implied_settings_object = _JS_SETTINGS_OBJECT_FROM_REALM(implied)
 
-#define JS_REALM_GET_INCUMBENT                                            \
-    auto incumbent_agent = v8::Isolate::GetCurrent();                     \
-    auto incumbent_realm = incumbent_agent->GetIncumbentContext();        \
-    auto incumbent_global_object = _JS_GLOBAL_OBJECT_FROM_REALM(current); \
+#define JS_REALM_GET_INCUMBENT                                              \
+    auto incumbent_agent = v8::Isolate::GetCurrent();                       \
+    auto incumbent_realm = incumbent_agent->GetIncumbentContext();          \
+    auto incumbent_global_object = _JS_GLOBAL_OBJECT_FROM_REALM(incumbent); \
     auto incumbent_settings_object = _JS_SETTINGS_OBJECT_FROM_REALM(incumbent)
 
 #define JS_REALM_GET_RELEVANT(object)                                                                                                                                                     \
