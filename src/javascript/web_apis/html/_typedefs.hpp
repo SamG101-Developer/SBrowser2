@@ -106,12 +106,12 @@ namespace html::detail
     struct color_t;
     struct browsing_context_group_t;
     struct drawing_state_t;
+    struct task_queue_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
     using response_available_function_t = ext::function<void(fetch::detail::response_t*)>;
     using task_t = ext::function<void()>;
-    using task_queue_t = ext::queue<task_t>;
     using media_provider_t = ext::variant<mediacapture::main::media_stream*, media::source::media_source*, file_api::blob*>;
     using option_like_element_t = ext::variant<elements::html_option_element*, elements::html_opt_group_element*>;
     using entry_t = ext::tuple<ext::string, ext::variant<ext::string, file_api::file*>>;

@@ -5,6 +5,13 @@
 #include INCLUDE_INNER_TYPES(html)
 
 
+struct html::detail::task_queue_t
+{
+    ext::queue<task_t> queue;
+    ext::boolean enabled;
+};
+
+
 namespace html::detail
 {
     /* DOM -- HTML */

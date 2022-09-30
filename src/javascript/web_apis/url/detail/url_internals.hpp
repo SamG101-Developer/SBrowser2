@@ -198,4 +198,7 @@ struct url::detail::url_t
 };
 
 
+auto operator""_url(const char* string, size_t length) {return url::detail::url_t{ext::string{string, length}};}
+
+
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP

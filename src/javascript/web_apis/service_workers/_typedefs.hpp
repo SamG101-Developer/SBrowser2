@@ -37,10 +37,10 @@ namespace service_workers::detail
     using multi_cache_query_options_t = cache_query_options_t;
     using request_response_list_t = ext::vector<ext::pair<fetch::request*, fetch::response*>>;
     using name_to_cache_map_t = ext::map<ext::string, request_response_list_t*>;
-    using registration_map = ext::map<ext::tuple<storage::detail::storage_key_t, ext::string>, service_worker_registration_t*>;
+    using registration_map = ext::map<ext::tuple<storage::detail::storage_key_t, ext::string>, workers::service_worker_registration*>;
     using job_queue_t = ext::queue<job_t>;
     using scope_to_job_queue_map_t = ext::map<ext::string, job_queue_t>;
-};
+}
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS__TYPEDEFS_HPP

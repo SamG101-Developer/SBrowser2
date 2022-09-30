@@ -7,13 +7,18 @@ namespace service_workers::other {class navigation_preload_manager;}
 
 #include "ext/promise.hpp"
 
+#include "navigation_preload_manager_private.hpp"
+
+
 class service_workers::other::navigation_preload_manager
+        : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(navigation_preload_manager);
-    navigation_preload_manager() = default;
+    MAKE_PIMPL(navigation_preload_manager);
+    MAKE_V8_AVAILABLE;
 
-private js_properties:
+private js_methods:
     auto enable() -> ext::promise<void>;
     auto disable() -> ext::promise<void>;
     auto set_header_value(ext::string_view value) -> ext::promise<void>;

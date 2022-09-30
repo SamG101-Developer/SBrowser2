@@ -1,9 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_JOB_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_JOB_INTERNALS_HPP
 
-#include "ext/promise.hpp"
 #include "ext/boolean.hpp"
-#include "ext/optional.hpp"
+#include "ext/expected.hpp"
+#include "ext/promise.hpp"
+#include "service_workers/clients/client.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(fetch)
@@ -25,7 +26,7 @@ namespace service_workers::detail
             url::detail::url_t&& scope_url,
             url::detail::url_t&& script_url,
             ext::promise<void>&& promise,
-            service_worker_client_t&& client)
+            clients::client* client)
             -> job_t;
 
     auto schedule_job(
@@ -47,13 +48,13 @@ namespace service_workers::detail
 
     auto reject_job_promise(
             const job_t& job)
-            -> ext::tuple<ext::string, dom_exception_error_t>;
+            -> ext::tuple<ext::string, dom::detail::dom_exception_error_t>;
 
     auto start_register(
-            ext::optional<url::detail::url_t> scope_url,
-            ext::optional<url::detail::url_t> script_url,
-            const ext::promise<void>& promise,
-            const service_worker_client_t& client,
+            ext::expected<url::detail::url_t> scope_url,
+            ext::expected<url::detail::url_t> script_url,
+            ext::promise<workers::service_worker_registration>& promise,
+            service_worker_type_t* client,
             const url::detail::url_t& referrer,
             service_worker_type_t worker_type,
             update_via_cache_mode_t update_via_cache_mode)
@@ -87,7 +88,7 @@ struct service_workers::detail::job_t
     url::detail::url_t script_url;
     service_worker_type_t worker_type;
     update_via_cache_mode_t update_via_cache_mode;
-    service_worker_client_t& client;
+    clients::client* client;
     url::detail::url_t referrer;
     ext::promise<void> job_promise;
     job_queue_t& containing_job_queue;
