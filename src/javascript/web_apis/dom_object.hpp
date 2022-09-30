@@ -7,7 +7,6 @@
 #include "ext/keywords.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/property.hpp"
-#include "ext/slot.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 

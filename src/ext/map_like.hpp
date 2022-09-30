@@ -19,7 +19,7 @@ struct map_like_private : virtual dom_object_private {};
 template <typename K, typename V>
 struct map_like_linked_private : map_like_private<K, V>
 {
-    std::unique_ptr<ext::map<K, V>> linked_map;
+    std::unique_ptr<ext::map<K, V>> map;
 };
 
 
@@ -35,6 +35,7 @@ public constructors:
     }
 
     virtual auto operator[](const K& key) -> V& = 0;
+    virtual auto operator[](const K& key) const -> V& {return (*this)[key];}
 };
 
 
@@ -48,13 +49,19 @@ public constructors:
     {
         INIT_PIMPL_TEMPLATED(map_like_linked, K, V);
         ACCESS_PIMPL_TEMPLATED(map_like_linked, K, V);
-        d->linked_map = container ? std::unique_ptr<map<K, V>>{container} : std::make_unique<map<K, V>>();
+        d->map = container ? std::unique_ptr<map<K, V>>{container} : std::make_unique<map<K, V>>();
     }
 
     auto operator[](const K& key) -> V& override
     {
         ACCESS_PIMPL_TEMPLATED(map_like_linked, K, V);
-        return d->linked_map.at(key);
+        return d->map.at(key);
+    }
+
+    auto operator[](const K& key) const -> V& override
+    {
+        ACCESS_PIMPL_TEMPLATED(map_like_linked, K, V);
+        return d->map.at(key);
     }
 };
 

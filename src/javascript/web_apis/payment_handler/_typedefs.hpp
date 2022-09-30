@@ -14,4 +14,5 @@ namespace payment::detail
     using payment_handler_reponse_t = ext::map<ext::string, ext::any>;
 }
 
+
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_HANDLER__TYPEDEFS_HPP

@@ -8,7 +8,8 @@
 
 // Use this macro at the beginning of every class that will have a PIMPL private class attached to it. It exposes the
 // d_ptr, but cast into the correct type, as well as friending the private class. There are non-const and const verisons
-// of the d_func() for const and non-const interface-method access.
+// of the d_func() for const and non-const interface-method access. Defines 'self_t' as a type alias to the current
+// class.
 #define MAKE_PIMPL(c)                                                                                                       \
 private:                                                                                                                    \
     inline c ## _private* d_func() noexcept {return reinterpret_cast<c ## _private*>(this->d_ptr.get());}                   \
