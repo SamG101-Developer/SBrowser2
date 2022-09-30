@@ -24,9 +24,9 @@ DEFINE_PRIVATE_CLASS(service_workers::workers, service_worker_registration) : do
     detail::update_via_cache_mode_t update_via_cache_mode = detail::update_via_cache_mode_t::IMPORTS;
     ext::vector<html::detail::task_queue_t> task_queues;
 
-    other::navigation_preload_manager* manager;
+    other::navigation_preload_manager* navigation_preload_manager;
     ext::boolean navigation_preload_enabled_flag;
-    ext::string preload_header_value = "true";
+    ext::string navigation_preload_header_value = "true";
 };
 
 

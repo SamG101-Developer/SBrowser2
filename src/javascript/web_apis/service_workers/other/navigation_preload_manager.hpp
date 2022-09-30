@@ -6,6 +6,7 @@
 namespace service_workers::other {class navigation_preload_manager;}
 
 #include "ext/promise.hpp"
+#include INCLUDE_INNER_TYPES(service_workers)
 
 #include "navigation_preload_manager_private.hpp"
 
@@ -21,7 +22,7 @@ public constructors:
 private js_methods:
     auto enable() -> ext::promise<void>;
     auto disable() -> ext::promise<void>;
-    auto set_header_value(ext::string_view value) -> ext::promise<void>;
+    auto set_header_value(ext::string&& value) -> ext::promise<void>;
     auto get_state() -> ext::promise<detail::navigation_preload_state_t>;
 };
 

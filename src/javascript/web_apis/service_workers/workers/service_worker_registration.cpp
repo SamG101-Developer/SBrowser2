@@ -77,7 +77,7 @@ auto service_workers::workers::service_worker_registration::get_active() const -
 auto service_workers::workers::service_worker_registration::get_navigation_preload() const -> other::navigation_preload_manager*
 {
     ACCESS_PIMPL(const service_worker_registration);
-    return d->manager;
+    return d->navigation_preload_manager;
 }
 
 
