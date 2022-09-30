@@ -13,7 +13,7 @@ class dom::mixins::slottable
         : public virtual dom_object
 {
 public constructors:
-    slottable() = default;
+    slottable();
     MAKE_PIMPL(slottable);
     MAKE_V8_AVAILABLE;
 

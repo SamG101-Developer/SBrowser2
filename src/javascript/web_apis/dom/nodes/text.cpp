@@ -14,17 +14,18 @@ dom::nodes::text::text(
         ext::string&& new_data)
 {
     INIT_PIMPL(text);
-    character_data::d_ptr->data = std::move(new_data);
+    ACCESS_PIMPL(text);
+    d->data = std::move(new_data);
 }
 
 
 auto dom::nodes::text::split_text(
         ext::number<ulong> offset)
-        -> text
+        -> std::unique_ptr<text>
 {
     // split the text node at the index 'offset', and return the 2nd half of the split, ie a Text node containing all
     // data after the split (this Text node remains the same)
-    return dom::detail::split(this, offset);
+    return std::move(dom::detail::split(this, offset));
 }
 
 

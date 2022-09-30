@@ -15,9 +15,9 @@ auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() c
         -> nodes::element*
 {
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-    decltype(auto) siblings = *base->parent_node()->child_nodes();
+    decltype(auto) siblings = base->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
     decltype(auto) previous_siblings = ranges::subrange(siblings.begin(), ranges::find(siblings, base));
-    return ranges::back(siblings | ranges::views::cast_all_to.operator()<nodes::element*>());
+    return ranges::back(siblings | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>());
 }
 
 
@@ -25,9 +25,9 @@ auto dom::mixins::non_document_type_child_node::get_next_element_sibling()
         const -> nodes::element*
 {
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-    decltype(auto) siblings = *base->parent_node()->child_nodes();
+    decltype(auto) siblings = base->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
     decltype(auto) previous_siblings = ranges::subrange(ranges::find(siblings, base), siblings.end());
-    return ranges::front(siblings | ranges::views::cast_all_to.operator()<nodes::element*>());
+    return ranges::front(siblings | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>());
 }
 
 

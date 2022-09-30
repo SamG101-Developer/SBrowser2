@@ -86,10 +86,12 @@ auto dom::nodes::document::create_element(
         const -> element
 {
     CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const document);
+
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
-        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d_ptr->type == "html");
-        auto html_adjusted_namespace_ = d_ptr->type == "html" || d_ptr->content_type == "application/xhtml+xml" ? detail::HTML : "";
+        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d->type == "html");
+        auto html_adjusted_namespace_ = d->type == "html" || d->content_type == "application/xhtml+xml" ? detail::HTML : "";
         auto is = options.try_emplace("is", "").first->second.to<ext::string>();
 
         // create the Element node with the html adjusted variables

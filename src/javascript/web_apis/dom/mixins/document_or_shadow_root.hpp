@@ -16,7 +16,7 @@ class dom::mixins::document_or_shadow_root
         : public virtual dom_object
 {
 public constructors:
-    document_or_shadow_root() = default;
+    document_or_shadow_root();
     MAKE_PIMPL(document_or_shadow_root);
     MAKE_V8_AVAILABLE;
 

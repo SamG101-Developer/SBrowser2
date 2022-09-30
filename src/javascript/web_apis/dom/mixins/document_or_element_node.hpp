@@ -15,7 +15,7 @@ class dom::mixins::document_or_element_node
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(document_or_element_node);
+    document_or_element_node();
     MAKE_PIMPL(document_or_element_node);
     MAKE_V8_AVAILABLE;
 

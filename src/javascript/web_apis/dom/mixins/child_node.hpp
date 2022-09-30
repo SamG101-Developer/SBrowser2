@@ -14,7 +14,7 @@ class dom::mixins::child_node
         : public virtual dom_object
 {
 public constructors:
-    child_node() = default;
+    child_node();
     MAKE_PIMPL(child_node);
     MAKE_V8_AVAILABLE;
 

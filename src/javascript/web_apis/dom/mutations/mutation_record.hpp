@@ -13,7 +13,7 @@ class dom::mutations::mutation_record
         : public virtual dom_object
 {
 public constructors:
-    mutation_record() = default;
+    mutation_record();
     MAKE_PIMPL(mutation_record);
     MAKE_V8_AVAILABLE;
 

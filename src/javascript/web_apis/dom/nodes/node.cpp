@@ -226,7 +226,7 @@ auto dom::nodes::node::normalize()
 
 auto dom::nodes::node::clone_node(
         ext::boolean deep)
-        -> node*
+        -> std::unique_ptr<node>
 {
     ACCESS_PIMPL(node);
     using enum detail::dom_exception_error_t;
@@ -238,7 +238,7 @@ auto dom::nodes::node::clone_node(
                 "Cannot clone a ShadowRoot node");
 
         // clone the node and return it
-        return detail::clone(this, nullptr, deep);
+        return std::move(detail::clone(this, nullptr, deep));
     CE_REACTIONS_METHOD_EXE
 }
 

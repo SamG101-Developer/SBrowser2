@@ -13,7 +13,7 @@ class dom::mixins::non_document_type_child_node
         : public virtual dom_object
 {
 public constructors:
-    non_document_type_child_node() = default;
+    non_document_type_child_node();
     MAKE_PIMPL(non_document_type_child_node);
     MAKE_V8_AVAILABLE;
 

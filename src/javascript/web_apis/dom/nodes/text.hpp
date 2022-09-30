@@ -18,7 +18,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto split_text(ext::number<ulong> offset) -> text;
+    auto split_text(ext::number<ulong> offset) -> std::unique_ptr<text>;
 
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return TEXT_NODE;}

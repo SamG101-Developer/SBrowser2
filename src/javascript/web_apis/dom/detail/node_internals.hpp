@@ -13,12 +13,12 @@ namespace dom::nodes {class event_target;}
 namespace dom::detail
 {
     // node manipulation
-    template <typename T>
+    template <ext::inherit<nodes::node> T>
     auto clone(
             T* node,
             nodes::document* document = nullptr,
             ext::boolean deep = false)
-            -> dom::nodes::node* requires std::is_base_of_v<T, nodes::node>;
+            -> std::unique_ptr<T>;
 
     auto adopt(
             const nodes::node* node,

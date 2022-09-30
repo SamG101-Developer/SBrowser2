@@ -18,7 +18,7 @@ class dom::mutations::mutation_observer
         : public virtual dom_object
 {
 public constructors:
-    mutation_observer() = default;
+    mutation_observer();
     mutation_observer(detail::mutation_callback_t&& callback);
     MAKE_PIMPL(mutation_observer);
     MAKE_V8_AVAILABLE;

@@ -4,23 +4,37 @@
 
 
 auto dom::node_ranges::abstract_range::get_start_container() const -> nodes::node*
-{return d_ptr->start->node;}
+{
+    ACCESS_PIMPL(const abstract_range);
+    return d->start->node;
+}
 
 
 auto dom::node_ranges::abstract_range::get_start_offset() const -> ext::number<ulong>
-{return d_ptr->start->offset;}
+{
+    ACCESS_PIMPL(const abstract_range);
+    return d->start->offset;
+}
 
 
 auto dom::node_ranges::abstract_range::get_end_container() const ->  nodes::node*
-{return d_ptr->end->node;}
+{
+    ACCESS_PIMPL(const abstract_range);
+    return d->end->node;
+}
 
 
 auto dom::node_ranges::abstract_range::get_end_offset() const -> ext::number<ulong>
-{return d_ptr->end->offset;}
+{
+    ACCESS_PIMPL(const abstract_range);
+    return d->end->offset;
+}
 
 
 auto dom::node_ranges::abstract_range::get_collapsed() const -> ext::boolean
-{return detail::is_range_collapsed(this);}
+{
+    return detail::is_range_collapsed(this);
+}
 
 
 auto dom::node_ranges::abstract_range::to_v8(

@@ -3,8 +3,10 @@
 #include "ext/casting.hpp"
 #include "ext/functional.hpp"
 #include "ext/ranges.hpp"
-#include "dom/nodes/document.hpp"
+
+#include "dom/detail/node_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
+#include "dom/nodes/document.hpp"
 #include "dom/nodes/element.hpp"
 
 #include <range/v3/view/transform.hpp>
@@ -20,7 +22,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
 
     // split the class names of a Node by spaces, and determine 'lower', which causes everything to be compared in
     // lowercase; if 'lower' is true, then convert the 'class_names' list into lowercase strings
-    auto lower = base->owner_document()->m_mode == "quirks";
+    auto lower = base->d_func()->node_document->d_func()->mode == "quirks";
     auto class_list = class_names
             | ranges::views::split_string(' ')
             | ranges::views::transform_if(lower, ranges::actions::lowercase);
@@ -29,14 +31,14 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
     // into the function as a parameter. the element's class list is converted into lowercase if 'lower' is set
     auto match_callback = [&class_list, lower = lower] (const nodes::element* const element) mutable
     {
-        auto this_class_list = *element->class_list() | ranges::views::transform_if(lower, ranges::actions::lowercase);
+        auto this_class_list = element->d_func()->class_ | ranges::views::transform_if(lower, ranges::actions::lowercase);
         return ranges::contains_all(class_list, this_class_list);
     };
 
     // filter the elements by applying the 'match_callback' onto each Element; if all the Element's class list items are
     // in the 'class_names' parameter, then keep the element, otherwise discard it
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>()
             | ranges::views::filter(match_callback);
 
     return matches;
@@ -52,7 +54,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
 
     // determine 'lower', which causes everything to be compared in lowercase; if 'lower' is true, then convert the
     // 'qualified_name' into a lowercase string
-    auto lower = base->owner_document()->m_mode == "quirks";
+    auto lower = base->d_func()->node_document->d_func()->mode == "quirks";
     auto that_qualified_name = ext::string{qualified_name};
     if (lower) that_qualified_name |= ranges::actions::lowercase();
 
@@ -60,7 +62,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
     // the function as parameter. the element's qualified name is concerned into lowercase is 'lower' is set
     auto match_callback = [&that_qualified_name, lower](const nodes::element* const element)
     {
-        auto this_qualified_name = element->qualified_name();
+        auto this_qualified_name = detail::qualified_name(element);
         if (lower) this_qualified_name |= ranges::actions::lowercase();
         return this_qualified_name == "*" || this_qualified_name == that_qualified_name;
     };
@@ -69,7 +71,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
     // the 'qualified_name' parameter, then keep the element, otherwise discard it
     using f_t = ext::function<bool(nodes::element*)>;
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>()
             | ranges::views::filter(match_callback);
 
     return matches;
@@ -88,8 +90,8 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
     // name that were passed into the function as parameters. no html qualification is required for lowercase conversion
     auto match_callback = [&namespace_, &local_name](const nodes::element* const element)
     {
-        auto this_namespace = element->namespace_uri();
-        auto this_local_name = element->local_name();
+        auto this_namespace = element->d_func()->namespace_;
+        auto this_local_name = element->d_func()->local_name;
         return (this_namespace == "*" || this_namespace == namespace_)
                 && (this_local_name == "*" || this_local_name == local_name);
     };
@@ -97,7 +99,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
     // filter the elements by applying the 'match_callback' onto each Element; if the Element's namespace and local name
     // equal the 'namespace_' and 'local_name' parameters, then keep the element, otherwise discard it
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>()
             | ranges::views::filter(match_callback);
 
     return matches;
