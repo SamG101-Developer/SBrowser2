@@ -36,4 +36,8 @@ auto payment::handler::payment_instruments::keys()
 
     auto promise = ext::promise<ext::vector<ext::string>>{};
     go [&promise, d] {promise.resolve(d->map | ranges::views::keys | ranges::to<ext::vector<ext::string>>);};
+    return promise;
 }
+
+
+payment::handler::payment_instruments::
