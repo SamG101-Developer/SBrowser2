@@ -400,15 +400,13 @@ auto dom::nodes::node::get_owner_document() const -> document*
 
 auto dom::nodes::node::get_first_child() const -> node*
 {
-    ACCESS_PIMPL(const node);
-    return d->child_nodes.front().get();
+    return detail::first_child(this);
 }
 
 
 auto dom::nodes::node::get_last_child() const -> node*
 {
-    ACCESS_PIMPL(const node);
-    return d->child_nodes.back().get();
+    return detail::last_child(this);
 }
 
 

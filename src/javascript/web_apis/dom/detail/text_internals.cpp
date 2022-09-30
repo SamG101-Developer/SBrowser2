@@ -1,8 +1,10 @@
 #include "text_internals.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
+#include "dom/detail/range_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 
 #include "dom/nodes/element.hpp"
@@ -27,6 +29,7 @@ auto dom::detail::replace_data(
 
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
     // 'offset', as replacing from an offset that si greater than the length of the Text is impossible
+    using enum detail::dom_exception_error_t;
     auto text_node_length = length(text_node);
 
     throw_v8_exception_formatted<INDEX_SIZE_ERR>(
@@ -46,12 +49,12 @@ auto dom::detail::replace_data(
 
     // queue a CHARACTER_DATA mutation record for the Text node's data changing, and replace the data inside the Text
     // node
-    queue_mutation_record(mutation_type_t::CHARACTER_DATA, text_node, "", "", text_node->data(), {}, {}, nullptr, nullptr);
-    text_node->data = text_node->data().replace(offset, adjusted_count, std::move(data));
+    queue_mutation_record(mutation_type_t::CHARACTER_DATA, text_node, "", "", text_node->d_func()->data, {}, {}, nullptr, nullptr);
+    text_node->d_func->data = text_node->d_func()->data.replace(offset, adjusted_count, std::move(data));
 
     // get the live ranges from the surrounding realm, because these need to be updated for the mutations in the Text
     // node
-    JS_REALM_GET_SURROUNDING(text_node)
+    JS_REALM_GET_SURROUNDING(text_node);
     decltype(auto) live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(text_node_surrounding_global_object, "live_ranges");
 
     // ranges whose start container is the Text node and whose start offset is in the data that was replaced: set the
@@ -59,37 +62,37 @@ auto dom::detail::replace_data(
     ranges::for_each(
             live_ranges | ranges::views::filter(
                     [text_node, offset, adjusted_count](node_ranges::range* const range)
-                    {return range->start_container() == text_node && ext::is_between<false, true>(range->start_offset(), offset, offset + adjusted_count);}),
-            [offset](node_ranges::range* const live_range) {live_range->start_offset = offset;});
+                    {return range->d_func()->start->node == text_node && ext::is_between<false, true>(range->d_func()->start->offset, offset, offset + adjusted_count);}),
+            [offset](node_ranges::range* const live_range) {live_range->d_func()->start->offset = offset;});
 
     // ranges whose end container is the Text node and whose end offset is in the data that was replaced: set the end
     // offset to the offset of the data being replaced
     ranges::for_each(
             live_ranges | ranges::views::filter(
                     [text_node, offset, adjusted_count](node_ranges::range* const range)
-                    {return range->end_container() == text_node && ext::is_between<false, true>(range->end_offset(), offset, offset + adjusted_count);}),
-            [offset](node_ranges::range* const live_range) {live_range->end_offset = offset;});
+                    {return range->d_func()->end->node == text_node && ext::is_between<false, true>(range->d_func()->end->offset, offset, offset + adjusted_count);}),
+            [offset](node_ranges::range* const live_range) {live_range->d_func()->end->offset = offset;});
 
     // ranges whose start container is the Text node and whose start offset is after the data that was replaced:
     // increment the start offset by the new data's size, and decrement it by the length of the data that was replaced
     ranges::for_each(
             live_ranges | ranges::views::filter(
                     [text_node, offset, adjusted_count](node_ranges::range* const range)
-                    {return range->start_container() == text_node && range->start_offset() > offset + adjusted_count;}),
-            [data_size, adjusted_count](node_ranges::range* const live_range) {live_range->start_offset += (data_size - adjusted_count);});
+                    {return range->d_func()->start->node == text_node && range->d_func()->start->offset > offset + adjusted_count;}),
+            [data_size, adjusted_count](node_ranges::range* const live_range) {live_range->d_func()->start->offset += (data_size - adjusted_count);});
 
     // ranges whose end container is the Text node and whose end offset is after the data that was replaced: increment
     // the end offset by the new data's size, and decrement it by the length of the data that was replaced
     ranges::for_each(
             live_ranges | ranges::views::filter(
                     [text_node, offset, adjusted_count](node_ranges::range* const range)
-                    {return range->end_container() == text_node && range->end_offset() > offset + adjusted_count;}),
-            [data_size, adjusted_count](node_ranges::range* const live_range) {live_range->end_offset += (data_size - adjusted_count);});
+                    {return range->d_func()->end->node == text_node && range->d_func()->end->offset > offset + adjusted_count;}),
+            [data_size, adjusted_count](node_ranges::range* const live_range) {live_range->d_func()->end->offset += (data_size - adjusted_count);});
 
     // if the Text node has a parent node, the run the 'children_changed_steps' on the parent node, and the Text node
     // child has mutated (data has been replaced)
-    if (text_node->parent_node())
-        text_node->parent_node()->m_dom_behaviour.children_changed_steps();
+    if (text_node->d_func()->parent_node)
+        text_node->d_func()->parent_node->d_func()->children_changed_steps();
 }
 
 
@@ -101,6 +104,7 @@ auto dom::detail::substring_data(
 {
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
     // 'offset', as substringing from an offset that si greater than the length of the Text is impossible
+    using enum detail::dom_exception_error_t;
     auto text_node_length = length(text_node);
 
     throw_v8_exception_formatted<INDEX_SIZE_ERR>(
@@ -115,17 +119,18 @@ auto dom::detail::substring_data(
     // less than or equal to the length of the Text node, and return the substring from the data (from 'offset',
     // and a length of 'adjusted_count')
     const auto adjusted_count = ext::min(count + offset, text_node_length) - offset;
-    return text_node->data().substr(offset, adjusted_count);
+    return text_node->d_func()->data.substr(offset, adjusted_count);
 }
 
 
 auto dom::detail::split(
         nodes::character_data* const existing_text_node,
         ext::number<ulong> offset)
-        -> nodes::text
+        -> std::unique_ptr<nodes::text>
 {
     // get the length of the Text node, and throw an index size error if the length of the data is greater than the
     // 'offset', as substringing from an offset that si greater than the length of the Text is impossible
+    using enum detail::dom_exception_error_t;
     auto text_node_length = length(existing_text_node);
 
     throw_v8_exception_formatted<INDEX_SIZE_ERR>(
@@ -136,35 +141,35 @@ auto dom::detail::split(
             P("Length", text_node_length),
             P("Offset", offset));
 
-    const auto count = text_node_length - offset;
-    auto new_data = substring_data(existing_text_node, offset, count);
+    decltype(auto) count = text_node_length - offset;
+    decltype(auto) new_data = substring_data(existing_text_node, offset, count);
 
-    nodes::text new_text_node {std::move(new_data)};
-    new_text_node.owner_document = existing_text_node->owner_document();
+    auto new_text_node = std::make_unique<nodes::text>({std::move(new_data));
+    new_text_node->d_func()->node_document = existing_text_node->d_func()->node_document;
 
-    auto* const parent = existing_text_node->parent_node();
+    decltype(auto) parent = existing_text_node->d_func()->parent_node;
     if (parent)
     {
-        insert(&new_text_node, parent, existing_text_node->next_sibling());
+        insert(&new_text_node, parent, detail::next_sibling(existing_text_node));
 
-        JS_REALM_GET_SURROUNDING(existing_text_node)
-        const auto live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(existing_text_node_surrounding_global_object, "live_ranges");
-
-        ranges::for_each(
-                live_ranges | ranges::views::filter([existing_text_node, offset](const node_ranges::range* const range) {return range->start_container() == existing_text_node && range->start_offset() > offset;}),
-                [&new_text_node, offset](node_ranges::range* const range) {range->start_container = &new_text_node; range->start_offset() = range->start_offset() - offset;});
+        JS_REALM_GET_SURROUNDING(existing_text_node);
+        decltype(auto) live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(existing_text_node_surrounding_global_object, "live_ranges");
 
         ranges::for_each(
-                live_ranges | ranges::views::filter([existing_text_node, offset](const node_ranges::range* const range) {return range->end_container() == existing_text_node && range->end_offset() > offset;}),
-                [&new_text_node, offset](node_ranges::range* const range) {range->end_container = &new_text_node; range->end_offset() = range->end_offset() - offset;});
+                live_ranges | ranges::views::filter([existing_text_node, offset](auto* range) {return range->d_func()->start->node == existing_text_node && range->d_func()->start->offset > offset;}),
+                [new_text_node = new_text_node.get(), offset](auto* range) {range->d_func()->start->node = new_text_node; range->d_func()->start->offset = range->d_func()->start->offset - offset;});
 
         ranges::for_each(
-                live_ranges | ranges::views::filter([parent, index = index(existing_text_node)](const node_ranges::range* const range) {return range->start_container() == parent && range->start_offset() > index + 1;}),
-                [](node_ranges::range* const range) {range->start_offset += 1;});
+                live_ranges | ranges::views::filter([existing_text_node, offset](auto* range) {return range->d_func()->end->node == existing_text_node && range->d_func()->end->offset > offset;}),
+                [&new_text_node = new_text_node.get(), offset](auto* range) {range->d_func()->end->node = new_text_node; range->d_func()->end->offset = range->d_func()->end->offset - offset;});
 
         ranges::for_each(
-                live_ranges | ranges::views::filter([parent, index = index(existing_text_node)](const node_ranges::range* const range) {return range->end_container() == parent && range->end_offset() > index + 1;}),
-                [](node_ranges::range* const range) {range->end_offset += 1;});
+                live_ranges | ranges::views::filter([parent, index = index(existing_text_node)](auto* range) {return range->d_func()->start->node == parent && range->d_func()->start->offset > index + 1;}),
+                [](node_ranges::range* const range) {range->d_func()->start->offset += 1;});
+
+        ranges::for_each(
+                live_ranges | ranges::views::filter([parent, index = index(existing_text_node)](auto* range) {return range->d_func()->end->node == parent && range->d_func()->end->offset > index + 1;}),
+                [](node_ranges::range* const range) {range->d_func()->end->offset += 1;});
     }
 
     replace_data(existing_text_node, offset, count, "");

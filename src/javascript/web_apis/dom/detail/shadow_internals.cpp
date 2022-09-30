@@ -94,7 +94,7 @@ auto dom::detail::is_shadow_including_descendant(
     // 'node_a''s shadow root's host is a shadow including descendant of the 'node_b' (ie bridge up from the shadow tree
     // into the next tree)
     if (!node_a || !node_b) return false;
-    return ranges::contains(shadow_including_descendants(node_b), node_a) || is_shadow_including_descendant(is_root_shadow_root(node_a)->host(), node_b);
+    return ranges::contains(shadow_including_descendants(node_b), node_a) || is_shadow_including_descendant(is_root_shadow_root(node_a)->d_func()->host, node_b);
 }
 
 
@@ -114,5 +114,5 @@ auto dom::detail::is_host_including_ancestor(
         const nodes::node* const node_b)
         -> ext::boolean
 {
-    return is_descendant(node_a, node_b) || is_shadow_including_ancestor(node_a, is_root_shadow_root(node_b)->host());
+    return is_descendant(node_a, node_b) || is_shadow_including_ancestor(node_a, is_root_shadow_root(node_b)->d_func()->host);
 }

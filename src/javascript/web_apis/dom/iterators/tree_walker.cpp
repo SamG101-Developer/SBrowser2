@@ -17,17 +17,23 @@
 
 
 dom::node_iterators::tree_walker::tree_walker()
-        : current_node{nullptr}
-{}
+{
+    INIT_PIMPL(tree_walker);
+    ACCESS_PIMPL(tree_walker);
+
+    d->current = nullptr;
+}
 
 
 auto dom::node_iterators::tree_walker::parent_node()
         -> nodes::node*
 {
-    decltype(auto) current_node_ancestors = detail::ancestors(d_ptr->current);
+    ACCESS_PIMPL(tree_walker);
+
+    decltype(auto) current_node_ancestors = detail::ancestors(d->current);
     decltype(auto) filtered_ancestors = current_node_ancestors
             | ranges::views::filter(BIND_BACK(detail::filter, this))
-            | ranges::views::take_while(BIND_BACK(std::not_equal_to{}, abstract_iterator::d_ptr->root));
+            | ranges::views::take_while(BIND_BACK(std::not_equal_to{}, d->root));
 
     return *filtered_ancestors.begin();
 }
@@ -72,10 +78,12 @@ auto dom::node_iterators::tree_walker::next_sibling()
 auto dom::node_iterators::tree_walker::prev_node()
         -> nodes::node*
 {
-    decltype(auto) node = d_ptr->current;
-    while (node != abstract_iterator::d_ptr->root)
+    ACCESS_PIMPL(tree_walker);
+
+    decltype(auto) node = d->current;
+    while (node != d->root)
     {
-        decltype(auto) sibling = node->previous_sibling();
+        decltype(auto) sibling = detail::previous_sibling(node);
         while (sibling)
         {
             node = sibling;
@@ -85,25 +93,25 @@ auto dom::node_iterators::tree_walker::prev_node()
             // last child; 'node' will end up as either a rejected node, or the right-most n-level child of the original
             // 'sibling'
             while (result != node_filter::FILTER_REJECT && node->has_child_nodes())
-                result = detail::filter(node = node->last_child(), this);
+                result = detail::filter(node = detail::last_child(node), this);
 
             // if the final node child that wasn't rejected and doesn't have any child nodes was accepted (not skipped),
             // then set it to the current node and return it - the previous node is the first accepted n-level last
             // child of the previous sibling (so going forward from this node would traverse up the tree and forward to
             // 'sibling'
             if (result == node_filter::FILTER_ACCEPT)
-                return d_ptr->current = node;
+                return d->current = node;
 
             // move the sibling back to the previous sibling, as no nodes have been accepted yet (only rejected and
             // skipped), and the previous node has to be a n-level last child of a previous sibling
-            sibling = sibling->previous_sibling();
+            sibling = detail::previous_sibling(sibling);
         }
 
         // the sibling is nullptr, ie there are no more previous siblings under the current parent, so set the node to
         // its parent, and begin checking nodes again (as long as the parent exists and the node isn't 'root', as the
         // parent would be outside the subtree rooted at 'root'); also check the parent first before its siblings
-        return_if (!node->parent_node() || node == abstract_iterator::d_ptr->root) nullptr;
-        return_if (detail::filter(node = node->parent_node(), this) == node_filter::FILTER_ACCEPT) d_ptr->current = node;
+        return_if (!node->d_func()->parent_node || node == d_func()->root) nullptr;
+        return_if (detail::filter(node = node->d_func()->parent_node, this) == node_filter::FILTER_ACCEPT) d->current = node;
     }
 }
 
@@ -111,7 +119,9 @@ auto dom::node_iterators::tree_walker::prev_node()
 auto dom::node_iterators::tree_walker::next_node()
         -> nodes::node*
 {
-    decltype(auto) node = d_ptr->current;
+    ACCESS_PIMPL(tree_walker);
+
+    decltype(auto) node = d->current;
     decltype(auto) result = node_filter::FILTER_ACCEPT;
 
     while (true)
@@ -119,31 +129,31 @@ auto dom::node_iterators::tree_walker::next_node()
         // while the filter 'result' is FILTER_ACCEPT / FILTER_SKIP, and 'node' has child nodes, set 'node' to its
         // first child; 'node' will end up as either a rejected node, or the left-most n-level child of 'node'
         while (result != node_filter::FILTER_REJECT && node->has_child_nodes())
-            result = detail::filter(node = node->first_child(), this);
+            result = detail::filter(node = detail::first_child(node), this);
 
         // if the final node child that wasn't rejected and doesn't have any child nodes was accepted (not skipped),
         // then set it to the current node and return it - the next node is the first accepted n-level first child
         // of the next sibling (so going backwards from this node would traverse down the tree and backwards to
         // 'sibling'
         if (result == node_filter::FILTER_ACCEPT)
-            return d_ptr->current = node;
+            return d->current = node;
 
         decltype(auto) temporary = node;
         // next sibling, otherwise parent node to move up tree
         while (temporary)
         {
-            return_if(temporary == abstract_iterator::d_ptr->root) nullptr;
-            if (decltype(auto) sibling = temporary->next_sibling())
+            return_if(temporary == d->root) nullptr;
+            if (decltype(auto) sibling = detail::next_sibling(temporary))
             {
                 node = sibling;
                 break;
             }
-            temporary = temporary->parent_node();
+            temporary = temporary->d_func()->parent_node;
         }
 
         result = detail::filter(node, this);
         if (result == node_filter::FILTER_ACCEPT)
-            return d_ptr->current = node;
+            return d->current = node;
     }
 }
 

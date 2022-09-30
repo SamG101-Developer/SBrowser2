@@ -8,27 +8,30 @@
 
 dom::events::event::event()
 {
-    INIT_PIMPL(event);
+    INIT_PIMPL(event)
 }
 
 
 dom::events::event::event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
-        : INIT_PIMPL
 {
-    d_ptr->type = std::move(event_type);
-    d_ptr->bubbles = event_init.try_emplace("bubbles", false).first->second.to<ext::boolean>();
-    d_ptr->cancelable = event_init.try_emplace("cancelable", false).first->second.to<ext::boolean>();
-    d_ptr->composed = event_init.try_emplace("composed", false).first->second.to<ext::boolean>();
-    d_ptr->target = nullptr;
-    d_ptr->current_target = nullptr;
-    d_ptr->related_target = nullptr;
-    d_ptr->event_phase = std::bit_cast<ushort>(NONE);
-    d_ptr->time_stamp = hr_time::detail::current_hr_time(this_relevant_global_object);
-    d_ptr->is_trusted = false;
-    d_ptr->touch_targets = {};
-    d_ptr->path = {};
+    INIT_PIMPL(event)
+    ACCESS_PIMPL(event);
+
+    JS_REALM_GET_RELEVANT(this);
+    d->type = std::move(event_type);
+    d->bubbles = event_init.try_emplace("bubbles", false).first->second.to<ext::boolean>();
+    d->cancelable = event_init.try_emplace("cancelable", false).first->second.to<ext::boolean>();
+    d->composed = event_init.try_emplace("composed", false).first->second.to<ext::boolean>();
+    d->target = nullptr;
+    d->current_target = nullptr;
+    d->related_target = nullptr;
+    d->event_phase = std::bit_cast<ushort>(NONE);
+    d->time_stamp = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d->is_trusted = false;
+    d->touch_targets = {};
+    d->path = {};
 }
 
 
@@ -36,7 +39,8 @@ auto dom::events::event::stop_propagation()
         -> void
 {
     // set the stop propagation flag, to stop the event propagating to the next target
-    d_ptr->stop_propagation_flag = true;
+    ACCESS_PIMPL(event);
+    d->stop_propagation_flag = true;
 }
 
 
@@ -44,7 +48,8 @@ auto dom::events::event::stop_immediate_propagation()
         -> void
 {
     // set the stop immediate propagation flag, to stop the event propagating to the next listener
-    d_ptr->stop_immediate_propagation_flag = true;
+    ACCESS_PIMPL(event);
+    d->stop_immediate_propagation_flag = true;
 }
 
 
@@ -52,13 +57,15 @@ auto dom::events::event::prevent_default()
         -> void
 {
     // set the cancelled flag if the event is cancelled and isn't in a passive listener
-    d_ptr->canceled_flag = d_ptr->cancelable && !d_ptr->in_passive_listener_flag;
+    ACCESS_PIMPL(event);
+    d->canceled_flag = d->cancelable && !d->in_passive_listener_flag;
 }
 
 
 auto dom::events::event::composed_path()
         const -> ext::vector<nodes::event_target*>
 {
+    ACCESS_PIMPL(const event);
     using composed_path_t = ext::vector<nodes::event_target*>;
 
     // create the default vectors, and return if the current event traversal path is empty
@@ -67,7 +74,7 @@ auto dom::events::event::composed_path()
     if (path_vector.empty())
         return composed_path_vector;
 
-    composed_path_vector.push_back(d_ptr->current_target);
+    composed_path_vector.push_back(d->current_target);
 
     // create the default indexing variables for node identification in the tree
     ext::number<int> current_target_hidden_subtree_level {1};
@@ -82,7 +89,7 @@ auto dom::events::event::composed_path()
     {
         auto* path_struct = *iterator;
         if (path_struct->root_of_closed_tree) ++current_target_hidden_subtree_level;
-        if (path_struct->invocation_target == d_ptr->current_target) {current_target_index = iterator; break;}
+        if (path_struct->invocation_target == d->current_target) {current_target_index = iterator; break;}
         if (path_struct->slot_in_closed_tree) --current_target_hidden_subtree_level;
         ranges::advance(iterator, -1);
     }

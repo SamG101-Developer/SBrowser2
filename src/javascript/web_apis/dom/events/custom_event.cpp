@@ -4,10 +4,10 @@
 dom::events::custom_event::custom_event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
-        : INIT_PIMPL
-        , event(std::move(event_type), std::move(event_init))
+        : event(std::move(event_type), std::move(event_init))
 {
-    d_ptr->detail = 0;
+    INIT_PIMPL(custom_event);
+    d_func()->detail = 0;
 }
 
 

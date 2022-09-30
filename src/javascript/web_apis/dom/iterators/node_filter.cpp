@@ -2,9 +2,10 @@
 
 
 dom::node_iterators::node_filter::node_filter()
-        : INIT_PIMPL
 {
-    d_ptr->accept_node_callback = [](const nodes::node*) {return FILTER_ACCEPT;};
+    INIT_PIMPL(node_filter)
+    ACCESS_PIMPL(node_filter);
+    d->accept_node_callback = [](const nodes::node*) {return FILTER_ACCEPT;};
 }
 
 

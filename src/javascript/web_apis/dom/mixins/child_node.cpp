@@ -6,12 +6,13 @@
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
+#include "dom/nodes/node.hpp"
 
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/set_algorithm.hpp>
 
 
-template <type_is<dom::nodes::node*, ext::string> ...T>
+template <ext::type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::child_node::before(
         T&&... nodes)
         -> nodes::node*
@@ -20,7 +21,7 @@ auto dom::mixins::child_node::before(
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to insert nodes into a nullptr parent
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->parent_node();
+        decltype(auto) parent = base->d_func()->parent_node;
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // the 'viable_previous_siblings' are all the preceding siblings of 'node' that aren't in 'nodes' - this is the
@@ -29,12 +30,12 @@ auto dom::mixins::child_node::before(
                 | ranges::views::set_difference(std::forward<T>(nodes)...);
 
         decltype(auto) viable_previous_sibling = viable_previous_siblings.front();
-        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
 
         // if 'viable_previous_sibling' is nullptr, adjust it to be the 'parent''s first child, so that the 'node' be
         // inserted as the first child for the 'parent'; otherwise set it to its next sibling, so 'node' is inserted
         // into the correct place
-        viable_previous_sibling = !viable_previous_sibling ? parent->first_child() : viable_previous_sibling->next_sibling();
+        viable_previous_sibling = !viable_previous_sibling ? detail::first_child(parent) : viable_previous_sibling->next_sibling();
         detail::pre_insert(node, parent, viable_previous_sibling);
 
         return node;
@@ -42,7 +43,7 @@ auto dom::mixins::child_node::before(
 }
 
 
-template <type_is<dom::nodes::node*, ext::string> ...T>
+template <ext::type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::child_node::after(
         T&&... nodes)
         -> nodes::node*
@@ -51,7 +52,7 @@ auto dom::mixins::child_node::after(
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to insert nodes into a nullptr parent
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->parent_node();
+        decltype(auto) parent = base->d_func()->parent_node;
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // the 'viable_next_siblings' are all the following siblings of 'node' that aren't in 'nodes' - this is the set
@@ -60,7 +61,7 @@ auto dom::mixins::child_node::after(
                 | ranges::views::set_difference(std::forward<T>(nodes)...);
 
         decltype(auto) viable_next_sibling = viable_next_siblings.front();
-        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
 
         // the 'viable_next_sibling' doesn't need adjusting, because if it nullptr, then the insertion algorithm will
         // detect the iterator as ...::end(), meaning that the 'node' will get appended, so 'node' is inserted into the
@@ -72,7 +73,7 @@ auto dom::mixins::child_node::after(
 }
 
 
-template <type_is<dom::nodes::node*, ext::string> ...T>
+template <ext::type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::child_node::replace_with(
         T&& ...nodes)
         -> nodes::node*
@@ -81,15 +82,15 @@ auto dom::mixins::child_node::replace_with(
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to replace nodes into a nullptr parent
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->parent_node();
+        decltype(auto) parent = base->d_func()->parent_node;
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // convert the 'nodes' into a single Node
-        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
         
         // if the 'parent' matches the node's parent, replace this node with 'node', otherwise insert 'node' into
         // 'parent', before the determined 'viable_next_sibling'
-        if (base->parent_node() == parent)
+        if (base->d_func()->parent_node == parent)
             detail::replace(base, parent, node);
         else
         {
@@ -113,8 +114,8 @@ auto dom::mixins::child_node::remove()
         // get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to remove nodes into a nullptr parent
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->parent_node();
-        return_if(!parent) ext::nullptr_cast<nodes::node*>();
+        decltype(auto) parent = base->d_func()->parent_node;
+        return_if (!parent) ext::nullptr_cast<nodes::node*>();
 
         // remove this node from the DOM tree
         detail::remove(base);

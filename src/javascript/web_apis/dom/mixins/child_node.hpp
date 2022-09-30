@@ -19,9 +19,9 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    template <type_is<nodes::node*, ext::string> ...T> auto before(T&&... nodes) -> nodes::node*;
-    template <type_is<nodes::node*, ext::string> ...T> auto after(T&&... nodes) -> nodes::node*;
-    template <type_is<nodes::node*, ext::string> ...T> auto replace_with(T&&... nodes) -> nodes::node*;
+    template <ext::type_is<nodes::node*, ext::string> ...T> auto before(T&&... nodes) -> nodes::node*;
+    template <ext::type_is<nodes::node*, ext::string> ...T> auto after(T&&... nodes) -> nodes::node*;
+    template <ext::type_is<nodes::node*, ext::string> ...T> auto replace_with(T&&... nodes) -> nodes::node*;
     auto remove() -> nodes::node*;
 };
 

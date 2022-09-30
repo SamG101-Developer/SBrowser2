@@ -8,11 +8,13 @@
 
 
 dom::node_iterators::abstract_iterator::abstract_iterator()
-        : INIT_PIMPL
 {
-    d_ptr->filter = nullptr;
-    d_ptr->root = nullptr;
-    d_ptr->what_to_show = 0;
+    INIT_PIMPL(abstract_iterator)
+    ACCESS_PIMPL(abstract_iterator);
+
+    d->filter = nullptr;
+    d->root = nullptr;
+    d->what_to_show = 0;
 }
 
 

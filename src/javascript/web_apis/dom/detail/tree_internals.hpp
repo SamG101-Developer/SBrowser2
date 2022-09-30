@@ -3,6 +3,7 @@
 
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
+#include "ext/ranges.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
@@ -19,11 +20,11 @@ namespace dom::detail
 
     auto ancestors(
             const nodes::node* node_a)
-            -> ranges::any_view<nodes::node*>;
+            -> ranges::any_helpful_view<nodes::node*>;
 
     auto descendants(
             const nodes::node* node_a)
-            -> ranges::any_view<nodes::node*>;
+            -> ranges::any_helpful_view<nodes::node*>;
     
     // tree checks
     auto is_ancestor(
@@ -61,6 +62,14 @@ namespace dom::detail
             -> ext::number<ulong>;
 
     // nodes preceding or following another node
+    auto first_child(
+            const nodes::node* node)
+            -> nodes::node*;
+
+    auto last_child(
+            const nodes::node* node)
+            -> nodes::node*;
+
     auto previous_sibling(
             const nodes::node* node)
             -> nodes::node*;
@@ -72,22 +81,22 @@ namespace dom::detail
     template <typename T=nodes::node>
     auto all_following(
             const nodes::node* node_a)
-            -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>;
+            -> ranges::any_helpful_view<nodes::node*>;
 
     template <typename T=nodes::node>
     auto all_preceding(
             const nodes::node* node_a)
-            -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>;
+            -> ranges::any_helpful_view<nodes::node*>;
 
     template <typename T=nodes::node>
     auto all_following_siblings(
             const nodes::node* node_a)
-            -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>;
+            -> ranges::any_helpful_view<nodes::node*>;
 
     template <typename T=nodes::node>
     auto all_preceding_siblings(
             const nodes::node* node_a)
-            -> ranges::any_view<T*, ranges::category::sized | ranges::category::forward>;
+            -> ranges::any_helpful_view<nodes::node*>;
 
     // node type checks (used for filters)
     auto is_element_node(
@@ -109,15 +118,15 @@ namespace dom::detail
     // text node helpers
     auto contiguous_text_nodes(
             const nodes::node* node_a)
-            -> ranges::any_view<nodes::text*>;
+            -> ranges::any_helpful_view<nodes::text*>;
 
     auto descendant_text_nodes(
             const nodes::node* node_a)
-            -> ranges::any_view<nodes::text*>;
+            -> ranges::any_helpful_view<nodes::text*>;
 
     auto child_text_nodes(
             const nodes::node* node_a)
-            -> ranges::any_view<nodes::text*>;
+            -> ranges::any_helpful_view<nodes::text*>;
 
     auto descendant_text_content(
             const nodes::node* node_a)

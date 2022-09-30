@@ -8,10 +8,12 @@
 
 
 dom::node_iterators::node_iterator::node_iterator()
-    : INIT_PIMPL
 {
-    d_ptr->reference = nullptr;
-    d_ptr->pointer_before_reference = false;
+    INIT_PIMPL(node_iterator)
+
+    ACCESS_PIMPL(node_iterator);
+    d->reference = nullptr;
+    d->pointer_before_reference = false;
 }
 
 

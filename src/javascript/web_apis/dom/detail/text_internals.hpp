@@ -26,7 +26,7 @@ namespace dom::detail
     auto split(
             nodes::character_data* existing_text_node,
             ext::number<ulong> offset)
-            -> nodes::text;
+            -> std::unique_ptr<nodes::text>;
 }
 
 
