@@ -7,13 +7,22 @@ namespace payment::handler {class payment_manager;}
 
 namespace payment::handler {class payment_instruments;}
 
+#include "payment_manager_private.hpp"
+
 
 class payment::handler::payment_manager
         : public virtual dom_object
 {
+public constructors:
+    payment_manager();
+    MAKE_PIMPL(payment_manager);
+    MAKE_V8_AVAILABLE;
+
 private js_properties:
-    ext::property<std::unique_ptr<payment_instruments>> instruments;
-    ext::property<ext::string> user_hint;
+    DEFINE_GETTER(instruments, payment_instruments*);
+    DEFINE_GETTER(user_hint, ext::string);
+
+    DEFINE_SETTER(user_hint, ext::string);
 };
 
 
