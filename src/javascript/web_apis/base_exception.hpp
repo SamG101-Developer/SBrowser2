@@ -9,7 +9,7 @@
 #include "base_exception_private.hpp"
 
 
-template <type_is_enum T>
+template <ext::type_is_enum T>
 class base_exception : public virtual dom_object
 {
 public aliases:

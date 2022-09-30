@@ -6,7 +6,7 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "html/_typedefs.hpp"
+#include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
 
@@ -39,16 +39,16 @@ namespace dom::detail
             const std::string& name,
             const std::string& namespace_,
             const std::string& old_value,
-            ext::vector<nodes::node*>&& added_nodes,
-            ext::vector<nodes::node*>&& removed_nodes,
+            ext::vector_span<nodes::node*> added_nodes,
+            ext::vector_span<nodes::node*> removed_nodes,
             nodes::node* previous_sibling,
             nodes::node* next_sibling)
             -> void;
 
     auto queue_tree_mutation_record(
             nodes::node* target,
-            ext::vector_view<nodes::node*> added_nodes,
-            ext::vector_view<nodes::node*> removed_nodes,
+            ext::vector_span<nodes::node*> added_nodes,
+            ext::vector_span<nodes::node*> removed_nodes,
             nodes::node* previous_sibling,
             nodes::node* next_sibling)
             -> void;

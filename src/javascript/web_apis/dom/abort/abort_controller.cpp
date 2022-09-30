@@ -5,8 +5,8 @@
 
 
 dom::abort::abort_controller::abort_controller()
-        : INIT_PIMPL
 {
+    INIT_PIMPL(abort_controller);
     // create an abort controller
 }
 
@@ -16,7 +16,8 @@ auto dom::abort::abort_controller::abort(
         const -> void
 {
     // abort the signal with the reason
-    detail::signal_abort(d_ptr->signal.get(), reason);
+    ACCESS_PIMPL(const abort_controller);
+    detail::signal_abort(d->signal.get(), reason);
 }
 
 

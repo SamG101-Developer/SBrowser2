@@ -12,17 +12,20 @@
 
 
 dom::abort::abort_signal::abort_signal()
-        : INIT_PIMPL
-{}
+{
+    INIT_PIMPL(abort_signal);
+}
 
 
 auto dom::abort::abort_signal::abort(
         const ext::optional<ext::any>& reason)
         -> abort_signal
 {
+    using enum dom::detail::dom_exception_error_t;
+
     // create a signal, mark it as aborted by giving it a reason, and return it
     auto signal = abort_signal{};
-    signal.d_ptr->abort_reason = reason.value_or(other::dom_exception{"", ABORT_ERR});
+    signal.d_func()->abort_reason = reason.value_or(other::dom_exception{"", ABORT_ERR});
     return signal;
 }
 
@@ -31,6 +34,8 @@ auto dom::abort::abort_signal::timeout(
         ext::number<ulonglong> milliseconds)
         -> abort_signal
 {
+    using enum dom::detail::dom_exception_error_t;
+
     // create a signal, and abort it after a timer has executed (TODO https://dom.spec.whatwg.org/#dom-abortsignal-timeout)
     auto signal = abort_signal{};
     JS_REALM_GET_RELEVANT(signal);
@@ -50,19 +55,27 @@ auto dom::abort::abort_signal::timeout(
 auto dom::abort::abort_signal::throw_if_aborted()
         -> void
 {
+    ACCESS_PIMPL(abort_signal);
+    using enum dom::detail::dom_exception_error_t;
+
     // if the reason attribute has been set, throw a v8 exception
     detail::throw_v8_exception_formatted<ABORT_ERR>(
             [this] {return detail::is_signal_aborted(this);},
-            d_ptr->abort_reason);
+            d->abort_reason->to<dom::other::dom_exception>()->d_func()->message);
 }
 
 
 auto dom::abort::abort_signal::get_aborted() const -> ext::boolean
-{return detail::is_signal_aborted(this);}
+{
+    return detail::is_signal_aborted(this);
+}
 
 
 auto dom::abort::abort_signal::get_reason() const -> ext::any
-{return d_ptr->abort_reason;}
+{
+    ACCESS_PIMPL(const abort_signal);
+    return d->abort_reason;
+}
 
 
 auto dom::abort::abort_signal::to_v8(

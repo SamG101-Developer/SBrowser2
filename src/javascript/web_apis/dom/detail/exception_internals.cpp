@@ -50,7 +50,7 @@ auto dom::detail::throw_v8_exception(
 }
 
 
-template <dom_exception_error_t exception_type, typename ...T>
+template <dom::detail::dom_exception_error_t exception_type, typename ...T>
 auto dom::detail::throw_v8_exception_formatted(
         exception_condiditional_t&& condition,
         const ext::string& description,

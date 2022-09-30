@@ -4,8 +4,9 @@
 #include "dom_object.hpp"
 namespace dom::mixins {class parentable_node;}
 
-#include "ext/vector.hpp"
+#include "ext/ranges.hpp"
 #include "ext/type_traits.hpp"
+#include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
@@ -22,15 +23,15 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    template <type_is<nodes::node*, ext::string> ...T> auto prepend(T&&... nodes) -> nodes::node*;
-    template <type_is<nodes::node*, ext::string> ...T> auto append(T&&... nodes) -> nodes::node*;
-    template <type_is<nodes::node*, ext::string> ...T> auto replace_children(T&&... nodes) -> nodes::node*;
+    template <ext::type_is<nodes::node*, ext::string> ...T> auto prepend(T&&... nodes) -> nodes::node*;
+    template <ext::type_is<nodes::node*, ext::string> ...T> auto append(T&&... nodes) -> nodes::node*;
+    template <ext::type_is<nodes::node*, ext::string> ...T> auto replace_children(T&&... nodes) -> nodes::node*;
 
     auto query_selector(ext::string_view selectors) -> nodes::element*; // TODO: return type
     auto query_selector_all(ext::string_view selectors) -> ext::vector<nodes::element*>; // TODO: return type
 
 private js_properties:
-    DEFINE_GETTER(children, ranges::any_view<nodes::element*>);
+    DEFINE_GETTER(children, ranges::any_helpful_view<nodes::element*>);
     DEFINE_GETTER(first_element_child, nodes::element*);
     DEFINE_GETTER(last_element_child, nodes::element*);
     DEFINE_GETTER(child_element_count, ext::number<size_t>);

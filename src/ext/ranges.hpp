@@ -309,6 +309,9 @@ namespace ranges
 {
     template <category C = category::input, typename ...Args>
     auto make_any_view(Args&&... args) -> any_view<_EXT nth_variadic_type_t<0, Args...>, C>;
+
+    template <typename Ref, ranges::category C = ranges::category::none>
+    using any_helpful_view = ranges::any_view<Ref, ranges::category::forward | ranges::category::sized | C>;
 }
 
 

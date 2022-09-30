@@ -23,9 +23,9 @@ auto dom::detail::signal_abort(
     return_if(detail::is_signal_aborted(signal));
 
     // abort the signal, execute all the abort algorithms, and clear the list of algorithms
-    signal->d_ptr->abort_reason = reason;
-    signal->d_ptr->abort_algorithms | ranges::views::for_each(ext::invoke{});
-    signal->d_ptr->abort_algorithms.clear();
+    signal->d_func()->abort_reason = reason;
+    signal->d_func()->abort_algorithms | ranges::views::for_each(ext::invoke{});
+    signal->d_func()->abort_algorithms.clear();
 
     // fire an event to notify that the signal abort has happened; the event is directed at the signal that has
     // been aborted
@@ -43,8 +43,8 @@ auto dom::detail::follow_signal(
     // abort the following signal if the parent signal has aborted, otherwise when the parent signal does abort, tell
     // the following signal to abort as well, using the reason of the parent signal
     detail::is_signal_aborted(parent_signal)
-            ? signal_abort(following_signal, parent_signal->get_reason())
-            : parent_signal->d_ptr->abort_algorithms.push_back(
+            ? signal_abort(following_signal, parent_signal->d_func()->abort_reason)
+            : parent_signal->d_func()->abort_algorithms.push_back(
                     [&following_signal, &parent_signal]
-                    {signal_abort(following_signal, parent_signal->get_reason());});
+                    {signal_abort(following_signal, parent_signal->d_func()->abort_reason);});
 }

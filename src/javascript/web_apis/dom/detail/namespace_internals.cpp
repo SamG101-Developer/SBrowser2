@@ -32,6 +32,7 @@ auto dom::detail::validate_and_extract(
     // perform some checks on the prefix, namespace and qualified names, to make sure everything is valid, such as the
     // namespace and prefix can't both be empty, and certain variables have to conform to certain constraints,
     // especially concerning xml / xmlns prefixing
+    using enum dom::detail::dom_exception_error_t;
 
     throw_v8_exception_formatted<NAMESPACE_ERR>(
             [prefix, namespace_] {return prefix.empty() && namespace_.empty();},

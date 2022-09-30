@@ -30,7 +30,7 @@ struct hash
         // FNV-1a 64 bit algorithm
         size_t result = 0xcbf29ce484222325; // FNV offset basis
 
-        for (char c : object) {
+        for (char c: object) {
             result ^= c;
             result *= 1099511628211; // FNV prime
         }

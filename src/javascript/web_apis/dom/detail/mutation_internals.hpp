@@ -30,7 +30,7 @@ namespace dom::detail
     // pre-insertion and -removal
     auto pre_insert(
             std::unique_ptr<nodes::node> node,
-            const nodes::node* parent,
+            nodes::node* parent,
             const nodes::node* child)
             -> nodes::node*;
 
@@ -42,24 +42,24 @@ namespace dom::detail
     // general mutations
     auto insert(
             std::unique_ptr<nodes::node> node,
-            const nodes::node* parent,
+            nodes::node* parent,
             const nodes::node* child,
             ext::boolean  suppress_observers_flag = false)
             -> nodes::node*;
 
     auto append(
             std::unique_ptr<nodes::node> node,
-            const nodes::node* parent)
+            nodes::node* parent)
             -> nodes::node*;
 
     auto replace(
-            const nodes::node* node,
+            std::unique_ptr<nodes::node> node,
             const nodes::node* parent,
-            std::unique_ptr<nodes::node> child)
+            nodes::node* child)
             -> nodes::node*;
 
     auto replace_all(
-            const nodes::node* node,
+            std::unique_ptr<nodes::node> node,
             const nodes::node* parent)
             -> void;
 

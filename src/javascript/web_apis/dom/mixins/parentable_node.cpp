@@ -1,5 +1,6 @@
 #include "parentable_node.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/casting.hpp"
 #include "ext/ranges.hpp"
 
@@ -12,7 +13,7 @@
 #include <range/v3/view/remove.hpp>
 
 
-template <type_is<dom::nodes::node*, ext::string> ...T>
+template <ext::type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::parentable_node::prepend(
         T&&... nodes)
         -> nodes::node*
@@ -21,14 +22,14 @@ auto dom::mixins::parentable_node::prepend(
     // the child nodes list
     CE_REACTIONS_METHOD_DEF
         decltype(auto) base = ext::cross_cast<nodes::node*>(this);
-        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
-        detail::pre_insert(node, base, base->child_nodes()->front());
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
+        detail::pre_insert(node, base, base->d_func()->child_nodes.front());
         return node;
     CE_REACTIONS_METHOD_EXE
 }
 
 
-template <type_is<dom::nodes::node*, ext::string> ...T>
+template <ext::type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::parentable_node::append(
         T&&... nodes)
         -> nodes::node*
@@ -37,14 +38,14 @@ auto dom::mixins::parentable_node::append(
     // child nodes list
     CE_REACTIONS_METHOD_DEF
         decltype(auto) base = ext::cross_cast<nodes::node*>(this);
-        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
-        detail::append(node, base, base->child_nodes()->front());
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
+        detail::append(node, base, base->d_func()->child_nodes.front());
         return node;
     CE_REACTIONS_METHOD_EXE
 }
 
 
-template <type_is<dom::nodes::node*, ext::string> ...T>
+template <ext::type_is<dom::nodes::node*, ext::string> ...T>
 auto dom::mixins::parentable_node::replace_children(
         T&&... nodes)
         -> nodes::node*
@@ -53,7 +54,7 @@ auto dom::mixins::parentable_node::replace_children(
     // validity of the node, at the end of the child nodes list
     CE_REACTIONS_METHOD_DEF
         decltype(auto) base = ext::cross_cast<nodes::node*>(this);
-        decltype(auto) node = detail::convert_nodes_into_node(base->owner_document(), std::forward<T>(nodes)...);
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
         detail::ensure_pre_insertion_validity(node, base, nullptr);
         detail::replace_all(node, base);
         return node;
@@ -61,25 +62,32 @@ auto dom::mixins::parentable_node::replace_children(
 }
 
 
-auto dom::mixins::parentable_node::get_children()
-        const -> ranges::any_view<nodes::element*>
+auto dom::mixins::parentable_node::get_children() const -> ranges::any_helpful_view<nodes::element*>
 {
-    decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-    decltype(auto) child_nodes = *base->child_nodes();
-    return child_nodes | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>();
+    ACCESS_PIMPL(const parentable_node);
+    return d->children;
 }
 
 
 auto dom::mixins::parentable_node::get_first_element_child() const -> nodes::element*
-{return get_children().front();}
+{
+    ACCESS_PIMPL(const parentable_node);
+    return d->children.front();
+}
 
 
 auto dom::mixins::parentable_node::get_last_element_child() const -> nodes::element*
-{return get_children().back();}
+{
+    ACCESS_PIMPL(const parentable_node);
+    return d->children.back();
+}
 
 
 auto dom::mixins::parentable_node::get_child_element_count() const -> ext::number<size_t>
-{return get_children().size();}
+{
+    ACCESS_PIMPL(const parentable_node);
+    return d->children.size();
+}
 
 
 auto dom::mixins::parentable_node::to_v8(

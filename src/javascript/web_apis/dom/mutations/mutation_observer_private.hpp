@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_OBSERVER_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_OBSERVER_PRIVATE_HPP
 
-#include "dom_object_private"
+#include "dom_object_private.hpp"
 
 #include "ext/pimpl.hpp"
 #include "ext/queue.hpp"
@@ -12,9 +12,9 @@ namespace dom::nodes {class node;}
 
 DEFINE_PRIVATE_CLASS(dom::mutations, mutation_observer) : virtual dom_object_private
 {
-    detail::mutation_callback_t m_callback;
-    ext::vector<nodes::node*> m_node_list;
-    ext::queue<mutations::mutation_record*> m_record_queue;
+    detail::mutation_callback_t callback;
+    ext::vector<nodes::node*> node_list;
+    ext::queue<std::unique_ptr<mutations::mutation_record>> record_queue;
 };
 
 

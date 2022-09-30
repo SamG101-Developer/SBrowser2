@@ -2,8 +2,10 @@
 
 #include "ext/optional.hpp"
 #include "ext/ranges.hpp"
-#include "html/_typedefs.hpp"
 #include "javascript/environment/realms_2.hpp"
+
+#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
@@ -13,20 +15,21 @@
 #include "dom/nodes/document.hpp"
 #include "dom/other/dom_implementation.hpp"
 
+#include "html/elements/html_slot_element.hpp"
+
 #include <magic_enum.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/map.hpp>
 #include <v8-function-callback.h>
 
-namespace html::elements {class html_slot_element;}
 
-
-auto dom::detail::notify_mutation_observers() -> void
+auto dom::detail::notify_mutation_observers()
+        -> void
 {
     // set the 'mutation_observer_microtask_queued' variable to false, and get the 'notify_set' (MutationObserver set),
     // and the signal set (HTMLSlotElement set). clear the 'signal_set' in the environment (clone is saved locally)
 
-    JS_REALM_GET_SURROUNDING(nullptr)
+    JS_REALM_GET_SURROUNDING(nullptr);
     using notify_set_t = ext::set<mutations::mutation_observer*>;
     using signal_set_t = ext::set<html::elements::html_slot_element*>;
 
@@ -41,23 +44,23 @@ auto dom::detail::notify_mutation_observers() -> void
         // empty the record queue in each MutationObserver, by swapping the list held in the pointer with an empty list;
         // the queue of records is now stored locally
         auto records = std::make_unique<ext::queue<mutations::mutation_record*>>();
-        mo->m_record_queue.swap(records);
+        mo->d_func()->record_queue.swap(records);
 
         // iterate each node in the MutationObserver's node list, and for each transient registered observer (a
         // registered observer who has a source) linked to the node, remove it if its observer is 'mo' - this means that
         // any observers whose 'observer' link is 'mo', and who belong to a node that is tied to 'mo' are removed
         // TODO : why?
-        for (const nodes::node* const node: *mo->m_node_list)
-            node->m_registered_observer_list = *node->m_registered_observer_list
-                    | ranges::views::cast_all_to<transient_registered_observer_t*>()
-                    | ranges::views::remove_if([mo](const transient_registered_observer_t* const observer) {return observer->observer.get() == mo;});
+        for (const nodes::node* const node: *mo->d_func()->node_list)
+            node->d_func()->registered_observer_list = node->d_func()->registered_observer_list
+                    | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<transient_registered_observer_t*>()
+                    | ranges::views::remove_if([mo](auto* observer) {return observer->observer.get() == mo;});
 
         // if there are any MutationRecords from the JavaScript environment, call 'mo''s callback with the list of
         // records, reporting any exceptions that are caught during the process
         if (!records->empty())
         {
             JS_EXCEPTION_HANDLER;
-            mo->m_callback(records, mo);
+            mo->d_func()->callback(records, mo);
 
             if (JS_EXCEPTION_HAS_THROWN)
                 console::reporting::report_exception(JS_EXCEPTION_MESSAGE)
@@ -65,8 +68,8 @@ auto dom::detail::notify_mutation_observers() -> void
     }
 
     // fire a "slotchange" event at every slot in the JavaScript environment list TODO : why
-    for (const html::elements::html_slot_element* const slot: signal_set)
-        fire_event(slot, "slotchange", {{"bubbles", true}});
+    for (decltype(auto) slot: signal_set)
+        fire_event("slotchange", slot, {{"bubbles", true}});
 }
 
 
@@ -78,7 +81,7 @@ auto dom::detail::queue_microtask(
         -> void
 {
     JS_BLOCK_ENTER
-        JS_REALM_GET_IMPLIED
+        JS_REALM_GET_IMPLIED;
         // set the 'event loop' and 'document' to the implied objects (via the implied realm) TODO
         event_loop = event_loop ? event_loop : implied_agent;
         document = document ? document : implied_document();
@@ -101,8 +104,8 @@ auto dom::detail::queue_mutation_record(
         const std::string& name,
         const std::string& namespace_,
         const std::string& old_value,
-        ext::vector<nodes::node*>&& added_nodes,
-        ext::vector<nodes::node*>&& removed_nodes,
+        ext::vector_span<nodes::node*> added_nodes,
+        ext::vector_span<nodes::node*> removed_nodes,
         nodes::node* previous_sibling,
         nodes::node* next_sibling)
         -> void
@@ -112,13 +115,13 @@ auto dom::detail::queue_mutation_record(
     // created a map of MutationObservers to strings, to save observers of interest, and get all the ancestors of the
     // target node, as these nodes' registered observer lists contains the MutationObserver objects that may be of
     // interest
-    ext::map<mutations::mutation_observer*, ext::string> interested_observers {};
+    auto interested_observers = ext::map<mutations::mutation_observer*, ext::string>{};
     auto nodes = ancestors(target);
 
     // iterate each MutationObserver for each node
     for (nodes::node* node: nodes)
     {
-        for (registered_observer_t* registered: *node->m_registered_observer_list)
+        for (registered_observer_t* registered: node->d_func()->registered_observer_list | ranges::views::transform(&std::unique_ptr<registered_observer_t>::get))
         {
             // if the conditions based on the 'type' and 'options' dictionary are valid, then modify the
             // 'interested_observers' map
@@ -151,17 +154,17 @@ auto dom::detail::queue_mutation_record(
     // and the 'mapped_old_value' string
     for (const auto& [observer, mapped_old_value]: interested_observers)
     {
-        mutations::mutation_record record;
-        record.type = magic_enum::enum_name(type) | ranges::views::lowercase();
-        record.attribute_name = name;
-        record.attribute_namespace = namespace_;
-        record.old_value = mapped_old_value;
-        record.target = target;
-        record.previous_sibling = previous_sibling;
-        record.next_sibling = next_sibling;
-        record.added_nodes = &added_nodes;
-        record.removed_nodes = &removed_nodes;
-        observer->m_record_queue->push(std::move(record));
+        auto record = std::make_unique<mutations::mutation_record>();
+        record->d_func()->type = magic_enum::enum_name(type) | ranges::views::lowercase() | ranges::to<ext::string>;
+        record->d_func()->attribute_name = name;
+        record->d_func()->attribute_namespace = namespace_;
+        record->d_func()->old_value = mapped_old_value;
+        record->d_func()->target = target;
+        record->d_func()->previous_sibling = previous_sibling;
+        record->d_func()->next_sibling = next_sibling;
+        record->d_func()->added_nodes = added_nodes;
+        record->d_func()->removed_nodes = removed_nodes;
+        observer->d_func()->record_queue.push(std::move(record));
     }
 
     // queue a mutation observers microtask
@@ -171,8 +174,8 @@ auto dom::detail::queue_mutation_record(
 
 auto dom::detail::queue_tree_mutation_record(
         nodes::node* const target,
-        const ext::vector<nodes::node*>& added_nodes,
-        const ext::vector<nodes::node*>& removed_nodes,
+        ext::vector_span<nodes::node*> added_nodes,
+        ext::vector_span<nodes::node*> removed_nodes,
         nodes::node* const previous_sibling,
         nodes::node* const next_sibling)
         -> void
@@ -189,7 +192,7 @@ auto dom::detail::queue_tree_mutation_record(
 
 auto dom::detail::queue_mutation_observer_microtask() -> void
 {
-    JS_REALM_GET_SURROUNDING(nullptr)
+    JS_REALM_GET_SURROUNDING(nullptr);
 
     // get if the surrounding global object's 'mutation_observer_microtask_queued' attribute is set to true; return
     // early if it is, otherwise set it to true, and queue a microtask to 'notify_mutation_observers()'
@@ -210,7 +213,7 @@ auto dom::detail::queue_task(
         -> void
 {
     JS_BLOCK_ENTER
-        JS_REALM_GET_IMPLIED
+        JS_REALM_GET_IMPLIED;
         event_loop = event_loop ? event_loop : implied_agent;
         document = document ? document : implied_document();
 
@@ -232,8 +235,8 @@ auto dom::detail::queue_global_task(
         F&& steps)
         -> void
 {
-    JS_REALM_GET_RELEVANT(global_object)
-    const auto* const document = javascript::environment::realms::get<ext::string>(global_object, "type") == "Window"
+    JS_REALM_GET_RELEVANT(global_object);
+    decltype(auto) document = javascript::environment::realms::get<ext::string>(global_object, "type") == "Window"
                      ? javascript::environment::realms::get<nodes::document*>(global_object, "associated_document")
                      : nullptr;
 
@@ -248,6 +251,6 @@ auto dom::detail::queue_element_task(
         F&& steps)
         -> void
 {
-    JS_REALM_GET_RELEVANT(element)
+    JS_REALM_GET_RELEVANT(element);
     queue_global_task(task_source, element_relevant_global_object, std::forward<F>(steps));
 }

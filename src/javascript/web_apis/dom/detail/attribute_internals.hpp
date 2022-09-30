@@ -26,7 +26,7 @@ namespace dom::detail
             -> nodes::attr*;
 
     auto append(
-            nodes::attr* attribute,
+            std::unique_ptr<nodes::attr>&& attribute,
             nodes::element* new_owner_element)
             -> nodes::attr*;
 
@@ -36,7 +36,7 @@ namespace dom::detail
 
     auto replace(
             nodes::attr* old_attribute,
-            nodes::attr* new_attribute)
+            std::unique_ptr<nodes::attr>&& new_attribute)
             -> nodes::attr*;
 
     auto create(
@@ -45,11 +45,11 @@ namespace dom::detail
             const ext::string& value = "",
             const ext::string& prefix = "",
             nodes::document* owner_document = nullptr)
-            -> nodes::attr;
+            -> std::unique_ptr<nodes::attr>;
 
     auto set_attribute(
             nodes::element* new_owner_element,
-            nodes::attr* attribute)
+            std::unique_ptr<nodes::attr> attribute)
             -> nodes::attr*;
 
     auto remove_attribute(

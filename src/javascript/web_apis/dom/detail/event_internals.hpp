@@ -10,8 +10,9 @@
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
 #include "ext/type_traits.hpp"
-#include INCLUDE_INNER_TYPES(dom)
+#include "ext/span.hpp"
 #include <range/v3/view/any_view.hpp>
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::events {class event;}
 namespace dom::nodes {class event_target;}
 
@@ -52,12 +53,12 @@ namespace dom::detail
 
     auto inner_invoke(
             events::event* event,
-            ext::vector_view<ext::map<ext::string, ext::any>> event_listeners,
+            ext::vector_span<ext::map<ext::string, ext::any>> event_listeners,
             ext::number<uchar> phase,
             ext::boolean  invocation_target_in_shadow_tree)
             -> void;
 
-    template <inherit<events::event> T=events::event>
+    template <ext::inherit<events::event> T=events::event>
     auto fire_event(
             ext::string&& e,
             nodes::event_target* target,

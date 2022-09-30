@@ -2,6 +2,7 @@
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/expected.hpp"
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
@@ -20,7 +21,7 @@ namespace dom::detail
     auto element_interface(
             ext::string_view local_name,
             ext::string_view namespace_)
-            -> nodes::element*;
+            -> std::unique_ptr<nodes::element>;
 
     // custom element creation and upgrading
     auto create_an_element(
@@ -30,7 +31,7 @@ namespace dom::detail
             const ext::string& prefix = "",
             const ext::string& is = "",
             ext::boolean  synchronous_custom_elements_flag = false)
-            -> nodes::element*;
+            -> std::unique_ptr<nodes::element>;
 
     auto upgrade_element(
             const custom_element_definition_t& definition,
@@ -46,7 +47,7 @@ namespace dom::detail
             ext::string_view namespace_,
             ext::string_view local_name,
             ext::string_view is)
-            -> ext::optional<custom_element_definition_t&>;
+            -> ext::expected<custom_element_definition_t&>;
 
     // enqueue methods for custom elements
     auto enqueue_element_on_appropriate_element_queue(

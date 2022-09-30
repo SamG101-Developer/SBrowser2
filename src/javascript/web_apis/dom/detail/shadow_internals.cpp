@@ -43,7 +43,7 @@ auto dom::detail::is_assigned(
         -> ext::boolean
 {
     // 'node_a' is assigned if it is a slottable whose assigned slot is not nullptr
-    return node_a && is_slottable(node_a) && dynamic_cast<const mixins::slottable*>(node_a)->assigned_slot();
+    return node_a && is_slottable(node_a) && dynamic_cast<const mixins::slottable*>(node_a)->d_func()->ssigned_slot;
 }
 
 
@@ -71,7 +71,7 @@ auto dom::detail::is_shadow_host(
 {
     // 'node_a' is a shadow host if it has the 'shadow_root_node' attribute set
     const auto* const element = dynamic_cast<const nodes::element*>(node_a);
-    return element && element->shadow_root_node();
+    return element && element->d_func()->shadow_root;
 }
 
 
