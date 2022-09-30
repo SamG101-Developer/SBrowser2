@@ -27,7 +27,7 @@ auto media::capabilities::media_capabilities::decoding_info(
     if (configuration.contains("keySystemConfiguration") && secure_contexts::detail::is_environment_settings_object_in_secure_context(current_settings_object))
         return promise.reject(dom::other::dom_exception{"Global environment settings must be in a secure context", SECURITY_ERR});;
 
-    go [&promise, configuration = std::move(configuration)] mutable
+    GO [&promise, configuration = std::move(configuration)] mutable
     {
         promise.resolve(detail::create_media_capabilities_decoding_info(std::move(configuration)));
     };
@@ -46,7 +46,7 @@ auto media::capabilities::media_capabilities::encoding_info(
     if (!detail::is_valid_media_configuration(std::move(configuration)))
         return promise.reject(v8::Exception::TypeError(v8pp::to_v8(current_agent, "Invalid 'configuration'")));
 
-    go [&promise, configuration = std::move(configuration)] mutable
+    GO [&promise, configuration = std::move(configuration)] mutable
     {
         promise.resolve(detail::create_media_capabilities_encoding_info(std::move(configuration)));
     };

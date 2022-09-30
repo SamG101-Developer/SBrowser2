@@ -31,7 +31,7 @@ auto mediacapture::main::media_devices::enumerate_devices()
     // create a promise object that will be returned
     ext::promise<ext::vector<media_device_info*>> promise;
 
-    go [this, &promise]
+    GO [this, &promise]
     {
         // get the associated document of the relevant global object, and then wait until enumeration can proceed; this
         // would require the Document to be fully active and focused, so these are the conditions that are being waited
@@ -88,7 +88,7 @@ auto mediacapture::main::media_devices::get_user_media(
     return_if (ranges::contains(requested_media_types, "audio") && !html::detail::allowed_to_use(document, "audio")) permission_failure();
     return_if (ranges::contains(requested_media_types, "video") && !html::detail::allowed_to_use(document, "video")) permission_failure();
     
-    go [document, requested_media_types = std::move(requested_media_types)] mutable
+    GO [document, requested_media_types = std::move(requested_media_types)] mutable
     {
         while (!dom::detail::is_document_fully_active(document) /* TODO : and wait for Document to have focus */) continue;
         ext::set<ext::string> final_set;

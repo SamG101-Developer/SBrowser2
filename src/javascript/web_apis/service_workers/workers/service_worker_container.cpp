@@ -57,7 +57,7 @@ auto service_workers::workers::service_worker_container::get_registration(
     return_if (!parsed_client_url.has_value()) promise.reject(v8::Exception::TypeError(v8pp::to_v8(this_relevant_agent, "TODO")));
     return_if (url::detail::origin(*parsed_client_url) != html::detail::origin(v8pp::to_v8(this_relevant_agent, client))) promise.reject(dom::other::dom_exception{"TODO", SECURITY_ERR});
 
-    go [&promise, storage_key = std::move(storage_key), parsed_client_url = std::move(*parsed_client_url)] mutable
+    GO [&promise, storage_key = std::move(storage_key), parsed_client_url = std::move(*parsed_client_url)] mutable
     {
         decltype(auto) registration = detail::match_service_worker_registration(std::move(storage_key), std::move(parsed_client_url));
         promise.resolve(!registration ? nullptr : detail::get_the_service_worker_registration(this_relevant_settings_object, registration));
@@ -77,7 +77,7 @@ auto service_workers::workers::service_worker_container::get_registrations()
     auto client_storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(this_relevant_agent, client));
     auto promise = ext::promise<const ext::vector<service_worker_registration>>{};
 
-    go [&promise, storage_key = std::move(client_storage_key)]
+    GO [&promise, storage_key = std::move(client_storage_key)]
     {
         // TODO
     };
@@ -98,7 +98,7 @@ auto service_workers::workers::service_worker_container::get_ready() const -> ex
 {
     ACCESS_PIMPL(const service_worker_container);
 
-    if (d->ready_promise.is_pending) go [this, d]
+    if (d->ready_promise.is_pending) GO [this, d]
     {
         JS_REALM_GET_RELEVANT(this);
 

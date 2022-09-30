@@ -99,7 +99,7 @@ auto html::elements::html_canvas_element::to_blob(
             ? detail::blob_callback_param_t{auto{*m_bitmap}}
             : detail::blob_callback_param_t{ext::variant_monostate_t{}};
 
-    go [type, &result, quality = std::move(quality), callback = std::move(callback)] mutable
+    GO [type, &result, quality = std::move(quality), callback = std::move(callback)] mutable
     {
         result = ext::holds_alternative<ext::nullopt_t>(result)
                 ? detail::serialization_of_bitmap_as_file(type, std::move(quality))

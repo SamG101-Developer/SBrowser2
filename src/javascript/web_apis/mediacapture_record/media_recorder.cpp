@@ -54,7 +54,7 @@ auto mediacapture::record::media_recorder::start(
     // TODO: constrain bits
     // TODO: lots
 
-    go []
+    GO []
     {
         // TODO
     };

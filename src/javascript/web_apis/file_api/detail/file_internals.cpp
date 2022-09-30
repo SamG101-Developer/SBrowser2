@@ -31,7 +31,7 @@ auto file_api::detail::read_operation(
     auto chunk_promise = streams::detail::read_chunk(&stream, &reader);
     auto is_first_chunk = ext::boolean::TRUE_();
 
-    go [file_reader, &is_first_chunk]
+    GO [file_reader, &is_first_chunk]
     {
         while (true)
         {

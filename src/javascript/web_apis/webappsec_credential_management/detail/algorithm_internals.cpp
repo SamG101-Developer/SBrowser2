@@ -70,7 +70,7 @@ auto webappsec::detail::request_credential(
 
     // TODO: publicKey (need to do spec first
 
-    go [is_same_origin_with_ancestors, &origin, &promise, &options] mutable
+    GO [is_same_origin_with_ancestors, &origin, &promise, &options] mutable
     {
         JS_EXCEPTION_HANDLER;
         decltype(auto) credentials = collect_credentials(origin, std::move(options), is_same_origin_with_ancestors);
@@ -120,7 +120,7 @@ auto webappsec::detail::store_credential(
     auto is_same_origin_with_ancestors = same_origin_with_ancestors(current_settings_object);
     auto promise = ext::promise<credential_management::credential*>{};
 
-    go [credential, is_same_origin_with_ancestors, &promise]
+    GO [credential, is_same_origin_with_ancestors, &promise]
     {
         JS_EXCEPTION_HANDLER;
         decltype(auto) result = credential->s_store(credential, is_same_origin_with_ancestors);

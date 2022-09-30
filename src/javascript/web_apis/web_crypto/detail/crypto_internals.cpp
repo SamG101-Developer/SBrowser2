@@ -33,7 +33,7 @@ auto web_crypto::detail::common_crypto(
 
     return_if (JS_EXCEPTION_HAS_THROWN) promise.reject(JS_EXCEPTION);
 
-    go [key, usage, &promise, &normalized_algorithm] mutable
+    GO [key, usage, &promise, &normalized_algorithm] mutable
     {
         JS_EXCEPTION_HANDLER;
 

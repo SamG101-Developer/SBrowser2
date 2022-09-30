@@ -29,7 +29,7 @@ auto geolocation::geolocation::get_current_position(
         return;
     }
 
-    go [
+    GO [
             success_callback = std::move(success_callback),
             error_callback = std::move(error_callback),
             options = std::move(options)]
@@ -57,7 +57,7 @@ auto geolocation::geolocation::watch_position(
     auto watch_id = ext::number<ulong>::random();
     s_watch_ids().emplace_back(std::move(watch_id));
 
-    go [
+    GO [
             success_callback = std::move(success_callback),
             error_callback = std::move(error_callback),
             options = std::move(options),

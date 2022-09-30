@@ -29,7 +29,7 @@ auto contact_picker::contacts_manager::get_properties()
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
     ext::promise<ext::vector<detail::contact_property_t>> promise;
-    go [properties = d_ptr->supported_properties, &promise] mutable {promise.resolve(std::move(properties));};
+    GO [properties = d_ptr->supported_properties, &promise] mutable {promise.resolve(std::move(properties));};
     return promise;
 }
 
@@ -90,7 +90,7 @@ auto contact_picker::contacts_manager::select(
 
     // In another thread (so GUI is non-blocking), begin the selection process to select a contact from the contacts
     // picker.
-    go [options, &promise, &relevant_browsing_context, &properties]
+    GO [options, &promise, &relevant_browsing_context, &properties]
     {
         // Launch the contacts picker with the 'multiple' boolean option from the 'options', with the resulting selected
         // contact being 'selected_contacts' -- this is potentially thread blocking, because of the gUI, which is why

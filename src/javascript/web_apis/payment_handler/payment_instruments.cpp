@@ -12,7 +12,7 @@ auto payment::handler::payment_instruments::delete_(
     ACCESS_PIMPL(payment_instruments);
 
     auto promise = ext::promise<ext::boolean>{};
-    go [&promise, &instrument_key, d] {promise.resolve(ranges::remove(d->map, instrument_key));};
+    GO [&promise, &instrument_key, d] {promise.resolve(ranges::remove(d->map, instrument_key));};
     return promise;
 }
 
@@ -24,7 +24,7 @@ auto payment::handler::payment_instruments::get(
     ACCESS_PIMPL(const payment_instruments);
 
     auto promise = ext::promise<ext::any>{};
-    go [&promise, &instrument_key, d] {d->map.contains(instrument_key) && promise.resolve(d->map.at(instrument_key));};
+    GO [&promise, &instrument_key, d] {d->map.contains(instrument_key) && promise.resolve(d->map.at(instrument_key));};
     return promise;
 }
 
@@ -35,7 +35,7 @@ auto payment::handler::payment_instruments::keys()
     ACCESS_PIMPL(const payment_instruments);
 
     auto promise = ext::promise<ext::vector<ext::string>>{};
-    go [&promise, d] {promise.resolve(d->map | ranges::views::keys | ranges::to<ext::vector<ext::string>>);};
+    GO [&promise, d] {promise.resolve(d->map | ranges::views::keys | ranges::to<ext::vector<ext::string>>);};
     return promise;
 }
 
@@ -47,7 +47,7 @@ auto payment::handler::payment_instruments::has(
     ACCESS_PIMPL(const payment_instruments);
 
     auto promise = ext::promise<ext::boolean>{};
-    go [&promise, &instrument_key, d] {promise.resolve(d->map.contains(instrument_key));};
+    GO [&promise, &instrument_key, d] {promise.resolve(d->map.contains(instrument_key));};
     return promise;
 }
 
@@ -58,6 +58,6 @@ auto payment::handler::payment_instruments::clear()
     ACCESS_PIMPL(const payment_instruments);
 
     auto promise = ext::promise<void>{};
-    go [&promise, d] {d->map.clear(); promise.resolve();};
+    GO [&promise, d] {d->map.clear(); promise.resolve();};
     return promise;
 }

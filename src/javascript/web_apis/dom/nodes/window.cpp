@@ -25,7 +25,7 @@ auto dom::nodes::window::request_idle_callback(
 
     // Run the rest of the method in another thread (which is saved into a class list, so doesn't go out of scope), and
     // return the handle in the background
-    go [this, options = std::move(options), &handle]
+    GO [this, options = std::move(options), &handle]
     {
         // Save the current thread into the list of threads in the class to keep it in scope once the method
         // ends.

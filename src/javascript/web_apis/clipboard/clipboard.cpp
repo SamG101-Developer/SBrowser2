@@ -30,7 +30,7 @@ auto clipboard::clipboard::read()
 
     // Run the following steps in parallel, because they can be blocking (there are calls to enqueue steps on different
     // task sources, such as retrieving the contents of the clipboard)
-    go [&promise]
+    GO [&promise]
     {
         // Check if the user agent is allowed to read from the clipboard (uses Permissions API internally)
         auto allowed_to_read = detail::check_clipboard_read_permission();
@@ -67,7 +67,7 @@ auto clipboard::clipboard::read_text()
 
     // Run the following steps in parallel, because they can be blocking (there are calls to enqueue steps on different
     // task sources, such as retrieving the contents of the clipboard)
-    go [&promise]
+    GO [&promise]
     {
         // Check if the user agent is allowed to read from the clipboard (uses Permissions API internally)
         auto allowed_to_read = detail::check_clipboard_read_permission();

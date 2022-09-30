@@ -61,7 +61,7 @@ auto html::other::navigator::set_client_badge(
         -> ext::promise<void>
 {
     // Run an algorithm in parallel that handles setting the badge of the Document.
-    go [this, &contents]
+    GO [this, &contents]
     {
         JS_REALM_GET_RELEVANT(this);
         auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
@@ -80,7 +80,7 @@ auto html::other::navigator::set_client_badge(
 auto html::other::navigator::clear_client_badge()
         -> ext::promise<void>
 {
-    go [this]
+    GO [this]
     {
         JS_REALM_GET_RELEVANT(this);
         auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");

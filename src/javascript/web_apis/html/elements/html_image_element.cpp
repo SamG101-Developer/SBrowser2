@@ -56,7 +56,7 @@ auto html::elements::html_image_element::decode()
         // otherwise, the document is fully active, so the process to try and decode the image can begin
         // run the loop (which can wait for a bit of time) in a separate thread - this is because the waiting
         // process would otherwise block the main thread
-        go [this, &promise]
+        GO [this, &promise]
         {
             // save the data of the image, so that the loop can check if the current requests image data has
             // mutated, as this is a reason to break from the loop

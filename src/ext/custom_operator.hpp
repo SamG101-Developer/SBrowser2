@@ -72,7 +72,7 @@ custom_operator(go)
 {
     std::jthread _thread{b};
 }
-#define go 0 <go>
+#define GO 0 <go>
 
 
 // postfix unary operators

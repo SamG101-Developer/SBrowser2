@@ -71,7 +71,7 @@ auto css::cssom::style_sheets::css_style_sheet::replace(
 
     m_style_sheet->disallow_modifications_flag = true;
 
-    go [this, text, &promise]
+    GO [this, text, &promise]
     {
         auto rules = detail::parse_list_of_rules(text).value_or(detail::parse_result_t::value_type{});
         rules |= ranges::actions::remove_if([](detail::parse_result_t::value_type::value_type& token) {return token[ext::tag<1>()].starts_with("@import");});
