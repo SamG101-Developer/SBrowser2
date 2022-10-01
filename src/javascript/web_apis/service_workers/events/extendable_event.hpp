@@ -7,22 +7,20 @@ namespace service_workers::events {class extendable_event;}
 
 #include "ext/promise.hpp"
 
+#include "extendable_event_private.hpp"
+
 
 class service_workers::events::extendable_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(extendable_event);
     extendable_event() = default;
     extendable_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(extendable_event);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto wait_until(ext::promise<ext::any>&& f);
-
-private cpp_properties:
-    ext:vector<ext::promise<ext::any>> m_extend_lifetime_promises;
-    ext::number<size_t> m_pending_promises_count;
-    ext::boolean timed_out_flag;
+    auto wait_until(ext::promise<ext::any>&& f) -> void;
 };
 
 
