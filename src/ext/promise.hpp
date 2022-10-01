@@ -11,59 +11,42 @@
 _EXT_BEGIN
 
 
-template <typename ...Ts>
+template <typename T>
 class promise
 {
 public:
-    template <typename U>
-    auto resolve(U&& value) -> promise<Ts...>&
-    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<U>(value))); return *this;};
+    auto resolve(T&& value) -> promise<T>&
+    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<T>(value))); return *this;};
 
-    template <typename U>
-    auto reject(U&& exception) -> promise<Ts...>&
-    {m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<U>(exception))); return *this;}
+    auto resolve() requires std::is_same_v<T, void>
+    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent())); return *this;}
+
+    template <typename E>
+    auto reject(E&& exception) -> promise<T>&
+    {m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<E>(exception))); return *this;}
 
     template <callable F0, callable F1>
-    auto react(F0&& fulfilled_steps, F1&& rejected_steps = []{}) -> promise<Ts...>&;
+    auto react(F0&& fulfilled_steps, F1&& rejected_steps = []{}) -> promise<T>&;
 
-    ext::boolean is_resolved = false;
-    ext::boolean is_rejected = false;
-    ext::boolean is_pending = false;
+    auto pending() -> ext::boolean {return !(m_is_resolved || m_is_rejected);}
+
+    ext::function<void()> rejection_steps;
+    ext::function<void()> fulfillment_steps;
 
 private:
+    ext::boolean m_is_resolved = false;
+    ext::boolean m_is_rejected = false;
+
     v8::Local<v8::Promise::Resolver> m_v8_promise;
 };
 
 
-template <>
-class promise<void>
-{
-public:
-    auto resolve() -> promise<void>&
-    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent())); return *this;};
-
-    template <typename U>
-    auto reject(U&& exception) -> promise<void>&
-    {m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<U>(exception))); return *this;}
-
-    template <callable F0, callable F1>
-    auto react(F0&& fulfilled_steps, F1&& rejected_steps = []{}) -> promise<void>&;
-
-    ext::boolean is_resolved = false;
-    ext::boolean is_rejected = false;
-    ext::boolean is_pending = false;
-
-private:
-    v8::Local<v8::Promise::Resolver> m_v8_promise;
-};
-
-
-template <typename ...Ts>
+template <typename T>
 template <callable F0, callable F1>
-auto promise<Ts...>::react(
+auto promise<T>::react(
         F0&& fulfilled_steps,
         F1&& rejected_steps)
-        -> promise<Ts...>&
+        -> promise<T>&
 {
     JS_REALM_GET_RELEVANT(this);
 

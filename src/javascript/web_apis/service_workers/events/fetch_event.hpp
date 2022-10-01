@@ -6,31 +6,28 @@
 namespace service_workers::events {class fetch_event;}
 namespace fetch {class request; class response;}
 
+#include "fetch_event_private.hpp"
+
 
 class service_workers::events::fetch_event
         : public extendable_event
 {
 public constructors:
-    DOM_CTORS(fetch_event);
     fetch_event() = default;
     fetch_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(fetch_event);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto respond_with(ext::promise<fetch::response*> r) -> void;
+    auto respond_with(ext::promise<fetch::response*>&& r) -> void;
 
 private js_properties:
-    ext::property<std::unique_ptr<fetch::request>> request;
-    ext::property<ext::promise<ext::any>> preload_response;
-    ext::property<ext::promise<void>> handled;
-    ext::property<ext::string> client_id;
-    ext::property<ext::string> resulting_client_id;
-    ext::property<ext::string> replaces_client_id;
-
-private cpp_properties:
-    std::unique_ptr<fetch::response> m_potential_response;
-    ext::boolean wait_to_response_flag;
-    ext::boolean respond_with_entered_flag;
-    ext::boolean respond_with_error_flag;
+    DEFINE_GETTER(request, fetch::request*);
+    DEFINE_GETTER(preload_response, const ext::promise<ext::any>&);
+    DEFINE_GETTER(handled, const ext::promise<void>&);
+    DEFINE_GETTER(client_id, ext::string_view);
+    DEFINE_GETTER(resulting_client_id, ext::string_view);
+    DEFINE_GETTER(replaces_client_id, ext::string_view);
 };
 
 

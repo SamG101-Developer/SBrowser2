@@ -7,6 +7,7 @@
 
 #include "ext/any.hpp"
 #include "ext/promise.hpp"
+#include "ext/string.hpp"
 #include "ext/vector.hpp"
 
 
