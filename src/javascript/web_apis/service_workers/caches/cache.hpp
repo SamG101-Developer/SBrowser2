@@ -5,22 +5,29 @@
 #include "dom_object.hpp"
 namespace service_workers::caches {class cache;}
 
+#include "ext/casting.hpp"
 #include "ext/promise.hpp"
+#include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)
 #include INCLUDE_INNER_TYPES(fetch)
+namespace fetch {class request;}
 namespace fetch {class response;}
+
+#include "cache_private.hpp"
+
 
 class service_workers::caches::cache
         : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(cache);
-    cache() = default;
+    MAKE_PIMPL(cache);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto match(fetch::detail::request_info_t request, detail::cache_query_options_t&& options = {}) -> ext::promise<fetch::response*>;
-    auto match_all(fetch::detail::request_info_t = nullptr, detail::cache_query_options_t&& options = {}) -> ext::promise<const ext::vector<fetch::response*>>;
-    auto keys(fetch::detail::request_info_t = nullptr, detail::cache_query_options_t&& options = {}) -> ext::promise<const ext::vector<fetch::request*>>;
+    auto match_all(fetch::detail::request_info_t, detail::cache_query_options_t&& options = {}) -> ext::promise<ext::vector_span<fetch::response*>>;
+    auto keys(fetch::detail::request_info_t, detail::cache_query_options_t&& options = {}) -> ext::promise<ext::vector_span<fetch::request*>>;
     auto add(fetch::detail::request_info_t request) -> ext::promise<void>;
     auto add_all(ext::vector<fetch::detail::request_info_t>& requests) -> ext::promise<void>;
     auto put(fetch::detail::request_info_t request, fetch::response* response) -> ext::promise<void>;
