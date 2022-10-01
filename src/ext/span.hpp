@@ -64,9 +64,10 @@ public constructors:
             , fixed_size{std::move(other.size())}
     {}
     
-    template <template <typename> typename Container> requires (
-            ext::type_is<decltype(Container<T>::begin()), BeginIter> &&
-            ext::type_is<decltype(Container<T>::end  ()), EndIter>)
+    template <template <typename> typename Container>
+//            requires (
+//            ext::type_is<decltype(Container<T>::begin()), BeginIter> &&
+//            ext::type_is<decltype(Container<T>::end  ()), EndIter>)
     span(Container<T>&& other)
             : fixed_begin{ranges::begin(other)}
             , fixed_end{ranges::end(other)}
