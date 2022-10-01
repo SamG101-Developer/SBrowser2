@@ -3,7 +3,7 @@
 
 #include "ext/promise.hpp"
 #include "ext/string.hpp"
-#include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::clients {class client;}
 namespace service_workers::clients {class window_client;}
@@ -20,7 +20,7 @@ namespace service_workers::detail
             -> clients::window_client;
 
     auto get_frame_type(
-            const dom::detail::browsing_context_t& browsing_context)
+            const html::detail::browsing_context_t& browsing_context)
             -> ext::string;
 
     auto resolve_get_client_promise(
@@ -28,5 +28,12 @@ namespace service_workers::detail
             ext::promise<void>&& promise)
             -> void;
 }
+
+
+struct service_workers::detail::service_worker_client_t
+{
+    ext::boolean discarded_flag;
+//    client_private() {environment_discarding_steps = [this] {discarded_flag = true;};}
+};
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CLIENT_INTERNALS_HPP

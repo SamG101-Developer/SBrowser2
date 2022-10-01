@@ -46,13 +46,13 @@ public constructors:
             , fixed_size{0}
     {};
 
-    span(begin_iterator begin, end_iterator end)
+    span(const begin_iterator begin, const end_iterator end)
             : fixed_begin{begin}
             , fixed_end{end}
             , fixed_size{ranges::distance(begin, end)}
     {}
 
-    span(begin_iterator begin, size_type size)
+    span(const begin_iterator begin, size_type size)
             : fixed_begin{begin}
             , fixed_end{ranges::next(begin, size)}
             , fixed_size{size}

@@ -5,14 +5,14 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
+#include INCLUDE_INNER_TYPES(service_workers)
 #include "ext/boolean.hpp"
 
 
 DEFINE_PRIVATE_CLASS(service_workers::clients, client) : dom_object_private
 {
-    ext::boolean discarded_flag;
-
-    client_private() {environment_discarding_steps = [this] {discarded_flag = true;};}
+    std::unique_ptr<detail::service_worker_client_t> service_worker_client;
+    detail::frame_type_t frame_type;
 };
 
 

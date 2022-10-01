@@ -44,7 +44,7 @@ namespace service_workers::detail
             const service_worker_t& service_worker)
             -> workers::service_worker*;
 
-    auto get_the_service_worker_registration(
+    auto get_service_worker_registration(
             v8::Local<v8::Object> environment,
             const service_worker_registration_t& service_worker_registration)
             -> workers::service_worker_registration*;

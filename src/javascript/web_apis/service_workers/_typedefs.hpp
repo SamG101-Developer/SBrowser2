@@ -16,6 +16,7 @@ namespace fetch {class response;}
 
 namespace service_workers::detail
 {
+    struct service_worker_client_t;
     struct service_worker_timing_info_t;
     struct cache_batch_operation_t;
     struct job_t;

@@ -10,25 +10,24 @@ namespace service_workers::clients {class clients;}
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::workers {class service_worker_registration;}
 
+#include "service_worker_global_scope_private.hpp"
+
 
 class service_workers::workers::service_worker_global_scope
         : public html::workers::worker_global_scope
 {
 public constructors:
     DOM_CTORS(service_worker_global_scope);
-    service_worker_global_scope() = default;
+    MAKE_PIMPL(service_worker_global_scope);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto skip_waiting() -> ext::promise<void>;
 
 private js_properties:
-    ext::property<std::unique_ptr<clients::clients>> clients;
-    ext::property<std::unique_ptr<service_worker_registration>> registration;
-    ext::property<std::unique_ptr<service_worker>> service_worker;
-
-public cpp_properties:
-    std::unique_ptr<class service_worker> m_service_worker;
-    ext::boolean m_force_bypass_cache_for_import_scripts_flag = false;
+    DEFINE_GETTER(clients, clients::clients*);
+    DEFINE_GETTER(registration, service_worker_registration*);
+    DEFINE_GETTER(service_worker, service_worker*);
 };
 
 
