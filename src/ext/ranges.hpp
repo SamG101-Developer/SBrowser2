@@ -147,7 +147,7 @@ namespace ranges::views
     // example, the first line is simplified into the second line (syntactic sugar)
     //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;};
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
-    auto filter_eq = []<ranges::views::filter_compare_t Comparison, typename T, typename U, typename F>(T&& attribute, U&& value, F&& predicate = _EXT identity{})
+    auto filter_eq = []<ranges::views::filter_compare_t Comparison = filter_compare_t::EQ, typename T, typename U, typename F>(T&& attribute, U&& value, F&& predicate = _EXT identity{})
     {
         using enum filter_compare_t;
 

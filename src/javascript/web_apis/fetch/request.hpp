@@ -17,36 +17,34 @@ class fetch::request
 {
 public constructors:
     request(ext::variant<request*, ext::string> input, ext::map<ext::string, ext::any> init = {});
+    ~request() override = default;
 
 public js_methods:
     auto clone() -> request;
 
 private js_properties: // TODO : constrain attributes
-    ext::property<ext::string> method;
-    ext::property<ext::string> url;
-    ext::property<std::unique_ptr<headers>> headers_;
+    DEFINE_GETTER(method, ext::string);
+    DEFINE_GETTER(url, ext::string);
+    DEFINE_GETTER(headers, detail::headers_t); // TODO : view
 
-    ext::property<ext::string> destination;
-    ext::property<ext::string> referrer;
-    ext::property<ext::string> referrer_policy;
-    ext::property<ext::string> mode;
-    ext::property<ext::string> credentials;
-    ext::property<ext::string> cache;
-    ext::property<ext::string> redirect;
-    ext::property<ext::string> integrity;
-    ext::property<ext::boolean> keepalive;
-    ext::property<ext::boolean> is_reload_navigation;
-    ext::property<ext::boolean> is_history_navigation;
-    ext::property<std::unique_ptr<dom::abort::abort_signal>> signal;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_methods:
-    auto mime_type() -> ext::string;
-
-private cpp_properties:
-    std::unique_ptr<detail::request_t> m_request;
+    DEFINE_GETTER(destination, ext::string);
+    DEFINE_GETTER(referrer, ext::string);
+    DEFINE_GETTER(referrer_policy, ext::string);
+    DEFINE_GETTER(mode, ext::string);
+    DEFINE_GETTER(credentials, ext::string);
+    DEFINE_GETTER(cache, ext::string);
+    DEFINE_GETTER(redirect, ext::string);
+    DEFINE_GETTER(integrity, ext::string);
+    DEFINE_GETTER(keepalive, ext::boolean);
+    DEFINE_GETTER(is_reload_navigation, ext::boolean);
+    DEFINE_GETTER(is_history_navigation, ext::boolean);
+    DEFINE_GETTER(signal, dom::abort::abort_signal*);
+//
+//private cpp_methods:
+//    auto mime_type() -> ext::string;
+//
+//private cpp_properties:
+//    std::unique_ptr<detail::request_t> m_request;
 };
 
 

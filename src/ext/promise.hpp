@@ -26,7 +26,7 @@ public:
     {m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<E>(exception))); return *this;}
 
     template <callable F0, callable F1>
-    auto react(F0&& fulfilled_steps, F1&& rejected_steps = []{}) -> promise<T>&;
+    auto react(F0&& fulfilled_steps, F1&& rejected_steps = [] {}) -> promise<T>&;
 
     auto pending() -> ext::boolean {return !(m_is_resolved || m_is_rejected);}
 

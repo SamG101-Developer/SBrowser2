@@ -8,37 +8,28 @@ namespace service_workers::caches {class cache_storage;}
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(service_workers)
+namespace service_workers::caches {class cache;}
 namespace service_workers::clients {class client;}
 namespace fetch {class request;}
 namespace fetch {class response;}
+
+#include "cache_storage_private.hpp"
+
 
 class service_workers::caches::cache_storage
         : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(cache_storage);
-    cache_storage() = default;
+    MAKE_PIMPL(cache_storage);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto match(
-            fetch::detail::request_info_t request,
-            detail::multi_cache_query_options_t&& options = {})
-            -> ext::promise<fetch::response*>;
-
-    auto has(
-            ext::string_view cache_name)
-            -> ext::promise<ext::boolean>;
-
-    auto open(
-            ext::string_view cache_name)
-            -> ext::promise<caches::cache>;
-
-    auto delete_(
-            ext::string_view cache_name)
-            -> ext::promise<ext::boolean>;
-
-    auto keys()
-            -> ext::promise<ext::vector<ext::string>>;
+    auto match(fetch::detail::request_info_t request, detail::multi_cache_query_options_t&& options = {}) -> ext::promise<fetch::response*>;
+    auto has(ext::string_view cache_name) -> ext::promise<ext::boolean>;
+    auto open(ext::string_view cache_name) -> ext::promise<caches::cache>;
+    auto delete_(ext::string_view cache_name) -> ext::promise<ext::boolean>;
+    auto keys() -> ext::promise<ext::vector<ext::string>>;
 };
 
 
