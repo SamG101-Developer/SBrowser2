@@ -1,5 +1,6 @@
 #include "document_fragment.hpp"
 
+#include "dom/detail/customization_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 
@@ -7,6 +8,22 @@
 dom::nodes::document_fragment::document_fragment()
 {
     INIT_PIMPL(document_fragment);
+}
+
+
+auto dom::nodes::document_fragment::get_node_name() const -> ext::string
+{
+    CE_REACTIONS_METHOD_DEF
+        return "#document-fragment";
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto dom::nodes::document_fragment::get_node_value() const -> ext::string
+{
+    CE_REACTIONS_METHOD_DEF
+        return "";
+    CE_REACTIONS_METHOD_EXE
 }
 
 

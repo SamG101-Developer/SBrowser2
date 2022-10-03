@@ -434,8 +434,8 @@ auto dom::nodes::element::get_shadow_root() const -> nodes::shadow_root*
 }
 
 
-auto dom::nodes::element::get_attributes() const -> ext::vector_view<attr*>
+auto dom::nodes::element::get_attributes() const -> ext::vector_span<attr*>
 {
     ACCESS_PIMPL(const element);
-    return {d->attribute_list.begin(), d->attribute_list.end()};
+    return d->attribute_list
 }

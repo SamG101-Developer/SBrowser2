@@ -4,6 +4,7 @@
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/element.hpp"
+#include "node.hpp"
 
 
 dom::nodes::shadow_root::shadow_root()
@@ -17,6 +18,34 @@ dom::nodes::shadow_root::shadow_root()
                 return event->d_func()->composed && !event->d_func()->path.empty() && detail::root(dom_cast<node*>(event->d_func()->path[0]->invocation_target)) == this
                         ? nullptr : d->host;
             };
+}
+
+
+auto dom::nodes::shadow_root::get_host() const -> dom::nodes::element*
+{
+    ACCESS_PIMPL(const shadow_root);
+    return d->host;
+}
+
+
+auto dom::nodes::shadow_root::get_mode() const -> detail::shadow_root_mode_t
+{
+    ACCESS_PIMPL(const shadow_root);
+    return d->mode;
+}
+
+
+auto dom::nodes::shadow_root::get_slot_assignment() const -> detail::slot_assignment_mode_t
+{
+    ACCESS_PIMPL(const shadow_root);
+    return d->slot_assignment;
+}
+
+
+auto dom::nodes::shadow_root::get_delegates_focus() const -> ext::boolean
+{
+    ACCESS_PIMPL(const shadow_root);
+    return d->delegates_focus;
 }
 
 

@@ -1,9 +1,19 @@
 #include "cdata_section.hpp"
 
+#include "dom/detail/customization_internals.hpp"
+
 
 dom::nodes::character_data::character_data()
 {
     INIT_PIMPL(character_data);
+}
+
+
+auto dom::nodes::cdata_section::get_node_name() const -> ext::string
+{
+    CE_REACTIONS_METHOD_DEF
+        return "#cdata-section";
+    CE_REACTIONS_METHOD_EXE
 }
 
 

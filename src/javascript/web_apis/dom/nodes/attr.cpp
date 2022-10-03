@@ -13,29 +13,37 @@ dom::nodes::attr::attr()
 
 auto dom::nodes::attr::get_node_value() const -> ext::string
 {
-    ACCESS_PIMPL(const attr);
-    return d->value;
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const attr);
+        return d->value;
+    CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::attr::get_text_content() const -> ext::string
 {
-    ACCESS_PIMPL(const attr);
-    return d->value;
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const attr);
+        return d->value;
+    CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::attr::set_node_value(ext::string new_node_value) -> ext::string
 {
-    ACCESS_PIMPL(attr);
-    d->value = new_node_value;
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(attr);
+        d->value = new_node_value;
+    CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::attr::set_text_content(ext::string new_text_content) -> ext::string
 {
-    ACCESS_PIMPL(attr);
-    d->value = new_text_content;
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(attr);
+        d->value = new_text_content;
+    CE_REACTIONS_METHOD_EXE
 }
 
 

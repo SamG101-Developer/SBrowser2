@@ -21,8 +21,8 @@ public:
 
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_FRAGMENT_NODE;}
-    DEFINE_GETTER(node_name, ext::string) override {return "#document-fragment";}
-    DEFINE_GETTER(node_value, ext::string) override {return "";}
+    DEFINE_GETTER(node_name, ext::string) override;
+    DEFINE_GETTER(node_value, ext::string) override;
     DEFINE_GETTER(text_content, ext::string) override;
 
     DEFINE_SETTER(node_value, ext::string) override {}

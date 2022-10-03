@@ -1,5 +1,6 @@
 #include "comment.hpp"
 
+#include "dom/detail/customization_internals.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/window.hpp"
 
@@ -12,6 +13,14 @@ dom::nodes::comment::comment(ext::string&& new_data)
     JS_REALM_GET_RELEVANT(this);
     d->node_document = v8pp::from_v8<window*>(this_relevant_agent, this_relevant_global_object)->d_func()->document;
     d->data = std::move(new_data);
+}
+
+
+auto dom::nodes::comment::get_node_name() const -> ext::string
+{
+    CE_REACTIONS_METHOD_DEF
+        return "#comment";
+    CE_REACTIONS_METHOD_EXE
 }
 
 

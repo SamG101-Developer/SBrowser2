@@ -9,6 +9,13 @@ dom::nodes::processing_instruction::processing_instruction()
 }
 
 
+auto dom::nodes::processing_instruction::get_target() const -> ext::string
+{
+    ACCESS_PIMPL(const processing_instruction);
+    return d->target;
+}
+
+
 auto dom::nodes::processing_instruction::set_data(ext::string val) -> ext::string
 {
     ACCESS_PIMPL(processing_instruction);

@@ -70,29 +70,37 @@ auto dom::nodes::character_data::replace_data(
 
 auto dom::nodes::character_data::get_node_value() const -> ext::string
 {
-    ACCESS_PIMPL(const character_data);
-    return d->data;
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const character_data);
+        return d->data;
+    CE_REACTIONS_METHOD_EXE;
 }
 
 
 auto dom::nodes::character_data::get_text_content() const -> ext::string
 {
-    ACCESS_PIMPL(const character_data);
-    return d->data;
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const character_data);
+        return d->data;
+    CE_REACTIONS_METHOD_EXE;
 }
 
 
 auto dom::nodes::character_data::set_node_value(ext::string new_node_value) -> ext::string
 {
-    ACCESS_PIMPL(character_data);
-    replace_data(0, d->data.length(), std::move(new_node_value));
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(character_data);
+        replace_data(0, d->data.length(), std::move(new_node_value));
+    CE_REACTIONS_METHOD_EXE;
 }
 
 
 auto dom::nodes::character_data::set_text_content(ext::string new_text_content) -> ext::string
 {
-    ACCESS_PIMPL(character_data);
-    replace_data(0, d->data.length(), std::move(new_text_content));
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(character_data);
+        replace_data(0, d->data.length(), std::move(new_text_content));
+    CE_REACTIONS_METHOD_EXE;
 }
 
 

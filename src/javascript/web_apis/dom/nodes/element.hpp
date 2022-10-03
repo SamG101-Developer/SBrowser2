@@ -120,7 +120,7 @@ private js_properties:
     DEFINE_GETTER(slot, ext::string); // TODO : ce-reactions
     DEFINE_GETTER(id, ext::string); // TODO : ce-reactions
     DEFINE_GETTER(shadow_root, nodes::shadow_root*);
-    DEFINE_GETTER(attributes, ext::vector_view<attr*>);
+    DEFINE_GETTER(attributes, ext::vector_span<attr*>);
 
     /* [EDIT_CONTENT] */
     DEFINE_GETTER(edit_contxt, edit_context::edit_context*);
