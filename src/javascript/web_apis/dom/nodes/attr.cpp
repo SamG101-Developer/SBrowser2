@@ -11,6 +11,55 @@ dom::nodes::attr::attr()
 }
 
 
+auto dom::nodes::attr::get_node_value() const -> ext::string
+{
+    ACCESS_PIMPL(const attr);
+    return d->value;
+}
+
+
+auto dom::nodes::attr::get_text_content() const -> ext::string
+{
+    ACCESS_PIMPL(const attr);
+    return d->value;
+}
+
+
+auto dom::nodes::attr::set_node_value(ext::string new_node_value) -> ext::string
+{
+    ACCESS_PIMPL(attr);
+    d->value = new_node_value;
+}
+
+
+auto dom::nodes::attr::set_text_content(ext::string new_text_content) -> ext::string
+{
+    ACCESS_PIMPL(attr);
+    d->value = new_text_content;
+}
+
+
+auto dom::nodes::attr::get_namespace_uri() const -> ext::string
+{
+    ACCESS_PIMPL(const attr);
+    return d->namespace_;
+}
+
+
+auto dom::nodes::attr::get_prefix() const -> ext::string
+{
+    ACCESS_PIMPL(const attr);
+    return d->namespace_prefix;
+}
+
+
+auto dom::nodes::attr::get_local_name() const -> ext::string
+{
+    ACCESS_PIMPL(const attr);
+    return d->local_name;
+}
+
+
 auto dom::nodes::attr::get_name() const -> ext::string
 {
     return detail::qualified_name(this);
@@ -23,6 +72,13 @@ auto dom::nodes::attr::get_value() const -> ext::string
         ACCESS_PIMPL(const attr);
         return d->value;
     CE_REACTIONS_METHOD_EXE
+}
+
+
+auto dom::nodes::attr::get_owner_element() const -> element*
+{
+    ACCESS_PIMPL(const attr);
+    return d->element;
 }
 
 

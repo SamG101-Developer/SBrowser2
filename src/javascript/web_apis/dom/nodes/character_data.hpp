@@ -28,17 +28,17 @@ public js_methods:
 
 private js_properties:
     DEFINE_GETTER(node_name, ext::string) override {return "";};
-    DEFINE_GETTER(node_value, ext::string) override {return d_ptr->data;};
-    DEFINE_GETTER(text_content, ext::string) override {return d_ptr->data;};
+    DEFINE_GETTER(node_value, ext::string) override;
+    DEFINE_GETTER(text_content, ext::string) override;
 
-    DEFINE_SETTER(node_value, ext::string) override {return replace_data(0, d_ptr->data.length(), std::move(new_node_value));};
-    DEFINE_SETTER(text_content, ext::string) override {return replace_data(0, d_ptr->data.length(), std::move(new_text_content));};
+    DEFINE_SETTER(node_value, ext::string) override;
+    DEFINE_SETTER(text_content, ext::string) override;
 
 
-    DEFINE_GETTER(data, ext::string) {return d_ptr->data;}
-    DEFINE_GETTER(length, ext::number<ulong>) {return d_ptr->data.length();};
+    DEFINE_GETTER(data, ext::string);
+    DEFINE_GETTER(length, ext::number<ulong>);
 
-    DEFINE_SETTER(data, ext::string) {return d_ptr->data = std::move(new_data);}
+    DEFINE_SETTER(data, ext::string);
 };
 
 

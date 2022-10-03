@@ -68,6 +68,55 @@ auto dom::nodes::character_data::replace_data(
 }
 
 
+auto dom::nodes::character_data::get_node_value() const -> ext::string
+{
+    ACCESS_PIMPL(const character_data);
+    return d->data;
+}
+
+
+auto dom::nodes::character_data::get_text_content() const -> ext::string
+{
+    ACCESS_PIMPL(const character_data);
+    return d->data;
+}
+
+
+auto dom::nodes::character_data::set_node_value(ext::string new_node_value) -> ext::string
+{
+    ACCESS_PIMPL(character_data);
+    replace_data(0, d->data.length(), std::move(new_node_value));
+}
+
+
+auto dom::nodes::character_data::set_text_content(ext::string new_text_content) -> ext::string
+{
+    ACCESS_PIMPL(character_data);
+    replace_data(0, d->data.length(), std::move(new_text_content));
+}
+
+
+auto dom::nodes::character_data::get_data() const -> ext::string
+{
+    ACCESS_PIMPL(const character_data);
+    return d->data;
+}
+
+
+auto dom::nodes::character_data::get_length() const -> ext::number<ulong>
+{
+    ACCESS_PIMPL(const character_data);
+    return d->data.length();
+}
+
+
+auto dom::nodes::character_data::set_data(ext::string new_data) -> ext::string
+{
+    ACCESS_PIMPL(character_data);
+    d->data = std::move(new_data);
+}
+
+
 auto dom::nodes::character_data::to_v8(
         v8::Isolate* isolate)
         -> v8pp::class_<self_t>
