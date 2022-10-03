@@ -3,12 +3,11 @@
 
 #include "dom_object.hpp"
 namespace dom::mixins {class document_or_element_node;}
+namespace dom::mixins {class document_or_element_node_private;}
 
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class element;}
-
-#include "dom/mixins/document_or_element_node_private.hpp"
 
 
 class dom::mixins::document_or_element_node

@@ -3,10 +3,9 @@
 
 #include "dom_object.hpp"
 namespace dom::mixins {class non_element_parent_node;}
+namespace dom::mixins {class non_element_parent_node_private;}
 
 namespace dom::nodes {class element;}
-
-#include "dom/mixins/non_element_parent_node_private.hpp"
 
 
 class dom::mixins::non_element_parent_node

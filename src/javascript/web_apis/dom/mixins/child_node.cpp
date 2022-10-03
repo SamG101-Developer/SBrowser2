@@ -1,4 +1,5 @@
 #include "child_node.hpp"
+#include "child_node_private.hpp"
 
 #include "ext/casting.hpp"
 

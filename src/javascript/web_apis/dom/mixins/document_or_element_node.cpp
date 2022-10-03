@@ -1,4 +1,5 @@
 #include "document_or_element_node.hpp"
+#include "document_or_element_node_private.hpp"
 
 #include "ext/casting.hpp"
 #include "ext/functional.hpp"

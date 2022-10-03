@@ -1,4 +1,5 @@
 #include "document_or_shadow_root.hpp"
+#include "document_or_shadow_root_private.hpp"
 
 
 auto dom::mixins::document_or_shadow_root::to_v8(

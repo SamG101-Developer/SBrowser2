@@ -3,13 +3,12 @@
 
 #include "dom_object.hpp"
 namespace dom::mixins {class document_or_shadow_root;}
+namespace dom::mixins {class document_or_shadow_root_private;}
 
 #include INCLUDE_INNER_TYPES(css/cssom)
 namespace css::css_web_animations {class animation;}
 namespace css::cssom::style_sheets {class css_style_sheet;}
 namespace dom::nodes {class element;}
-
-#include "dom/mixins/document_or_shadow_root_private.hpp"
 
 
 class dom::mixins::document_or_shadow_root

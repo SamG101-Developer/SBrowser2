@@ -3,10 +3,9 @@
 
 #include "dom_object.hpp"
 namespace dom::mixins {class slottable;}
+namespace dom::mixins {class slottable_private;}
 
 namespace html::elements {class html_slot_element;}
-
-#include "dom/mixins/slottable_private.hpp"
 
 
 class dom::mixins::slottable

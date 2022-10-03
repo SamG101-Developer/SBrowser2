@@ -1,4 +1,5 @@
 #include "parentable_node.hpp"
+#include "parentable_node_private.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "ext/casting.hpp"
@@ -95,17 +96,17 @@ auto dom::mixins::parentable_node::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<parentable_node>{isolate}
-            .inherit<dom_object>()
-            .function("prepend", &parentable_node::prepend, UNSCOPABLE)
-            .function("append", &parentable_node::append, UNSCOPABLE)
-            .function("replaceChildren", &parentable_node::replace_children, UNSCOPABLE)
-            .function("querySelector", &parentable_node::query_selector)
-            .function("querySelectorAll", &parentable_node::query_selector_all)
-            .property("children", &parentable_node::get_children)
-            .property("firstElementChild", &parentable_node::get_first_element_child)
-            .property("lastElementChild", &parentable_node::get_last_element_child)
-            .property("childElementCount", &parentable_node::get_child_element_count)
-            .auto_wrap_objects();
+        .inherit<dom_object>()
+        .function("prepend", &parentable_node::prepend, UNSCOPABLE)
+        .function("append", &parentable_node::append, UNSCOPABLE)
+        .function("replaceChildren", &parentable_node::replace_children, UNSCOPABLE)
+        .function("querySelector", &parentable_node::query_selector)
+        .function("querySelectorAll", &parentable_node::query_selector_all)
+        .property("children", &parentable_node::get_children)
+        .property("firstElementChild", &parentable_node::get_first_element_child)
+        .property("lastElementChild", &parentable_node::get_last_element_child)
+        .property("childElementCount", &parentable_node::get_child_element_count)
+        .auto_wrap_objects();
     
     return std::move(conversion);
 }

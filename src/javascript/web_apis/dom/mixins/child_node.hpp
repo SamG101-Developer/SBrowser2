@@ -3,11 +3,10 @@
 
 #include "dom_object.hpp"
 namespace dom::mixins {class child_node;}
+namespace dom::mixins {class child_node_private;}
 
 #include "ext/concepts.hpp"
 namespace dom::nodes {class node;}
-
-#include "dom/mixins/child_node_private.hpp"
 
 
 class dom::mixins::child_node

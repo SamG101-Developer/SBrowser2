@@ -3,6 +3,7 @@
 
 #include "dom_object_private.hpp"
 #include "ext/pimpl.hpp"
+
 #include "ext/vector.hpp"
 
 

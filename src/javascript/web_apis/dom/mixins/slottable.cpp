@@ -1,4 +1,5 @@
 #include "slottable.hpp"
+#include "slottable_private.hpp"
 
 #include "ext/casting.hpp"
 #include "dom/nodes/node.hpp"

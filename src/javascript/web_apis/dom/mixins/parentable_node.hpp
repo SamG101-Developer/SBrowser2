@@ -3,6 +3,7 @@
 
 #include "dom_object.hpp"
 namespace dom::mixins {class parentable_node;}
+namespace dom::mixins {class parentable_node_private;}
 
 #include "ext/ranges.hpp"
 #include "ext/type_traits.hpp"
@@ -10,8 +11,6 @@ namespace dom::mixins {class parentable_node;}
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
-
-#include "dom/mixins/parentable_node_private.hpp"
 
 
 class dom::mixins::parentable_node
