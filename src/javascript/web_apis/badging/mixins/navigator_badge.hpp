@@ -4,12 +4,11 @@
 
 #include "dom_object.hpp"
 namespace badging::mixins {class navigator_badge;}
+namespace badging::mixins {class navigator_badge_private;}
 
 #include "ext/promise.hpp"
 #include "ext/number.hpp"
 #include "ext/type_traits.hpp"
-
-#include "badging/mixins/navigator_badge_private.hpp"
 
 
 class badging::mixins::navigator_badge

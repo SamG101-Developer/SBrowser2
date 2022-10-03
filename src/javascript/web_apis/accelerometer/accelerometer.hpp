@@ -4,10 +4,9 @@
 
 #include "sensors/sensor.hpp"
 namespace accelerometer {class accelerometer;}
+namespace accelerometer {class accelerometer_private;}
 
 #include INCLUDE_INNER_TYPES(accelerometer)
-
-#include "accelerometer/accelerometer_private.hpp"
 
 
 class accelerometer::accelerometer
@@ -15,7 +14,7 @@ class accelerometer::accelerometer
 {
 public constructors:
     DOM_CTORS(accelerometer);
-    accelerometer(detail::accelerometer_sensor_options_t&& options = {});
+    accelerometer(detail::accelerometer_sensor_options_t&& options);
     MAKE_PIMPL(accelerometer);
     MAKE_V8_AVAILABLE;
 

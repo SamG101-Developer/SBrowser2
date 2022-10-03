@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP
 
+#include "ext/pimpl.hpp"
 #include "dom_object_private"
 
 #include "ext/boolean.hpp"
-#include "ext/pimpl.hpp"
 #include "ext/number.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)

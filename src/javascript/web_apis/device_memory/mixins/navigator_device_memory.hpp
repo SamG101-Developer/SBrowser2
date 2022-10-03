@@ -4,15 +4,14 @@
 
 #include "dom_object.hpp"
 namespace device_memory::mixins {class navigator_device_memory;}
-
-#include "device_memory/mixins/navigator_device_memory_private.hpp"
+namespace device_memory::mixins {class navigator_device_memory_private;}
 
 
 class device_memory::mixins::navigator_device_memory
         : public virtual dom_object
 {
 private constructors:
-    navigator_device_memory() = default;
+    navigator_device_memory();
     MAKE_PIMPL(navigator_device_memory);
     MAKE_V8_AVAILABLE;
 

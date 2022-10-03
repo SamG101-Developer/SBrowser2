@@ -4,12 +4,11 @@
 
 #include "dom/events/event.hpp"
 namespace device_orientation {class device_orientation_event;}
+namespace device_orientation {class device_orientation_event_private;}
 
 #include "ext/promise.hpp"
 #include "ext/boolean.hpp"
 #include INCLUDE_INNER_TYPES(device_orientation)
-
-#include "device_orientation/device_orientation_event_private.hpp"
 
 
 class device_orientation::device_orientation_event

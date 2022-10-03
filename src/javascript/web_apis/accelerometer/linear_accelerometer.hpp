@@ -4,8 +4,7 @@
 
 #include "accelerometer/accelerometer.hpp"
 namespace accelerometer {class linear_accelerometer;}
-
-#include "accelerometer/linear_accelerometer_private.hpp"
+namespace accelerometer {class linear_accelerometer_private;}
 
 
 class accelerometer::linear_accelerometer
@@ -13,7 +12,7 @@ class accelerometer::linear_accelerometer
 {
 public constructors:
     DOM_CTORS(linear_accelerometer);
-    linear_accelerometer(detail::accelerometer_sensor_options_t&& options = {});
+    linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
     MAKE_PIMPL(linear_accelerometer);
     MAKE_V8_AVAILABLE;
 };

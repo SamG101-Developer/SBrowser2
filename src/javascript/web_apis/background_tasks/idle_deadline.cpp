@@ -1,4 +1,5 @@
 #include "idle_deadline.hpp"
+#include "idle_deadline_private.hpp"
 
 #include "javascript/environment/realms_2.hpp"
 
@@ -6,8 +7,9 @@
 
 
 background_tasks::idle_deadline::idle_deadline()
-        : INIT_PIMPL
-{}
+{
+    INIT_PIMPL(idle_deadline);
+}
 
 
 auto background_tasks::idle_deadline::time_remaining()

@@ -1,4 +1,5 @@
 #include "dom_matrix_readonly.hpp"
+#include "dom_matrix_readonly_private.hpp"
 
 #include "css/geometry/dom_matrix.hpp"
 #include "detail/transformation_internals.hpp"

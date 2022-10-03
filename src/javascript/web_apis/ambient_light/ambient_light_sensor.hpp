@@ -4,8 +4,7 @@
 
 #include "sensors/sensor.hpp"
 namespace ambient_light_sensor {class ambient_light_sensor;}
-
-#include "ambient_light/ambient_light_sensor_private.hpp"
+namespace ambient_light_sensor {class ambient_light_sensor_private;}
 
 
 class ambient_light_sensor::ambient_light_sensor

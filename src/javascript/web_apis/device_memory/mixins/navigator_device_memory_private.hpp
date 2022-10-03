@@ -1,9 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_MEMORY_MIXINS_NAVIGATOR_DEVICE_MEMORY_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_MEMORY_MIXINS_NAVIGATOR_DEVICE_MEMORY_PRIVATE_HPP
 
-#include "dom_object_private.hpp"
-
 #include "ext/pimpl.hpp"
+#include "dom_object_private.hpp"
 
 
 DEFINE_PRIVATE_CLASS(device_memory, navigator_device_memory) : virtual dom_object_private {};

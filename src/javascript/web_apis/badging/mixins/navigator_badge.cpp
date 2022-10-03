@@ -1,4 +1,5 @@
 #include "navigator_badge.hpp"
+#include "navigator_badge_private.hpp"
 
 
 auto badging::mixins::navigator_badge::to_v8(

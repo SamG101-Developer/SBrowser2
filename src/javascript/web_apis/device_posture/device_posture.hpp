@@ -4,10 +4,9 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace device_posture {class device_posture;}
+namespace device_posture {class device_posture_private;}
 
 #include INCLUDE_INNER_TYPES(device_posture)
-
-#include "device_posture/device_posture_private.hpp"
 
 
 class device_posture::device_posture

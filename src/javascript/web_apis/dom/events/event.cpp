@@ -1,4 +1,5 @@
 #include "event.hpp"
+#include "event_private.hpp"
 
 #include "dom/detail/event_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"
@@ -8,7 +9,8 @@
 
 dom::events::event::event()
 {
-    INIT_PIMPL(event)
+    INIT_PIMPL(event);
+    // TODO : set some non-parameter-related parameter values
 }
 
 
@@ -16,14 +18,14 @@ dom::events::event::event(
         ext::string&& event_type,
         ext::map<ext::string, ext::any>&& event_init)
 {
-    INIT_PIMPL(event)
+    INIT_PIMPL(event);
     ACCESS_PIMPL(event);
 
     JS_REALM_GET_RELEVANT(this);
     d->type = std::move(event_type);
-    d->bubbles = event_init.try_emplace("bubbles", false).first->second.to<ext::boolean>();
-    d->cancelable = event_init.try_emplace("cancelable", false).first->second.to<ext::boolean>();
-    d->composed = event_init.try_emplace("composed", false).first->second.to<ext::boolean>();
+    d->bubbles = event_init.try_emplace("bubbles", false).first->second.to<decltype(d->bubbles)>();
+    d->cancelable = event_init.try_emplace("cancelable", false).first->second.to<decltype(d->cancelable)>();
+    d->composed = event_init.try_emplace("composed", false).first->second.to<decltype(d->composed)>();
     d->target = nullptr;
     d->current_target = nullptr;
     d->related_target = nullptr;

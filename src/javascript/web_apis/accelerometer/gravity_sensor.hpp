@@ -4,8 +4,7 @@
 
 #include "accelerometer/accelerometer.hpp"
 namespace accelerometer {class gravity_sensor;}
-
-#include "accelerometer/gravity_sensor_private.hpp"
+namespace accelerometer {class gravity_sensor_private;}
 
 
 class accelerometer::gravity_sensor
@@ -13,7 +12,7 @@ class accelerometer::gravity_sensor
 {
 public constructors:
     DOM_CTORS(gravity_sensor);
-    gravity_sensor(detail::accelerometer_sensor_options_t&& options = {});
+    gravity_sensor(detail::accelerometer_sensor_options_t&& options);
     MAKE_PIMPL(gravity_sensor);
     MAKE_V8_AVAILABLE;
 };

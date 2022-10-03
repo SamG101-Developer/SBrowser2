@@ -10,6 +10,8 @@ namespace payment::handler {class payment_request_event;}
 #include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::handler {class window_client;}
 
+namespace payment::handler {class payment_request_event_private;}
+
 
 class payment::handler::payment_request_event
         : public can_make_payment_event
@@ -17,6 +19,7 @@ class payment::handler::payment_request_event
 public constructors:
     payment_request_event() = default;
     payment_request_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(payment_request_event);
 
 public js_methods:
     auto open_window(ext::string_view url) -> ext::promise<window_client*>;
@@ -24,14 +27,12 @@ public js_methods:
     auto respond_with(ext::promise<detail::payment_handler_reponse_t> handler_response_promise) -> void;
 
 private js_properties:
-    ext::property<ext::string> payment_request_id;
-    ext::property<std::unique_ptr<void>> total;
-    ext::property<const ext::vector<detail::payment_details_modifier_t>> modifiers;
-
-private js_slots:
-    ext::slot<std::unique_ptr<window_client>> s_window_client;
-    ext::slot<std::unique_ptr<void>> s_fetched_image; // TODO: type
-    ext::slot<ext::boolean> s_response_with_called; // TODO: type
+    DEFINE_GETTER(top_origin, ext::string_view);
+    DEFINE_GETTER(payment_request_origin, ext::string_view);
+    DEFINE_GETTER(payment_request_id, ext::string);
+    DEFINE_GETTER(method_data, ext::vector_span<detail::payment_method_data_t>);
+    DEFINE_GETTER(total, void*);
+    DEFINE_GETTER(modifiers, ext::vector_span<detail::payment_details_modifier_t>);
 };
 
 

@@ -1,4 +1,5 @@
 #include "device_posture.hpp"
+#include "device_posture_private.hpp"
 
 
 auto device_posture::device_posture::to_v8(

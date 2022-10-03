@@ -1,4 +1,5 @@
 #include "dom_rect_readonly.hpp"
+#include "dom_rect_readonly_private.hpp"
 
 
 auto css::geometry::dom_rect_readonly::get_x() const -> ext::number<double>

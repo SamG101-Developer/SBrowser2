@@ -1,4 +1,5 @@
 #include "contacts_manager.hpp"
+#include "contacts_manager_private.hpp"
 
 #include "ext/casting.hpp"
 #include "javascript/environment/realms_2.hpp"
@@ -18,8 +19,9 @@
 
 
 contact_picker::contacts_manager::contacts_manager()
-        : INIT_PIMPL
-{}
+{
+    INIT_PIMPL(contacts_manager);
+}
 
 
 auto contact_picker::contacts_manager::get_properties()

@@ -1,6 +1,7 @@
 #include "text.hpp"
 
 #include "dom/nodes/character_data.hpp"
+#include "dom/detail/customization_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 
@@ -26,6 +27,14 @@ auto dom::nodes::text::split_text(
     // split the text node at the index 'offset', and return the 2nd half of the split, ie a Text node containing all
     // data after the split (this Text node remains the same)
     return std::move(dom::detail::split(this, offset));
+}
+
+
+auto dom::nodes::text::get_node_name() const -> ext::string
+{
+    CE_REACTIONS_METHOD_DEF
+        return "#text";
+    CE_REACTIONS_METHOD_EXE
 }
 
 

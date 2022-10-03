@@ -4,13 +4,12 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace dom::abort {class abort_signal;}
-
+namespace dom::abort {class abort_signal_private;}
 
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/optional.hpp"
 #include "ext/type_traits.hpp"
-#include "dom/abort/abort_signal_private.hpp"
 namespace dom::nodes {class event_target;}
 
 

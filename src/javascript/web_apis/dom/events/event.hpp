@@ -3,17 +3,14 @@
 
 #include "dom_object.hpp"
 namespace dom::events {class event;}
+namespace dom::events {class event_private;}
 
 
+#include INCLUDE_INNER_TYPES(dom)
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
-
-#include INCLUDE_INNER_TYPES(dom)
-
-
-#include "dom/events/event_private.hpp"
 
 
 class dom::events::event

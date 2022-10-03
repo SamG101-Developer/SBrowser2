@@ -4,12 +4,11 @@
 
 #include "css/geometry/dom_matrix_readonly.hpp"
 namespace css::geometry {class dom_matrix;}
+namespace css::geometry {class dom_matrix_private;}
 
 #include "qmatrix4x4.h"
 #include "qpointer.h"
 #include INCLUDE_INNER_TYPES(css/geometry)
-
-#include "dom_matrix_private.hpp"
 
 
 class css::geometry::dom_matrix

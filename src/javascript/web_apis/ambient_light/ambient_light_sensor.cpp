@@ -1,6 +1,5 @@
 #include "ambient_light_sensor.hpp"
-
-#include "ext/pimpl.hpp"
+#include "ambient_light_sensor_private.hpp"
 
 #include "ambient_light/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"
@@ -8,16 +7,15 @@
 
 ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(
         sensors::detail::sensor_options_t&& options)
-        : INIT_PIMPL
 {
+    INIT_PIMPL(ambient_light_sensor);
     // Construct an AmbientLight instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
     detail::construct_ambient_light_sensor_object(this, std::move(options));
 }
 
 
-auto ambient_light_sensor::ambient_light_sensor::get_illuminance()
-        -> const ext::number<double>&
+auto ambient_light_sensor::ambient_light_sensor::get_illuminance() const -> ext::number<double>
 {
     // Get the latest reading for the "illuminance" value, default it to 0..0 if it doesn't exist, and then convert it
     // from the ext::any type to a double. Return the double.

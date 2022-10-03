@@ -1,4 +1,5 @@
 #include "linear_accelerometer.hpp"
+#include "linear_accelerometer_private.hpp"
 
 #include "accelerometer/detail/abstract_operations_internals.hpp"
 

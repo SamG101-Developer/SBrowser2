@@ -4,8 +4,7 @@
 
 #include "dom_object.hpp"
 namespace contact_picker {class contact_address;}
-
-#include "contact_picker/contact_address_private.hpp"
+namespace contact_picker {class contact_address_private;}
 
 
 class contact_picker::contact_address

@@ -1,4 +1,5 @@
 #include "abort_signal.hpp"
+#include "abort_signal_private.hpp"
 
 #include "javascript/environment/realms_2.hpp"
 
@@ -6,9 +7,9 @@
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
 #include "dom/other/dom_exception.hpp"
+#include "dom/other/dom_exception_private.hpp"
 
 #include "html/detail/task_internals.hpp"
-
 
 
 dom::abort::abort_signal::abort_signal()

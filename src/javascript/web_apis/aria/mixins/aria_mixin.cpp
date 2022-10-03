@@ -1,4 +1,5 @@
 #include "aria_mixin.hpp"
+#include "aria_mixin_private.hpp"
 
 
 auto aria::mixins::aria_mixin::to_v8(

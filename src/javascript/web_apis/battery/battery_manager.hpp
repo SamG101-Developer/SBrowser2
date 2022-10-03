@@ -4,8 +4,7 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace battery {class battery_manager;}
-
-#include "battery/battery_manager_private.hpp"
+namespace battery {class battery_manager_private;}
 
 
 class battery::battery_manager

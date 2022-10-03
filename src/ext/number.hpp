@@ -128,46 +128,39 @@ _EXT_END
 
 
 _STD_BEGIN
+
 template <ext::arithmetic T>
 class numeric_limits<ext::number<T>> : public numeric_limits<T>
 {
 public:
-    _EXT_NODISCARD static constexpr auto (min)() noexcept -> T {
-        return std::numeric_limits<T>::min();
-    }
+    _EXT_NODISCARD static constexpr auto (min)() noexcept -> T
+    {return std::numeric_limits<T>::min();}
 
-    _EXT_NODISCARD static constexpr auto (max)() noexcept -> T {
-        return std::numeric_limits<T>::max();
-    }
+    _EXT_NODISCARD static constexpr auto (max)() noexcept -> T
+    {return std::numeric_limits<T>::max();}
 
-    _EXT_NODISCARD static constexpr auto lowest() noexcept -> T {
-        return std::numeric_limits<T>::lowest();
-    }
+    _EXT_NODISCARD static constexpr auto lowest() noexcept -> T
+    {return std::numeric_limits<T>::lowest();}
 
-    _EXT_NODISCARD static constexpr auto epsilon() noexcept -> T {
-        return std::numeric_limits<T>::epsilon();
-    }
+    _EXT_NODISCARD static constexpr auto epsilon() noexcept -> T
+    {return std::numeric_limits<T>::epsilon();}
 
-    _EXT_NODISCARD static constexpr auto round_error() noexcept -> T {
-        return std::numeric_limits<T>::round_error();
-    }
+    _EXT_NODISCARD static constexpr auto round_error() noexcept -> T
+    {return std::numeric_limits<T>::round_error();}
 
-    _EXT_NODISCARD static constexpr auto denorm_min() noexcept -> T {
-        return std::numeric_limits<T>::denorm_min();
-    }
+    _EXT_NODISCARD static constexpr auto denorm_min() noexcept -> T
+    {return std::numeric_limits<T>::denorm_min();}
 
-    _EXT_NODISCARD static constexpr auto infinity() noexcept -> T {
-        return std::numeric_limits<T>::infinity();
-    }
+    _EXT_NODISCARD static constexpr auto infinity() noexcept -> T
+    {return std::numeric_limits<T>::infinity();}
 
-    _EXT_NODISCARD static constexpr auto quiet_NaN() noexcept -> T {
-        return std::numeric_limits<T>::quiet_NaN();
-    }
+    _EXT_NODISCARD static constexpr auto quiet_NaN() noexcept -> T
+    {return std::numeric_limits<T>::quiet_NaN();}
 
-    _EXT_NODISCARD static constexpr auto signaling_NaN() noexcept -> T {
-        return std::numeric_limits<T>::signaling_NaN();
-    }
+    _EXT_NODISCARD static constexpr auto signaling_NaN() noexcept -> T
+    {return std::numeric_limits<T>::signaling_NaN();}
 };
+
 _STD_END
 
 

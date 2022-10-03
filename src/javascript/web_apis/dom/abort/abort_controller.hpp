@@ -3,8 +3,8 @@
 
 #include "dom_object.hpp"
 namespace dom::abort {class abort_controller;}
+namespace dom::abort {class abort_controller_private;}
 
-#include "dom/abort/abort_controller_private.hpp"
 namespace dom::abort {class abort_signal;}
 
 

@@ -4,14 +4,11 @@
 
 #include "dom_object.hpp"
 namespace contact_picker {class contacts_manager;}
-
+namespace contact_picker {class contacts_manager_private;}
 
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(contact_picker)
-
-
-#include "contact_picker/contacts_manager_private.hpp"
 
 
 class contact_picker::contacts_manager

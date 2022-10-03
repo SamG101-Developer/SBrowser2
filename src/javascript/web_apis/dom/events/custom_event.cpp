@@ -1,4 +1,5 @@
 #include "custom_event.hpp"
+#include "custom_event_private.hpp"
 
 
 dom::events::custom_event::custom_event(

@@ -305,7 +305,7 @@ auto dom::nodes::element::toggle_attribute_node(
         -> attr*
 {
     CE_REACTIONS_METHOD_DEF
-        return_if(!attribute) static_cast<attr*>(nullptr);
+        return_if (!attribute) ext::nullptr_cast<attr*>();
         return detail::toggle_attribute(this, attribute, std::move(force));
     CE_REACTIONS_METHOD_EXE
 }

@@ -3,8 +3,7 @@
 
 #include "dom/events/event.hpp"
 namespace dom::events {class custom_event;}
-
-#include "dom/events/custom_event_private.hpp"
+namespace dom::events {class custom_event_private;}
 
 
 class dom::events::custom_event final

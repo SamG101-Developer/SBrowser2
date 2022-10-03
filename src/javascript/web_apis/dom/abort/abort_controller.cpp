@@ -1,4 +1,5 @@
 #include "abort_controller.hpp"
+#include "abort_controller_private.hpp"
 
 #include "dom/abort/abort_signal.hpp"
 #include "dom/detail/aborting_internals.hpp"
@@ -7,7 +8,6 @@
 dom::abort::abort_controller::abort_controller()
 {
     INIT_PIMPL(abort_controller);
-    // create an abort controller
 }
 
 
@@ -29,7 +29,7 @@ auto dom::abort::abort_controller::to_v8(
         .inherit<dom_object>()
         .ctor<>()
         .function("abort", &abort_controller::abort)
-        .property("signal", &abort_controller::get_signal, true)
+        .property("signal", &abort_controller::get_signal)
         .auto_wrap_objects();
 
     return std::move(conversion);

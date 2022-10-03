@@ -1,4 +1,5 @@
 #include "battery_manager.hpp"
+#include "battery_manager_private.hpp"
 
 #include "battery/detail/algorithm_internals.hpp"
 

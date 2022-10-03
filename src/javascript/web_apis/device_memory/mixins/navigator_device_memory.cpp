@@ -1,4 +1,5 @@
 #include "navigator_device_memory.hpp"
+#include "navigator_device_memory_private.hpp"
 
 
 auto device_memory::mixins::navigator_device_memory::to_v8(

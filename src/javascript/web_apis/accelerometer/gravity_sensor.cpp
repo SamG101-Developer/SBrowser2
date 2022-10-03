@@ -1,4 +1,5 @@
 #include "gravity_sensor.hpp"
+#include "gravity_sensor_private.hpp"
 
 #include "accelerometer/detail/abstract_operations_internals.hpp"
 

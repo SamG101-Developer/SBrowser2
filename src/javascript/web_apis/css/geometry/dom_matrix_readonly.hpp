@@ -5,15 +5,15 @@
 #include "dom_object.hpp"
 #include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_matrix_readonly;}
+namespace css::geometry {class dom_matrix_readonly_private;}
 
 #include INCLUDE_INNER_TYPES(css/geometry)
 #include "ext/number.hpp"
+#include "ext/span.hpp"
 #include <qmatrix4x4.h>
 #include <qpointer.h>
 namespace css::geometry {class dom_matrix;}
 namespace css::geometry {class dom_point;}
-
-#include "dom_matrix_readonly_private.hpp"
 
 
 class css::geometry::dom_matrix_readonly
@@ -21,7 +21,7 @@ class css::geometry::dom_matrix_readonly
 {
 public constructors:
     dom_matrix_readonly();
-    dom_matrix_readonly(ext::vector_view<ext::number<double>> init);
+    dom_matrix_readonly(ext::vector_span<ext::number<double>> init);
     MAKE_PIMPL(dom_matrix_readonly);
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
@@ -33,8 +33,8 @@ private constructors:
 
 public js_methods:
     static auto from_matrix(detail::dom_matrix_init_t&& other = {}) -> dom_matrix_readonly;
-    static auto from_float32_array(ext::vector_view<ext::number<float>> array32) -> dom_matrix_readonly;
-    static auto from_float64_array(ext::vector_view<ext::number<double>> array64) -> dom_matrix_readonly;
+    static auto from_float32_array(ext::vector_span<ext::number<float>> array32) -> dom_matrix_readonly;
+    static auto from_float64_array(ext::vector_span<ext::number<double>> array64) -> dom_matrix_readonly;
 
     auto translate(ext::number<double> tx = 0, ext::number<double> ty = 0, ext::number<double> tz = 0) const -> dom_matrix;
     auto scale(ext::number<double> sx = 1, ext::number<double> sy = 1, ext::number<double> sz = 1, ext::number<double> ox = 0, ext::number<double> oy = 0, ext::number<double> oz = 0) const -> dom_matrix;

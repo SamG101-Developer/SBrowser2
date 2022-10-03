@@ -3,11 +3,10 @@
 
 #include "dom_object.hpp"
 namespace aria::mixins {class aria_mixin;}
-namespace dom::nodes {class element;}
+namespace aria::mixins {class aria_mixin_private;}
 
 #include "ext/vector.hpp"
-
-#include "aria/mixins/aria_mixin_private.hpp"
+namespace dom::nodes {class element;}
 
 
 class aria::mixins::aria_mixin

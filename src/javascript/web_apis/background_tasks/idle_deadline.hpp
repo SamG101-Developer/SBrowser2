@@ -4,9 +4,8 @@
 
 #include "dom_object.hpp"
 namespace background_tasks {class idle_deadline;}
+namespace background_tasks {class idle_deadline_private;}
 
-
-#include "background_tasks/idle_deadline_private.hpp"
 #include INCLUDE_INNER_TYPES(background_tasks)
 #include INCLUDE_INNER_TYPES(hr_time)
 

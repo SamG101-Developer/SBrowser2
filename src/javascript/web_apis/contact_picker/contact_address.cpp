@@ -1,10 +1,13 @@
 #include "contact_address.hpp"
+#include "contact_address_private.hpp"
 
 #include "contact_picker/detail/contact_internals.hpp"
 
 
 contact_picker::contact_address::contact_address()
-{INIT_PIMPL(contact_address);}
+{
+    INIT_PIMPL(contact_address);
+}
 
 
 auto contact_picker::contact_address::get_city() const -> ext::string
@@ -22,35 +25,59 @@ auto contact_picker::contact_address::get_country() const -> ext::string
 
 
 auto contact_picker::contact_address::get_dependant_locality() const -> ext::string
-{return d_ptr->dependent_locality;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->dependent_locality;
+}
 
 
 auto contact_picker::contact_address::get_organization() const -> ext::string
-{return d_ptr->organization;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->organization;
+}
 
 
 auto contact_picker::contact_address::get_phone() const -> ext::string
-{return d_ptr->phone_number;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->phone_number;
+}
 
 
 auto contact_picker::contact_address::get_postal_code() const -> ext::string
-{return d_ptr->postal_code;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->postal_code;
+}
 
 
 auto contact_picker::contact_address::get_recipient() const -> ext::string
-{return d_ptr->recipient;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->recipient;
+}
 
 
 auto contact_picker::contact_address::get_region() const -> ext::string
-{return d_ptr->region;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->region;
+}
 
 
 auto contact_picker::contact_address::get_sorting_code() const -> ext::string
-{return d_ptr->sorting_code;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->sorting_code;
+}
 
 
 auto contact_picker::contact_address::get_address_line() const -> ext::vector<ext::string>
-{return d_ptr->address_line;}
+{
+    ACCESS_PIMPL(const contact_address);
+    return d->address_line;
+}
 
 
 auto contact_picker::contact_address::to_v8(
