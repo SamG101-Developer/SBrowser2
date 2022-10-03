@@ -1,12 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_OBSERVER_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_OBSERVER_PRIVATE_HPP
 
+#include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/pimpl.hpp"
+#include INCLUDE_INNER_TYPES(dom)
 #include "ext/queue.hpp"
 #include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
 
 

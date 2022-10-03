@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_RECORD_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_MUTATIONS_MUTATION_RECORD_PRIVATE_HPP
 
+#include "ext/pimpl.hpp"
 #include "dom_object_private"
 
-#include "ext/pimpl.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}

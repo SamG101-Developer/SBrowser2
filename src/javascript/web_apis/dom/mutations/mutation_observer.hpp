@@ -3,6 +3,7 @@
 
 #include "dom_object.hpp"
 namespace dom::mutations {class mutation_observer;}
+namespace dom::mutations {class mutation_observer_private;}
 
 #include "ext/map.hpp"
 #include "ext/functional.hpp"
@@ -10,8 +11,6 @@ namespace dom::mutations {class mutation_observer;}
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::mutations {class mutation_record;}
-
-#include "dom/mutations/mutation_observer_private.hpp"
 
 
 class dom::mutations::mutation_observer
