@@ -1,4 +1,5 @@
 #include "abstract_iterator.hpp"
+#include "abstract_iterator_private.hpp"
 
 #include "dom/detail/traversal_internals.hpp"
 #include "dom/iterators/node_filter.hpp"
@@ -9,12 +10,33 @@
 
 dom::node_iterators::abstract_iterator::abstract_iterator()
 {
-    INIT_PIMPL(abstract_iterator)
+    INIT_PIMPL(abstract_iterator);
     ACCESS_PIMPL(abstract_iterator);
 
     d->filter = nullptr;
     d->root = nullptr;
     d->what_to_show = 0;
+}
+
+
+auto dom::node_iterators::abstract_iterator::get_filter() const -> node_filter*
+{
+    ACCESS_PIMPL(const abstract_iterator);
+    return d->filter.get();
+}
+
+
+auto dom::node_iterators::abstract_iterator::get_root() const -> nodes::node*
+{
+    ACCESS_PIMPL(const abstract_iterator);
+    return d->root;
+}
+
+
+auto dom::node_iterators::abstract_iterator::get_what_to_show() const -> ext::number<ulong>
+{
+    ACCESS_PIMPL(const abstract_iterator);
+    return d->what_to_show;
 }
 
 

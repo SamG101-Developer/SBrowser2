@@ -1,4 +1,5 @@
 #include "node_filter.hpp"
+#include "node_filter_private.hpp"
 
 
 dom::node_iterators::node_filter::node_filter()
@@ -6,6 +7,20 @@ dom::node_iterators::node_filter::node_filter()
     INIT_PIMPL(node_filter)
     ACCESS_PIMPL(node_filter);
     d->accept_node_callback = [](const nodes::node*) {return FILTER_ACCEPT;};
+}
+
+
+auto dom::node_iterators::node_filter::get_accept_node() const -> detail::accept_callback_t
+{
+    ACCESS_PIMPL(const node_filter);
+    return d->accept_node_callback;
+}
+
+
+auto dom::node_iterators::node_filter::set_accept_node(detail::accept_callback_t new_accept_node) -> detail::accept_callback_t
+{
+    ACCESS_PIMPL(node_filter);
+    d->accept_node_callback = std::move(new_accept_node);
 }
 
 

@@ -1,4 +1,5 @@
 #include "tree_walker.hpp"
+#include "tree_walker_private.hpp"
 
 #include "abstract_iterator.hpp"
 #include "ext/functional.hpp"

@@ -1,9 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ITERATORS_TREE_WALKER_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ITERATORS_TREE_WALKER_PRIVATE_HPP
 
-#include "dom/iterators/abstract_iterator_private.hpp"
-
 #include "ext/pimpl.hpp"
+#include "dom/iterators/abstract_iterator_private.hpp"
 
 namespace dom::nodes {class node;}
 

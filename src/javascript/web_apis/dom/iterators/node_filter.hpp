@@ -4,11 +4,10 @@
 
 #include "dom_object.hpp"
 namespace dom::node_iterators {class node_filter;}
+namespace dom::node_iterators {class node_filter_private;}
 
-#include "ext/functional.hpp"
 #include INCLUDE_INNER_TYPES(dom)
-
-#include "dom/iterators/node_filter_private.hpp"
+#include "ext/functional.hpp"
 
 
 class dom::node_iterators::node_filter

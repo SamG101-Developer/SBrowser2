@@ -1,4 +1,5 @@
 #include "node_iterator.hpp"
+#include "node_iterator_private.hpp"
 
 #include "dom/detail/traversal_internals.hpp"
 #include "dom/nodes/element.hpp"
@@ -34,6 +35,20 @@ auto dom::node_iterators::node_iterator::prev_node()
     // the detail traversal method, with the PREVIOUS configuration
     using detail::traversal_direction_t;
     return detail::traverse(this, traversal_direction_t::PREVIOUS);
+}
+
+
+auto dom::node_iterators::node_iterator::get_reference_node() const -> nodes::node*
+{
+    ACCESS_PIMPL(const node_iterator);
+    return d->reference;
+}
+
+
+auto dom::node_iterators::node_iterator::get_pointer_before_reference_node() const -> ext::boolean
+{
+    ACCESS_PIMPL(const node_iterator);
+    return d->pointer_before_reference;
 }
 
 

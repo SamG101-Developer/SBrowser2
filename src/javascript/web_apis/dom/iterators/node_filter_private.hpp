@@ -1,9 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ITERATORS_NODE_FILTER_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ITERATORS_NODE_FILTER_PRIVATE_HPP
 
-#include "dom_object_private"
-
 #include "ext/pimpl.hpp"
+#include "dom_object_private"
 
 #include INCLUDE_INNER_TYPES(dom);
 

@@ -2,9 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ITERATORS_ABSTRACT_ITERATOR_PRIVATE_HPP
 
 #include "dom_object_private"
+#include "ext/pimpl.hpp"
 
 #include "ext/boolean.hpp"
-#include "ext/pimpl.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}
 

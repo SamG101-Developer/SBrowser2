@@ -4,11 +4,10 @@
 
 #include "dom/iterators/abstract_iterator.hpp"
 namespace dom::node_iterators {class node_iterator;}
+namespace dom::node_iterators {class node_iterator_private;}
 
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}
-
-#include "dom/iterators/node_iterator_private.hpp"
 
 
 class dom::node_iterators::node_iterator
@@ -24,8 +23,8 @@ public js_methods:
     auto prev_node() -> nodes::node*;
 
 private js_properties:
-    DEFINE_GETTER(reference_node, nodes::node*) {return d_ptr->reference;}
-    DEFINE_GETTER(pointer_before_reference_node, ext::boolean) {return d_ptr->pointer_before_reference;}
+    DEFINE_GETTER(reference_node, nodes::node*);
+    DEFINE_GETTER(pointer_before_reference_node, ext::boolean);
 };
 
 

@@ -4,8 +4,7 @@
 
 #include "dom/iterators/abstract_iterator.hpp"
 namespace dom::node_iterators {class tree_walker;}
-
-#include "dom/iterators/tree_walker_private.hpp"
+namespace dom::node_iterators {class tree_walker_private;}
 
 
 class dom::node_iterators::tree_walker
