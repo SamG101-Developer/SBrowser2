@@ -3,12 +3,11 @@
 
 #include "dom_object.hpp"
 namespace dom::other {class dom_implementation;}
+namespace dom::other {class dom_implementation_private;}
 
 namespace dom::nodes {class document_type;}
 namespace dom::nodes {class document;}
 namespace dom::nodes {class xml_document;}
-
-#include "dom/other/dom_implementation_private.hpp"
 
 
 class dom::other::dom_implementation

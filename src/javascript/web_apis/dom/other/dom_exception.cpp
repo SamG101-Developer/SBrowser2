@@ -1,4 +1,5 @@
 #include "dom_exception.hpp"
+#include "dom_exception_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 

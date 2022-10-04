@@ -1,4 +1,5 @@
 #include "dom_implementation.hpp"
+#include "dom_implementation_private.hpp"
 
 #include "ext/hashing.hpp"
 

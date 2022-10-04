@@ -3,12 +3,11 @@
 
 #include "base_exception.hpp"
 namespace dom::other {class dom_exception;}
+namespace dom::other {class dom_exception_private;}
 
+#include INCLUDE_INNER_TYPES(dom)
 #include "ext/concepts.hpp"
 #include "ext/string.hpp"
-#include INCLUDE_INNER_TYPES(dom)
-
-#include "dom/other/dom_exception_private.hpp"
 
 
 class dom::other::dom_exception
