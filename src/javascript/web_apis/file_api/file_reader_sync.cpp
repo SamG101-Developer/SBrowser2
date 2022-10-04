@@ -1,4 +1,5 @@
 #include "file_reader_sync.hpp"
+#include "file_reader_sync_private.hpp"
 
 
 file_api::file_reader_sync::file_reader_sync()

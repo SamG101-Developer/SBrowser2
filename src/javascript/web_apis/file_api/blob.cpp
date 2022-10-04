@@ -1,11 +1,12 @@
 #include "blob.hpp"
+#include "blob_private.hpp"
 
-#include "_typedefs.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 
-#include "file_api/detail/blob_internals.hpp"
+#include INCLUDE_INNER_TYPES(file_api)
 
+#include "file_api/detail/blob_internals.hpp"
 #include "streams/readable/readable_stream.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
@@ -28,7 +29,7 @@ file_api::blob::blob(
     if (!options_type.empty())
     {
         return_if (ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)));
-        d->type = std::move(options_type | ranges::views::lowercase());
+        d->type = options_type | ranges::views::lowercase() | ranges::to<ext::string>;
     }
 }
 
@@ -92,7 +93,7 @@ auto file_api::blob::_serialize(
 }
 
 
-auto file_api::blob::m_deserialize(
+auto file_api::blob::_deserialize(
         ext::map<ext::string, ext::any>& serialized,
         ext::boolean for_storage)
         -> self_t*

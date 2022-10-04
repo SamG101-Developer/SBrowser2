@@ -3,10 +3,9 @@
 
 #include "dom_object.hpp"
 namespace file_api {class file_reader_sync;}
+namespace file_api {class file_reader_sync_private;}
 
 namespace file_api {class blob;}
-
-#include "file_reader_sync_private.hpp"
 
 
 class file_api::file_reader_sync

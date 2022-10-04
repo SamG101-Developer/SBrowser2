@@ -2,8 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILE_API_BLOB_PRIVATE_HPP
 
 #include "ext/pimpl.hpp"
-#include "ext/string.hpp"
 #include "dom_object_private.hpp"
+
+#include "ext/string.hpp"
 
 
 DEFINE_PRIVATE_CLASS(file_api, blob) : virtual dom_object_private

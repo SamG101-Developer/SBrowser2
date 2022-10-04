@@ -1,15 +1,13 @@
 #ifndef SBROWSER2_FILE_READER_HPP
 #define SBROWSER2_FILE_READER_HPP
 
-
 #include "dom/nodes/event_target.hpp"
 namespace file_api {class file_reader;}
+namespace file_api {class file_reader_private;}
 
 #include INCLUDE_INNER_TYPES(file_api)
 namespace dom::other {class dom_exception;}
 namespace file_api {class blob;}
-
-#include "file_reader_private.hpp"
 
 
 class file_api::file_reader

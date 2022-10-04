@@ -4,6 +4,7 @@
 #include "dom_object.hpp"
 #include "html/mixins/serializable.hpp"
 namespace file_api {class blob;}
+namespace file_api {class blob_private;}
 
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
@@ -13,8 +14,6 @@ namespace file_api {class blob;}
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(file_api)
 namespace streams::readable {class readable_stream;}
-
-#include "blob_private.hpp"
 
 
 class file_api::blob

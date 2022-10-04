@@ -1,10 +1,13 @@
 #include "file_reader.hpp"
-#include "dom/nodes/event_target.hpp"
+#include "file_reader_private.hpp"
 
 #include INCLUDE_INNER_TYPES(file_api)
 
+#include "dom/nodes/event_target.hpp"
 #include "html/detail/task_internals.hpp"
 #include "file_api/detail/file_internals.hpp"
+
+#include <magic_enum.hpp>
 
 
 file_api::file_reader::file_reader()
@@ -49,7 +52,7 @@ auto file_api::file_reader::abort()
     if (d->state == detail::state_t::LOADING)
         ext::tie(d->state, d->result) = ext::make_tuple(detail::state_t::DONE, "");
 
-    html::detail::file_reading_task_source.clear();
+    html::detail::file_reading_task_source.queue.clear();
     // TODO : algorithm termination
 
     detail::fire_progress_event("abort", this);

@@ -3,10 +3,9 @@
 
 #include "blob.hpp"
 namespace file_api {class file;}
+namespace file_api {class file_private;}
 
 #include INCLUDE_INNER_TYPES(file_api)
-
-#include "file_private.hpp"
 
 
 class file_api::file

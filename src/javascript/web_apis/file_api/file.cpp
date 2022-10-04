@@ -1,4 +1,5 @@
 #include "file.hpp"
+#include "file_private.hpp"
 
 #include "ext/date.hpp"
 #include "ext/pimpl.hpp"
@@ -6,6 +7,7 @@
 
 #include INCLUDE_INNER_TYPES(hr_time)
 #include "file_api/detail/blob_internals.hpp"
+#include "hr_time/detail/time_internals.hpp"
 #include <range/v3/view/iota.hpp>
 
 
@@ -23,9 +25,10 @@ file_api::file::file(
     if (!ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)))
         options_type |= ranges::actions::lowercase();
 
+    JS_REALM_GET_RELEVANT(this);
     auto options_date = options.contains("lastModified")
             ? options["lastModified"].to<hr_time::epoch_time_stamp>()
-            : ext::now().timestamp();
+            : std::bit_cast<hr_time::epoch_time_stamp>(hr_time::detail::current_hr_time(this_relevant_global_object));
 
     d->name = std::move(file_name);
     d->byte_sequence = std::move(bytes);
