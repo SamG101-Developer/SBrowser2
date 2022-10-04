@@ -1,6 +1,9 @@
 #include "geolocation_sensor.hpp"
+#include "dom/detail/aborting_internals.hpp"
+#include "geolocation_sensor_private.hpp"
 
 #include "dom/abort/abort_signal.hpp"
+#include "dom/abort/abort_signal_private.hpp"
 #include "dom/other/dom_exception.hpp"
 
 #include "geolocation_sensor/detail/abstract_operations_internals.hpp"
@@ -23,7 +26,7 @@ auto geolocation_sensor::geolocation_sensor::read(
     ext::promise<detail::geolocation_sensor_reading_t> promise;
     decltype(auto) signal = read_options.try_emplace("signal", nullptr).first->second.to<dom::abort::abort_signal*>();
 
-    return_if (signal && signal->aborted()) promise.reject(signal->reason().to<dom::other::dom_exception*>());
+    return_if (signal && dom::detail::is_signal_aborted(signal)) promise.reject(*signal->d_func()->abort_reason.to<dom::other::dom_exception*>());
 
     JS_REALM_GET_CURRENT;
     JS_EXCEPTION_HANDLER;
@@ -34,9 +37,9 @@ auto geolocation_sensor::geolocation_sensor::read(
 
     sensor.start();
     if (signal)
-        signal->m_abort_algorithms.emplace_back(
+        signal->d_func()->abort_algorithms.emplace_back(
                 [&sensor, &promise, signal]
-                {sensor.stop(); promise.reject(signal->reason().to<dom::other::dom_exception*>());});
+                {sensor.stop(); promise.reject(signal->d_func()->abort_reason.to<dom::other::dom_exception*>());});
 
     // TODO : async algorithm
 

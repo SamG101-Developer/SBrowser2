@@ -4,11 +4,10 @@
 
 #include "sensors/sensor.hpp"
 namespace geolocation_sensor {class geolocation_sensor;}
+namespace geolocation_sensor {class geolocation_sensor_private;}
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(geolocation_sensor)
-
-#include "geolocation_sensor_private.hpp"
 
 
 class geolocation_sensor::geolocation_sensor
