@@ -1,4 +1,5 @@
 #include "xml_document.hpp"
+#include "xml_document_private.hpp"
 
 
 dom::nodes::xml_document::xml_document()

@@ -4,11 +4,10 @@
 #include "dom/nodes/document_fragment.hpp"
 #include "dom/mixins/document_or_shadow_root.hpp"
 namespace dom::nodes {class shadow_root;}
+namespace dom::nodes {class shadow_root_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
-
-#include "dom/nodes/shadow_root_private.hpp"
 
 
 class dom::nodes::shadow_root final

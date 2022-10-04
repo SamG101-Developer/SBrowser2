@@ -1,4 +1,5 @@
 #include "text.hpp"
+#include "text_private.hpp"
 
 #include "dom/nodes/character_data.hpp"
 #include "dom/detail/customization_internals.hpp"

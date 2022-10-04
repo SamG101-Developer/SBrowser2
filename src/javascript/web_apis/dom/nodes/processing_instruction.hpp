@@ -4,8 +4,7 @@
 #include "dom/nodes/character_data.hpp"
 #include "css/cssom/mixins/link_style.hpp"
 namespace dom::nodes {class processing_instruction;}
-
-#include "dom/nodes/processing_instruction_private.hpp"
+namespace dom::nodes {class processing_instruction_private;}
 
 
 class dom::nodes::processing_instruction final

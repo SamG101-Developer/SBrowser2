@@ -4,8 +4,7 @@
 #include "dom/nodes/character_data.hpp"
 #include "dom/mixins/slottable.hpp"
 namespace dom::nodes {class text;}
-
-#include "dom/nodes/text_private.hpp"
+namespace dom::nodes {class text_private;}
 
 
 class dom::nodes::text
@@ -14,6 +13,7 @@ class dom::nodes::text
 {
 public constructors:
     text(ext::string&& new_data = "");
+    DOM_CTORS(text);
     MAKE_PIMPL(text);
     MAKE_V8_AVAILABLE;
 

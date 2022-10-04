@@ -3,8 +3,7 @@
 
 #include "dom/nodes/document.hpp"
 namespace dom::nodes {class xml_document;}
-
-#include "dom/nodes/xml_document_private.hpp"
+namespace dom::nodes {class xml_document_private;}
 
 
 class dom::nodes::xml_document final

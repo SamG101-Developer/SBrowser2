@@ -1,4 +1,5 @@
 #include "shadow_root.hpp"
+#include "shadow_root_private.hpp"
 
 #include "dom/events/event.hpp"
 #include "dom/detail/event_internals.hpp"

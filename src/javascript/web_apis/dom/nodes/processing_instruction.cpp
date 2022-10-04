@@ -1,4 +1,5 @@
 #include "processing_instruction.hpp"
+#include "processing_instruction_private.hpp"
 
 #include "css/cssom/detail/miscellaneous_query_internals.hpp"
 
@@ -16,11 +17,11 @@ auto dom::nodes::processing_instruction::get_target() const -> ext::string
 }
 
 
-auto dom::nodes::processing_instruction::set_data(ext::string val) -> ext::string
+auto dom::nodes::processing_instruction::set_data(ext::string new_data) -> ext::string
 {
     ACCESS_PIMPL(processing_instruction);
 
-    d->data = val;
+    d->data = new_data;
     css::detail::processing_instruction_prolog_steps(this);
 }
 
@@ -30,10 +31,10 @@ auto dom::nodes::processing_instruction::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<processing_instruction>{isolate}
-            .inherit<character_data>()
-            .inherit<css::cssom::mixins::link_style>()
-            .property("target", &processing_instruction::get_target)
-            .auto_wrap_objects();
+        .inherit<character_data>()
+        .inherit<css::cssom::mixins::link_style>()
+        .property("target", &processing_instruction::get_target)
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }
