@@ -1,9 +1,11 @@
 #include "performance_event_timing.hpp"
+#include "performance_event_timing_private.hpp"
 
-#include "ext/pimpl.hpp"
+#include "ext/casting.hpp"
 
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/events/event.hpp"
+#include "dom/events/event_private.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/shadow_root.hpp"
 

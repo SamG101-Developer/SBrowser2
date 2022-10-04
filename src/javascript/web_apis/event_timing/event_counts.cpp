@@ -1,4 +1,5 @@
 #include "event_counts.hpp"
+#include "event_counts_private.hpp"
 
 
 event_timing::event_counts::event_counts()

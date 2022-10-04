@@ -15,14 +15,14 @@ private:                                                                        
     inline c ## _private* d_func() noexcept {return reinterpret_cast<c ## _private*>(this->d_ptr.get());}                   \
     inline const c ## _private* d_func() const noexcept {return reinterpret_cast<const c ## _private*>(this->d_ptr.get());} \
     friend c ## _private;                                                                                                   \
-    SELF_MACRO_DEFINE_SELF(self_t, private)
+    SELF_MACRO_DEFINE_SELF(self_t, public)
 
 #define MAKE_PIMPL_TEMPLATED(c, ...)                                                                                                                  \
 private:                                                                                                                                              \
     inline c ## _private<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<c ## _private<__VA_ARGS__>*>(this->d_ptr.get());}                   \
     inline const c ## _private<__VA_ARGS__>* d_func() const noexcept {return reinterpret_cast<const c ## _private<__VA_ARGS__>*>(this->d_ptr.get());} \
     friend c ## _private<__VA_ARGS__>;                                                                                                                \
-    SELF_MACRO_DEFINE_SELF(self_t, private);
+    SELF_MACRO_DEFINE_SELF(self_t, public)
 
 
 // Initialize the PIMPL private class by setting it to a unique pointer of the corresponding private class. Only the

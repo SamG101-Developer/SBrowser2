@@ -4,12 +4,11 @@
 
 #include "performance_timeline/performance_entry.hpp"
 namespace event_timing {class performance_event_timing;}
+namespace event_timing {class performance_event_timing_private;}
 
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class event_target;}
 namespace dom::events {class event;}
-
-#include "performance_event_timing_private.hpp"
 
 
 class event_timing::performance_event_timing

@@ -5,8 +5,7 @@
 #include "dom_object.hpp"
 #include "ext/map_like.hpp"
 namespace event_timing {class event_counts;}
-
-#include "event_counts_private.hpp"
+namespace event_timing {class event_counts_private;}
 
 
 class event_timing::event_counts

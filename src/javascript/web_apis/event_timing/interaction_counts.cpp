@@ -1,4 +1,5 @@
 #include "interaction_counts.hpp"
+#include "interaction_counts_private.hpp"
 
 
 event_timing::interaction_counts::interaction_counts()
