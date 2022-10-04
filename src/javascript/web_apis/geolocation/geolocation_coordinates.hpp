@@ -4,8 +4,7 @@
 
 #include "dom_object.hpp"
 namespace geolocation {class geolocation_coordinates;}
-
-#include "geolocation_coordinates_private.hpp"
+namespace geolocation {class geolocation_coordinates_private;}
 
 
 class geolocation::geolocation_coordinates

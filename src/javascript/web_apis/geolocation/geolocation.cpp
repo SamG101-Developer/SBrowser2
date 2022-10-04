@@ -1,10 +1,13 @@
 #include "geolocation.hpp"
+#include "geolocation_private.hpp"
 
 #include "javascript/environment/realms_2.hpp"
 
 #include "dom/detail/node_internals.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/window.hpp"
+
+#include "geolocation/detail/position_internals.hpp"
 
 #include <range/v3/action/remove.hpp>
 

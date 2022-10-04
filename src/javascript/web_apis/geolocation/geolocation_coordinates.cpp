@@ -1,4 +1,6 @@
 #include "geolocation_coordinates.hpp"
+#include "geolocation_coordinates_private.hpp"
+
 #include "ext/casting.hpp"
 
 

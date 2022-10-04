@@ -4,10 +4,9 @@
 
 #include "base_exception.hpp"
 namespace geolocation {class geolocation_position_error;}
+namespace geolocation {class geolocation_position_error_private;}
 
 #include INCLUDE_INNER_TYPES(geolocation)
-
-#include "geolocation_position_error_private.hpp"
 
 
 class geolocation::geolocation_position_error

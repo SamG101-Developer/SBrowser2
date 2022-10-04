@@ -1,4 +1,5 @@
 #include "geolocation_position.hpp"
+#include "geolocation_position_private.hpp"
 
 #include "geolocation/geolocation_coordinates.hpp"
 

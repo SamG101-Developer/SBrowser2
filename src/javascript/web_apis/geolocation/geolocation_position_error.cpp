@@ -1,4 +1,5 @@
 #include "geolocation_position_error.hpp"
+#include "geolocation_position_error_private.hpp"
 
 #include INCLUDE_INNER_TYPES(geolocation)
 

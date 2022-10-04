@@ -3,6 +3,7 @@
 
 #include "ext/pimpl.hpp"
 #include "base_exception.hpp"
+
 #include INCLUDE_INNER_TYPES(geolocation)
 
 
