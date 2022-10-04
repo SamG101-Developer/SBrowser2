@@ -1,4 +1,5 @@
 #include "comment.hpp"
+#include "comment_private.hpp"
 
 #include "dom/detail/customization_internals.hpp"
 #include "dom/nodes/document.hpp"

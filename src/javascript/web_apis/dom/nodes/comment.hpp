@@ -3,9 +3,7 @@
 
 #include "dom/nodes/character_data.hpp"
 namespace dom::nodes {class comment;}
-
-
-#include "dom/nodes/comment_private.hpp"
+namespace dom::nodes {class comment_private;}
 
 
 class dom::nodes::comment final

@@ -4,14 +4,13 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace dom::nodes {class node;}
+namespace dom::nodes {class node_private;}
 
 #include "ext/map.hpp"
 #include <range/v3/view/any_view.hpp>
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
-
-#include "dom/nodes/node_private.hpp"
 
 
 class dom::nodes::node
@@ -54,19 +53,19 @@ public js_methods:
     auto lookup_prefix(ext::string_view namespace_) -> ext::string;
     auto lookup_namespace_uri(ext::string_view prefix) -> ext::string;
 
-    auto insert_before(node* new_node, node* child) -> node*;
-    auto append_child(node* new_node) -> node*;
-    auto replace_child(node* old_node, node* new_node) -> node*;
+    auto insert_before(std::unique_ptr<node>&& new_node, node* child) -> node*;
+    auto append_child(std::unique_ptr<node>&& new_node) -> node*;
+    auto replace_child(node* old_node, std::unique_ptr<node>&& new_node) -> node*;
     auto remove_child(node* old_node) -> node*;
 
 private js_properties:
     virtual DEFINE_GETTER(node_type, ext::number<ushort>) = 0;
-    virtual DEFINE_GETTER(node_name, ext::string) = 0; // TODO CE_REACTIONS
-    virtual DEFINE_GETTER(text_content, ext::string) = 0; // TODO CE_REACTIONS
-    virtual DEFINE_GETTER(node_value, ext::string) = 0; // TODO CE_REACTIONS
+    virtual DEFINE_GETTER(node_name, ext::string) = 0;
+    virtual DEFINE_GETTER(text_content, ext::string) = 0;
+    virtual DEFINE_GETTER(node_value, ext::string) = 0;
 
-    virtual DEFINE_SETTER(text_content, ext::string) = 0; // TODO CE_REACTIONS
-    virtual DEFINE_SETTER(node_value, ext::string) = 0; // TODO CE_REACTIONS
+    virtual DEFINE_SETTER(text_content, ext::string) = 0;
+    virtual DEFINE_SETTER(node_value, ext::string) = 0;
 
     DEFINE_GETTER(base_uri, ext::string);
     DEFINE_GETTER(is_connected, ext::boolean);

@@ -1,4 +1,5 @@
 #include "document_type.hpp"
+#include "document_type_private.hpp"
 
 
 dom::nodes::document_type::document_type()

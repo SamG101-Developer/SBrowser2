@@ -1,4 +1,5 @@
 #include "event_target.hpp"
+#include "event_target_private.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "ext/functional.hpp"
@@ -9,6 +10,7 @@
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/event_internals.hpp"
 #include "dom/events/event.hpp"
+#include "dom/events/event_private.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/remove_if.hpp>
@@ -26,7 +28,7 @@ dom::nodes::event_target::event_target()
 auto dom::nodes::event_target::add_event_listener(
         ext::string&& type,
         detail::event_listener_callback_t&& callback,
-        ext::variant<detail::add_event_listener_options_t, ext::boolean> options)
+        ext::variant<detail::add_event_listener_options_t, ext::boolean>&& options)
         -> void
 {
     ACCESS_PIMPL(event_target);
@@ -59,7 +61,7 @@ auto dom::nodes::event_target::add_event_listener(
 auto dom::nodes::event_target::remove_event_listener(
         ext::string&& type,
         detail::event_listener_callback_t&& callback,
-        ext::variant<detail::event_listener_options_t, ext::boolean> options)
+        ext::variant<detail::event_listener_options_t, ext::boolean>&& options)
         -> void
 {
     ACCESS_PIMPL(event_target);

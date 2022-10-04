@@ -5,8 +5,7 @@
 #include "dom/mixins/non_element_parent_node.hpp"
 #include "dom/mixins/parentable_node.hpp"
 namespace dom::nodes {class document_fragment;}
-
-#include "dom/nodes/document_fragment_private.hpp"
+namespace dom::nodes {class document_fragment_private;}
 
 
 class dom::nodes::document_fragment
@@ -15,7 +14,7 @@ class dom::nodes::document_fragment
         , public mixins::parentable_node
 {
 public:
-    document_fragment();
+    DOM_CTORS(document_fragment);
     MAKE_PIMPL(document_fragment);
     MAKE_V8_AVAILABLE;
 

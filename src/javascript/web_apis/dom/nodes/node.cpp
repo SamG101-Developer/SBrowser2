@@ -1,7 +1,5 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 #include "node.hpp"
+#include "node_private.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "ext/pimpl.hpp"
@@ -16,6 +14,7 @@
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
+#include "dom/mixins/slottable_private.hpp"
 #include "dom/nodes/attr.hpp"
 #include "dom/nodes/character_data.hpp"
 #include "dom/nodes/document.hpp"
@@ -312,36 +311,36 @@ auto dom::nodes::node::lookup_namespace_uri(
 
 
 auto dom::nodes::node::insert_before(
-        node* new_node,
+        std::unique_ptr<node>&& new_node,
         node* child)
         -> node*
 {
     // insert 'new_node' into 'this->child_nodes', directly before 'child' node
     CE_REACTIONS_METHOD_DEF
-        return detail::pre_insert(new_node, this, child);
+        return detail::pre_insert(std::move(new_node), this, child);
     CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::node::append_child(
-        node* new_node)
+        std::unique_ptr<node>&& new_node)
         -> node*
 {
     // append 'new_node' to 'this->child_nodes', at the end
     CE_REACTIONS_METHOD_DEF
-        return detail::append(new_node, this);
+        return detail::append(std::move(new_node), this);
     CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::node::replace_child(
         node* old_node,
-        node* new_node)
+        std::unique_ptr<node>&& new_node)
         -> node*
 {
     // replace 'old_node' with 'new_node' in 'this->child_nodes'
     CE_REACTIONS_METHOD_DEF
-        return detail::replace(new_node, old_node, this);
+        return detail::replace(std::move(new_node), old_node, this);
     CE_REACTIONS_METHOD_EXE
 }
 

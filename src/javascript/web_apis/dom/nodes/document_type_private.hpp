@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_TYPE_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_TYPE_PRIVATE_HPP
 
-#include "dom/nodes/node_private.hpp"
-#include "dom/mixins/child_node.hpp"
-
 #include "ext/pimpl.hpp"
+#include "dom/nodes/node_private.hpp"
+#include "dom/mixins/child_node_private.hpp"
+
 #include "ext/string.hpp"
 
 

@@ -1,4 +1,5 @@
 #include "element.hpp"
+#include "element_private.hpp"
 
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"

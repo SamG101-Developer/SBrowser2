@@ -4,7 +4,9 @@
 
 #include "dom_object.hpp"
 namespace dom::nodes {class event_target;}
+namespace dom::nodes {class event_target_private;}
 
+#include INCLUDE_INNER_TYPES(dom)
 #include "ext/boolean.hpp"
 #include "ext/functional.hpp"
 #include "ext/keywords.hpp"
@@ -12,10 +14,7 @@ namespace dom::nodes {class event_target;}
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(dom)
 namespace dom::events {class event;}
-
-#include "dom/nodes/event_target_private.hpp"
 
 
 class dom::nodes::event_target
@@ -27,8 +26,8 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto    add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::add_event_listener_options_t, ext::boolean> options = {}) -> void;
-    auto remove_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::event_listener_options_t, ext::boolean> options = {}) -> void;
+    auto    add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::add_event_listener_options_t, ext::boolean>&& options = {}) -> void;
+    auto remove_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::event_listener_options_t, ext::boolean>&& options = {}) -> void;
     auto dispatch_event(events::event* event) -> ext::boolean;
 };
 

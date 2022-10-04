@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP
 
+#include "ext/pimpl.hpp"
 #include "dom/nodes/node_private.hpp"
 
 #include "ext/boolean.hpp"
-#include "ext/pimpl.hpp"
 #include "ext/queue.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)

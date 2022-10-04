@@ -1,6 +1,7 @@
 #ifndef SBROWSER2_DOCUMENT_HPP
 #define SBROWSER2_DOCUMENT_HPP
 
+#include "document_private.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/mixins/document_or_element_node.hpp"
 #include "dom/mixins/document_or_shadow_root.hpp"
@@ -9,6 +10,7 @@
 #include "dom/xpath/xpath_evaluator_base.hpp"
 #include "ext/map_like.hpp"
 namespace dom::nodes {class document;}
+namespace dom::nodes {class document_private;}
 
 #include "ext/concepts.hpp"
 #include "ext/map.hpp"
@@ -60,10 +62,6 @@ namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
 namespace selection {class selection;}
 namespace svg::elements {class svg_script_element;}
-
-namespace dom::detail {auto lookup_custom_element_definition(const nodes::document*, ext::string_view, ext::string_view, ext::string_view) -> custom_element_definition_t*;}
-
-#include "dom/nodes/document_private.hpp"
 
 
 class dom::nodes::document

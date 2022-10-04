@@ -11,13 +11,15 @@
 #include "css/css_web_animations/mixins/animatable.hpp"
 
 namespace dom::nodes {class element;}
+namespace dom::nodes {class element_private;}
 
 
 #include "ext/optional.hpp"
 #include "ext/queue.hpp"
 #include "ext/map.hpp"
-#include "ext/vector.hpp"
 #include "ext/promise.hpp"
+#include "ext/span.hpp"
+#include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 
 #include INCLUDE_INNER_TYPES(css/box_tree)
@@ -30,9 +32,6 @@ namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
 namespace edit_context {class edit_context;}
-
-
-#include "dom/nodes/element_private.hpp"
 
 
 class dom::nodes::element

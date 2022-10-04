@@ -4,9 +4,7 @@
 #include "dom/nodes/node.hpp"
 #include "dom/mixins/child_node.hpp"
 namespace dom::nodes {class document_type;}
-
-
-#include "dom/nodes/document_type_private.hpp"
+namespace dom::nodes {class document_type_private;}
 
 
 class dom::nodes::document_type final
