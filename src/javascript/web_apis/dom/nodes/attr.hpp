@@ -3,8 +3,8 @@
 
 #include "dom/nodes/node.hpp"
 namespace dom::nodes {class attr;}
+namespace dom::nodes {class attr_private;}
 
-#include "dom/nodes/attr_private.hpp"
 namespace dom::nodes {class element;}
 
 

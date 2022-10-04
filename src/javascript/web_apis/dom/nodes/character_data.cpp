@@ -1,5 +1,7 @@
 #include "character_data.hpp"
+#include "character_data_private.hpp"
 
+#include "dom/detail/customization_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 

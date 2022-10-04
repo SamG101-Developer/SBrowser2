@@ -5,8 +5,7 @@
 #include "dom/mixins/child_node.hpp"
 #include "dom/mixins/non_document_type_child_node.hpp"
 namespace dom::nodes {class character_data;}
-
-#include "dom/nodes/character_data_private.hpp"
+namespace dom::nodes {class character_data_private;}
 
 
 class dom::nodes::character_data

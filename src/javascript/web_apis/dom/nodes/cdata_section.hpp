@@ -3,8 +3,7 @@
 
 #include "dom/nodes/text.hpp"
 namespace dom::nodes {class cdata_section;}
-
-#include "dom/nodes/cdata_section_private.hpp"
+namespace dom::nodes {class cdata_section_private;}
 
 
 class dom::nodes::cdata_section final

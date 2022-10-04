@@ -1,4 +1,5 @@
 #include "cdata_section.hpp"
+#include "cdata_section_private.hpp"
 
 #include "dom/detail/customization_internals.hpp"
 

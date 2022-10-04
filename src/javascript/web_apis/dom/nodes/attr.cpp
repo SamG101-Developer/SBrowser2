@@ -1,4 +1,5 @@
 #include "attr.hpp"
+#include "attr_private.hpp"
 
 #include "dom/detail/attribute_internals.hpp"
 #include "dom/detail/customization_internals.hpp"
