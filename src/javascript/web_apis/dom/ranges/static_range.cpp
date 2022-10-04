@@ -1,4 +1,5 @@
 #include "static_range.hpp"
+#include "static_range_private.hpp"
 
 #include "ext/casting.hpp"
 

@@ -1,6 +1,9 @@
 #include "edit_context.hpp"
+#include "edit_context_private.hpp"
 
 #include "css/geometry/dom_rect.hpp"
+
+#include <range/v3/view/transform.hpp>
 
 
 auto edit_context::edit_context::update_text(
@@ -59,9 +62,9 @@ auto edit_context::edit_context::update_character_bounds(
 
 
 auto edit_context::edit_context::character_bounds()
-        -> ext::vector_view<css::geometry::dom_rect*>
+        -> ext::vector_span<css::geometry::dom_rect*>
 {
     ACCESS_PIMPL(edit_context);
     return_if (!d->activated) {};
-    return {d->cached_character_bounds.begin(), d->cached_character_bounds.end()};
+    return d->cached_character_bounds | ranges::views::transform(&std::unique_ptr<css::geometry::dom_rect_readonly>::get);
 }

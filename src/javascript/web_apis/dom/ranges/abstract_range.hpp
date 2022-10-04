@@ -3,10 +3,9 @@
 
 #include "dom_object.hpp"
 namespace dom::node_ranges {class abstract_range;}
+namespace dom::node_ranges {class abstract_range_private;}
 
 namespace dom::nodes {class node;}
-
-#include "dom/ranges/abstract_range_private.hpp"
 
 
 class dom::node_ranges::abstract_range

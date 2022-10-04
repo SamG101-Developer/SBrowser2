@@ -4,14 +4,14 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace edit_context {class edit_context;}
+namespace edit_context {class edit_context_private;}
 
 #include "ext/boolean.hpp"
+#include "ext/span.hpp"
 #include "ext/type_traits.hpp"
 #include INCLUDE_INNER_TYPES(edit_context)
 namespace dom::nodes {class element;}
 namespace css::geometry {class dom_rect;}
-
-#include "edit_context/edit_context_private.hpp"
 
 
 class edit_context::edit_context
@@ -30,7 +30,7 @@ public js_methods:
     auto update_selection_bound(css::geometry::dom_rect* new_selection_bound) -> void;
     auto update_character_bounds(ext::number<ulong> range_start, const ext::vector<css::geometry::dom_rect*>& character_bounds) -> void;
     auto attached_element() -> ext::vector<dom::nodes::element*>;
-    auto character_bounds() -> ext::vector_view<css::geometry::dom_rect*>;
+    auto character_bounds() -> ext::vector_span<css::geometry::dom_rect*>;
 
 private js_properties:
     DEFINE_GETTER(text, ext::string);

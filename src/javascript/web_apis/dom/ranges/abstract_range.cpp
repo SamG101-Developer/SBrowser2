@@ -1,4 +1,5 @@
 #include "abstract_range.hpp"
+#include "abstract_range_private.hpp"
 
 #include "dom/detail/range_internals.hpp"
 

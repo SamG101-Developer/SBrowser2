@@ -1,4 +1,5 @@
 #include "range.hpp"
+#include "range_private.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "ext/boolean.hpp"

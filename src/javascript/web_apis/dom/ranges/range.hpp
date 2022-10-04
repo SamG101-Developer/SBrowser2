@@ -3,11 +3,10 @@
 
 #include "dom/ranges/abstract_range.hpp"
 namespace dom::node_ranges {class range;}
+namespace dom::node_ranges {class range_private;}
 
 #include "ext/type_traits.hpp"
 namespace dom::nodes {class document_fragment;}
-
-#include "dom/ranges/range_private.hpp"
 
 
 class dom::node_ranges::range

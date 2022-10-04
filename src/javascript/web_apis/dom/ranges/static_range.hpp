@@ -4,11 +4,10 @@
 
 #include "dom/ranges/abstract_range.hpp"
 namespace dom::node_ranges {class static_range;}
+namespace dom::node_ranges {class static_range_private;}
 
-#include "ext/map.hpp"
 #include INCLUDE_INNER_TYPES(dom)
-
-#include "dom/ranges/static_range_private.hpp"
+#include "ext/map.hpp"
 
 
 class dom::node_ranges::static_range

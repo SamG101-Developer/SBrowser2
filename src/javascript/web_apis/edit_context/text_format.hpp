@@ -4,11 +4,10 @@
 
 #include "dom_object.hpp"
 namespace edit_context {class text_format;}
+namespace edit_context {class text_format_private;}
 
 #include "ext/type_traits.hpp"
 #include INCLUDE_INNER_TYPES(edit_context)
-
-#include "edit_context/text_format_private.hpp"
 
 
 class edit_context::text_format
