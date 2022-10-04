@@ -1,4 +1,5 @@
 #include "gamepad.hpp"
+#include "gamepad_private.hpp"
 
 #include "ext/pimpl.hpp"
 #include "ext/uuid.hpp"
@@ -8,6 +9,8 @@
 #include "gamepad/detail/construction_internals.hpp"
 
 #include "hr_time/performance.hpp"
+
+#include <range/v3/algorithm/find.hpp>
 
 
 gamepad::gamepad::gamepad()
@@ -37,7 +40,9 @@ auto gamepad::gamepad::get_index() const -> ext::number<long>
 {
     ACCESS_PIMPL(const gamepad);
     JS_REALM_GET_RELEVANT(this);
-    return *ranges::find(v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->navigator->d_func()->gamepads, this));
+    decltype(auto) gamepads = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->navigator->d_func()->gamepads;
+    decltype(auto) iterator = ranges::find(gamepads, this);
+    return ranges::distance(gamepads.begin(), iterator);
 }
 
 
@@ -62,17 +67,17 @@ auto gamepad::gamepad::get_mapping() const -> detail::gamepad_mapping_type_t
 }
 
 
-auto gamepad::gamepad::get_axes() const -> ext::vector_view<ext::number<double>>
+auto gamepad::gamepad::get_axes() const -> ext::vector_span<ext::number<double>>
 {
     ACCESS_PIMPL(const gamepad);
-    return {d->axes.begin(), d->axes.end()};
+    return d->axes;
 }
 
 
-auto gamepad::gamepad::get_buttons() const -> ext::vector_view<gamepad_button*>
+auto gamepad::gamepad::get_buttons() const -> ext::vector_span<gamepad_button*>
 {
     ACCESS_PIMPL(const gamepad);
-    return {d->buttons.begin(), d->buttons.end()};
+    return d->buttons;
 }
 
 

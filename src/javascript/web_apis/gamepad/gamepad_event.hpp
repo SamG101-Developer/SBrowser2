@@ -4,10 +4,9 @@
 
 #include "dom/events/event.hpp"
 namespace gamepad {class gamepad_event;}
+namespace gamepad {class gamepad_event_private;}
 
 namespace gamepad {class gamepad;}
-
-#include "gamepad_event_private.hpp"
 
 
 class gamepad::gamepad_event

@@ -4,12 +4,12 @@
 
 #include "dom_object.hpp"
 namespace gamepad {class gamepad;}
+namespace gamepad {class gamepad_private;}
 
 #include INCLUDE_INNER_TYPES(gamepad)
 #include INCLUDE_INNER_TYPES(hr_time)
+#include "ext/span.hpp"
 namespace gamepad {class gamepad_button;}
-
-#include "gamepad_private.hpp"
 
 
 class gamepad::gamepad
@@ -27,8 +27,8 @@ private js_properties:
 
     DEFINE_GETTER(timestamp, hr_time::dom_high_res_time_stamp);
     DEFINE_GETTER(mapping, detail::gamepad_mapping_type_t);
-    DEFINE_GETTER(axes, ext::vector_view<ext::number<double>>);
-    DEFINE_GETTER(buttons, ext::vector_view<gamepad_button*>);
+    DEFINE_GETTER(axes, ext::vector_span<ext::number<double>>);
+    DEFINE_GETTER(buttons, ext::vector_span<gamepad_button*>);
 };
 
 
