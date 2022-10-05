@@ -6,12 +6,13 @@
 #include "ext/boolean.hpp"
 
 #include INCLUDE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(payment_method_id)
 
 
 namespace payment::detail
 {
     auto validate_payment_method_identifier(
-            ext::string_view pmi)
+            payment_method_identifier_t pmi)
             -> ext::boolean;
 
     auto validate_url_based_payment_method_identifier(
@@ -19,7 +20,7 @@ namespace payment::detail
             -> ext::boolean;
 
     auto validate_standardized_payment_method_identifier(
-            ext::string_view string)
+            payment_method_identifier_t string)
             -> ext::boolean;
 }
 

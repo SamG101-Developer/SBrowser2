@@ -4,7 +4,7 @@
 
 
 auto payment::detail::validate_payment_method_identifier(
-        ext::string_view pmi)
+        payment_method_identifier_t pmi)
         -> ext::boolean
 {
     decltype(auto) url = url::detail::basic_url_parser(pmi);

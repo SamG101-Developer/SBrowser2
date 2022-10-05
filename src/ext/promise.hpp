@@ -2,6 +2,7 @@
 #define SBROWSER2_SRC_EXT_PROMISE_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/concepts.hpp"
 #include "ext/keywords.hpp"
 #include <v8-isolate.h>
 #include <v8-local-handle.h>
@@ -15,20 +16,36 @@ template <typename T>
 class promise
 {
 public:
-    auto resolve(T&& value) -> promise<T>&
-    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<T>(value))); return *this;};
+    auto resolve(T&& value) -> promise<T>& requires (!ext::type_is<T, void>)
+    {
+        m_value = std::forward<T>(value);
+        m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), m_value));
+        return *this;
+    }
 
-    auto resolve() requires std::is_same_v<T, void>
-    {m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent())); return *this;}
+    auto resolve() requires ext::type_is<T, void>
+    {
+        m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent()));
+        return *this;
+    }
 
     template <typename E>
     auto reject(E&& exception) -> promise<T>&
-    {m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<E>(exception))); return *this;}
+    {
+        m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<E>(exception)));
+        return *this;
+    }
 
     template <callable F0, callable F1>
     auto react(F0&& fulfilled_steps, F1&& rejected_steps = [] {}) -> promise<T>&;
 
     auto pending() -> ext::boolean {return !(m_is_resolved || m_is_rejected);}
+
+    auto resolved() -> ext::boolean {return m_is_resolved;}
+
+    auto rejected() -> ext::boolean {return m_is_rejected;}
+
+    auto value() -> T {return m_value;}
 
     ext::function<void()> rejection_steps;
     ext::function<void()> fulfillment_steps;
@@ -36,6 +53,7 @@ public:
 private:
     ext::boolean m_is_resolved = false;
     ext::boolean m_is_rejected = false;
+    T m_value;
 
     v8::Local<v8::Promise::Resolver> m_v8_promise;
 };
