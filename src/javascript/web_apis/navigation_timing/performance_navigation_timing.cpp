@@ -1,4 +1,5 @@
 #include "performance_navigation_timing.hpp"
+#include "performance_navigation_timing_private.hpp"
 
 #include "html/detail/document_internals.hpp"
 

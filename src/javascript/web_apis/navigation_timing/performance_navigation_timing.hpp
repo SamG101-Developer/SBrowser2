@@ -4,13 +4,12 @@
 
 #include "resource_timing/performance_resource_timing.hpp"
 namespace navigation_timing {class performance_navigation_timing;}
+namespace navigation_timing {class performance_navigation_timing_private;}
 
 #include <memory>
 #include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(navigation_timing)
 
-
-#include "performance_navigation_timing_private.hpp"
 
 class navigation_timing::performance_navigation_timing
         : public resource_timing::performance_resource_timing
