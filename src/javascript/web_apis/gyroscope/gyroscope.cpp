@@ -1,4 +1,5 @@
 #include "gyroscope.hpp"
+#include "gyroscope_private.hpp"
 
 #include "gyroscope/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"

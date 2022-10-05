@@ -1,4 +1,5 @@
 #include "performance.hpp"
+#include "performance_private.hpp"
 
 #include "javascript/environment/realms_2.hpp"
 

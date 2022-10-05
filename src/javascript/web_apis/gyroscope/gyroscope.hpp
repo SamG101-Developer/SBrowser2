@@ -4,10 +4,9 @@
 
 #include "sensors/sensor.hpp"
 namespace gyroscope {class gyroscope;}
+namespace gyroscope {class gyroscope_private;}
 
 #include INCLUDE_INNER_TYPES(gyroscope)
-
-#include "gyroscope/gyroscope_private.hpp"
 
 
 class gyroscope::gyroscope
