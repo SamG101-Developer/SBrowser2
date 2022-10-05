@@ -220,9 +220,11 @@ struct html::detail::browsing_context_t
 
     ext::vector<dom::nodes::document*> session_history {};
 
-private:
-    /* CONTACT_PICKER */
+    /* [CONTACT-PICKER] */
     ext::boolean m_contact_picker_is_showing = false;
+
+    /* [PAYMENT-REQUEST] */
+    ext::boolean payment_request_is_showing = false;
 };
 
 #endif //SBROWSER2_CONTEXT_INTERNALS_HPP

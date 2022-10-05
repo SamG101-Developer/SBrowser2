@@ -13,6 +13,8 @@ namespace payment::detail
 
     using payment_method_data_t = ext::map<ext::string, ext::any>;
     using payment_details_update_t = ext::map<ext::string, ext::any>;
+    using payment_details_base_t = ext::map<ext::string, ext::any>;
+    using payment_details_init_t = ext::map<ext::string, ext::any>;
     using payment_method_init_t = ext::map<ext::string, ext::any>;
     using payment_currency_amount_t = ext::map<ext::string, ext::any>;
     using payment_details_modifier_t = ext::map<ext::string, ext::any>;

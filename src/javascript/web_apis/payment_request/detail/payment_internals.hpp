@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_DETAIL_PAYMENT_INTERNALS_HPP
 
 #include "ext/functional.hpp"
+#include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(payment_request)
 
 namespace payment::request {class payment_request;}
@@ -10,6 +11,10 @@ namespace payment::request {class payment_request;}
 
 namespace payment::detail
 {
+    auto payment_relevant_browsing_context(
+            request::payment_request* request)
+            -> html::detail::browsing_context_t&;
+
     auto is_valid_decimal_monetary_value(
             ext::string_view)
             -> ext::boolean;
@@ -23,31 +28,31 @@ namespace payment::detail
             -> void;
 
     auto can_make_payment_algorithm(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 
     auto payment_method_changed_algorithm(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 
     auto payment_method_updated_algorithm(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 
     auto user_accepts_payment_request_algorithm(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 
     auto user_aborts_payment_request_algorithm(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 
     auto update_payment_requests_details_algorithm(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 
     auto abort_update(
-            payment_request* request)
+            request::payment_request* request)
             -> void;
 };
 
