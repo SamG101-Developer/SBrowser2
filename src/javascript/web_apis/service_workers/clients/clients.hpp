@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace service_workers::clients {class clients;}
+namespace service_workers::clients {class clients_private;}
 
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
@@ -12,7 +13,6 @@ namespace service_workers::clients {class clients;}
 namespace service_workers::clients {class client;}
 namespace service_workers::clients {class window_client;}
 
-#include "clients_private.hpp"
 
 class service_workers::clients::clients
         : public virtual dom_object

@@ -1,4 +1,5 @@
 #include "extendable_event.hpp"
+#include "extendable_event_private.hpp"
 
 #include "service_workers/detail/event_internals.hpp"
 

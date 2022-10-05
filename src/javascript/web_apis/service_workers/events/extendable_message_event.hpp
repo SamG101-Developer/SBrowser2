@@ -4,10 +4,10 @@
 
 #include "service_workers/events/extendable_event.hpp"
 namespace service_workers::events {class extendable_message_event;}
+namespace service_workers::events {class extendable_message_event_private;}
 
 #include "ext/ranges.hpp"
 #include "ext/span.hpp"
-#include "extendable_message_event_private.hpp"
 namespace html::messaging {class message_port;}
 namespace service_workers::clients {class client;}
 namespace service_workers::workers {class service_worker;}

@@ -1,4 +1,5 @@
 #include "window_client.hpp"
+#include "window_client_private.hpp"
 
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"

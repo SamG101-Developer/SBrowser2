@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace service_workers::caches {class cache_storage;}
+namespace service_workers::caches {class cache_storage_private;}
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
@@ -12,8 +13,6 @@ namespace service_workers::caches {class cache;}
 namespace service_workers::clients {class client;}
 namespace fetch {class request;}
 namespace fetch {class response;}
-
-#include "cache_storage_private.hpp"
 
 
 class service_workers::caches::cache_storage

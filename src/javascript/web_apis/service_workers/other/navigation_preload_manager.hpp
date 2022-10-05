@@ -4,11 +4,10 @@
 
 #include "dom_object.hpp"
 namespace service_workers::other {class navigation_preload_manager;}
+namespace service_workers::other {class navigation_preload_manager_private;}
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)
-
-#include "navigation_preload_manager_private.hpp"
 
 
 class service_workers::other::navigation_preload_manager

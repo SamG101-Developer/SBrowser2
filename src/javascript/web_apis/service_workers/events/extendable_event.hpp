@@ -4,10 +4,9 @@
 
 #include "dom/events/event.hpp"
 namespace service_workers::events {class extendable_event;}
+namespace service_workers::events {class extendable_event_private;}
 
 #include "ext/promise.hpp"
-
-#include "extendable_event_private.hpp"
 
 
 class service_workers::events::extendable_event

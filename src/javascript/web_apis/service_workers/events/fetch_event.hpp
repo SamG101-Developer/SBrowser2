@@ -4,9 +4,10 @@
 
 #include "service_workers/events/extendable_event.hpp"
 namespace service_workers::events {class fetch_event;}
+namespace service_workers::events {class fetch_event_private;}
+
 namespace fetch {class request; class response;}
 
-#include "fetch_event_private.hpp"
 
 
 class service_workers::events::fetch_event

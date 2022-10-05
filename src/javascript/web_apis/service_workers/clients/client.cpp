@@ -1,4 +1,5 @@
 #include "client.hpp"
+#include "client_private.hpp"
 
 #include "service_workers/workers/service_worker.hpp"
 #include "service_workers/detail/client_internals.hpp"

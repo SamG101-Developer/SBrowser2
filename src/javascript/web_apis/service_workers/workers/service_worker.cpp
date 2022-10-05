@@ -1,4 +1,5 @@
 #include "service_worker.hpp"
+#include "service_worker_private.hpp"
 
 #include "url/detail/url_internals.hpp"
 
@@ -14,16 +15,6 @@ auto service_workers::workers::service_worker::post_message(
         ext::vector<ext::any>&& transfer) -> void
 {
     post_message(std::move(message), html::detail::structured_serialize_options_t{{"transfer", std::move(transfer)}});
-}
-
-
-auto service_workers::workers::service_worker::post_message(
-        ext::any&& message,
-        html::detail::structured_serialize_options_t&& options)
-        -> void
-{
-    JS_REALM_GET_INCUMBENT;
-    // TODO
 }
 
 

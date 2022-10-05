@@ -4,6 +4,7 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace service_workers::workers {class service_worker_registration;}
+namespace service_workers::workers {class service_worker_registration_private;}
 
 #include "ext/promise.hpp"
 #include <memory>
@@ -13,8 +14,6 @@ namespace notifications {class notification;}
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::workers {class service_worker;}
 namespace payment::handler {class payment_manager;}
-
-#include "service_worker_registration_private.hpp"
 
 
 class service_workers::workers::service_worker_registration

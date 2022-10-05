@@ -1,4 +1,5 @@
 #include "fetch_event.hpp"
+#include "fetch_event_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 

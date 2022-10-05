@@ -4,13 +4,12 @@
 
 #include "service_workers/clients/client.hpp"
 namespace service_workers::clients {class window_client;}
+namespace service_workers::clients {class window_client_private;}
 
 #include "ext/promise.hpp"
 #include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(page_visibility)
-
-#include "window_client_private.hpp"
 
 
 class service_workers::clients::window_client

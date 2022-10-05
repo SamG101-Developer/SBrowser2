@@ -4,11 +4,11 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace service_workers::workers {class service_worker;}
+namespace service_workers::workers {class service_worker_private;}
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(service_workers)
 
-#include "service_worker_private.hpp"
 
 class service_workers::workers::service_worker
         : public dom::nodes::event_target

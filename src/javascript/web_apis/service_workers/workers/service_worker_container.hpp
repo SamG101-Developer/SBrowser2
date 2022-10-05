@@ -4,14 +4,12 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace service_workers::workers {class service_worker_container;}
+namespace service_workers::workers {class service_worker_container_private;}
 
-#include "ext/promise.hpp"
-#include <memory>
 #include INCLUDE_INNER_TYPES(service_workers)
+#include "ext/promise.hpp"
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::workers {class service_worker_registration;}
-
-#include "service_worker_container_private.hpp"
 
 
 class service_workers::workers::service_worker_container

@@ -1,4 +1,5 @@
 #include "extendable_message_event.hpp"
+#include "extendable_message_event_private.hpp"
 
 #include <range/v3/view/transform.hpp>
 

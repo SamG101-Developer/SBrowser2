@@ -1,4 +1,5 @@
 #include "service_worker_global_scope.hpp"
+#include "service_worker_global_scope_private.hpp"
 
 #include "service_workers/detail/service_worker_internals.hpp"
 #include "service_workers/workers/service_worker.hpp"

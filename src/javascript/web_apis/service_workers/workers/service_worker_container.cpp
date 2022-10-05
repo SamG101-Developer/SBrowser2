@@ -1,4 +1,5 @@
 #include "service_worker_container.hpp"
+#include "service_worker_container_private.hpp"
 
 #include "javascript/environment/environment_settings.hpp"
 

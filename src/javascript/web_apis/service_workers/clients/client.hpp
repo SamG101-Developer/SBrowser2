@@ -4,11 +4,10 @@
 
 #include "dom_object.hpp"
 namespace service_workers::clients {class client;}
+namespace service_workers::clients {class client_private;}
 
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)
-
-#include "client_private.hpp"
 
 
 class service_workers::clients::client

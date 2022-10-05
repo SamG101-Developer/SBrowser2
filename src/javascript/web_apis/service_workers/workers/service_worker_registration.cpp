@@ -1,7 +1,8 @@
 #include "service_worker_registration.hpp"
-#include "service_workers/_typedefs.hpp"
+#include "service_worker_registration_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
+#include INCLUDE_INNER_TYPES(service_workers)
 
 #include "dom/other/dom_exception.hpp"
 #include "service_workers/detail/job_internals.hpp"

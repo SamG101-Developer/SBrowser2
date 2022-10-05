@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace service_workers::caches {class cache;}
+namespace service_workers::caches {class cache_private;}
 
 #include "ext/casting.hpp"
 #include "ext/optional.hpp"
@@ -13,8 +14,6 @@ namespace service_workers::caches {class cache;}
 #include INCLUDE_INNER_TYPES(fetch)
 namespace fetch {class request;}
 namespace fetch {class response;}
-
-#include "cache_private.hpp"
 
 
 class service_workers::caches::cache
