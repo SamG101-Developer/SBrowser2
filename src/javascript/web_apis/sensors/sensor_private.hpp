@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_SENSOR_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_SENSOR_PRIVATE_HPP
 
+#include "ext/pimpl.hpp"
 #include "dom/nodes/event_target_private.hpp"
 
-#include "ext/pimpl.hpp"
 #include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(sensors)
 

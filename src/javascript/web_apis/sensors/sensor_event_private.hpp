@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_SENSOR_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_SENSOR_EVENT_PRIVATE_HPP
 
+#include "ext/pimpl.hpp"
 #include "dom/events/event_private.hpp"
 
-#include "ext/pimpl.hpp"
 namespace dom::other {class dom_exception;}
 
 

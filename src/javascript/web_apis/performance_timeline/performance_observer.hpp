@@ -4,11 +4,10 @@
 
 #include "dom_object.hpp"
 namespace performance_timeline {class performance_observer;}
+namespace performance_timeline {class performance_observer_private;}
 
 #include INCLUDE_INNER_TYPES(performance_timeline)
 namespace performance_timeline {class performance_entry;}
-
-#include "performance_timeline/performance_observer_private.hpp"
 
 
 class performance_timeline::performance_observer

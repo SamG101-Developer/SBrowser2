@@ -1,4 +1,5 @@
 #include "performance_resource_timing.hpp"
+#include "performance_resource_timing_private.hpp"
 
 #include "fetch/detail/fetch_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"

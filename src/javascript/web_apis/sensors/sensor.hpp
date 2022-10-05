@@ -4,6 +4,7 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace sensors {class sensor;}
+namespace sensors {class sensor_private;}
 
 #include "ext/boolean.hpp"
 #include INCLUDE_INNER_TYPES(hr_time)

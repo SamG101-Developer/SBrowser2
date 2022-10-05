@@ -4,10 +4,9 @@
 
 #include "dom_object.hpp"
 namespace performance_timeline {class performance_entry;}
+namespace performance_timeline {class performance_entry_private;}
 
 #include INCLUDE_INNER_TYPES(hr_time)
-
-#include "performance_timeline/performance_entry_private.hpp"
 
 
 class performance_timeline::performance_entry

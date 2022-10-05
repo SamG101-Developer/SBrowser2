@@ -1,5 +1,5 @@
 #include "performance_entry.hpp"
-#include "ext/pimpl.hpp"
+#include "performance_entry_private.hpp"
 
 
 performance_timeline::performance_entry::performance_entry()

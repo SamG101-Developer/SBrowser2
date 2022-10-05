@@ -4,11 +4,10 @@
 
 #include "performance_timeline/performance_entry.hpp"
 namespace resource_timing {class performance_resource_timing;}
+namespace resource_timing {class performance_resource_timing_private;}
 
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(hr_time)
-
-#include "performance_resource_timing_private.hpp"
 
 
 class resource_timing::performance_resource_timing

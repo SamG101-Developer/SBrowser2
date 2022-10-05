@@ -4,8 +4,10 @@
 
 #include "dom/events/event.hpp"
 namespace sensors {class sensor_event;}
+namespace sensors {class sensor_event_private;}
 
 namespace dom::other {class dom_exception;}
+
 
 class sensors::sensor_event
         : public dom::events::event
