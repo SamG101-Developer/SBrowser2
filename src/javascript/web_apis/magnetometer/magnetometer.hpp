@@ -4,10 +4,9 @@
 
 #include "sensors/sensor.hpp"
 namespace magnetometer {class magnetometer;}
+namespace magnetometer {class magnetometer_private;}
 
 #include INCLUDE_INNER_TYPES(magnetometer)
-
-#include "magnetometer_private.hpp"
 
 
 class magnetometer::magnetometer
@@ -15,7 +14,7 @@ class magnetometer::magnetometer
 {
 public constructors:
     DOM_CTORS(magnetometer);
-    magnetometer(detail::magnetometer_sensor_options_t&& options = {});
+    magnetometer(detail::magnetometer_sensor_options_t&& options);
     MAKE_PIMPL(magnetometer);
     MAKE_V8_AVAILABLE;
 

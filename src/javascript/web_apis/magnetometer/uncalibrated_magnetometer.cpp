@@ -1,4 +1,5 @@
 #include "uncalibrated_magnetometer.hpp"
+#include "uncalibrated_magnetometer_private.hpp"
 
 #include "magnetometer/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"
