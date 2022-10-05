@@ -3,6 +3,7 @@
 
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
+
 namespace dom::nodes {class element;}
 namespace intersection_observer {class intersection_observer;}
 

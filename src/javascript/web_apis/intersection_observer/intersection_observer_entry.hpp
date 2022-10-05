@@ -3,6 +3,7 @@
 
 #include "dom_object.hpp"
 namespace intersection_observer {class intersection_observer_entry;}
+namespace intersection_observer {class intersection_observer_entry_private;}
 
 #include "ext/map.hpp"
 #include INCLUDE_INNER_TYPES(hr_time)
@@ -10,15 +11,13 @@ namespace intersection_observer {class intersection_observer_entry;}
 namespace dom::nodes {class element;}
 namespace css::geometry {class dom_rect_readonly;}
 
-#include "intersection_observer_entry_private.hpp"
-
 
 class intersection_observer::intersection_observer_entry
         : public virtual dom_object
 {
 public constructors:
-    MAKE_PIMPL(intersection_observer_entry);
     intersection_observer_entry(detail::intersection_observer_entry_init_t&& init);
+    MAKE_PIMPL(intersection_observer_entry);
     MAKE_V8_AVAILABLE;
 
 private js_properties:

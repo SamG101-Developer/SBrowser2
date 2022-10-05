@@ -1,4 +1,5 @@
 #include "intersection_observer.hpp"
+#include "intersection_observer_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 
@@ -132,10 +133,10 @@ auto intersection_observer::intersection_observer::get_root_margin() const -> ex
 }
 
 
-auto intersection_observer::intersection_observer::get_thresholds() const -> ext::vector_view<ext::number<double>>
+auto intersection_observer::intersection_observer::get_thresholds() const -> ext::vector_span<ext::number<double>>
 {
     ACCESS_PIMPL(const intersection_observer);
-    return {d->thresholds.begin(), d->thresholds.end()};
+    return d->thresholds;
 }
 
 

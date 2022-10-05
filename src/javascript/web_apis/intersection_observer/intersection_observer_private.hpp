@@ -4,9 +4,9 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
+#include INCLUDE_INNER_TYPES(intersection_observer)
 #include "ext/array.hpp"
 #include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(intersection_observer)
 
 namespace css::geometry {class dom_rect_readonly;}
 

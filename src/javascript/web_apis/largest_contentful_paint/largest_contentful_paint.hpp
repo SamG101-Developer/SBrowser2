@@ -4,11 +4,10 @@
 
 #include "performance_timeline/performance_entry.hpp"
 namespace largest_contentful_paint {class largest_contentful_paint;}
+namespace largest_contentful_paint {class largest_contentful_paint_private;}
 
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class element;}
-
-#include "largest_contentful_paint_private.hpp"
 
 
 class largest_contentful_paint::largest_contentful_paint

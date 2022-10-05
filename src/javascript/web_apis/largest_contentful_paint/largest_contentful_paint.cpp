@@ -1,4 +1,6 @@
 #include "largest_contentful_paint.hpp"
+#include "largest_contentful_paint_private.hpp"
+
 #include "performance_timeline/performance_entry.hpp"
 
 
