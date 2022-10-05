@@ -4,12 +4,11 @@
 
 #include "service_workers/events/extendable_event.hpp"
 namespace payment::handler {class can_make_payment_event;}
+namespace payment::handler {class can_make_payment_event_private;}
 
 #include INCLUDE_INNER_TYPES(payment_request)
 #include "ext/promise.hpp"
 #include "ext/span.hpp"
-
-#include "can_make_payment_event_private.hpp"
 
 
 class payment::handler::can_make_payment_event

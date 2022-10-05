@@ -1,4 +1,5 @@
 #include "can_make_payment_event.hpp"
+#include "can_make_payment_event_private.hpp"
 
 
 auto payment::handler::can_make_payment_event::get_top_origin() const -> ext::string_view

@@ -4,11 +4,10 @@
 
 #include "ext/map_like.hpp"
 namespace payment::handler {class payment_instruments;}
+namespace payment::handler {class payment_instruments_private;}
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(payment_handler)
-
-#include "payment_instruments_private.hpp"
 
 
 class payment::handler::payment_instruments

@@ -1,4 +1,5 @@
 #include "payment_instruments.hpp"
+#include "payment_instruments_private.hpp"
 
 #include <range/v3/action/remove.hpp>
 #include <range/v3/view/map.hpp>

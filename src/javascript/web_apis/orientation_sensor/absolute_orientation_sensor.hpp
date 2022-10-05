@@ -4,10 +4,9 @@
 
 #include "orientation_sensor/orientation_sensor.hpp"
 namespace orientation_sensor {class absolute_orientation_sensor;}
+namespace orientation_sensor {class absolute_orientation_sensor_private;}
 
 #include INCLUDE_INNER_TYPES(orientation_sensor)
-
-#include "absolute_orientation_sensor_private.hpp"
 
 
 class orientation_sensor::absolute_orientation_sensor

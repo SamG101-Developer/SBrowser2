@@ -4,10 +4,9 @@
 
 #include "dom_object.hpp"
 namespace payment::handler {class payment_manager;}
+namespace payment::handler {class payment_manager_private;}
 
 namespace payment::handler {class payment_instruments;}
-
-#include "payment_manager_private.hpp"
 
 
 class payment::handler::payment_manager

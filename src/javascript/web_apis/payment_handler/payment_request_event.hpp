@@ -4,13 +4,12 @@
 
 #include "payment_handler/can_make_payment_event.hpp"
 namespace payment::handler {class payment_request_event;}
+namespace payment::handler {class payment_request_event_private;}
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(payment_handler)
 #include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::handler {class window_client;}
-
-namespace payment::handler {class payment_request_event_private;}
 
 
 class payment::handler::payment_request_event

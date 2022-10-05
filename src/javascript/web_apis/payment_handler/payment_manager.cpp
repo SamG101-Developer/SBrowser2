@@ -1,4 +1,5 @@
 #include "payment_manager.hpp"
+#include "payment_manager_private.hpp"
 
 
 payment::handler::payment_manager::payment_manager()

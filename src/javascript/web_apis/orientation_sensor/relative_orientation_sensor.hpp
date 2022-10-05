@@ -5,12 +5,10 @@
 // Inheritance Includes & This Class
 #include "orientation_sensor/orientation_sensor.hpp"
 namespace orientation_sensor {class relative_orientation_sensor;}
+namespace orientation_sensor {class relative_orientation_sensor_private;}
 
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(orientation_sensor)
-
-// C++ PIMPL Private Header File
-#include "relative_orientation_sensor_private.hpp"
 
 
 class orientation_sensor::relative_orientation_sensor

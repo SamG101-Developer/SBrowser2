@@ -1,13 +1,13 @@
 #include "orientation_sensor.hpp"
+#include "orientation_sensor_private.hpp"
 
 #include "ext/concepts.hpp"
 #include "ext/keywords.hpp"
 
+#include INCLUDE_INNER_TYPES(dom)
+
 #include "css/geometry/dom_matrix.hpp"
-
-#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
-
 #include "sensors/detail/sensor_internals.hpp"
 
 #include <qmatrix4x4.h>

@@ -4,8 +4,7 @@
 
 #include "performance_timeline/performance_entry.hpp"
 namespace paint_timing {class performance_paint_timing;}
-
-#include "performance_paint_timing_private.hpp"
+namespace paint_timing {class performance_paint_timing_private;}
 
 
 class paint_timing::performance_paint_timing
