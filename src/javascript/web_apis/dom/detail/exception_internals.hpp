@@ -28,13 +28,13 @@ namespace dom::detail
     template <v8_primitive_error_t exception_type>
     auto throw_v8_exception(
             exception_condiditional_t&& condition = NO_CONDITION,
-            const ext::string& exception_message = "")
+            ext::string_view exception_message = "")
             -> void;
 
     template <dom_exception_error_t exception_type, typename ...T>
     auto throw_v8_exception_formatted(
             exception_condiditional_t&& condition = NO_CONDITION,
-            const ext::string& description = "",
+            ext::string_view description = "",
             ext::vector<ext::string>&& possible_causes = {},
             ext::vector<ext::string>&& possible_fixes = {},
             T&&... object_information)

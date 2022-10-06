@@ -13,11 +13,8 @@
 #include "dom/nodes/window.hpp"
 
 #include "gamepad/gamepad.hpp"
-
 #include "hr_time/performance.hpp"
-
 #include "html/detail/document_internals.hpp"
-
 #include "mediacapture_main/media_devices.hpp"
 
 #include "url/detail/encoding_internals.hpp"

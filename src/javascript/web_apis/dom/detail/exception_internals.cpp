@@ -25,7 +25,7 @@ struct exception_string_formatter
 template <v8_primitive_error_t exception_type>
 auto dom::detail::throw_v8_exception(
         exception_condiditional_t&& condition,
-        const ext::string& exception_message)
+        ext::string_view exception_message)
         -> void
 {
     if (condition())
@@ -53,7 +53,7 @@ auto dom::detail::throw_v8_exception(
 template <dom::detail::dom_exception_error_t exception_type, typename ...T>
 auto dom::detail::throw_v8_exception_formatted(
         exception_condiditional_t&& condition,
-        const ext::string& description,
+        ext::string_view description,
         ext::vector<ext::string>&& possible_causes,
         ext::vector<ext::string>&& possible_fixes,
         T&&... object_information)
