@@ -16,15 +16,15 @@ namespace payment::detail
             -> html::detail::browsing_context_t&;
 
     auto is_valid_decimal_monetary_value(
-            ext::string_view)
+            ext::string_view string)
             -> ext::boolean;
 
     auto check_and_canonicalize_amount(
-            detail::payment_currency_amount_t& currency)
+            detail::payment_currency_amount_t& amount)
             -> void;
 
     auto check_and_canonicalize_total_amount(
-            detail::payment_currency_amount_t& currency)
+            detail::payment_currency_amount_t& amount)
             -> void;
 
     auto can_make_payment_algorithm(

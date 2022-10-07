@@ -2,14 +2,19 @@
 #include "payment_request_private.hpp"
 
 #include "ext/uuid.hpp"
+#include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(payment_method_id)
 
 #include "dom/detail/exception_internals.hpp"
+#include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/other/dom_exception.hpp"
 
 #include "html/detail/document_internals.hpp"
+#include "html/detail/task_internals.hpp"
+
 #include "payment_method_id/detail/identifier_internals.hpp"
 #include "url/detail/url_internals.hpp"
 
@@ -55,6 +60,32 @@ payment::request::payment_request::payment_request(
 //            // TODO (JSON)
 //        }
 //    }
+}
+
+
+auto payment::request::payment_request::abort()
+        -> ext::promise<void>
+{
+    ACCESS_PIMPL(payment_request);
+    using enum dom::detail::dom_exception_error_t;
+    using namespace ext::literals;
+
+    auto promise = ext::promise<void>{};
+    return_if (d->response && d->response->d_func()->retry_promise) promise.reject(dom::other::dom_exception{"Cannot abort if the response is retrying"_es, INVALID_STATE_ERR});
+    return_if (d->state != detail::state_t::INTERACTIVE) promise.reject(dom::other::dom_exception{"Cannot abort state isn't interactive"_es, INVALID_STATE_ERR});
+
+    GO [d, &promise]
+    {
+        // TODO : abort
+        dom::detail::queue_task(html::detail::user_interaction_task_source,
+                [d, &promise]
+                {
+            // TODO : can;t abort? -> error
+            d->state = detail::state_t::CLOSED;
+            d->accept_promise.reject(dom::other::dom_exception{"Aborted"_es, ABORT_ERR});
+            return promise.resolve();
+                });
+    };
 }
 
 

@@ -46,7 +46,7 @@ public constructors:
     virtual ~dom_object() = default;
     MAKE_PIMPL(dom_object);
     MAKE_V8_AVAILABLE;
-    MAKE_STRINGIFIER {return "";}
+    MAKE_STRINGIFIER;
 
 protected:
     std::unique_ptr<dom_object_private> d_ptr;

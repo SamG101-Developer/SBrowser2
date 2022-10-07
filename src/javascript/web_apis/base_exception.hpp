@@ -18,6 +18,8 @@ public aliases:
 public constructors:
     base_exception();
     base_exception(ext::string&& message, T&& code);
+    base_exception(const base_exception&) = default;
+    base_exception(base_exception&&) noexcept = default;
     MAKE_PIMPL_TEMPLATED(base_exception, T);
     MAKE_V8_AVAILABLE;
 
