@@ -2,17 +2,15 @@
 #ifndef SBROWSER2_MAP_HPP
 #define SBROWSER2_MAP_HPP
 
-#include "ext/keywords.hpp"
-#include <tsl/robin_map.h>
+#include "ext/vector.hpp"
+#include "ext/pair.hpp"
+#include <ankerl/unordered_dense.h>
 
 
 _EXT_BEGIN
 
-template <
-        class Key, class T, class Hash = std::hash<Key>, class KeyEqual = std::equal_to<Key>,
-        class Allocator = std::allocator<std::pair<Key, T>>, bool StoreHash = false,
-        class GrowthPolicy = tsl::rh::power_of_two_growth_policy<2>>
-using map = tsl::robin_map<Key, T, Hash, KeyEqual, Allocator, StoreHash, GrowthPolicy>;
+template <typename Key, typename Val>
+using map = ankerl::unordered_dense::map<Key, Val, std::equal_to<Key>, _EXT vector<_EXT pair <Key, Val>>>;
 
 _EXT_END
 

@@ -40,8 +40,8 @@ FetchContent_Declare(FunctionReplacement
         GIT_TAG "origin/master")
 
 FetchContent_Declare(HashMapSetReplacement
-        GIT_REPOSITORY "https://github.com/Tessil/robin-map.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/martinus/unordered_dense.git
+        GIT_TAG main)
 
 FetchContent_Declare(OptionalReplacement
         GIT_REPOSITORY "https://github.com/TartanLlama/optional.git"
@@ -136,7 +136,7 @@ add_library(veque INTERFACE)
 target_include_directories(veque INTERFACE ${CMAKE_BINARY_DIR}/_deps/vectorreplacement-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro expected cppfs function2::function2 tsl::robin_map optional effolkronium_random
+        assert cppcoro expected cppfs function2::function2 unordered_dense::unordered_dense optional effolkronium_random
         range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo asap
         magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
