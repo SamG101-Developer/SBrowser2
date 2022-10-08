@@ -39,6 +39,6 @@ auto payment::detail::check_and_canonicalize_amount(
     // TODO : JS Check
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [validation = is_valid_decimal_monetary_value(amount.at("value").to<ext::string>())] {return !validation;},
+            [validation = is_valid_decimal_monetary_value(amount["value"].to<ext::string>())] {return !validation;},
             "Amount's value must be a valid decimal monetary value");
 }

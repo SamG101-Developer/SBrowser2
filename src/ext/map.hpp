@@ -10,7 +10,7 @@
 _EXT_BEGIN
 
 template <typename Key, typename Val>
-using map = ankerl::unordered_dense::map<Key, Val, std::equal_to<Key>, _EXT vector<_EXT pair <Key, Val>>>;
+using map = ankerl::unordered_dense::map<Key, Val, ankerl::unordered_dense::hash<Key>, std::equal_to<Key>, _EXT vector<_EXT pair<Key, Val>>>;
 
 _EXT_END
 

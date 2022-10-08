@@ -9,7 +9,7 @@
 _EXT_BEGIN
 
 template <typename T>
-using set = ankerl::unordered_dense::set<T, std::hash<T>, std::equal_to<T>, _EXT vector<T>>;
+using set = ankerl::unordered_dense::set<T, ankerl::unordered_dense::hash<T>, std::equal_to<T>, _EXT vector<T>>;
 
 _EXT_END
 

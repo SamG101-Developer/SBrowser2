@@ -24,7 +24,7 @@ auto accelerometer::detail::construct_accelerometer_object(
     // option from the 'options' dictionary.
     using enum accelerometer_local_coordinate_system_t;
     sensors::detail::initialize_sensor_object(sensor, std::move(options));
-    sensor->d_ptr->coordinate_system = options.template try_emplace("referenceFrame").first->second.template to<accelerometer_local_coordinate_system_t>() == SCREEN
+    sensor->d_func()->coordinate_system = options["referenceFrame"].to<accelerometer_local_coordinate_system_t>() == SCREEN
             ? sensors::detail::coordinate_system_t::SCREEN_COORDINATE_SYSTEM
             : sensors::detail::coordinate_system_t::DEVICE_COORDINATE_SYSTEM;
 }

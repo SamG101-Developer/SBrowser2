@@ -126,9 +126,8 @@ auto dom::detail::queue_mutation_record(
             // if the conditions based on the 'type' and 'options' dictionary are valid, then modify the
             // 'interested_observers' map
             auto options = registered->options;
-            options.try_emplace("attributeFilter", ext::vector<ext::string>{});
 
-            if (type == ATTRIBUTES && options.try_emplace("attributes").second && (ranges::contains(options.at("attributeFilter").to<ext::vector<ext::string>>(), name) || !namespace_.empty())
+            if (type == ATTRIBUTES && options.try_emplace("attributes").second && (ranges::contains(options["attributeFilter"].to<ext::vector<ext::string>>(), name) || !namespace_.empty())
                 || node != target && options.try_emplace("subtree", true).first->second.to<ext::boolean>() == false
                 || type == CHILD_LIST && options.try_emplace("childList", true).first->second.to<ext::boolean>() == false
                 || type == ATTRIBUTES && options.try_emplace("attributes", true).first->second.to<ext::boolean>() == false
