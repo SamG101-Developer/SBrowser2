@@ -33,7 +33,7 @@ auto dom::nodes::window::request_idle_callback(
 
         // Continue if the timeout value in the 'options' dictionary is greater than 0 (can't wait for <= 0
         // milliseconds)
-        if (auto timeout = options.try_emplace("timeout", 0).first->second.to<ext::number<int>>(); timeout > 0)
+        if (auto timeout = options["timeout"].to<ext::number<int>>(); timeout > 0)
         {
             // Sleep the thread for the correct number of milliseconds, and then wait for other instances of
             // this method to finish, as long as they started before this method did (their thread is before

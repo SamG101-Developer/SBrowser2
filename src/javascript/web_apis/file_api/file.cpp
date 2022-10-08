@@ -20,7 +20,7 @@ file_api::file::file(
     ACCESS_PIMPL(file);
 
     auto bytes = detail::process_blob_parts(std::move(file_bits), std::move(options));
-    auto options_type = options.try_emplace("type", "").first->second.to<ext::string>();
+    auto options_type = options["type"].to<ext::string>();
 
     if (!ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)))
         options_type |= ranges::actions::lowercase();

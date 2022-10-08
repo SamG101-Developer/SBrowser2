@@ -39,7 +39,7 @@ auto dom::nodes::event_target::add_event_listener(
     event_listener.insert_or_assign("type", std::move(type));
 
     // get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map
-    decltype(auto) signal = event_listener.try_emplace("signal", nullptr).first->second.to<abort::abort_signal*>();
+    decltype(auto) signal = event_listener["signal"].to<abort::abort_signal*>();
 
     // return if
     //  - there is no callback - invoking the event listener would have no effect and would waste cycles;
@@ -80,9 +80,9 @@ auto dom::nodes::event_target::remove_event_listener(
     auto event_listener_equality_check = [event_listener](ext::map<ext::string, ext::any>&& e)
     {
         using callback_t = detail::event_listener_callback_t;
-        return e.try_emplace("callback", nullptr).first->second.to<callback_t>() == event_listener.at("callback").to<callback_t>()
-                && e.try_emplace("type", nullptr).first->second.to<ext::string_view>() == event_listener.at("type").to<ext::string_view>()
-                && e.try_emplace("capture", nullptr).first->second.to<ext::boolean>() == event_listener.at("capture").to<ext::boolean>();
+        return e["callback"].to<callback_t>() == event_listener.at("callback").to<callback_t>()
+                && e["type"].to<ext::string_view>() == event_listener.at("type").to<ext::string_view>()
+                && e["capture"].first->second.to<ext::boolean>() == event_listener.at("capture").to<ext::boolean>();
     };
 
     d->event_listeners |= ranges::actions::remove_if(event_listener_equality_check);

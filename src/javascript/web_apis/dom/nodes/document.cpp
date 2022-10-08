@@ -101,7 +101,7 @@ auto dom::nodes::document::create_element(
         // to the empty string otherwise
         auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d->type == "html");
         auto html_adjusted_namespace_ = d->type == "html" || d->content_type == "application/xhtml+xml" ? detail::HTML : "";
-        auto is = options.try_emplace("is", "").first->second.to<ext::string>();
+        auto is = options["is"].to<ext::string>();
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);

@@ -132,7 +132,7 @@ auto dom::nodes::node::get_root_node(
         -> node*
 {
     // get the shadow including root node if the 'composed' option is set, otherwise get the regular root of the node
-    return options.try_emplace("composed", false).first->second.to<ext::boolean>()
+    return options["composed"].to<ext::boolean>()
             ? detail::shadow_including_root(this)
             : detail::root(this);
 }

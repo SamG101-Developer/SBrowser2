@@ -356,9 +356,9 @@ auto dom::nodes::element::attach_shadow(
     shadow_root shadow {};
     shadow.owner_document = owner_document();
     shadow.host = this;
-    shadow.mode = options.try_emplace("mode", "").first->second.to<ext::string>();
-    shadow.delegates_focus = options.try_emplace("delegatesFocus", ext::boolean::FALSE_()).first->second.to<ext::boolean>();
-    shadow.slot_assignment = options.try_emplace("slotAssignment", "").first->second.to<ext::string>();
+    shadow.mode = options["mode"].to<ext::string>();
+    shadow.delegates_focus = options["delegatesFocus"].to<ext::boolean>();
+    shadow.slot_assignment = options["slotAssignment"].to<ext::string>();
     shadow_root_node = &shadow;
     return shadow;
 }

@@ -12,9 +12,9 @@ device_orientation::device_orientation_event::device_orientation_event(
     INIT_PIMPL(device_orientation_event);
     ACCESS_PIMPL(device_orientation_event);
 
-    d->alpha = event_init.try_emplace("alpha", 0.0).first->second.try_to<decltype(d->alpha)>();
-    d->beta  = event_init.try_emplace("alpha", 0.0).first->second.try_to<decltype(d->beta )>();
-    d->gamma = event_init.try_emplace("alpha", 0.0).first->second.try_to<decltype(d->gamma)>();
+    d->alpha = event_init["alpha"].try_to<decltype(d->alpha)>();
+    d->beta  = event_init["beta" ].try_to<decltype(d->beta )>();
+    d->gamma = event_init["gamma"].try_to<decltype(d->gamma)>();
 }
 
 

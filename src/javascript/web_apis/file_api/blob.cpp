@@ -24,7 +24,7 @@ file_api::blob::blob(
     d->byte_sequence = detail::process_blob_parts(std::move(blob_parts), std::move(options));
     d->type = "";
 
-    auto options_type = options.try_emplace("type", "").first->second.to<ext::string>();
+    auto options_type = options["type"]to<ext::string>();
 
     if (!options_type.empty())
     {
