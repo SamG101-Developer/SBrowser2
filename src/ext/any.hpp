@@ -35,7 +35,7 @@ public constructors:
 
     any(const any&) = default;
     any(any&&) noexcept = default;
-    auto operator=(const any&) -> any& = delete;
+    auto operator=(const any&) -> any& = default;
     auto operator=(any&&) noexcept -> any& = default;
 
     template <not_any T> any(T&& value) noexcept;
