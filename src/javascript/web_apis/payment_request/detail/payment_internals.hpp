@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_DETAIL_PAYMENT_INTERNALS_HPP
 
 #include "ext/functional.hpp"
+#include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(payment_request)
 
@@ -48,6 +49,7 @@ namespace payment::detail
             -> void;
 
     auto update_payment_requests_details_algorithm(
+            ext::promise<detail::payment_details_update_t>& details_promise,
             request::payment_request* request)
             -> void;
 
