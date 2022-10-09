@@ -28,8 +28,8 @@ _EXT_SHORTHAND_END
 
 
 _EXT_LITERALS_BEGIN
-constexpr auto operator"" _es (const char* primitive_string, size_t length) {return ext::string{(const char8_t*)primitive_string, length};}
-constexpr auto operator"" _esv(const char* primitive_string, size_t length) {return ext::string_view{(const char8_t*)primitive_string, length};}
+//constexpr auto operator"" _es (const char* primitive_string, size_t length) {return ext::string{(const char8_t*)primitive_string, length};}
+//constexpr auto operator"" _esv(const char* primitive_string, size_t length) {return ext::string_view{(const char8_t*)primitive_string, length};}
 _EXT_LITERALS_END
 
 
