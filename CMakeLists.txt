@@ -20,96 +20,100 @@ file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 include(FetchContent)
 
 FetchContent_Declare(AssertReplacement
-        GIT_REPOSITORY "https://github.com/jeremy-rifkin/libassert.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/jeremy-rifkin/libassert.git
+        GIT_TAG master)
 
 FetchContent_Declare(CoroutineReplacement
-        GIT_REPOSITORY "https://github.com/andreasbuhr/cppcoro.git"
-        GIT_TAG "origin/main")
+        GIT_REPOSITORY https://github.com/andreasbuhr/cppcoro.git
+        GIT_TAG main)
 
 FetchContent_Declare(ExpectedReplacement
-        GIT_REPOSITORY "https://github.com/TartanLlama/expected.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/TartanLlama/expected.git
+        GIT_TAG master)
 
 FetchContent_Declare(FilesystemReplacement
-        GIT_REPOSITORY "https://github.com/cginternals/cppfs.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/cginternals/cppfs.git
+        GIT_TAG master)
 
 FetchContent_Declare(FunctionReplacement
-        GIT_REPOSITORY "https://github.com/Naios/function2.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/Naios/function2.git
+        GIT_TAG master)
 
 FetchContent_Declare(HashMapSetReplacement
         GIT_REPOSITORY https://github.com/martinus/unordered_dense.git
         GIT_TAG main)
 
+FetchContent_Declare(JsonReplacement
+        GIT_REPOSITORY https://github.com/wqking/jsonpp.git
+        GIT_TAG master)
+
 FetchContent_Declare(OptionalReplacement
-        GIT_REPOSITORY "https://github.com/TartanLlama/optional.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/TartanLlama/optional.git
+        GIT_TAG master)
 
 FetchContent_Declare(QueueReplacement
-        GIT_REPOSITORY "https://github.com/mattreecebentley/plf_queue.git"
-        GIT_TAG "origin/main")
+        GIT_REPOSITORY https://github.com/mattreecebentley/plf_queue.git
+        GIT_TAG main)
 
 FetchContent_Declare(RandomReplacement
-        GIT_REPOSITORY "https://github.com/effolkronium/random.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/effolkronium/random.git
+        GIT_TAG master)
 
 FetchContent_Declare(RangeReplacement
-        GIT_REPOSITORY "https://github.com/ericniebler/range-v3.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/ericniebler/range-v3.git
+        GIT_TAG master)
 
 FetchContent_Declare(RegexReplacement
-        GIT_REPOSITORY "https://github.com/hanickadot/compile-time-regular-expressions.git"
-        GIT_TAG "origin/main")
+        GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
+        GIT_TAG main)
 
 FetchContent_Declare(StackReplacement
-        GIT_REPOSITORY "https://github.com/mattreecebentley/plf_stack.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/mattreecebentley/plf_stack.git
+        GIT_TAG master)
 
 FetchContent_Declare(StreamsReplacement
-        GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG master)
 
 FetchContent_Declare(TupleReplacement
-        GIT_REPOSITORY "https://github.com/codeinred/tuplet.git"
-        GIT_TAG "origin/main")
+        GIT_REPOSITORY https://github.com/codeinred/tuplet.git
+        GIT_TAG main)
 
 FetchContent_Declare(VariantReplacement
-        GIT_REPOSITORY "https://github.com/groundswellaudio/swl-variant.git"
-        GIT_TAG "origin/main")
+        GIT_REPOSITORY https://github.com/groundswellaudio/swl-variant.git
+        GIT_TAG main)
 
 FetchContent_Declare(VectorReplacement
-        GIT_REPOSITORY "https://github.com/Shmoopty/veque.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/Shmoopty/veque.git
+        GIT_TAG master)
 
 FetchContent_Declare(HardwareInfo
-        GIT_REPOSITORY "https://github.com/lfreist/hwinfo.git"
-        GIT_TAG "origin/main")
+        GIT_REPOSITORY https://github.com/lfreist/hwinfo.git
+        GIT_TAG main)
 
 FetchContent_Declare(DateTime
         GIT_REPOSITORY https://github.com/mobius3/asap.git
-        GIT_TAG "origin/master")
+        GIT_TAG master)
 
 FetchContent_Declare(MagicEnum
-        GIT_REPOSITORY "https://github.com/Neargye/magic_enum.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
+        GIT_TAG master)
 
 FetchContent_Declare(Qt
         GIT_REPOSITORY https://github.com/SamG101-Developer/Qt6WindowsBinaries.git
-        GIT_TAG "origin/master")
+        GIT_TAG master)
 
 FetchContent_Declare(SelfMacro
         GIT_REPOSITORY https://github.com/MitalAshok/self_macro.git
-        GIT_TAG "origin/master")
+        GIT_TAG master)
 
 FetchContent_Declare(UUIDs
-        GIT_REPOSITORY "https://github.com/mariusbancila/stduuid.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/mariusbancila/stduuid.git
+        GIT_TAG master)
 
 FetchContent_Declare(V8PP
-        GIT_REPOSITORY "https://github.com/pmed/v8pp.git"
-        GIT_TAG "origin/master")
+        GIT_REPOSITORY https://github.com/pmed/v8pp.git
+        GIT_TAG master)
 
 FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
