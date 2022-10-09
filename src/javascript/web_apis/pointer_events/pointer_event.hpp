@@ -4,43 +4,39 @@
 
 #include "ui_events/mouse_event.hpp"
 namespace pointer_events {class pointer_event;}
+namespace pointer_events {class pointer_event_private;}
+
+#include "ext/span.hpp"
 
 
 class pointer_events::pointer_event
         : public ui_events::mouse_event
 {
 public constructors:
-    DOM_CTORS(pointer_event);
     pointer_event() = default;
     pointer_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(pointer_event);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto get_coalesced_events() const -> ext::vector<pointer_event*>*;
-    auto get_predicted_events() const -> ext::vector<pointer_event*>*;
+    _EXT_NODISCARD auto get_coalesced_events() const -> ext::vector_span<pointer_event*>;
+    _EXT_NODISCARD auto get_predicted_events() const -> ext::vector_span<pointer_event*>;
 
 private js_properties:
-    ext::property<ext::number<long>> pointer_id;
-    ext::property<ext::number<double>> width;
-    ext::property<ext::number<double>> height;
-    ext::property<ext::number<float>> pressure;
-    ext::property<ext::number<float>> tangential_pressure;
-    ext::property<ext::number<long>> tilt_x;
-    ext::property<ext::number<long>> tilt_y;
-    ext::property<ext::number<long>> twist;
-    ext::property<ext::number<double>> altitude_angle;
-    ext::property<ext::number<double>> azimuth_angle;
-    ext::property<ext::string> pointer_type;
-    ext::property<ext::boolean> is_primary;
+    DEFINE_GETTER(pointer_id, ext::number<long>);
+    DEFINE_GETTER(width, ext::number<double>);
+    DEFINE_GETTER(height, ext::number<double>);
+    DEFINE_GETTER(pressure, ext::number<float>);
+    DEFINE_GETTER(tangential_pressure, ext::number<float>);
+    DEFINE_GETTER(tilt_x, ext::number<long>);
+    DEFINE_GETTER(tilt_y, ext::number<long>);
+    DEFINE_GETTER(twist, ext::number<long>);
+    DEFINE_GETTER(altitude_angle, ext::number<double>);
+    DEFINE_GETTER(azimuth_angle, ext::number<double>);
+    DEFINE_GETTER(pointer_type, ext::string_view);
+    DEFINE_GETTER(is_primary, ext::boolean);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    std::unique_ptr<ext::vector<pointer_event*>> m_coalesced_events;
-    std::unique_ptr<ext::vector<pointer_event*>> m_predicted_events;
-
-private js_properties:
-    DEFINE_CUSTOM_SETTER(target);
+    DEFINE_SETTER(target, dom::nodes::event_target*);
 };
 
 
