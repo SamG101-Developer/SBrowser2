@@ -32,7 +32,7 @@ pointer_events::pointer_event::pointer_event(
     d->coalesced_events = event_init[u8"coalescedEvents"].to<decltype(d->coalesced_events)>();
     d->predicted_events = event_init[u8"predictedEvents"].to<decltype(d->coalesced_events)>();
 
-    for_if (d->is_trusted, auto* event: ranges::views::concat(d->coalesced_events, d->predicted_events))
+    for_if (d->is_trusted, decltype(auto) event: ranges::views::concat(d->coalesced_events, d->predicted_events))
     {
         // inherit these properties from his PointerEvent
         event->d_func()->pointer_id = d->pointer_id;
