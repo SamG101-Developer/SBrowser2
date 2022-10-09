@@ -23,7 +23,7 @@ public:
         return *this;
     }
 
-    auto resolve() requires ext::type_is<T, void>
+    auto resolve() -> promise<T>& requires (ext::type_is<T, void>)
     {
         m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent()));
         return *this;
