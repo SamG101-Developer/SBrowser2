@@ -31,7 +31,8 @@ template <callable F>
 struct negate_function
 {
     explicit negate_function(F&& predicate)
-    {m_predicate = std::forward<F>(predicate);}
+            : m_predicate(std::forward<F>(predicate))
+    {}
 
     template <typename ...Args>
     constexpr auto operator()(Args&&... arguments) const -> decltype(auto)

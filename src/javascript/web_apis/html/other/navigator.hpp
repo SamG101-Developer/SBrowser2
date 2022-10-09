@@ -95,6 +95,9 @@ private js_properties:
     /* WEBAPPSEC_CREDENTIALS_MANAGEMENT */
     ext::property<std::unique_ptr<webappsec::credential_management::credentials_container>> credentials;
 
+    /* [PRESENTATION] */
+    std::unique_ptr<presentation::presentation> presentation;
+
 private js_slots:
     /* BATTERY */
     ext::slot<ext::promise<battery::battery_manager*>> s_battery_promise;

@@ -1,7 +1,6 @@
 #ifndef SBROWSER2_DOCUMENT_HPP
 #define SBROWSER2_DOCUMENT_HPP
 
-#include "document_private.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/mixins/document_or_element_node.hpp"
 #include "dom/mixins/document_or_shadow_root.hpp"

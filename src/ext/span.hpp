@@ -28,16 +28,22 @@ public aliases:
     using element_type = T;
     using value_type = std::remove_cv_t<element_type>;
 
+    using size_type = size_t;
+    using difference_type = ptrdiff_t;
+    using pointer = T*;
+    using const_pointer = const T*;
+    using reference = T&;
+    using const_reference = const T&;
+
     using begin_iterator = BeginIter;
     using reverse_begin_iterator = ranges::reverse_iterator<begin_iterator>;
     using end_iterator = EndIter;
     using reverse_end_iterator = ranges::reverse_iterator<end_iterator>;
-    using pointer = std::remove_pointer_t<T>*;
-    using reference = std::remove_reference_t<T>&;
-    using const_pointer = const pointer;
-    using const_reference = const reference;
-    using difference_type = ptrdiff_t;
-    using size_type = size_t;
+
+    // These two type definitions aren't used by the class, but are required to make Ranges-V3 recognise the class as a
+    // view closure, such that it can be used for filters and transforms etc.
+    using iterator = begin_iterator;
+    using reverse_iterator = std::reverse_iterator<iterator>;
 
 public constructors:
     span()
@@ -86,6 +92,7 @@ public cpp_members:
     auto data() {return fixed_begin;}
     auto empty() {return fixed_size == 0;}
     auto size() {return fixed_size;}
+    auto size_bytes() {return fixed_size * sizeof(element_type);}
 
     auto begin() {return fixed_begin;}
     auto rbegin() {return ranges::reverse_iterator<begin_iterator>{fixed_begin};}
@@ -100,7 +107,9 @@ public cpp_members:
     auto subspan() {return span{fixed_begin, fixed_end};}
     auto subspan(size_type offset, size_type count) {return span{ranges::next(fixed_begin, offset), count};}
 
-    auto at(size_type where) -> element_type {return *ranges::next(fixed_begin, where);}
+    [[deprecated("Use ..._span.at(...)")]]
+    auto operator[](size_type index) -> element_type {return *ranges::next(fixed_begin, index);}
+    auto at(size_type index) -> element_type {return *ranges::next(fixed_begin, index);}
 
 private:
     const begin_iterator fixed_begin;
