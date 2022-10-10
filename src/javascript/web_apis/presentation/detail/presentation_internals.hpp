@@ -9,6 +9,7 @@
 #include INCLUDE_INNER_TYPES(presentation)
 
 namespace dom::nodes {class document;}
+namespace presentation {class presentation_availability;}
 namespace presentation {class presentation_connection;}
 namespace presentation {class presentation_request;}
 
@@ -39,6 +40,13 @@ namespace presentation::detail
             presentation_request* request,
             detail::presentation_id presentation_id)
             -> ext::promise<presentation_connection>;
+
+    auto get_presentation_displays_availability_information(
+            presentation_request* request)
+            -> ext::promise<presentation_availability>;
+
+    auto monitor_list_of_available_presentation_displays()
+            -> void;
 };
 
 
