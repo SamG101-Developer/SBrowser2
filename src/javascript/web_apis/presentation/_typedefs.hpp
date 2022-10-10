@@ -8,6 +8,8 @@ namespace presentation::detail
 {
     struct presentation_display_t;
 
+    enum class presentation_connection_state_t {CONNECTING, CONNECTED, CLOSED, TERMINATED};
+
     using presentation_id = ext::string;
 }
 
