@@ -31,7 +31,7 @@ public js_properties:
     DEFINE_GETTER(id, ext::string_view);
     DEFINE_GETTER(url, ext::string_view);
     DEFINE_GETTER(state, detail::presentation_connection_state_t);
-    DEFINE_GETTER(binary_type, ext::string); // TODO : Return Type
+    DEFINE_GETTER(binary_type, ext::string_view); // TODO : Return Type
 };
 
 

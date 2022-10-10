@@ -13,6 +13,8 @@ DEFINE_PRIVATE_CLASS(presentation, presentation_connection) : dom::nodes::event_
     ext::string presentation_identifier;
     ext::string presentation_url;
     detail::presentation_connection_state_t current_state;
+
+    ext::string binary_type;
 };
 
 
