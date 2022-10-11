@@ -9,6 +9,7 @@ namespace push_api {class push_manager_private;}
 
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(push_api)
+#include "ext/promise.hpp"
 #include "ext/span.hpp"
 namespace push_api {class push_subscription;}
 
@@ -22,7 +23,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto subscribe(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<push_subscription*>
+    auto subscribe(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<push_subscription*>;
 
 public js_properties:
     DEFINE_STATIC_GETTER(supported_content_encodings, ext::vector_span<ext::string>)
