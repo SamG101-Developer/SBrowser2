@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_EXT_QUEUE_HPP
 
 #include "ext/keywords.hpp"
-#include <plf_queue.h>
+#include <plf/plf_queue.h>
 
 
 _EXT_BEGIN

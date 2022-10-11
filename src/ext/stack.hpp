@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_EXT_STACK_HPP
 
 #include "ext/keywords.hpp"
-#include <plf_stack.h>
+#include <plf/plf_stack.h>
 
 
 _EXT_BEGIN

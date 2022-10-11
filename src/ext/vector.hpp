@@ -12,10 +12,6 @@ _EXT_BEGIN
 template <typename T, typename ResizeTraits = veque::fast_resize_traits, typename Allocator = std::allocator<T>>
 using vector = veque::veque<T, ResizeTraits, Allocator>;
 
-
-template <typename T, typename ResizeTraits, typename Allocator>
-vector(T, ResizeTraits = veque::fast_resize_traits, Allocator = std::allocator<T>) -> vector<T, ResizeTraits, Allocator>;
-
 _EXT_END
 
 

@@ -1,8 +1,8 @@
 #pragma once
-#include <type_traits>
 #ifndef SBROWSER2_SRC_EXT_ENUMS_HPP
 #define SBROWSER2_SRC_EXT_ENUMS_HPP
 
+#include <type_traits>
 #include "ext/concepts.hpp"
 
 
