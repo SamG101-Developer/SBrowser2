@@ -13,8 +13,10 @@ class proximity::proximity
         : public sensors::sensor
 {
 public constructors:
-    DOM_CTORS(proximity);
     proximity(detail::proximity_sensor_options_t&& options = {});
+    DOM_CTORS(proximity);
+    MAKE_PIMPL(proximity);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
     DEFINE_GETTER(distance, ext::number<double>);

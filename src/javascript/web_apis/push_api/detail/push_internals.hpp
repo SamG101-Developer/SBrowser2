@@ -12,6 +12,14 @@ namespace push_api::detail
     auto create_push_subscription(
             push_subscription_options_init_t&& options)
             -> push_subscription;
+
+    auto refresh(
+            push_subscription* subscription)
+            -> void;
+
+    auto deactivate(
+            push_subscription* subscription)
+            -> void;
 };
 
 

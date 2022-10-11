@@ -17,9 +17,6 @@ namespace push_api::detail
     using push_endpoint_t = url::detail::url_t;
     using push_subscription_options_init_t = ext::map<ext::string, ext::any>;
     using authentication_secret_t = ext::octet_string;
-
-    using b = ext::vector<int>;
-    using a = ext::set<int>;
 }
 
 
