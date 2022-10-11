@@ -4,6 +4,7 @@
 
 #include "sensors/sensor.hpp"
 namespace proximity {class proximity;}
+namespace proximity {class proximity_private;}
 
 #include INCLUDE_INNER_TYPES(proximity)
 
@@ -16,17 +17,9 @@ public constructors:
     proximity(detail::proximity_sensor_options_t&& options = {});
 
 private js_properties:
-    ext::property<ext::number<double>> distance;
-    ext::property<ext::number<double>> max;
-    ext::property<ext::boolean> near;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(distance);
-    DEFINE_CUSTOM_GETTER(max);
-    DEFINE_CUSTOM_GETTER(near);
+    DEFINE_GETTER(distance, ext::number<double>);
+    DEFINE_GETTER(max, ext::number<double>);
+    DEFINE_GETTER(near, ext::boolean);
 };
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_HPP

@@ -1,0 +1,12 @@
+#pragma once
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+#include "sensors/sensor.hpp"
+
+
+DEFINE_PRIVATE_CLASS(proximity, proximity) : sensors::sensor {};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_PRIVATE_HPP

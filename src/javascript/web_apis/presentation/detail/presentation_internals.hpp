@@ -1,4 +1,5 @@
 #pragma once
+#include "url/_typedefs.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_DETAIL_PRESENTATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_DETAIL_PRESENTATION_INTERNALS_HPP
 
@@ -94,6 +95,18 @@ namespace presentation::detail
 
     auto send_termination_confirmation(
             presentation* presentation)
+            -> void;
+
+    auto create_receiving_browsing_context(
+            const presentation_display_t& display,
+            const url::detail::url_t& presentation_url,
+            presentation_id_t&& presentation_identifier)
+            -> void;
+
+    auto start_monitoring_incoming_presentation_connections(
+            presentation_id_t&& identifier,
+            presentation_id_t&& presentation_identifier,
+            const url::detail::url_t& presentation_url)
             -> void;
 }
 
