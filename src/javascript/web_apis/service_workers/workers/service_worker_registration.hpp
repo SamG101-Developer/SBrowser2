@@ -11,9 +11,10 @@ namespace service_workers::workers {class service_worker_registration_private;}
 #include INCLUDE_INNER_TYPES(notifications)
 #include INCLUDE_INNER_TYPES(service_workers)
 namespace notifications {class notification;}
+namespace payment::handler {class payment_manager;}
+namespace push_api {class push_manager;}
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::workers {class service_worker;}
-namespace payment::handler {class payment_manager;}
 
 
 class service_workers::workers::service_worker_registration
@@ -28,7 +29,7 @@ public js_methods:
     auto update() -> ext::promise<void>;
     auto unregister() -> ext::promise<ext::boolean>;
 
-    /* NOTIFICATIONS */
+    /* [NOTIFICATIONS] */
     auto show_notification(ext::string&& title, notifications::detail::notification_options_t&& options = {}) -> ext::promise<void>;
     auto show_notifications(notifications::detail::get_notification_options_t&& options = {}) -> ext::promise<ext::vector<notifications::notification*>>;
 
@@ -41,8 +42,11 @@ private js_properties:
     DEFINE_GETTER(scope, ext::string);
     DEFINE_GETTER(update_via_cache, detail::update_via_cache_mode_t);
 
-    /* PAYMENT_HANDLER */
-    DEFINE_GETTER(payment_manager, payment::handler::payment_manager);
+    /* [PAYMENT-HANDLER] */
+    DEFINE_GETTER(payment_manager, payment::handler::payment_manager*);
+
+    /* [PUSH-API] */
+    DEFINE_GETTER(push_manager, push_api::push_manager*);
 };
 
 

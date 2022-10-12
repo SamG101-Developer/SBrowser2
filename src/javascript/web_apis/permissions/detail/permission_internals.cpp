@@ -16,7 +16,7 @@ auto permissions::detail::get_current_permission_state(
         ext::optional<v8::Local<v8::Object>> environment_settings_object)
         -> permission_state_t
 {
-    JS_REALM_GET_CURRENT
+    JS_REALM_GET_CURRENT;
 
     // create a mock 'permissions_descriptor' dictionary, with the "name" set the 'name' parameter. return the
     // permission state for this 'permissions_descriptor', and the settings object
@@ -33,7 +33,7 @@ auto permissions::detail::permission_state(
     // the 'settings' is teh 'environment_settings_object' if provided, otherwise the current global object's settings
     // object. if the settings object isn't secure, then return from the method - permission states can only be read in
     // secure contexts
-    JS_REALM_GET_CURRENT
+    JS_REALM_GET_CURRENT;
     auto settings = environment_settings_object.value_or(current_global_object);
     // TODO : return if the settings object isn't secure
 
@@ -78,7 +78,7 @@ auto permissions::detail::default_permission_query_algorithm(
     // permission state
     auto state = permission_state(std::move(permission_descriptor), ext::nullopt);
     auto state_string = magic_enum::enum_name(state);
-    status->state = (ext::string)state_string;
+    status->state = state_string;
 }
 
 
@@ -86,23 +86,23 @@ permissions::detail::powerful_feature_t::powerful_feature_t(
         ext::string&& powerful_feature_name)
         : name(powerful_feature_name)
 {
-    if (name == "persistent-storage")
+    if (name == u8"persistent-storage")
         permission_revocation_algorithm =
                 [powerful_feature_name = std::move(powerful_feature_name)] mutable
         {
             return_if (get_current_permission_state(std::move(powerful_feature_name), ext::nullopt) == permission_state_t::GRANTED);
 
             JS_REALM_GET_CURRENT
-            decltype(auto) shelf = storage::detail::storage_internals::obtain_local_storage_shelf(current_global_object);
-            shelf->bucket_map.emplace("default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
+            decltype(auto) shelf = storage::detail::obtain_local_storage_shelf(current_global_object);
+            shelf->bucket_map.emplace(u8"default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
         };
 
-    if (name == "storage")
+    if (name == u8"storage")
     {
         // TODO : sensors spec
     }
 
-    if (name == "speaker-selection")
+    if (name == u8"speaker-selection")
     {
         // TODO: https://w3c.github.io/mediacapture-output/#permissions-integration
     }

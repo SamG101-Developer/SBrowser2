@@ -7,6 +7,7 @@
 #include "ext/optional.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
+#include "ext/variant.hpp"
 
 #include INCLUDE_INNER_TYPES(permissions)
 #include INCLUDE_INNER_TYPES(permissions_policy)

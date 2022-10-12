@@ -94,3 +94,19 @@ auto service_workers::workers::service_worker_registration::get_update_via_cache
     ACCESS_PIMPL(const service_worker_registration);
     return d->update_via_cache_mode;
 }
+
+
+auto service_workers::workers::service_worker_registration::get_payment_manager() const -> payment::handler::payment_manager*
+{
+    /* [PAYMENT-HANDLER] */
+    ACCESS_PIMPL(const service_worker_registration);
+    return d->payment_manager.get();
+}
+
+
+auto service_workers::workers::service_worker_registration::get_push_manager() const -> push_api::push_manager*
+{
+    /* [PUSH-API] */
+    ACCESS_PIMPL(const service_worker_registration);
+    return d->push_manager.get();
+}

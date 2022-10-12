@@ -100,6 +100,10 @@ FetchContent_Declare(DateTime
         GIT_REPOSITORY https://github.com/mobius3/asap.git
         GIT_TAG master)
 
+FetchContent_Declare(Encoding SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/encoding-src/encoding
+        GIT_REPOSITORY https://github.com/tobiaslocker/base64.git
+        GIT_TAG master)
+
 FetchContent_Declare(MagicEnum SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/magicenum-src/magic_enum
         GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
         GIT_TAG master)
@@ -124,7 +128,7 @@ FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
         HashMapSetReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement
         StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo Crypto
-        DateTime MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        DateTime Encoding MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -148,10 +152,13 @@ target_include_directories(veque INTERFACE ${FETCH_CONTENT_BASE_DIR}/vectorrepla
 add_library(crypto ${cryptopp_src})
 target_include_directories(crypto PUBLIC ${FETCH_CONTENT_BASE_DIR}/crypto-src)
 
+add_library(encoding INTERFACE)
+target_include_directories(encoding INTERFACE ${FETCH_CONTENT_BASE_DIR}/encoding-src)
+
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro expected cppfs function2::function2 unordered_dense::unordered_dense optional effolkronium_random
         range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo crypto asap
-        magic_enum::magic_enum self_macro stduuid v8pp)
+        encoding magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()

@@ -8,6 +8,8 @@
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(service_workers)
 #include INCLUDE_INNER_TYPES(url)
+namespace payment::handler {class payment_manager;}
+namespace push_api {class push_manager;}
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::workers {class service_worker;}
 
@@ -26,7 +28,13 @@ DEFINE_PRIVATE_CLASS(service_workers::workers, service_worker_registration) : do
 
     other::navigation_preload_manager* navigation_preload_manager;
     ext::boolean navigation_preload_enabled_flag;
-    ext::string navigation_preload_header_value = "true";
+    ext::string navigation_preload_header_value = u8"true";
+
+    /* [PAYMENT-HANDLER] */
+    std::unique_ptr<payment::handler::payment_manager> payment_manager;
+
+    /* [PUSH-API] */
+    std::unique_ptr<push_api::push_manager> push_manager;
 };
 
 
