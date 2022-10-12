@@ -8,6 +8,7 @@ namespace push_api {class push_manager;}
 namespace push_api {class push_manager_private;}
 
 // Other Includes & Forward Declarations
+#include INCLUDE_INNER_TYPES(permissions)
 #include INCLUDE_INNER_TYPES(push_api)
 #include "ext/promise.hpp"
 #include "ext/span.hpp"
@@ -24,6 +25,8 @@ public constructors:
 
 public js_methods:
     auto subscribe(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<push_subscription*>;
+    auto get_subscription() -> ext::promise<push_subscription*>;
+    auto get_permission_state(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<permissions::detail::permission_state_t>;
 
 public js_properties:
     DEFINE_STATIC_GETTER(supported_content_encodings, ext::vector_span<ext::string>)

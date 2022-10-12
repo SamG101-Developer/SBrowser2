@@ -16,6 +16,8 @@ namespace push_api::detail
     using push_message_t = ext::string;
     using push_endpoint_t = url::detail::url_t;
     using push_subscription_options_init_t = ext::map<ext::string, ext::any>;
+    using push_permission_descriptor = ext::map<ext::string, ext::any>;
+
     using authentication_secret_t = ext::octet_string;
 }
 
