@@ -14,8 +14,8 @@ class performance_timeline::performance_observer
         : public virtual dom_object
 {
 public constructors:
+    performance_observer(detail::performance_observer_callback_t&& callback);
     DOM_CTORS(performance_observer);
-    explicit performance_observer(detail::performance_observer_callback_t&& callback);
     MAKE_PIMPL(performance_observer);
     MAKE_V8_AVAILABLE;
 

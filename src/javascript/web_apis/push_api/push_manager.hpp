@@ -29,7 +29,7 @@ public js_methods:
     auto get_permission_state(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<permissions::detail::permission_state_t>;
 
 public js_properties:
-    DEFINE_STATIC_GETTER(supported_content_encodings, ext::vector_span<ext::string>)
+    DEFINE_STATIC_GETTER(supported_content_encodings, ext::vector<ext::string>)
 };
 
 
