@@ -15,8 +15,7 @@ reporting::reporting_observer::reporting_observer(
 }
 
 
-auto reporting::reporting_observer::observe()
--> void
+auto reporting::reporting_observer::observe() -> void
 {
     ACCESS_PIMPL(reporting_observer);
     JS_REALM_GET_RELEVANT(this);
