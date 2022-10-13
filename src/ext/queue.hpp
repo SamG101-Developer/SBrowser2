@@ -8,7 +8,8 @@
 
 _EXT_BEGIN
 
-using plf::queue;
+template <typename T>
+using queue = plf::queue<T, plf::speed>;
 
 _EXT_END
 
