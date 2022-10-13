@@ -64,7 +64,7 @@ FetchContent_Declare(RangeReplacement
         GIT_REPOSITORY https://github.com/ericniebler/range-v3.git
         GIT_TAG master)
 
-FetchContent_Declare(RegexReplacement
+FetchContent_Declare(RegexReplacement # TODO : switch to Hyper...1
         GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
         GIT_TAG main)
 
@@ -126,9 +126,9 @@ FetchContent_Declare(V8PP
 
 FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
-        HashMapSetReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement
-        StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo Crypto
-        DateTime Encoding MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        HashMapSetReplacement JsonReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement
+        RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement
+        HardwareInfo Crypto DateTime Encoding MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -156,9 +156,9 @@ add_library(encoding INTERFACE)
 target_include_directories(encoding INTERFACE ${FETCH_CONTENT_BASE_DIR}/encoding-src)
 
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro expected cppfs function2::function2 unordered_dense::unordered_dense optional effolkronium_random
-        range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo crypto asap
-        encoding magic_enum::magic_enum self_macro stduuid v8pp)
+        assert cppcoro expected cppfs function2::function2 unordered_dense::unordered_dense jsonpp optional
+        effolkronium_random range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
+        hwinfo crypto asap encoding magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()
