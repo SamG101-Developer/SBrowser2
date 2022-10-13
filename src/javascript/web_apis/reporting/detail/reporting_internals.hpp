@@ -6,6 +6,7 @@
 #include "ext/map.hpp"
 #include "ext/number.hpp"
 #include "ext/optional.hpp"
+#include "ext/span.hpp"
 #include "ext/string.hpp"
 #include <v8-forward.h>
 
@@ -32,14 +33,14 @@ namespace reporting::detail
             -> report_t;
 
     auto serialize_list_or_reports_to_json(
-            ext::vector_view<report_t*>)
+            ext::vector_span<report_t*>)
             -> ext::string;
 
     auto process_reporting_endpoints_for_response(
             const fetch::detail::response_t& response)
             -> ext::vector<endpoint_t*>;
 
-    template <type_is<dom::nodes::document, html::workers::worker_global_scope> T>
+    template <ext::type_is<dom::nodes::document, html::workers::worker_global_scope> T>
     auto generate_report_of_type_with_data(
             T* context,
             ext::string&& type,
@@ -53,14 +54,14 @@ namespace reporting::detail
             -> void;
 
     auto send_report(
-            ext::vector_view<report_t*>,
+            ext::vector_span<report_t*>,
             html::workers::worker_global_scope* context)
             -> void;
 
     auto deliver_reports_to_endpoint(
             const endpoint_t& endpoint,
             const html::detail::origin_t& origin,
-            ext::vector_view<report_t*> reports)
+            ext::vector_span<report_t*> reports)
             -> delivery_response_t;
 
     auto notify_reporting_observers_on_scope_with_report(
@@ -73,7 +74,7 @@ namespace reporting::detail
             -> void;
 
     auto invoke_reporting_observers(
-            ext::vector_view<reporting_observer*> notify_list)
+            ext::vector_span<reporting_observer*> notify_list)
             -> void;
 };
 
@@ -81,20 +82,8 @@ namespace reporting::detail
 struct reporting::detail::endpoint_t
 {
     ext::string name;
-    url::detail::url_t& url;
-    ext::number<int> failures;
-};
-
-
-struct reporting::detail::report_t
-{
-    ext::map<ext::string, ext::any> body;
-    ext::string url;
-    ext::string user_agent;
-    ext::string destination;
-    report_type_t type;
-    hr_time::epoch_time_stamp timestamp;
-    ext::number<int> counter;
+    std::unique_ptr<url::detail::url_t> url;
+    ext::number<uint> failures;
 };
 
 
