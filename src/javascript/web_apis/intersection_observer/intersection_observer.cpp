@@ -115,7 +115,7 @@ auto intersection_observer::intersection_observer::take_records()
     // To take the records, return a copy of the [[QueuedEntries]] slot, and clear the [[QueuedEntries]] slot
     auto queue = std::move(d->queued_entries);
     d->queued_entries = {};
-    return {std::make_move_iterator(queue.begin()), std::make_move_iterator(queue.end())};
+    return std::move(queue);
 }
 
 
