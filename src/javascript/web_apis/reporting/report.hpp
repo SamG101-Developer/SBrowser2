@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace reporting {class report;}
+namespace reporting {class report_private;}
 
 namespace reporting {class report_body;}
 
@@ -13,16 +14,14 @@ class reporting::report
 {
 public constructors:
     DOM_CTORS(report);
-    report() = default;
+    MAKE_PIMPL(report);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 private js_properties:
-    ext::property<ext::string> type;
-    ext::property<ext::string> url;
-    ext::property<std::unique_ptr<report_body>> body;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-    auto to_json() const -> ext::string override;
+    DEFINE_GETTER(type, ext::string_view);
+    DEFINE_GETTER(url, ext::string);
+    DEFINE_GETTER(body, report_body*);
 };
 
 

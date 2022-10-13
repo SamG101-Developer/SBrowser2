@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace reporting {class reporting_observer;}
+namespace reporting {class reporting_observer_private;}
 
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
@@ -18,16 +19,14 @@ class reporting::reporting_observer
 {
 public constructors:
     reporting_observer(detail::reporting_observer_callback_t&& callback, detail::reporting_observer_options_t&& options = {});
+    MAKE_PIMPL(reporting_observer);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 public js_methods:
     auto observe() -> void;
     auto disconnect() -> void;
-    auto take_record() -> ext::vector<report*>;
-
-private cpp_properties:
-    detail::reporting_observer_callback_t m_callback;
-    detail::reporting_observer_options_t m_options;
-    ext::queue<detail::report_t*> m_report_queue;
+    auto take_records() -> ext::vector<report*>;
 };
 
 
