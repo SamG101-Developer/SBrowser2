@@ -8,6 +8,13 @@ namespace push_api {class push_subscription;}
 namespace push_api {class push_subscription_private;}
 
 // Other Includes & Forward Declarations
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(push_api)
+#include "ext/any.hpp"
+#include "ext/boolean.hpp"
+#include "ext/promise.hpp"
+#include "ext/span.hpp"
+#include <v8-forward.h>
 
 
 class push_api::push_subscription
@@ -16,6 +23,16 @@ class push_api::push_subscription
 public constructors:
     MAKE_PIMPL(push_subscription);
     MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
+
+public js_methods:
+    auto get_key(detail::push_encryption_key_name_t name) -> v8::Local<v8::ArrayBuffer>;
+    auto unsubscribe() -> ext::promise<ext::boolean>;
+
+public js_properties:
+    DEFINE_GETTER(endpoint, ext::string);
+    DEFINE_GETTER(expiration_time, hr_time::epoch_time_stamp);
+    DEFINE_GETTER(options, ext::map_span<ext::string COMMA ext::any>);
 };
 
 
