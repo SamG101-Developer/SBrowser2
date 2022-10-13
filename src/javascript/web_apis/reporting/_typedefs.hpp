@@ -12,7 +12,6 @@ namespace reporting {class reporting_observer;}
 namespace reporting::detail
 {
     struct endpoint_t;
-    struct report_t;
 
     enum class delivery_response_t {SUCCESS, REMOVE_ENDPOINT, FAILURE};
 
