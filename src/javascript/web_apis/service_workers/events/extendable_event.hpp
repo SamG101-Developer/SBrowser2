@@ -13,7 +13,6 @@ class service_workers::events::extendable_event
         : public dom::events::event
 {
 public constructors:
-    extendable_event() = default;
     extendable_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(extendable_event);
     MAKE_V8_AVAILABLE;
