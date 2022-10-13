@@ -8,75 +8,15 @@ class class_name
         , public templated_class_a<template_parameter_1>
         , public templated_class_b<template_parameter_1>
 {
-public constructors:
-public js_methods:
-private js_properties:
+    public constructors:
+    public js_methods:
+    private js_properties:
     
-protected cpp_methods:
-protected cpp_properties:
+    protected cpp_methods:
+    protected cpp_properties:
     
-private cpp_methods:
-private cpp_properties:
-};
-```
-
-## Class definition constructors (.hpp)
-### Rule of 5
-```C++
-template <typename template_parameter_1>
-class class_name
-{
-    class_name();
-    class_name(const class_name&);
-    class_name(class_name&&) noexcept;
-    auto operator=(const class_name&) -> class_name&;
-    auto operator=(class_name&&) noexcept -> class_name&;
-};
-```
-
-### Rule of 5 + 1
-```C++
-template <typename template_parameter_1>
-class class_name
-{
-    class_name();
-    ~class_name();
-    
-    class_name(const class_name&);
-    class_name(class_name&&) noexcept;
-    auto operator=(const class_name&) -> class_name&;
-    auto operator=(class_name&&) noexcept -> class_name&;
-};
-```
-
-### Rule of 5 + 1 + 4 (+1)
-```C++
-template <typename template_parameter_1>
-class class_name
-{
-    class_name();
-    ~class_name();
-    
-    class_name(const class_name&);
-    class_name(class_name&&) noexcept;
-    auto operator=(const class_name&) -> class_name&;
-    auto operator=(class_name&&) noexcept -> class_name&;
-    
-    class_name(const template_parameter_1&);
-    class_name(template_parameter_1&&) noexcept;
-    auto operator=(const template_parameter_1&) -> class_name&;
-    auto operator=(template_parameter_1&&) noexcept -> class_name&;
-    
-    template <typename ..._Valty> class_name(_Valty... _Val); // Optional
-};
-```
-
-## Class definition methods (.hpp)
-```C++
-class class_name
-{
-    auto method_name_a(parameter_type_1 argument_1, parameter_type_2 argument_2) const -> return_type_1;
-    auto method_name_b(parameter_type_1 argument_1, parameter_type_2 argument_2) const -> return_type_2;
+    private cpp_methods:
+    private cpp_properties:
 };
 ```
 
@@ -87,8 +27,21 @@ namespace namespace_name
     auto method_name_a(
             parameter_type_1 argument_1,
             parameter_type_2 argument_2)
-            const -> return_type_1;
+            -> return_type_1;
+    
+    auto method_name_b()
+            -> return_type_1;
 }
+```
+
+
+## Class definition methods (.hpp)
+```C++
+class class_name
+{
+    auto method_name_a(parameter_type_1 argument_1, parameter_type_2 argument_2) const -> return_type_1;
+    auto method_name_b(parameter_type_1 argument_1, parameter_type_2 argument_2) const -> return_type_2;
+};
 ```
 
 ## Class declaration method (.hpp)
@@ -111,17 +64,16 @@ auto class_name::short_method_signature(parm_t_1, arg_1) -> ret_t
 
 auto class_name::long_method_signature(
         parameter_type_1 argument_1,
-        parameter_type_2 argument_2
-        ) const && -> return_type_1
+        parameter_type_2 argument_2)
+        const && -> return_type_1
 {
     ...
 }
 ```
 
 ## Primitives vs Objects
- - Use primitives for template types or temporary objects - `template <int size>`, `ext::boolean check = true`
+ - Use primitives for template types - `template <int size>`
  - Use object versions (`ext::boolean`, `ext::number<_Tx>`) everywhere else
- - Use `ext::boolean_view`, `ext::number_view<_Tx>` by instead of `const ext::...&`
 
 
 ## Concepts
