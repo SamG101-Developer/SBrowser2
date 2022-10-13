@@ -11,8 +11,6 @@ _EXT_BEGIN
 using tl::optional;
 using tl::nullopt;
 
-using a = int;
-
 _EXT_END
 
 
