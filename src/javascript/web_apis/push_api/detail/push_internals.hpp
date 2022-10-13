@@ -4,7 +4,9 @@
 
 #include "ext/keywords.hpp"
 #include INCLUDE_INNER_TYPES(push_api)
-namespace push_api::detail {class push_subscription;}
+#include INCLUDE_INNER_TYPES(web_idl)
+namespace push_api {class push_message_data;}
+namespace push_api {class push_subscription;}
 
 
 namespace push_api::detail
@@ -19,6 +21,14 @@ namespace push_api::detail
 
     auto deactivate(
             push_subscription* subscription)
+            -> void;
+
+    auto extract_byte_sequence(
+            ext::variant<ext::string_view, v8::Local<v8::BufferSource>> object)
+            -> ext::string;
+
+    auto on_receive_push_message(
+            push_message_data* message)
             -> void;
 };
 
