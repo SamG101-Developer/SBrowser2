@@ -4,10 +4,11 @@
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
+#include "ext/span.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-
 namespace reporting {class reporting_observer;}
+
 
 namespace reporting::detail
 {
@@ -17,7 +18,7 @@ namespace reporting::detail
 
     using report_type_t = ext::string;
     using reporting_observer_options_t = ext::map<ext::string, ext::any>;
-    using reporting_observer_callback_t = ext::function<void(const ext::vector<ext::string>&, reporting_observer*)>;
+    using reporting_observer_callback_t = ext::function<void(ext::vector_span<ext::string>, reporting_observer*)>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_REPORTING__TYPEDEFS_HPP
