@@ -4,16 +4,17 @@
 
 #include "dom_object.hpp"
 namespace reporting {class report_body;}
+namespace reporting {class report_body_private;}
 
 
 class reporting::report_body
         : public virtual dom_object
 {
-public js_methods:
-    auto to_json() const -> ext::string override;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public constructors:
+    report_body();
+    MAKE_PIMPL(report_body);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 };
 
 

@@ -4,6 +4,7 @@
 
 #include "html/basic_media/abstract_track.hpp"
 namespace html::basic_media {class audio_track;}
+namespace html::basic_media {class audio_track_private;}
 
 namespace media::source {class source_buffer;}
 
@@ -12,19 +13,13 @@ class html::basic_media::audio_track
         : public abstract_track
 {
 public constructors:
-    audio_track() = default;
+    audio_track();
+    MAKE_PIMPL(audio_track);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> enabled;
-
-    /* MEDIA_SOURCE */
-    ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(source_buffer);
+    DEFINE_GETTER(enabled, ext::boolean);
+    DEFINE_SETTER(enabled, ext::boolean);
 };
 
 

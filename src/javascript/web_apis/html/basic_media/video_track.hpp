@@ -4,22 +4,20 @@
 
 #include "html/basic_media/abstract_track.hpp"
 namespace html::basic_media {class video_track;}
+namespace html::basic_media {class video_track_private;}
 
 
 class html::basic_media::video_track
         : public abstract_track
 {
 public constructors:
-    video_track() = default;
+    video_track();
+    MAKE_PIMPL(video_track);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> selected;
-
-    /* MEDIA_SOURCE */
-    ext::property<std::unique_ptr<media::source::source_buffer>> source_buffer;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(selected, ext::boolean);
+    DEFINE_SETTER(selected, ext::boolean);
 };
 
 

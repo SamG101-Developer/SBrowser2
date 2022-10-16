@@ -3,31 +3,23 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_TIME_RANGES_HPP
 
 #include "dom_object.hpp"
+#include "ext/vector_like.hpp"
 namespace html::basic_media {class time_ranges;}
+namespace html::basic_media {class time_ranges_private;}
 
 
 class html::basic_media::time_ranges
         : public virtual dom_object
+        , ext::vector_like_linked<ext::pair<ext::number<double>, ext::number<double>>>
 {
 public constructors:
-    DOM_CTORS(time_ranges);
     time_ranges();
+    MAKE_PIMPL(time_ranges);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto start(ext::number<long> index) -> ext::number<double>;
-    auto end(ext::number<long> index) -> ext::number<double>;
-
-private js_properties:
-    ext::property<ext::number<ulong>> length;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::vector<ext::pair<ext::number<double>, ext::number<double>>> m_ranges;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(length);
+    _EXT_NODISCARD auto start(ext::number<long> index) const -> ext::number<double>;
+    _EXT_NODISCARD auto end(ext::number<long> index) const -> ext::number<double>;
 };
 
 

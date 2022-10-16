@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace html::basic_media {class abstract_track;}
+namespace html::basic_media {class abstract_track_private;}
 
 #include INCLUDE_INNER_TYPES(html)
 
@@ -12,16 +13,18 @@ class html::basic_media::abstract_track
         : public virtual dom_object
 {
 public constructors:
-    abstract_track() = default;
+    abstract_track();
+    MAKE_PIMPL(abstract_track);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> id;
-    ext::property<html::detail::text_track_kind_t> kind;
-    ext::property<ext::string> label;
-    ext::property<ext::string> language;
+    DEFINE_GETTER(id, ext::string_view);
+    DEFINE_GETTER(label, ext::string_view);
+    DEFINE_GETTER(language, ext::string_view);
+    DEFINE_GETTER(kind, html::detail::text_track_kind_t);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    /* [MEDIA-SOURCE] */
+    DEFINE_GETTER(source_buffer, media::source::source_buffer*);
 };
 
 

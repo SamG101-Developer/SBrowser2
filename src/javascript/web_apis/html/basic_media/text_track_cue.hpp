@@ -4,6 +4,7 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace html::basic_media {class text_track_cue;}
+namespace html::basic_media {class text_track_cue_private;}
 
 namespace html::basic_media {class text_track;}
 
@@ -13,23 +14,20 @@ class html::basic_media::text_track_cue
 {
 public constructors:
     DOM_CTORS(text_track_cue);
-    text_track_cue() = default;
+    MAKE_PIMPL(text_track_cue);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> id;
-    ext::property<ext::number<double>> start_time;
-    ext::property<ext::number<double>> end_time;
-    ext::property<ext::boolean> pause_on_exit;
+    DEFINE_GETTER(id, ext::string_view);
+    DEFINE_GETTER(start_time, ext::number<double>);
+    DEFINE_GETTER(end_time, ext::number<double>);
+    DEFINE_GETTER(pause_on_exit, ext::boolean);
+    DEFINE_GETTER(track, text_track*);
 
-    ext::property<text_track*> track;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::boolean m_pause_on_exit_flag;
-    ext::boolean m_active_flag;
-    ext::vector<ext::number<int>> m_display_state;
+    DEFINE_SETTER(id, ext::string);
+    DEFINE_SETTER(start_time, ext::number<double>);
+    DEFINE_SETTER(end_time, ext::number<double>);
+    DEFINE_SETTER(pause_on_exit, ext::boolean);
 };
 
 
