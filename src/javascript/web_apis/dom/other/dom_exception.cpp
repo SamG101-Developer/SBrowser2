@@ -4,12 +4,6 @@
 #include INCLUDE_INNER_TYPES(dom)
 
 
-dom::other::dom_exception::dom_exception()
-{
-    INIT_PIMPL(dom_exception);
-}
-
-
 dom::other::dom_exception::dom_exception(
         ext::string&& message,
         exception_t type)
