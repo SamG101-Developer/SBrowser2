@@ -30,10 +30,10 @@ public aliases:
 
     using size_type = size_t;
     using difference_type = ptrdiff_t;
-    using pointer = T*;
-    using const_pointer = const T*;
-    using reference = T&;
-    using const_reference = const T&;
+    using pointer = std::add_pointer_t<T>;
+    using const_pointer = std::add_pointer_t<const T>;
+    using reference = std::add_lvalue_reference_t<T>;
+    using const_reference = std::add_lvalue_reference_t<const T>;
 
     using begin_iterator = BeginIter;
     using reverse_begin_iterator = ranges::reverse_iterator<begin_iterator>;
