@@ -14,7 +14,6 @@ class dom::other::dom_exception
         : public base_exception<detail::dom_exception_error_t>
 {
 public constructors:
-    dom_exception();
     dom_exception(ext::string&& message, exception_t type);
     MAKE_PIMPL(dom_exception);
     MAKE_V8_AVAILABLE;
