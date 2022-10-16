@@ -87,6 +87,10 @@ namespace html::detail
             HAS_VIDEO_TRACK, ENOUGH_FETCHED_TO_DETERMINE_DURATION, ENTIRE_FETCHED, CONNECTION_INTERUPPTED, CORRUPTED,
             ABORTED, PARTIAL_UNSUPPORTED_CODECS, DECLARES_MEDIA_RESOURCE_SPECIFIC_TEXT_TRACK};
     enum class media_error_type_t {MEDIA_ERR_ABORTED = 1, MEDIA_ERR_NETWORK = 2, MEDIA_ERR_DECODE = 3, MEDIA_ERR_SRC_NOT_SUPPORTED = 4};
+    enum class drop_effect_t {NONE, COPY, LINK, MOVE};
+    enum class effect_allowed_t {NONE, COPY, COPY_LINK, COPY_MOVE, LINK, LINK_MOVE, MOVE, ALL, UNINITIALIZED};
+    enum class drag_data_store_mode_t {READ_WRITE, READ_ONLY, PROTECTED};
+    enum class drag_data_item_kind_t {TEXT, FILE, _};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -108,6 +112,8 @@ namespace html::detail
     struct browsing_context_group_t;
     struct drawing_state_t;
     struct task_queue_t;
+    struct drag_data_store_item_list_t;
+    struct drag_data_store_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
@@ -143,7 +149,6 @@ namespace html::detail
     using custom_element_constructor_t = ext::function<elements::html_element*()>;
     using validity_state_flags_t = ext::map<ext::string, ext::boolean>;
     using focus_options_t = ext::map<ext::string, ext::boolean>;
-    using function_string_callback_t = ext::function<void(ext::string&& data)>;
     using browsing_context_set_t = ext::set<browsing_context_t*>;
     using property_descriptor_t = ext::string; // TODO
     using cross_origin_property_descriptor_map_t = ext::map<ext::tuple<v8::Object, v8::Object, ext::string>, property_descriptor_t>; // TODO
