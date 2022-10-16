@@ -1,14 +1,31 @@
 #include "video_track.hpp"
+#include "video_track_private.hpp"
 
 #include "html/basic_media/abstract_track.hpp"
 
 
+auto html::basic_media::video_track::get_selected() const -> ext::boolean
+{
+    ACCESS_PIMPL(const video_track);
+    return d->selected;
+}
+
+
+auto html::basic_media::video_track::set_selected(ext::boolean new_selected) -> ext::boolean
+{
+    ACCESS_PIMPL(video_track);
+    return d->selected = new_selected;
+}
+
+
 auto html::basic_media::video_track::to_v8(
         v8::Isolate* isolate)
-        const&& -> ext::any
+        -> v8pp::class_<self_t>
 {
-    return v8pp::class_<abstract_track>{isolate}
+    decltype(auto) conversion = v8pp::class_<video_track>{isolate}
         .inherit<abstract_track>()
-        .var("selected", &video_track::selected, true)
+        .property("selected", &video_track::get_selected, &video_track::set_selected)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }
