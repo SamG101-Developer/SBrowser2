@@ -160,6 +160,7 @@ namespace html::detail
     using scheme_and_host_t = ext::tuple<ext::string, ext::string>;
     using site_t = ext::variant<opaque_origin_t, scheme_and_host_t>;
     using structured_serialize_options_t = ext::map<ext::string, ext::any>;
+    using timer_handler_t = ext::variant<ext::string, ext::function<void()>>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
