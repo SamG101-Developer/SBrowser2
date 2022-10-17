@@ -91,6 +91,8 @@ namespace html::detail
     enum class effect_allowed_t {NONE, COPY, COPY_LINK, COPY_MOVE, LINK, LINK_MOVE, MOVE, ALL, UNINITIALIZED};
     enum class drag_data_store_mode_t {READ_WRITE, READ_ONLY, PROTECTED};
     enum class drag_data_item_kind_t {TEXT, FILE, _};
+    enum class editable_enter_key_hit_t {ENTER, DONE, GO, NEXT, PREVIOUS, SEARCH, SEND};
+    enum class editable_input_mode_t {NONE, TEXT, TEL, URL, EMAIL, NUMERIC, DECIMAL, SEARCH};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;

@@ -4,6 +4,7 @@
 
 #include "dom/events/event.hpp"
 namespace html::events {class form_data_event;}
+namespace html::events {class form_data_event_private;}
 
 namespace xhr {class form_data;}
 
@@ -12,12 +13,12 @@ class html::events::form_data_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(form_data_event);
-    form_data_event() = default;
     form_data_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(form_data_event);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<xhr::form_data*> form_data;
+    DEFINE_GETTER(form_data, xhr::form_data*);
 };
 
 

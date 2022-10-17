@@ -4,6 +4,7 @@
 
 #include "dom/events/event.hpp"
 namespace html::events {class track_event;}
+namespace html::events {class track_event_private;}
 
 namespace html::basic_media {class abstract_track;}
 
@@ -12,12 +13,12 @@ class html::events::track_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(track_event);
-    track_event() = default;
     track_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(track_event);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<basic_media::abstract_track*> track;
+    DEFINE_GETTER(track, basic_media::abstract_track*);
 };
 
 

@@ -9,7 +9,7 @@ namespace dom::nodes {class node;}
 namespace html::detail
 {
     auto is_editing_host(
-            dom::nodes::node* node)
+            const dom::nodes::node* node)
             -> ext::boolean;
 };
 

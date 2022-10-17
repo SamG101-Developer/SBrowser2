@@ -4,17 +4,29 @@
 
 #include "dom_object.hpp"
 namespace html::mixins {class content_editable;}
+namespace html::mixins {class content_editable_private;}
 
 #include "ext/boolean.hpp"
+#include INCLUDE_INNER_TYPES(html)
 
 
 class html::mixins::content_editable
+        : public virtual dom_object
 {
+public constructors:
+    content_editable();
+    MAKE_PIMPL(content_editable);
+    MAKE_V8_AVAILABLE;
+
 private js_properties:
-    ext::property<ext::bool_string_t> content_editable;
-    ext::property<ext::string> enter_key_hit;
-    ext::property<ext::string> input_mode;
-    ext::property<ext::boolean> is_content_editable;
+    DEFINE_GETTER(is_content_editable, ext::boolean);
+    DEFINE_GETTER(content_editable, ext::string);
+    DEFINE_GETTER(enter_key_hit, detail::editable_enter_key_hit_t);
+    DEFINE_GETTER(input_mode, detail::editable_input_mode_t);
+
+    DEFINE_SETTER(content_editable, ext::string);
+    DEFINE_SETTER(enter_key_hit, detail::editable_enter_key_hit_t);
+    DEFINE_SETTER(input_mode, detail::editable_input_mode_t);
 };
 
 

@@ -11,7 +11,6 @@
 #include "html/dnd/data_transfer_private.hpp"
 
 
-
 auto html::dnd::data_transfer_item::get_as_string(
         ext::optional<html::dnd::data_transfer_item::function_string_callback_t> callback)
         const -> ext::string
