@@ -13,6 +13,10 @@ using octet_t = char8_t;
 using octet_string = std::basic_string<octet_t, std::char_traits<octet_t>, std::allocator<octet_t>>;
 using octet_string_view = std::basic_string_view<octet_t>;
 
+using byte_t = char8_t;
+using byte_string = std::basic_string<byte_t, std::char_traits<byte_t>, std::allocator<byte_t>>;
+using byte_string_view = std::basic_string_view<byte_t>;
+
 using u8string  = std::basic_string<char8_t, std::char_traits<char8_t>, std::allocator<char8_t>>;
 using u16string = std::u16string;
 using u32string = std::u32string;
