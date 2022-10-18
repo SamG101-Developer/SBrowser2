@@ -26,6 +26,7 @@ namespace html::elements {class html_option_element;}
 namespace html::elements {class html_opt_group_element;}
 namespace html::elements {class html_video_element;}
 namespace html::canvasing {class image_bitmap;}
+namespace html::canvasing {class image_data;}
 namespace html::canvasing {class offscreen_canvas;}
 namespace html::canvasing {class canvas_rendering_context_2d;}
 namespace html::canvasing {class image_bitmap_rendering_context;}
@@ -93,6 +94,10 @@ namespace html::detail
     enum class drag_data_item_kind_t {TEXT, FILE, _};
     enum class editable_enter_key_hit_t {ENTER, DONE, GO, NEXT, PREVIOUS, SEARCH, SEND};
     enum class editable_input_mode_t {NONE, TEXT, TEL, URL, EMAIL, NUMERIC, DECIMAL, SEARCH};
+    enum class image_orientation_t {NONE, FLIPY};
+    enum class premultiply_alpha {NONE, PREMULITPLY, DEFAULT};
+    enum class color_space_conversion {NONE, DEFAULT};
+    enum class resize_quality {PIXELATED, LOW, MEDIUM, HIGH};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -161,6 +166,8 @@ namespace html::detail
     using site_t = ext::variant<opaque_origin_t, scheme_and_host_t>;
     using structured_serialize_options_t = ext::map<ext::string, ext::any>;
     using timer_handler_t = ext::variant<ext::string, ext::function<void()>>;
+    using image_bitmap_source_t = ext::extend_variant_t<canvas_image_source_t, file_api::blob*, canvasing::image_data*>;
+    using image_bitmap_options_t = ext::map<ext::string, ext::any>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
