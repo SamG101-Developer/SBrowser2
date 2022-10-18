@@ -28,8 +28,8 @@ public js_methods:
     auto atob(ext::string_view data) -> ext::byte_string;
 
     // Timers
-    template <typename ...Args> auto set_timeout(detail::timer_handler_t handler, ext::number<long> timeout = 0, Args... arguments) -> ext::number<long>;
-    template <typename ...Args> auto set_interval(detail::timer_handler_t handler, ext::number<long> timeout = 0, Args... arguments) -> ext::number<long>;
+    template <typename ...Args> auto set_timeout(detail::timer_handler_t&& handler, ext::number<long> timeout = 0, Args&&... arguments) -> ext::number<long>;
+    template <typename ...Args> auto set_interval(detail::timer_handler_t&& handler, ext::number<long> timeout = 0, Args&&... arguments) -> ext::number<long>;
     auto clear_timeout(ext::number<long> id = 0) -> void;
     auto clear_interval(ext::number<long> id = 0) -> void;
 
