@@ -17,6 +17,7 @@ struct javascript::environment::settings_t
     std::unique_ptr<url::detail::url_t> api_base_url;
     html::detail::origin_t origin;
     ext::boolean cross_origin_isolated_capability;
+    ext::boolean is_secure_context;
 
     /* [SERVICE-WORKERS] */
     ext::map<service_workers::workers::service_worker_private*, service_workers::workers::service_worker*> service_worker_object_map;
