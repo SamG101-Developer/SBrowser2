@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(html::mixins, window_or_worker_global_scope_private) : dom_object_private {};
+DEFINE_PRIVATE_CLASS(html::mixins, window_or_worker_global_scope) : dom_object_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_WINDOW_OR_WORKER_GLOBAL_SCOPE_PRIVATE_HPP

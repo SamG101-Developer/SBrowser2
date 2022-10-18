@@ -6,6 +6,7 @@
 namespace html::mixins {class window_or_worker_global_scope;}
 namespace html::mixins {class window_or_worker_global_scope_private;}
 
+#include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(html)
 namespace indexed_db {class idb_factory;}
 namespace service_workers::caches {class cache_storage;}
@@ -20,11 +21,33 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto report_error(ext::any e) -> void;
+    auto report_error(ext::any&& e) -> void;
+
+    // Base64 Utility Methods
     auto btoa(ext::string_view data) -> ext::string;
     auto atob(ext::string_view data) -> ext::byte_string;
 
+    // Timers
+    template <typename ...Args> auto set_timeout(detail::timer_handler_t handler, ext::number<long> timeout = 0, Args... arguments) -> ext::number<long>;
+    template <typename ...Args> auto set_interval(detail::timer_handler_t handler, ext::number<long> timeout = 0, Args... arguments) -> ext::number<long>;
+    auto clear_timeout(ext::number<long> id = 0) -> void;
+    auto clear_interval(ext::number<long> id = 0) -> void;
+
+    // Microtask Queueing
+    auto queue_microtask(ext::function<void()>&& callback) -> void;
+
+    // Image Bitmap
+    auto create_image_bitmap(detail::image_bitmap_source_t image, detail::image_bitmap_options_t&& options = {}) -> ext::promise<canvasing::image_bitmap*>;
+    auto create_image_bitmap(detail::image_bitmap_source_t image, ext::number<long> sx, ext::number<long> sy, ext::number<long> sw, ext::number<long> sh, detail::image_bitmap_options_t&& options = {}) -> ext::promise<canvasing::image_bitmap*>;
+
+    // Structured Cloning
+    auto structured_clone(ext::any&& value, detail::structured_serialize_options_t&& options = {}) -> ext::any&;
+
 private js_properties:
+    DEFINE_GETTER(origin, ext::string);
+    DEFINE_GETTER(is_secure_context, ext::boolean);
+    DEFINE_GETTER(cross_origin_isolated, ext::boolean);
+
     /* [INDEX-DB] */
     DEFINE_GETTER(indexed_db, indexed_db::idb_factory*);
 
