@@ -240,9 +240,9 @@ auto is_numeric_string(const string& string) -> boolean
 
 
 template <typename T>
-auto to_string(const number<T>& number)
+auto to_string(number<T> number) -> ext::string
 {
-    return std::to_string(*number);
+    // TODO
 }
 
 

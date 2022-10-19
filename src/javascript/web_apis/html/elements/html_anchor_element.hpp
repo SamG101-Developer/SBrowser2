@@ -4,6 +4,9 @@
 #include "html/elements/html_element.hpp"
 #include "html/mixins/html_hyperlink_element_utils.hpp"
 namespace html::elements {class html_anchor_element;}
+namespace html::elements {class html_anchor_element_private;}
+
+#include INCLUDE_INNER_TYPES(referrer_policy)
 
 
 class html::elements::html_anchor_element
@@ -12,23 +15,27 @@ class html::elements::html_anchor_element
 {
 public constructors:
     html_anchor_element();
+    MAKE_PIMPL(html_anchor_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> target;
-    ext::property<ext::string> download;
-    ext::property<ext::string> ping;
-    ext::property<ext::string> rel;
-    ext::property<ext::string> hreflang;
-    ext::property<ext::string> type;
-    ext::property<ext::string> text;
-    ext::property<ext::string> referrer_policy;
+    DEFINE_GETTER(target, ext::string_view);
+    DEFINE_GETTER(download, ext::string_view);
+    DEFINE_GETTER(ping, ext::string_view);
+    DEFINE_GETTER(rel, ext::string_view);
+    DEFINE_GETTER(hreflang, ext::string_view);
+    DEFINE_GETTER(type, ext::string_view);
+    DEFINE_GETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_GETTER(text, ext::string);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(text);
-    DEFINE_CUSTOM_SETTER(text);
+    DEFINE_SETTER(target, ext::string);
+    DEFINE_SETTER(download, ext::string);
+    DEFINE_SETTER(ping, ext::string);
+    DEFINE_SETTER(rel, ext::string);
+    DEFINE_SETTER(hreflang, ext::string);
+    DEFINE_SETTER(type, ext::string);
+    DEFINE_SETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_SETTER(text, ext::string);
 };
 
 
