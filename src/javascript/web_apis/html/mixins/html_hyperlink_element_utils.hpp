@@ -5,7 +5,6 @@
 namespace html::mixins {class html_hyperlink_element_utils;}
 namespace html::mixins {class html_hyperlink_element_utils_private;}
 
-#include INCLUDE_INNER_TYPES(url)
 
 class html::mixins::html_hyperlink_element_utils
         : public virtual dom_object
