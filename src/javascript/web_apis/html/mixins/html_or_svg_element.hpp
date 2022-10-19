@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace html::mixins {class html_or_svg_element;}
+namespace html::mixins {class html_or_svg_element_private;}
 
 #include "ext/map.hpp"
 
@@ -13,17 +14,22 @@ class html::mixins::html_or_svg_element
 {
 public constructors:
     html_or_svg_element();
+    MAKE_PIMPL(html_or_svg_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto focus(ext::map<ext::string, ext::any>&& options = {}) -> void;
+    auto focus(detail::focus_options_t&& options = {}) -> void;
     auto blur();
 
 private js_properties:
-    ext::property<ext::string> nonce;
-    ext::property<ext::map<ext::string, ext::any>> dataset;
+    DEFINE_GETTER(dataset, ext::map<ext::string COMMA ext::any>);
+    DEFINE_GETTER(nonce, ext::string_view);
+    DEFINE_GETTER(autofocus, ext::boolean);
+    DEFINE_GETTER(tab_index, ext::number<long>);
 
-    ext::property<ext::boolean> autofocus;
-    ext::property<ext::number<long>> tabIndex;
+    DEFINE_SETTER(nonce, ext::string);
+    DEFINE_SETTER(autofocus, ext::boolean);
+    DEFINE_SETTER(tab_index, ext::number<long>);
 };
 
 
