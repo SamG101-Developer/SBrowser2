@@ -1,11 +1,15 @@
 #include "html_element.hpp"
+#include "html_element_private.hpp"
 
 #include "ext/functional.hpp"
 #include "ext/ranges.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_fragment.hpp"
 #include "dom/nodes/text.hpp"
+#include "dom/nodes/text_private.hpp"
+#include "dom/detail/customization_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
@@ -25,36 +29,65 @@
 
 html::elements::html_element::html_element()
 {
-    bind_get(inner_text);
-    bind_get(outer_text);
-
-    bind_set(inner_text);
-    bind_set(outer_text);
-
+    INIT_PIMPL(html_element);
     HTML_CONSTRUCTOR
 
-    m_dom_behaviour.insertion_steps = [this]
-    {
-        // TODO
-    };
-
-    m_dom_behaviour.remove_steps = [this](dom::nodes::node* parent = nullptr)
-    {
-        // TODO
-    };
-
-    m_dom_behaviour.activation_behaviour =
-            [this](dom::events::event* event)
-            {
-                if (local_name() == "summary")
-                    ; // TODO
-            };
+    ACCESS_PIMPL(html_element);
+    d->insertion_steps = [this] {/* TODO */ };
+    d->remove_steps = [this](dom::nodes::node* parent = nullptr) {/* TODO */};
+    d->activation_behaviour = [this](dom::events::event* event) {/* TODO */};
 }
 
 
-auto html::elements::html_element::get_inner_text()
-        const -> decltype(this->inner_text)::value_t
+auto html::elements::html_element::get_title() const -> ext::string_view
 {
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const html_element);
+        return d->title;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::get_lang() const -> ext::string_view
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const html_element);
+        return d->lang;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::get_translate() const -> ext::boolean
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const html_element);
+        return d->translate_mode;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::get_dir() const -> detail::directionality_t
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const html_element);
+        return d->dir;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::get_access_key() const -> ext::string_view
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const html_element);
+        return d->access_key;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::get_inner_text() const -> ext::string
+{
+    ACCESS_PIMPL(const html_element);
+
     // if the HTMLElement is not being rendered at the moment, then return the descendant text content of the element;
     // the '[inner/outer]_text' property represents the data of the elements beneath this element
     return_if (!detail::being_rendered(this)) dom::detail::descendant_text_content(this);
@@ -68,7 +101,8 @@ auto html::elements::html_element::get_inner_text()
     // transform all the `child_nodes` to the result of the `rendered_text_collection_steps(...)` (vector of strings),
     // join these vectors together into the single range, remove any empty strings, convert any string-numbers to LFs
     // repeated the number of times, and finally trim newlines from the begin and end of the string
-    auto results = *child_nodes()
+    auto results = d->child_nodes
+            | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
             | ranges::views::transform(detail::rendered_text_collection_steps)
             | ranges::views::join
             | ranges::views::remove("")
@@ -80,46 +114,92 @@ auto html::elements::html_element::get_inner_text()
 }
 
 
-auto html::elements::html_element::set_inner_text(
-        const ext::string& val)
-        -> void
+auto html::elements::html_element::set_title(ext::string new_title) -> ext::string
 {
-    // to set the 'inner_text' of a HTMLElement, a DocumentFragment is generated from the input 'val', and everything
-    // contained by this node is replaced with the DocumentFragment
-    decltype(auto) fragment = detail::rendered_text_fragment(val, owner_document());
-    dom::detail::replace_all(fragment, this);
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(html_element);
+        return d->title = std::move(new_title);
+    CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::set_outer_text(
-        const ext::string& val)
-        -> void
+auto html::elements::html_element::set_lang(ext::string new_lang) -> ext::string
 {
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(html_element);
+        return d->title = std::move(new_lang);
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::set_translate(ext::boolean new_translate) -> ext::boolean
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(html_element);
+        return d->translate_mode = new_translate;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::set_dir(detail::directionality_t new_dir) -> detail::directionality_t
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(html_element);
+        return d->dir = new_dir;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_element::set_access_key(ext::string new_access_key) -> ext::string
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(html_element);
+        return d->access_key = std::move(new_access_key);
+    CE_REACTIONS_METHOD_EXE
+}
+
+
+
+auto html::elements::html_element::set_inner_text(ext::string new_inner_text) -> ext::string
+{
+    // to set the 'inner_text' of a HTMLElement, a DocumentFragment is generated from the input 'val', and everything
+    // contained by this node is replaced with the DocumentFragment
+    ACCESS_PIMPL(html_element);
+    decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_inner_text), d->node_document);
+    dom::detail::replace_all(std::move(fragment), this);
+}
+
+
+auto html::elements::html_element::set_outer_text(ext::string new_outer_text) -> ext::string
+{
+    ACCESS_PIMPL(html_element);
+    using enum dom::detail::dom_exception_error_t;
+
     // cannot replace the outer text if here isn't a parent node, because the outer text includes this node, which has
     // to be rooted somewhere for it to be replaced
     dom::detail::throw_v8_exception_formatted<NO_MODIFICATION_ALLOWED_ERR>(
-            [this] {return !parent_node();},
-            "HTMLxxxElement must have a 'parent_node' in order to set the 'outer_text'");
+            [d] {return !d->parent_node;},
+            "HTML...Element must have a 'parent_node' in order to set the 'outer_text'");
 
     // save the current previous and next sibling nodes, which could change as a new Text node might be appended, if
     // this node's replacement doesn't have any child nodes
-    decltype(auto) next = next_sibling();
-    decltype(auto) prev = previous_sibling();
-    decltype(auto) fragment = detail::rendered_text_fragment(val, owner_document());
+    decltype(auto) next = dom::detail::next_sibling(this);
+    decltype(auto) prev = dom::detail::previous_sibling(this);
+    decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_outer_text), d->node_document);
 
     // if the replacement for this node doesn't have any children, then create an empty Text node, and append it to the
     // replacement 'fragment' node; the replacement has to have a child TODO : why?
     // so the default option is to add an empty Text node as the child
     if (!fragment->has_child_nodes())
     {
-        dom::nodes::text text_node {""};
-        text_node.owner_document = owner_document();
-        dom::detail::append(&text_node, fragment);
+        auto text_node = std::make_unique<dom::nodes::text>(u8"");
+        text_node->d_func()->node_document = d->node_document;
+        dom::detail::append(std::move(text_node), fragment);
     }
 
     // replace this node with the 'fragment' in the parent node ('outer_text' replacement includes replacing this node,
     // where-as the inner text replacement replaces everything contained by this node)
-    dom::detail::replace(fragment, parent_node(), this);
+    dom::detail::replace(std::move(fragment), d->parent_node, this);
 
     if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(next->previous_sibling()))
         detail::merge_with_next_text_node(text_node);

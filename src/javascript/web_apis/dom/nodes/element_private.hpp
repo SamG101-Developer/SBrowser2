@@ -3,6 +3,12 @@
 
 #include "ext/pimpl.hpp"
 #include "dom/nodes/node_private.hpp"
+#include "dom/mixins/child_node_private.hpp"
+#include "dom/mixins/document_or_element_node_private.hpp"
+#include "dom/mixins/non_document_type_child_node_private.hpp"
+#include "dom/mixins/parentable_node_private.hpp"
+#include "dom/mixins/slottable_private.hpp"
+#include "aria/mixins/aria_mixin_private.hpp"
 
 #include "ext/boolean.hpp"
 #include "ext/queue.hpp"
@@ -19,7 +25,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, element)
         , mixins::parentable_node_private
         , mixins::slottable_private
         , aria::mixins::aria_mixin_private
-        , css::css_web_animations::mixins::animatable_private
+//        , css::css_web_animations::mixins::animatable_private
 {
     ext::string namespace_;
     ext::string namespace_prefix;

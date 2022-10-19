@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(html::mixins, html_or_svg_element) : dom_object_private
+DEFINE_PRIVATE_CLASS(html::mixins, html_or_svg_element) : virtual dom_object_private
 {
     ext::string cryptographic_nonce;
     ext::boolean autofocus;

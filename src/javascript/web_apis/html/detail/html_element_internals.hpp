@@ -66,7 +66,7 @@ namespace html::detail
     auto rendered_text_fragment(
             ext::string_view input,
             dom::nodes::document* document)
-            -> dom::nodes::document_fragment*;
+            -> std::unique_ptr<dom::nodes::document_fragment>&&;
 
     auto merge_with_next_text_node(
             dom::nodes::text* text_node)

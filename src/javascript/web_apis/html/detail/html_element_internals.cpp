@@ -168,7 +168,7 @@ auto html::detail::directionality(
     {
         // set the black list of element types that won;t be checked for text contents (irrelevant to the textual
         // display on the screen)
-        std::initializer_list<ext::string> black_list_element_types {"bdi", "script", "style", "textarea"};
+        auto black_list_element_types = {"bdi", "script", "style", "textarea"};
 
         // get all the descendant text nodes of the non-HTMLTextAreaElement who don't have blacklisted-type element
         // ancestors, and join their data together into one string
@@ -285,15 +285,15 @@ auto html::detail::rendered_text_collection_steps(
 auto html::detail::rendered_text_fragment(
         ext::string_view input,
         dom::nodes::document* document)
-        -> dom::nodes::document_fragment*
+        -> std::unique_ptr<dom::nodes::document_fragment>&&
 {
     // create an ext::string copy of the 'input' string_view, and set the 'text' string to an empty string; the
     // 'fragment' is a new DocumentFragment, and the 'position' currently points to the first item in the 'input_copy'
     // string
     ext::string input_copy = input;
     ext::string text;
-    auto* fragment = std::make_unique<dom::nodes::document_fragment>().get();
-    auto  position = input_copy.begin();
+    decltype(auto) fragment = std::make_unique<dom::nodes::document_fragment>();
+    decltype(auto) position = input_copy.begin();
 
     // loop until the 'position' iterator points to past the last element in the 'input_copy' string
     while (position != input_copy.end())
@@ -306,9 +306,9 @@ auto html::detail::rendered_text_fragment(
         // and append it to the fragment node; this adds the new Text node to the DocumentFragment
         if (!text.empty())
         {
-            dom::nodes::text text_node {std::move(text)};
-            text_node.owner_document = document;
-            dom::detail::append(&text_node, fragment);
+            decltype(auto) text_node = std::make_unique<dom::nodes::text>(std::move(text))
+            text_node_d_func()->owner_document = document;
+            dom::detail::append(std::move(text_node), fragment);
         }
 
         // if there are more newlines following the newline that the data is split on, then add a new <br> element to
@@ -325,7 +325,7 @@ auto html::detail::rendered_text_fragment(
 
     // return the newly populated fragment, that can be used to replace all in another node (ie like being used to set
     // the '[inner/outer]_text' of a HTMLxxxElement
-    return fragment;
+    return std::move(fragment);
 }
 
 
