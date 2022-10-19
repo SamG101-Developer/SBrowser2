@@ -3,15 +3,16 @@
 
 #include "dom_object.hpp"
 namespace html::mixins {class lazy_loadable;}
+namespace html::mixins {class lazy_loadable_private;}
+
 
 class html::mixins::lazy_loadable
         : public virtual dom_object
 {
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-protected cpp_properties:
-    ext::function<void()> m_lazy_load_resumption_steps;
+public constructors:
+    lazy_loadable();
+    MAKE_PIMPL(lazy_loadable);
+    MAKE_V8_AVAILABLE;
 };
 
 

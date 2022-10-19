@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace html::mixins {class validatable;}
+namespace html::mixins {class validatable_private;}
 
 namespace html::other {class validity_state;}
 
@@ -12,8 +13,9 @@ class html::mixins::validatable
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(validatable);
-    validatable() = default;
+    validatable();
+    MAKE_PIMPL(validatable);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto check_validity() -> ext::boolean;
@@ -21,9 +23,9 @@ public js_methods:
     auto set_custom_validity(ext::string&& error) -> void;
 
 private js_properties:
-    ext::property<ext::boolean> will_validate;
-    ext::property<other::validity_state*> validity;
-    ext::property<ext::string> validation_message;
+    DEFINE_GETTER(will_validate, ext::boolean);
+    DEFINE_GETTER(validity, other::validity_state*);
+    DEFINE_GETTER(validation_message, ext::string);
 };
 
 
