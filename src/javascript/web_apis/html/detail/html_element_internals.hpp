@@ -151,7 +151,7 @@ namespace html::detail
             -> void;
 
     auto reinitialize_url(
-            mixins::html_hyperlink_element_utils* element)
+            const mixins::html_hyperlink_element_utils* element)
             -> void;
 
     auto update_href(

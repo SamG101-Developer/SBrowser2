@@ -3,6 +3,7 @@
 
 #include "dom/nodes/event_target.hpp"
 #include "ext/vector_like.hpp"
+#include "html/mixins/window_or_worker_global_scope.hpp"
 namespace dom::nodes {class window;}
 
 #include "ext/threading.hpp"
@@ -30,6 +31,7 @@ namespace selection {class selection;}
 class dom::nodes::window final
         : public event_target
         , public ext::vector_like<html::detail::browsing_context_t*>
+        , public html::mixins::window_or_worker_global_scope
 {
 public js_methods:
     /* HTML */

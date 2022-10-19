@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_GLOBAL_SCOPE_HPP
 
 #include "dom_object.hpp"
+#include "html/mixins/window_or_worker_global_scope.hpp"
 namespace html::workers {class worker_global_scope;}
 
 #include "ext/vector.hpp"
@@ -12,6 +13,7 @@ namespace reporting {class registered_observer;}
 
 class html::workers::worker_global_scope
         : public virtual dom_object
+        , public html::mixins::window_or_worker_global_scope
 {
 public constructors:
     DOM_CTORS(worker_global_scope);

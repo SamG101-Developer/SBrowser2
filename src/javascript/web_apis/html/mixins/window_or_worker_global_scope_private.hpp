@@ -10,7 +10,7 @@
 #include "ext/number.hpp"
 
 
-DEFINE_PRIVATE_CLASS(html::mixins, window_or_worker_global_scope) : dom_object_private
+DEFINE_PRIVATE_CLASS(html::mixins, window_or_worker_global_scope) : virtual dom_object_private
 {
     ext::map<ext::number<long>, hr_time::dom_high_res_time_stamp> active_timers;
 };

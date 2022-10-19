@@ -5,7 +5,10 @@
 #include "ext/string.hpp"
 
 #include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
+namespace dom::nodes {class document;}
+
 
 namespace html::detail
 {
@@ -23,6 +26,10 @@ namespace html::detail
 
     auto serialize_url(
             const url::detail::url_t& url_record)
+            -> ext::string;
+
+    auto serialize_url(
+            const html::detail::origin_t& url_record)
             -> ext::string;
 
     auto matches_about_blank(

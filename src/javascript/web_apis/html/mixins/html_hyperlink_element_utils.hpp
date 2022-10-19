@@ -3,6 +3,7 @@
 
 #include "dom_object.hpp"
 namespace html::mixins {class html_hyperlink_element_utils;}
+namespace html::mixins {class html_hyperlink_element_utils_private;}
 
 #include INCLUDE_INNER_TYPES(url)
 
@@ -11,52 +12,34 @@ class html::mixins::html_hyperlink_element_utils
 {
 public constructors:
     html_hyperlink_element_utils();
+    ~html_hyperlink_element_utils() override;
+    MAKE_PIMPL(html_hyperlink_element_utils);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
 private js_properties:
-    ext::property<ext::string> origin;
-    ext::property<ext::string> href;
-    ext::property<ext::string> protocol;
-    ext::property<ext::string> username;
-    ext::property<ext::string> password;
-    ext::property<ext::string> host;
-    ext::property<ext::string> hostname;
-    ext::property<ext::string> port;
-    ext::property<ext::string> pathname;
-    ext::property<ext::string> search;
-    ext::property<ext::string> hash;
+    DEFINE_GETTER(origin, ext::string);
+    DEFINE_GETTER(href, ext::string);
+    DEFINE_GETTER(protocol, ext::string);
+    DEFINE_GETTER(username, ext::string);
+    DEFINE_GETTER(password, ext::string);
+    DEFINE_GETTER(host, ext::string);
+    DEFINE_GETTER(hostname, ext::string);
+    DEFINE_GETTER(port, ext::string);
+    DEFINE_GETTER(pathname, ext::string);
+    DEFINE_GETTER(search, ext::string);
+    DEFINE_GETTER(hash, ext::string);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-    auto to_json() const -> ext::string override {return href();};
-
-private cpp_properties:
-    url::detail::url_t m_url;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(origin);
-    DEFINE_CUSTOM_GETTER(href);
-    DEFINE_CUSTOM_GETTER(protocol);
-    DEFINE_CUSTOM_GETTER(username);
-    DEFINE_CUSTOM_GETTER(password);
-    DEFINE_CUSTOM_GETTER(host);
-    DEFINE_CUSTOM_GETTER(hostname);
-    DEFINE_CUSTOM_GETTER(port);
-    DEFINE_CUSTOM_GETTER(pathname);
-    DEFINE_CUSTOM_GETTER(search);
-    DEFINE_CUSTOM_GETTER(hash);
-
-    DEFINE_CUSTOM_SETTER(href);
-    DEFINE_CUSTOM_SETTER(protocol);
-    DEFINE_CUSTOM_SETTER(username);
-    DEFINE_CUSTOM_SETTER(password);
-    DEFINE_CUSTOM_SETTER(host);
-    DEFINE_CUSTOM_SETTER(hostname);
-    DEFINE_CUSTOM_SETTER(port);
-    DEFINE_CUSTOM_SETTER(pathname);
-    DEFINE_CUSTOM_SETTER(search);
-    DEFINE_CUSTOM_SETTER(hash);
-
-    DEFINE_CUSTOM_DELETER(href);
+    DEFINE_SETTER(href, ext::string);
+    DEFINE_SETTER(protocol, ext::string);
+    DEFINE_SETTER(username, ext::string);
+    DEFINE_SETTER(password, ext::string);
+    DEFINE_SETTER(host, ext::string);
+    DEFINE_SETTER(hostname, ext::string);
+    DEFINE_SETTER(port, ext::string);
+    DEFINE_SETTER(pathname, ext::string);
+    DEFINE_SETTER(search, ext::string);
+    DEFINE_SETTER(hash, ext::string);
 };
 
 
