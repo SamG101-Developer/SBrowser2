@@ -5,11 +5,13 @@
 #include "ext/boolean.hpp"
 #include "ext/expected.hpp"
 #include "ext/number.hpp"
+#include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(file_api)
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
+namespace encoding {class encoding;}
 
 
 namespace url::detail
@@ -136,15 +138,15 @@ namespace url::detail
 
     auto url_parser(
             ext::string_view input,
-            ext::string_view base_url = "")
-            // TODO: encoding::encoding* encoding = encoding::encoding::utf8)
+            ext::string_view base_url = u8"",
+            encoding::encoding* encoding = nullptr) // encoding::encoding::utf8)
             -> ext::expected<url_t>;
 
     auto basic_url_parser(
             ext::string_view input,
-            ext::string_view base_url = "",
-            // TODO: encoding::encoding* encoding = encoding::encoding::utf8,
-            ext::optional<const url_t&> url,
+            ext::string_view base_url = u8"",
+            encoding::encoding* encoding = nullptr, //encoding::encoding::utf8,
+            ext::optional<const url_t&> url = ext::nullopt,
             state_override_t state_override = state_override_t::SCHEME_START_STATE)
             -> ext::expected<url_t>;
 
