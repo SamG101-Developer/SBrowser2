@@ -5,8 +5,10 @@
 #include "html/elements/html_element.hpp"
 #include "html/mixins/validatable.hpp"
 namespace html::elements {class html_button_element;}
+namespace html::elements {class html_button_element_private;}
 
 #include INCLUDE_INNER_TYPES(html)
+#include "ext/span.hpp"
 namespace html::elements {class html_form_element;}
 
 
@@ -16,21 +18,29 @@ class html::elements::html_button_element
 {
 public constructors:
     DOM_CTORS(html_button_element);
-    html_button_element();
+    MAKE_PIMPL(html_button_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<html_form_element*> form;
-    ext::property<ext::boolean> disabled;
-    ext::property<ext::boolean> form_no_validate;
-    ext::property<ext::string> form_action;
-    ext::property<ext::string> form_enctype;
-    ext::property<ext::string> form_method;
-    ext::property<ext::string> form_target;
-    ext::property<ext::string> name;
-    ext::property<detail::button_state_t> type;
-    ext::property<ext::string> value;
+    DEFINE_GETTER(disabled, ext::boolean);
+    DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(form_action, ext::string_view);
+    DEFINE_GETTER(form_enctype, ext::string_view);
+    DEFINE_GETTER(form_method, ext::string_view);
+    DEFINE_GETTER(form_novalidate, ext::boolean);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(type, detail::button_state_t);
+    DEFINE_GETTER(value, ext::string_view);
+    DEFINE_GETTER(labels, ext::vector_span<dom::nodes::node*>);
 
-    ext::property<std::unique_ptr<dom::nodes::node*>> labels;
+    DEFINE_SETTER(disabled, ext::boolean);
+    DEFINE_SETTER(form_action, ext::string);
+    DEFINE_SETTER(form_enctype, ext::string);
+    DEFINE_SETTER(form_method, ext::string);
+    DEFINE_SETTER(form_novalidate, ext::boolean);
+    DEFINE_SETTER(name, ext::string);
+    DEFINE_SETTER(type, detail::button_state_t);
+    DEFINE_SETTER(value, ext::string);
 };
 
 
