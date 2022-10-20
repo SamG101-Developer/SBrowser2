@@ -22,22 +22,24 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_GETTER(disabled, ext::boolean);
     DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(labels, ext::vector_span<dom::nodes::node*>);
+    DEFINE_GETTER(disabled, ext::boolean);
     DEFINE_GETTER(form_action, ext::string_view);
-    DEFINE_GETTER(form_enctype, ext::string_view);
-    DEFINE_GETTER(form_method, ext::string_view);
-    DEFINE_GETTER(form_novalidate, ext::boolean);
+    DEFINE_GETTER(form_enctype, detail::form_enctype_t);
+    DEFINE_GETTER(form_method, detail::form_method_t);
+    DEFINE_GETTER(form_no_validate, ext::boolean);
+    DEFINE_GETTER(form_target, ext::string_view);
     DEFINE_GETTER(name, ext::string_view);
     DEFINE_GETTER(type, detail::button_state_t);
     DEFINE_GETTER(value, ext::string_view);
-    DEFINE_GETTER(labels, ext::vector_span<dom::nodes::node*>);
 
     DEFINE_SETTER(disabled, ext::boolean);
     DEFINE_SETTER(form_action, ext::string);
-    DEFINE_SETTER(form_enctype, ext::string);
-    DEFINE_SETTER(form_method, ext::string);
-    DEFINE_SETTER(form_novalidate, ext::boolean);
+    DEFINE_SETTER(form_enctype, detail::form_enctype_t);
+    DEFINE_SETTER(form_method, detail::form_method_t);
+    DEFINE_SETTER(form_no_validate, ext::boolean);
+    DEFINE_SETTER(form_target, ext::string);
     DEFINE_SETTER(name, ext::string);
     DEFINE_SETTER(type, detail::button_state_t);
     DEFINE_SETTER(value, ext::string);

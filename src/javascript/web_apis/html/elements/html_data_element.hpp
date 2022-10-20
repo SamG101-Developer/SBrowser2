@@ -3,19 +3,20 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_data_element;}
+namespace html::elements {class html_data_element_private;}
 
 
 class html::elements::html_data_element
         : public html_element
 {
 public constructors:
-    html_data_element();
+    DOM_CTORS(html_data_element);
+    MAKE_PIMPL(html_data_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> value;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(value, ext::string_view);
+    DEFINE_SETTER(value, ext::string);
 };
 
 

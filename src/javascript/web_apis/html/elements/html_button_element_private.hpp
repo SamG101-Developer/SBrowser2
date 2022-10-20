@@ -16,9 +16,10 @@ DEFINE_PRIVATE_CLASS(html::elements, html_button_element) : html::elements::html
     std::observer_ptr<html_form_element> form;
 
     ext::string form_action;
-    ext::string form_enctype;
-    ext::string form_method;
+    detail::form_enctype_t form_enctype;
+    detail::form_method_t form_method;
     ext::boolean form_no_validate;
+    ext::string form_target;
 
     ext::string name;
     detail::button_state_t type;

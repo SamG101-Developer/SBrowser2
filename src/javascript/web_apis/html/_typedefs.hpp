@@ -98,6 +98,8 @@ namespace html::detail
     enum class premultiply_alpha {NONE, PREMULITPLY, DEFAULT};
     enum class color_space_conversion {NONE, DEFAULT};
     enum class resize_quality {PIXELATED, LOW, MEDIUM, HIGH};
+    enum class form_method_t {GET, POST, DIALOG};
+    enum class form_enctype_t {/* TODO */};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;

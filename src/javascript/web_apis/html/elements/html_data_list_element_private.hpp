@@ -1,0 +1,12 @@
+#pragma once
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_ELEMENTS_HTML_DATA_LIST_ELEMENT_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_ELEMENTS_HTML_DATA_LIST_ELEMENT_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+#include "html/elements/html_element.hpp"
+
+
+DEFINE_PRIVATE_CLASS(html::elements, html_data_list_element) : html::elements::html_element {};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_ELEMENTS_HTML_DATA_LIST_ELEMENT_PRIVATE_HPP

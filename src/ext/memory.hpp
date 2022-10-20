@@ -3,6 +3,9 @@
 
 #include "ext/concepts.hpp"
 
+// TODO : C++20 trailing return type formatting
+// TODO : Implement methods
+
 
 _STD_BEGIN
 
@@ -38,7 +41,6 @@ public:
     void reset(pointer t = nullptr) noexcept;
     void swap(observer_ptr&) noexcept;
 };
-
 
 _STD_END
 
