@@ -5,6 +5,7 @@
 #include "dom/events/event.hpp"
 
 #include "html/detail/link_internals.hpp"
+#include "referrer_policy/_typedefs.hpp"
 
 
 html::elements::html_area_element::html_area_element()
@@ -55,7 +56,7 @@ auto html::elements::html_area_element::get_target() const -> ext::string_view
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const html_area_element);
-        return d->target;
+        return d->href.empty() ? ext::string{} : d->target;
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -64,7 +65,7 @@ auto html::elements::html_area_element::get_download() const -> ext::string_view
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const html_area_element);
-        return d->download;
+        return d->href.empty() ? ext::string{} : d->download;
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -73,7 +74,7 @@ auto html::elements::html_area_element::get_ping() const -> ext::string_view
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const html_area_element);
-        return d->ping;
+        return d->href.empty() ? ext::string{} : d->ping;
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -82,7 +83,7 @@ auto html::elements::html_area_element::get_rel() const -> ext::string_view
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const html_area_element);
-        return d->rel;
+        return d->href.empty() ? ext::string{} : d->rel;
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -91,7 +92,7 @@ auto html::elements::html_area_element::get_referrer_policy() const -> referrer_
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const html_area_element);
-        return d->referrer_policy;
+        return d->href.empty() ? referrer_policy::detail::referrer_policy_t::_ : d->referrer_policy;
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -126,7 +127,7 @@ auto html::elements::html_area_element::set_target(ext::string new_target) -> ex
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(html_area_element);
-        return d->target = std::move(new_target);
+        return d->href.empty() ? ext::string{} : d->target = std::move(new_target);
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -135,7 +136,7 @@ auto html::elements::html_area_element::set_download(ext::string new_download) -
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(html_area_element);
-        return d->download = std::move(new_download);
+        return d->href.empty() ? ext::string{} : d->download = std::move(new_download);
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -144,7 +145,7 @@ auto html::elements::html_area_element::set_ping(ext::string new_ping) -> ext::s
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(html_area_element);
-        return d->ping = std::move(new_ping);
+        return d->href.empty() ? ext::string{} : d->ping = std::move(new_ping);
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -153,7 +154,7 @@ auto html::elements::html_area_element::set_rel(ext::string new_rel) -> ext::str
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(html_area_element);
-        return d->rel = std::move(new_rel);
+        return d->href.empty() ? ext::string{} : d->rel = std::move(new_rel);
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -162,6 +163,23 @@ auto html::elements::html_area_element::set_referrer_policy(referrer_policy::det
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(html_area_element);
-        return d->referrer_policy = new_referrer_policy;
+        return d->href.empty() ? referrer_policy::detail::referrer_policy_t::_ : d->referrer_policy = new_referrer_policy;
     CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::elements::html_area_element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<html_area_element>{isolate}
+        .inherit<html_element>()
+        .ctor<>()
+        .property("alt", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("coords", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("shape", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("target", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("download", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("ping", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("rel", &html_area_element::get_alt, &html_area_element::set_alt)
+        .property("referrer_policy", &html_area_element::get_alt, &html_area_element::set_alt)
+        .auto_wrap_objects();
 }
