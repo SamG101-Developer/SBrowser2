@@ -3,16 +3,16 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_html_element;}
+namespace html::elements {class html_html_element_private;}
 
 
 class html::elements::html_html_element
         : public html::elements::html_element
 {
 public constructors:
-    html_html_element();
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DOM_CTORS(html_html_element);
+    MAKE_PIMPL(html_html_element);
+    MAKE_V8_AVAILABLE;
 };
 
 
