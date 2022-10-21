@@ -7,6 +7,7 @@
 #include "dom/detail/shadow_internals.hpp"
 
 #include "html/detail/focus_internals.hpp"
+#include "html/detail/html_element_internals.hpp"
 
 
 html::elements::html_dialog_element::html_dialog_element()
@@ -55,7 +56,7 @@ auto html::elements::html_dialog_element::show_modal() -> void
     // TODO : layers
 
     d->previously_focused_element = detail::focused_element();
-    detail::dialog_focusing_steps();
+    detail::dialog_focusing_steps(this);
 }
 
 
