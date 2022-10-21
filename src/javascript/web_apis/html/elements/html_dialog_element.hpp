@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_dialog_element;}
+namespace html::elements {class html_dialog_element_private;}
 
 
 class html::elements::html_dialog_element
@@ -11,23 +12,20 @@ class html::elements::html_dialog_element
 {
 public constructors:
     DOM_CTORS(html_dialog_element);
-    html_dialog_element() = default;
+    MAKE_PIMPL(html_dialog_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto show() -> void;
     auto show_modal() -> void;
-    auto close(ext::string&& return_value = "") -> void;
+    auto close(ext::string&& return_value = u8"") -> void;
 
 private js_properties:
-    ext::property<ext::boolean> open;
-    ext::property<ext::string> return_value;
+    DEFINE_GETTER(open, ext::boolean);
+    DEFINE_GETTER(return_value, ext::string_view);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::boolean m_is_modal_flag;
-    html_element* m_previously_focused_element;
+    DEFINE_SETTER(open, ext::boolean);
+    DEFINE_SETTER(return_value, ext::string);
 };
 
 
