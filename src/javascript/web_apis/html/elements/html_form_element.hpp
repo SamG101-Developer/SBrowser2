@@ -6,6 +6,7 @@
 #include "html/mixins/validatable.hpp"
 #include "ext/vector_like.hpp"
 namespace html::elements {class html_form_element;}
+namespace html::elements {class html_form_element_private;}
 
 
 class html::elements::html_form_element
@@ -15,7 +16,8 @@ class html::elements::html_form_element
 {
 public constructors:
     DOM_CTORS(html_form_element);
-    html_form_element() = default;
+    MAKE_PIMPL(html_form_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto submit() -> void;
@@ -23,25 +25,29 @@ public js_methods:
     auto reset() -> void;
 
 private js_properties:
-    ext::property<ext::string> accept_charset;
-    ext::property<ext::string> action;
-    ext::property<ext::string> autocomplete;
-    ext::property<ext::string> enctype;
-    ext::property<ext::string> encoding;
-    ext::property<ext::string> method;
-    ext::property<ext::string> name;
-    ext::property<ext::boolean> no_validate;
-    ext::property<ext::string> target;
-    ext::property<ext::string> rel;
-    ext::property<std::unique_ptr<ext::vector<html_element*>>> elements;
+    DEFINE_GETTER(accept_charset, ext::string_view);
+    DEFINE_GETTER(action, ext::string_view);
+    DEFINE_GETTER(autocomplete, ext::string_view);
+    DEFINE_GETTER(enctype, ext::string_view);
+    DEFINE_GETTER(encoding, ext::string);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(no_validate, ext::boolean);
+    DEFINE_GETTER(target, ext::string_view);
+    DEFINE_GETTER(rel, ext::string_view);
+    DEFINE_GETTER(elements, ranges::any_helpful_view<html::elements::html_element*>);
+
+    DEFINE_SETTER(accept_charset, ext::string);
+    DEFINE_SETTER(action, ext::string);
+    DEFINE_SETTER(autocomplete, ext::string);
+    DEFINE_SETTER(enctype, ext::string);
+    DEFINE_SETTER(encoding, ext::string);
+    DEFINE_SETTER(method, ext::string);
+    DEFINE_SETTER(no_validate, ext::boolean);
+    DEFINE_SETTER(target, ext::string);
+    DEFINE_SETTER(rel, ext::string);
 
 public cpp_operators:
     auto operator[](ext::string_view index) -> html_element*& override;
-
-private cpp_properties:
-    ext::map<ext::string, html_element*> m_past_map;
-    ext::boolean m_constructing_entry_list;
-    ext::boolean m_firing_submission_events;
 };
 
 

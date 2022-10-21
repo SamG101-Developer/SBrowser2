@@ -3,6 +3,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_head_element;}
+namespace html::elements {class html_head_element_private;}
 
 
 class html::elements::html_head_element
@@ -10,10 +11,8 @@ class html::elements::html_head_element
 {
 public constructors:
     DOM_CTORS(html_head_element);
-    html_head_element();
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    MAKE_PIMPL(html_head_element);
+    MAKE_V8_AVAILABLE;
 };
 
 
