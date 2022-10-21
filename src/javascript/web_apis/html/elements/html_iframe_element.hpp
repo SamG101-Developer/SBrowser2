@@ -5,6 +5,7 @@
 #include "html/elements/html_element.hpp"
 #include "html/mixins/lazy_loadable.hpp"
 namespace html::elements {class html_iframe_element;}
+namespace html::elements {class html_iframe_element_private;}
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(referrer_policy)
@@ -18,47 +19,40 @@ class html::elements::html_iframe_element
         , public mixins::lazy_loadable
 {
 public constructors:
-    html_iframe_element();
+    DOM_CTORS(html_iframe_element);
+    MAKE_PIMPL(html_iframe_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto get_svg_document() -> dom::nodes::document*;
 
 private js_properties:
-    /* HTML */
-    ext::property<ext::string> src;
-    ext::property<ext::string> srcdoc;
-    ext::property<ext::string> name;
-    ext::property<ext::string> sandbox;
-    ext::property<ext::string> allow;
-    ext::property<ext::boolean> allow_fullscreen;
+    /* [HTML] */
+    DEFINE_GETTER(src, ext::string_view);
+    DEFINE_GETTER(srcdoc, ext::string_view);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(sandbox, ext::string_view);
+    DEFINE_GETTER(allow, ext::string_view);
+    DEFINE_GETTER(allow_fullscreen, ext::boolean);
+    DEFINE_GETTER(width, ext::string_view);
+    DEFINE_GETTER(height, ext::string_view);
+    DEFINE_GETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_GETTER(loading, detail::lazy_loading_t);
+    DEFINE_GETTER(content_document, dom::nodes::document*);
+    DEFINE_GETTER(content_window, dom::nodes::window_proxy*);
 
-    ext::property<ext::string> width;
-    ext::property<ext::string> height;
-    ext::property<referrer_policy::detail::referrer_policy_t> referrer_policy;
-    ext::property<detail::lazy_loading_t> loading;
+    DEFINE_SETTER(src, ext::string);
+    DEFINE_SETTER(srcdoc, ext::string);
+    DEFINE_SETTER(name, ext::string);
+    DEFINE_SETTER(allow, ext::string);
+    DEFINE_SETTER(allow_fullscreen, ext::boolean);
+    DEFINE_SETTER(width, ext::string);
+    DEFINE_SETTER(height, ext::string);
+    DEFINE_SETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_SETTER(loading, detail::lazy_loading_t);
 
-    ext::property<dom::nodes::document*> content_document;
-    ext::property<dom::nodes::window_proxy*> content_window;
-
-    /* PERMISSIONS_POLICY */
-    ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    /* HTML */
-    ext::boolean m_current_navigation_lazy_loaded = true;
-    detail::sandboxing_flag_set_t sandboxing_set;
-
-    /* FULLSCREEN */
-    ext::boolean m_iframe_fullscreen_flag;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(content_document);
-    DEFINE_CUSTOM_GETTER(content_window);
-    DEFINE_CUSTOM_SETTER(sandbox);
-    DEFINE_CUSTOM_SETTER(loading);
+    /* [PERMISSIONS-POLICY] */
+    DEFINE_GETTER(permissions_policy, permissions_policy::permissions_policy_object*);
 };
 
 

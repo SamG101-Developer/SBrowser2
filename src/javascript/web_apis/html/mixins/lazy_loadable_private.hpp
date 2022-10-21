@@ -8,9 +8,9 @@
 #include "ext/functional.hpp"
 
 
-DEFINE_PRIVATE_CLASS(html::mixins, lazy_loadable) : dom_object_private
+DEFINE_PRIVATE_CLASS(html::mixins, lazy_loadable) : virtual dom_object_private
 {
-    ext::function<void()> m_lazy_load_resumption_steps;
+    ext::function<void()> lazy_load_resumption_steps;
 };
 
 

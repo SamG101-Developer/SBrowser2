@@ -1,4 +1,5 @@
 #include "html_iframe_element.hpp"
+#include "html_iframe_element_private.hpp"
 
 #include "ext/ranges.hpp"
 
@@ -7,25 +8,25 @@
 #include "html/detail/lazy_loading_internals.hpp"
 
 #include "permissions_policy/permissions_policy.hpp"
+#include "permissions_policy/permissions_policy_private.hpp"
+
+#include "url/detail/url_internals.hpp"
 
 #include <magic_enum.hpp>
 
 
 html::elements::html_iframe_element::html_iframe_element()
-        : permissions_policy{std::make_unique<permissions_policy::permissions_policy_object>()}
 {
-    bind_get(content_document);
-    bind_get(content_window);
-    bind_set(sandbox);
-    bind_set(loading);
+    INIT_PIMPL(html_iframe_element);
+    ACCESS_PIMPL(html_iframe_element);
 
-    m_dom_behaviour.insertion_steps = [this]
+    d->insertion_steps = [this]
     {
         detail::create_new_nested_browsing_context(this);
         detail::process_iframe_attributes(this, true);
     };
 
-    permissions_policy()->m_associated_node = this;
+    d->permissions_policy->d_func()->associated_node = this;
 
     HTML_CONSTRUCTOR
 }
@@ -47,31 +48,28 @@ auto html::elements::html_iframe_element::set_sandbox(
     // back with spaces, and convert the range back into a string
     auto filtered_sandbox_attributes = val
             | ranges::views::split_string(' ')
-            | ranges::views::filter([allowed = std::move(allowed)](ext::string&& attribute) {return ranges::contains(allowed, attribute);})
+            | ranges::views::filter([allowed](ext::string&& attribute) {return ranges::contains(allowed, attribute);})
             | ranges::views::join(' ')
             | ranges::to<ext::string>;
 
     // set the internal value of the sandbox property
-    guard_property(sandbox);
-    *sandbox = filtered_sandbox_attributes;
+    d->sandbox = filtered_sandbox_attributes;
 }
 
 
-auto html::elements::html_iframe_element::set_loading(
-        const html::detail::lazy_loading_t& val)
-        -> void
+auto html::elements::html_iframe_element::set_loading(detail::lazy_loading_t new_loading) -> detail::lazy_loading_t
 {
+    ACCESS_PIMPL(html_iframe_element);
     using detail::lazy_loading_t;
 
     // there is a special case for the "Eager" case where there are lazy load resumption steps: run the steps and then
     // reset them to an empty method that doesn't do anything (like a one-shot function)
-    if (val == lazy_loading_t::EAGER && !m_lazy_load_resumption_steps.empty())
+    if (new_loading == lazy_loading_t::EAGER && !d->lazy_load_resumption_steps.empty())
     {
-        m_lazy_load_resumption_steps();
-        m_lazy_load_resumption_steps = [] {};
+        d->lazy_load_resumption_steps();
+        d->lazy_load_resumption_steps = [] {};
     }
 
     // set the internal value of the sandbox property
-    guard_property(loading);
-    *loading = val;
+    d->loading = new_loading;
 }
