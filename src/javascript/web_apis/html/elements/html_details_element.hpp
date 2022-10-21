@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_details_element;}
+namespace html::elements {class html_details_element_private;}
 
 
 class html::elements::html_details_element
@@ -11,13 +12,12 @@ class html::elements::html_details_element
 {
 public constructors:
     DOM_CTORS(html_details_element);
-    html_details_element() = default;
+    MAKE_PIMPL(html_details_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> open;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DEFINE_GETTER(open, ext::boolean);
+    DEFINE_SETTER(open, ext::boolean);
 };
 
 
