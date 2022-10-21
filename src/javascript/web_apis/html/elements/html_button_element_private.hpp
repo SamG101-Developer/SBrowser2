@@ -4,13 +4,16 @@
 
 #include "ext/pimpl.hpp"
 #include "html/elements/html_element_private.hpp"
+#include "html/mixins/validatable_private.hpp"
 
 #include INCLUDE_INNER_TYPES(html)
 #include "ext/memory.hpp"
 namespace html::elements {class html_form_element;}
 
 
-DEFINE_PRIVATE_CLASS(html::elements, html_button_element) : html::elements::html_element_private
+DEFINE_PRIVATE_CLASS(html::elements, html_button_element)
+        : html::elements::html_element_private
+        , html::mixins::validatable_private
 {
     ext::boolean disabled;
     std::observer_ptr<html_form_element> form;

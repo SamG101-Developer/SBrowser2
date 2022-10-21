@@ -5,7 +5,9 @@
 #include "html/elements/html_element.hpp"
 #include "html/mixins/validatable.hpp"
 namespace html::elements {class html_field_set_element;}
+namespace html::elements {class html_field_set_element_private;}
 
+#include "ext/ranges.hpp"
 namespace html::elements {class html_form_element;}
 
 
@@ -15,16 +17,18 @@ class html::elements::html_field_set_element
 {
 public constructors:
     DOM_CTORS(html_field_set_element);
-    html_field_set_element() = default;
+    MAKE_PIMPL(html_field_set_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> disabled;
-    ext::property<ext::string> name;
-    ext::property<ext::string> type;
-    ext::property<html_form_element*> form;
+    DEFINE_GETTER(disabled, ext::boolean);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(type, ext::string) {return u8"fieldset";}
+    DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(elements, ranges::any_helpful_view<html::elements::html_element*>);
 
-private js_properties:
-    DEFINE_CUSTOM_GETTER(type) {return "fieldset";}
+    DEFINE_SETTER(disabled, ext::boolean);
+    DEFINE_SETTER(name, ext::string);
 };
 
 
