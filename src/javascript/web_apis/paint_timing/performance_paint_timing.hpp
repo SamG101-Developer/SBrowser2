@@ -16,8 +16,8 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_GETTER(name, ext::string) override {return "paint";}
-    DEFINE_GETTER(entry_type, ext::string) override {return "first-paint";} // TODO
+    DEFINE_GETTER(name, ext::string) override {return u8"paint";}
+    DEFINE_GETTER(entry_type, ext::string) override {return u8"first-paint";} // TODO
     DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override {return 0;};
 };
