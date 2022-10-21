@@ -28,8 +28,8 @@ namespace dom::detail
             nodes::document* document,
             const ext::string& local_name,
             const ext::string& namespace_,
-            const ext::string& prefix = "",
-            const ext::string& is = "",
+            const ext::string& prefix = u8"",
+            const ext::string& is = u8"",
             ext::boolean  synchronous_custom_elements_flag = false)
             -> std::unique_ptr<nodes::element>;
 
@@ -47,7 +47,7 @@ namespace dom::detail
             ext::string_view namespace_,
             ext::string_view local_name,
             ext::string_view is)
-            -> ext::expected<custom_element_definition_t&>;
+            -> ext::expected<custom_element_definition_t*>;
 
     // enqueue methods for custom elements
     auto enqueue_element_on_appropriate_element_queue(
@@ -118,10 +118,10 @@ struct dom::detail::custom_element_definition_t
 
     ext::map<ext::string, lifecycle_callback_t> lifecycle_callbacks
     {
-            {"connectedCallback"     , [] {}}, {"disconnectedCallback"    , [] {}},
-            {"adoptedCallback"       , [] {}}, {"attributeChangedCallback", [] {}},
-            {"formAssociatedCallback", [] {}}, {"formDisabledCallback"    , [] {}},
-            {"formResetCallback"     , [] {}}, {"formStateRestoreCallback", [] {}}
+            {u8"connectedCallback"     , [] {}}, {u8"disconnectedCallback"    , [] {}},
+            {u8"adoptedCallback"       , [] {}}, {u8"attributeChangedCallback", [] {}},
+            {u8"formAssociatedCallback", [] {}}, {u8"formDisabledCallback"    , [] {}},
+            {u8"formResetCallback"     , [] {}}, {u8"formStateRestoreCallback", [] {}}
     };
 };
 

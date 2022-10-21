@@ -302,7 +302,7 @@ auto dom::detail::lookup_custom_element_definition(
         const ext::string_view namespace_,
         const ext::string_view local_name,
         const ext::string_view is)
-        -> ext::expected<custom_element_definition_t&>
+        -> ext::expected<custom_element_definition_t*>
 {
     if (namespace_ != HTML || !document->d_func()->browsing_context)
         return ext::failure_t{};

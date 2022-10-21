@@ -16,6 +16,7 @@
 
 #include "html/detail/html_element_internals.hpp"
 #include "html/detail/render_blocking_internals.hpp"
+#include "html/other/element_internals.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/cache1.hpp>
@@ -36,6 +37,50 @@ html::elements::html_element::html_element()
     d->insertion_steps = [this] {/* TODO */ };
     d->remove_steps = [this](dom::nodes::node* parent = nullptr) {/* TODO */};
     d->activation_behaviour = [this](dom::events::event* event) {/* TODO */};
+}
+
+
+auto html::elements::html_element::click() -> void
+{
+    // TODO : return if dynamic_cast<T>(this)->disabled = True
+
+    ACCESS_PIMPL(html_element);
+    return_if (d->click_in_progress_flag);
+
+    d->click_in_progress_flag = true;
+    detail::fire_synthetic_pointer_event("click", this, true);
+    d->click_in_progress_flag = false;
+}
+
+
+auto html::elements::html_element::attach_internals() -> other::element_internals
+{
+    ACCESS_PIMPL(html_element);
+    using enum dom::detail::dom_exception_error_t;
+
+    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [d] {return !d->is.empty();},
+            u8"Elements 'is' value must be empty");
+
+    decltype(auto) definition = dom::detail::lookup_custom_element_definition(d->node_document, d->namespace_, d->local_name, u8"");
+
+    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [definition] {return !definition->has_value();},
+            u8"Definition must be valid");
+
+    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [d] {return d->disable_internals;},
+            u8"This element has disabled internals set to true");
+
+    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [d] {return d->custom_element_state != PRECUSTOMIZED && d->custom_element_state != CUSTOM;},
+            u8"This element must be precustomized or custom");
+
+    d->attached_internals = true;
+
+    auto element_internals = other::element_internals{};
+    element_internals->target_element = this;
+    return element_internals;
 }
 
 
