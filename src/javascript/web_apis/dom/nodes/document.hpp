@@ -200,9 +200,9 @@ private js_properties:
 
     /* [PAGE_VISIBILITY] */
     DEFINE_GETTER(hidden);
-    DEFINE_GETTER(visibility_state);
+    DEFINE_GETTER(visibility_state, page_visibility::detail::visibility_state_t);
 
-    DEFINE_CUSTOM_SETTER(visibility_state);
+    DEFINE_SETTER(visibility_state, page_visibility::detail::visibility_state_t);
 
     /* [CSS_WEB_ANIMATIONS] */
     DEFINE_GETTER(timeline);

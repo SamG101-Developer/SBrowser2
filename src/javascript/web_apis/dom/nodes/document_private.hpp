@@ -13,11 +13,13 @@
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(permissions_policy)
 #include INCLUDE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(screen_wake_lock)
 
 namespace dom::nodes {class element;}
 namespace encoding {class encoding;}
 namespace html::elements {class html_script_element;}
 namespace intersection_observer {class intersection_observer;}
+namespace screen_wake_lock {class wake_lock_sentinel;}
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, document)
@@ -32,8 +34,8 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
     std::unique_ptr<encoding::encoding> encoding;
     std::unique_ptr<url::detail::url_t> url;
     ext::string content_type;
-    ext::string type = "xml";
-    ext::string mode = "no-quirks";
+    ext::string type = u8"xml";
+    ext::string mode = u8"no-quirks";
     html::detail::origin_t origin;
     dom::other::dom_implementation* implementation;
 
@@ -101,6 +103,9 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
 
     /* [CSS_WEB_ANIMATIONS] */
     std::unique_ptr<css::detail::document_timeline_t> default_timeline;
+
+    /* [SCREEN-WAKE-LOCK] */
+    ext::map<screen_wake_lock::detail::wake_lock_type, ext::vector<screen_wake_lock::wake_lock_sentinel*>> acive_locks;
 };
 
 

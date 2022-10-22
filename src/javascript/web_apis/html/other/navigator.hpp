@@ -98,6 +98,9 @@ private js_properties:
     /* [PRESENTATION] */
     std::unique_ptr<presentation::presentation> presentation;
 
+    /* [SCREN-WAKE-LOCK] */
+    std::unique_ptr<screen_wake_lock::wake_lock> wake_lock; // TODO : attribute name
+
 private js_slots:
     /* BATTERY */
     ext::slot<ext::promise<battery::battery_manager*>> s_battery_promise;

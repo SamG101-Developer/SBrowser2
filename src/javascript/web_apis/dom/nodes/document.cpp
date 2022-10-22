@@ -48,6 +48,7 @@
 #include "hr_time/detail/time_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 #include "permissions_policy/permissions_policy.hpp"
+#include "screen_wake_lock/_typedefs.hpp"
 #include "svg/elements/svg_title_element.hpp"
 #include "url/detail/url_internals.hpp"
 
@@ -59,6 +60,7 @@
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/filter.hpp>
+#include <range/v3/view/for_each.hpp>
 
 #include <QtCore/QPointer>
 #include <QtWidgets/QVBoxLayout>
@@ -71,15 +73,15 @@ dom::nodes::document::document()
     ACCESS_PIMPL(document);
 
     JS_REALM_GET_SURROUNDING(this);
-    d->url = std::make_unique<url::detail::url_t>("about:blank");
-    d->content_type = "application/xml";
-    d->ready_state = "complete";
+    d->url = std::make_unique<url::detail::url_t>(u8"about:blank");
+    d->content_type = u8"application/xml";
+    d->ready_state = u8"complete";
     d->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->origin;
     d->get_the_parent =
             [this, d](events::event* event)
             {
                 JS_REALM_GET_RELEVANT(this);
-                return_if(event->d_func()->type == "load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
+                return_if(event->d_func()->type == u8"load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
 
                 decltype(auto) global_object = v8pp::from_v8<event_target*>(this_relevant_agent, this_relevant_global_object);
                 return global_object;
@@ -99,9 +101,9 @@ auto dom::nodes::document::create_element(
 
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
-        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d->type == "html");
-        auto html_adjusted_namespace_ = d->type == "html" || d->content_type == "application/xhtml+xml" ? detail::HTML : "";
-        auto is = options["is"].to<ext::string>();
+        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d->type == u8"html");
+        auto html_adjusted_namespace_ = d->type == u8"html" || d->content_type == u8"application/xhtml+xml" ? detail::HTML : u8"";
+        auto is = options[u8"is"].to<ext::string>();
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, "", is, true);
@@ -119,7 +121,7 @@ auto dom::nodes::document::create_element_ns(
         // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
         // 'validate_and_extract(...)' method
         auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
-        auto is = options.try_emplace("is", "").first->second.to<ext::string>();
+        auto is = options[u8"is"];
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, local_name, std::move(namespace_), prefix, is, true);
@@ -302,7 +304,7 @@ auto dom::nodes::document::get_cookie()
 {
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
     // return the empty string instead.
-    return_if (html::detail::is_cookie_averse_document(this)) "";
+    return_if (html::detail::is_cookie_averse_document(this)) u8"";
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
@@ -528,6 +530,16 @@ auto dom::nodes::document::get_m_title_element()
     // the HTMLTitleElement of a Document is the first HTMLTitleElement in the Document's descendants; if there isn't
     // one, then nullptr is returned, as the de-referenced begin() iterator
     return ranges::front(detail::descendants(this) | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<html::elements::html_title_element*>());
+}
+
+
+auto dom::nodes::document::set_visibility_state(page_visibility::detail::visibility_state_t new_visibility_state) -> page_visibility::detail::visibility_state_t
+{
+    ACCESS_PIMPL(document);
+
+    /* [SCREEN-WAKE-LOCK] */
+    return_if (new_visibility_state != page_visibility::detail::visibility_state_t::HIDDEN) new_visibility_state;
+    d->acive_locks.at(screen_wake_lock::detail::SCRREN) | ranges::views::for_each(BIND_FRONT(&screen_wake_lock::detail::release_wake_lock, screen_wake_lock::detail::SCRREN, this));
 }
 
 
