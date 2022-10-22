@@ -4,6 +4,7 @@
 
 #include "dom/events/event.hpp"
 namespace ui_events {class ui_event;}
+namespace ui_events {class ui_event_private;}
 
 #include "ext/number.hpp"
 namespace dom::nodes {class window;}
@@ -13,16 +14,13 @@ class ui_events::ui_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(ui_event);
-    ui_event() = default;
     ui_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(ui_event);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<dom::nodes::window*> view;
-    ext::property<ext::number<long>> detail;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(view, dom::nodes::window*);
+    DEFINE_GETTER(detail, ext::number<long>);
 };
 
 

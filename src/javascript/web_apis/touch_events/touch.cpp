@@ -1,21 +1,31 @@
 #include "touch.hpp"
+#include "touch_private.hpp"
+
+#include "dom/nodes/event_target.hpp"
 
 
 touch_events::touch::touch(
-        ext::map<ext::string, ext::any>&& options)
-        : SET_PROPERTY_FROM_OPTIONS(options, identifier, "")
-        , SET_PROPERTY_FROM_OPTIONS(options, target, nullptr)
-        , SET_PROPERTY_FROM_OPTIONS(options, screen_x, 0.0)
-        , SET_PROPERTY_FROM_OPTIONS(options, screen_y, 0.0)
-        , SET_PROPERTY_FROM_OPTIONS(options, client_x, 0.0)
-        , SET_PROPERTY_FROM_OPTIONS(options, client_y, 0.0)
-        , SET_PROPERTY_FROM_OPTIONS(options, page_x, 0.0)
-        , SET_PROPERTY_FROM_OPTIONS(options, page_y, 0.0)
-        , SET_PROPERTY_FROM_OPTIONS(options, radius_x, 0.0f)
-        , SET_PROPERTY_FROM_OPTIONS(options, radius_y, 0.0f)
-        , SET_PROPERTY_FROM_OPTIONS(options, rotation_angle, 0.0f)
-        , SET_PROPERTY_FROM_OPTIONS(options, force, 0.0f)
-        , SET_PROPERTY_FROM_OPTIONS(options, altitude_angle, 0.0f)
-        , SET_PROPERTY_FROM_OPTIONS(options, azimuth_angle, 0.0f)
-        , SET_PROPERTY_FROM_OPTIONS(options, touch_type, detail::touch_type_t::DIRECT)
-{}
+        detail::touch_init && options)
+{
+    INIT_PIMPL(touch);
+
+    ACCESS_PIMPL(touch);
+    d->identifier = options[u8"identifier"].to<decltype(d->identifier)>();
+    d->target = options[u8"target"].to<decltype(d->target)::pointer>();
+
+    d->client_x = options[u8"clientX"].to<decltype(d->client_x)>();
+    d->client_y = options[u8"clientY"].to<decltype(d->client_y)>();
+    d->screen_x = options[u8"screenX"].to<decltype(d->screen_x)>();
+    d->screen_x = options[u8"screenY"].to<decltype(d->screen_y)>();
+    d->page_x = options[u8"pageX"].to<decltype(d->page_x)>();
+    d->page_x = options[u8"pageY"].to<decltype(d->page_y)>();
+    d->radius_x = options[u8"radiusX"].to<decltype(d->radius_x)>();
+    d->radius_x = options[u8"radiusY"].to<decltype(d->radius_y)>();
+
+    d->rotation_angle = options[u8"rotationAngle"].to<decltype(d->rotation_angle)>();
+    d->force = options[u8"force"].to<decltype(d->force)>();
+    d->altitude_angle = options[u8"altitudeAngle"].to<decltype(d->altitude_angle)>();
+    d->azimuth_angle = options[u8"azimuthAngle"].to<decltype(d->azimuth_angle)>();
+
+    d->touch_type = options[u8"touchType"].to<decltype(d->touch_type)>(); // TODO : default to ...::DIRECT
+}

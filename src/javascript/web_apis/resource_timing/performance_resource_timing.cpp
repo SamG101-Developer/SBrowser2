@@ -1,8 +1,17 @@
 #include "performance_resource_timing.hpp"
 #include "performance_resource_timing_private.hpp"
 
+#include "ext/expected.hpp"
+
 #include "fetch/detail/fetch_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"
+
+#include "server_timing/detail/server_timing_internals.hpp"
+#include "server_timing/performance_server_timing.hpp"
+
+#include <range/v3/view/transform.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/to_container.hpp>
 
 
 auto resource_timing::performance_resource_timing::get_initiator_type() const -> fetch::detail::initiator_type_t
@@ -107,6 +116,15 @@ auto resource_timing::performance_resource_timing::get_response_end() const -> h
 }
 
 
+auto resource_timing::performance_resource_timing::get_transfer_size() const -> ext::number<ulonglong>
+{
+    ACCESS_PIMPL(const performance_resource_timing);
+    return_if (d->cache_mode == detail::cache_mode_t::LOCAL) 0;
+    return_if (d->cache_mode == detail::cache_mode_t::VALIDATED) 300;
+    return d->resource_info->encoded_size + 300;
+}
+
+
 auto resource_timing::performance_resource_timing::get_encoded_body_size() const -> ext::number<ulonglong>
 {
     ACCESS_PIMPL(const performance_resource_timing);
@@ -143,10 +161,12 @@ auto resource_timing::performance_resource_timing::get_duration() const -> hr_ti
 }
 
 
-auto resource_timing::performance_resource_timing::get_transfer_size() const -> ext::number<ulonglong>
+auto resource_timing::performance_resource_timing::get_server_timing() const -> ext::vector<server_timing::performance_server_timing>
 {
     ACCESS_PIMPL(const performance_resource_timing);
-    return_if (d->cache_mode == detail::cache_mode_t::LOCAL) 0;
-    return_if (d->cache_mode == detail::cache_mode_t::VALIDATED) 300;
-    return d->resource_info->encoded_size + 300;
+    return d->timing_info->server_timing_headers
+            | ranges::views::transform(&server_timing::detail::parse_server_timing_header_field)
+            | ranges::views::filter(&ext::expected<server_timing::performance_server_timing>::has_value)
+            | ranges::views::transform(&ext::expected<server_timing::performance_server_timing>::operator*)
+            | ranges::to<ext::vector<server_timing::performance_server_timing>>;
 }

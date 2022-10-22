@@ -8,6 +8,8 @@ namespace resource_timing {class performance_resource_timing_private;}
 
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(hr_time)
+#include "ext/vector.hpp"
+namespace server_timing {class performance_server_timing;}
 
 
 class resource_timing::performance_resource_timing
@@ -20,6 +22,7 @@ public constructors:
     MAKE_STRINGIFIER;
 
 private js_properties:
+    /* [RESOURCE-TIMING] */
     DEFINE_GETTER(initiator_type, fetch::detail::initiator_type_t);
     DEFINE_GETTER(next_hop_protocol, ext::string);
     DEFINE_GETTER(worker_start, hr_time::dom_high_res_time_stamp);
@@ -39,9 +42,12 @@ private js_properties:
     DEFINE_GETTER(decoded_body_size, ext::number<ulonglong>);
 
     DEFINE_GETTER(name, ext::string) override;
-    DEFINE_GETTER(entry_type, ext::string) override {return "resource";}
+    DEFINE_GETTER(entry_type, ext::string) override {return u8"resource";}
     DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override;
+
+    /* [SERVER-TIMING] */
+    DEFINE_GETTER(server_timing, ext::vector<server_timing::performance_server_timing>);
 };
 
 
