@@ -15,8 +15,7 @@ hr_time::performance::performance()
 }
 
 
-auto hr_time::performance::now()
-        -> dom_high_res_time_stamp
+auto hr_time::performance::now() const -> dom_high_res_time_stamp
 {
     // the time at 'now()' is the current high resolution time returned from the detail method, with the global object
     // set to the relevant global object of this Performance class
@@ -53,12 +52,12 @@ auto hr_time::performance::to_v8(
         -> v8pp::class_<self_t>
 {
     decltype(auto) conversions = v8pp::class_<performance>{isolate}
-            .inherit<dom::nodes::event_target>()
-            .function("now", &performance::now)
-            .property("timeOrigin", &performance::get_time_origin)
-            .property("eventCounts", &performance::get_event_counts)
-            .property("interactionCounts", &performance::get_interaction_counts)
-            .auto_wrap_objects();
+        .inherit<dom::nodes::event_target>()
+        .function("now", &performance::now)
+        .property("timeOrigin", &performance::get_time_origin)
+        .property("eventCounts", &performance::get_event_counts)
+        .property("interactionCounts", &performance::get_interaction_counts)
+        .auto_wrap_objects();
 
     return std::move(conversions);
 }

@@ -8,8 +8,8 @@
 
 namespace user_timing::detail
 {
-    using performance_mark_options = ext::map<ext::string, ext::any>;
-    using performance_measure_options = ext::map<ext::string, ext::any>;
+    using performance_mark_options_t = ext::map<ext::string, ext::any>;
+    using performance_measure_options_t = ext::map<ext::string, ext::any>;
 }
 
 
