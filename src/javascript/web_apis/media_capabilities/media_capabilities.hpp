@@ -4,11 +4,10 @@
 
 #include "dom_object.hpp"
 namespace media::capabilities {class media_capabilities;}
+namespace media::capabilities {class media_capabilities_private;}
 
-#include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(media_capabilities)
-
-#include "media_capabilities_private.hpp"
+#include "ext/promise.hpp"
 
 
 class media::capabilities::media_capabilities

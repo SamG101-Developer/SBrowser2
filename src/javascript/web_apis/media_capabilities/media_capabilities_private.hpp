@@ -5,7 +5,7 @@
 #include "dom_object_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(media::capabilities, media_capabilities) : dom_object_private {};
+DEFINE_PRIVATE_CLASS(media::capabilities, media_capabilities) : virtual dom_object_private {};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES_MEDIA_CAPABILITIES_PRIVATE_HPP

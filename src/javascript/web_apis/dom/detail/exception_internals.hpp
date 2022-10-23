@@ -14,7 +14,7 @@
 #define verify_parent_exists(_node)                                                   \
     detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>( \
         [_parent = _node->parent_node()] {return _parent;},                           \
-        "New start container must have a parent")
+        u8"New start container must have a parent")
 
 
 //#define verify_node_type_is_not(_node, ...)                                            \
@@ -28,13 +28,13 @@ namespace dom::detail
     template <v8_primitive_error_t exception_type>
     auto throw_v8_exception(
             exception_condiditional_t&& condition = NO_CONDITION,
-            ext::string_view exception_message = "")
+            ext::string_view exception_message = u8"")
             -> void;
 
     template <dom_exception_error_t exception_type, typename ...T>
     auto throw_v8_exception_formatted(
             exception_condiditional_t&& condition = NO_CONDITION,
-            ext::string_view description = "",
+            ext::string_view description = u8"",
             ext::vector<ext::string>&& possible_causes = {},
             ext::vector<ext::string>&& possible_fixes = {},
             T&&... object_information)
