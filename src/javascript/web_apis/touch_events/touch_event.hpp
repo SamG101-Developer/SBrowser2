@@ -6,7 +6,7 @@
 namespace touch_events {class touch_event;}
 namespace touch_events {class touch_event_private;}
 
-#include "ext/span.hpp"
+#include "ext/ranges.hpp"
 namespace touch_events {class touch;}
 
 
@@ -19,9 +19,9 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_GETTER(touches, ext::vector_span<touch*>);
-    DEFINE_GETTER(target_touches, ext::vector_span<touch*>);
-    DEFINE_GETTER(changed_touches, ext::vector_span<touch*>);
+    DEFINE_GETTER(touches, ranges::any_helpful_view<touch*>);
+    DEFINE_GETTER(target_touches, ranges::any_helpful_view<touch*>);
+    DEFINE_GETTER(changed_touches, ranges::any_helpful_view<touch*>);
 };
 
 

@@ -17,14 +17,14 @@ ui_events::ui_event::ui_event(
 }
 
 
-auto ui_events::ui_event::to_v8(
-        v8::Isolate* isolate)
-        const && -> ext::any
+auto ui_events::ui_event::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
-    return v8pp::class_<ui_event>{isolate}
-            .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
-            .inherit<dom::events::event>()
-            .var("view", &ui_event::view, true)
-            .var("detail", &ui_event::detail, true)
-            .auto_wrap_objects();
+    decltype(auto) conversion = v8pp::class_<ui_event>{isolate}
+        .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
+        .inherit<dom::events::event>()
+        .property("view", &ui_event::get_view)
+        .property("detail", &ui_event::get_detail)
+        .auto_wrap_objects();
+
+    return std::move(conversion);
 }
