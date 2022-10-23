@@ -19,8 +19,8 @@ public constructors:
     MAKE_STRINGIFIER;
 
 protected cpp_accessors:
-    virtual DEFINE_GETTER(name, ext::string) = 0;
-    virtual DEFINE_GETTER(entry_type, ext::string) = 0;
+    virtual DEFINE_GETTER(name, ext::string_view) = 0;
+    virtual DEFINE_GETTER(entry_type, ext::string_view) = 0;
     virtual DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) = 0;
     virtual DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) = 0;
 };
