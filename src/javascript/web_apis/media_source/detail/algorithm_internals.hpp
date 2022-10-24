@@ -40,7 +40,7 @@ namespace media::detail
             ext::optional<detail::end_of_stream_error_t>)
             -> void;
 
-    template <callable F>
+    template <ext::callable F>
     auto mirror_if_necessary(
             ext::variant<dom::nodes::window*, html::workers::dedicated_worker_global_scope*> global,
             F&& steps)
