@@ -4,17 +4,16 @@
 
 #include "webgl_object.hpp"
 namespace webgl2::objects {class webgl_texture;}
+namespace webgl2::objects {class webgl_texture_private;}
 
 
 class webgl2::objects::webgl_texture
         : public webgl_object
 {
 public constructors:
-    DOM_CTORS(webgl_texture);
-    webgl_texture() = default;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    webgl_texture();
+    MAKE_PIMPL(webgl_texture);
+    MAKE_V8_AVAILABLE;
 };
 
 
