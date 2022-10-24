@@ -4,6 +4,7 @@
 
 #include "dom/events/event.hpp"
 namespace mediacapture::main {class media_stream_track_event;}
+namespace mediacapture::main {class media_stream_track_event_private;}
 
 #include "ext/property.hpp"
 namespace mediacapture::main {class media_stream_track;}
@@ -13,15 +14,12 @@ class mediacapture::main::media_stream_track_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(media_stream_track_event);
-    media_stream_track_event() = default;
     media_stream_track_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(media_stream_track_event);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<media_stream_track*> track;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(track, media_stream_track*);
 };
 
 

@@ -5,17 +5,18 @@
 #include "dom/nodes/event_target.hpp"
 namespace mediacapture::main {class media_devices;}
 
-#include "ext/any.hpp"
-#include "ext/map.hpp"
-#include "ext/string.hpp"
-#include "ext/vector.hpp"
-#include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(mediacapture_extensions)
 #include INCLUDE_INNER_TYPES(mediacapture_handle)
 #include INCLUDE_INNER_TYPES(mediacapture_main)
 #include INCLUDE_INNER_TYPES(mediacapture_output)
 #include INCLUDE_INNER_TYPES(mediacapture_screenshare)
 #include INCLUDE_INNER_TYPES(mediacapture_viewport)
+#include "ext/any.hpp"
+#include "ext/map.hpp"
+#include "ext/string.hpp"
+#include "ext/vector.hpp"
+#include "ext/promise.hpp"
+#include "ext/span.hpp"
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}
 
@@ -24,7 +25,7 @@ class mediacapture::main::media_devices
         : public dom::nodes::event_target
 {
 private js_properties:
-    /* MEDIACAPTURE_EXTENSIONS */
+    /* [MEDIACAPTURE-EXTENSIONS] */
     detail::get_user_media_semantics_t default_semantics;
 
 public js_methods:
@@ -32,17 +33,17 @@ public js_methods:
     auto get_user_media(detail::constraints_t&& constraints = {}) -> ext::promise<media_stream*>;
     auto get_supported_constraints() -> detail::constraints_t;
 
-    /* MEDIACAPTURE_OUTPUT */
+    /* [MEDIACAPTURE-OUTPUT] */
     auto select_audio_output(detail::audio_output_options_t&& options = {}) -> ext::promise<media_device_info>;
 
-    /* MEDIACAPTURE_HANDLE */
+    /* [MEDIACAPTURE-HANDLE] */
     auto set_capture_handle_config(detail::capture_handle_config_t&& config = {}) -> void;
-    auto set_supported_capture_actions(ext::vector_view<ext::string> actions) -> void;
+    auto set_supported_capture_actions(ext::vector_span<ext::string> actions) -> void;
 
-    /* MEDIACAPTURE_SCREENSHARE */
+    /* [MEDIACAPTURE-SCREENSHARE] */
     auto get_display_media(detail::display_media_stream_options_t&& options = {}) -> ext::promise<media_stream*>;
 
-    /* MEDIACAPTURE_VIEWPORT */
+    /* [MEDIACAPTURE-VIEWPORT] */
     auto get_viewport_media(detail::display_media_stream_constraints_t&& options = {}) -> ext::promise<media_stream*>;
 };
 

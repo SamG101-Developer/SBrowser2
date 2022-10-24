@@ -4,19 +4,19 @@
 
 #include "dom/other/dom_exception.hpp"
 namespace mediacapture::main::other {class overconstrained_error;}
+namespace mediacapture::main::other {class overconstrained_error_private;}
 
 
 class mediacapture::main::other::overconstrained_error
         : public dom::other::dom_exception
 {
 public constructors:
-    explicit overconstrained_error(ext::string&& constraint, ext::string&& message = "");
+    overconstrained_error(ext::string&& constraint, ext::string&& message = u8"");
+    MAKE_PIMPL(overconstrained_error);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> constraint;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(constraint, ext::string);
 };
 
 

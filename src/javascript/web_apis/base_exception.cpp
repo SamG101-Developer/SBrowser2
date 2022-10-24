@@ -45,7 +45,7 @@ template <type_is_enum T>
 auto base_exception<T>::get_name() const -> ext::string_view
 {
     ACCESS_PIMPL_TEMPLATED(base_exception, T);
-    return magic_enum::enum_name(d->code);
+    return magic_enum::enum_name(d->code) + u8"or"; // ERR -> err -> error
 }
 
 
