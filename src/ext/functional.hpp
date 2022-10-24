@@ -64,54 +64,54 @@ struct pointer_not_null
 };
 
 
-namespace cmp {
-struct lt
-{
-    template <typename L, typename R>
-    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-    {return pred(std::forward<L>) < std::forward<R>(rhs);}
-};
-
-
-struct le
-{
-    template <typename L, typename R>
-    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-    {return pred(std::forward<decltype(lhs)>) <= std::forward<R>(rhs);}
-};
-
-
-struct gt
-{
-    template <typename L, typename R>
-    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-    {return pred(std::forward<decltype(lhs)>) > std::forward<R>(rhs);}
-};
-
-
-struct ge
-{
-    template <typename L, typename R>
-    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-    {return pred(std::forward<decltype(lhs)>) >= std::forward<R>(rhs);}
-};
-
-
-struct eq
-{
-    template <typename L, typename R>
-    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-    {return pred(std::forward<decltype(lhs)>) == std::forward<R>(rhs);}
-};
-
-
-struct ne
-{
-    template <typename L, typename R>
-    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-    {return pred(std::forward<decltype(lhs)>) != std::forward<R>(rhs);}
-};
-}
+//namespace cmp {
+//struct lt
+//{
+//    template <typename L, typename R>
+//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
+//    {return pred(std::forward<L>) < std::forward<R>(rhs);}
+//};
+//
+//
+//struct le
+//{
+//    template <typename L, typename R>
+//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
+//    {return pred(std::forward<decltype(lhs)>) <= std::forward<R>(rhs);}
+//};
+//
+//
+//struct gt
+//{
+//    template <typename L, typename R>
+//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
+//    {return pred(std::forward<decltype(lhs)>) > std::forward<R>(rhs);}
+//};
+//
+//
+//struct ge
+//{
+//    template <typename L, typename R>
+//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
+//    {return pred(std::forward<decltype(lhs)>) >= std::forward<R>(rhs);}
+//};
+//
+//
+//template <typename L = void, typename R = void>
+//struct eq
+//{
+//    constexpr auto operator()(const L& lhs, const R& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
+//    {return pred(lhs) == rhs;}
+//};
+//
+//
+//struct ne
+//{
+//    template <typename L, typename R>
+//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
+//    {return pred(std::forward<decltype(lhs)>) != std::forward<R>(rhs);}
+//};
+//}
 
 
 #define BIND_FRONT(function, ...)                 \
