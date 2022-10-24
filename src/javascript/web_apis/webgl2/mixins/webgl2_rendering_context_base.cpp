@@ -69,7 +69,8 @@ auto webgl2::mixins::webgl2_rendering_context_base::invalidate_sub_framebuffer(
 
 
 auto webgl2::mixins::webgl2_rendering_context_base::read_buffer(
-        detail::glenum_t src) -> void
+        detail::glenum_t src)
+        -> void
 {
     ACCESS_PIMPL(webgl2_rendering_context_base);
     d->gl->glReadBuffer(src);
@@ -77,8 +78,40 @@ auto webgl2::mixins::webgl2_rendering_context_base::read_buffer(
 
 
 auto webgl2::mixins::webgl2_rendering_context_base::get_internalformat_parameter(
-        detail::glenum_t target, detail::glenum_t internalformat, detail::glenum_t pname) -> ext::any
+        detail::glenum_t target, detail::glenum_t internalformat, detail::glenum_t pname)
+        -> ext::any
 {
     ACCESS_PIMPL(webgl2_rendering_context_base);
     // TODO
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_storage_2d(
+        detail::glenum_t target, detail::glsizei_t levels, detail::glenum_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glTexStorage2D(target, levels, internalformat, width, height);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_storage_3d(
+        detail::glenum_t target, detail::glsizei_t levels, detail::glenum_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glTexStorage3D(target, levels, internalformat, width, height, depth);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_image_3d(
+        detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glint_t border, detail::glenum_t format, detail::glenum_t type, v8::ArrayBufferView src_data)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glTexImage3D(target, level, internalformat, width, height, depth, border, format, type, src_data.Buffer()->GetBackingStore()->Data());
 }

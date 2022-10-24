@@ -80,7 +80,7 @@ public js_methods:
     auto tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat, detail::glsizei_t width,
             detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glenum_t format,
-            detail::glenum_t type, v8::ArrayBufferView srcData) -> void;
+            detail::glenum_t type, v8::ArrayBufferView src_data) -> void;
 
     auto tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat, detail::glsizei_t width,
