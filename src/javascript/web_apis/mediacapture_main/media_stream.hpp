@@ -4,10 +4,11 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace mediacapture::main {class media_stream;}
+namespace mediacapture::main {class media_stream_private;}
 
 #include "ext/set.hpp"
 #include "ext/vector.hpp"
-#include <range/v3/view/any_view.hpp>
+#include "ext/ranges.hpp"
 namespace mediacapture::main {class media_stream_track;}
 
 
@@ -18,10 +19,8 @@ public constructors:
     media_stream();
     explicit media_stream(media_stream* stream);
     explicit media_stream(ext::vector<media_stream_track*>&& tracks);
-
-private js_properties:
-    ext::property<ext::boolean> active;
-    ext::property<ext::string> id;
+    MAKE_PIMPL(media_stream);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     _EXT_NODISCARD auto get_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;
@@ -33,11 +32,9 @@ public js_methods:
     auto remove_track(media_stream_track* track) -> void;
     _EXT_NODISCARD auto clone() const -> media_stream;
 
-private cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::set<media_stream_track*> m_track_set;
+private js_properties:
+    DEFINE_GETTER(active, ext::boolean);
+    DEFINE_GETTER(id, ext::string_view);
 };
 
 

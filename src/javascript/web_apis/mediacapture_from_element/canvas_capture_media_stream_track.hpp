@@ -4,6 +4,7 @@
 
 #include "mediacapture_main/media_stream_track.hpp"
 namespace mediacapture::from_element {class canvas_capture_media_stream_track;}
+namespace mediacapture::from_element {class canvas_capture_media_stream_track_private;}
 
 namespace html::elements {class html_canvas_element;}
 
@@ -11,11 +12,16 @@ namespace html::elements {class html_canvas_element;}
 class mediacapture::from_element::canvas_capture_media_stream_track
         : public main::media_stream_track
 {
+public constructors:
+    canvas_capture_media_stream_track();
+    MAKE_PIMPL(canvas_capture_media_stream_track);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
     auto request_frame() -> void;
 
 private js_properties:
-    ext::property<std::unique_ptr<html::elements::html_canvas_element>> canvas;
+    DEFINE_GETTER(canvas, html::elements::html_canvas_element*);
 };
 
 
