@@ -2,9 +2,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_TRANSFERABLE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_TRANSFERABLE_HPP
 
-#include "dom_object.hpp"
+#define MAKE_TRANSFERABLE(t) \
+    t(const t& other);       \
+    auto operator=(const t& other) -> decltype(auto);
 
-#define TRANSFERABLE_CONSTRUCTION(type) type(const type& data_holder)
-#define TRANSFERABLE_ASSIGNMENT(type) auto operator=(const type& data_holder) -> type&
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_TRANSFERABLE_HPP
