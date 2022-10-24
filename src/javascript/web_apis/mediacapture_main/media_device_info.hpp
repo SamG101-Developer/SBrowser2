@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace mediacapture::main {class media_device_info;}
+namespace mediacapture::main {class media_device_info_private;}
 
 #include INCLUDE_INNER_TYPES(mediacapture_main)
 
@@ -11,15 +12,16 @@ namespace mediacapture::main {class media_device_info;}
 class mediacapture::main::media_device_info
         : public virtual dom_object
 {
-private js_properties:
-    ext::property<ext::string> device_id;
-    ext::property<ext::string> label;
-    ext::property<ext::string> group_id;
-    ext::property<detail::media_device_kind_t> kind;
+public constructors:
+    MAKE_PIMPL(media_device_info);
+    MAKE_V8_AVAILABLE;
+    MAKE_STRINGIFIER;
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+private js_properties:
+    DEFINE_GETTER(device_id, ext::string_view);
+    DEFINE_GETTER(group_id, ext::string_view);
+    DEFINE_GETTER(label, ext::string_view);
+    DEFINE_GETTER(kind, detail::media_device_kind_t);
 };
 
 

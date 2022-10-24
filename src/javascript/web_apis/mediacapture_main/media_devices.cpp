@@ -37,13 +37,13 @@ auto mediacapture::main::media_devices::enumerate_devices()
         // would require the Document to be fully active and focused, so these are the conditions that are being waited
         // on (this is why the steps are run in parallel, so it doesn't block other parts of the code)
         JS_REALM_GET_RELEVANT(this);
-        auto* document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document();
+        decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->document;
         while (!detail::device_enumeration_can_proceed()) continue;
 
         // get the current stored devices from the [[stored_devices_list]] slot on the relevant global object, and
         // create a MediaDeviceInfo list based on these MediaDevices. set the value of the promise<T> object to this
         // 'result_list'
-        auto stored_device_list = javascript::environment::realms::get<ext::vector<main::media_devices*>>(this_relevant_global_object, "[[stored_device_list]]");
+        auto stored_device_list = javascript::environment::realms::get<ext::vector<main::media_devices*>>(this_relevant_global_object, "[[stored_device_list]]"); // TODO
         auto result_list = detail::create_list_of_device_info_objects(stored_device_list, document);
         promise.resolve(result_list);
     };
