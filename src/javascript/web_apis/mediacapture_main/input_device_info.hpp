@@ -4,13 +4,20 @@
 
 #include "mediacapture_main/media_device_info.hpp"
 namespace mediacapture::main {class input_device_info;}
+namespace mediacapture::main {class input_device_info_private;}
 
-#include "ext/map.hpp"
 #include INCLUDE_INNER_TYPES(mediacapture_main)
+#include "ext/map.hpp"
+
 
 class mediacapture::main::input_device_info
         : public media_device_info
 {
+public constructors:
+    input_device_info();
+    MAKE_PIMPL(input_device_info);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
     auto get_capabilities() const -> detail::capabilities_t ;
 };

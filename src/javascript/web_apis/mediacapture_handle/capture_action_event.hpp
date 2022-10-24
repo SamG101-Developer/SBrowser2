@@ -4,6 +4,7 @@
 
 #include "dom/events/event.hpp"
 namespace mediacapture::handle {class capture_action_event;}
+namespace mediacapture::handle {class capture_action_event_private;}
 
 #include INCLUDE_INNER_TYPES(mediacapture_handle)
 
@@ -12,12 +13,12 @@ class mediacapture::handle::capture_action_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(capture_action_event);
-    capture_action_event() = default;
     capture_action_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    MAKE_PIMPL(capture_action_event);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    detail::capture_action_t action;
+    DEFINE_GETTER(action, detail::capture_action_t);
 };
 
 

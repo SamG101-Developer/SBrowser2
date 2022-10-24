@@ -6,6 +6,7 @@
 #include "dom/nodes/event_target_private.hpp"
 #include "mediacapture_main/mixins/constrainable_private.hpp"
 
+#include INCLUDE_INNER_TYPES(mediacapture_handle)
 #include INCLUDE_INNER_TYPES(mediacapture_main)
 
 
@@ -21,6 +22,9 @@ DEFINE_PRIVATE_CLASS(mediacapture::main, media_stream_track)
     detail::media_stream_track_state_t ready_state;
 
     std::unique_ptr<detail::media_stream_track_source> source;
+
+    /* [MEDIACAPTURE-HANDLE] */
+    ext::vector<detail::capture_action_t> available_capture_actions;
 };
 
 
