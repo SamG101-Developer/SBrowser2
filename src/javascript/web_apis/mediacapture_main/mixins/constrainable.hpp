@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace mediacapture::main::mixins {class constrainable;}
+namespace mediacapture::main::mixins {class constrainable_private;}
 
 #include "ext/promise.hpp"
 #include "ext/map.hpp"
@@ -13,19 +14,16 @@ namespace mediacapture::main::mixins {class constrainable;}
 class mediacapture::main::mixins::constrainable
         : public virtual dom_object
 {
+public constructors:
+    constrainable();
+    MAKE_PIMPL(constrainable);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
     _EXT_NODISCARD auto get_capabilities() const -> detail::capabilities_t;
     _EXT_NODISCARD auto get_constraints() const -> detail::constraints_t;
     _EXT_NODISCARD auto get_settings() const -> detail::settings_t;
     auto apply_constraints(detail::constraints_t&& constraints = {}) -> ext::promise<void>;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-protected js_slots:
-    detail::capabilities_t s_capabilities;
-    detail::constraints_t s_constraints;
-    detail::settings_t s_settings;
 };
 
 

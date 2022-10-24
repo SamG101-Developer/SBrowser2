@@ -6,19 +6,23 @@
 #include "mediacapture_main/mixins/constrainable.hpp"
 #include "html/mixins/transferable.hpp"
 namespace mediacapture::main {class media_stream_track;}
+namespace mediacapture::main {class media_stream_track_private;}
 
-#include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(mediacapture_handle)
 #include INCLUDE_INNER_TYPES(mediacapture_main)
+#include "ext/promise.hpp"
+#include "ext/span.hpp"
 
 
 class mediacapture::main::media_stream_track
         : public dom::nodes::event_target
-        , public mixins::constrainable
-        , public html::mixins::transferable // TODO : transfer steps defined in mediacapture-extensions API
+        , public mixins::constrainable // TODO : transfer steps defined in mediacapture-extensions API
 {
 public constructors:
-    media_stream_track() = delete;
+    media_stream_track();
+    MAKE_PIMPL(media_stream_track);
+    MAKE_TRANSFERABLE(media_stream_track);
+    MAKE_V8_AVAILABLE;
 
 private constructors:
     media_stream_track(detail::media_stream_track_source& source, ext::boolean tie_source_to_context = true);
@@ -27,32 +31,25 @@ public js_methods:
     auto clone() const -> media_stream_track;
     auto stop() -> void;
 
-    /* MEDIACAPTURE_HANDLE */
+    /* [MEDIACAPTURE-HANDLE] */
     auto get_capture_handle() -> detail::capture_handle_t;
-    auto get_supported_capture_actions() -> ext::vector_view<ext::string>;
+    auto get_supported_capture_actions() -> ext::vector_span<ext::string>;
     auto send_capture_action(detail::capture_action_t action) -> ext::promise<void>;
 
 private js_properties:
-    ext::property<ext::string> kind;
-    ext::property<ext::string> id;
-    ext::property<ext::string> label;
+    DEFINE_GETTER(kind, ext::string_view);
+    DEFINE_GETTER(id, ext::string_view);
+    DEFINE_GETTER(label, ext::string_view);
 
-    ext::property<ext::boolean> enabled;
-    ext::property<ext::boolean> muted;
-    ext::property<detail::media_stream_track_state_t> ready_state;
+    DEFINE_GETTER(enabled, ext::boolean);
+    DEFINE_GETTER(muted, ext::boolean);
+    DEFINE_GETTER(ready_state, detail::media_stream_track_state_t);
 
-    ext::property<ext::string> device_id;
-    ext::property<ext::string> facing_mode;
-    ext::property<ext::string> group_id;
+    DEFINE_GETTER(device_id, ext::string_view);
+    DEFINE_GETTER(facing_mode, ext::string_view);
+    DEFINE_GETTER(group_id, ext::string_view);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    detail::media_stream_track_source& m_source;
-
-private js_properties:
-    DEFINE_CUSTOM_SETTER(muted);
+    DEFINE_SETTER(enabled, ext::boolean);
 };
 
 
