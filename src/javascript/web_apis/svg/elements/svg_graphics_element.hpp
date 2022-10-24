@@ -3,9 +3,11 @@
 
 #include "svg/elements/svg_element.hpp"
 namespace svg::elements {class svg_graphics_element;}
+namespace svg::elements {class svg_graphics_element_private;}
 
 #include INCLUDE_INNER_TYPES(svg)
 namespace css::geometry {class dom_rect;}
+namespace svg::types {class svg_animated_transform_list;}
 
 
 class svg::elements::svg_graphics_element
@@ -14,12 +16,16 @@ class svg::elements::svg_graphics_element
 {
 public constructors:
     DOM_CTORS(svg_graphics_element);
-    svg_graphics_element() = default;
+    MAKE_PIMPL(svg_graphics_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto get_b_box(detail::svg_bounding_box_options_t&& options = {}) -> css::geometry::dom_rect*;
     auto get_ctm() -> css::geometry::dom_rect*;
     auto get_screen_ctm() -> css::geometry::dom_rect*;
+
+public js_properties:
+    DEFINE_GETTER(transform, types::svg_animated_transform_list*);
 };
 
 
