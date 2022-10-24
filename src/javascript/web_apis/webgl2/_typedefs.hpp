@@ -23,8 +23,8 @@ namespace webgl2::detail
 
     using glbitfield_t = ext::number<ulong>;
     using glsizei_t = ext::number<long>;
-    using glintptr_t = ext::number<longlong>;
-    using glsizeiptr_t = ext::number<longlong>;
+    using glintptr_t = ext::number<longlong>*;
+    using glsizeiptr_t = ext::number<longlong>*;
 
     using glfloat_t = ext::number<float>;
     using glclampf_t = ext::number<float>;

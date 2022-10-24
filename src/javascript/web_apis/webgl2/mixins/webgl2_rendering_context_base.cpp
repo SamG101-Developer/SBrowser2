@@ -3,6 +3,10 @@
 
 #include "webgl2/objects/webgl_texture.hpp"
 #include "webgl2/objects/webgl_texture_private.hpp"
+#include "webgl2/objects/webgl_program.hpp"
+#include "webgl2/objects/webgl_program_private.hpp"
+#include "webgl2/other/webgl_uniform_location.hpp"
+#include "webgl2/other/webgl_uniform_location_private.hpp"
 
 
 auto webgl2::mixins::webgl2_rendering_context_base::copy_buffer_sub_data(
@@ -109,9 +113,152 @@ auto webgl2::mixins::webgl2_rendering_context_base::tex_storage_3d(
 auto webgl2::mixins::webgl2_rendering_context_base::tex_image_3d(
         detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat,
         detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
-        detail::glint_t border, detail::glenum_t format, detail::glenum_t type, v8::ArrayBufferView src_data)
+        detail::glint_t border, detail::glenum_t format, detail::glenum_t type,
+        detail::glintptr_t pbo_offset)
         -> void
 {
     ACCESS_PIMPL(webgl2_rendering_context_base);
-    d->gl->glTexImage3D(target, level, internalformat, width, height, depth, border, format, type, src_data.Buffer()->GetBackingStore()->Data());
+    d->gl->glTexImage3D(target, level, internalformat, width, height, depth, border, format, type, pbo_offset);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_image_3d(
+        detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glint_t border, detail::glenum_t format, detail::glenum_t type,
+        detail::tex_image_source&& source)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    // TODO
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_image_3d(
+        detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glint_t border, detail::glenum_t format, detail::glenum_t type,
+        v8::ArrayBufferView src_data, detail::gluint_t src_offset)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glTexImage3D(target, level, internalformat, width, height, depth, border, format, type, src_data.Buffer()->GetBackingStore()->Data() + src_offset);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_sub_image_3d(
+        detail::glenum_t target, detail::glint_t level,
+        detail::glint_t xoffset, detail::glint_t yoffset, detail::glint_t zoffset,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glenum_t format, detail::glenum_t type,
+        detail::glintptr_t pbo_offset)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pbo_offset);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_sub_image_3d(
+        detail::glenum_t target, detail::glint_t level,
+        detail::glint_t xoffset, detail::glint_t yoffset, detail::glint_t zoffset,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glenum_t format, detail::glenum_t type,
+        detail::tex_image_source&& source)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    // TODO
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::tex_sub_image_3d(
+        detail::glenum_t target, detail::glint_t level,
+        detail::glint_t xoffset, detail::glint_t yoffset, detail::glint_t zoffset,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glenum_t format, detail::glenum_t type,
+        v8::ArrayBufferView src_data, detail::gluint_t src_offset)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, src_data.Buffer()->GetBackingStore()->Data() + src_offset);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::copy_tex_sub_image_3d(
+        detail::glenum_t target, detail::glint_t level,
+        detail::glint_t xoffset, detail::glint_t yoffset, detail::glint_t zoffset,
+        detail::glint_t x, detail::glint_t y,
+        detail::glsizei_t width, detail::glsizei_t height)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glCopyTexSubImage3D(target, level, xoffset, yoffset, zoffset, x, y, width, height);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::compressed_tex_image_3d(
+        detail::glenum_t target, detail::glint_t level, detail::glenum_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glint_t border, detail::glsizei_t image_size, detail::glintptr_t offset)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glCompressedTexImage3D(target, level, internalformat, width, height, depth, border, image_size + offset, nullptr); // TODO
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::compressed_tex_image_3d(
+        detail::glenum_t target, detail::glint_t level, detail::glenum_t internalformat,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glint_t border, v8::ArrayBufferView src_data,
+        detail::gluint_t src_offset, detail::gluint_t src_length_override)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glCompressedTexImage3D(target, level, internalformat, width, height, depth, border, src_length_override, src_data.Buffer()->GetBackingStore()->Data() + src_offset);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::compressed_tex_sub_image_3d(
+        detail::glenum_t target, detail::glint_t level,
+        detail::glint_t xoffset, detail::glint_t yoffset, detail::glint_t zoffset,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glenum_t format, detail::glsizei_t image_size, detail::glintptr_t offset)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glCompressedTextureSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, image_size + offset, nullptr); // TODO
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::compressed_tex_sub_image_3d(
+        detail::glenum_t target, detail::glint_t level,
+        detail::glint_t xoffset, detail::glint_t yoffset, detail::glint_t zoffset,
+        detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
+        detail::glenum_t format, v8::ArrayBufferView src_data,
+        detail::gluint_t src_offset, detail::gluint_t src_length_override)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glCompressedTextureSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, src_length_override, src_data.Buffer()->GetBackingStore()->Data() + src_offset);
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::get_frag_data_location(
+        objects::webgl_program* program, ext::string&& name)
+        -> detail::glint_t
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glGetFragDataLocation(program->d_func()->gl->programId(), name.c_str());
+}
+
+
+auto webgl2::mixins::webgl2_rendering_context_base::uniform1ui(
+        other::webgl_uniform_location* location,
+        detail::gluint_t v0)
+        -> void
+{
+    ACCESS_PIMPL(webgl2_rendering_context_base);
+    d->gl->glUniform1ui(location->d_func()->location_id, v0);
 }

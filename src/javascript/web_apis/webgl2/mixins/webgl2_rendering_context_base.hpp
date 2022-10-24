@@ -9,7 +9,9 @@ namespace webgl2::mixins {class webgl2_rendering_context_base_private;}
 #include INCLUDE_INNER_TYPES(webgl2)
 #include "ext/span.hpp"
 #include <v8-forward.h>
+namespace webgl2::objects {class webgl_program;}
 namespace webgl2::objects {class webgl_texture;}
+namespace webgl2::other {class webgl_uniform_location;}
 
 
 class webgl2::mixins::webgl2_rendering_context_base
@@ -70,38 +72,33 @@ public js_methods:
     auto tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat, detail::glsizei_t width,
             detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glenum_t format,
-            detail::glenum_t type, detail::glintptr_t pboOffset) -> void;
+            detail::glenum_t type, detail::glintptr_t pbo_offset) -> void;
 
     auto tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat, detail::glsizei_t width,
             detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glenum_t format,
-            detail::glenum_t type, detail::tex_image_source source) -> void;
+            detail::glenum_t type, detail::tex_image_source&& source) -> void;
 
     auto tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat, detail::glsizei_t width,
             detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glenum_t format,
-            detail::glenum_t type, v8::ArrayBufferView src_data) -> void;
-
-    auto tex_image_3d(
-            detail::glenum_t target, detail::glint_t level, detail::glint_t internalformat, detail::glsizei_t width,
-            detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glenum_t format,
-            detail::glenum_t type, v8::ArrayBufferView srcData, detail::gluint_t srcOffset) -> void;
+            detail::glenum_t type, v8::ArrayBufferView src_data, detail::gluint_t src_offset = 0) -> void;
 
     auto tex_sub_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t xoffset, detail::glint_t yoffset,
             detail::glint_t zoffset, detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
-            detail::glenum_t format, detail::glenum_t type, detail::glintptr_t pboOffset) -> void;
+            detail::glenum_t format, detail::glenum_t type, detail::glintptr_t pbo_offset) -> void;
 
     auto tex_sub_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t xoffset, detail::glint_t yoffset,
             detail::glint_t zoffset, detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
-            detail::glenum_t format, detail::glenum_t type, detail::tex_image_source source) -> void;
+            detail::glenum_t format, detail::glenum_t type, detail::tex_image_source&& source) -> void;
 
     auto tex_sub_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t xoffset, detail::glint_t yoffset,
             detail::glint_t zoffset, detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
-            detail::glenum_t format, detail::glenum_t type, v8::ArrayBufferView srcData, detail::gluint_t srcOffset = 0)
-            -> void;
+            detail::glenum_t format, detail::glenum_t type, v8::ArrayBufferView src_data,
+            detail::gluint_t src_offset = 0) -> void;
 
     auto copy_tex_sub_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t xoffset, detail::glint_t yoffset,
@@ -110,24 +107,32 @@ public js_methods:
 
     auto compressed_tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glenum_t internalformat, detail::glsizei_t width,
-            detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glsizei_t imageSize,
+            detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, detail::glsizei_t image_size,
             detail::glintptr_t offset) -> void;
 
     auto compressed_tex_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glenum_t internalformat, detail::glsizei_t width,
-            detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, v8::ArrayBufferView srcData,
-            detail::gluint_t srcOffset = 0, detail::gluint_t srcLengthOverride = 0) -> void;
+            detail::glsizei_t height, detail::glsizei_t depth, detail::glint_t border, v8::ArrayBufferView src_data,
+            detail::gluint_t src_offset = 0, detail::gluint_t src_length_override = 0) -> void;
 
     auto compressed_tex_sub_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t xoffset, detail::glint_t yoffset,
             detail::glint_t zoffset, detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
-            detail::glenum_t format, detail::glsizei_t imageSize, detail::glintptr_t offset) -> void;
+            detail::glenum_t format, detail::glsizei_t image_size, detail::glintptr_t offset) -> void;
 
     auto compressed_tex_sub_image_3d(
             detail::glenum_t target, detail::glint_t level, detail::glint_t xoffset, detail::glint_t yoffset,
             detail::glint_t zoffset, detail::glsizei_t width, detail::glsizei_t height, detail::glsizei_t depth,
-            detail::glenum_t format, v8::ArrayBufferView srcData, detail::gluint_t srcOffset = 0,
-            detail::gluint_t srcLengthOverride = 0) -> void;
+            detail::glenum_t format, v8::ArrayBufferView src_data, detail::gluint_t src_offset = 0,
+            detail::gluint_t src_length_override = 0) -> void;
+
+    // Programs & Shaders
+    auto get_frag_data_location(
+            objects::webgl_program* program, ext::string&& name) -> detail::glint_t;
+
+    // Uniforms
+    auto uniform1ui(
+            other::webgl_uniform_location* location, detail::gluint_t v0) -> void;
 };
 
 

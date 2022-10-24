@@ -4,17 +4,16 @@
 
 #include "webgl_object.hpp"
 namespace webgl2::objects {class webgl_program;}
+namespace webgl2::objects {class webgl_program_private;}
 
 
 class webgl2::objects::webgl_program
         : public webgl_object
 {
 public constructors:
-    DOM_CTORS(webgl_program);
-    webgl_program() = default;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    webgl_program();
+    MAKE_PIMPL(webgl_program);
+    MAKE_V8_AVAILABLE;
 };
 
 

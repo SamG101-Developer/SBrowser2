@@ -4,17 +4,16 @@
 
 #include "dom_object.hpp"
 namespace webgl2::other {class webgl_uniform_location;}
+namespace webgl2::other {class webgl_uniform_location_private;}
 
 
 class webgl2::other::webgl_uniform_location
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(webgl_uniform_location);
-    webgl_uniform_location() = default;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    webgl_uniform_location();
+    MAKE_PIMPL(webgl_uniform_location);
+    MAKE_V8_AVAILABLE;
 };
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OTHER_WEBGL_UNIFORM_LOCATION_HPP
