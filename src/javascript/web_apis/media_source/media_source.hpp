@@ -26,7 +26,7 @@ public constructors:
 
 public js_methods:
     auto add_source_buffer(ext::string_view type) -> source_buffer*;
-    auto remove_source_buffer(source_buffer* source_buffer) -> void;
+    auto remove_source_buffer(source_buffer* buffer) -> void;
     auto end_of_stream(ext::optional<detail::end_of_stream_error_t> error) -> void;
     auto set_live_seekable_range(ext::number<double> start, ext::number<double> end) -> void;
     auto clear_live_seekable_range() -> void;

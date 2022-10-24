@@ -5,17 +5,17 @@
 #include "dom_object.hpp"
 #include "html/mixins/transferable.hpp"
 namespace media::source {class media_source_handle;}
+namespace media::source {class media_source_handle_private;}
+
 
 class media::source::media_source_handle
         : public virtual dom_object
-        , public html::mixins::transferable
 {
 public constructors:
-    DOM_CTORS(media_source_handle);
-    media_source_handle() = default;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    media_source_handle();
+    MAKE_PIMPL(media_source_handle);
+    MAKE_TRANSFERABLE(media_source_handle);
+    MAKE_V8_AVAILABLE;
 };
 
 
