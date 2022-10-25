@@ -19,8 +19,12 @@ namespace web_rtc::detail
     using rtc_configuration_t = ext::map<ext::string, ext::any>;
     using rtc_ice_server_t = ext::map<ext::string, ext::any>;
     using rtc_offer_answer_options = ext::map<ext::string, ext::any>;
-    using rtc_offset_options = rtc_offer_answer_options;
+    using rtc_offer_options = rtc_offer_answer_options;
     using rtc_answer_options = rtc_offer_answer_options;
+    using rtc_session_description_init_t = ext::map<ext::string, ext::any>;
+    using rtc_local_session_description_init_t = rtc_session_description_init_t;
+    using rtc_session_description_t = ext::map<ext::string, ext::any>;
+    using rtc_ice_candidate_init_t = ext::map<ext::string, ext::any>;
 }
 
 
