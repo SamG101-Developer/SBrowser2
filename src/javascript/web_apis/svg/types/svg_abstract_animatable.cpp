@@ -26,6 +26,14 @@ auto svg::types::svg_abstract_animatable<T>::get_anim_val() const -> T
 
 
 template <typename T>
+auto svg::types::svg_abstract_animatable<T>::set_base_val(T new_base_val) -> T
+{
+    ACCESS_PIMPL_TEMPLATED(svg_abstract_animatable, T);
+    return d->anim_value = new_base_val;
+}
+
+
+template <typename T>
 auto svg::types::svg_abstract_animatable<T>::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<svg_abstract_animatable<T>>{isolate}

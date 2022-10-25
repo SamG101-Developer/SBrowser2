@@ -10,7 +10,7 @@ namespace svg::types {template <typename T> class svg_abstract_animatable_privat
 
 template <typename T>
 class svg::types::svg_abstract_animatable
-        : public dom_object
+        : virtual public dom_object
 {
 public constructors:
     svg_abstract_animatable();
@@ -18,8 +18,10 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_properties:
-    virtual DEFINE_GETTER(base_val, T) = 0;
-    virtual DEFINE_GETTER(anim_val, T) = 0;
+    virtual DEFINE_GETTER(base_val, T);
+    virtual DEFINE_GETTER(anim_val, T);
+
+    virtual DEFINE_SETTER(base_val, T);
 };
 
 
