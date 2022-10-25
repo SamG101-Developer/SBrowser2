@@ -8,7 +8,8 @@ namespace web_rtc::pc {class rtc_certificate;}
 namespace web_rtc::pc {class rtc_certificate_private;}
 
 // Other Includes & Forward Declarations
-#include INCLUDE_INNER_TYPES(hr_time);
+#include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(web_rtc_pc)
 
 
 class web_rtc::pc::rtc_certificate
