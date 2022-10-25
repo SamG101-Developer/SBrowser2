@@ -18,8 +18,7 @@ device_orientation::device_orientation_event::device_orientation_event(
 }
 
 
-auto device_orientation::device_orientation_event::request_permission()
-        -> ext::promise<detail::permission_state_t>
+auto device_orientation::device_orientation_event::request_permission() -> ext::promise<detail::permission_state_t>
 {
     ext::promise<detail::permission_state_t> promise;
     // TODO
