@@ -8,10 +8,6 @@ namespace dom::abort {class abort_signal;}
 
 namespace dom::detail
 {
-    auto is_signal_aborted(
-            abort::abort_signal* signal)
-            -> ext::boolean;
-
     auto signal_abort(
             abort::abort_signal* signal,
             const ext::any& reason)

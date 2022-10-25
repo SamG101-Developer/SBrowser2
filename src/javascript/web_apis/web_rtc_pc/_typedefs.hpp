@@ -2,6 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_RTC_PC__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
+#include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 
@@ -25,6 +26,11 @@ namespace web_rtc::detail
     using rtc_local_session_description_init_t = rtc_session_description_init_t;
     using rtc_session_description_t = ext::map<ext::string, ext::any>;
     using rtc_ice_candidate_init_t = ext::map<ext::string, ext::any>;
+    using rtc_dtls_fingerprint_t = ext::map<ext::string, ext::any>;
+    using keying_material_t = ext::secure::string;
+    using operation_t = ext::function<void()>;
+
+    struct certificate_t;
 }
 
 

@@ -5,6 +5,7 @@
 namespace dom::abort {class abort_controller;}
 namespace dom::abort {class abort_controller_private;}
 
+#include "ext/any.hpp"
 namespace dom::abort {class abort_signal;}
 
 
@@ -17,7 +18,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto abort(const ext::any& reason) const -> void;
+    auto abort(ext::any&& reason) const -> void;
 
 private js_properties:
     DEFINE_GETTER(signal, abort_signal*);

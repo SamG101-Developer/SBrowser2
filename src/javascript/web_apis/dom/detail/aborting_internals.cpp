@@ -2,17 +2,10 @@
 
 #include "ext/any.hpp"
 #include "dom/abort/abort_signal.hpp"
+#include "dom/abort/abort_signal_private.hpp"
 #include "dom/detail/event_internals.hpp"
 
 #include <range/v3/view/for_each.hpp>
-
-
-auto dom::detail::is_signal_aborted(
-        abort::abort_signal* signal)
-        -> ext::boolean
-{
-    return signal->get_reason().has_value();
-}
 
 
 auto dom::detail::signal_abort(
@@ -38,11 +31,11 @@ auto dom::detail::follow_signal(
         abort::abort_signal* const parent_signal)
         -> void
 {
-    return_if(detail::is_signal_aborted(following_signal));
+    return_if(following_signal->d_func()->aborted());
 
     // abort the following signal if the parent signal has aborted, otherwise when the parent signal does abort, tell
     // the following signal to abort as well, using the reason of the parent signal
-    detail::is_signal_aborted(parent_signal)
+    parent_signal->d_func()->aborted()
             ? signal_abort(following_signal, parent_signal->d_func()->abort_reason)
             : parent_signal->d_func()->abort_algorithms.push_back(
                     [&following_signal, &parent_signal]

@@ -9,6 +9,7 @@ ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(
         sensors::detail::sensor_options_t&& options)
 {
     INIT_PIMPL(ambient_light_sensor);
+
     // Construct an AmbientLight instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
     detail::construct_ambient_light_sensor_object(this, std::move(options));

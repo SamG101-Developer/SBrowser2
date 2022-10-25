@@ -11,13 +11,21 @@ dom::abort::abort_controller::abort_controller()
 }
 
 
-auto dom::abort::abort_controller::abort(
-        const ext::any& reason)
-        const -> void
+auto dom::abort::abort_controller::abort(ext::any&& reason) const -> void
 {
-    // abort the signal with the reason
+    // Abort the signal with the reason, by calling the detail 'signal_abort' method on the signal that this controller
+    // stores in a unique_ptr in the private class. Move the reason into the method.
     ACCESS_PIMPL(const abort_controller);
-    detail::signal_abort(d->signal.get(), reason);
+    detail::signal_abort(d->signal.get(), std::move(reason));
+}
+
+
+auto dom::abort::abort_controller::get_signal() const -> abort_signal*
+{
+    // Get the signal being stored in the unique_ptr in the private class, by calling the .get() method to access the
+    // raw pointer.
+    ACCESS_PIMPL(const abort_controller);
+    return d->signal.get();
 }
 
 

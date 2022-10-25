@@ -22,7 +22,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    static auto abort(const ext::optional<ext::any>& reason) -> abort_signal;
+    static auto abort(ext::optional<ext::any>&& reason = ext::nullopt) -> abort_signal;
     static auto timeout(ext::number<ulonglong> milliseconds) -> abort_signal;
     auto throw_if_aborted() -> void;
 

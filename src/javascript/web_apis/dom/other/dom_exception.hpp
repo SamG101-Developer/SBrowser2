@@ -8,11 +8,15 @@ namespace dom::other {class dom_exception_private;}
 #include INCLUDE_INNER_TYPES(dom)
 #include "ext/concepts.hpp"
 #include "ext/string.hpp"
+namespace dom::abort {class abort_signal;}
 
 
 class dom::other::dom_exception
         : public base_exception<detail::dom_exception_error_t>
 {
+public friends:
+    friend class dom::abort::abort_signal;
+
 public constructors:
     dom_exception(ext::string&& message, exception_t type);
     MAKE_PIMPL(dom_exception);
