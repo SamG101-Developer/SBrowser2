@@ -18,14 +18,21 @@ class promise
 public:
     auto resolve(T&& value) -> promise<T>& requires (!ext::type_is<T, void>)
     {
+        // When a promise is resolved, forward the value into the 'm_value' attribute, resolve the JavaScript
+        // abstraction of a promise, and tell the class that the resolve() method has been called by settings the
+        // 'm_is_resolved' flag. Run any predefined fulfillment_steps.
         m_value = std::forward<T>(value);
         m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), m_value));
+        m_is_resolved = true;
+        fulfillment_steps();
         return *this;
     }
 
     auto resolve() -> promise<T>& requires (ext::type_is<T, void>)
     {
         m_v8_promise->Resolve(v8::Isolate::GetCurrent()->GetCurrentContext(), v8::Null(v8::Isolate::GetCurrent()));
+        m_is_resolved = true;
+        fulfillment_steps();
         return *this;
     }
 
@@ -33,22 +40,41 @@ public:
     auto reject(E&& exception) -> promise<T>&
     {
         m_v8_promise->Reject(v8::Isolate::GetCurrent()->GetCurrentContext(), v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<E>(exception)));
+        m_is_rejected = true;
+        rejection_steps();
         return *this;
     }
 
     template <callable F0, callable F1>
     auto react(F0&& fulfilled_steps, F1&& rejected_steps = [] {}) -> promise<T>&;
 
-    auto pending() -> ext::boolean {return !(m_is_resolved || m_is_rejected);}
+    auto pending() -> ext::boolean
+    {
+        return !(m_is_resolved || m_is_rejected);
+    }
 
-    auto resolved() -> ext::boolean {return m_is_resolved;}
+    auto settled() -> ext::boolean
+    {
+        return m_is_resolved || m_is_rejected;
+    }
 
-    auto rejected() -> ext::boolean {return m_is_rejected;}
+    auto resolved() -> ext::boolean
+    {
+        return settled();
+    }
 
-    auto value() -> T {return m_value;}
+    auto rejected() -> ext::boolean
+    {
+        return m_is_rejected;
+    }
 
-    ext::function<void()> rejection_steps;
+    auto value() -> T
+    {
+        return m_value;
+    }
+
     ext::function<void()> fulfillment_steps;
+    ext::function<void()> rejection_steps;
 
 private:
     ext::boolean m_is_resolved = false;
