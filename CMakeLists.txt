@@ -8,9 +8,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}
     -ftemplate-backtrace-limit=0
     -std=c++latest -Wno-dev
     -DCRYPTOPP_DISABLE_ASM")
-#    -DOPENSSL_ROOT_DIR=C:/openssl/openssl-3.0.5/openssl-3/x64
-#    -DOPENSSL_CRYPTO_LIBRARY=C:/openssl/openssl-3.0.5/openssl-3/x64/lib/libssl.lib
-#    -DOPENSSL_VERSION=3.0.5")
 
 set(OPENSSL_ROOT_DIR "C:/openssl/openssl-3.0.5/openssl-3/x64")
 set(OPENSSL_CRYPTO_LIBRARY "C:/openssl/openssl-3.0.5/openssl-3/x64/lib/libssl.lib")
@@ -121,10 +118,6 @@ FetchContent_Declare(Qt
         GIT_REPOSITORY https://github.com/SamG101-Developer/Qt6WindowsBinaries.git
         GIT_TAG master)
 
-FetchContent_Declare(RTC
-        GIT_REPOSITORY https://github.com/paullouisageneau/libdatachannel.git
-        GIT_TAG master)
-
 FetchContent_Declare(SelfMacro
         GIT_REPOSITORY https://github.com/MitalAshok/self_macro.git
         GIT_TAG master)
@@ -141,7 +134,7 @@ FetchContent_MakeAvailable(
         AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
         HashMapSetReplacement JsonReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement
         RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement
-        HardwareInfo Crypto DateTime Encoding MagicEnum RTC SelfMacro UUIDs V8PP) # TODO : Qt
+        HardwareInfo Crypto DateTime Encoding MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -171,8 +164,7 @@ target_include_directories(encoding INTERFACE ${FETCH_CONTENT_BASE_DIR}/encoding
 target_link_libraries(${PROJECT_NAME}
         assert cppcoro expected cppfs function2::function2 unordered_dense::unordered_dense jsonpp optional
         effolkronium_random range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
-        hwinfo crypto asap encoding magic_enum::magic_enum OpenSSL::applink LibDataChannel::LibDataChannel self_macro
-        stduuid v8pp)
+        hwinfo crypto asap encoding magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()
