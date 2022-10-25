@@ -10,9 +10,7 @@
 
 
 _EXT_BEGIN
-
-using namespace tuplet;
-
+    using namespace tuplet;
 _EXT_END
 
 
