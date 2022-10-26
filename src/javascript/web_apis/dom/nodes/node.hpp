@@ -11,11 +11,17 @@ namespace dom::nodes {class node_private;}
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
+namespace dom::mixins {class child_node;}
+namespace dom::mixins {class document_or_element_node;}
 
 
 class dom::nodes::node
         : public event_target
 {
+public friends:
+    friend class dom::mixins::child_node;
+    friend class dom::mixins::document_or_element_node;
+
 public constructors:
     DOM_CTORS(node);
     MAKE_PIMPL(node);

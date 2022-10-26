@@ -37,6 +37,7 @@ namespace dom::nodes {class document_type;}
 namespace dom::nodes {class processing_instruction;}
 namespace dom::nodes {class text;}
 namespace dom::nodes {class window_proxy;}
+namespace dom::mixins {class document_or_element_node;}
 
 namespace dom::node_ranges {class range;}
 namespace dom::node_iterators {class node_filter;}
@@ -72,6 +73,9 @@ class dom::nodes::document
         , public xpath::xpath_evaluator_base
         , public ext::map_like<ext::string, ranges::any_view<element*>>
 {
+public friends:
+    friend class dom::mixins::document_or_element_node;
+
 public constructors:
     document();
     MAKE_PIMPL(document);

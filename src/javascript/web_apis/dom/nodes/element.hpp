@@ -31,6 +31,7 @@ namespace dom::nodes {class element_private;}
 namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class shadow_root;}
+namespace dom::mixins {class document_or_element_node;}
 namespace edit_context {class edit_context;}
 
 
@@ -44,6 +45,9 @@ class dom::nodes::element
         , public aria::mixins::aria_mixin
         , public css::css_web_animations::mixins::animatable
 {
+public friends:
+    friend class dom::mixins::document_or_element_node;
+
 public constructors:
     DOM_CTORS(element);
     MAKE_PIMPL(element);
@@ -121,7 +125,7 @@ private js_properties:
     DEFINE_GETTER(shadow_root, nodes::shadow_root*);
     DEFINE_GETTER(attributes, ext::vector_span<attr*>);
 
-    /* [EDIT_CONTENT] */
+    /* [EDIT-CONTENT] */
     DEFINE_GETTER(edit_contxt, edit_context::edit_context*);
 };
 
