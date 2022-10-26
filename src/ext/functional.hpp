@@ -64,6 +64,27 @@ struct pointer_not_null
 };
 
 
+namespace cmp
+{
+    struct eq_fn
+    {
+        template <typename T, typename U>
+        constexpr auto operator()(T&& left, U&& right) const -> _EXT boolean
+        {return std::forward<T>(left) == std::forward<U>(right);}
+    };
+
+    struct ne_fn
+    {
+        template <typename T, typename U>
+        constexpr auto operator()(T&& left, U&& right) const -> _EXT boolean
+        {return std::forward<T>(left) != std::forward<U>(right);}
+    };
+
+    eq_fn eq;
+    ne_fn ne;
+}
+
+
 //namespace cmp {
 //struct lt
 //{

@@ -92,8 +92,7 @@ concept arithmetic = std::integral<T> || std::floating_point<T>;
 template <typename T>
 concept callable = requires
 {
-    requires requires{std::invocable<T>;}                        // Handles general invocable objects
-            || requires {T::operator();}                         // Handles functors
+    requires requires {T::operator();}                           // Handles functors
             || requires {std::is_function_v<T>;}                 // Handles functions
             || requires {std::is_member_function_pointer_v<T>;}; // Handles function pointers (class members)
 };
@@ -107,6 +106,10 @@ concept iterator_like = std::is_pointer_v<std::remove_pointer_t<T>>;
 // check if a type is an enum type
 template <typename T>
 concept type_is_enum = std::is_enum_v<T> || std::is_scoped_enum_v<T>;
+
+
+template <typename T>
+concept is_unique = _EXT type_is_any_specialization<T, std::unique_ptr>;
 
 _EXT_END;
 

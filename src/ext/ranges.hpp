@@ -32,7 +32,21 @@
 #include <range/v3/view/take_while.hpp>
 #include <range/v3/view/transform.hpp>
 
-namespace ranges::views {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
+#define RANGE_ADAPTOR_OPERATOR(...) \
+    constexpr auto operator()(__VA_ARGS__) const
+
+#define RANGE_ADAPTOR_STRUCT(name, code) \
+    struct name##_fn {code};             \
+    auto name = name##_fn{}
+
+#define RANGE_ADAPTOR_STRUCT_T(name, templates, code) \
+    template <templates>                              \
+    struct name##_fn {code};                          \
+    template <templates>                              \
+    auto name = name##_fn<>{}
+
+
+namespace ranges {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
 
 
 /* VIEWS */
@@ -40,68 +54,77 @@ namespace ranges::views
 {
     // A lowercase conversion works by returning a transform adaptor that takes each item as a char type, converts
     // it to a lowercase char, and returns the character back.
-    auto lowercase = []
-    {
-        return ranges::views::transform([](char c) {return std::tolower(c);});
-    };
+    RANGE_ADAPTOR_STRUCT(lowercase,
+        RANGE_ADAPTOR_OPERATOR()
+        {return ranges::views::transform([](char c) {return std::tolower(c);});});
 
 
     // An uppercase conversion works by returning a transform adaptor that takes each item as a char type, converts
     // it to an uppercase char, and returns the character back.
-    auto uppercase = []
-    {
-        return ranges::views::transform([](char c) {return std::toupper(c);});
-    };
+    RANGE_ADAPTOR_STRUCT(uppercase,
+        RANGE_ADAPTOR_OPERATOR()
+        {return ranges::views::transform([](char c) {return std::toupper(c);});});
 
 
     // A string split function works by returning a split-transform adaptor that splits the range by the delimiter;
     // this produces a range of ranges: splitting "hello world" by a " " becomes {{"h", "e", "l", "l", "o"}, {"0",
     // "o", "r", "l", "d"}}, with each item a character from the string, so using the transform adaptor, convert
     // each sub-range into a string, to get {"hello", "world"}.
-    auto split_string = [](char delimiter)
-    {
-        return ranges::views::split(delimiter) | ranges::views::transform([](_EXT range_v3_view auto&& sub_range) {return sub_range | ranges::to<_EXT string>();});
-    };
+    RANGE_ADAPTOR_STRUCT(split_string,
+        RANGE_ADAPTOR_OPERATOR(char delimiter) // TOOD : ...Args -> allow multiple delimiters
+        {
+            return ranges::views::split(delimiter) | ranges::views::transform(
+                    [](_EXT range_v3_view auto&& sub_range)
+                    {return sub_range | ranges::to<_EXT string>();});
+        });
 
 
     // A take_until adaptor works by taking items from a range until a condition is met -- semantically the same as
     // take_while, but allowing the opposite method; for example, instead of
     // `take_while([](int i){... return !odd_number(i);}`, it can be written as `take_until(odd_number);`.
-    auto take_until = []<typename F>(F&& predicate)
-    {
-        return ranges::views::take_while(
-                [predicate = std::forward<F>(predicate)]<_EXT callable T>(T&& element) mutable
-                {return !predicate(std::forward<T>(element));});
-    };
+    RANGE_ADAPTOR_STRUCT(take_until,
+        template <_EXT callable F>
+        RANGE_ADAPTOR_OPERATOR(F&& predicate)
+        {
+            return ranges::views::take_while(
+                    [f = std::forward<F>(predicate)]<_EXT callable T>(T&& element) mutable
+                    {return !f(std::forward<T>(element));});
+        });
 
 
     // A drop_until adaptor works by dropping items from a range until a condition is met -- semantically the same as
     // drop_while, but allowing the opposite method; for example, instead of
     // `drop_while([](int i){... return !odd_number(i);}`, it can be written as `drop_until(odd_number);`.
-    auto drop_until = []<_EXT callable F>(F&& predicate)
-    {
-        return ranges::views::drop_while(
-                [predicate = std::forward<F>(predicate)]<typename T>(T&& element) mutable
-                {return !predicate(std::forward<T>(element));});
-    };
+    RANGE_ADAPTOR_STRUCT(drop_until,
+        template <_EXT callable F>
+        RANGE_ADAPTOR_OPERATOR(F&& predicate)
+        {
+            return ranges::views::drop_while(
+                    [f = std::forward<F>(predicate)]<typename T>(T&& element) mutable
+                    {return !f(std::forward<T>(element));});
+        });
 
 
     // Transform a container of objects into an attribute belonging to that object -- syntactic sugar for
     //      ranges::views::transform(nodes, [](dom::nodes::node* node) {return node->text_content();});
     //      ranges::views::transform_to_attr(nodes, &node::text_content);
-    // NOTE: this is only for ext::property<T>, not normal attributes -- TODO: specialize for this
-    auto transform_to_attr = []<typename T>(T&& attribute)
-    {
-        return ranges::views::transform(
-                [attribute = std::forward<T>(attribute)]<typename U>(U&& element) mutable
-                {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});};
+    // For mapping a object to multiple attributes, a tuple is returned, contianing all the attrbute values.
+    RANGE_ADAPTOR_STRUCT(transform_to_attr,
+        template <typename T>
+        RANGE_ADAPTOR_OPERATOR(T&& attribute)
+        {
+            return ranges::views::transform(
+                    [attribute = std::forward<T>(attribute)]<typename U>(U&& element) mutable
+                    {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});
+        }
 
-    auto transform_to_attrs = []<typename ...Args>(Args&&... attributes)
-    {
-        return ranges::views::transform(
-                [...attributes = std::forward<Args>(attributes)]<typename U>(U&& element) mutable
-                {return std::make_tuple(std::mem_fn(std::forward<Args>(attributes))(std::forward<U>(element))...);});
-    };
+        template <typename ...Args>
+        RANGE_ADAPTOR_OPERATOR(Args&&... attributes)
+        {
+            return ranges::views::transform(
+                    [...attributes = std::forward<Args>(attributes)]<typename U>(U&& element) mutable
+                    {return std::make_tuple(std::mem_fn(std::forward<Args>(attributes))(std::forward<U>(element))...);});
+        });
 
 
     // A transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
@@ -109,45 +132,52 @@ namespace ranges::views
     // container / view, as there is no guarantee that very element will be transformed, so some elements will be
     // left in their original form. A transform_if adaptor works by transforming each element, if '_PredIf' is a true
     // boolean value.
-    auto transform_if = []<typename F0, _EXT callable F1>(F0&& predicate_if, F1&& predicate_transform)
-    {
-        if constexpr (_EXT callable<F0>)
-            return ranges::views::transform(
-                    [predicate_if = std::forward<F0>(predicate_if), predicate_transform = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable
-                    {return predicate_if() ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
-        else
-            return ranges::views::transform(
-                    [&predicate_if, predicate_transform = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable
-                    {return predicate_if ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
-    };
+    RANGE_ADAPTOR_STRUCT(transform_if,
+        template <_EXT callable F0 COMMA _EXT callable F1>
+        RANGE_ADAPTOR_OPERATOR(F0&& predicate_if, F1&& predicate_transform)
+        {
+            return predicate_if()
+                    ? ranges::views::transform([f = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable {return f(std::forward<T>(element));})
+                    : ranges::views::transform(_EXT identity{});
+        }
+
+        template <_EXT callable F>
+        RANGE_ADAPTOR_OPERATOR(_EXT boolean predicate_if, F&& predicate_transform)
+        {
+            return predicate_if
+                    ? ranges::views::transform([f = std::forward<F>(predicate_transform)]<typename T>(T&& element) mutable {f(std::forward<T>(element));})
+                    : ranges::views::transform(_EXT identity{});
+        });
 
 
-    auto transform_to_obj = []<typename T, typename ...Args>(Args&&... other_args)
-    {
-        return ranges::views::transform(
-                [...other_args = std::forward<Args...>(other_args)]<typename U>(U&& arg) mutable
-                {
-                    if constexpr (std::is_pointer_v<T>)
-                        return new T{std::forward<U>(arg), std::forward<Args>(other_args)...};
-                    else
+    RANGE_ADAPTOR_STRUCT(transform_to_object,
+        template <typename T COMMA typename ...Args>
+        RANGE_ADAPTOR_OPERATOR(Args&&... other_args)
+        {
+            return ranges::views::transform(
+                    [...other_args = std::forward<Args...>(other_args)]<typename U>(U&& arg) mutable
+                    {
+                        constexpr_return_if(_EXT is_unique<T>) std::make_unique<T>(std::forward<U>(arg), std::forward<Args>(other_args)...);
+                        constexpr_return_if(std::is_pointer_v<T>) new T{std::forward<U>(arg), std::forward<Args>(other_args)...};
                         return T{std::forward<U>(arg), std::forward<Args>(other_args)...};
-                });
-    };
+                    });
+        });
 
 
     // A cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
     // another type, and then removing all the instances of nullptr.
-    auto cast_all_to = []<typename T>(_EXT boolean&& remove_nullptr = true)
-    {
-        return ranges::views::transform([](auto* pointer) {return dynamic_cast<T>(pointer);}) | ranges::views::remove(nullptr);
-    };
+    RANGE_ADAPTOR_STRUCT_T(cast_all_to, _EXT is_pointer T,
+        RANGE_ADAPTOR_OPERATOR(_EXT boolean&& remove_nullptr = true)
+        {
+            return ranges::views::transform([](auto* pointer) {return dynamic_cast<T>(pointer);}) | ranges::views::remove(nullptr);
+        });
 
 
     // A filter that allows for comparison of an attribute or method call from each object in the range; for
     // example, the first line is simplified into the second line (syntactic sugar)
     //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;};
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
-    auto filter_eq = []<ranges::views::filter_compare_t Comparison = filter_compare_t::EQ, typename T, typename U, typename F>(T&& attribute, U&& value, F&& predicate = _EXT identity{})
+    auto filter_eq = []<filter_compare_t Comparison = filter_compare_t::EQ, typename T, typename U, typename F>(T&& attribute, U&& value, F&& predicate = _EXT identity{}) mutable
     {
         using enum filter_compare_t;
 
@@ -174,6 +204,17 @@ namespace ranges::views
         else constexpr_return_if(Comparison == GE) ranges::views::filter(
                 [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
                 (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) >= std::forward<U>(value);});
+    };
+
+    auto filter_fn_eq = []<filter_compare_t Comparison = filter_compare_t::EQ, typename F, typename T>(F&& function, T&& value) mutable
+    {
+        using enum filter_compare_t;
+
+        constexpr_return_if(Comparison == EQ) ranges::views::filter(
+                [function = std::forward<F>(function), value = std::forward<T>(value)]<typename U>
+                (U&& candidate) mutable {return function(std::forward<U>(candidate)) == std::forward<T>(value);});
+
+        // TODO ...
     };
 
 
