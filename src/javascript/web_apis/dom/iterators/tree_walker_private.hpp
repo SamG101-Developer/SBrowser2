@@ -4,12 +4,13 @@
 #include "ext/pimpl.hpp"
 #include "dom/iterators/abstract_iterator_private.hpp"
 
+#include "ext/memory.hpp"
 namespace dom::nodes {class node;}
 
 
 DEFINE_PRIVATE_CLASS(dom::node_iterators, tree_walker) : abstract_iterator_private
 {
-    nodes::node* current;
+    std::observer_ptr<nodes::node> current;
 };
 
 
