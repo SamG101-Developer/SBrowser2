@@ -42,8 +42,7 @@
 #define RANGE_ADAPTOR_STRUCT_T(name, templates, code) \
     template <templates>                              \
     struct name##_fn {code};                          \
-    template <templates>                              \
-    auto name = name##_fn<>{}
+    template <templates>
 
 
 namespace ranges {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
@@ -170,178 +169,167 @@ namespace ranges::views
         RANGE_ADAPTOR_OPERATOR(_EXT boolean&& remove_nullptr = true)
         {
             return ranges::views::transform([](auto* pointer) {return dynamic_cast<T>(pointer);}) | ranges::views::remove(nullptr);
-        });
+        })
+        auto cast_all = cast_all_to_fn<T>{};
 
 
     // A filter that allows for comparison of an attribute or method call from each object in the range; for
     // example, the first line is simplified into the second line (syntactic sugar)
     //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;};
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
-    auto filter_eq = []<filter_compare_t Comparison = filter_compare_t::EQ, typename T, typename U, typename F>(T&& attribute, U&& value, F&& predicate = _EXT identity{}) mutable
-    {
-        using enum filter_compare_t;
+    RANGE_ADAPTOR_STRUCT_T(filter_eq, filter_compare_t Comparison = filter_compare_t::EQ,
+        template <typename T COMMA typename U COMMA typename F>
+        RANGE_ADAPTOR_OPERATOR(T&& attribute, U&& value, F&& predicate = _EXT identity{})
+        {
+            using enum filter_compare_t;
 
-        constexpr_return_if(Comparison == EQ) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
-                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) == std::forward<U>(value);});
+            constexpr_return_if(Comparison == EQ) ranges::views::filter(
+                    [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                    (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) == std::forward<U>(value);});
 
-        else constexpr_return_if(Comparison == NE) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
-                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) != std::forward<U>(value);});
+            else constexpr_return_if(Comparison == NE) ranges::views::filter(
+                    [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                    (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) != std::forward<U>(value);});
 
-        else constexpr_return_if(Comparison == LT) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
-                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) < std::forward<U>(value);});
+            else constexpr_return_if(Comparison == LT) ranges::views::filter(
+                    [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                    (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) < std::forward<U>(value);});
 
-        else constexpr_return_if(Comparison == LE) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
-                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) <= std::forward<U>(value);});
+            else constexpr_return_if(Comparison == LE) ranges::views::filter(
+                    [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                    (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) <= std::forward<U>(value);});
 
-        else constexpr_return_if(Comparison == GT) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
-                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) > std::forward<U>(value);});
+            else constexpr_return_if(Comparison == GT) ranges::views::filter(
+                    [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                    (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) > std::forward<U>(value);});
 
-        else constexpr_return_if(Comparison == GE) ranges::views::filter(
-                [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
-                (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) >= std::forward<U>(value);});
-    };
-
-    auto filter_fn_eq = []<filter_compare_t Comparison = filter_compare_t::EQ, typename F, typename T>(F&& function, T&& value) mutable
-    {
-        using enum filter_compare_t;
-
-        constexpr_return_if(Comparison == EQ) ranges::views::filter(
-                [function = std::forward<F>(function), value = std::forward<T>(value)]<typename U>
-                (U&& candidate) mutable {return function(std::forward<U>(candidate)) == std::forward<T>(value);});
-
-        // TODO ...
-    };
+            else constexpr_return_if(Comparison == GE) ranges::views::filter(
+                    [attribute = std::forward<T>(attribute), value = std::forward<U>(value), predicate = std::forward<F>(predicate)]<typename V>
+                    (V&& candidate) mutable {return predicate(std::mem_fn(std::forward<T>(attribute))(std::forward<V>(candidate))) >= std::forward<U>(value);});
+        }) auto filter_eq = filter_eq_fn<Comparison>{};
 
 
-    auto transpose = []
-    {
-        return ranges::views::transform(
-                []<template <typename> typename Container, typename T>(Container<T>&)
-                {}); // TODO
-    };
+    RANGE_ADAPTOR_STRUCT_T(transformed_filter, filter_compare_t Comparison = filter_compare_t::EQ,
+        template <typename F COMMA typename T>
+        RANGE_ADAPTOR_OPERATOR(F&& function, T&& value)
+        {
+            using enum filter_compare_t;
+
+            constexpr_return_if(Comparison == EQ) ranges::views::filter(
+                    [function = std::forward<F>(function), value = std::forward<T>(value)]<typename U>
+                    (U&& candidate) mutable {return function(std::forward<U>(candidate)) == std::forward<T>(value);});
+
+            constexpr_return_if(Comparison == NE) ranges::views::filter(
+                    [function = std::forward<F>(function), value = std::forward<T>(value)]<typename U>
+                    (U&& candidate) mutable {return function(std::forward<U>(candidate)) != std::forward<T>(value);});
+
+            // TODO ...
+        }) auto transformed_filter = transformed_filter_fn<Comparison>{};
 
 
-    auto remove_at_index = [](_EXT number<size_t>&& r_index)
-    {
-        return ranges::views::enumerate
-                | ranges::views::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
-                | ranges::views::values;
-    };
+    RANGE_ADAPTOR_STRUCT(transpose,
+        RANGE_ADAPTOR_OPERATOR()
+        {
+            return ranges::views::transform(
+                    []<template <typename> typename Container, typename T>(Container<T>&&)
+                    {}); // TODO
+        });
+
+
+    RANGE_ADAPTOR_STRUCT(remove_at_index,
+        RANGE_ADAPTOR_OPERATOR(_EXT number<size_t> r_index)
+        {
+            return ranges::views::enumerate
+                    | ranges::views::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
+                    | ranges::views::values;
+        });
 }
 
 
 /* ACTIONS */
 namespace ranges::actions
 {
-    auto lowercase = []
-    {
-        return ranges::actions::transform([](char c) {return std::tolower(c);});
-    };
+    RANGE_ADAPTOR_STRUCT(lowercase,
+            RANGE_ADAPTOR_OPERATOR()
+            {return ranges::actions::transform([](char c) {return std::tolower(c);});});
 
-    auto uppercase = []
-    {
-        return ranges::actions::transform([](char c) {return std::toupper(c);});
-    };
+    RANGE_ADAPTOR_STRUCT(uppercase,
+            RANGE_ADAPTOR_OPERATOR()
+            {return ranges::actions::transform([](char c) {return std::toupper(c);});});
 
+    RANGE_ADAPTOR_STRUCT(replace,
+            template <typename T COMMA _EXT callable F>
+            RANGE_ADAPTOR_OPERATOR(T&& old_value, T&& new_value, F&& predicate = _EXT identity{})
+            {
+                return ranges::actions::transform(
+                        [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value), f = std::forward<F>(predicate)](T&& current_value) mutable
+                        {return f(std::forward<T>(current_value)) == std::forward<T>(old_value) ? std::forward<T>(new_value) : std::forward<T>(current_value);});
+            });
 
-    // A transform_if adaptor works by transforming each element, if it matches a method passed in as the 'PredIf'
-    // statement. The return type of the '_PredTransform' method must be the same as the current element type in the
-    // container / view, as there is no guarantee that very element will be transformed, so some elements will be
-    // left in their original form. A transform_if adaptor works by transforming each element, if '_PredIf' is a true
-    // boolean value.
-    auto transform_if = []<typename F0, _EXT callable F1>(F0&& predicate_if, F1&& predicate_transform)
-    {
-        if constexpr (_EXT callable<F0>)
-            return ranges::actions::transform(
-                    [predicate_if = std::forward<F0>(predicate_if), predicate_transform = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable
-                    {return predicate_if() ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
-        else
-            return ranges::actions::transform(
-                    [&predicate_if, predicate_transform = std::forward<F1>(predicate_transform)]<typename T>(T&& element) mutable
-                    {return predicate_if ? predicate_transform(std::forward<T>(element)) : std::forward<T>(element);});
-    };
+    RANGE_ADAPTOR_STRUCT(replace_if,
+            template <_EXT callable F COMMA typename T>
+            RANGE_ADAPTOR_OPERATOR(F&& pred, T&& new_value)
+            {
+                return ranges::actions::transform(
+                        [f = std::forward<F>(pred), new_value = std::forward<T>(new_value)](T&& current_value) mutable
+                        {return f(std::forward<T>(current_value)) ? std::forward<T>(new_value) : std::forward<T>(current_value);});
+            });
 
 
-    // A cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
-    // another type, and then removing all the instances of nullptr.
-    auto cast_all_to = []<typename T>(_EXT boolean&& remove_nullptr = true)
-    {
-        return ranges::actions::transform([](auto* pointer) {return dynamic_cast<T>(pointer);}) | ranges::views::remove(nullptr);
-    };
+    RANGE_ADAPTOR_STRUCT(remove_at_index,
+            RANGE_ADAPTOR_OPERATOR(_EXT number<size_t>&& r_index)
+            {
+                return ranges::views::enumerate
+                        | ranges::actions::remove_if(BIND_FRONT(_EXT pair_key_matches, r_index))
+                        | ranges::views::values;
+            });
 
-
-    auto replace = []<typename T, _EXT callable F>(T&& old_value, T&& new_value, F&& predicate = _EXT identity{}) mutable
-    {
-        return ranges::actions::transform(
-                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value), predicate = std::forward<F>(predicate)]<typename U>(U&& current_value) mutable
-                {return predicate(current_value) == old_value ? std::forward<T>(new_value) : std::forward<U>(current_value);});
-    };
-
-
-    auto replace_if = []<_EXT callable F, typename T>(F&& pred, T&& new_value)
-    {
-        return ranges::actions::transform(
-                [pred = std::forward<F>(pred), new_value = std::forward<T>(new_value)]<typename U>(U&& current_value) mutable
-                {return pred(std::forward<U>(current_value)) ? std::forward<T>(new_value) : std::forward<U>(current_value);});
-    };
-
-
-    auto remove_at_index = [](_EXT number<size_t>&& r_index)
-    {
-        return ranges::views::enumerate
-                | ranges::actions::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
-                | ranges::views::values;
-    };
-
-    auto filter = []<_EXT callable F>(F&& predicate)
-    {
-        return ranges::actions::remove_if(_EXT negate_function{std::move(predicate)});
-    };
+    RANGE_ADAPTOR_STRUCT(filter,
+            template <_EXT callable F>
+            RANGE_ADAPTOR_OPERATOR(F&& predicate)
+            {return ranges::actions::remove_if(_EXT negate_function{std::move(predicate)});});
 }
 
 
 /* ALGORITHMS */
 namespace ranges
 {
-    auto contains_any = []<typename R0, typename R1>(R0&& range0, R1&& range1) mutable
-    {
-        return ranges::any_of(std::forward<R1>(range1),
-                [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
-                {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
-    };
+    RANGE_ADAPTOR_STRUCT(contains_any,
+            template <typename R0 COMMA typename R1>
+            RANGE_ADAPTOR_OPERATOR(R0&& range0, R1&& range1)
+            {
+                return ranges::any_of(std::forward<R1>(range1),
+                        [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
+                        {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
+            });
 
 
-    auto contains_all = []<typename R0, typename R1>(R0&& range0, R1&& range1) mutable
-    {
-        return ranges::all_of(std::forward<R1>(range1),
-                [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
-                {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
-    };
+    RANGE_ADAPTOR_STRUCT(contains_all,
+            template <typename R0 COMMA typename R1>
+            RANGE_ADAPTOR_OPERATOR(R0&& range0, R1&& range1)
+            {
+                return ranges::all_of(std::forward<R1>(range1),
+                        [range0 = std::forward<R0>(range0)]<typename T>(T&& item1) mutable
+                        {return ranges::contains(std::forward<R0>(range0), std::forward<T>(item1));});
+            });
 
 
-    auto negate_contains = []<typename R, typename T>(R&& range, T&& value) mutable
-    {
-        return !ranges::contains(std::forward<R>(range), std::forward<T>(value));
-    };
+    RANGE_ADAPTOR_STRUCT(negate_contains,
+            template <typename R COMMA typename T>
+            RANGE_ADAPTOR_OPERATOR(R&& range, T&& value)
+            {return !ranges::contains(std::forward<R>(range), std::forward<T>(value));});
 
 
-    auto first_where = []<typename R, _EXT callable F>(R&& range, F&& pred)
-    {
-        auto filtered = range | ranges::views::filter(std::forward<F>(pred));
-        return filtered.begin();
-    };
+    RANGE_ADAPTOR_STRUCT(first_where,
+            template <typename R COMMA _EXT callable F>
+            RANGE_ADAPTOR_OPERATOR(R&& range, F&& pred)
+            {return ranges::begin(range | ranges::views::filter(std::forward<F>(pred)));});
 
 
-    auto last_where = []<typename R, typename F>(R&& range, F&& function)
-    {
-        auto filtered = range | ranges::views::filter(std::forward<F>(function));
-        return filtered.end();
-    };
+    RANGE_ADAPTOR_STRUCT(last_where,
+            template <typename R COMMA typename F>
+            RANGE_ADAPTOR_OPERATOR(R&& range, F&& function)
+            {return ranges::end(filtered = range | ranges::views::filter(std::forward<F>(function)));});
 }
 
 
