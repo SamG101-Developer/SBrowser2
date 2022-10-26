@@ -5,6 +5,7 @@
 #include "ext/pimpl.hpp"
 
 #include "ext/boolean.hpp"
+#include "ext/memory.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}
 
@@ -13,7 +14,7 @@ DEFINE_PRIVATE_CLASS(dom::node_iterators, abstract_iterator) : virtual dom_objec
 {
     ext::boolean active_flag;
 
-    dom::nodes::node* root;
+    std::observer_ptr<dom::nodes::node> root;
     ext::number<ulong> what_to_show;
     std::unique_ptr<node_filter> filter;
 };

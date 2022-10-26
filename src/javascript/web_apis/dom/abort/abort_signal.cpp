@@ -84,7 +84,7 @@ auto dom::abort::abort_signal::get_aborted() const -> ext::boolean
 
 auto dom::abort::abort_signal::get_reason() const -> ext::any
 {
-    // The 'reason' getter returns the equivalent 'reason' attribute value that is stored in the private class
+    // The 'reason' getter returns the equivalent 'reason' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abort_signal);
     return d->abort_reason;
 }

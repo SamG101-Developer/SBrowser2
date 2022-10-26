@@ -161,9 +161,7 @@ auto dom::events::event::composed_path() const -> ext::vector<nodes::event_targe
 }
 
 
-auto dom::events::event::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::events::event::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<event>{isolate}
         .inherit<dom_object>()

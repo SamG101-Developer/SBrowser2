@@ -21,6 +21,7 @@ dom::node_iterators::abstract_iterator::abstract_iterator()
 
 auto dom::node_iterators::abstract_iterator::get_filter() const -> node_filter*
 {
+    // The 'filter' getter returns the equivalent 'filter' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abstract_iterator);
     return d->filter.get();
 }
@@ -28,13 +29,16 @@ auto dom::node_iterators::abstract_iterator::get_filter() const -> node_filter*
 
 auto dom::node_iterators::abstract_iterator::get_root() const -> nodes::node*
 {
+    // The 'root' getter returns the equivalent 'root' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abstract_iterator);
-    return d->root;
+    return d->root.get();
 }
 
 
 auto dom::node_iterators::abstract_iterator::get_what_to_show() const -> ext::number<ulong>
 {
+    // The 'what_to_show' getter returns the equivalent 'what_to_show' attribute value that is stored in the private
+    // class.
     ACCESS_PIMPL(const abstract_iterator);
     return d->what_to_show;
 }
