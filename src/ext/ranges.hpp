@@ -329,7 +329,7 @@ namespace ranges
     RANGE_ADAPTOR_STRUCT(last_where,
             template <typename R COMMA typename F>
             RANGE_ADAPTOR_OPERATOR(R&& range, F&& function)
-            {return ranges::end(filtered = range | ranges::views::filter(std::forward<F>(function)));});
+            {return ranges::end(range | ranges::views::filter(std::forward<F>(function)));});
 }
 
 
