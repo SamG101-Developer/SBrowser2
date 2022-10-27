@@ -170,7 +170,7 @@ namespace ranges::views
         {
             return ranges::views::transform([](auto* pointer) {return dynamic_cast<T>(pointer);}) | ranges::views::remove(nullptr);
         })
-        auto cast_all = cast_all_to_fn<T>{};
+        auto cast_all_to = cast_all_to_fn<T>{};
 
 
     // A filter that allows for comparison of an attribute or method call from each object in the range; for
