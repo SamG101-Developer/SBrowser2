@@ -14,6 +14,9 @@ class dom::nodes::shadow_root final
         : public document_fragment
         , public mixins::document_or_shadow_root
 {
+public friends:
+    friend class dom::nodes::element;
+
 public constructors:
     shadow_root();
     MAKE_PIMPL(shadow_root);

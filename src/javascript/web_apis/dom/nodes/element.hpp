@@ -70,8 +70,8 @@ public js_methods:
 
     auto set_attribute(ext::string_view qualified_name, ext::string_view value) -> attr*;
     auto set_attribute_ns(ext::string_view namespace_, ext::string_view qualified_name, ext::string_view value) -> attr*;
-    auto set_attribute_node(attr* attribute) -> attr*;
-    auto set_attribute_node_ns(attr* attribute) -> attr*;
+    auto set_attribute_node(std::unique_ptr<attr>&& attribute) -> attr*;
+    auto set_attribute_node_ns(std::unique_ptr<attr>&& attribute) -> attr*;
 
     auto remove_attribute(ext::string_view qualified_name) -> attr*;
     auto remove_attribute_ns(ext::string_view namespace_, ext::string_view local_name) -> attr*;
@@ -83,7 +83,7 @@ public js_methods:
     auto toggle_attribute_node(attr* attribute, ext::optional<ext::boolean>&& force) -> attr*;
     auto toggle_attribute_node_ns(attr* attribute, ext::optional<ext::boolean>&& force) -> attr*;
 
-    auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> shadow_root;
+    auto attach_shadow(ext::map<ext::string, ext::any>&& options) -> std::unique_ptr<shadow_root>;
     auto closest(ext::string_view selectors) -> element*;
     auto matches(ext::string_view selectors) -> ext::boolean;
 
@@ -123,7 +123,7 @@ private js_properties:
     DEFINE_GETTER(slot, ext::string); // TODO : ce-reactions
     DEFINE_GETTER(id, ext::string); // TODO : ce-reactions
     DEFINE_GETTER(shadow_root, nodes::shadow_root*);
-    DEFINE_GETTER(attributes, ext::vector_span<attr*>);
+    DEFINE_GETTER(attributes, ranges::any_helpful_view<attr*>);
 
     /* [EDIT-CONTENT] */
     DEFINE_GETTER(edit_contxt, edit_context::edit_context*);

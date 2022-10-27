@@ -11,6 +11,9 @@ namespace dom::nodes {class element;}
 class dom::nodes::attr final
         : public node
 {
+public friends:
+    friend class dom::nodes::element;
+
 public constructors:
     attr();
     MAKE_PIMPL(attr);

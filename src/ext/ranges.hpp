@@ -114,16 +114,16 @@ namespace ranges::views
         RANGE_ADAPTOR_OPERATOR(T&& attribute)
         {
             return ranges::views::transform(
-                    [attribute = std::forward<T>(attribute)]<typename U>(U&& element) mutable
-                    {return std::mem_fn(std::forward<T>(attribute))(std::forward<U>(element));});
+                    [attribute = std::forward<T>(attribute), f = std::forward<F>(predicate)]<typename U>(U&& element) mutable
+                    {return std::mem_fn(std::forward<T>(attribute))(f(std::forward<U>(element)));});
         }
 
         template <typename ...Args>
         RANGE_ADAPTOR_OPERATOR(Args&&... attributes)
         {
             return ranges::views::transform(
-                    [...attributes = std::forward<Args>(attributes)]<typename U>(U&& element) mutable
-                    {return std::make_tuple(std::mem_fn(std::forward<Args>(attributes))(std::forward<U>(element))...);});
+                    [...attributes = std::forward<Args>(attributes), f = std::forward<F>(predicate)]<typename U>(U&& element) mutable
+                    {return std::make_tuple(std::mem_fn(std::forward<Args>(attributes))(f(std::forward<U>(element)))...);});
         });
 
 

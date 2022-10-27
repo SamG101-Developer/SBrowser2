@@ -1,4 +1,5 @@
 #include "element.hpp"
+#include "dom/_typedefs.hpp"
 #include "element_private.hpp"
 
 #include "ext/pimpl.hpp"
@@ -10,9 +11,10 @@
 #include "dom/detail/namespace_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/shadow_internals.hpp"
-
 #include "dom/nodes/attr.hpp"
+#include "dom/nodes/attr_private.hpp"
 #include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/shadow_root_private.hpp"
 
 #include "html/detail/context_internals.hpp"
 #include "file_api/detail/blob_internals.hpp"
@@ -31,25 +33,23 @@ dom::nodes::element::element()
 }
 
 
-auto dom::nodes::element::has_attributes()
-        const -> ext::boolean
+auto dom::nodes::element::has_attributes() const -> ext::boolean
 {
-    // return true if the 'attributes' list of this Element is not empty; ie it must contain 1+ Attr nodes. used as
+    // Return true if the 'attributes' list of this Element is not empty; ie it must contain 1+ Attr node. Used as
     // syntactic sugar around accessing the attributes list, and also allows it to be bound to as a parameter to another
-    // function
+    // function.
     ACCESS_PIMPL(const element);
     return !d->attribute_list.empty();
 }
 
 
-auto dom::nodes::element::get_attribute_names()
-        const -> ranges::any_view<ext::string>
+auto dom::nodes::element::get_attribute_names() const -> ranges::any_view<ext::string>
 {
-    // transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. return as an
-    // `any_view` object for type erasure
+    // Transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. Return as an
+    // `any_helpful_view` object for type erasure (no need to know the internal range-type workings)
     ACCESS_PIMPL(const element);
-    auto attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
-    auto attribute_names = attribute_nodes | ranges::views::transform(&detail::qualified_name);
+    decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
+    decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(&detail::qualified_name);
     return attribute_names;
 }
 
@@ -64,7 +64,7 @@ auto dom::nodes::element::has_attribute(
     // transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. return if the
     // transformed range contains the 'name' parameter
     ACCESS_PIMPL(const element);
-    auto attribute_names = d->attribute_list | ranges::views::transform(&detail::qualified_name);
+    decltype(auto) attribute_names = d->attribute_list | ranges::views::transform(&detail::qualified_name);
     return ranges::contains(attribute_names, name);
 }
 
@@ -75,22 +75,22 @@ auto dom::nodes::element::has_attribute_ns(
         const -> ext::boolean
 {
     // transform each Attr node in the 'attribute' list to its local name and namespace, using a range-transform view
-    // adapter. return if the transformed range contains the 'local_nam' and 'namespace_' parameters
+    // adapter. return if the transformed range contains the 'local_name' and 'namespace_' parameters
     ACCESS_PIMPL(const element);
-    auto attribute_namespaces = d->attribute_list
-            | ranges::views::transform(&attr::d_func)
-            | ranges::views::transform_to_attrs(&attr_private::local_name, &attr_private::namespace_);
+    decltype(auto) attribute_namespaces = d->attribute_list
+            | ranges::views::transform(&std::unique_ptr<attr>::get)
+            | ranges::views::transform(&ext::get_pimpl<attr>)
+            | ranges::views::transform_to_attr(&attr_private::local_name, &attr_private::namespace_);
+
     return ranges::contains(attribute_namespaces, ext::make_tuple(namespace_, local_name));
 }
 
 
-auto dom::nodes::element::has_attribute_node(
-        attr* attribute)
-        const -> ext::boolean
+auto dom::nodes::element::has_attribute_node(attr* attribute) const -> ext::boolean
 {
     // return if the 'attribute' list contains the attribute, using a range-contains algorithm
     ACCESS_PIMPL(const element);
-    auto attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
+    decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
     return ranges::contains(attribute_nodes, attribute);
 }
 
@@ -116,7 +116,7 @@ auto dom::nodes::element::get_attribute(
     // 'get_attribute_node(...).value'
     ACCESS_PIMPL(const element);
     decltype(auto) match_attribute = get_attribute_node(qualified_name);
-    return match_attribute ? match_attribute->d->value : "";
+    return match_attribute ? match_attribute->d_func()->value : u8"";
 }
 
 
@@ -128,7 +128,7 @@ auto dom::nodes::element::get_attribute_ns(
     // get the Attr node by the 'namespace_' and 'local_name', and return the value of the node; syntactic sugar for
     // 'get_attribute_node_ns(...).value'
     decltype(auto) match_attribute = get_attribute_node_ns(namespace_, local_name);
-    return match_attribute ? match_attribute->d_func()->value : "";
+    return match_attribute ? match_attribute->d_func()->value : u8"";
 }
 
 
@@ -136,9 +136,10 @@ auto dom::nodes::element::get_attribute_node(
         ext::string_view qualified_name)
         const -> attr*
 {
+    ACCESS_PIMPL(const element);
+
     // get the Attr node by matching each Attr (in the 'attributes' list) 's qualified name against the 'qualified_name'
     // parameter; nullptr is returned if there is no matching Attr node. the qualified name has to be html adjusted
-    ACCESS_PIMPL(const element);
     decltype(auto) html_adjusted_qualified_name = detail::html_adjust_string(detail::qualified_name(this), detail::is_html(this));
     decltype(auto) match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return detail::qualified_name(attribute) == html_adjusted_qualified_name;};
     decltype(auto) match_attribute = *ranges::first_where(d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get), std::move(match_algorithm));
@@ -151,10 +152,12 @@ auto dom::nodes::element::get_attribute_node_ns(
         ext::string_view local_name)
         const -> attr*
 {
+    ACCESS_PIMPL(const element);
+
     // get the Attr node by matching each Attr (in the 'attributes' list) 's local name and namespace_uri against the
     // 'local_name' and 'namespace_' parameters; nullptr is returned if there is no matching Attr node
     decltype(auto) match_algorithm = [namespace_, local_name](attr* attribute) {return attribute->d_func()->local_name == local_name && attribute->d_func()->namespace_ == namespace_;};
-    decltype(auto) match_attribute = *ranges::first_where(*attributes(), match_algorithm);
+    decltype(auto) match_attribute = *ranges::first_where(d->attribute_list, match_algorithm);
     return match_attribute;
 }
 
@@ -168,9 +171,11 @@ auto dom::nodes::element::set_attribute(
         -> attr*
 {
     CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(element);
+
         // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        decltype(auto) new_attribute = detail::create(qualified_name, "", value, "", owner_document());
+        decltype(auto) new_attribute = detail::create(qualified_name, "", value, "", d->node_document);
         return detail::set_attribute(this, &new_attribute);
     CE_REACTIONS_METHOD_EXE
 }
@@ -183,37 +188,39 @@ auto dom::nodes::element::set_attribute_ns(
         -> attr*
 {
     CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(element);
+
         // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        decltype(auto) [prefix, local_name] = detail::validate_and_extract(namespace_, qualified_name);
-        decltype(auto) new_attribute = detail::create(local_name, namespace_, value, prefix, owner_document());
+        auto&& [prefix, local_name] = detail::validate_and_extract(namespace_, qualified_name);
+        decltype(auto) new_attribute = detail::create(local_name, namespace_, value, prefix, d->node_document);
         return detail::set_attribute(this, &new_attribute);
     CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::element::set_attribute_node(
-        attr* attribute)
+        std::unique_ptr<attr>&& attribute)
         -> attr*
 {
     CE_REACTIONS_METHOD_DEF
         // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
         // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
         // changing the Attr value
-        return detail::set_attribute(this, attribute);
+        return detail::set_attribute(this, std::move(attribute));
     CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::nodes::element::set_attribute_node_ns(
-        attr* attribute)
+        std::unique_ptr<attr>&& attribute)
         -> attr*
 {
     CE_REACTIONS_METHOD_DEF
         // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
         // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
         // changing the Attr value
-        return detail::set_attribute(this, attribute);
+        return detail::set_attribute(this, std::move(attribute));
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -329,23 +336,24 @@ auto dom::nodes::element::toggle_attribute_node_ns(
 
 auto dom::nodes::element::attach_shadow(
         ext::map<ext::string, ext::any>&& options)
-        -> shadow_root
+        -> std::unique_ptr<shadow_root>
 {
-    using namespace detail;
+    ACCESS_PIMPL(element);
+    using enum dom::detail::dom_exception_error_t;
 
     auto shadow_attachable_local_names = {
-        "article", "aside", "blockquote", "body", "div", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "main",
-        "nav", "p", "section", "span"};
+        u8"article", u8"aside", u8"blockquote", u8"body", u8"div", u8"footer", u8"h1", u8"h2", u8"h3", u8"h4", u8"h5",
+        u8"h6", u8"header", u8"main", u8"nav", u8"p", u8"section", u8"span"};
 
-    auto valid_custom = detail::is_valid_custom_element_name(local_name());
-    auto valid_local  = ranges::contains(shadow_attachable_local_names, local_name());
-    decltype(auto) definition = detail::lookup_custom_element_definition(owner_document(), namespace_uri(), local_name(), m_is);
-
-    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [this] {return namespace_uri() != HTML;});
+    auto valid_custom = detail::is_valid_custom_element_name(d->local_name);
+    auto valid_local  = ranges::contains(shadow_attachable_local_names, d->local_name);
+    auto definition = detail::lookup_custom_element_definition(d->node_document, d->namespace_, d->local_name, d->is);
 
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
-            [valid_local, valid_custom] {return !(valid_local || valid_custom);});
+            [d] {return d->namespace_ != detail::HTML;});
+
+    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            [valid_local, valid_custom] {return !valid_local && !valid_custom;});
 
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [valid_custom, definition] {return valid_custom && definition && definition->disable_shadow;});
@@ -353,13 +361,13 @@ auto dom::nodes::element::attach_shadow(
     detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
             [this] {return detail::is_shadow_host(this);});
 
-    shadow_root shadow {};
-    shadow.owner_document = owner_document();
-    shadow.host = this;
-    shadow.mode = options["mode"].to<ext::string>();
-    shadow.delegates_focus = options["delegatesFocus"].to<ext::boolean>();
-    shadow.slot_assignment = options["slotAssignment"].to<ext::string>();
-    shadow_root_node = &shadow;
+    auto shadow = std::make_unique<shadow_root>();
+    shadow->d_func()->node_document = d->node_document;
+    shadow->d_func()->host = this;
+    shadow->d_func()->mode = options[u8"mode"].to<detail::shadow_root_mode_t>();
+    shadow->d_func()->delegates_focus = options[u8"delegatesFocus"].to<ext::boolean>();
+    shadow->d_func()->slot_assignment = options[u8"slotAssignment"].to<detail::slot_assignment_mode_t>();
+    d->shadow_root = shadow.get();
     return shadow;
 }
 
@@ -435,8 +443,8 @@ auto dom::nodes::element::get_shadow_root() const -> nodes::shadow_root*
 }
 
 
-auto dom::nodes::element::get_attributes() const -> ext::vector_span<attr*>
+auto dom::nodes::element::get_attributes() const -> ranges::any_helpful_view
 {
     ACCESS_PIMPL(const element);
-    return d->attribute_list
+    return d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
 }
