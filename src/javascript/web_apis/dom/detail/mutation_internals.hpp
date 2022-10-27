@@ -74,6 +74,8 @@ struct dom::detail::registered_observer_t
 {
     mutations::mutation_observer* observer = nullptr;
     ext::map<ext::string, ext::any> options;
+
+    virtual ~registered_observer_t() = default;
 };
 
 

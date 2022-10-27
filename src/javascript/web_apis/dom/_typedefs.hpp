@@ -61,10 +61,11 @@ namespace dom::detail
     using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
     using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::elements::html_script_element>, std::unique_ptr<svg::elements::svg_script_element>>;
+    using mutation_observer_init_t = ext::map<ext::string, ext::any>;
 }
 
 
-enum v8_primitive_error_t
+enum class v8_primitive_error_t
 {
     V8_TYPE_ERROR, V8_RANGE_ERROR, V8_REFERENCE_ERROR, V8_SYNTAX_ERROR, V8_WASM_COMPILE_ERROR, V8_WASM_LINK_ERROR,
     V8_WASM_RUNTIME_ERROR,
