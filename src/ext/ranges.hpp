@@ -24,6 +24,7 @@
 #include <range/v3/view/drop_while.hpp>
 #include <range/v3/view/enumerate.hpp>
 #include <range/v3/view/filter.hpp>
+#include <range/v3/view/for_each.hpp>
 #include <range/v3/view/join.hpp>
 #include <range/v3/view/map.hpp>
 #include <range/v3/view/remove.hpp>
@@ -242,6 +243,15 @@ namespace ranges::views
             return ranges::views::enumerate
                     | ranges::views::remove_if([r_index = r_index](auto&& pair) mutable {return pair.first == r_index;})
                     | ranges::views::values;
+        });
+
+    RANGE_ADAPTOR_STRUCT(for_each_if,
+        template <_EXT callable F COMMA _EXT callable T COMMA _EXT callable U>
+        RANGE_ADAPTOR_OPERATOR(F&& predicate, T&& truth_function, U&& false_function)
+        {
+            return predicate()
+                    ? ranges::views::for_each(std::forward<T>(truth_function))
+                    : ranges::views::for_each(std::forward<U>(false_function));
         });
 }
 
