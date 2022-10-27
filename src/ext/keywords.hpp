@@ -36,8 +36,6 @@
 #define EXT_CATCH_SPECIFIC(exception_t) } catch(const exception_t& exception) {
 #define EXT_CATCH_OTHER } catch (...) {
 
-#define CALL_TEMPLATE_LAMBDA template operator()
-
 #define string_switch(_String) switch(ext::hash{}(_String))
 #define string_case(_String) case(ext::hash{}(_String))
 #define string_default default
@@ -52,12 +50,6 @@
 #define js_properties
 #define js_slot_methods
 #define js_slots
-
-#define cpp_static_methods
-#define cpp_members
-#define cpp_accessors
-#define cpp_operators
-#define cpp_nested_classes
 
 #define return_if(condition) if (condition) return
 #define break_if(condition) if (condition) break
