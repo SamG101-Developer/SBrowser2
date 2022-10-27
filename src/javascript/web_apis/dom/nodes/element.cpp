@@ -46,7 +46,7 @@ auto dom::nodes::element::has_attributes() const -> ext::boolean
 auto dom::nodes::element::get_attribute_names() const -> ranges::any_view<ext::string>
 {
     // Transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. Return as an
-    // `any_helpful_view` object for type erasure (no need to know the internal range-type workings)
+    // `any_helpful_view` object for type erasure (no need to know the internal range-type workings).
     ACCESS_PIMPL(const element);
     decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
     decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(&detail::qualified_name);
@@ -61,8 +61,8 @@ auto dom::nodes::element::has_attribute(
         ext::string_view name)
         const -> ext::boolean
 {
-    // transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. return if the
-    // transformed range contains the 'name' parameter
+    // Transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. Return if the
+    // transformed range contains the 'name' parameter.
     ACCESS_PIMPL(const element);
     decltype(auto) attribute_names = d->attribute_list | ranges::views::transform(&detail::qualified_name);
     return ranges::contains(attribute_names, name);
@@ -74,8 +74,8 @@ auto dom::nodes::element::has_attribute_ns(
         ext::string_view local_name)
         const -> ext::boolean
 {
-    // transform each Attr node in the 'attribute' list to its local name and namespace, using a range-transform view
-    // adapter. return if the transformed range contains the 'local_name' and 'namespace_' parameters
+    // Transform each Attr node in the 'attribute' list to its local name and namespace, using a range-transform view
+    // adapter. Return if the transformed range contains the 'local_name' and 'namespace_' parameters.
     ACCESS_PIMPL(const element);
     decltype(auto) attribute_namespaces = d->attribute_list
             | ranges::views::transform(&std::unique_ptr<attr>::get)
@@ -86,7 +86,9 @@ auto dom::nodes::element::has_attribute_ns(
 }
 
 
-auto dom::nodes::element::has_attribute_node(attr* attribute) const -> ext::boolean
+auto dom::nodes::element::has_attribute_node(
+        attr* attribute)
+        const -> ext::boolean
 {
     // return if the 'attribute' list contains the attribute, using a range-contains algorithm
     ACCESS_PIMPL(const element);
@@ -443,7 +445,7 @@ auto dom::nodes::element::get_shadow_root() const -> nodes::shadow_root*
 }
 
 
-auto dom::nodes::element::get_attributes() const -> ranges::any_helpful_view
+auto dom::nodes::element::get_attributes() const -> ranges::any_helpful_view<attr*>
 {
     ACCESS_PIMPL(const element);
     return d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
