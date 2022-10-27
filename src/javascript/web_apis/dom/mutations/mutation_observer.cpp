@@ -80,4 +80,24 @@ auto dom::mutations::mutation_observer::observe(
 auto dom::mutations::mutation_observer::disconnect() -> void
 {
     ACCESS_PIMPL(mutation_observer);
+//    d->node_list
+//            |= ranges::actions::transform(&nodes::node_private::registered_observer_list, &dom::nodes::node::d_func)
+//            | ranges::actions::transform(&std::unique_ptr<detail::registered_observer_t>::get)
+//            | ranges::actions::transform(&detail::registered_observer_t::observer)
+//            | ranges::actions::remove_if(BIND_FRONT(ext::cmp::eq, this));
+
+    d->record_queue.clear();
+    d->node_list
+            |= ranges::actions::transform([](auto* node) {return &node->d_func()->registered_observer_list;})
+            |  ranges::actions::transform([](auto* registered_list) {return *registered_list | ranges::transform(&detail::registered_observer_t::observer);})
+            |  ranges::actions::remove_if(BIND_FRONT(ext::cmp::eq, this));
+}
+
+
+auto dom::mutations::mutation_observer::take_records() -> ext::vector<mutation_record*>
+{
+    ACCESS_PIMPL(mutation_observer); // TODO -> unique_ptr
+    decltype(auto) current_records = std::move(d->record_queue);
+    d->record_queue = {};
+    return {std::make_move_iterator(&current_records.front()), std::make_move_iterator(&current_records.back())};
 }
