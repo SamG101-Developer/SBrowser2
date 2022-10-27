@@ -20,7 +20,7 @@ dom::nodes::comment::comment(ext::string&& new_data)
 auto dom::nodes::comment::get_node_name() const -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
-        return "#comment";
+        return u8"#comment";
     CE_REACTIONS_METHOD_EXE
 }
 
