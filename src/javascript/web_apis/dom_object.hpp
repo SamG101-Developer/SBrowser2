@@ -1,6 +1,8 @@
 #ifndef SBROWSER2_DOM_OBJECT_HPP
 #define SBROWSER2_DOM_OBJECT_HPP
 
+class dom_object_private;
+
 #include "ext/any.hpp"
 #include "ext/custom_operator.hpp"
 #include "ext/functional.hpp"
@@ -9,12 +11,9 @@
 #include "ext/property.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
-
 #include <memory>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
-
-#include "dom_object_private.hpp"
 
 
 #define DOM_CTORS(type)  \
@@ -30,7 +29,7 @@ public:                   \
 
 //#define EXPOSE_TO(...) \
 //public:                \
-//    static ext::variant<__VA_ARGS__> _allowed_v8_contexts;
+//    static ext::variant<__VA_ARGS__> m_allowed_v8_contexts; // TODO : (move to d_ptr)
 
 
 #define MAKE_STRINGIFIER \
@@ -47,6 +46,9 @@ public constructors:
     MAKE_PIMPL(dom_object);
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
+
+public friends:
+    friend auto ext::get_pimpl<self_t>(self_t*);
 
 protected:
     std::unique_ptr<dom_object_private> d_ptr;
