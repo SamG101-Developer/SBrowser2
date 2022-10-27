@@ -6,35 +6,38 @@
 
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/node.hpp"
+#include "dom/nodes/node_private.hpp"
 
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/view/slice.hpp>
 #include <range/v3/view/subrange.hpp>
 
 
-auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const
-        -> nodes::element*
+auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const -> nodes::element*
 {
+    // Get all the child nodes from this object's parent node#. All the child nodes are stored as Node pointers, so cast
+    // them all to Element pointers, and get all the nodes before this object (cast as a Node object). Return the back
+    // of this list; this is the previous sibling.
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) siblings = base->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
     decltype(auto) previous_siblings = ranges::subrange(siblings.begin(), ranges::find(siblings, base));
-    return ranges::back(siblings | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>());
+    return ranges::back(siblings | ranges::views::cast_all_to<nodes::element*>());
 }
 
 
-auto dom::mixins::non_document_type_child_node::get_next_element_sibling()
-        const -> nodes::element*
+auto dom::mixins::non_document_type_child_node::get_next_element_sibling() const -> nodes::element*
 {
+    // Get all the child nodes from this object's parent node#. All the child nodes are stored as Node pointers, so cast
+    // them all to Element pointers, and get all the nodes after this object (cast as a Node object). Return the front
+    // of this list; this is the next sibling.
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) siblings = base->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
     decltype(auto) previous_siblings = ranges::subrange(ranges::find(siblings, base), siblings.end());
-    return ranges::front(siblings | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>());
+    return ranges::front(siblings | ranges::views::cast_all_to<nodes::element*>());
 }
 
 
-auto dom::mixins::non_document_type_child_node::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::mixins::non_document_type_child_node::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<non_document_type_child_node>{isolate}
         .inherit<dom_object>()

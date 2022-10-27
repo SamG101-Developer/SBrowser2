@@ -13,6 +13,8 @@ namespace dom::nodes {class element;}
 namespace dom::nodes {class document;}
 namespace dom::mixins {class child_node;}
 namespace dom::mixins {class document_or_element_node;}
+namespace dom::mixins {class non_document_type_child_node;}
+namespace dom::mixins {class parentable_node;}
 
 
 class dom::nodes::node
@@ -21,6 +23,8 @@ class dom::nodes::node
 public friends:
     friend class dom::mixins::child_node;
     friend class dom::mixins::document_or_element_node;
+    friend class dom::mixins::non_document_type_child_node;
+    friend class dom::mixins::parentable_node;
 
 public constructors:
     DOM_CTORS(node);

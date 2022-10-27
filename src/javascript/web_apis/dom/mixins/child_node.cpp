@@ -15,9 +15,7 @@
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::mixins::child_node::before(
-        T&&... nodes)
-        -> nodes::node*
+auto dom::mixins::child_node::before(T&&... nodes) -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -46,9 +44,7 @@ auto dom::mixins::child_node::before(
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::mixins::child_node::after(
-        T&&... nodes)
-        -> nodes::node*
+auto dom::mixins::child_node::after(T&&... nodes) -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -76,9 +72,7 @@ auto dom::mixins::child_node::after(
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::mixins::child_node::replace_with(
-        T&& ...nodes)
-        -> nodes::node*
+auto dom::mixins::child_node::replace_with(T&& ...nodes) -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -109,8 +103,7 @@ auto dom::mixins::child_node::replace_with(
 }
 
 
-auto dom::mixins::child_node::remove()
-        -> nodes::node*
+auto dom::mixins::child_node::remove() -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -127,9 +120,7 @@ auto dom::mixins::child_node::remove()
 }
 
 
-auto dom::mixins::child_node::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::mixins::child_node::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<child_node>{isolate}
         .inherit<dom_object>()

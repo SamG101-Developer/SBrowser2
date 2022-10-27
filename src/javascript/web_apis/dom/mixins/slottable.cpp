@@ -7,19 +7,16 @@
 #include "html/elements/html_slot_element.hpp"
 
 
-auto dom::mixins::slottable::get_assigned_slot()
-        const -> html::elements::html_slot_element*
+auto dom::mixins::slottable::get_assigned_slot() const -> html::elements::html_slot_element*
 {
-    // find a slot for the 'base' cast version of this class
+    // Find a slot for this class, cast as a Node object. Return the found slot.
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) slot = detail::find_slot(base, true);
     return slot;
 }
 
 
-auto dom::mixins::slottable::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::mixins::slottable::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<slottable>{isolate}
         .inherit<dom_object>()

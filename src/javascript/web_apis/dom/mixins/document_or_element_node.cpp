@@ -43,7 +43,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
     // Filter the elements by applying the 'match_callback' onto each Element; if all the Element's class list items are
     // in the 'class_names' parameter, then keep the element, otherwise discard it.
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>()
+            | ranges::views::cast_all_to<nodes::element*>()
             | ranges::views::filter(match_callback);
 
     return matches;
@@ -105,7 +105,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
     // Filter the elements by applying the 'match_callback' onto each Element; if the Element's namespace and local name
     // equal the 'namespace_' and 'local_name' parameters, then keep the element, otherwise discard it.
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>()
+            | ranges::views::cast_all_to<nodes::element*>()
             | ranges::views::filter(match_callback);
 
     return matches;
