@@ -1,9 +1,20 @@
 #ifndef SBROWSER2_SRC_EXT_PIMPL_HPP
 #define SBROWSER2_SRC_EXT_PIMPL_HPP
 
+#include "ext/concepts.hpp"
 #include <memory>
 #include <self_macro.h>
-#include "ext/keywords.hpp"
+
+
+_EXT_BEGIN
+
+template <typename T>
+auto get_pimpl(T* object) // TODO : constrain to PIMPL-enabled class (ie has ::d-ptr, ::d-func()
+{
+    return object->d_func();
+}
+
+_EXT_END
 
 
 // Use this macro at the beginning of every class that will have a PIMPL private class attached to it. It exposes the
