@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_opt_group_element;}
+namespace html::elements {class html_opt_group_element_private;}
 
 
 class html::elements::html_opt_group_element
@@ -11,14 +12,15 @@ class html::elements::html_opt_group_element
 {
 public constructors:
     DOM_CTORS(html_opt_group_element);
-    html_opt_group_element() = default;
+    MAKE_PIMPL(html_opt_group_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> disabled;
-    ext::property<ext::string> label;
+    DEFINE_GETTER(disabled, ext::boolean);
+    DEFINE_GETTER(label, ext::string_view);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_SETTER(disabled, ext::boolean);
+    DEFINE_SETTER(label, ext::string);
 };
 
 
