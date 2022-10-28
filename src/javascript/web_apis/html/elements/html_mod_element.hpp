@@ -3,20 +3,23 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_mod_element;}
+namespace html::elements {class html_mod_element_private;}
 
 
 class html::elements::html_mod_element
         : public html_element
 {
 public constructors:
-    html_mod_element();
+    DOM_CTORS(html_mod_element);
+    MAKE_PIMPL(html_mod_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string, true> cite;
-    ext::property<ext::string, true> date_time;
+    DEFINE_GETTER(cite, ext::string_view);
+    DEFINE_GETTER(date_time, ext::string_view);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_SETTER(cite, ext::string);
+    DEFINE_SETTER(date_time, ext::string);
 };
 
 
