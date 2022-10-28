@@ -3,21 +3,25 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_olist_element;}
+namespace html::elements {class html_olist_element_private;}
 
 
 class html::elements::html_olist_element
         : public html_element
 {
 public constructors:
-    html_olist_element();
+    DOM_CTORS(html_olist_element);
+    MAKE_PIMPL(html_olist_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean, true> reversed;
-    ext::property<ext::number<long>, true> start;
-    ext::property<ext::string, true> type;
+    DEFINE_GETTER(reversed, ext::boolean);
+    DEFINE_GETTER(start, ext::number<long>);
+    DEFINE_GETTER(type, ext::string_view);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_SETTER(reversed, ext::boolean);
+    DEFINE_SETTER(start, ext::number<long>);
+    DEFINE_SETTER(type, ext::string);
 };
 
 
