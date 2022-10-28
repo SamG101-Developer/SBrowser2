@@ -12,8 +12,6 @@ DEFINE_PRIVATE_CLASS(html::elements, html_meta_element) : html::elements::html_e
     ext::string content;
     ext::string media;
     detail::http_equiv_t http_equiv;
-
-    ext::string charset; // TODO : ?
 };
 
 
