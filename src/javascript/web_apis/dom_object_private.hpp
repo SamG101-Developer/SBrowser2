@@ -43,6 +43,7 @@ struct dom_object_private
     BEHAVIOUR_METHOD()
             environment_discarding_steps;
 
+    // TODO : maybe have some global cleanup method that the destructor calls?
     virtual ~dom_object_private() = default;
 };
 

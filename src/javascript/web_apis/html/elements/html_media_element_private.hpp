@@ -9,6 +9,7 @@
 #include "ext/number.hpp"
 #include "ext/promise.hpp"
 #include <qmediaplayer.h>
+namespace html::basic_media {class abstract_track;}
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class text_track;}
 namespace html::basic_media {class text_track_cue;}
@@ -29,11 +30,13 @@ DEFINE_PRIVATE_CLASS(html::elements, html_media_element) : html::elements::html_
     ext::boolean autoplay;
     ext::boolean loop;
     ext::boolean controls;
+    ext::boolean muted;
+    ext::vector<std::unique_ptr<basic_media::abstract_track>> tracks;
     auto paused() const {return media_resource->playbackState() & QMediaPlayer::PlaybackState::PausedState;}
     auto ended() const {return media_resource->mediaStatus() & QMediaPlayer::MediaStatus::EndOfMedia;}
 
     detail::origin_t origin;
-    detail::task_queue_t media_element_event_task_source;
+    std::unique_ptr<detail::task_queue_t> media_element_event_task_source;
     detail::media_provider_t assigned_media_provider_object;
     ext::boolean can_autoplay_flag;
     ext::boolean delaying_load_event_flag;
@@ -43,7 +46,7 @@ DEFINE_PRIVATE_CLASS(html::elements, html_media_element) : html::elements::html_
     ext::boolean show_poster_flag;
     ext::vector<ext::promise<void>> pending_play_promises; // TODO <T>
     ext::vector<basic_media::text_track*> pending_text_tracks;
-    ext::vector<basic_media::text_track_cue*> newly_introduced_cues;
+    ext::vector<basic_media::text_track_cue*> newly_introduced_cues; // TODO : unique-ptr?
     ext::boolean pending_track_change_notification_flag;
     ext::number<double> playback_volume;
     std::unique_ptr<QMediaPlayer> media_resource;

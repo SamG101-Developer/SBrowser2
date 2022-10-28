@@ -6,8 +6,8 @@
 namespace html::elements {class html_media_element;}
 namespace html::elements {class html_media_element_private;}
 
-#include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
+#include "ext/date.hpp"
 #include "ext/ranges.hpp"
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class time_ranges;}
@@ -46,10 +46,10 @@ public js_methods:
     auto load() -> void;
     auto can_play_type(ext::string_view type) -> detail::can_play_type_result_t;
     auto fast_seek(ext::number<double> time) -> void;
-    auto get_start_date() -> ext::any;
-    auto play() -> ext::promise<void>;
+    auto get_start_date() -> ext::datetime;
+    auto play() -> ext::promise<void>&;
     auto pause() -> void;
-    auto add_text_track(detail::text_track_kind_t kind, ext::string&& label = u8"", ext::string laguage = u8"") -> basic_media::text_track;
+    auto add_text_track(detail::text_track_kind_t kind, ext::string&& label = u8"", ext::string&& language = u8"") -> basic_media::text_track*;
 
     /* [MEDIACAPTURE-FROMELEMENT] */
     auto capture_stream() -> mediacapture::main::media_stream;
@@ -94,14 +94,14 @@ private js_properties:
     DEFINE_GETTER(default_muted, ext::boolean);
 
     // Tracks
-    DEFINE_GETTER(audio_tracks, ext::vector_span<basic_media::audio_track*>);
-    DEFINE_GETTER(video_tracks, ext::vector_span<basic_media::video_track*>);
-    DEFINE_GETTER(text_tracks, ext::vector_span<basic_media::text_track*>);
+    DEFINE_GETTER(audio_tracks, ranges::any_helpful_view<basic_media::audio_track*>);
+    DEFINE_GETTER(video_tracks, ranges::any_helpful_view<basic_media::video_track*>);
+    DEFINE_GETTER(text_tracks, ranges::any_helpful_view<basic_media::text_track*>);
 
 
     DEFINE_SETTER(src, ext::string);
     DEFINE_SETTER(src_object, detail::media_provider_t);
-    DEFINE_SETTER(cross_origin, fetch::detail::mode_t);
+    DEFINE_SETTER(cross_origin, detail::cross_origin_settings_attribute_t);
     DEFINE_SETTER(preload, detail::preload_t);
 
     DEFINE_SETTER(current_time, ext::number<double>);

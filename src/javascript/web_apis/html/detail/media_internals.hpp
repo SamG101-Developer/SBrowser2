@@ -1,23 +1,22 @@
 #pragma once
-#include "html/basic_media/text_track.hpp"
-#include "html/basic_media/text_track_cue.hpp"
-#include "html/elements/html_track_element.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_MEDIA_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_MEDIA_INTERNALS_HPP
 
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/promise.hpp"
+#include "ext/span.hpp"
 #include "ext/vector.hpp"
-
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
 
 namespace dom::other {class dom_exception;}
 namespace html::basic_media {class text_track;}
+namespace html::basic_media {class text_track_cue;}
 namespace html::basic_media {class time_ranges;}
 namespace html::elements {class html_media_element;}
+namespace html::elements {class html_track_element;}
 namespace html::elements {class html_video_element;}
 
 
@@ -36,7 +35,7 @@ namespace html::detail
             -> void;
 
     auto dedicated_media_source_failure_steps(
-            ext::vector<ext::promise<>>& promises)
+            ext::vector<ext::promise<void>>& promises)
             -> void;
 
     auto verify_media_response(
@@ -47,7 +46,7 @@ namespace html::detail
 
     auto resource_fetch_algorithm(
             elements::html_media_element* element,
-            ext::variant<url::detail::url_t, dom_object*> url_or_media_provider)
+            ext::variant<url::detail::url_t*, dom_object*> url_or_media_provider)
             -> void;
 
     auto media_data_processing_steps_list(
@@ -107,15 +106,18 @@ namespace html::detail
 
     auto take_pending_play_promises(
             elements::html_media_element* element)
-            -> ext::vector<ext::promise<>>;
+            -> ext::vector<ext::promise<void>>;
 
     auto resolve_pending_play_promises(
-            const ext::vector<ext::promise<>>& promises)
+            elements::html_media_element* element,
+            ext::vector_span<ext::promise<void>> promises)
             -> void;
 
+    template <typename E>
     auto reject_pending_play_promises(
-            const ext::vector<ext::promise<>>& promises,
-            dom::other::dom_exception&& exception)
+            elements::html_media_element* element,
+            ext::vector_span<ext::promise<void>> promises,
+            E&& exception)
             -> void;
 
     auto notify_about_playing(
@@ -184,7 +186,7 @@ namespace html::detail
 
     auto start_track_processing_model(
             basic_media::text_track* text_track,
-            html::elements::html_track_element* track_element)
+            elements::html_track_element* track_element)
             -> void;
 
     auto earliest_possible_position_when_script_started(

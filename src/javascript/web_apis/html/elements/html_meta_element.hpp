@@ -3,23 +3,29 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_meta_element;}
+namespace html::elements {class html_meta_element_private;}
 
 #include INCLUDE_INNER_TYPES(html)
+
 
 class html::elements::html_meta_element
         : public html_element
 {
 public constructors:
-    html_meta_element();
+    DOM_CTORS(html_meta_element);
+    MAKE_PIMPL(html_meta_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string, true> name;
-    ext::property<ext::string, true> content;
-    ext::property<ext::string, true> media;
-    ext::property<detail::http_equiv_t, true> http_equiv;
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(content, ext::string_view);
+    DEFINE_GETTER(media, ext::string_view);
+    DEFINE_GETTER(http_equiv, detail::http_equiv_t);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_SETTER(name, ext::string);
+    DEFINE_SETTER(content, ext::string);
+    DEFINE_SETTER(media, ext::string);
+    DEFINE_SETTER(http_equiv, detail::http_equiv_t);
 };
 
 

@@ -3,16 +3,16 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_menu_element;}
+namespace html::elements {class html_menu_element_private;}
 
 
 class html::elements::html_menu_element
         : public html_element
 {
 public constructors:
-    html_menu_element();
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DOM_CTORS(html_menu_element);
+    MAKE_PIMPL(html_menu_element);
+    MAKE_V8_AVAILABLE;
 };
 
 

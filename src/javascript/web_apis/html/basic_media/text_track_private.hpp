@@ -12,9 +12,11 @@ namespace html::basic_media {class text_track_cue;}
 DEFINE_PRIVATE_CLASS(html::basic_media, text_track) : html::basic_media::abstract_track_private
 {
     ext::string in_band_metadata_track_dispatch_type;
-    detail::track_mode_t mode;
+    detail::track_mode_t mode;;
 
     ext::vector<std::unique_ptr<text_track_cue>> text_track_cues;
+
+    detail::track_readiness_state_t readiness_state
 };
 
 
