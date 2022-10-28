@@ -4,18 +4,12 @@ project(SBrowser2)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}
-    -ftemplate-backtrace-limit=0
-    -std=c++latest -Wno-dev
-    -DCRYPTOPP_DISABLE_ASM")
-
-set(OPENSSL_ROOT_DIR "C:/openssl/openssl-3.0.5/openssl-3/x64")
-set(OPENSSL_CRYPTO_LIBRARY "C:/openssl/openssl-3.0.5/openssl-3/x64/lib/libssl.lib")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0") #-std=c++latest -Wno-dev -DCRYPTOPP_DISABLE_ASM")
 
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
 set(QT_VER 6.3.1)
-set(QT_COMPONENTS Core Widgets Gui)
+set(QT_COMPONENTS Core Widgets Gui Multimedia MultimediaWidgets)
 
 include_directories(src)
 include_directories(src/javascript)
@@ -30,16 +24,8 @@ FetchContent_Declare(AssertReplacement
         GIT_REPOSITORY https://github.com/jeremy-rifkin/libassert.git
         GIT_TAG master)
 
-FetchContent_Declare(CoroutineReplacement
-        GIT_REPOSITORY https://github.com/andreasbuhr/cppcoro.git
-        GIT_TAG main)
-
 FetchContent_Declare(ExpectedReplacement
         GIT_REPOSITORY https://github.com/TartanLlama/expected.git
-        GIT_TAG master)
-
-FetchContent_Declare(FilesystemReplacement
-        GIT_REPOSITORY https://github.com/cginternals/cppfs.git
         GIT_TAG master)
 
 FetchContent_Declare(FunctionReplacement
@@ -106,10 +92,6 @@ FetchContent_Declare(DateTime
         GIT_REPOSITORY https://github.com/mobius3/asap.git
         GIT_TAG master)
 
-FetchContent_Declare(Encoding SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/encoding-src/encoding
-        GIT_REPOSITORY https://github.com/tobiaslocker/base64.git
-        GIT_TAG master)
-
 FetchContent_Declare(MagicEnum SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/magicenum-src/magic_enum
         GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
         GIT_TAG master)
@@ -131,10 +113,10 @@ FetchContent_Declare(V8PP
         GIT_TAG master)
 
 FetchContent_MakeAvailable(
-        AssertReplacement CoroutineReplacement ExpectedReplacement FilesystemReplacement FunctionReplacement
-        HashMapSetReplacement JsonReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement
-        RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement
-        HardwareInfo Crypto DateTime Encoding MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        AssertReplacement ExpectedReplacement FunctionReplacement HashMapSetReplacement JsonReplacement
+        OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
+        StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo Crypto DateTime
+        MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -158,13 +140,10 @@ target_include_directories(veque INTERFACE ${FETCH_CONTENT_BASE_DIR}/vectorrepla
 add_library(crypto ${cryptopp_src})
 target_include_directories(crypto PUBLIC ${FETCH_CONTENT_BASE_DIR}/crypto-src)
 
-add_library(encoding INTERFACE)
-target_include_directories(encoding INTERFACE ${FETCH_CONTENT_BASE_DIR}/encoding-src)
-
 target_link_libraries(${PROJECT_NAME}
-        assert cppcoro expected cppfs function2::function2 unordered_dense::unordered_dense jsonpp optional
-        effolkronium_random range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
-        hwinfo crypto asap encoding magic_enum::magic_enum self_macro stduuid v8pp)
+        assert expected function2::function2 unordered_dense::unordered_dense jsonpp optional effolkronium_random
+        range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo crypto asap
+        magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()
