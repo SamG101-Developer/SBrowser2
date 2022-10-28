@@ -15,7 +15,7 @@ DEFINE_PRIVATE_CLASS(html::elements, html_field_set_element)
         , html::mixins::validatable_private
 {
     ext::boolean disabled;
-    std::observer_ptr<html_form_element> form;
+    std::observer_ptr<html_form_element> form_owner;
     ext::string name;
 };
 

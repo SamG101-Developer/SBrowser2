@@ -9,12 +9,16 @@ namespace html::elements {class html_field_set_element_private;}
 
 #include "ext/ranges.hpp"
 namespace html::elements {class html_form_element;}
+namespace html::elements {class html_legend_element;}
 
 
 class html::elements::html_field_set_element
         : public html_element
         , public mixins::validatable
 {
+public friends:
+    friend class html::elements::html_legend_element;
+
 public constructors:
     DOM_CTORS(html_field_set_element);
     MAKE_PIMPL(html_field_set_element);

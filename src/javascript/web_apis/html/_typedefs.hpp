@@ -48,7 +48,6 @@ namespace html::detail
     enum class phase_t {PRE_MEDIA, MEDIA};
     enum class embedder_policy_value_t {UNSAFE_NONE, REQUIRE_CORP, CREDENTIALLESS};
     enum class cross_origin_opener_policy_value_t {UNSAFE_NONE, SAME_ORIGIN_ALLOW_POPUPS, SAME_ORIGIN, SAME_ORIGIN_PLUS_COEP};
-    enum class lazy_loading_t {EAGER, LAZY};
     enum class rel_t {ALTERNATE, DNS_PREFETCH, ICON, MANIFEST, MODULE_PRELOAD, NEXT, PINGBACK, PRECONNECT, PREFETCH, PRELOAD, PRERENDER, SEARCH, STYLESHEET, CANONICAL};
     enum class http_equiv_t {CONTENT_LANGUAGE, CONTENT_TYPE, DEFAULT_STYLE, REFRESH, SET_COOKIE, X_UA_COMPATIBLE, CONTENT_SECURITY_POLICY};
     enum class can_play_type_result_t {MAYBE, PROBABLY};
@@ -100,6 +99,9 @@ namespace html::detail
     enum class resize_quality {PIXELATED, LOW, MEDIUM, HIGH};
     enum class form_method_t {GET, POST, DIALOG};
     enum class form_enctype_t {/* TODO */};
+    enum class image_decoding_hint_t {SYNC, ASYNC, AUTO};
+    enum class lazy_loading_t {EAGER, LAZY};
+    enum class cross_origin_settings_attribute_t {ANONYMOUS, USE_CREDENTIALS};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;

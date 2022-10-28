@@ -70,7 +70,7 @@ namespace html::detail
             -> ext::set<image_source_t*>;
 
     auto update_source_set(
-            type_is<elements::html_image_element*, elements::html_link_element*> auto* element)
+            ext::type_is<elements::html_image_element*, elements::html_link_element*> auto* element)
             -> void;
 
     auto parse_source_set_attribute(
@@ -93,8 +93,8 @@ namespace html::detail
 
 struct html::detail::image_request_t
 {
-    state_t state{state_t::UNAVAILABLE};
-    url::detail::url_t url;
+    state_t state = state_t::UNAVAILABLE;
+    std::unique_ptr<url::detail::url_t> url;
     ext::number<int> current_pixel_density {1};
     struct {ext::number<int> width; ext::number<int> height;} preferred_density_corrected_dimensions;
     std::byte image_data[];
@@ -103,10 +103,10 @@ struct html::detail::image_request_t
 
 struct html::detail::available_image_t
 {
-    ext::tuple<ext::string, fetch::detail::mode_t, url::detail::url_t> key;
+    ext::tuple<ext::string, fetch::detail::mode_t, url::detail::url_t*> key;
     ext::boolean ignore_higher_layer_caching_flag;
 
-    auto operator==(const ext::tuple<ext::string, fetch::detail::mode_t, url::detail::url_t>& other) const -> ext::boolean
+    auto operator==(const ext::tuple<ext::string, fetch::detail::mode_t, url::detail::url_t*>& other) const -> ext::boolean
     {
         return key == other;
     }
@@ -115,7 +115,7 @@ struct html::detail::available_image_t
 
 struct html::detail::image_source_t
 {
-    url::detail::url_t url_record;
+    std::unique_ptr<url::detail::url_t> url_record;
     ext::string width_descriptor;
     ext::string pixel_density_descriptor;
 };

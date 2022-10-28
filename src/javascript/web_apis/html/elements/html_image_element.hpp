@@ -4,6 +4,7 @@
 #include "html/elements/html_element.hpp"
 #include "html/mixins/lazy_loadable.hpp"
 namespace html::elements {class html_image_element;}
+namespace html::elements {class html_image_element_private;}
 
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
@@ -19,53 +20,44 @@ class html::elements::html_image_element
         , public mixins::lazy_loadable
 {
 public constructors:
-    html_image_element();
+    DOM_CTORS(html_image_element);
+    MAKE_PIMPL(html_image_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto decode() -> ext::promise<void>;
 
 private js_properties:
-    ext::property<ext::string> alt;
-    ext::property<ext::string> src;
-    ext::property<ext::string> srcset;
-    ext::property<ext::string> sizes;
-    ext::property<ext::string> cross_origin;
-    ext::property<ext::string> use_map;
-    ext::property<referrer_policy::detail::referrer_policy_t> referrer_policy;
-    ext::property<detail::lazy_loading_t> loading;
-    ext::property<ext::string> decoding;
-    ext::property<ext::string> current_src;
+    DEFINE_GETTER(alt, ext::string_view);
+    DEFINE_GETTER(src, ext::string_view);
+    DEFINE_GETTER(srcset, ext::string_view);
+    DEFINE_GETTER(sizes, ext::string_view);
+    DEFINE_GETTER(cross_origin, detail::cross_origin_settings_attribute_t);
+    DEFINE_GETTER(use_map, ext::string_view);
+    DEFINE_GETTER(is_map, ext::boolean);
+    DEFINE_GETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_GETTER(loading, detail::lazy_loading_t);
+    DEFINE_GETTER(decoding, detail::image_decoding_hint_t);
+    DEFINE_GETTER(width, ext::number<ulong>);
+    DEFINE_GETTER(height, ext::number<ulong>);
+    DEFINE_GETTER(natural_width, ext::number<ulong>);
+    DEFINE_GETTER(natural_height, ext::number<ulong>);
+    DEFINE_GETTER(current_src, ext::string_view);
+    DEFINE_GETTER(complete, ext::boolean);
 
-    ext::property<ext::number<ulong>> width;
-    ext::property<ext::number<ulong>> height;
-    ext::property<ext::number<ulong>> natural_width;
-    ext::property<ext::number<ulong>> natural_height;
+    DEFINE_SETTER(alt, ext::string);
+    DEFINE_SETTER(src, ext::string);
+    DEFINE_SETTER(srcset, ext::string);
+    DEFINE_SETTER(sizes, ext::string);
+    DEFINE_SETTER(cross_origin, detail::cross_origin_settings_attribute_t);
+    DEFINE_SETTER(use_map, ext::string);
+    DEFINE_SETTER(is_map, ext::boolean);
+    DEFINE_SETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_SETTER(loading, detail::lazy_loading_t);
+    DEFINE_SETTER(decoding, detail::image_decoding_hint_t);
+    DEFINE_SETTER(width, ext::number<ulong>);
+    DEFINE_SETTER(height, ext::number<ulong>);
 
-    ext::property<ext::boolean> is_map;
-    ext::property<ext::boolean> complete;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    std::unique_ptr<html_image_element> m_dimension_attribute_source;
-    std::unique_ptr<detail::image_request_t> m_current_request;
-    std::unique_ptr<detail::image_request_t> m_pending_request;
-
-    ext::string m_last_selected_source;
-    ext::set<html::detail::image_source_t*> m_source_set;
-    ext::number<int> m_source_size;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(current_src);
-    DEFINE_CUSTOM_GETTER(srcset);
-    DEFINE_CUSTOM_GETTER(width);
-    DEFINE_CUSTOM_GETTER(height);
-    DEFINE_CUSTOM_GETTER(natural_width);
-    DEFINE_CUSTOM_GETTER(natural_height);
-    DEFINE_CUSTOM_GETTER(complete);
-
-    DEFINE_CUSTOM_SETTER(loading);
 };
 
 

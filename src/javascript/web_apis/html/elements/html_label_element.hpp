@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_label_element;}
+namespace html::elements {class html_label_element_private;}
 
 namespace html::elements {class html_form_element;}
 
@@ -13,15 +14,15 @@ class html::elements::html_label_element
 {
 public constructors:
     DOM_CTORS(html_label_element);
-    html_label_element() = default;
+    MAKE_PIMPL(html_label_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<html_form_element*> form;
-    ext::property<html_element*> control;
-    ext::property<ext::string> html_for;
+    DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(control, html_element*);
+    DEFINE_GETTER(html_for, ext::string_view);
 
-private js_properties:
-    DEFINE_CUSTOM_GETTER(form);
+    DEFINE_SETTER(html_for, ext::string);
 };
 
 

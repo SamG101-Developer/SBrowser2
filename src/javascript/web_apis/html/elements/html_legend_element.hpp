@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_legend_element;}
+namespace html::elements {class html_legend_element_private;}
 
 namespace html::elements {class html_form_element;}
 
@@ -13,13 +14,11 @@ class html::elements::html_legend_element
 {
 public constructors:
     DOM_CTORS(html_legend_element);
-    html_legend_element() = default;
+    MAKE_PIMPL(html_legend_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<html_form_element*> form;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DEFINE_GETTER(form, html_form_element*);
 };
 
 

@@ -16,7 +16,7 @@ DEFINE_PRIVATE_CLASS(html::elements, html_button_element)
         , html::mixins::validatable_private
 {
     ext::boolean disabled;
-    std::observer_ptr<html_form_element> form;
+    std::observer_ptr<html_form_element> form_owner;
 
     ext::string form_action;
     detail::form_enctype_t form_enctype;

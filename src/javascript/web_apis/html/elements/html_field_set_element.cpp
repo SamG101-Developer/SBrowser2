@@ -35,7 +35,7 @@ auto html::elements::html_field_set_element::get_name() const -> ext::string_vie
 auto html::elements::html_field_set_element::get_form() const -> html_form_element*
 {
     ACCESS_PIMPL(const html_field_set_element);
-    return d->form.get();
+    return d->form_owner.get();
 }
 
 
