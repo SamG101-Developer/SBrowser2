@@ -9,7 +9,7 @@
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
-#include "dom_object.hpp"
+#include "dom_object_private.hpp"
 
 
 _EXT_BEGIN
@@ -36,9 +36,11 @@ public constructors:
         INIT_PIMPL_TEMPLATED(vector_like, T);
     }
 
-public cpp_operators:
-    virtual auto operator[](const number<size_t>& index) -> T& = 0;
+public:
+    virtual auto operator[](number<size_t> index) -> T& = 0;
+    virtual auto operator[](number<size_t> index) const -> T& = 0;
     virtual auto operator[](ext::string_view index) -> T& = 0;
+    virtual auto operator[](ext::string_view index) const -> T& = 0;
 
 protected js_properties:
     virtual DEFINE_GETTER(length, ext::number<size_t>) = 0;
@@ -57,10 +59,16 @@ public constructors:
         d->linked_vector = container ? std::unique_ptr<vector<T>>{container} : std::make_unique<vector<T>>();
     }
 
-public cpp_members:
-    auto operator[](const number<size_t>& index) -> T& override
+public:
+    auto operator[](number<size_t> index) -> T& override
     {
         ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        return d->linked_vector->at(index);
+    }
+
+    auto operator[](number<size_t> index) const -> T& override
+    {
+        ACCESS_PIMPL_TEMPLATED(const vector_like_linked, T);
         return d->linked_vector->at(index);
     }
 
@@ -70,10 +78,16 @@ public cpp_members:
         return d->linked_vector->front();
     };
 
+    auto operator[](ext::string_view index) const -> T& override
+    {
+        ACCESS_PIMPL_TEMPLATED(const vector_like_linked, T);
+        return d->linked_vector->front();
+    };
+
 private js_properties:
     DEFINE_GETTER(length, ext::number<size_t>) override
     {
-        ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        ACCESS_PIMPL_TEMPLATED(const vector_like_linked, T);
         return d->linked_vector->size();
     }
 };

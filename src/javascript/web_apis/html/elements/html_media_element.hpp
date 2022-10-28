@@ -81,8 +81,8 @@ private js_properties:
     DEFINE_GETTER(default_playback_rate, ext::number<double>);
     DEFINE_GETTER(playback_rate, ext::number<double>);
     DEFINE_GETTER(preserves_pitch, ext::boolean);
-    DEFINE_GETTER(played, basic_media::time_ranges*);
-    DEFINE_GETTER(seekable, basic_media::time_ranges*);
+    DEFINE_GETTER(played, basic_media::time_ranges);
+    DEFINE_GETTER(seekable, basic_media::time_ranges);
     DEFINE_GETTER(ended, ext::boolean);
     DEFINE_GETTER(autoplay, ext::boolean);
     DEFINE_GETTER(loop, ext::boolean);

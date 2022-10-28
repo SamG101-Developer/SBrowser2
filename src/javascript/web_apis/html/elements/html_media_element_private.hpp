@@ -8,6 +8,7 @@
 #include INCLUDE_INNER_TYPES(html)
 #include "ext/number.hpp"
 #include "ext/promise.hpp"
+#include <qmediaplayer.h>
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class text_track;}
 namespace html::basic_media {class text_track_cue;}
@@ -23,6 +24,13 @@ DEFINE_PRIVATE_CLASS(html::elements, html_media_element) : html::elements::html_
     detail::cross_origin_settings_attribute_t cross_origin;
     ext::number<ushort> network_state;
     detail::preload_t preload;
+    ext::number<ushort> ready_state;
+    ext::boolean seeking;
+    ext::boolean autoplay;
+    ext::boolean loop;
+    ext::boolean controls;
+    auto paused() const {return media_resource->playbackState() & QMediaPlayer::PlaybackState::PausedState;}
+    auto ended() const {return media_resource->mediaStatus() & QMediaPlayer::MediaStatus::EndOfMedia;}
 
     detail::origin_t origin;
     detail::task_queue_t media_element_event_task_source;
@@ -38,6 +46,7 @@ DEFINE_PRIVATE_CLASS(html::elements, html_media_element) : html::elements::html_
     ext::vector<basic_media::text_track_cue*> newly_introduced_cues;
     ext::boolean pending_track_change_notification_flag;
     ext::number<double> playback_volume;
+    std::unique_ptr<QMediaPlayer> media_resource;
     
     /* [MEDIA-SOURCE] */
     std::unique_ptr<html::messaging::message_port> s_port_to_worker;

@@ -7,11 +7,16 @@
 namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class time_ranges_private;}
 
+namespace html::elements {class html_media_element;}
+
 
 class html::basic_media::time_ranges
         : public virtual dom_object
         , ext::vector_like_linked<ext::pair<ext::number<double>, ext::number<double>>>
 {
+public friends:
+    friend class html::elements::html_media_element;
+
 public constructors:
     time_ranges();
     MAKE_PIMPL(time_ranges);
