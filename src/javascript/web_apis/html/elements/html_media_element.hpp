@@ -4,10 +4,11 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_media_element;}
+namespace html::elements {class html_media_element_private;}
 
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
-
+#include "ext/ranges.hpp"
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class audio_track;}
@@ -24,7 +25,8 @@ class html::elements::html_media_element
 {
 public constructors:
     DOM_CTORS(html_media_element);
-    html_media_element() = default;
+    MAKE_PIMPL(html_media_element);
+    MAKE_V8_AVAILABLE;
     ~html_media_element();
 
 public js_static_constants:
@@ -40,84 +42,82 @@ public js_static_constants:
     constexpr static const ext::number<ushort> HAVE_ENOUGH_DATA = 4;
 
 public js_methods:
-    /* HTML */
+    /* [HTML] */
     auto load() -> void;
     auto can_play_type(ext::string_view type) -> detail::can_play_type_result_t;
     auto fast_seek(ext::number<double> time) -> void;
     auto get_start_date() -> ext::any;
     auto play() -> ext::promise<void>;
     auto pause() -> void;
-    auto add_text_track(detail::text_track_kind_t kind, ext::string&& label = "", ext::string laguage = "") -> basic_media::text_track;
+    auto add_text_track(detail::text_track_kind_t kind, ext::string&& label = u8"", ext::string laguage = u8"") -> basic_media::text_track;
 
-    /* MEDIACAPTURE-FROMELEMENT */
+    /* [MEDIACAPTURE-FROMELEMENT] */
     auto capture_stream() -> mediacapture::main::media_stream;
 
-    /* MEDIACAPTURE_OUTPUT */
+    /* [MEDIACAPTURE-OUTPUT] */
     auto set_sink_id(ext::string&& sink_id) -> ext::promise<void>;
 
 private js_properties:
-    ext::property<basic_media::media_error*> error;
+    // Error State
+    DEFINE_GETTER(error, basic_media::media_error*);
 
-    ext::property<fetch::detail::mode_t> cross_origin;
-    ext::property<ext::string> preload;
-    ext::property<ext::string> src;
-    ext::property<detail::media_provider_t> src_object;
-    ext::property<ext::number<ushort>> network_state;
-    ext::property<basic_media::time_ranges*> buffered;
+    // Network State
+    DEFINE_GETTER(src, ext::string_view);
+    DEFINE_GETTER(src_object, detail::media_provider_t);
+    DEFINE_GETTER(current_src, ext::string_view);
+    DEFINE_GETTER(cross_origin, detail::cross_origin_settings_attribute_t);
+    DEFINE_GETTER(network_state, ext::number<ushort>);
+    DEFINE_GETTER(preload, detail::preload_t);
+    DEFINE_GETTER(buffered, basic_media::time_ranges*); // TODO : Impl?
 
-    ext::property<ext::number<ushort>> ready_state;
-    ext::property<ext::boolean> seeking;
+    // Ready State
+    DEFINE_GETTER(ready_state, ext::number<ushort>);
+    DEFINE_GETTER(seeking, ext::boolean);
 
-    ext::property<ext::number<double>> current_time;
-    ext::property<ext::number<double>> duration;
-    ext::property<ext::number<double>> default_playback_rate;
-    ext::property<ext::number<double>> playback_rate;
-    ext::property<basic_media::time_ranges*> played;
-    ext::property<basic_media::time_ranges*> seekable;
-    ext::property<ext::boolean> preserves_pitch;
-    ext::property<ext::boolean> paused;
-    ext::property<ext::boolean> ended;
-    ext::property<ext::boolean> autoplay;
-    ext::property<ext::boolean> loop;
+    // Playback State
+    DEFINE_GETTER(current_time, ext::number<double>);
+    DEFINE_GETTER(duration, ext::number<double>);
+    DEFINE_GETTER(paused, ext::boolean);
+    DEFINE_GETTER(default_playback_rate, ext::number<double>);
+    DEFINE_GETTER(playback_rate, ext::number<double>);
+    DEFINE_GETTER(preserves_pitch, ext::boolean);
+    DEFINE_GETTER(played, basic_media::time_ranges*);
+    DEFINE_GETTER(seekable, basic_media::time_ranges*);
+    DEFINE_GETTER(ended, ext::boolean);
+    DEFINE_GETTER(autoplay, ext::boolean);
+    DEFINE_GETTER(loop, ext::boolean);
 
-    ext::property<ext::number<double>> volume;
-    ext::property<ext::boolean> controls;
-    ext::property<ext::boolean> muted;
-    ext::property<ext::boolean> default_muted;
+    // Controls
+    DEFINE_GETTER(controls, ext::boolean);
+    DEFINE_GETTER(volume, ext::number<double>);
+    DEFINE_GETTER(muted, ext::boolean);
+    DEFINE_GETTER(default_muted, ext::boolean);
 
-    ext::property<std::unique_ptr<ext::vector<basic_media::audio_track*>>> audio_tracks;
-    ext::property<std::unique_ptr<ext::vector<basic_media::video_track*>>> video_tracks;
-    ext::property<std::unique_ptr<ext::vector<basic_media::text_track*>>> text_tracks;
+    // Tracks
+    DEFINE_GETTER(audio_tracks, ext::vector_span<basic_media::audio_track*>);
+    DEFINE_GETTER(video_tracks, ext::vector_span<basic_media::video_track*>);
+    DEFINE_GETTER(text_tracks, ext::vector_span<basic_media::text_track*>);
 
-    /* MEDIACAPTURE_OUTPUT */
-    ext::property<ext::string> sink_id;
 
-private js_slots:
-    /* MEDIA_SOURCE */
-    ext::slot<std::unique_ptr<html::messaging::message_port>> s_port_to_worker;
-    ext::slot<std::unique_ptr<html::messaging::message_channel>> s_channel_with_worker;
+    DEFINE_SETTER(src, ext::string);
+    DEFINE_SETTER(src_object, detail::media_provider_t);
+    DEFINE_SETTER(cross_origin, fetch::detail::mode_t);
+    DEFINE_SETTER(preload, detail::preload_t);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_SETTER(current_time, ext::number<double>);
+    DEFINE_SETTER(default_playback_rate, ext::number<double>);
+    DEFINE_SETTER(playback_rate, ext::number<double>);
+    DEFINE_SETTER(preserves_pitch, ext::boolean);
+    DEFINE_SETTER(autoplay, ext::boolean);
+    DEFINE_SETTER(loop, ext::boolean);
 
-private cpp_properties:
-    detail::origin_t m_origin;
-    detail::task_queue_t m_media_element_event_task_source;
-    detail::media_provider_t m_assigned_media_provider_object;
-    ext::boolean m_can_autoplay_flag;
-    ext::boolean m_delaying_load_event_flag;
-    ext::number<double> m_current_playback_position;
-    ext::number<double> m_official_playback_position;
-    ext::number<double> m_default_playback_position;
-    ext::boolean m_show_poster_flag;
-    ext::vector<ext::promise<>> m_pending_play_promises;
-    ext::vector<basic_media::text_track*> m_pending_text_tracks;
-    ext::vector<basic_media::text_track_cue*> m_newly_introduced_cues;
-    ext::boolean m_pending_track_change_notification_flag;
-    ext::number<double> m_playback_volume;
+    DEFINE_SETTER(controls, ext::boolean);
+    DEFINE_SETTER(volume, ext::number<double>);
+    DEFINE_SETTER(muted, ext::boolean);
+    DEFINE_SETTER(default_muted, ext::boolean);
 
-private js_properties:
-    DEFINE_CUSTOM_GETTER(src_object) {return m_assigned_media_provider_object;};
+    /* [MEDIACAPTURE-OUTPUT] */
+    DEFINE_GETTER(sink_id, ext::string);
 };
 
 

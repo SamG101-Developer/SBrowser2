@@ -102,6 +102,7 @@ namespace html::detail
     enum class image_decoding_hint_t {SYNC, ASYNC, AUTO};
     enum class lazy_loading_t {EAGER, LAZY};
     enum class cross_origin_settings_attribute_t {ANONYMOUS, USE_CREDENTIALS};
+    enum class preload_t {NONE, METADATA, AUTO};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
