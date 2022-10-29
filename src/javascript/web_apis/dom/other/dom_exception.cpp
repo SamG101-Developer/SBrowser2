@@ -13,9 +13,7 @@ dom::other::dom_exception::dom_exception(
 }
 
 
-auto dom::other::dom_exception::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::other::dom_exception::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     using enum detail::dom_exception_error_t;
 
