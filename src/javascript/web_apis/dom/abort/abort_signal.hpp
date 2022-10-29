@@ -16,6 +16,9 @@ namespace dom::nodes {class event_target;}
 class dom::abort::abort_signal final
         : public nodes::event_target
 {
+public friends:
+    friend class dom::nodes::event_target;
+
 public constructors:
     DOM_CTORS(abort_signal);
     MAKE_PIMPL(abort_signal);

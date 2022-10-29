@@ -11,11 +11,15 @@ namespace dom::events {class event_private;}
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
+namespace dom::nodes {class event_target;}
 
 
 class dom::events::event
         : public virtual dom_object
 {
+public friends:
+    friend class dom::nodes::event_target;
+
 public: constructors
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(event);
