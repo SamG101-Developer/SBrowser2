@@ -37,12 +37,20 @@ auto web_crypto::detail::common_crypto(
     {
         JS_EXCEPTION_HANDLER;
 
-        dom::detail::throw_v8_exception_formatted<INVALID_ACCESS_ERR>(
-                [key, &normalized_algorithm] {return normalized_algorithm["name"].to<detail::algorithm_identifier_t>() != key->s_algorithm();},
+        dom::detail::throw_v8_exception<INVALID_ACCESS_ERR>(
+                [key, &normalized_algorithm]
+                {
+                    return normalized_algorithm["name"].to<detail::algorithm_identifier_t>() != key->s_algorithm();
+                },
                 "Name mismatch");
 
-        dom::detail::throw_v8_exception_formatted<INVALID_ACCESS_ERR>(
-                [key, usage] {return !ranges::contains(key->s_usages(), usage);},
+        dom::detail::throw_v8_exception<INVALID_ACCESS_ERR>(
+                [key, usage]
+                {
+                    return !ranges::contains(
+                            key->s_usages(),
+                            usage);
+                },
                 "Key cannot be used for encryption");
 
         if (JS_EXCEPTION_HAS_THROWN)

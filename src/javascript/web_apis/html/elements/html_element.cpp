@@ -58,21 +58,21 @@ auto html::elements::html_element::attach_internals() -> other::element_internal
     ACCESS_PIMPL(html_element);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return !d->is.empty();},
             u8"Elements 'is' value must be empty");
 
     decltype(auto) definition = dom::detail::lookup_custom_element_definition(d->node_document, d->namespace_, d->local_name, u8"");
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [definition] {return !definition->has_value();},
             u8"Definition must be valid");
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->disable_internals;},
             u8"This element has disabled internals set to true");
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->custom_element_state != PRECUSTOMIZED && d->custom_element_state != CUSTOM;},
             u8"This element must be precustomized or custom");
 
@@ -222,7 +222,7 @@ auto html::elements::html_element::set_outer_text(ext::string new_outer_text) ->
 
     // cannot replace the outer text if here isn't a parent node, because the outer text includes this node, which has
     // to be rooted somewhere for it to be replaced
-    dom::detail::throw_v8_exception_formatted<NO_MODIFICATION_ALLOWED_ERR>(
+    dom::detail::throw_v8_exception<NO_MODIFICATION_ALLOWED_ERR>(
             [d] {return !d->parent_node;},
             "HTML...Element must have a 'parent_node' in order to set the 'outer_text'");
 

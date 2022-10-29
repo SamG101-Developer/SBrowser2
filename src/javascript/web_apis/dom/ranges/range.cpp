@@ -1,7 +1,6 @@
 #include "range.hpp"
 #include "range_private.hpp"
 
-#include "dom/_typedefs.hpp"
 #include "ext/boolean.hpp"
 #include "ext/casting.hpp"
 #include "ext/functional.hpp"
@@ -10,18 +9,20 @@
 
 #include "javascript/environment/realms_2.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/range_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
-
 #include "dom/nodes/character_data.hpp"
 #include "dom/nodes/comment.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_fragment.hpp"
 #include "dom/nodes/document_type.hpp"
+#include "dom/nodes/node.hpp"
+#include "dom/nodes/node_private.hpp"
 #include "dom/nodes/processing_instruction.hpp"
 #include "dom/nodes/text.hpp"
 #include "dom/nodes/window.hpp"
@@ -39,67 +40,77 @@ dom::node_ranges::range::range()
 
     JS_REALM_GET_CURRENT;
     d->start->node = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
-    d->end->node   = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
+    d->end->node = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
     d->start->offset = 0;
-    d->end->offset   = 0;
+    d->end->offset = 0;
 }
 
 
-auto dom::node_ranges::range::set_start(
-        nodes::node* new_container,
-        ext::number<ulong> new_offset)
-        -> void
+auto dom::node_ranges::range::set_start(nodes::node* new_container, ext::number<ulong> new_offset) -> void
 {
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [new_container] {return new_container->d_func()->parent_node;},
+            u8"New start container must have a parent");
+
     // set the start of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
     // the same variables
     detail::set_start_or_end(this, new_container, new_offset, true);
 }
 
 
-auto dom::node_ranges::range::set_start_before(
-        nodes::node* new_container)
-        -> void
+auto dom::node_ranges::range::set_start_before(nodes::node* new_container) -> void
 {
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [new_container] {return new_container->d_func()->parent_node;},
+            u8"New start container must have a parent");
+
     // set the start of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' as the offset
-    verify_parent_exists(new_container);
     auto parent_node = new_container->d_func()->parent_node;
     auto new_offset = detail::index(new_container);
     detail::set_start_or_end(this, parent_node, new_offset, true);
 }
 
 
-auto dom::node_ranges::range::set_start_after(
-        nodes::node* new_container)
-        -> void
+auto dom::node_ranges::range::set_start_after(nodes::node* new_container) -> void
 {
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [new_container] {return new_container->d_func()->parent_node;},
+            u8"New start container must have a parent");
+
     // set the start of this range to be after the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' + 1 as the offset
-    verify_parent_exists(new_container);
     auto parent_node = new_container->d_func()->parent_node;
     auto new_offset = detail::index(new_container) + 1;
     detail::set_start_or_end(this, parent_node, new_offset, true);
 }
 
 
-auto dom::node_ranges::range::set_end(
-        nodes::node* new_container,
-        ext::number<ulong> new_offset)
-        -> void
+auto dom::node_ranges::range::set_end(nodes::node* new_container, ext::number<ulong> new_offset) -> void
 {
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [new_container] {return new_container->d_func()->parent_node;},
+            u8"New start container must have a parent");
+
     // set the end of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
     // the same variables
     detail::set_start_or_end(this, new_container, new_offset, false);
 }
 
 
-auto dom::node_ranges::range::set_end_before(
-        nodes::node* new_container)
-        -> void
+auto dom::node_ranges::range::set_end_before(nodes::node* new_container) -> void
 {
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [new_container] {return new_container->d_func()->parent_node;},
+            u8"New start container must have a parent");
+
     // set the end of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' as the offset
-    verify_parent_exists(new_container);
     auto parent_node = new_container->d_func()->parent_node;
     auto new_offset = detail::index(new_container);
     detail::set_start_or_end(this, parent_node, new_offset, false);
@@ -110,9 +121,13 @@ auto dom::node_ranges::range::set_end_after(
         nodes::node* new_container)
         -> void
 {
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [new_container] {return new_container->d_func()->parent_node;},
+            u8"New start container must have a parent");
+
     // set the end of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' + 1 as the offset
-    verify_parent_exists(new_container);
     auto parent_node = new_container->d_func()->parent_node;
     auto new_offset = detail::index(new_container) + 1;
     detail::set_start_or_end(this, parent_node, new_offset, false);
@@ -123,16 +138,19 @@ auto dom::node_ranges::range::insert_node(
         nodes::node* new_container)
         -> nodes::node*
 {
-    using enum detail::dom_exception_error_t;
+    using enum dom::detail::dom_exception_error_t;
 
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(range);
 
-        detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                [this, d, new_container]{return ext::multi_cast<nodes::comment*, nodes::processing_instruction*>(d->start->node)
-                        || dynamic_cast<nodes::text*>(d->start->node) && !new_container->d_func()->parent_node
-                        || d->start->node == new_container;},
-                "Cannot insert a new container into a Range whose start node is a Comment/ProcessingInstruction, an orphaned Text node, or is the new container");
+        detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
+                [this, d, new_container]
+                {
+                    return dom_multi_cast<nodes::comment*, nodes::processing_instruction*>(d->start->node)
+                            || dom_cast<nodes::text*>(d->start->node) && !new_container->d_func()->parent_node
+                            || d->start->node == new_container;
+                },
+                u8"Cannot insert a new container into a Range whose start node is a Comment/ProcessingInstruction, an orphaned Text node, or is the new container");
 
         // the 'reference_node' is the node that the 'new_container' will be inserted before; if the start container is a
         // Text node, then set the 'reference_node' to the start container (insert before all the text), otherwise the
@@ -229,7 +247,7 @@ auto dom::node_ranges::range::select_node_contents(
     using enum detail::dom_exception_error_t;
 
     // if the container is a DocumentType node, then throw an invalid node error
-    detail::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+    detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [container] {return !ext::multi_cast<nodes::document_type*>(container);},
             "Container can not be a DocumentType node");
 
@@ -252,7 +270,7 @@ auto dom::node_ranges::range::compare_boundary_points(
 
     // if the root of the 'source_range' doesn't this Range's root, then throw a wrong document error, because it isn't
     // possible to compare boundary points or ranges that are in different documents
-    detail::throw_v8_exception_formatted<WRONG_DOCUMENT_ERR>(
+    detail::throw_v8_exception<WRONG_DOCUMENT_ERR>(
             [this, source_range] {return detail::root(this) != detail::root(source_range);},
             "sourceRange's root must equal this Range's root");
 
@@ -287,7 +305,9 @@ auto dom::node_ranges::range::compare_boundary_points(
             break;
 
         default: // if the 'how' value is invalid, throw a not supported error
-            detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(NO_CONDITION, "The 'how' parameter must be 0 <= how <= 3");
+            detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
+                    NO_CONDITION,
+                    "The 'how' parameter must be 0 <= how <= 3");
             break;
     }
 
@@ -305,15 +325,15 @@ auto dom::node_ranges::range::compare_point(
     ACCESS_PIMPL(const range);
     using enum detail::dom_exception_error_t;
 
-    detail::throw_v8_exception_formatted<WRONG_DOCUMENT_ERR>(
+    detail::throw_v8_exception<WRONG_DOCUMENT_ERR>(
             [this, container_root = detail::root(container)] {return detail::root(this) != container_root;},
             "Container's root must equal this Range's root");
 
-    detail::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+    detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [container] {return !ext::multi_cast<nodes::document_type*>(container);},
             "Container can not be a DocumentType node");
 
-    detail::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [offset, length = detail::length(container)] {return offset > length;},
             "Offset must be <= length of the node");
 
@@ -333,11 +353,11 @@ auto dom::node_ranges::range::is_point_in_range(
 
     return_if (detail::root(this) != detail::root(container)) false;
 
-    detail::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+    detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [container] {return !ext::multi_cast<nodes::document_type*>(container);},
             "Container can not be a DocumentType node");
 
-    detail::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [offset, length = detail::length(container)] {return offset > length;},
             "Offset must be <= length of the node");
 
@@ -385,8 +405,13 @@ auto dom::node_ranges::range::extract_contents()
         auto [new_node, new_offset] =
                 detail::create_new_node_and_offset(d->start->node, d->end->node, d->start->offset);
 
-        detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                [contained_children] {return ranges::any_of(contained_children, &detail::is_document_type_node);},
+        detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
+                [contained_children]
+                {
+                    return ranges::any_of(
+                            contained_children,
+                            &detail::is_document_type_node);
+                },
                 "Contained children cannot be DocumentType nodes");
 
         textual_start_container && dynamic_cast<nodes::character_data*>(first_partially_contained_child)
@@ -449,8 +474,13 @@ auto dom::node_ranges::range::clone_contents()
         auto [first_partially_contained_child, last_partially_contained_child, contained_children] =
                 detail::get_range_containment_children(this, d->start->node, d->end->node);
 
-        detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
-                [contained_children] {return ranges::any_of(contained_children, &detail::is_document_type_node);},
+        detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
+                [contained_children]
+                {
+                    return ranges::any_of(
+                            contained_children,
+                            &detail::is_document_type_node);
+                },
                 "Contained children cannot be DocumentType nodes");
 
         textual_start_container && dynamic_cast<nodes::character_data*>(first_partially_contained_child)
@@ -530,13 +560,19 @@ auto dom::node_ranges::range::surround_contents(
         -> nodes::document_fragment*
 {
     CE_REACTIONS_METHOD_DEF
-        detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
-                [this] {return ranges::any_of(
-                        detail::descendants(m_root) | ranges::views::filter(ext::bind_back(detail::partially_contains, this)),
-                        [](nodes::node* node) {return !dynamic_cast<nodes::text*>(node);});},
+        detail::throw_v8_exception<INVALID_STATE_ERR>(
+                [this]
+                {
+                    return ranges::any_of(
+                            detail::descendants(m_root) | ranges::views::filter(
+                                    ext::bind_back(
+                                            detail::partially_contains,
+                                            this)),
+                            [](nodes::node* node) {return !dynamic_cast<nodes::text*>(node);});
+                },
                 "Cannot surround a Range that partially contains non-Text nodes");
 
-        detail::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+        detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
                 [parent] {return ext::multi_cast<nodes::document*, nodes::document_type*, nodes::document_fragment*>(parent);},
                 "New parent can not be a Document, DocumentType or DocumentFragment");
 

@@ -233,7 +233,7 @@ auto dom::nodes::node::clone_node(ext::boolean deep) -> std::unique_ptr<node>
 
     CE_REACTIONS_METHOD_DEF
         // Throw an error if there is an attempt to clone a shadow node.
-        detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+        detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
                 [this] {return detail::is_shadow_root(this);},
                 u8"Cannot clone a ShadowRoot node");
 

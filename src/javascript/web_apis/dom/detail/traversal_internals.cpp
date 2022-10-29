@@ -17,7 +17,7 @@ auto dom::detail::filter(
 {
     using enum detail::dom_exception_error_t;
 
-    throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    throw_v8_exception<INVALID_STATE_ERR>(
             [iterator] {return iterator->d_func()->active_flag;},
             "NodeIterator/TreeWalker must be inactive to start filtering");
 

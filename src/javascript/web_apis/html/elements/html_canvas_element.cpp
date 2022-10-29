@@ -28,7 +28,7 @@ auto html::elements::html_canvas_element::get_context(
 {
     // If this HTMLCanvasElement is currently acting as a placeholder canvas, then throw an INVALID_STATE_ERR, as no
     // actual canvas object can be ontained from the HTMLCanvasElement.
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [this] {return m_canvas_context_mode == detail::canvas_context_mode_t::PLACEHOLDER;},
             "Cannot get the context of a HTMLCanvasElement that has a placeholder context");
 
@@ -72,7 +72,7 @@ auto html::elements::html_canvas_element::to_data_url(
         ext::any&& quality)
         -> ext::string
 {
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
             [origin_clean = m_bitmap->m_origin_clean_flag] {return !origin_clean;},
             "Canvas bitmap must be origin-clean");
 
@@ -91,7 +91,7 @@ auto html::elements::html_canvas_element::to_blob(
         ext::any&& quality)
         -> file_api::blob
 {
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
             [origin_clean = m_bitmap->m_origin_clean_flag] {return !origin_clean;},
             "Canvas bitmap must be origin-clean");
 
@@ -115,7 +115,7 @@ auto html::elements::html_canvas_element::to_blob(
 auto html::elements::html_canvas_element::transfer_control_to_offscreen()
         -> canvasing::offscreen_canvas
 {
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [context_mode = m_canvas_context_mode] {return context_mode != detail::canvas_context_mode_t::NONE;},
             "HTMLCanvasElement's context mode must be NONE");
 

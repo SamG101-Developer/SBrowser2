@@ -21,7 +21,7 @@ auto html::canvasing::mixins::canvas_image_data::create_image_data(
         detail::image_data_settings_t&& settings)
         -> image_data
 {
-    dom::detail::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    dom::detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [sw, sh] {return sw == 0 || sh == 0;},
             "'sw', 'sh' cannot be 0");
 
@@ -56,11 +56,11 @@ auto html::canvasing::mixins::canvas_image_data::get_image_data(
 {
     auto base = dynamic_cast<canvas_rendering_context_2d*>(this);
 
-    dom::detail::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    dom::detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [sw, sh] {return sw == 0 || sh == 0;},
             "'sw', 'sh' cannot be 0");
 
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
             [origin_clean = base->m_origin_clean] {return !origin_clean;},
             "Origin must be clean");
 

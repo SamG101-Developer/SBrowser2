@@ -29,7 +29,7 @@ auto web_codecs::abstract::abstract_encoder_decoder::configure(
         detail::audio_decoder_config_t&& config)
         -> void
 {
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [this] {s_state = detail::codec_state_t::CLOSED;},
             "Cannot configure a closed encoder or decoder");
 

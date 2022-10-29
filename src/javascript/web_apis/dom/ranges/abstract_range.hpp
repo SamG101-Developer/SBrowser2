@@ -12,7 +12,7 @@ class dom::node_ranges::abstract_range
         : public virtual dom_object
 {
 public constructors:
-    abstract_range() = default;
+    abstract_range();
     MAKE_PIMPL(abstract_range);
     MAKE_V8_AVAILABLE;
 

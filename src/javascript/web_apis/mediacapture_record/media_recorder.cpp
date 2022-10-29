@@ -18,7 +18,7 @@ mediacapture::record::media_recorder::media_recorder(
     decltype(auto) mime_type_option = options.try_emplace("mimeType", "").first->second.to<decltype(mime_type)::value_t>();
     decltype(auto) bits_per_second_option = options.try_emplace("bitsPerSecond").first->second.to<decltype(s_constrained_bits_per_second)::value_t>();
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [mime_type = std::move(mime_type_option)] {return !media_recorder::is_type_supported(mime_type);},
             "'mimeType' option is not supported");
 
@@ -40,11 +40,11 @@ auto mediacapture::record::media_recorder::start(
         ext::number<ulong> timeslice)
         -> void
 {
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [state = state()] {return state != detail::recording_state_t::INACTIVE;},
             "The 'state' property must not be \"inactive\"");
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [stream = stream()] {return !stream->active();},
             "The 'stream' property must be \"active\"");
 

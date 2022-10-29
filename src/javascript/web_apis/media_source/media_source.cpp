@@ -45,15 +45,15 @@ auto media::source::media_source::add_source_buffer(ext::string_view type) -> so
             [&type] {return type.empty();},
             u8"Source buffer type can not be empty");
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [&type] {return !mimesniff::detail::valid_mime_type(type);},
             u8"Source buffer type is an invalid mime-type");
 
-    dom::detail::throw_v8_exception_formatted<QUOTA_EXCEEDED_ERR>(
+    dom::detail::throw_v8_exception<QUOTA_EXCEEDED_ERR>(
             [&type] {return false; /* TODO */;},
             u8"");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->ready_state != detail::ready_state_t::OPEN;},
             u8"State must be 'open'");
 
@@ -79,8 +79,14 @@ auto media::source::media_source::remove_source_buffer(source_buffer* buffer) ->
     ACCESS_PIMPL(media_source);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<NOT_FOUND_ERR>(
-            [d, buffer] {return !ranges::contains(d->source_buffers, buffer, &std::unique_ptr<source_buffer>::get);},
+    dom::detail::throw_v8_exception<NOT_FOUND_ERR>(
+            [d, buffer]
+            {
+                return !ranges::contains(
+                        d->source_buffers,
+                        buffer,
+                        &std::unique_ptr<source_buffer>::get);
+            },
             u8"'source_buffer' not fouund in the 'buffers' list");
 
     if (buffer->d_func()->updating)
@@ -150,12 +156,17 @@ auto media::source::media_source::end_of_stream(ext::optional<detail::end_of_str
     ACCESS_PIMPL(media_source);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->ready_state != detail::ready_state_t::OPEN;},
             u8"State must be 'open'");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
-            [d] {return ranges::any_of(d->source_buffers | ranges::views::transform([](auto&& buffer) {return buffer->d_func()->updating;}), BIND_FRONT(std::equal_to{}, true));},
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
+            [d] {return ranges::any_of(
+                    d->source_buffers
+                            | ranges::views::transform([](auto&& buffer) {return buffer->d_func()->updating;}),
+                    BIND_FRONT(std::equal_to{},
+                               true));
+            },
             u8"Cannot end a stream that contains updating buffers");
 
     detail::end_of_stream(this, error);
@@ -171,7 +182,7 @@ auto media::source::media_source::set_live_seekable_range(
     using enum v8_primitive_error_t;
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->ready_state != detail::ready_state_t::OPEN;},
             u8"State must be 'open'");
 
@@ -189,7 +200,7 @@ auto media::source::media_source::clear_live_seekable_range() -> void
     ACCESS_PIMPL(media_source);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->ready_state != detail::ready_state_t::OPEN;},
             u8"State must be 'open'");
 
@@ -242,12 +253,17 @@ auto media::source::media_source::set_duration(ext::number<double> new_duration)
             [new_duration] {return new_duration < 0 || ext::is_nan(new_duration);},
             u8"New duration value must be > 0 and not NaN");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->ready_state != detail::ready_state_t::OPEN;},
             u8"Ready state must be open");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
-            [d] {return ranges::any_of(d->source_buffers, [](auto&& buffer) {return buffer->d_func()->updating == true;})},
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
+            [d]
+            {
+                return ranges::any_of(
+                        d->source_buffers,
+                        [](auto&& buffer) {return buffer->d_func()->updating == true;})
+            },
             u8"No source buffers can be updating");
 
     detail::duration_change(this, new_duration);

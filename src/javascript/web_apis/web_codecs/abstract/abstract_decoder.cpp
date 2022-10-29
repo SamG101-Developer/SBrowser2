@@ -28,7 +28,7 @@ auto web_codecs::abstract::abstract_decoder::set_decode_queue_size(
 auto web_codecs::abstract::abstract_decoder::decode(
         abstract_encoded_chunk* chunk) -> void
 {
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [this] {s_state = detail::codec_state_t::CLOSED;},
             "Cannot configure a closed encoder or decoder");
 

@@ -33,12 +33,12 @@ auto payment::request::payment_request_update_event::update_with(
     ACCESS_PIMPL(payment_request_update_event);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return !d->is_trusted;},
             u8"Event must be trusted");
 
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->wait_for_update;},
             u8"Event is already waiting for an update");
 
@@ -47,11 +47,11 @@ auto payment::request::payment_request_update_event::update_with(
             : dom_cast<payment_request*>(d->target);
     ASSERT(request);
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [request] {return request->d_func()->state != detail::state_t::INTERACTIVE;},
             "Request's state must be 'interactive'");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [request] {return request->d_func()->updating;},
             "Request cannot be updating");
 

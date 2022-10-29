@@ -117,21 +117,23 @@ auto dom::detail::create_an_element(
             assert(result->d_func()->custom_element_state != custom_element_state_t::NONE && result->d_func()->custom_element_definition);
             assert(result->d_func()->namespace_() == HTML);
 
-            throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            throw_v8_exception<NOT_SUPPORTED_ERR>(
                     [&result] {return !result->d_func()->attribute_list.empty();},
                     "A custom element must have an empty 'attributes' list while being created",
                     {"The 'attribute' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects' attributes"},
-                    P("Element being created", &result));
+                    P("Element being created",
+                      &result));
 
-            throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            throw_v8_exception<NOT_SUPPORTED_ERR>(
                     [&result] {return !result->d_func()->child_nodes.empty();},
                     "A custom element must have an empty 'child_nodes' list while being created",
                     {"The 'child_nodes' list might have been mutated from another thread / asynchronously"},
                     {"Check for any threads that are accessing objects; child nodes"},
-                    P("Element being created", &result));
+                    P("Element being created",
+                      &result));
 
-            throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            throw_v8_exception<NOT_SUPPORTED_ERR>(
                     [&result] {return result->d_func()->parent_node;},
                     "A custom element must have null 'parent_node' while being created",
                     {
@@ -139,19 +141,30 @@ auto dom::detail::create_an_element(
                             "General asynchronous tree manipulation"
                     },
                     {"Check for any threads modifying the DOM tree"},
-                    P("Element being created", &result), P("Parent node", result->d_func()->parent_node));
+                    P("Element being created",
+                      &result),
+                    P("Parent node",
+                      result->d_func()->parent_node));
 
-            throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            throw_v8_exception<NOT_SUPPORTED_ERR>(
                     [&result] {return result->d_func()->node_document;},
                     "A custom element must have an 'owner_document' initialized to the 'document' parameter",
-                    {""}, {""},
-                    P("Element's owner_document", result->d_func()->node_document), P("Document parameter", document));
+                    {""},
+                    {""},
+                    P("Element's owner_document",
+                      result->d_func()->node_document),
+                    P("Document parameter",
+                      document));
 
-            throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+            throw_v8_exception<NOT_SUPPORTED_ERR>(
                     [&result, local_name] {return result->d_func()->local_name != local_name;},
                     "A custom element's 'local_name' must match the 'local_name' parameter",
-                    {""}, {""},
-                    P("Element's local_name", result->d_func()->local_name), P("Local name parameter", local_name));
+                    {""},
+                    {""},
+                    P("Element's local_name",
+                      result->d_func()->local_name),
+                    P("Local name parameter",
+                      local_name));
 
             // set the result's 'prefix', and empty the 'is' attribute
             result->d_func()->namespace_prefix = prefix;
@@ -241,14 +254,17 @@ auto dom::detail::upgrade_element(
     definition->construction_stack.push_back(element);
 
     JS_EXCEPTION_HANDLER;
-    throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    throw_v8_exception<NOT_SUPPORTED_ERR>(
             [&definition, element] {return definition.disable_shadow && element->d_func()->shadow_root;},
             "An element being upgraded can not have a 'shadow_root' is not null, but the definition's 'disable_shadow'"
             "is true (can not have a 'shadow_root' set if definition forbids it)",
-            {"Element has been attached to a shadow tree", "Element's definition has 'disable_shadow' set to true by accident"},
+            {"Element has been attached to a shadow tree",
+                    "Element's definition has 'disable_shadow' set to true by accident"},
             {"Remove element's 'shadow_root' node", "Set element's definition's 'disable_shadow' to false"},
-            P("Element being upgraded", element),
-            P("Element's 'shadow_root'", element->d_func()->shadow_root));
+            P("Element being upgraded",
+              element),
+            P("Element's 'shadow_root'",
+              element->d_func()->shadow_root));
 
     // the element is now PRECUSTOMIZED ie it's ready for customization now, so set the construct_result to the result
     // of invoking the constructor

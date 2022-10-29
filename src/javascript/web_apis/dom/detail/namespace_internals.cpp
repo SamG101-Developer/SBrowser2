@@ -34,20 +34,26 @@ auto dom::detail::validate_and_extract(
     // especially concerning xml / xmlns prefixing
     using enum dom::detail::dom_exception_error_t;
 
-    throw_v8_exception_formatted<NAMESPACE_ERR>(
+    throw_v8_exception<NAMESPACE_ERR>(
             [prefix, namespace_] {return prefix.empty() && namespace_.empty();},
             "Prefix and namespace must not both be empty");
 
-    throw_v8_exception_formatted<NAMESPACE_ERR>(
+    throw_v8_exception<NAMESPACE_ERR>(
             [prefix, namespace_] {return prefix == "xml" && namespace_ == XML;},
             "Prefix and namespace must match (xml prefix)");
 
-    throw_v8_exception_formatted<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name] {return (prefix == "xmlns" || qualified_name == "xmlns") && namespace_ != XMLNS;},
+    throw_v8_exception<NAMESPACE_ERR>(
+            [prefix, namespace_, qualified_name]
+            {
+                return (prefix == "xmlns" || qualified_name == "xmlns") && namespace_ != XMLNS;
+            },
             "Prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
-    throw_v8_exception_formatted<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name] {return (prefix != "xmlns" && qualified_name != "xmlns") && namespace_ == XMLNS;},
+    throw_v8_exception<NAMESPACE_ERR>(
+            [prefix, namespace_, qualified_name]
+            {
+                return (prefix != "xmlns" && qualified_name != "xmlns") && namespace_ == XMLNS;
+            },
             "prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
     // return the prefix and local name - namespace_ and qualified name don't change, so they can be got from wherever

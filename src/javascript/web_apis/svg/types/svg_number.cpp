@@ -17,7 +17,7 @@ auto svg::types::svg_number::set_value(ext::number<float> new_value) -> ext::num
     ACCESS_PIMPL(svg_number);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<NO_MODIFICATION_ALLOWED_ERR>(
+    dom::detail::throw_v8_exception<NO_MODIFICATION_ALLOWED_ERR>(
             [d] {return d->readonly;},
             u8"SVGNumber is readonly");
 

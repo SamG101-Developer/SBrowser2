@@ -33,7 +33,7 @@ web_rtc::pc::rtc_peer_connection::rtc_peer_connection(detail::rtc_configuration_
             | ranges::views::remove_if([current_time](auto* c) {return c->d_func()->expires < current_time;})
             | ranges::views::remove_if([d](auto* c) {return c->d_func()->origin != d->document_origin;});
 
-    dom::detail::throw_v8_exception_formatted<INVALID_ACCESS_ERR>(
+    dom::detail::throw_v8_exception<INVALID_ACCESS_ERR>(
             [d, &original_certificates, &certificates] {return original_certificates.size() != certificates.size();},
             u8"Certificate has expired or has an origin mismatch");
 

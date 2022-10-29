@@ -25,18 +25,22 @@ auto css::cssom::style_sheets::css_style_sheet::insert_rule(
         ext::number<ulong> index)
         -> ext::number<ulong>
 {
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
             [origin_clean = m_style_sheet->origin_clean_flag] {return !origin_clean;},
             "CSSStyleSheet must have a clean origin");
 
-    dom::detail::throw_v8_exception_formatted<NOT_ALLOWED_ERR>(
+    dom::detail::throw_v8_exception<NOT_ALLOWED_ERR>(
             [disallow_modifications = m_style_sheet->disallow_modifications_flag] {return !disallow_modifications;},
             "Not allowed to modify the CSSStyleSheet");
 
     using namespace ext::literals;
     auto parsed_rules = detail::parse_rule(rule);
-    dom::detail::throw_v8_exception_formatted<SYNTAX_ERR>(
-            [&parsed_rules, constructed = m_style_sheet->constructed_flag] {return constructed && parsed_rules.has_value() && parsed_rules->at(0)[ext::tag<1>()].starts_with("@import");},
+    dom::detail::throw_v8_exception<SYNTAX_ERR>(
+            [&parsed_rules, constructed = m_style_sheet->constructed_flag]
+            {
+                return constructed && parsed_rules.has_value()
+                        && parsed_rules->at(0)[ext::tag<1>()].starts_with("@import");
+            },
             "Cannot parse an @import rule if the style sheet is already constructed"); // TODO
 
     return parsed_rules.has_value() && !parsed_rules->empty() // TODO : && !empty() ?
@@ -49,11 +53,11 @@ auto css::cssom::style_sheets::css_style_sheet::delete_rule(
         ext::number<ulong> index)
         -> void
 {
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
             [origin_clean = m_style_sheet->origin_clean_flag] {return !origin_clean;},
             "CSSStyleSheet must have a clean origin");
 
-    dom::detail::throw_v8_exception_formatted<NOT_ALLOWED_ERR>(
+    dom::detail::throw_v8_exception<NOT_ALLOWED_ERR>(
             [disallow_modifications = m_style_sheet->disallow_modifications_flag] {return !disallow_modifications;},
             "Not allowed to modify the CSSStyleSheet");
 
@@ -89,8 +93,11 @@ auto css::cssom::style_sheets::css_style_sheet::replace_sync(
         -> void
 {
     auto promise = ext::promise<css_style_sheet*>{};
-    dom::detail::throw_v8_exception_formatted<NOT_ALLOWED_ERR>(
-            [style_sheet = m_style_sheet.get()] {return !style_sheet->constructed_flag || style_sheet->disallow_modifications_flag;},
+    dom::detail::throw_v8_exception<NOT_ALLOWED_ERR>(
+            [style_sheet = m_style_sheet.get()]
+            {
+                return !style_sheet->constructed_flag || style_sheet->disallow_modifications_flag;
+            },
             "");
 
     auto rules = detail::parse_list_of_rules(text).value_or(detail::parse_result_t::value_type{});

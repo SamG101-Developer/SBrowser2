@@ -14,11 +14,11 @@ auto service_workers::events::fetch_event::respond_with(
     ACCESS_PIMPL(fetch_event);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [dispatched = d->dispatch_flag] {return !dispatched;},
             "Cannot respond to an event that hasn't already been dispatched");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [respond_with_entered = d->respond_with_entered_flag] {return respond_with_entered;},
             "Cannot response to an event that responds-with-entered");
 

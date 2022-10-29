@@ -24,7 +24,7 @@ auto orientation_sensor::orientation_sensor::populate_matrix(
             "List-like matrix must have >= 16 elements in it");
 
     auto candidate_quaternion = sensors::detail::get_value_from_latest_reading(this, "quaternion");
-    dom::detail::throw_v8_exception_formatted<NOT_READABLE_ERR>(
+    dom::detail::throw_v8_exception<NOT_READABLE_ERR>(
             [empty = !candidate_quaternion.has_value()] {return empty;},
             "Quaternion can not be null");
 
@@ -59,7 +59,7 @@ auto orientation_sensor::orientation_sensor::populate_matrix(
     using enum dom::detail::dom_exception_error_t;
 
     auto candidate_quaternion = sensors::detail::get_value_from_latest_reading(this, "quaternion");
-    dom::detail::throw_v8_exception_formatted<NOT_READABLE_ERR>(
+    dom::detail::throw_v8_exception<NOT_READABLE_ERR>(
             [empty = !candidate_quaternion.has_value()] {return empty;},
             "Quaternion can not be null");
 

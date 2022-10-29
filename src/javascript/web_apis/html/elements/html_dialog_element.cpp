@@ -40,12 +40,12 @@ auto html::elements::html_dialog_element::show_modal() -> void
     ACCESS_PIMPL(html_dialog_element);
     using enum dom::detail::dom_exception_error_t;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return d->open;},
             u8"HTMLDialogElement is already open");
 
 
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [this] {return !dom::detail::connected(this);},
             u8"HTMLDialogElement must be connected");
 

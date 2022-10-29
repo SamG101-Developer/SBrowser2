@@ -62,11 +62,11 @@ auto dom::detail::set_start_or_end(
 {
     using enum dom::detail::dom_exception_error_t;
 
-    throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>(
+    throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [new_container] {return dynamic_cast<nodes::document_type*>(new_container);},
             "The container of a Range can not be a DocumentType node");
 
-    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception<INDEX_SIZE_ERR>(
             [new_offset, index = index(new_container)] {return new_offset > index;},
             "The offset must be <= the index of the container");
 

@@ -33,16 +33,22 @@ auto presentation::detail::construct_presentation_request(
     decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(request_relevant_agent, request_relevant_global_object)->d_func()->document;
     decltype(auto) api_base_url = *v8pp::from_v8<javascript::environment::settings_t*>(current_agent, current_settings_object)->api_base_url;
 
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
-            [document] {return document->d_func()->active_sandboxing_set & html::detail::sandboxing_flag_set_t::PRESENTATION;},
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
+            [document]
+            {
+                return document->d_func()->active_sandboxing_set & html::detail::sandboxing_flag_set_t::PRESENTATION;
+            },
             u8"Document flag disallows presentations being used");
 
     decltype(auto) presentation_urls = urls
             | ranges::views::transform(BIND_BACK(url::detail::basic_url_parser, api_base_url))
-            | ranges::views::for_each([](auto&& url) {dom::detail::throw_v8_exception_formatted<SYNTAX_ERR>([&url] {return !url.has_value();}, u8"URL Parsing Error");});
+            | ranges::views::for_each([](auto&& url) {
+                dom::detail::throw_v8_exception<SYNTAX_ERR>(
+                        [&url] {return !url.has_value();},
+                        u8"URL Parsing Error");});
     // TODO : filter by allowed schemes
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [&presentation_urls] {return presentation_urls.empty();},
             u8"Must have > 0 URLS");
 

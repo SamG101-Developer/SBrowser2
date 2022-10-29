@@ -23,7 +23,7 @@ html::canvasing::image_bitmap::image_bitmap(
 {
     // Throw a DATA_CLONE_ERR is the origin of the object being copied ('data_holder') doesn't have a clean origin, so
     // that there's no access to clean origin ImageBitmap's from newly created bitmaps.
-    dom::detail::throw_v8_exception_formatted<DATA_CLONE_ERR>(
+    dom::detail::throw_v8_exception<DATA_CLONE_ERR>(
             [origin_clean = data_holder.m_origin_clean_flag] {return !origin_clean;},
             "Copied object's origin must be clean");
 
@@ -37,7 +37,7 @@ auto html::canvasing::image_bitmap::operator=(
 {
     // Throw a DATA_CLONE_ERR is the origin of the object being copied ('data_holder') doesn't have a clean origin, so
     // that there's no access to clean origin ImageBitmap's from newly created bitmaps.
-    dom::detail::throw_v8_exception_formatted<DATA_CLONE_ERR>(
+    dom::detail::throw_v8_exception<DATA_CLONE_ERR>(
             [origin_clean = data_holder.m_origin_clean_flag] {return !origin_clean;},
             "Copied object's origin must be clean");
 
@@ -62,7 +62,7 @@ auto html::canvasing::image_bitmap::m_serialize(
 {
     // Throw a DATA_CLONE_ERR is the origin of the this object doesn't have a clean origin, so that onyl origin clean
     // ImageBitmaps can be serialized.
-    dom::detail::throw_v8_exception_formatted<DATA_CLONE_ERR>(
+    dom::detail::throw_v8_exception<DATA_CLONE_ERR>(
             [origin_clean = m_origin_clean_flag] {return !origin_clean;},
             "Origin must be clean");
 

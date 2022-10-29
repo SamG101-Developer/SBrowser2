@@ -53,7 +53,7 @@ public js_methods:
     auto collapse(ext::boolean  to_start = false) -> void;
     auto clone_range() const -> range;
 
-    /* DOM_PARSING */
+    /* [DOM-PARSING] */
     auto create_contextual_fragmnt(ext::string&& fragment) -> nodes::document_fragment;
 
 private js_properties:

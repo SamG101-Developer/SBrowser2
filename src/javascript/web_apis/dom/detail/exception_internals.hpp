@@ -11,17 +11,6 @@
 #define NO_CONDITION [](){return true;}
 #define P(key, val) tuplet::pair{key, val}
 
-#define verify_parent_exists(_node)                                                   \
-    detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR>( \
-        [_parent = _node->parent_node()] {return _parent;},                           \
-        u8"New start container must have a parent")
-
-
-//#define verify_node_type_is_not(_node, ...)                                            \
-//    detail::exception_internals::throw_v8_exception_formatted<INVALID_NODE_TYPE_ERR> ( \
-//        [container] {return !ext::multi_cast<__VA_ARGS__>(_node);},                    \
-//        ext::string{} + "Node can not be " + #__VA_ARGS__ + " types")
-
 
 namespace dom::detail
 {
@@ -32,7 +21,7 @@ namespace dom::detail
             -> void;
 
     template <dom_exception_error_t exception_type, typename ...T>
-    auto throw_v8_exception_formatted(
+    auto throw_v8_exception(
             exception_condiditional_t&& condition = NO_CONDITION,
             ext::string_view description = u8"",
             ext::vector<ext::string>&& possible_causes = {},

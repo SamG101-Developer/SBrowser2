@@ -351,16 +351,16 @@ auto dom::nodes::element::attach_shadow(
     auto valid_local  = ranges::contains(shadow_attachable_local_names, d->local_name);
     auto definition = detail::lookup_custom_element_definition(d->node_document, d->namespace_, d->local_name, d->is);
 
-    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->namespace_ != detail::HTML;});
 
-    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [valid_local, valid_custom] {return !valid_local && !valid_custom;});
 
-    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [valid_custom, definition] {return valid_custom && definition && definition->disable_shadow;});
 
-    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [this] {return detail::is_shadow_host(this);});
 
     auto shadow = std::make_unique<shadow_root>();

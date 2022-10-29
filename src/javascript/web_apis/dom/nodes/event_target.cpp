@@ -101,7 +101,7 @@ auto dom::nodes::event_target::dispatch_event(
     using enum dom::detail::dom_exception_error_t;
 
     // If the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
-    detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    detail::throw_v8_exception<INVALID_STATE_ERR>(
             [event] {return event->d_func()->dispatch_flag || !event->d_func()->initialized_flag;},
             u8"Event must be initialized and not dispatched in order be dispatched");
 

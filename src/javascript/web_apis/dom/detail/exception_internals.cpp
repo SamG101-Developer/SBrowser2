@@ -51,7 +51,7 @@ auto dom::detail::throw_v8_exception(
 
 
 template <dom::detail::dom_exception_error_t exception_type, typename ...T>
-auto dom::detail::throw_v8_exception_formatted(
+auto dom::detail::throw_v8_exception(
         exception_condiditional_t&& condition,
         ext::string_view description,
         ext::vector<ext::string>&& possible_causes,

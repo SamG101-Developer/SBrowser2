@@ -14,9 +14,10 @@ auto geolocation_sensor::detail::construct_geolocation_sensor_object(
 {
     // If the sensor isn't allowed by a policy, then throw a SecurityError, letting the user know that using this sensor
     // isn't permitted.
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
             [sensor] {return !sensors::detail::check_sensor_policy_controlled_features(*sensor->m_sensor);},
-            ext::string{typeid(sensor).name()} + " cannot be created due to a failed check in the sensor policy controlled features");
+            ext::string{typeid(sensor).name()}
+                    + " cannot be created due to a failed check in the sensor policy controlled features");
 
     // Initialize the sensor object, and set the coordinate system of the sensor, depending on the "referenceFrame"
     // option from the 'options' dictionary.

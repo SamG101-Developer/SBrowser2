@@ -31,12 +31,18 @@ auto performance_timeline::performance_observer::observe(
     if (d->observer_type == detail::performance_observer_type_t::UNDEFINED && options.contains("types"))
         d->observer_type = detail::performance_observer_type_t::SINGLE;
 
-    dom::detail::throw_v8_exception_formatted<INVALID_MODIFICATION_ERR>(
-            [type = d->observer_type, &options] {return type == detail::performance_observer_type_t::SINGLE && options.contains("entryTypes");},
+    dom::detail::throw_v8_exception<INVALID_MODIFICATION_ERR>(
+            [type = d->observer_type, &options]
+            {
+                return type == detail::performance_observer_type_t::SINGLE && options.contains("entryTypes");
+            },
             "");
 
-    dom::detail::throw_v8_exception_formatted<INVALID_MODIFICATION_ERR>(
-            [type = d->observer_type, &options] {return type == detail::performance_observer_type_t::MULTIPLE && options.contains("type");},
+    dom::detail::throw_v8_exception<INVALID_MODIFICATION_ERR>(
+            [type = d->observer_type, &options]
+            {
+                return type == detail::performance_observer_type_t::MULTIPLE && options.contains("type");
+            },
             "");
 
     d->requires_dropped_entries = true;

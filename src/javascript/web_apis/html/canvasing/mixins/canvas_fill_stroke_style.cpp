@@ -34,7 +34,7 @@ auto html::canvasing::mixins::canvas_fill_stroke_style::create_radial_gradient(
         ext::number<double> r1)
         -> canvas_gradient
 {
-    dom::detail::throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    dom::detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [r0, r1] {return r0 < 0 || r1 < 0;},
             "Radii must be >= 0");
 

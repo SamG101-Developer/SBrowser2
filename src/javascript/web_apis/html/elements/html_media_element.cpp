@@ -41,11 +41,11 @@ auto html::elements::html_media_element::play() -> ext::promise<void>&
     using enum dom::detail::dom_exception_error_t;
     using enum detail::media_error_type_t;
 
-    dom::detail::throw_v8_exception_formatted<NOT_ALLOWED_ERR>(
+    dom::detail::throw_v8_exception<NOT_ALLOWED_ERR>(
             [this] {!detail::is_allowed_to_play(this);},
             u8"Not allowed to play media");
 
-    dom::detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->error && d->error->d_func()->code == MEDIA_ERR_SRC_NOT_SUPPORTED;},
             u8"Media not supported");
 

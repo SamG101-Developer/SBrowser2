@@ -127,8 +127,11 @@ auto dom::detail::set_attribute(
 
     // check that the attribute isn't being used by another element at the moment (can only be set to the element that
     // it is already in, or to a nullptr element)
-    throw_v8_exception_formatted<INUSE_ATTRIBUTE_ERR>(
-            [&new_owner_element, attribute = attribute.get()] {return attribute->d_func()->element && attribute->d_func()->element != new_owner_element;},
+    throw_v8_exception<INUSE_ATTRIBUTE_ERR>(
+            [&new_owner_element, attribute = attribute.get()]
+            {
+                return attribute->d_func()->element && attribute->d_func()->element != new_owner_element;
+            },
             "The Attribute node's owner_element must be either Null or equal to the new owner element (attribute is"
             "currently in use for another element node at the moment");
 

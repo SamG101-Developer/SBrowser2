@@ -158,11 +158,11 @@ auto dom::nodes::document::create_cdata_section_node(
     ACCESS_PIMPL(const document);
     using enum detail::dom_exception_error_t;
 
-    detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+    detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [this, type = d->type] {return type == "html";},
             "Cannot create a CDataSection node in a HTML Document");
 
-    detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
+    detail::throw_v8_exception<INVALID_CHARACTER_ERR>(
             [data = std::move(data)] {return data.contains("]]>");},
             "Cannot create a CDataSection node with ']]>' in the data");
 
@@ -191,7 +191,7 @@ auto dom::nodes::document::create_processing_instruction(
 {
     using enum detail::dom_exception_error_t;
 
-    detail::throw_v8_exception_formatted<INVALID_CHARACTER_ERR>(
+    detail::throw_v8_exception<INVALID_CHARACTER_ERR>(
             [data = std::move(data)] {return data.contains("?>");},
             "Cannot create a CDataSection node with '?>' in the data");
 
@@ -254,7 +254,7 @@ auto dom::nodes::document::import_node(
     using enum detail::dom_exception_error_t;
 
     CE_REACTIONS_METHOD_DEF
-        detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+        detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*, nodes::shadow_root*>(new_node);},
                 "Node being imported cannot be a Document or ShadowRoot");
 
@@ -272,11 +272,11 @@ auto dom::nodes::document::adopt_node(
     using enum detail::dom_exception_error_t;
 
     CE_REACTIONS_METHOD_DEF
-        detail::throw_v8_exception_formatted<NOT_SUPPORTED_ERR>(
+        detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
                 [new_node] {return ext::multi_cast<nodes::document*>(new_node);},
                 "Node being imported cannot be a Document");
 
-        detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
+        detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
                 [new_node] {return ext::multi_cast<nodes::shadow_root*>(new_node);},
                 "Node being imported cannot be a ShadowRoot");
 
@@ -308,7 +308,7 @@ auto dom::nodes::document::get_cookie()
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
-    detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    detail::throw_v8_exception<SECURITY_ERR>(
             [this] {return html::detail::is_opaque_origin(m_origin);},
             "Can not get the cookie of a Document whose origin is opaque");
 
@@ -418,7 +418,7 @@ auto dom::nodes::document::set_cookie(
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
-    detail::throw_v8_exception_formatted<SECURITY_ERR>(
+    detail::throw_v8_exception<SECURITY_ERR>(
             [this] {return html::detail::is_opaque_origin(m_origin);},
             "Can not get the cookie of a Document whose origin is opaque");
 
@@ -505,7 +505,7 @@ auto dom::nodes::document::set_body(
 
     // if there is no implied HTMLBodyElement, and no 'document_element', throw a hierarchy request error, because it's
     // not possible to append the HTMLBodyElement to a non-existent 'document_element'
-    detail::throw_v8_exception_formatted<HIERARCHY_REQUEST_ERR>(
+    detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
             [this] {return !document_element();},
             "Document must have a document element, if a new HTMLBodyElement is being added to the Document");
 

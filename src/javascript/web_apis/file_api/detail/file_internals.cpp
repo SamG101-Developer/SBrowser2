@@ -18,7 +18,7 @@ auto file_api::detail::read_operation(
         ext::string_view optional_encoding_name)
         -> ext::promise<ext::string>
 {
-    dom::detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
+    dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [file_reader] {return file_reader->ready_state() == file_reader->LOADING;},
             "File is already loading");
 

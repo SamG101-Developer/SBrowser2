@@ -7,7 +7,6 @@ namespace dom::node_ranges {class static_range;}
 namespace dom::node_ranges {class static_range_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/map.hpp"
 
 
 class dom::node_ranges::static_range

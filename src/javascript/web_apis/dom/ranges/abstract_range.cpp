@@ -6,13 +6,15 @@
 
 auto dom::node_ranges::abstract_range::get_start_container() const -> nodes::node*
 {
+    // The 'start_container' getter returns the node of the 'start' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abstract_range);
-    return d->start->node;
+    return d->start->node.get();
 }
 
 
 auto dom::node_ranges::abstract_range::get_start_offset() const -> ext::number<ulong>
 {
+    // The 'start_offset' getter returns the offset of the 'start' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abstract_range);
     return d->start->offset;
 }
@@ -20,13 +22,15 @@ auto dom::node_ranges::abstract_range::get_start_offset() const -> ext::number<u
 
 auto dom::node_ranges::abstract_range::get_end_container() const ->  nodes::node*
 {
+    // The 'end_container' getter returns the node of the 'end' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abstract_range);
-    return d->end->node;
+    return d->end->node.get();
 }
 
 
 auto dom::node_ranges::abstract_range::get_end_offset() const -> ext::number<ulong>
 {
+    // The 'end_offset' getter returns the offset of the 'end' attribute value that is stored in the private class.
     ACCESS_PIMPL(const abstract_range);
     return d->end->offset;
 }
@@ -38,9 +42,7 @@ auto dom::node_ranges::abstract_range::get_collapsed() const -> ext::boolean
 }
 
 
-auto dom::node_ranges::abstract_range::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::node_ranges::abstract_range::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<abstract_range>{isolate}
         .inherit<dom_object>()

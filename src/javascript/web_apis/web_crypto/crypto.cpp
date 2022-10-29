@@ -16,11 +16,16 @@ auto web_crypto::crypto::get_random_values(
         v8::Local<v8::ArrayBufferView> array)
         -> v8::Local<v8::ArrayBufferView>
 {
-    dom::detail::throw_v8_exception_formatted<TYPE_MISMATCH_ERR>(
-            [array] {return !(array->IsInt8Array() || array->IsUint8Array() || array->IsUint8ClampedArray() || array->IsInt16Array() || array->IsUint16Array() || array->IsInt32Array() || array->IsUint32Array() || array->IsBigInt64Array() || array->IsBigUint64Array());},
+    dom::detail::throw_v8_exception<TYPE_MISMATCH_ERR>(
+            [array]
+            {
+                return !(array->IsInt8Array() || array->IsUint8Array() || array->IsUint8ClampedArray()
+                        || array->IsInt16Array() || array->IsUint16Array() || array->IsInt32Array()
+                        || array->IsUint32Array() || array->IsBigInt64Array() || array->IsBigUint64Array());
+            },
             "Invalid array type");
 
-    dom::detail::throw_v8_exception_formatted<QUOTA_EXCEEDED_ERR>(
+    dom::detail::throw_v8_exception<QUOTA_EXCEEDED_ERR>(
             [byte_length = array->ByteLength()] {return byte_length > 65536;},
             "Byte length of array must be <= 65536");
 

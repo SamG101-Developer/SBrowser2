@@ -32,13 +32,15 @@ auto dom::detail::replace_data(
     using enum detail::dom_exception_error_t;
     auto text_node_length = length(text_node);
 
-    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception<INDEX_SIZE_ERR>(
             [text_node_length, offset] {return offset > text_node_length;},
             "The 'offset' must be less than the length of the node",
             {"Length of the node is smaller than it should be", "Offset is too big"},
             {"Check that the node contains the information expected", "Make the offset smaller"},
-            P("Length", text_node_length),
-            P("Offset", offset));
+            P("Length",
+              text_node_length),
+            P("Offset",
+              offset));
 
     // set the 'adjusted_count' to either the 'count', of the 'offset' - 'length', so the 'count' + 'offset' is either
     // less than or equal to the length of the Text node; the 'adjusted_delete' if the 'offset' + the length of the new
@@ -107,13 +109,15 @@ auto dom::detail::substring_data(
     using enum detail::dom_exception_error_t;
     auto text_node_length = length(text_node);
 
-    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception<INDEX_SIZE_ERR>(
             [text_node_length, offset] {return offset > text_node_length;},
             "The 'offset' must be less than the length of the node",
             {"Length of the node is smaller than it should be", "Offset is too big"},
             {"Check that the node contains the information expected", "Make the offset smaller"},
-            P("Length", length),
-            P("Offset", offset));
+            P("Length",
+              length),
+            P("Offset",
+              offset));
 
     // set the 'adjusted_count' to either the 'count', of the 'offset' - 'length', so the 'count' + 'offset' is either
     // less than or equal to the length of the Text node, and return the substring from the data (from 'offset',
@@ -133,13 +137,15 @@ auto dom::detail::split(
     using enum detail::dom_exception_error_t;
     auto text_node_length = length(existing_text_node);
 
-    throw_v8_exception_formatted<INDEX_SIZE_ERR>(
+    throw_v8_exception<INDEX_SIZE_ERR>(
             [text_node_length, offset] {return offset > text_node_length;},
             "The 'offset' must be less than the length of the node",
             {"Length of the node is smaller than it should be", "Offset is too big"},
             {"Check that the node contains the information expected", "Make the offset smaller"},
-            P("Length", text_node_length),
-            P("Offset", offset));
+            P("Length",
+              text_node_length),
+            P("Offset",
+              offset));
 
     decltype(auto) count = text_node_length - offset;
     decltype(auto) new_data = substring_data(existing_text_node, offset, count);

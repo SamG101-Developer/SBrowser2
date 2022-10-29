@@ -45,7 +45,7 @@ auto dom::abort::abort_signal::timeout(ext::number<ulonglong> milliseconds) -> a
     // Create the 'timeout_error_callback' - this callback will throw a TIMEOUT_ERR DomException. Set the 'callback'
     // (which will be executed after the time) so queue a global task that will execute the 'callback' in the
     // AbortSignal's relevant global object, and in the timer task source (non-blocking to dom manipulation).
-    auto timeout_error_callback = [] {detail::throw_v8_exception_formatted<TIMEOUT_ERR>();};
+    auto timeout_error_callback = [] {detail::throw_v8_exception<TIMEOUT_ERR>();};
     auto callback =
             [signal_relevant_global_object, callback = std::move(timeout_error_callback)] mutable
             {detail::queue_global_task(html::detail::timer_task_source, signal_relevant_global_object, std::move(callback));};
@@ -67,7 +67,7 @@ auto dom::abort::abort_signal::throw_if_aborted() -> void
     // If the 'reason' attribute has been set, throw a ABORT_ERR DomException, whose message is the DomException message
     // stored in the 'reason' - the exception is effectively recreated, but into the 'throw_...' method, so it is
     // created and thrown at the correct time.
-    detail::throw_v8_exception_formatted<ABORT_ERR>(
+    detail::throw_v8_exception<ABORT_ERR>(
             [this] {return detail::is_signal_aborted(this);},
             d->abort_reason.to<dom::other::dom_exception>().d_func()->message);
 }

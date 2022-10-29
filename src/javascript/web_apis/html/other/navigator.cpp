@@ -133,8 +133,13 @@ auto html::other::navigator::get_gamepads()
     decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document();
     return_if (!document || !dom::detail::is_document_fully_active(document)) {};
 
-    dom::detail::throw_v8_exception_formatted<SECURITY_ERR>(
-            [document] {return !html::detail::allowed_to_use(document, "gamepad");},
+    dom::detail::throw_v8_exception<SECURITY_ERR>(
+            [document]
+            {
+                return !html::detail::allowed_to_use(
+                        document,
+                        "gamepad");
+            },
             "Document is not allowed to use the 'gamepad' feature");
 
     return_if (!s_has_gamepad_gesture()) {};
