@@ -85,56 +85,6 @@ namespace cmp
 }
 
 
-//namespace cmp {
-//struct lt
-//{
-//    template <typename L, typename R>
-//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-//    {return pred(std::forward<L>) < std::forward<R>(rhs);}
-//};
-//
-//
-//struct le
-//{
-//    template <typename L, typename R>
-//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-//    {return pred(std::forward<decltype(lhs)>) <= std::forward<R>(rhs);}
-//};
-//
-//
-//struct gt
-//{
-//    template <typename L, typename R>
-//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-//    {return pred(std::forward<decltype(lhs)>) > std::forward<R>(rhs);}
-//};
-//
-//
-//struct ge
-//{
-//    template <typename L, typename R>
-//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-//    {return pred(std::forward<decltype(lhs)>) >= std::forward<R>(rhs);}
-//};
-//
-//
-//template <typename L = void, typename R = void>
-//struct eq
-//{
-//    constexpr auto operator()(const L& lhs, const R& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-//    {return pred(lhs) == rhs;}
-//};
-//
-//
-//struct ne
-//{
-//    template <typename L, typename R>
-//    constexpr auto operator()(L&& lhs, R&& rhs, auto&& pred = _EXT identity{}) -> _EXT boolean
-//    {return pred(std::forward<decltype(lhs)>) != std::forward<R>(rhs);}
-//};
-//}
-
-
 #define BIND_FRONT(function, ...)                 \
     [&]<typename ...Args>(Args&&... args) mutable \
     {return function(__VA_ARGS__, std::forward<Args>(args)...);}
@@ -146,6 +96,17 @@ namespace cmp
 
 
 _EXT_END
+
+
+template <typename R, typename ...Types> // TODO
+auto operator==(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> ext::boolean;
+
+
+//_STD_BEGIN
+//    template <typename R, typename ...Types, typename ...Types2>
+//    auto construct_at(ext::function<R(Types...)>* const location, Types2...) -> ext::function<R(Types...)>*
+//    {}
+//_STD_END
 
 
 #endif //SBROWSER2_FUNCTIONAL_HPP
