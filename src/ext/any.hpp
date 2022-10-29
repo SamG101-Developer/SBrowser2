@@ -45,7 +45,7 @@ public constructors:
     auto operator==(const any& other) const -> bool;
     template <not_any T> auto operator==(T&& other) const -> bool;
 
-public cpp_members:
+public:
     [[nodiscard]] auto type() const -> const type_info&;
     [[nodiscard]] auto is_arithmetic_type() const -> boolean;
     [[nodiscard]] auto is_empty() const -> boolean;
@@ -54,6 +54,7 @@ public cpp_members:
     template <is_rvalue_reference T> auto to() const -> T;
     template <typename T> auto try_to() const -> ext::boolean;
 
+private:
     std::any m_any;
     boolean m_is_arithmetic;
     ext::number<size_t> m_hash = 0;
@@ -162,8 +163,13 @@ auto any::operator==(T&& other) const -> bool
     return std::forward<T>(other) == to<T>();
 }
 
-
 _EXT_END
+
+
+//_STD_BEGIN
+//    template <typename ...Args>
+//    auto construct_at(ext::any* const location, Args&&... args) -> ext::any* {}
+//_STD_END
 
 
 #endif //SBROWSER2_ANY_HPP
