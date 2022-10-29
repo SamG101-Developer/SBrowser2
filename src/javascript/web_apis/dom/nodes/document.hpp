@@ -75,9 +75,10 @@ class dom::nodes::document
 {
 public friends:
     friend class dom::mixins::document_or_element_node;
+    friend class dom::nodes::node;
 
 public constructors:
-    document();
+    DOM_CTORS(document);
     MAKE_PIMPL(document);
     MAKE_V8_AVAILABLE;
     auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
@@ -105,8 +106,8 @@ public js_methods:
     auto open() -> document*;
     auto open(ext::string_view url, ext::string_view name, ext::string_view features) -> window_proxy*;
     auto close() -> void;
-    auto write(type_is<ext::string> auto&&... text) -> void;
-    auto write_ln(type_is<ext::string> auto&&... text) -> void;
+    auto write(ext::type_is<ext::string> auto&&... text) -> void;
+    auto write_ln(ext::type_is<ext::string> auto&&... text) -> void;
 
     auto has_focus() -> ext::boolean;
     auto query_command_enabled(ext::string_view command_id) -> ext::boolean;

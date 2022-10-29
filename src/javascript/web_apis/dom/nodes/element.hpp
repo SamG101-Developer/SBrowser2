@@ -9,7 +9,6 @@
 #include "dom/mixins/slottable.hpp"
 #include "aria/mixins/aria_mixin.hpp"
 #include "css/css_web_animations/mixins/animatable.hpp"
-
 namespace dom::nodes {class element;}
 namespace dom::nodes {class element_private;}
 
@@ -30,6 +29,7 @@ namespace dom::nodes {class element_private;}
 
 namespace css::box_tree {class dead_fragment_information;}
 namespace dom::nodes {class attr;}
+namespace dom::nodes {class node;}
 namespace dom::nodes {class shadow_root;}
 namespace dom::mixins {class document_or_element_node;}
 namespace edit_context {class edit_context;}
@@ -47,6 +47,7 @@ class dom::nodes::element
 {
 public friends:
     friend class dom::mixins::document_or_element_node;
+    friend class dom::nodes::node;
 
 public constructors:
     DOM_CTORS(element);

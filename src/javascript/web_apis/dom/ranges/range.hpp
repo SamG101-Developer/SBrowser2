@@ -12,6 +12,9 @@ namespace dom::nodes {class document_fragment;}
 class dom::node_ranges::range
         : public abstract_range
 {
+public friends:
+    friend class dom::nodes::node;
+
 public constructors:
     range();
     MAKE_PIMPL(range);

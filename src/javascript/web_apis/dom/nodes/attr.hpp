@@ -6,6 +6,7 @@ namespace dom::nodes {class attr;}
 namespace dom::nodes {class attr_private;}
 
 namespace dom::nodes {class element;}
+namespace dom::nodes {class node;}
 
 
 class dom::nodes::attr final
@@ -13,6 +14,7 @@ class dom::nodes::attr final
 {
 public friends:
     friend class dom::nodes::element;
+    friend class dom::nodes::node;
 
 public constructors:
     attr();

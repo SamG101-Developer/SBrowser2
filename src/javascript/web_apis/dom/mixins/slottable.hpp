@@ -5,12 +5,16 @@
 namespace dom::mixins {class slottable;}
 namespace dom::mixins {class slottable_private;}
 
+namespace dom::nodes {class node;}
 namespace html::elements {class html_slot_element;}
 
 
 class dom::mixins::slottable
         : public virtual dom_object
 {
+public friends:
+    friend class dom::nodes::node;
+
 public constructors:
     slottable();
     MAKE_PIMPL(slottable);
