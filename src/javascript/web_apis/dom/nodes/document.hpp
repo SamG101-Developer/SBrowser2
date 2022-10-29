@@ -29,6 +29,7 @@ namespace dom::nodes {class document_private;}
 #include INCLUDE_INNER_TYPES(page_visibility)
 #include INCLUDE_INNER_TYPES(url)
 
+namespace dom::mixins {class document_or_element_node;}
 namespace dom::nodes {class attr;}
 namespace dom::nodes {class cdata_section;}
 namespace dom::nodes {class comment;}
@@ -37,7 +38,7 @@ namespace dom::nodes {class document_type;}
 namespace dom::nodes {class processing_instruction;}
 namespace dom::nodes {class text;}
 namespace dom::nodes {class window_proxy;}
-namespace dom::mixins {class document_or_element_node;}
+namespace dom::other {class dom_implementation;}
 
 namespace dom::node_ranges {class range;}
 namespace dom::node_iterators {class node_filter;}
@@ -76,6 +77,7 @@ class dom::nodes::document
 public friends:
     friend class dom::mixins::document_or_element_node;
     friend class dom::nodes::node;
+    friend class dom::other::dom_implementation;
 
 public constructors:
     DOM_CTORS(document);

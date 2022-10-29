@@ -4,12 +4,13 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
+#include "ext/memory.hpp"
 namespace dom::nodes {class document;}
 
 
 DEFINE_PRIVATE_CLASS(dom::other, dom_implementation) : virtual dom_object_private
 {
-    nodes::document* document;
+    std::observer_ptr<nodes::document> document;
 };
 
 

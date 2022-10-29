@@ -6,22 +6,26 @@
 namespace dom::nodes {class document_type;}
 namespace dom::nodes {class document_type_private;}
 
+namespace dom::other {class dom_implementation;}
+
 
 class dom::nodes::document_type final
         : public node
         , public mixins::child_node
 {
+public friends:
+    friend class dom::other::dom_implementation;
 
 public constructors:
-    document_type();
+    DOM_CTORS(document_type);
     MAKE_PIMPL(document_type);
     MAKE_V8_AVAILABLE;
 
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_TYPE_NODE;}
     DEFINE_GETTER(node_name, ext::string) override;
-    DEFINE_GETTER(node_value, ext::string) override {return "";}
-    DEFINE_GETTER(text_content, ext::string) override {return "";}
+    DEFINE_GETTER(node_value, ext::string) override {return u8"";}
+    DEFINE_GETTER(text_content, ext::string) override {return u8"";}
 
     DEFINE_SETTER(node_value, ext::string) override {}
     DEFINE_SETTER(text_content, ext::string) override {}

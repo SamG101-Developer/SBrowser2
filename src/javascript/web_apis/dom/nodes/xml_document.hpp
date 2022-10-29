@@ -5,12 +5,17 @@
 namespace dom::nodes {class xml_document;}
 namespace dom::nodes {class xml_document_private;}
 
+namespace dom::other {class dom_implementation;}
+
 
 class dom::nodes::xml_document final
         : public document
 {
-public:
-    xml_document();
+public friends:
+    friend class dom::other::dom_implementation;
+
+public constructors:
+    DOM_CTORS(xml_document);
     MAKE_PIMPL(xml_document);
     MAKE_V8_AVAILABLE;
 };
