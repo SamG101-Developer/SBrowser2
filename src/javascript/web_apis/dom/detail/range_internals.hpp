@@ -1,12 +1,13 @@
 #ifndef SBROWSER2_RANGE_INTERNALS_HPP
 #define SBROWSER2_RANGE_INTERNALS_HPP
 
+#include "ext/memory.hpp"
 #include "ext/number.hpp"
 #include "ext/tuple.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(dom)
 #include <range/v3/view/any_view.hpp>
+#include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class character_data;}
 namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class node;}
@@ -89,7 +90,7 @@ namespace dom::detail
 
 struct dom::detail::boundary_point_t
 {
-    dom::nodes::node* node;
+    std::observer_ptr<dom::nodes::node> node;
     ext::number<ulong> offset;
 };
 
