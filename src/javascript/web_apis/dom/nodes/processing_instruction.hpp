@@ -11,7 +11,7 @@ class dom::nodes::processing_instruction final
         : public character_data
         , public css::cssom::mixins::link_style
 {
-public cpp_members:
+public constructors:
     processing_instruction();
     MAKE_PIMPL(processing_instruction);
     MAKE_V8_AVAILABLE;
