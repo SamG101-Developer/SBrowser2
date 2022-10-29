@@ -12,6 +12,7 @@ dom::nodes::processing_instruction::processing_instruction()
 
 auto dom::nodes::processing_instruction::get_target() const -> ext::string
 {
+    // The 'target' getter returns the equivalent 'target' attribute value that is stored in the private class.
     ACCESS_PIMPL(const processing_instruction);
     return d->target;
 }
@@ -19,6 +20,8 @@ auto dom::nodes::processing_instruction::get_target() const -> ext::string
 
 auto dom::nodes::processing_instruction::set_data(ext::string new_data) -> ext::string
 {
+    // The 'data' setter sets the equivalent 'data' attribute value that is stored in the private class to the
+    // 'new_data'.
     ACCESS_PIMPL(processing_instruction);
 
     d->data = new_data;
@@ -26,9 +29,7 @@ auto dom::nodes::processing_instruction::set_data(ext::string new_data) -> ext::
 }
 
 
-auto dom::nodes::processing_instruction::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::nodes::processing_instruction::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<processing_instruction>{isolate}
         .inherit<character_data>()

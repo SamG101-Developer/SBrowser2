@@ -5,13 +5,13 @@
 namespace dom::events {class event;}
 namespace dom::events {class event_private;}
 
-
 #include INCLUDE_INNER_TYPES(dom)
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class event_target;}
+namespace dom::nodes {class shadow_root;}
 
 
 class dom::events::event
@@ -19,6 +19,7 @@ class dom::events::event
 {
 public friends:
     friend class dom::nodes::event_target;
+    friend class dom::nodes::shadow_root;
 
 public: constructors
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});

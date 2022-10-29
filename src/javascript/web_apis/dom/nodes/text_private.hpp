@@ -3,6 +3,7 @@
 
 #include "ext/pimpl.hpp"
 #include "dom/nodes/character_data_private.hpp"
+#include "dom/mixins/slottable_private.hpp"
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, text)
