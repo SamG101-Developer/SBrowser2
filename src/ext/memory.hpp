@@ -1,16 +1,18 @@
 #ifndef SBROWSER2_SRC_EXT_MEMORY_HPP
 #define SBROWSER2_SRC_EXT_MEMORY_HPP
 
+#include "ext/boolean.hpp"
 #include "ext/concepts.hpp"
 
 // TODO : C++20 trailing return type formatting
 // TODO : Implement methods
+// TODO : Add more operators?
 
 
 _STD_BEGIN
 
 template <class T>
-class observer_ptr {
+class observer_ptr final {
 public:
     using value_type = T;
     using pointer = std::add_pointer_t<T>;
@@ -40,6 +42,13 @@ public:
     pointer release() noexcept;
     void reset(pointer t = nullptr) noexcept;
     void swap(observer_ptr&) noexcept;
+
+    // Additions
+    template <typename U> auto operator==(std::observer_ptr<U>) -> ext::boolean;
+    template <typename U> auto operator==(U*) -> ext::boolean;
+
+private:
+    T* raw;
 };
 
 _STD_END
