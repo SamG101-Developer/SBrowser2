@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_BOOLEAN_HPP
 #define SBROWSER2_BOOLEAN_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/pimpl.hpp"
 #include <utility>
 
 
@@ -11,17 +11,24 @@ _EXT_BEGIN
 class boolean final
 {
 public constructors:
-    constexpr boolean(bool other = false) : internal_boolean(other) {}
-    auto operator=(bool other) -> boolean& {internal_boolean = other; return *this;}
+    constexpr boolean() = default;
+    boolean(const boolean&) = default;
+    boolean(boolean&&) noexcept = default;
+    auto operator=(const boolean&) -> ext::boolean& = default;
+    auto operator=(boolean&&) noexcept -> ext::boolean& = default;
+    constexpr ~boolean() {m_value = false;};
 
-public cpp_members:
+    constexpr boolean(bool other) : m_value{other} {}
+    auto operator=(bool other) -> boolean& {m_value = other; return *this;}
+
+public:
     static auto FALSE_() -> boolean {return boolean{false};};
     static auto TRUE_ () -> boolean {return boolean{true };};
 
-    operator bool() const {return internal_boolean;}
-    auto operator !() const -> bool {return !internal_boolean;}
+    operator bool() const {return m_value;}
+    auto operator !() const -> bool {return !m_value;}
 
-    bool internal_boolean;
+    bool m_value;
 };
 
 
