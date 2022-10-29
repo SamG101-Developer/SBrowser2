@@ -10,7 +10,7 @@
 
 DEFINE_PRIVATE_CLASS(dom::abort, abort_signal) : nodes::event_target_private
 {
-    auto aborted() const {return abort_reason.has_value();}
+    auto aborted() const -> ext::boolean {return abort_reason.has_value();}
     auto follow_signal(abort_signal* parent_signal) {/* TODO */}
 
     detail::abort_signal_callbacks_t abort_algorithms;
