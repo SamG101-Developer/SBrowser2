@@ -1,12 +1,16 @@
 #include "event_target.hpp"
 #include "event_target_private.hpp"
 
-#include "dom/_typedefs.hpp"
+#include "ext/any.hpp"
+#include "ext/boolean.hpp"
 #include "ext/functional.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
+#include "ext/variant.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/abort/abort_signal.hpp"
+#include "dom/abort/abort_signal_private.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/event_internals.hpp"
 #include "dom/events/event.hpp"
@@ -33,28 +37,28 @@ auto dom::nodes::event_target::add_event_listener(
 {
     ACCESS_PIMPL(event_target);
 
-    // create an event listener that is the flattened options, and insert the callback and type
+    // Create an event listener that is the flattened options, and insert the callback and type.
     auto event_listener = detail::flatten_more(std::move(options));
-    event_listener.insert_or_assign("callback", std::move(callback));
-    event_listener.insert_or_assign("type", std::move(type));
+    event_listener.insert_or_assign(u8"callback", std::move(callback));
+    event_listener.insert_or_assign(u8"type", std::move(type));
 
-    // get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map
-    decltype(auto) signal = event_listener["signal"].to<abort::abort_signal*>();
+    // Get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map.
+    decltype(auto) signal = event_listener[u8"signal"].to<abort::abort_signal*>();
 
-    // return if
-    //  - there is no callback - invoking the event listener would have no effect and would waste cycles;
-    //  - there is a signal that has already aborted - no need for the event listener to exist;
-    //  - the event listener is already stored in the event listeners list - no duplicates allowed;
-    if (!event_listener.contains("callback")
-            || signal && signal->aborted()
+    // Return if any of the following conditions are true
+    //  - There is no callback - invoking the event listener would have no effect and would waste cycles;
+    //  - There is a signal that has already aborted - no need for the event listener to exist;
+    //  - The event listener is already stored in the event listeners list - no duplicates allowed;
+    if (!event_listener.contains(u8"callback")
+            || signal && signal->d_func()->aborted()
             || ranges::contains(d->event_listeners, event_listener))
         return;
 
-    // append the event listener to the event listeners list and if there is an abort signal, add an abort algorithm
-    // that removes the event_listener from the event_target->m_event_listeners list
+    // Append the event listener to the event listeners list and if there is an abort signal, add an abort algorithm
+    // that removes the event_listener from the event_target->d_func()->event_listeners list.
     d->event_listeners.push_back(event_listener);
     if (signal)
-        signal->m_abort_algorithms.push_back(BIND_FRONT(event_target::remove_event_listener, this, event_listener));
+        signal->d_func()->abort_algorithms.emplace_back(BIND_FRONT(event_target::remove_event_listener, this, event_listener));
 }
 
 
@@ -68,21 +72,21 @@ auto dom::nodes::event_target::remove_event_listener(
 
     // create a dummy event listener that is the flattened options, and insert the callback and type
     auto event_listener = detail::flatten_more(std::move(options));
-    event_listener.insert_or_assign("callback", std::move(callback));
-    event_listener.insert_or_assign("type", type);
+    event_listener.insert_or_assign(u8"callback", std::move(callback));
+    event_listener.insert_or_assign(u8"type", std::move(type));
 
     // set the removed attribute of the listener to true (so if the listener is being held in a variable it can be
     // detected that it is no longer in use)
-    event_listener.insert_or_assign("removed", false);
+    event_listener.insert_or_assign(u8"removed", ext::boolean::FALSE_());
 
     // alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
     // capture attribute to event_listener
     auto event_listener_equality_check = [event_listener](ext::map<ext::string, ext::any>&& e)
     {
         using callback_t = detail::event_listener_callback_t;
-        return e["callback"].to<callback_t>() == event_listener.at("callback").to<callback_t>()
-                && e["type"].to<ext::string_view>() == event_listener.at("type").to<ext::string_view>()
-                && e["capture"].first->second.to<ext::boolean>() == event_listener.at("capture").to<ext::boolean>();
+        return e[u8"callback"].to<callback_t>() == event_listener.at(u8"callback").to<callback_t>()
+                && e[u8"type"].to<ext::string_view>() == event_listener.at(u8"type").to<ext::string_view>()
+                && e[u8"capture"].to<ext::boolean>() == event_listener.at(u8"capture").to<ext::boolean>();
     };
 
     d->event_listeners |= ranges::actions::remove_if(event_listener_equality_check);
@@ -99,7 +103,7 @@ auto dom::nodes::event_target::dispatch_event(
     // if the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
     detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
             [event] {return event->d_func()->dispatch_flag || !event->d_func()->initialized_flag;},
-            "Event must be initialized and not dispatched in order be dispatched");
+            u8"Event must be initialized and not dispatched in order be dispatched");
 
     // set the event trusted to false (manual dispatch), and dispatch the event through the tree
     event->d_func()->is_trusted = ext::boolean::FALSE_();
@@ -107,17 +111,15 @@ auto dom::nodes::event_target::dispatch_event(
 }
 
 
-auto dom::nodes::event_target::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::nodes::event_target::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<event_target>{isolate}
-            .ctor<>()
-            .inherit<dom_object>()
-            .function("addEventListener", &event_target::add_event_listener)
-            .function("removeEventListener", &event_target::remove_event_listener)
-            .function("dispatchEvent", &event_target::dispatch_event)
-            .auto_wrap_objects();
+        .ctor<>()
+        .inherit<dom_object>()
+        .function("addEventListener", &event_target::add_event_listener)
+        .function("removeEventListener", &event_target::remove_event_listener)
+        .function("dispatchEvent", &event_target::dispatch_event)
+        .auto_wrap_objects();
 
     return std::move(conversion);
 }
