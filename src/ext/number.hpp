@@ -18,30 +18,30 @@ using ulonglong  = unsigned long long;
 using longdouble = long double;
 
 
-#define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                                                      \
-    template <ext::arithmetic T, ext::arithmetic U>                                                                            \
-    constexpr auto operator op (const _EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<std::common_type_t<T, U>> \
-    {return {*lhs op *rhs};}                                                                                                   \
-                                                                                                                               \
-    template <ext::arithmetic T, ext::arithmetic U>                                                                            \
-    constexpr auto operator op (const _EXT number<T>& lhs, const U& rhs) -> _EXT number<std::common_type_t<T, U>>              \
-    {return {*lhs op rhs};}                                                                                                    \
-                                                                                                                               \
-    template <ext::arithmetic T, ext::arithmetic U>                                                                            \
-    constexpr auto operator op (const T& lhs, const _EXT number<U>& rhs) -> T                                                  \
-    {return {lhs op *rhs};}                                                                                                    \
-                                                                                                                               \
-    template <ext::arithmetic T, ext::arithmetic U>                                                                            \
-    constexpr auto operator op##=(_EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<T>&                           \
-    {*lhs op##= *rhs; return lhs;}                                                                                             \
-                                                                                                                               \
-    template <ext::arithmetic T, ext::arithmetic U>                                                                            \
-    constexpr auto operator op##=(_EXT number<T>& lhs, const U& rhs) -> _EXT number<T>&                                        \
-    {*lhs op##= rhs; return lhs;}                                                                                              \
-                                                                                                                               \
-    template <ext::arithmetic T, ext::arithmetic U>                                                                            \
-    constexpr auto operator op##=(T& lhs, const _EXT number<U>& rhs) -> T&                                                     \
-    {lhs op##= *rhs; return lhs;}                                                                                              \
+#define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                               \
+    template <ext::arithmetic T, ext::arithmetic U>                                                     \
+    constexpr auto operator op (const _EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<T> \
+    {return {*lhs op *rhs};}                                                                            \
+                                                                                                        \
+    template <ext::arithmetic T, ext::arithmetic U>                                                     \
+    constexpr auto operator op (const _EXT number<T>& lhs, const U& rhs) -> _EXT number<T>              \
+    {return {*lhs op rhs};}                                                                             \
+                                                                                                        \
+    template <ext::arithmetic T, ext::arithmetic U>                                                     \
+    constexpr auto operator op (const T& lhs, const _EXT number<U>& rhs) -> T                           \
+    {return {lhs op *rhs};}                                                                             \
+                                                                                                        \
+    template <ext::arithmetic T, ext::arithmetic U>                                                     \
+    constexpr auto operator op##=(_EXT number<T>& lhs, const _EXT number<U>& rhs) -> _EXT number<T>&    \
+    {*lhs op##= *rhs; return lhs;}                                                                      \
+                                                                                                        \
+    template <ext::arithmetic T, ext::arithmetic U>                                                     \
+    constexpr auto operator op##=(_EXT number<T>& lhs, const U& rhs) -> _EXT number<T>&                 \
+    {*lhs op##= rhs; return lhs;}                                                                       \
+                                                                                                        \
+    template <ext::arithmetic T, ext::arithmetic U>                                                     \
+    constexpr auto operator op##=(T& lhs, const _EXT number<U>& rhs) -> T&                              \
+    {lhs op##= *rhs; return lhs;}                                                                       \
 
 
 #define DEFINE_BINARY_NUMBER_COMPARISON(op)                                                   \
