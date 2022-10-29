@@ -70,16 +70,16 @@ auto dom::nodes::event_target::remove_event_listener(
 {
     ACCESS_PIMPL(event_target);
 
-    // create a dummy event listener that is the flattened options, and insert the callback and type
+    // Create a dummy event listener that is the flattened options, and insert the callback and type
     auto event_listener = detail::flatten_more(std::move(options));
     event_listener.insert_or_assign(u8"callback", std::move(callback));
     event_listener.insert_or_assign(u8"type", std::move(type));
 
-    // set the removed attribute of the listener to true (so if the listener is being held in a variable it can be
+    // Set the removed attribute of the listener to true (so if the listener is being held in a variable it can be
     // detected that it is no longer in use)
     event_listener.insert_or_assign(u8"removed", ext::boolean::FALSE_());
 
-    // alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
+    // Alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
     // capture attribute to event_listener
     auto event_listener_equality_check = [event_listener](ext::map<ext::string, ext::any>&& e)
     {
@@ -100,12 +100,12 @@ auto dom::nodes::event_target::dispatch_event(
     ACCESS_PIMPL(event_target);
     using enum dom::detail::dom_exception_error_t;
 
-    // if the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
+    // If the dispatch is already set or the initialized flag isn't set, then throw an invalid state error
     detail::throw_v8_exception_formatted<INVALID_STATE_ERR>(
             [event] {return event->d_func()->dispatch_flag || !event->d_func()->initialized_flag;},
             u8"Event must be initialized and not dispatched in order be dispatched");
 
-    // set the event trusted to false (manual dispatch), and dispatch the event through the tree
+    // Set the event trusted to false (manual dispatch), and dispatch the event through the tree
     event->d_func()->is_trusted = ext::boolean::FALSE_();
     return detail::dispatch(event, this);
 }
