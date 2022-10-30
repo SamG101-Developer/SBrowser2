@@ -6,9 +6,7 @@
 
 
 _EXT_BEGIN
-
-using random = effolkronium::random_thread_local;
-
+    using random = effolkronium::random_thread_local;
 _EXT_END
 
 

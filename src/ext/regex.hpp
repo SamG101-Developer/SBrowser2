@@ -6,14 +6,12 @@
 
 
 _EXT_BEGIN
-
-namespace regex = ctre;
-
+    namespace regex = ctre;
 _EXT_END
 
 
 _EXT_LITERALS_BEGIN
-using namespace ctre::literals;
+    using namespace ctre::literals;
 _EXT_LITERALS_END
 
 
