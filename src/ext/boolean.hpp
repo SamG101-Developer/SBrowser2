@@ -12,12 +12,6 @@ class boolean final
 {
 public constructors:
     constexpr boolean() = default;
-    boolean(const boolean&) = default;
-    boolean(boolean&&) noexcept = default;
-    auto operator=(const boolean&) -> ext::boolean& = default;
-    auto operator=(boolean&&) noexcept -> ext::boolean& = default;
-    constexpr ~boolean() {m_value = false;};
-
     constexpr boolean(bool other) : m_value{other} {}
     auto operator=(bool other) -> boolean& {m_value = other; return *this;}
 
