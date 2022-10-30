@@ -6,33 +6,11 @@
 
 
 _EXT_BEGIN
+    template <typename T>
+    auto make_initializer_list_repeat(T&& argument, size_t repeat) -> std::initializer_list<T>;
 
-
-template <typename T>
-struct initializer_list
-{
-public:
-    constexpr operator std::initializer_list<T>() const {return m_list;}
-
-private:
-    std::initializer_list<T> m_list;
-};
-
-
-template <typename T>
-auto make_initializer_list_repeat(T&& argument, size_t repeat) -> initializer_list<T>
-{
-    // TODO
-}
-
-
-template <typename ...Args>
-auto make_initializer_list(Args&&... arguments) -> initializer_list<Args...>
-{
-    // TODO
-}
-
-
+    template <typename ...Args>
+    auto make_initializer_list(Args&&... arguments) -> std::initializer_list<Args...>;
 _EXT_END
 
 
