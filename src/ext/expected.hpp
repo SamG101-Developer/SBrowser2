@@ -7,13 +7,10 @@
 
 
 _EXT_BEGIN
+    MAKE_STRUCT(failure, );
 
-struct failure_t {};
-auto failure = failure_t{};
-
-template <typename T, typename E = failure_t>
-using expected = tl::expected<T, E>;
-
+    template <typename T, typename E = failure_fn>
+    using expected = tl::expected<T, E>;
 _EXT_END
 
 

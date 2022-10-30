@@ -26,6 +26,9 @@ _EXT_BEGIN
     using u16string_view = std::u16string_view;
     using u32string_view = std::u32string_view;
     using string_view = u8string_view;
+
+    auto to_lower = []<typename T>(T character) -> T {return std::tolower(character);};
+    auto to_upper = []<typename T>(T character) -> T {return std::toupper(character);};
 _EXT_END
 
 
