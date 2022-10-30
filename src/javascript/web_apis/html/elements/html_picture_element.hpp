@@ -3,16 +3,16 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_picture_element;}
+namespace html::elements {class html_picture_element_private;}
 
 
 class html::elements::html_picture_element
         : public html_element
 {
 public constructors:
-    html_picture_element();
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DOM_CTORS(html_picture_element);
+    MAKE_PIMPL(html_picture_element);
+    MAKE_V8_AVAILABLE;
 };
 
 
