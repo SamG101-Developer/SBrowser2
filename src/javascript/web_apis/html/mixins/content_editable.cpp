@@ -71,3 +71,13 @@ auto html::mixins::content_editable::set_input_mode(
         return d->input_mode = new_input_mode;
     CE_REACTIONS_METHOD_EXE
 }
+
+
+auto html::mixins::content_editable::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<content_editable>{isolate}
+        .inherit<dom_object>()
+        .auto_wrap_objects(); // TODO
+
+    return std::move(conversion);
+}

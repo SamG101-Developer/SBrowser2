@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace css::cssom::mixins {class element_css_inline_style;}
+namespace css::cssom::mixins {class element_css_inline_style_private;}
 
 namespace css::cssom::other {class css_style_declaration;}
 
@@ -11,8 +12,13 @@ namespace css::cssom::other {class css_style_declaration;}
 class css::cssom::mixins::element_css_inline_style
         : public virtual dom_object
 {
+public constructors:
+    element_css_inline_style() = default;
+    MAKE_PIMPL(element_css_inline_style);
+    MAKE_V8_AVAILABLE;
+
 private js_properties:
-    ext::property<std::unique_ptr<other::css_style_declaration>> style;
+    DEFINE_GETTER(style, other::css_style_declaration*);
 };
 
 

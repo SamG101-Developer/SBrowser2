@@ -34,7 +34,8 @@ auto html::elements::html_slot_element::assigned_elements(
         const -> ranges::any_helpful_view<dom::nodes::element*>
 {
     ACCESS_PIMPL(const html_slot_element);
-    return assigned_nodes(std::move(options)) | ranges::views::cast_all_to<dom::nodes::element*>();
+    return assigned_nodes(std::move(options))
+            | ranges::views::cast<dom::nodes::element*>;
 }
 
 
@@ -43,7 +44,9 @@ auto html::elements::html_slot_element::assign(
         -> void
 {
     ACCESS_PIMPL(html_slot_element);
-    d->manually_assigned_nodes | ranges::views::for_each([](dom::mixins::slottable* slottable) {slottable->d_func()->manual_slot_assignment.reset();});
+    d->manually_assigned_nodes
+            | ranges::views::for_each([](dom::mixins::slottable* slottable) {slottable->d_func()->manual_slot_assignment.reset();});
+
     auto nodes_set = std::initializer_list<dom::mixins::slottable*>{nodes...};
 
     for (decltype(auto) node: nodes_set)

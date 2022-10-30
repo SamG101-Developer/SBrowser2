@@ -1,10 +1,10 @@
 #include "element.hpp"
-#include "dom/_typedefs.hpp"
 #include "element_private.hpp"
 
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/attribute_internals.hpp"
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
@@ -449,4 +449,21 @@ auto dom::nodes::element::get_attributes() const -> ranges::any_helpful_view<att
 {
     ACCESS_PIMPL(const element);
     return d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
+}
+
+
+auto dom::nodes::element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<element>{isolate}
+        .inherit<node>()
+        .inherit<mixins::child_node>()
+        .inherit<mixins::document_or_element_node>()
+        .inherit<mixins::non_document_type_child_node>()
+        .inherit<mixins::parentable_node>()
+        .inherit<mixins::slottable>()
+        .inherit<aria::mixins::aria_mixin>()
+        .inherit<css::css_web_animations::mixins::animatable>()
+        .auto_wrap_objects(); // TODO
+
+    return std::move(conversion);
 }

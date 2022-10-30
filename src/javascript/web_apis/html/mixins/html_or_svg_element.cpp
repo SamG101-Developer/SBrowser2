@@ -1,4 +1,5 @@
 #include "html_or_svg_element.hpp"
+#include "dom_object.hpp"
 #include "html_or_svg_element_private.hpp"
 
 #include "dom/detail/customization_internals.hpp"
@@ -82,4 +83,12 @@ auto html::mixins::html_or_svg_element::set_tab_index(ext::number<long> new_tab_
         ACCESS_PIMPL(html_or_svg_element);
         return d->tab_index = new_tab_index;
     CE_REACTIONS_METHOD_EXE
+}
+
+
+auto html::mixins::html_or_svg_element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<html_or_svg_element>{isolate}
+        .inherit<dom_object>()
+        .auto_wrap_objects(); // TODO
 }

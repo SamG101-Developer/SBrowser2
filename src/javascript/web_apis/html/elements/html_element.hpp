@@ -17,7 +17,7 @@ class html::elements::html_element
         : public dom::nodes::element
         , public mixins::content_editable
         , public mixins::html_or_svg_element
-        , css::cssom::mixins::element_css_inline_style
+        , public css::cssom::mixins::element_css_inline_style
 {
 public constructors:
     DOM_CTORS(html_element);

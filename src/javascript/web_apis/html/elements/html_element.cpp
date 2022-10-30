@@ -150,7 +150,7 @@ auto html::elements::html_element::get_inner_text() const -> ext::string
             | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
             | ranges::views::transform(detail::rendered_text_collection_steps)
             | ranges::views::join
-            | ranges::views::remove("")
+            | ranges::views::remove(u8"")
             | ranges::views::transform(map_number_to_repeated_lf)
             // TODO : | ranges::views::trim([](ext::string_view string) {return string.front() == char(0x000a);})
             ;
@@ -224,7 +224,7 @@ auto html::elements::html_element::set_outer_text(ext::string new_outer_text) ->
     // to be rooted somewhere for it to be replaced
     dom::detail::throw_v8_exception<NO_MODIFICATION_ALLOWED_ERR>(
             [d] {return !d->parent_node;},
-            "HTML...Element must have a 'parent_node' in order to set the 'outer_text'");
+            u8"HTML...Element must have a 'parent_node' in order to set the 'outer_text'");
 
     // save the current previous and next sibling nodes, which could change as a new Text node might be appended, if
     // this node's replacement doesn't have any child nodes
@@ -251,4 +251,15 @@ auto html::elements::html_element::set_outer_text(ext::string new_outer_text) ->
 
     if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(prev))
         detail::merge_with_next_text_node(text_node);
+}
+
+
+auto html::elements::html_element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+{
+    decltype(auto) conversion = v8pp::class_<html_element>{isolate}
+        .inherit<dom::nodes::element>()
+        .inherit<mixins::content_editable>()
+        .inherit<mixins::html_or_svg_element>()
+        .inherit<css::cssom::mixins::element_css_inline_style>()
+        .auto_wrap_objects(); // TODO
 }
