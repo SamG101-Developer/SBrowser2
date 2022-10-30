@@ -5,6 +5,7 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
+#include "ext/memory.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class document;}
 
@@ -15,7 +16,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, node) : event_target_private
     dom::nodes::document* node_document;
 
     ext::vector<std::unique_ptr<node>> child_nodes;
-    node* parent_node;
+    std::observer_ptr<node> parent_node;
 };
 
 

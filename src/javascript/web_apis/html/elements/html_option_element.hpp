@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_option_element;}
+namespace html::elements {class html_option_element_private;}
 
 namespace html::elements {class html_form_element;}
 
@@ -13,20 +14,25 @@ class html::elements::html_option_element
 {
 public constructors:
     DOM_CTORS(html_option_element);
-    html_option_element();
+    MAKE_PIMPL(html_option_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::boolean> disabled;
-    ext::property<html_form_element*> form;
-    ext::property<ext::string> label;
-    ext::property<ext::boolean> default_selected;
-    ext::property<ext::boolean> selected;
-    ext::property<ext::string> value;
-    ext::property<ext::string> text;
-    ext::property<ext::number<long>> index;
+    DEFINE_GETTER(disabled, ext::boolean);
+    DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(label, ext::string_view);
+    DEFINE_GETTER(default_selected, ext::boolean);
+    DEFINE_GETTER(selected, ext::boolean);
+    DEFINE_GETTER(value, ext::string_view);
+    DEFINE_GETTER(text, ext::string);
+    DEFINE_GETTER(index, ext::number<long>);
 
-private js_properties:
-    DEFINE_CUSTOM_GETTER(index);
+    DEFINE_SETTER(disabled, ext::boolean);
+    DEFINE_SETTER(label, ext::string);
+    DEFINE_SETTER(default_selected, ext::boolean);
+    DEFINE_SETTER(selected, ext::boolean);
+    DEFINE_SETTER(value, ext::string);
+    DEFINE_SETTER(text, ext::string);
 };
 
 

@@ -17,6 +17,7 @@ namespace dom::mixins {class non_document_type_child_node;}
 namespace dom::mixins {class parentable_node;}
 namespace dom::mutations {class mutation_observer;}
 namespace dom::node_ranges {class range;}
+namespace html::elements {class html_option_element;}
 
 
 class dom::nodes::node
@@ -29,6 +30,7 @@ public friends:
     friend class dom::mixins::parentable_node;
     friend class dom::mutations::mutation_observer;
     friend class dom::node_ranges::range;
+    friend class html::elements::html_option_element;
 
 public constructors:
     DOM_CTORS(node);
