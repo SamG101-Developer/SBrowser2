@@ -7,11 +7,15 @@
 
 
 _EXT_BEGIN
-
-template <typename T>
-using set = ankerl::unordered_dense::set<T, ankerl::unordered_dense::hash<T>, std::equal_to<T>, _EXT vector<T>>;
-
+    template <typename T>
+    using set = ankerl::unordered_dense::set<T, ankerl::unordered_dense::hash<T>, std::equal_to<T>, _EXT vector<T>>;
 _EXT_END
+
+
+_EXT_SECURE_BEGIN
+    template <typename T>
+    using set = ankerl::unordered_dense::set<T, ankerl::unordered_dense::hash<T>, std::equal_to<T>, _EXT secure::vector<T>>;
+_EXT_SECURE_END
 
 
 #endif //SBROWSER2_SET_HPP
