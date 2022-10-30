@@ -52,7 +52,7 @@ public:
     [[nodiscard]] auto has_value() const -> boolean;
     template <typename T> auto to() const -> T;
     template <is_rvalue_reference T> auto to() const -> T;
-    template <typename T> auto try_to() const -> ext::boolean;
+    template <typename T> auto try_to() const -> _EXT boolean;
 
 private:
     std::any m_any;
