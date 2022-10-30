@@ -103,7 +103,7 @@ public js_methods:
     auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void;
 
     /* CSS_BOX_TREE */
-    auto get_fragment_information(css::detail::fragment_filter_t filter) -> ext::promise<css::box_tree::dead_fragent_information*>;
+    // auto get_fragment_information(css::detail::fragment_filter_t filter) -> ext::promise<css::box_tree::dead_fragent_information*>;
     
 private js_properties:
     /* [DOM] */
