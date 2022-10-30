@@ -141,14 +141,14 @@ namespace ranges::views
         constexpr auto operator()(F0&& pred_if, F1&& pred_transform) const
         {
             decltype(auto) pred = pred_if() ? std::forward<F1>(pred_transform) : _EXT identity;
-            return ranges::views::transform([f = std::move(pred)]<typename T>(T&& element) mutable {return f(std::forward<T>(element));});
+            return ranges::views::transform(std::move(pred));
         }
 
         template <_EXT callable F>
         constexpr auto operator()(_EXT boolean pred_if, F&& pred_transform) const
         {
             decltype(auto) pred = pred_if ? std::forward<F>(pred_transform) : _EXT identity;
-            return ranges::views::transform([f = std::move(pred)]<typename T>(T&& element) mutable {f(std::forward<T>(element));});
+            return ranges::views::transform(std::move(pred));
         })
 
 
