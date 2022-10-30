@@ -1,6 +1,8 @@
 #include "html_slot_element.hpp"
 #include "html_slot_element_private.hpp"
 
+#include "ext/ranges.hpp"
+
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/mixins/slottable.hpp"
@@ -22,7 +24,7 @@ auto html::elements::html_slot_element::assigned_nodes(
 {
     ACCESS_PIMPL(const html_slot_element);
     return options[u8"flatten"].to<ext::boolean>()
-            ? d->assigned_nodes | ranges::views::transform(&std::observer_ptr<dom::nodes::node>::get)
+            ? d->assigned_nodes | ranges::views::underlying
             : dom::detail::find_flattened_slottables(this);
 }
 
@@ -51,6 +53,6 @@ auto html::elements::html_slot_element::assign(
         node->d_func()->manual_slot_assignment = this;
     }
 
-    d->manually_assigned_nodes = std::move(nodes_set);
+    d->manually_assigned_nodes = nodes_set;
     dom::detail::assign_slottables_for_tree(dom::detail::root(this));
 }
