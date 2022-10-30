@@ -40,10 +40,10 @@ private:                                                                        
 // base class actually defines the d_ptr (std::unique_ptr<dom_object_private>), so only 1 private class exsists in
 // inheritance chains, saving memory.
 #define  INIT_PIMPL(c) \
-    this->d_ptr = std::make_unique<c ## _private>();
+    this->d_ptr = std::make_unique<c ## _private>()
 
 #define INIT_PIMPL_TEMPLATED(c, ...) \
-    this->d_ptr = std::make_unique<c ## _private<__VA_ARGS__>>();
+    this->d_ptr = std::make_unique<c ## _private<__VA_ARGS__>>()
 
 
 // Access the d_func() in interface-methods with a convenient d pointer. It's a const-pointer (not pointer-to-const), so

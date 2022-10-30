@@ -34,6 +34,7 @@
 #include <range/v3/view/split.hpp>
 #include <range/v3/view/take_while.hpp>
 #include <range/v3/view/transform.hpp>
+#include <range/v3/view/view.hpp>
 
 
 #define RANGE_VIEW_STRUCT(name, code) \
@@ -67,18 +68,26 @@ namespace ranges {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
 /* VIEWS */
 namespace ranges::views
 {
+    template <typename Rng>
+    using lowercase_view = transform_view<Rng, decltype(_EXT to_lower)>;
+
+    template <typename Rng>
+    using uppercase_view = transform_view<Rng, decltype(_EXT to_upper>;
+
     // A lowercase conversion works by returning a transform adaptor that takes each item as a char type, converts
     // it to a lowercase char, and returns the character back.
     RANGE_VIEW_CLOSURE_STRUCT(lowercase,
-        constexpr auto operator()() const
-        {return ranges::views::transform(_EXT to_lower);})
+        template <typename Rng>
+        auto operator()(Rng&& rng) const -> lowercase_view<Rng>
+        {return {all(std::forward<Rng>(rng)) COMMA _EXT to_lower};})
 
 
     // An uppercase conversion works by returning a transform adaptor that takes each item as a char type, converts
     // it to an uppercase char, and returns the character back.
     RANGE_VIEW_CLOSURE_STRUCT(uppercase,
-        constexpr auto operator()() const
-        {return ranges::views::transform(_EXT to_upper);})
+        template <typename Rng>
+        auto operator()(Rng&& rng) const -> uppercase_view<Rng>
+        {return {all(std::forward<Rng>(rng)) COMMA _EXT to_upper};})
 
 
     // A string split function works by returning a split-transform adaptor that splits the range by the delimiter;
