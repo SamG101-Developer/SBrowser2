@@ -8,9 +8,7 @@
 
 
 _EXT_BEGIN
-
-using namespace uuids;
-
+    using namespace uuids;
 _EXT_END
 
 

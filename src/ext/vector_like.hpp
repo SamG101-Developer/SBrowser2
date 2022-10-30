@@ -75,13 +75,13 @@ public:
     auto operator[](ext::string_view index) -> T& override
     {
         ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
-        return d->linked_vector->front();
+        return d->linked_vector->front(); // TODO
     };
 
     auto operator[](ext::string_view index) const -> T& override
     {
         ACCESS_PIMPL_TEMPLATED(const vector_like_linked, T);
-        return d->linked_vector->front();
+        return d->linked_vector->front(); // TODO
     };
 
 private js_properties:

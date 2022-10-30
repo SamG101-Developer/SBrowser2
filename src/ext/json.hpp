@@ -7,14 +7,12 @@
 
 
 _EXT_BEGIN
-
-namespace json
-{
-    using dumper = jsonpp::Dumper;
-    using parser = jsonpp::Parser;
-    using json_map_t = metapp::Variant;
-}
-
+    namespace json
+    {
+        using dumper = jsonpp::Dumper;
+        using parser = jsonpp::Parser;
+        using json_map_t = metapp::Variant;
+    }
 _EXT_END
 
 

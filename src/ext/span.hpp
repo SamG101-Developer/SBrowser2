@@ -81,14 +81,14 @@ public constructors:
     auto operator=(const span&) = delete;
     auto operator=(span&&) noexcept = delete;
 
-public cpp_operators:
+public:
     template <template <typename> typename Container>
     auto operator==(Container<T>&& other) const -> bool {return data() == other.data();}
     
     template <template <typename> typename Container>
     auto operator<=>(Container<T>&& other) const {return data() <=> other.data();}
 
-public cpp_members:
+public:
     auto data() {return fixed_begin;}
     auto empty() {return fixed_size == 0;}
     auto size() {return fixed_size;}
@@ -117,27 +117,30 @@ private:
     const size_type fixed_size;
 };
 
-template <typename T, typename Iter>
-using same_iterator_span = ext::span<T, Iter, Iter>;
+_EXT_END
 
-template <typename T, size_t N>
-using array_span = ext::same_iterator_span<T, typename ext::array<T, N>::const_iterator>;
 
-template <typename K, typename V>
-using map_span = ext::same_iterator_span<V, typename ext::map<K, V>::const_iterator>;
+_EXT_BEGIN
+    template <typename T, typename Iter>
+    using same_iterator_span = ext::span<T, Iter, Iter>;
 
-template <typename T>
-using queue_span = ext::same_iterator_span<T, const typename ext::queue<T>::pointer>;
+    template <typename T, size_t N>
+    using array_span = ext::same_iterator_span<T, typename ext::array<T, N>::const_iterator>;
 
-template <typename T>
-using set_span = ext::same_iterator_span<T, typename ext::set<T>::const_iterator>;
+    template <typename K, typename V>
+    using map_span = ext::same_iterator_span<V, typename ext::map<K, V>::const_iterator>;
 
-template <typename T>
-using stack_span = ext::same_iterator_span<T, const typename ext::stack<T>::pointer>;
+    template <typename T>
+    using queue_span = ext::same_iterator_span<T, const typename ext::queue<T>::pointer>;
 
-template <typename T>
-using vector_span = ext::same_iterator_span<T, typename ext::vector<T>::const_iterator>;
+    template <typename T>
+    using set_span = ext::same_iterator_span<T, typename ext::set<T>::const_iterator>;
 
+    template <typename T>
+    using stack_span = ext::same_iterator_span<T, const typename ext::stack<T>::pointer>;
+
+    template <typename T>
+    using vector_span = ext::same_iterator_span<T, typename ext::vector<T>::const_iterator>;
 _EXT_END
 
 

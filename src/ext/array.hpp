@@ -7,9 +7,7 @@
 
 
 _EXT_BEGIN
-
-using std::array;
-
+    using std::array;
 _EXT_END
 
 

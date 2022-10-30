@@ -111,7 +111,7 @@ concept type_is_enum = std::is_enum_v<T> || std::is_scoped_enum_v<T>;
 template <typename T>
 concept is_unique = _EXT type_is_any_specialization<T, std::unique_ptr>;
 
-_EXT_END;
+_EXT_END
 
 
 #endif //SBROWSER2_CONCEPTS_HPP

@@ -21,12 +21,12 @@ auto multi_cast(auto pointer) -> bool
 
 
 template <is_pointer_or_reference T>
-auto cross_cast(auto* pointer) -> T
+auto cross_cast(auto pointer) -> T
 {
     // syntactic sugar for a dynamic cast from one superclass to a sibling-level superclass of an object - for example,
     // if a type C inherits A, B, and A* object = new C{}, the type can be cast from A* -> B*, ie the type has been
     // "cross" cast to a sibling level superclass. throws an error is the cast was unsuccessful
-    auto* cross_cast_pointer = dynamic_cast<T>(pointer);
+    decltype(auto) cross_cast_pointer = dynamic_cast<T>(pointer);
     ASSERT(cross_cast_pointer, "Cross-casting must be successful", pointer);
     return cross_cast_pointer;
 }
@@ -34,39 +34,29 @@ auto cross_cast(auto* pointer) -> T
 
 template <typename T, typename U>
 auto iterator_cast(U iterator) -> T
-{
-    return (T)iterator;
-}
+{return (T)iterator;}
 
 
 template <is_pointer T>
 auto nullptr_cast()
-{
-    return static_cast<T>(nullptr);
-}
+{return static_cast<T>(nullptr);}
 
 _EXT_END
 
 
 template <typename T>
 auto dom_cast(auto pointer) -> T
-{
-    return dynamic_cast<T>(pointer);
-}
+{return dynamic_cast<T>(pointer);}
 
 
 template <typename ...Ts>
 auto dom_multi_cast(auto pointer) -> bool
-{
-    return _EXT multi_cast<Ts...>(pointer);
-}
+{return _EXT multi_cast<Ts...>(pointer);}
 
 
 template <typename T>
 auto dom_cross_cast(auto pointer) -> T
-{
-    return _EXT cross_cast<T>(pointer);
-}
+{return _EXT cross_cast<T>(pointer);}
 
 
 #endif //SBROWSER2_CASTING_HPP

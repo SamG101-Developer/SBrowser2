@@ -48,9 +48,7 @@ constexpr auto tuple_foreach(T&& tuple, F&& function, Iterable&& iterable = null
 {
     detail::tuple_foreach(
             std::make_index_sequence<std::tuple_size_v<std::decay_t<T>>>{},
-            std::forward<T>(tuple),
-            std::forward<F>(function),
-            std::forward<Iterable>(iterable));
+            std::forward<T>(tuple), std::forward<F>(function), std::forward<Iterable>(iterable));
 }
 
 _EXT_END

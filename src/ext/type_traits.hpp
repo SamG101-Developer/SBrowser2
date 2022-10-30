@@ -16,6 +16,7 @@
 #include <type_traits>
 
 
+// TODO : Don't even remember what these macros do
 #define DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(_TemplateParameter_t, _Name, _DefaultType) \
     template <_TemplateParameter_t T>                                                                   \
     struct _Name {using type = _DefaultType;};                                                          \

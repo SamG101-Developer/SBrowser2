@@ -7,9 +7,7 @@
 
 
 _EXT_BEGIN
-
-using namespace libassert;
-
+    using namespace libassert;
 _EXT_END
 
 
