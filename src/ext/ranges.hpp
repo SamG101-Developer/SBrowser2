@@ -115,7 +115,7 @@ namespace ranges::views
     // For mapping a object to multiple attributes, a tuple is returned, containing all the attribute values.
     RANGE_VIEW_STRUCT(transform_to_attr,
         template <typename Attr COMMA _EXT callable F>
-        constexpr auto operator()(Attr&& attr, F&& proj = _EXT identity{}) const
+        constexpr auto operator()(Attr&& attr, F&& proj = _EXT identity) const
         {
             return ranges::views::transform(
                     [attr = std::forward<Attr>(attr), f = std::forward<F>(proj)]<typename U>(U&& element) mutable
@@ -140,14 +140,14 @@ namespace ranges::views
         template <_EXT callable F0 COMMA _EXT callable F1>
         constexpr auto operator()(F0&& pred_if, F1&& pred_transform) const
         {
-            decltype(auto) pred = pred_if() ? std::forward<F1>(pred_transform) : _EXT identity{};
+            decltype(auto) pred = pred_if() ? std::forward<F1>(pred_transform) : _EXT identity;
             return ranges::views::transform([f = std::move(pred)]<typename T>(T&& element) mutable {return f(std::forward<T>(element));});
         }
 
         template <_EXT callable F>
         constexpr auto operator()(_EXT boolean pred_if, F&& pred_transform) const
         {
-            decltype(auto) pred = pred_if ? std::forward<F>(pred_transform) : _EXT identity{};
+            decltype(auto) pred = pred_if ? std::forward<F>(pred_transform) : _EXT identity;
             return ranges::views::transform([f = std::move(pred)]<typename T>(T&& element) mutable {f(std::forward<T>(element));});
         })
 
@@ -188,7 +188,7 @@ namespace ranges::views
     template <filter_compare_t Comparison = filter_compare_t::EQ>
     RANGE_VIEW_STRUCT(filter_eq,
         template <typename Attr COMMA typename T COMMA typename F>
-        constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity{}) const
+        constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity) const
         {
             using enum filter_compare_t;
 
@@ -219,7 +219,7 @@ namespace ranges::views
 
     RANGE_VIEW_CLOSURE_STRUCT(transpose,
         constexpr auto operator()() const
-        {return ranges::views::transform(_EXT identity{});}) // TODO : impl);
+        {return ranges::views::transform(_EXT identity);}) // TODO : impl);
 
 
     RANGE_VIEW_STRUCT(remove_at_index,
@@ -246,15 +246,15 @@ namespace ranges::actions
 {
     RANGE_ACTION_CLOSURE_STRUCT(lowercase,
             constexpr auto operator()() const
-            {return ranges::actions::transform(_EXT to_lower);});
+            {return ranges::actions::transform(_EXT to_lower);})
 
     RANGE_ACTION_CLOSURE_STRUCT(uppercase,
             constexpr auto operator()() const
-            {return ranges::actions::transform(_EXT to_upper);});
+            {return ranges::actions::transform(_EXT to_upper);})
 
     RANGE_ACTION_STRUCT(replace,
             template <typename T COMMA _EXT callable F>
-            constexpr auto operator()(T&& old_value, T&& new_value, F&& proj = _EXT identity{}) const
+            constexpr auto operator()(T&& old_value, T&& new_value, F&& proj = _EXT identity) const
             {
                 return ranges::actions::transform(
                         [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value), f = std::forward<F>(proj)](T&& current_value) mutable
@@ -310,7 +310,7 @@ namespace ranges
 
     RANGE_ALGORITHM_STRUCT(not_contains,
             template <typename R COMMA typename T COMMA _EXT callable F>
-            constexpr auto operator()(R&& range, T&& value, F&& proj = _EXT identity{})
+            constexpr auto operator()(R&& range, T&& value, F&& proj = _EXT identity)
             {return !ranges::contains(std::forward<R>(range), proj(std::forward<T>(value)));})
 
 
