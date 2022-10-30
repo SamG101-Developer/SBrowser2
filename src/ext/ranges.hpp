@@ -169,11 +169,11 @@ namespace ranges::views
     // A cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
     // another type, and then removing all the instances of nullptr.
     template <_EXT is_pointer T>
-    RANGE_VIEW_CLOSURE_STRUCT_T(cast_all_to,
+    RANGE_VIEW_CLOSURE_STRUCT_T(cast,
         constexpr auto operator()() const
         {return ranges::views::transform(&::dom_cast<T>) | ranges::views::remove(nullptr);})
     template <_EXT is_pointer T>
-    inline constexpr auto cast_all_to = view_closure<cast_all_to_fn<T>>{};
+    inline constexpr auto cast = view_closure<cast_fn<T>>{};
 
 
     RANGE_VIEW_CLOSURE_STRUCT(underlying,
