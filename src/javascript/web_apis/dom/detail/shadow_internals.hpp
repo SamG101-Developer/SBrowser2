@@ -4,6 +4,7 @@
 #include "ext/boolean.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
+namespace dom::mixins {class slottable;}
 namespace dom::nodes {class event_target;}
 namespace dom::nodes {class node;}
 namespace dom::nodes {class shadow_root;}
@@ -74,11 +75,11 @@ namespace dom::detail
 
     auto find_slottables(
             const html::elements::html_slot_element* slot)
-            -> ranges::any_view<html::elements::html_slot_element*>; // TODO <- correct template type?
+            -> ranges::any_view<dom::mixins::slottable*>; // TODO <- correct template type?
 
     auto find_flattened_slottables(
             const html::elements::html_slot_element* slot)
-            -> ranges::any_view<html::elements::html_slot_element*>; // TODO <- correct template type?
+            -> ranges::any_view<dom::mixins::slottable*>; // TODO <- correct template type?
 
     // assign slots and slottables
     auto assign_slot(
