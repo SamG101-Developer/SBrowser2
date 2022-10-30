@@ -3,19 +3,20 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_quote_element;}
+namespace html::elements {class html_quote_element_private;}
 
 
 class html::elements::html_quote_element
         : public html_element
 {
 public constructors:
-    html_quote_element();
+    DOM_CTORS(html_quote_element);
+    MAKE_PIMPL(html_quote_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string, true> cite;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_GETTER(cite, ext::string_view);
+    DEFINE_SETTER(cite, ext::string);
 };
 
 
