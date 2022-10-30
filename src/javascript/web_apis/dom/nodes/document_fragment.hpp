@@ -7,12 +7,17 @@
 namespace dom::nodes {class document_fragment;}
 namespace dom::nodes {class document_fragment_private;}
 
+namespace dom::node_ranges {class range;}
+
 
 class dom::nodes::document_fragment
         : public node
         , public mixins::non_element_parent_node
         , public mixins::parentable_node
 {
+public friends:
+    friend dom::node_ranges::range;
+
 public:
     DOM_CTORS(document_fragment);
     MAKE_PIMPL(document_fragment);

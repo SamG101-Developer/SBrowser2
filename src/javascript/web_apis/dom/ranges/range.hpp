@@ -45,13 +45,13 @@ public js_methods:
     auto compare_point(nodes::node* container, ext::number<ulong> offset) const -> ext::number<short>;
     auto is_point_in_range(nodes::node* container, ext::number<ulong> offset) const -> ext::boolean;
 
-    auto extract_contents() -> nodes::document_fragment*;
-    auto clone_contents() -> nodes::document_fragment*;
-    auto delete_contents() -> nodes::document_fragment*;
-    auto surround_contents(nodes::node* parent) -> nodes::document_fragment*;
+    auto extract_contents() -> std::unique_ptr<nodes::document_fragment>;
+    auto clone_contents() -> std::unique_ptr<nodes::document_fragment>;
+    auto delete_contents() -> void;
+    auto surround_contents(nodes::node* parent) -> std::unique_ptr<nodes::document_fragment>;
 
     auto collapse(ext::boolean  to_start = false) -> void;
-    auto clone_range() const -> range;
+    auto clone_range() const -> std::unique_ptr<range>;
 
     /* [DOM-PARSING] */
     auto create_contextual_fragmnt(ext::string&& fragment) -> nodes::document_fragment;

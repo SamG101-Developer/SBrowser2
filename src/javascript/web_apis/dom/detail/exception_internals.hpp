@@ -8,7 +8,7 @@
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 
-#define NO_CONDITION [](){return true;}
+#define NO_CONDITION [] -> bool {return true;}
 #define P(key, val) tuplet::pair{key, val}
 
 

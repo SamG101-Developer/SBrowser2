@@ -17,14 +17,17 @@
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/character_data.hpp"
+#include "dom/nodes/character_data_private.hpp"
 #include "dom/nodes/comment.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/document_fragment_private.hpp"
 #include "dom/nodes/document_type.hpp"
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/node_private.hpp"
 #include "dom/nodes/processing_instruction.hpp"
 #include "dom/nodes/text.hpp"
+#include "dom/nodes/text_private.hpp"
 #include "dom/nodes/window.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
@@ -94,7 +97,7 @@ auto dom::node_ranges::range::set_end(nodes::node* new_container, ext::number<ul
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [new_container] {return new_container->d_func()->parent_node;},
-            u8"New start container must have a parent");
+            u8"New end container must have a parent");
 
     // set the end of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
     // the same variables
@@ -107,7 +110,7 @@ auto dom::node_ranges::range::set_end_before(nodes::node* new_container) -> void
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [new_container] {return new_container->d_func()->parent_node;},
-            u8"New start container must have a parent");
+            u8"New end container must have a parent");
 
     // set the end of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' as the offset
@@ -124,7 +127,7 @@ auto dom::node_ranges::range::set_end_after(
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [new_container] {return new_container->d_func()->parent_node;},
-            u8"New start container must have a parent");
+            u8"New end container must have a parent");
 
     // set the end of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' + 1 as the offset
@@ -146,8 +149,8 @@ auto dom::node_ranges::range::insert_node(
         detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
                 [this, d, new_container]
                 {
-                    return dom_multi_cast<nodes::comment*, nodes::processing_instruction*>(d->start->node)
-                            || dom_cast<nodes::text*>(d->start->node) && !new_container->d_func()->parent_node
+                    return dom_multi_cast<nodes::comment*, nodes::processing_instruction*>(d->start->node.get())
+                            || dom_cast<nodes::text*>(d->start->node.get()) && !new_container->d_func()->parent_node
                             || d->start->node == new_container;
                 },
                 u8"Cannot insert a new container into a Range whose start node is a Comment/ProcessingInstruction, an orphaned Text node, or is the new container");
@@ -155,9 +158,9 @@ auto dom::node_ranges::range::insert_node(
         // the 'reference_node' is the node that the 'new_container' will be inserted before; if the start container is a
         // Text node, then set the 'reference_node' to the start container (insert before all the text), otherwise the
         // child of the non-Text start container whose index is the offset (exact correct node)
-        decltype(auto) reference_node = dynamic_cast<nodes::text*>(d->start->node)
+        decltype(auto) reference_node = dom_cast<nodes::text*>(d->start->node.get())
                 ? d->start->node
-                : *ranges::first_where(d->start->node->d_func()->child_nodes(), [this, d](nodes::node* child_node) {return detail::index(child_node) == d->start->offset;});
+                : *ranges::first_where(d->start->node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get), BIND_BACK(ext::cmp::eq, d->start->offset, &detail::index));
 
         // the 'parent_node' is the parent that the 'new_container' is going to be inserted into; if there is no
         // 'reference_node', then the parent is the start container, otherwise it's the reference node's parent node (the
@@ -168,8 +171,8 @@ auto dom::node_ranges::range::insert_node(
 
         // if the reference node is a Text node, set it to everything after the start offset, otherwise if the reference
         // node is the 'new_container', then set it to the next sibling, otherwise leave it as it is
-        reference_node = dynamic_cast<nodes::text*>(d->start->node)
-                ? detail::split(dynamic_cast<nodes::text*>(d->start->node), d->start->offset)
+        reference_node = dom_cast<nodes::text*>(d->start->node.get())
+                ? detail::split(dom_cast<nodes::text*>(d->start->node.get()), d->start->offset)
                 : new_container == reference_node ? detail::next_sibling(reference_node) : reference_node;
 
         // the 'new_offset' is the length of the 'parent_node' if there is no 'reference_node', otherwise it's the index of
@@ -214,8 +217,8 @@ auto dom::node_ranges::range::intersects_node(
 
     // if the node occurs before the end of the range, and after the start of the range, then it must be within the
     // range, and therefor is intersected by the range
-    auto is_before_end  = detail::position_relative(container_parent, container_offset + 0, d->end->node  , d->end->offset  ) == detail::BEFORE;
-    auto is_after_start = detail::position_relative(container_parent, container_offset + 1, d->start->node, d->start->offset) == detail::AFTER;
+    auto is_before_end  = detail::position_relative(container_parent, container_offset + 0, d->end->node.get()  , d->end->offset  ) == detail::BEFORE;
+    auto is_after_start = detail::position_relative(container_parent, container_offset + 1, d->start->node.get(), d->start->offset) == detail::AFTER;
     return is_before_end && is_after_start;
 }
 
@@ -225,7 +228,10 @@ auto dom::node_ranges::range::select_node(
         -> void
 {
     ACCESS_PIMPL(const range);
-    verify_parent_exists(container);
+    using enum dom::detail::dom_exception_error_t;
+    dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
+            [container] {return container->d_func()->parent_node;},
+            u8"New container must have a parent");
 
     // get the index if the container sand save it as a variable to remove code duplication
     auto index = detail::index(container);
@@ -248,8 +254,8 @@ auto dom::node_ranges::range::select_node_contents(
 
     // if the container is a DocumentType node, then throw an invalid node error
     detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [container] {return !ext::multi_cast<nodes::document_type*>(container);},
-            "Container can not be a DocumentType node");
+            [container] {return !dom_multi_cast<nodes::document_type*>(container);},
+            u8"Container can not be a DocumentType node");
 
     // set the start container to the 'container', and the start offset to 0; set the end container to the container,
     // and the offset to the length of the container this will mean that the range only contains the entire contents of
@@ -272,7 +278,7 @@ auto dom::node_ranges::range::compare_boundary_points(
     // possible to compare boundary points or ranges that are in different documents
     detail::throw_v8_exception<WRONG_DOCUMENT_ERR>(
             [this, source_range] {return detail::root(this) != detail::root(source_range);},
-            "sourceRange's root must equal this Range's root");
+            u8"sourceRange's root must equal this Range's root");
 
     // set 'this_container/_offset' and 'that_container/_offset' to nullptr/0, to prepare them for the switch-case
     // block that determines their values based on the 'how' parameter
@@ -285,29 +291,27 @@ auto dom::node_ranges::range::compare_boundary_points(
     switch(*how)
     {
         case(*START_TO_START): // start of that range to start of this range
-            ext::tie(this_container, this_offset) = ext::make_tuple(d->start->node, d->start->offset);
-            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->start->node, source_range->d_func()->start->offset);
+            ext::tie(this_container, this_offset) = ext::make_tuple(d->start->node.get(), d->start->offset);
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->start->node.get(), source_range->d_func()->start->offset);
             break;
 
         case(*START_TO_END): // start of that range to end of this range
-            ext::tie(this_container, this_offset) = ext::make_tuple(d->end->node, d->end->offset);
-            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->start->node, source_range->d_func()->start->offset);
+            ext::tie(this_container, this_offset) = ext::make_tuple(d->end->node.get(), d->end->offset);
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->start->node.get(), source_range->d_func()->start->offset);
             break;
 
         case(*END_TO_END): // end of that range to end of this range
-            ext::tie(this_container, this_offset) = ext::make_tuple(d->end->node, d->end->offset);
-            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->end->node, source_range->d_func()->end->offset);
+            ext::tie(this_container, this_offset) = ext::make_tuple(d->end->node.get(), d->end->offset);
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->end->node.get(), source_range->d_func()->end->offset);
             break;
 
         case(*END_TO_START): // end of that range to start of this range
-            ext::tie(this_container, this_offset) = ext::make_tuple(d->start->node, d->start->offset);
-            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->end->node, source_range->d_func()->end->offset);
+            ext::tie(this_container, this_offset) = ext::make_tuple(d->start->node.get(), d->start->offset);
+            ext::tie(that_container, that_offset) = ext::make_tuple(source_range->d_func()->end->node.get(), source_range->d_func()->end->offset);
             break;
 
         default: // if the 'how' value is invalid, throw a not supported error
-            detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-                    NO_CONDITION,
-                    "The 'how' parameter must be 0 <= how <= 3");
+            detail::throw_v8_exception<NOT_SUPPORTED_ERR>(NO_CONDITION, u8"The 'how' parameter must be 0 <= how <= 3");
             break;
     }
 
@@ -327,18 +331,18 @@ auto dom::node_ranges::range::compare_point(
 
     detail::throw_v8_exception<WRONG_DOCUMENT_ERR>(
             [this, container_root = detail::root(container)] {return detail::root(this) != container_root;},
-            "Container's root must equal this Range's root");
+            u8"Container's root must equal this Range's root");
 
     detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [container] {return !ext::multi_cast<nodes::document_type*>(container);},
-            "Container can not be a DocumentType node");
+            u8"Container can not be a DocumentType node");
 
     detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [offset, length = detail::length(container)] {return offset > length;},
-            "Offset must be <= length of the node");
+            u8"Offset must be <= length of the node");
 
-    return_if (detail::position_relative(container, offset, d->start->node, d->start->offset) == detail::BEFORE) -1;
-    return_if (detail::position_relative(container, offset, d->end->node  , d->end->offset  ) == detail::AFTER ) 1;
+    return_if (detail::position_relative(container, offset, d->start->node.get(), d->start->offset) == detail::BEFORE) -1;
+    return_if (detail::position_relative(container, offset, d->end->node.get()  , d->end->offset  ) == detail::AFTER ) 1;
     return 0;
 }
 
@@ -355,20 +359,19 @@ auto dom::node_ranges::range::is_point_in_range(
 
     detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [container] {return !ext::multi_cast<nodes::document_type*>(container);},
-            "Container can not be a DocumentType node");
+            u8"Container can not be a DocumentType node");
 
     detail::throw_v8_exception<INDEX_SIZE_ERR>(
             [offset, length = detail::length(container)] {return offset > length;},
-            "Offset must be <= length of the node");
+            u8"Offset must be <= length of the node");
 
-    auto is_before_end  = detail::position_relative(container, offset, d->end->node  , d->end->offset  ) == detail::BEFORE;
-    auto is_after_start = detail::position_relative(container, offset, d->start->node, d->start->offset) == detail::AFTER;
+    auto is_before_end  = detail::position_relative(container, offset, d->end->node.get()  , d->end->offset  ) == detail::BEFORE;
+    auto is_after_start = detail::position_relative(container, offset, d->start->node.get(), d->start->offset) == detail::AFTER;
     return is_before_end && is_after_start;
 }
 
 
-auto dom::node_ranges::range::extract_contents()
-        -> nodes::document_fragment*
+auto dom::node_ranges::range::extract_contents() -> std::unique_ptr<nodes::document_fragment>
 {
     using enum detail::dom_exception_error_t;
 
@@ -377,62 +380,57 @@ auto dom::node_ranges::range::extract_contents()
 
         // create a DocumentFragment node, and set its document to the same document that owns the 'start_container' of this
         // range; if this range is collapsed, then it doesn't contain anything, so return the empty DocumentFragment
-        auto fragment = new nodes::document_fragment{};
+        auto fragment = std::make_unique<nodes::document_fragment>();
         fragment->d_func()->node_document = d->start->node->d_func()->node_document;
         return_if (detail::is_range_collapsed(this)) fragment;
 
         // check if the start container of this Range is a textual container or not, ie is it / does it inherit the
         // CharacterData interface? (use the pointer as a boolean in if-statements)
-        auto* textual_start_container = dynamic_cast<nodes::character_data*>(d->start->node);
-        auto* textual_end_container   = dynamic_cast<nodes::character_data*>(d->end->node);
+        decltype(auto) textual_start_container = dom_cast<nodes::character_data*>(d->start->node.get());
+        decltype(auto) textual_end_container   = dom_cast<nodes::character_data*>(d->end->node.get());
 
         // if the start container is textual, and the start and end containers are the same, then the Range is selecting a
         // textual node's contents, so clone the text from the 'start_offset' to the 'end_offset', append the extracted
         // text into 'fragment', and return 'fragment' - no more processing to do for single node contents extraction
         if (textual_start_container && textual_end_container && d->start->node == d->end->node)
         {
-            detail::copy_data(d->start->node, fragment, textual_start_container, d->start->offset, d->end->offset, true);
+            detail::copy_data(d->start->node.get(), fragment.get(), textual_start_container, d->start->offset, d->end->offset, true);
             return fragment;
         }
 
         // get the 'first_partially_contained_child', 'last_partially_contained_child', 'contained_children', by calling the
         // helper method, which determines these values using range filters
         auto [first_partially_contained_child, last_partially_contained_child, contained_children] =
-                detail::get_range_containment_children(this, d->start->node, d->end->node);
+                detail::get_range_containment_children(this, d->start->node.get(), d->end->node.get());
 
         // get the 'new_node' and 'new_offset', by calling the helper method, which determines theses values using the
         // containers and the 'start_offset'
         auto [new_node, new_offset] =
-                detail::create_new_node_and_offset(d->start->node, d->end->node, d->start->offset);
+                detail::create_new_node_and_offset(d->start->node.get(), d->end->node.get(), d->start->offset);
 
         detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
-                [contained_children]
-                {
-                    return ranges::any_of(
-                            contained_children,
-                            &detail::is_document_type_node);
-                },
-                "Contained children cannot be DocumentType nodes");
+                [&contained_children] {return ranges::any_of(contained_children, &detail::is_document_type_node);},
+                u8"Contained children cannot be DocumentType nodes");
 
         textual_start_container && dynamic_cast<nodes::character_data*>(first_partially_contained_child)
                 ? detail::copy_data(
-                        first_partially_contained_child, fragment, textual_start_container, d->start->offset,
-                        detail::length(d->start->node), true)
+                        first_partially_contained_child, fragment.get(), textual_start_container, d->start->offset,
+                        detail::length(d->start->node.get()), true)
 
                 : detail::append_to_sub_fragment(
-                        first_partially_contained_child, fragment, d->start->node, d->start->offset,
+                        first_partially_contained_child, fragment.get(), d->start->node.get(), d->start->offset,
                         first_partially_contained_child, detail::length(first_partially_contained_child),
                         detail::EXTRACT);
 
         for (auto* contained_child: contained_children)
-            detail::append(contained_child, fragment);
+            detail::append(contained_child, fragment); // TODO : same node can't be in 2 places in tree (unique-ptr moved from somehwere?
 
         textual_end_container && dynamic_cast<nodes::character_data*>(last_partially_contained_child)
                 ? detail::copy_data(
-                        last_partially_contained_child, fragment, textual_end_container, 0, d->end->offset, true)
+                        last_partially_contained_child, fragment.get(), textual_end_container, 0, d->end->offset, true)
 
                 : detail::append_to_sub_fragment(
-                        last_partially_contained_child, fragment, last_partially_contained_child, 0, d->end->node, d->end->offset, detail::EXTRACT);
+                        last_partially_contained_child, fragment.get(), last_partially_contained_child, 0, d->end->node.get(), d->end->offset, detail::EXTRACT);
 
         ext::tie(d->start->node, d->start->offset) = ext::make_tuple(new_node, new_offset);
         ext::tie(d->end->node  , d->end->offset  ) = ext::make_tuple(new_node, new_offset);
@@ -441,8 +439,7 @@ auto dom::node_ranges::range::extract_contents()
 }
 
 
-auto dom::node_ranges::range::clone_contents()
-        -> nodes::document_fragment*
+auto dom::node_ranges::range::clone_contents() -> std::unique_ptr<nodes::document_fragment>
 {
     using enum detail::dom_exception_error_t;
 
@@ -451,134 +448,117 @@ auto dom::node_ranges::range::clone_contents()
 
         // create a DocumentFragment node, and set its document to the same document that owns the 'start_container' of this
         // range; if this range is collapsed, then it doesn't contain anything, so return the empty DocumentFragment
-        auto fragment = new nodes::document_fragment{};
+        auto fragment = std::make_unique<nodes::document_fragment>();
         fragment->d_func()->node_document = d->start->node->d_func()->node_document;
         return_if (detail::is_range_collapsed(this)) fragment;
 
         // check if the start container of this Range is a textual container or not, ie is it / does it inherit the
         // CharacterData interface? (use the pointer as a boolean in if-statements)
-        decltype(auto) textual_start_container = dynamic_cast<nodes::character_data*>(d->start->node);
-        decltype(auto) textual_end_container   = dynamic_cast<nodes::character_data*>(d->end->node  );
+        decltype(auto) textual_start_container = dom_cast<nodes::character_data*>(d->start->node.get());
+        decltype(auto) textual_end_container   = dom_cast<nodes::character_data*>(d->end->node.get()  );
 
         // if the start container is textual, and the start and end containers are the same, then the Range is selecting a
         // textual node's contents, so clone the text from the 'start_offset' to the 'end_offset', append the extracted
         // text into 'fragment', and return 'fragment' - no more processing to do for single node contents extraction
         if (textual_start_container && textual_end_container && d->start->node == d->end->node)
         {
-            detail::copy_data(d->start->node, fragment, textual_start_container, d->start->offset, d->end->offset, false);
+            detail::copy_data(d->start->node.get(), fragment.get(), textual_start_container, d->start->offset, d->end->offset, false);
             return fragment;
         }
 
         // get the 'first_partially_contained_child', 'last_partially_contained_child', 'contained_children', by calling the
         // helper method, which determines these values using range filters
         auto [first_partially_contained_child, last_partially_contained_child, contained_children] =
-                detail::get_range_containment_children(this, d->start->node, d->end->node);
+                detail::get_range_containment_children(this, d->start->node.get(), d->end->node.get());
 
         detail::throw_v8_exception<HIERARCHY_REQUEST_ERR>(
-                [contained_children]
-                {
-                    return ranges::any_of(
-                            contained_children,
-                            &detail::is_document_type_node);
-                },
-                "Contained children cannot be DocumentType nodes");
+                [contained_children] {return ranges::any_of(contained_children, &detail::is_document_type_node);},
+                u8"Contained children cannot be DocumentType nodes");
 
         textual_start_container && dynamic_cast<nodes::character_data*>(first_partially_contained_child)
                 ? detail::copy_data(
-                        first_partially_contained_child, fragment, textual_start_container, d->start->offset,
-                        detail::length(d->start->node), true)
+                        first_partially_contained_child, fragment.get(), textual_start_container, d->start->offset,
+                        detail::length(d->start->node.get()), true)
 
                 : detail::append_to_sub_fragment(
-                        first_partially_contained_child, fragment, d->start->node, d->start->offset,
+                        first_partially_contained_child, fragment.get(), d->start->node.get(), d->start->offset,
                         first_partially_contained_child, detail::length(first_partially_contained_child),
                         detail::CLONE);
 
         for (auto* contained_child: contained_children)
-            detail::append(contained_child->clone_node(true), fragment);
+            detail::append(contained_child->clone_node(true), fragment.get());
 
         textual_end_container && dynamic_cast<nodes::character_data*>(last_partially_contained_child)
-                ? detail::copy_data(
-                        last_partially_contained_child, fragment, textual_end_container, 0, end_offset(), true)
-
-                : detail::append_to_sub_fragment(
-                        last_partially_contained_child, fragment, last_partially_contained_child, 0, end_container(),
-                        end_offset(), detail::CLONE);
+                ? detail::copy_data(last_partially_contained_child, fragment.get(), textual_end_container, 0, d->end->offset, true)
+                : detail::append_to_sub_fragment(last_partially_contained_child, fragment.get(), last_partially_contained_child, 0, d->end->node.get(), d->end->offset, detail::CLONE);
 
         return fragment;
     CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::node_ranges::range::delete_contents()
-        -> nodes::document_fragment*
+auto dom::node_ranges::range::delete_contents() -> void
 {
     CE_REACTIONS_METHOD_DEF
-        return_if(collapsed()) static_cast<nodes::document_fragment*>(nullptr);
+        ACCESS_PIMPL(range);
+        return_if(detail::is_range_collapsed(this)) static_cast<nodes::document_fragment*>(nullptr);
 
         // check if the start container of this Range is a textual container or not, ie is it / does it inherit the
         // CharacterData interface? (use the pointer as a boolean in if-statements)
-        auto* textual_start_container = dynamic_cast<nodes::character_data*>(start_container());
-        auto* textual_end_container   = dynamic_cast<nodes::character_data*>(end_container()  );
+        decltype(auto) textual_start_container = dom_cast<nodes::character_data*>(d->start->node.get());
+        decltype(auto) textual_end_container   = dom_cast<nodes::character_data*>(d->end->node.get()  );
 
         // if the start container is textual, and the start and end containers are the same, then the Range is selecting a
         // textual node's contents, so clone the text from the 'start_offset' to the 'end_offset', append the extracted
         // text into 'fragment', and return 'fragment' - no more processing to do for single node contents extraction
-        if (textual_start_container && textual_end_container && start_container() == end_container())
-        {
-            detail::replace_data(textual_start_container, start_offset(), end_offset() - start_offset(), "");
-            return static_cast<nodes::document_fragment*>(nullptr); // TODO : return value
-        }
+        if (textual_start_container && textual_end_container && d->start->node == d->end->node)
+            detail::replace_data(textual_start_container, d->start->offset, d->end->offset - d->start->offset, u8"");
 
-        auto nodes_to_remove = detail::descendants(m_root)
+        auto nodes_to_remove = detail::descendants(detail::root(this))
                 | ranges::views::filter([this](nodes::node* node) {return  detail::contains(node, this);})
-                | ranges::views::filter([this](nodes::node* node) {return !detail::contains(node->parent_node(), this);});
+                | ranges::views::filter([this](nodes::node* node) {return !detail::contains(node->d_func()->parent_node, this);});
 
         // get the 'new_node' and 'new_offset', by calling the helper method, which determines theses values using the
         // containers and the 'start_offset'
         auto [new_node, new_offset] =
-                detail::create_new_node_and_offset(start_container(), end_container(), start_offset());
+                detail::create_new_node_and_offset(d->start->node.get(), d->end->node.get(), d->start->offset);
 
         if (textual_start_container)
-            detail::replace_data(textual_start_container, start_offset(), detail::length(start_container()), "");
+            detail::replace_data(textual_start_container, d->start->offset, detail::length(d->start->node.get()), u8"");
 
         for (const auto& node_to_remove: nodes_to_remove)
             detail::remove(node_to_remove);
 
         if (textual_end_container)
-            detail::replace_data(textual_end_container, 0, end_offset(), "");
+            detail::replace_data(textual_end_container, 0, d->end->offset, u8"");
 
-        ext::tie(start_container, start_offset) = ext::make_tuple(new_node, new_offset);
-        ext::tie(end_container  , end_offset  ) = ext::make_tuple(new_node, new_offset);
-
-        return static_cast<nodes::document_fragment*>(nullptr); // TODO : return value
+        ext::tie(d->start->node, d->start->offset) = ext::make_tuple(new_node, new_offset);
+        ext::tie(d->end->node  , d->end->offset  ) = ext::make_tuple(new_node, new_offset);
     CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::node_ranges::range::surround_contents(
-        nodes::node* parent)
-        -> nodes::document_fragment*
+auto dom::node_ranges::range::surround_contents(nodes::node* parent) -> std::unique_ptr<nodes::document_fragment>
 {
+    using enum dom::detail::dom_exception_error_t;
+
     CE_REACTIONS_METHOD_DEF
-        detail::throw_v8_exception<INVALID_STATE_ERR>(
+        detail::throw_v8_exception<INVALID_STATE_ERR>( // TODO
                 [this]
                 {
                     return ranges::any_of(
-                            detail::descendants(m_root) | ranges::views::filter(
-                                    ext::bind_back(
-                                            detail::partially_contains,
-                                            this)),
-                            [](nodes::node* node) {return !dynamic_cast<nodes::text*>(node);});
+                            detail::descendants(detail::root(this)) | ranges::views::filter(BIND_BACK(detail::partially_contains, this)),
+                            dom_cast<nodes::text*>);
                 },
-                "Cannot surround a Range that partially contains non-Text nodes");
+                u8"Cannot surround a Range that partially contains non-Text nodes");
 
         detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-                [parent] {return ext::multi_cast<nodes::document*, nodes::document_type*, nodes::document_fragment*>(parent);},
-                "New parent can not be a Document, DocumentType or DocumentFragment");
+                [parent] {return dom_multi_cast<nodes::document*, nodes::document_type*, nodes::document_fragment*>(parent);},
+                u8"New parent can not be a Document, DocumentType or DocumentFragment");
 
-        auto* fragment = extract_contents();
+        decltype(auto) fragment = extract_contents();
         detail::replace_all(nullptr, parent);
-        detail::append(parent, fragment);
+        detail::append(std::move(fragment), parent);
         insert_node(parent);
         select_node(parent);
 
@@ -588,60 +568,61 @@ auto dom::node_ranges::range::surround_contents(
 
 
 auto dom::node_ranges::range::collapse(
-        ext::boolean  to_start)
+        ext::boolean to_start)
         -> void
 {
+    ACCESS_PIMPL(range);
+
     to_start
-            ? ext::tie(end_container  , end_offset)   = ext::make_tuple(start_container(), start_offset())
-            : ext::tie(start_container, start_offset) = ext::make_tuple(end_container()  , end_offset()  );
+            ? ext::tie(d->end->node, d->end->offset)     = ext::make_tuple(d->start->node.get(), d->start->offset)
+            : ext::tie(d->start->node, d->start->offset) = ext::make_tuple(d->end->node.get()  , d->end->offset  );
 }
 
 
 auto dom::node_ranges::range::clone_range()
-        const -> range
+        const -> std::unique_ptr<range>
 {
-    range new_range;
-    ext::tie(new_range.start_container, new_range.start_offset) = ext::make_tuple(start_container(), start_offset());
-    ext::tie(new_range.end_container  , new_range.end_offset  ) = ext::make_tuple(end_container()  , end_offset()  );
+    ACCESS_PIMPL(const range);
+    auto new_range = std::make_unique<range>();
+    ext::tie(new_range->d_func()->start->node, new_range->d_func()->start->offset) = ext::make_tuple(d->start->node.get(), d->start->offset);
+    ext::tie(new_range->d_func()->end->node  , new_range->d_func()->end->offset  ) = ext::make_tuple(d->end->node.get()  , d->end->offset  );
     return new_range;
 }
 
 
-auto dom::node_ranges::range::get_common_ancestor_container()
-        const -> decltype(this->common_ancestor_container)::value_t
+auto dom::node_ranges::range::get_common_ancestor_container() const -> nodes::node*
 {
-    return detail::common_ancestor(start_container(), end_container());
+    ACCESS_PIMPL(const range);
+    return detail::common_ancestor(d->start->node.get(), d->end->node.get());
 }
 
 
-auto dom::node_ranges::range::operator ext::string()
-        const -> ext::string
+dom::node_ranges::range::operator ext::string() const
 {
-    ext::string s;
-    auto* textual_start_container = dynamic_cast<nodes::character_data*>(start_container());
-    auto* textual_end_container   = dynamic_cast<nodes::character_data*>(end_container()  );
+    ACCESS_PIMPL(const range);
+    auto s = ext::string{};
+    decltype(auto) textual_start_container = dom_cast<nodes::character_data*>(d->start->node.get());
+    decltype(auto) textual_end_container   = dom_cast<nodes::character_data*>(d->end->node.get());
 
-    if (textual_start_container && textual_end_container && start_container() == end_container())
-        return detail::substring_data(textual_start_container, start_offset(), end_offset() - start_offset());
+    if (textual_start_container && textual_end_container && d->start->node == d->end->node)
+        return detail::substring_data(textual_start_container, d->start->offset, d->end->offset - d->start->offset);
 
     if (textual_start_container)
-        s += detail::substring_data(textual_start_container, start_offset(), detail::length(textual_start_container) - start_offset());
+        s += detail::substring_data(textual_start_container, d->start->offset, detail::length(textual_start_container) - d->start->offset);
 
-    s += detail::descendant_text_nodes(m_root)
-            | ranges::views::filter(ext::bind_back(detail::contains, this))
-            | ranges::views::transform([](nodes::text* text_node) {return text_node->data();})
+    s += detail::descendant_text_nodes(detail::root(this))
+            | ranges::views::filter(BIND_BACK(detail::contains, this))
+            | ranges::views::transform(&nodes::text_private::data, &nodes::text::d_func)
             | ranges::to<ext::string>();
 
     if (textual_end_container)
-        s += detail::substring_data(textual_end_container, 0, end_offset());
+        s += detail::substring_data(textual_end_container, 0, d->end->offset);
 }
 
 
-auto dom::node_ranges::range::to_v8(
-        v8::Isolate* isolate)
-        const && -> ext::any
+auto dom::node_ranges::range::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
-    return v8pp::class_<range>{isolate}
+    decltype(auto) conversion = v8pp::class_<range>{isolate}
         .ctor<>()
         .inherit<abstract_range>()
         .static_("START_TO_START", range::START_TO_START)
@@ -667,7 +648,9 @@ auto dom::node_ranges::range::to_v8(
         .function("collapse", &range::collapse)
         .function("cloneRange", &range::clone_range)
         .function("isPointInRange", &range::is_point_in_range)
-        .function("toJSON", &range::to_json)
-        .var("commonAncestorContainer", &range::common_ancestor_container, true)
+        .function("toJSON", &range::operator ext::string)
+        .property("commonAncestorContainer", &range::get_common_ancestor_container)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

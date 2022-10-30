@@ -8,6 +8,7 @@ namespace dom::nodes {class text_private;}
 
 namespace dom::nodes {class node;}
 namespace dom::other {class dom_implementation;}
+namespace dom::node_ranges {class range;}
 
 
 class dom::nodes::text

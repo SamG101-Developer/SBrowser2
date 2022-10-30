@@ -39,7 +39,7 @@ private:                                                                        
 // Initialize the PIMPL private class by setting it to a unique pointer of the corresponding private class. Only the
 // base class actually defines the d_ptr (std::unique_ptr<dom_object_private>), so only 1 private class exsists in
 // inheritance chains, saving memory.
-#define INIT_PIMPL(c) \
+#define  INIT_PIMPL(c) \
     this->d_ptr = std::make_unique<c ## _private>();
 
 #define INIT_PIMPL_TEMPLATED(c, ...) \
