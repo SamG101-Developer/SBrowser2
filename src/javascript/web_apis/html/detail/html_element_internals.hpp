@@ -188,6 +188,13 @@ namespace html::detail
             html::elements::html_dialog_element* element)
             -> void;
 
+    // HTMLTableElement
+    template <typename T> // TODO : pointer inheriting HTMLElement
+    auto table_create(
+            ext::string&& local_name,
+            dom::nodes::document* document)
+            -> std::unique_ptr<T>;
+
     // Visibility
     auto ancestor_hidden_until_found_revealing_algorithm(
             dom::nodes::node* node)

@@ -13,7 +13,7 @@ namespace dom::nodes {class document;}
 DEFINE_PRIVATE_CLASS(dom::nodes, node) : event_target_private
 {
     ext::vector<std::unique_ptr<detail::registered_observer_t>> registered_observer_list;
-    dom::nodes::document* node_document;
+    std::observer_ptr<dom::nodes::document> node_document;
 
     ext::vector<std::unique_ptr<node>> child_nodes;
     std::observer_ptr<node> parent_node;

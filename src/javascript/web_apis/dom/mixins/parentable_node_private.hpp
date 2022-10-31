@@ -14,7 +14,7 @@ DEFINE_PRIVATE_CLASS(dom::mixins, parentable_node) : virtual dom_object_private
 {
     ranges::any_helpful_view<nodes::element*> children = ext::cross_cast<nodes::node_private*>(this)->child_nodes
             | ranges::views::transform(&std::unique_ptr<nodes::node>::get)
-            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::element*>();
+            | ranges::views::cast<nodes::element*>;
 };
 
 
