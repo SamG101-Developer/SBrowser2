@@ -7,13 +7,7 @@
 
 
 _EXT_BEGIN
-
-template <typename T>
-auto get_pimpl(T* object) // TODO : constrain to PIMPL-enabled class (ie has ::d-ptr, ::d-func()
-{
-    return object->d_func();
-}
-
+    auto get_pimpl = []<typename T>(T* object) {return object->d_func();};
 _EXT_END
 
 
