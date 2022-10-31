@@ -5,7 +5,7 @@
 #include <type_traits>
 #include "ext/assertion.hpp"
 #include "ext/concepts.hpp"
-class dom_object;
+#include "ext/variant.hpp"
 
 
 _EXT_BEGIN
@@ -43,6 +43,13 @@ auto iterator_cast(U iterator) -> T
 template <is_pointer T>
 auto nullptr_cast()
 {return static_cast<T>(nullptr);}
+
+
+template <typename T> // TODO : _EXT type_is_any_specialization<_EXT variant> T
+auto variant_cast(auto* pointer)
+{
+    return ext::visit([pointer](auto _) -> T {return dom_cast<decltype(_)>(pointer);}, T{});
+}
 
 _EXT_END
 
