@@ -223,33 +223,33 @@ namespace ranges::views
     template <filter_compare_t Comparison = filter_compare_t::EQ>
     RANGE_VIEW_STRUCT(filter_eq,
         template <typename Attr COMMA typename T COMMA typename F>
-        constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity) const
+        constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity) const // TODO -> Attr to general typename (for any method), then specialiaze is_member_function for Attr
         {
             using enum filter_compare_t;
 
             constexpr_return_if(Comparison == EQ) ranges::views::filter(
                     [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
-                    (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) == std::forward<T>(value);});
+                    (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) == std::forward<T>(value);});
 
             else constexpr_return_if(Comparison == NE) ranges::views::filter(
                     [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
-                    (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) != std::forward<T>(value);});
+                    (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) != std::forward<T>(value);});
 
             else constexpr_return_if(Comparison == LT) ranges::views::filter(
                     [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
-                    (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) < std::forward<T>(value);});
+                    (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) < std::forward<T>(value);});
 
             else constexpr_return_if(Comparison == LE) ranges::views::filter(
                     [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
-                    (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) <= std::forward<T>(value);});
+                    (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) <= std::forward<T>(value);});
 
             else constexpr_return_if(Comparison == GT) ranges::views::filter(
                     [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
-                    (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) > std::forward<T>(value);});
+                    (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) > std::forward<T>(value);});
 
             else constexpr_return_if(Comparison == GE) ranges::views::filter(
                     [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
-                    (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) >= std::forward<T>(value);});
+                    (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) >= std::forward<T>(value);});
         })
 
 
