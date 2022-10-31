@@ -14,9 +14,12 @@
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 
+#include "html/detail/context_internals.hpp"
 #include "html/detail/html_element_internals.hpp"
 #include "html/detail/render_blocking_internals.hpp"
 #include "html/other/element_internals.hpp"
+
+#include "url/detail/url_internals.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/cache1.hpp>

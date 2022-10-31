@@ -79,8 +79,7 @@ auto dom::nodes::element::has_attribute_ns(
     ACCESS_PIMPL(const element);
     decltype(auto) attribute_namespaces = d->attribute_list
             | ranges::views::transform(&std::unique_ptr<attr>::get)
-            | ranges::views::transform(&ext::get_pimpl<attr>)
-            | ranges::views::transform_to_attr(&attr_private::local_name, &attr_private::namespace_);
+            | ranges::views::transform_to_attr(&attr_private::local_name, &attr_private::namespace_, ext::get_pimpl);
 
     return ranges::contains(attribute_namespaces, ext::make_tuple(namespace_, local_name));
 }
@@ -407,7 +406,7 @@ auto dom::nodes::element::get_tag_name() const -> ext::string
 auto dom::nodes::element::get_class_list() const -> ext::vector<ext::string>
 {
     ACCESS_PIMPL(const element);
-    return d->class_ | ranges::views::split_string(',') | ranges::to<ext::vector<ext::string>>;
+    return d->class_ | ranges::views::split_string(',') | ranges::to<ext::vector<ext::string>>; // TODO : live?
 }
 
 

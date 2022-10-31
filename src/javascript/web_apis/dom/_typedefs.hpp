@@ -7,6 +7,7 @@
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
+#include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
 namespace dom::events {class event;}
 namespace dom::mutations {class mutation_observer;}
@@ -29,6 +30,7 @@ namespace dom::detail
     struct transient_registered_observer_t;
     struct boundary_point_t;
     struct xpath_ns_resolver_t;
+    template <html::detail::local_name_t T> struct element_interface;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};

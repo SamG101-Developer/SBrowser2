@@ -197,6 +197,8 @@ struct html::detail::browsing_context_group_t
 
 struct html::detail::browsing_context_t
 {
+    ~browsing_context_t();
+
     dom::nodes::window_proxy* window_proxy;
     browsing_context_t* opener_browsing_context;
     ext::boolean disowned;

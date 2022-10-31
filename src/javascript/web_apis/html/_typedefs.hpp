@@ -103,6 +103,14 @@ namespace html::detail
     enum class lazy_loading_t {EAGER, LAZY};
     enum class cross_origin_settings_attribute_t {ANONYMOUS, USE_CREDENTIALS};
     enum class preload_t {NONE, METADATA, AUTO};
+    enum class local_name_t {A, ABBR, ADDRESS, AREA, ARTICLE, ASIDE, AUDIO, B, BASE, BDI, BDO, BLOCKQUOTE, BODY, BR,
+            BUTTON, CANVAS, CAPTION, CITE, CODE, COL, COLGROUP, DATA, DATALIST, DD, DEL, DETAILS, DFN, DIALOG, DIV, DL,
+            DT, EM, EMBED, FIELDSET, FIGCAPTION, FIGURE, FOOTER, FORM, H1, H2, H3, H4, H5, H6, HEAD, HEADER, HGROUP, HR,
+            HTML, I, IFRAME, IMG, INPUT, INS, KBD, LABEL, LEGEND, LI, LINK, MAIN, MAP, MARK, MATHML, MATH, MENU, META,
+            METER, NAV, NOSCRIPT, OBJECT, OL, OPTGROUP, OPTION, OUTPUT, P, PICTURE, PRE, PROGRESS, Q, RP, RT, RUBY, S,
+            SAMP, SCRIPT, SECTION, SELECT, SLOT, SMALL, SOURCE, SPAN, STRONG, STYLE, SUB, SUMMARY, SUP, SVG, TABLE,
+            TBODY, TD, TEMPLATE, TEXTAREA, TFOOT, TH, THEAD, TIME, TITLE, TR, TRACK, U, UL, VAR, VIDEO, WBR
+    };
 
     struct browsing_context_t;
     struct document_load_timing_info_t;

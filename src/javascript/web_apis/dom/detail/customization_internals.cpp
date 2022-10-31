@@ -1,8 +1,8 @@
 #include "customization_internals.hpp"
 
 #include "javascript/interop/annotations.hpp"
-#include "javascript/ecma/7_absract_operations/7_2_testing_and_comparison_operations.hpp"
 
+#include "dom/detail/construction_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/namespace_internals.hpp"
 #include "dom/detail/shadow_internals.hpp"
@@ -15,26 +15,6 @@
 #include "html/elements/html_unknown_element.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
-
-
-auto dom::detail::element_interface(
-        const ext::string_view local_name,
-        const ext::string_view namespace_)
-        -> nodes::element*
-{
-    if (namespace_ == HTML)
-    {
-        string_switch(local_name)
-        {
-            string_default:
-                return is_valid_custom_element_name(local_name)
-                        ? std::move(html::elements::html_element{})
-                        : std::move(html::elements::html_unknown_element{});
-        }
-    }
-
-    return new nodes::element{};
-}
 
 
 auto dom::detail::create_an_element(

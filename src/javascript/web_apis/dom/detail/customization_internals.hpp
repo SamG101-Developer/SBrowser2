@@ -18,11 +18,6 @@ namespace html::elements {class html_unknown_element;}
 
 namespace dom::detail
 {
-    auto element_interface(
-            ext::string_view local_name,
-            ext::string_view namespace_)
-            -> std::unique_ptr<nodes::element>;
-
     // custom element creation and upgrading
     auto create_an_element(
             nodes::document* document,
