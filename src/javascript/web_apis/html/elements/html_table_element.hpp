@@ -6,6 +6,7 @@
 namespace html::elements {class html_table_element;}
 namespace html::elements {class html_table_element_private;}
 
+#include "ext/ranges.hpp"
 namespace html::elements {class html_table_caption_element;}
 namespace html::elements {class html_table_section_element;}
 namespace html::elements {class html_table_row_element;}
@@ -21,27 +22,25 @@ public constructors:
 
 public js_methods:
     auto create_caption() -> html_table_caption_element*;
-    auto delete_caption() -> html_table_caption_element*;
-
     auto create_t_head() -> html_table_section_element*;
-    auto delete_t_head() -> html_table_section_element*;
-
     auto create_t_foot() -> html_table_section_element*;
-    auto delete_t_foot() -> html_table_section_element*;
-
     auto create_t_body() -> html_table_section_element*;
+    auto insert_row(ext::number<long> index = -1) -> html_table_row_element*;
 
-    auto insert_row(ext::number<long> index = -1) -> html_table_row_element;
-    auto delete_row(ext::number<long> index = -1) -> html_table_row_element;
+    auto delete_t_head() -> html_table_section_element*;
+    auto delete_t_foot() -> html_table_section_element*;
+    auto delete_caption() -> html_table_caption_element*;
+    auto delete_row(ext::number<long> index = -1) -> html_table_row_element*;
 
 private js_properties:
     DEFINE_GETTER(caption, html_table_caption_element*);
     DEFINE_SETTER(caption, std::unique_ptr<html_table_caption_element>&&);
-    // ext::property<std::unique_ptr<html_table_caption_element>> caption;
-    // ext::property<std::unique_ptr<html_table_section_element>> t_head;
-    // ext::property<std::unique_ptr<html_table_section_element>> t_foot;
-    // ext::property<std::unique_ptr<ext::vector<html_table_section_element*>>> t_bodies;
-    // ext::property<std::unique_ptr<ext::vector<html_table_row_element*>>> rows;
+    DEFINE_GETTER(t_head, html_table_section_element*);
+    DEFINE_SETTER(t_head, std::unique_ptr<html_table_section_element>&&);
+    DEFINE_GETTER(t_foot, html_table_section_element*);
+    DEFINE_SETTER(t_foot, std::unique_ptr<html_table_section_element>&&);
+    DEFINE_GETTER(t_bodies, ranges::any_helpful_view<html_table_section_element*>);
+    DEFINE_GETTER(rows, ranges::any_helpful_view<html_table_row_element*>);
 };
 
 

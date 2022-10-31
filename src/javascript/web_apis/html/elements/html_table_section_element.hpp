@@ -4,7 +4,9 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_table_section_element;}
+namespace html::elements {class html_table_section_element_private;}
 
+#include "ext/ranges.hpp"
 namespace html::elements {class html_table_row_element;}
 
 
@@ -13,17 +15,15 @@ class html::elements::html_table_section_element
 {
 public constructors:
     DOM_CTORS(html_table_section_element);
-    html_table_section_element();
+    MAKE_PIMPL(html_table_section_element);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto insert_row(ext::number<long> index = -1) -> html_table_row_element;
     auto delete_row(ext::number<long> index = -1) -> html_table_row_element;
 
 private js_properties:
-    ext::property<std::unique_ptr<ext::vector<html_table_row_element*>>> rows;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DEFINE_GETTER(rows, ranges::any_helpful_view<html_table_row_element*>);
 };
 
 

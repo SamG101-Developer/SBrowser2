@@ -5,11 +5,16 @@
 #include "ext/pimpl.hpp"
 #include "html/elements/html_element_private.hpp"
 
+#include "ext/ranges.hpp"
+
 
 DEFINE_PRIVATE_CLASS(html::elements, html_table_element) : html::elements::html_element_private
 {
     template <typename T>
-    auto table_children() const -> ext::vector_span<T*>;
+    auto table_children(ext::string&& local_name = u8"*") const -> ranges::any_helpful_view<T*>;
+
+    template <typename ...Types>
+    auto table_children(ext::string&& local_name = u8"*") const -> ranges::any_helpful_view<html_element*> requires (sizeof...(Types) > 1);
 };
 
 
