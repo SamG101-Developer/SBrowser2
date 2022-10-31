@@ -10,6 +10,9 @@ class dom_object;
 
 _EXT_BEGIN
 
+auto cast_functor_ranges = []<typename T>(auto* value) {return dynamic_cast<T>(value);};
+
+
 template <is_pointer_or_reference ...Ts>
 auto multi_cast(auto pointer) -> bool
 {

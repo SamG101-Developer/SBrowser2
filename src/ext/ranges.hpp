@@ -56,6 +56,9 @@
     struct name##_fn {code};                    \
     RANGES_INLINE_VARIABLE(action_closure<name##_fn>, name)
 
+#define RANGE_ACTION_CLOSURE_STRUCT_T(name, code) \
+    struct name##_fn {code};
+
 #define RANGE_ALGORITHM_STRUCT(name, code) \
     RANGES_FUNC_BEGIN(name)                \
         code                               \
@@ -65,20 +68,41 @@
 namespace ranges {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
 
 
-/* VIEWS */
-namespace ranges::views
+/* TRAITS */
+namespace ranges
 {
+    template <typename Rng>
+    struct range_traits
+    {
+        using iterator_type = decltype(ranges::any_view(std::declval<Rng>()).begin());
+        using value_type = typename iterator_type::value_type;
+    };
+
     template <typename Rng>
     using lowercase_view = transform_view<Rng, decltype(_EXT to_lower)>;
 
     template <typename Rng>
-    using uppercase_view = transform_view<Rng, decltype(_EXT to_upper>;
+    using uppercase_view = transform_view<Rng, decltype(_EXT to_upper)>;
 
+    template <typename Rng, typename T>
+    using cast_view = transform_view<Rng, _EXT function<T(typename range_traits<Rng>::value_type)>>;
+
+    template <typename Rng>
+    using underlying_view = transform_view<Rng, _EXT function<typename range_traits<Rng>::value_type::pointer()>>;
+
+    template <typename Rng>
+    using transpose_view = transform_view<Rng, decltype(_EXT identity)>;
+}
+
+
+/* VIEWS */
+namespace ranges::views
+{
     // A lowercase conversion works by returning a transform adaptor that takes each item as a char type, converts
     // it to a lowercase char, and returns the character back.
     RANGE_VIEW_CLOSURE_STRUCT(lowercase,
         template <typename Rng>
-        auto operator()(Rng&& rng) const -> lowercase_view<Rng>
+        auto operator()(Rng&& rng) const -> lowercase_view<all_t<Rng>>
         {return {all(std::forward<Rng>(rng)) COMMA _EXT to_lower};})
 
 
@@ -86,7 +110,7 @@ namespace ranges::views
     // it to an uppercase char, and returns the character back.
     RANGE_VIEW_CLOSURE_STRUCT(uppercase,
         template <typename Rng>
-        auto operator()(Rng&& rng) const -> uppercase_view<Rng>
+        auto operator()(Rng&& rng) const -> uppercase_view<all_t<Rng>>
         {return {all(std::forward<Rng>(rng)) COMMA _EXT to_upper};})
 
 
@@ -96,7 +120,7 @@ namespace ranges::views
     // each sub-range into a string, to get {"hello", "world"}.
     RANGE_VIEW_STRUCT(split_string,
         template <_EXT type_is<char> ...Args>
-        constexpr auto operator()(Args... delimiter) const
+        constexpr auto operator()(Args... delimiter) const // NOTE: deliberately not Args&&...
         {return (ranges::views::split(delimiter) | ...) | ranges::views::transform(ranges::to<_EXT string>);})
 
 
@@ -179,15 +203,17 @@ namespace ranges::views
     // another type, and then removing all the instances of nullptr.
     template <_EXT is_pointer T>
     RANGE_VIEW_CLOSURE_STRUCT_T(cast,
-        constexpr auto operator()() const
-        {return ranges::views::transform(&::dom_cast<T>) | ranges::views::remove(nullptr);})
+        template <typename Rng>
+        auto operator()(Rng&& rng) const -> cast_view<all_t<Rng> COMMA T>
+        {return {all(std::forward<Rng>(rng)) COMMA dom_cast<T>};}) // TODO | ranges::views::remove(nullptr)
     template <_EXT is_pointer T>
     inline constexpr auto cast = view_closure<cast_fn<T>>{};
 
 
     RANGE_VIEW_CLOSURE_STRUCT(underlying,
-        constexpr auto operator()() const
-        {return ranges::views::transform([](auto&& manager) {return manager.get();});})
+        template <typename Rng>
+        auto operator()(Rng&& rng) const -> underlying_view<all_t<Rng>>
+        {return {all(std::forward<Rng>(rng)) COMMA range_traits<Rng>::value_type::get};})
 
 
     // A filter that allows for comparison of an attribute or method call from each object in the range; for
@@ -226,9 +252,11 @@ namespace ranges::views
                     (V&& candidate) mutable {return f(std::mem_fn(std::forward<Attr>(attribute))(std::forward<V>(candidate))) >= std::forward<T>(value);});
         })
 
+
     RANGE_VIEW_CLOSURE_STRUCT(transpose,
-        constexpr auto operator()() const
-        {return ranges::views::transform(_EXT identity);}) // TODO : impl);
+        template <typename Rng>
+        constexpr auto operator()(Rng&& rng) const -> transpose_view<all_t<Rng>>
+        {return {all(std::forward<Rng>(rng)) COMMA _EXT identity};}) // TODO : impl with ranges::views::elements<N>(...)
 
 
     RANGE_VIEW_STRUCT(remove_at_index,
@@ -291,6 +319,14 @@ namespace ranges::actions
             template <_EXT callable F>
             constexpr auto operator()(F&& pred) const
             {return ranges::actions::remove_if(_EXT negate_function{std::forward<F>(pred)});})
+
+    template <_EXT is_pointer T>
+    RANGE_ACTION_CLOSURE_STRUCT_T(cast,
+            template <typename Rng>
+            auto operator()(Rng&& rng) const -> Rng
+            {return {all(std::forward<Rng>(rng)) COMMA dom_cast<T>};}) // TODO | ranges::views::remove(nullptr)
+    template <_EXT is_pointer T>
+    inline constexpr auto cast = action_closure<cast_fn<T>>{};
 }
 
 
