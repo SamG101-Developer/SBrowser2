@@ -242,7 +242,7 @@ auto dom::detail::pre_remove(
 
 
 auto dom::detail::insert(
-        std::unique_ptr<nodes::node> node,
+        std::unique_ptr<nodes::node>&& node,
         nodes::node* const parent,
         const nodes::node* const child,
         ext::boolean suppress_observers_flag)
@@ -339,7 +339,7 @@ auto dom::detail::insert(
 
 
 auto dom::detail::append(
-        std::unique_ptr<nodes::node> node,
+        std::unique_ptr<nodes::node>&& node,
         nodes::node* const parent)
         -> nodes::node*
 {
@@ -350,7 +350,7 @@ auto dom::detail::append(
 
 
 auto dom::detail::replace(
-        std::unique_ptr<nodes::node> node,
+        std::unique_ptr<nodes::node>&& node,
         const nodes::node* const parent,
         nodes::node* child)
         -> nodes::node*
@@ -455,7 +455,7 @@ auto dom::detail::replace(
 
 
 auto dom::detail::replace_all(
-        std::unique_ptr<nodes::node> node,
+        std::unique_ptr<nodes::node>&& node,
         const nodes::node* const parent)
         -> void
 {

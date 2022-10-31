@@ -41,25 +41,25 @@ namespace dom::detail
 
     // general mutations
     auto insert(
-            std::unique_ptr<nodes::node> node,
+            std::unique_ptr<nodes::node>&& node,
             nodes::node* parent,
             const nodes::node* child,
             ext::boolean  suppress_observers_flag = false)
             -> nodes::node*;
 
     auto append(
-            std::unique_ptr<nodes::node> node,
+            std::unique_ptr<nodes::node>&& node,
             nodes::node* parent)
             -> nodes::node*;
 
     auto replace(
-            std::unique_ptr<nodes::node> node,
+            std::unique_ptr<nodes::node>&& node,
             const nodes::node* parent,
             nodes::node* child)
             -> nodes::node*;
 
     auto replace_all(
-            std::unique_ptr<nodes::node> node,
+            std::unique_ptr<nodes::node>&& node,
             const nodes::node* parent)
             -> void;
 
