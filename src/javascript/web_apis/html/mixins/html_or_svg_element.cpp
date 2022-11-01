@@ -91,4 +91,6 @@ auto html::mixins::html_or_svg_element::to_v8(v8::Isolate* isolate) -> v8pp::cla
     decltype(auto) conversion = v8pp::class_<html_or_svg_element>{isolate}
         .inherit<dom_object>()
         .auto_wrap_objects(); // TODO
+
+    return std::move(conversion);
 }

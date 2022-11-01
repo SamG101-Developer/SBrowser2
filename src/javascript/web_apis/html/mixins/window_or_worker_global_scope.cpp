@@ -45,9 +45,9 @@ auto html::mixins::window_or_worker_global_scope::atob(ext::string_view data) ->
     dom::detail::throw_v8_exception<INVALID_CHARACTER_ERR>(
             [decoded_data]
             {
-                return ranges::any_of(
-                        decoded_data,
-                        [](char8_t code_point) {return code_point > 0x00ff;});
+        return ranges::any_of(
+                decoded_data,
+                [](char8_t code_point) {return code_point > 0x00ff;});
             },
             u8"Code point must be <= 0x00ff");
 

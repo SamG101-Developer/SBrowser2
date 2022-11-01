@@ -18,7 +18,7 @@ namespace html::concepts
     concept form_associated = requires
     {
         requires ext::inherit<T, elements::html_element>;
-        {T::form} -> ext::type_is<elements::html_form_element*>;
+        {T::get_form} -> ext::type_is<elements::html_form_element*>;
     };
 
     template <typename T>
@@ -49,7 +49,7 @@ namespace html::concepts
     concept labelable_elements = requires
     {
         requires form_associated<T>;
-        {T::labels} -> ext::type_is<ext::vector<dom::nodes::node*>>;
+        {T::get_labels} -> ext::type_is<ext::vector<dom::nodes::node*>>;
     };
 
     template <typename T>
