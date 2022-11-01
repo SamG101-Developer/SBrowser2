@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_progress_element;}
+namespace html::elements {class html_progress_element_private;}
 
 
 class html::elements::html_progress_element
@@ -11,16 +12,17 @@ class html::elements::html_progress_element
 {
 public constructors:
     DOM_CTORS(html_progress_element);
-    html_progress_element() = default;
+    MAKE_PIMPL(html_progress_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::number<double>> value;
-    ext::property<ext::number<double>> max;
-    ext::property<ext::number<double>> position;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
+    DEFINE_GETTER(value, ext::number<double>);
+    DEFINE_GETTER(max, ext::number<double>);
+    DEFINE_GETTER(position, ext::number<double>);
+    DEFINE_GETTER(labels, std::unique_ptr<ext::vector<dom::nodes::node*>>);
 
-private js_properties:
-    DEFINE_CUSTOM_GETTER(value);
+    DEFINE_SETTER(value, ext::number<double>);
+    DEFINE_SETTER(max, ext::number<double>);
 };
 
 
