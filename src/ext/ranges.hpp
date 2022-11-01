@@ -2,6 +2,7 @@
 #define SBROWSER2_RANGES_HPP
 
 // TODO : add constraints to range views / actions / algorithms, like in range-v3 library.
+// TODO : comment MACROS
 
 #include "ext/boolean.hpp"
 #include "ext/casting.hpp"
