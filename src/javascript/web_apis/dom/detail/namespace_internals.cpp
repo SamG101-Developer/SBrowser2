@@ -36,25 +36,19 @@ auto dom::detail::validate_and_extract(
 
     throw_v8_exception<NAMESPACE_ERR>(
             [prefix, namespace_] {return prefix.empty() && namespace_.empty();},
-            "Prefix and namespace must not both be empty");
+            u8"Prefix and namespace must not both be empty");
 
     throw_v8_exception<NAMESPACE_ERR>(
-            [prefix, namespace_] {return prefix == "xml" && namespace_ == XML;},
-            "Prefix and namespace must match (xml prefix)");
+            [prefix, namespace_] {return prefix == u8"xml" && namespace_ == XML;},
+            u8"Prefix and namespace must match (xml prefix)");
 
     throw_v8_exception<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name]
-            {
-                return (prefix == "xmlns" || qualified_name == "xmlns") && namespace_ != XMLNS;
-            },
-            "Prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
+            [prefix, namespace_, qualified_name] {return (prefix == u8"xmlns" || qualified_name == u8"xmlns") && namespace_ != XMLNS;},
+            u8"Prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
     throw_v8_exception<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name]
-            {
-                return (prefix != "xmlns" && qualified_name != "xmlns") && namespace_ == XMLNS;
-            },
-            "prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
+            [prefix, namespace_, qualified_name] {return (prefix != u8"xmlns" && qualified_name != u8"xmlns") && namespace_ == XMLNS;},
+            u8"prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
     // return the prefix and local name - namespace_ and qualified name don't change, so they can be got from wherever
     // the function was called from
@@ -70,7 +64,7 @@ auto dom::detail::html_adjust_string(
 {
     // TODO : rework so that `(ext::string)` conversion is not required
     return adjust ? lower
-            ? string | ranges::views::lowercase() | ranges::to<ext::string>()
-            : string | ranges::views::uppercase() | ranges::to<ext::string>()
+            ? string | ranges::views::lowercase | ranges::to<ext::string>()
+            : string | ranges::views::uppercase | ranges::to<ext::string>()
             : std::move(string);
 }

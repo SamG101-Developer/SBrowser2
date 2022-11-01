@@ -1,5 +1,6 @@
 #include "exception_internals.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/pair.hpp"
 
 #include <range/v3/algorithm/fold_left.hpp>
@@ -11,7 +12,7 @@ struct exception_string_formatter
 {
     constexpr auto operator()(const ext::string& left, const ext::string& right) const -> ext::string
     {
-        return left + "\t-" + right + "\n";
+        return left + u8"\t-" + right + u8"\n";
     }
 
     template <typename V>
@@ -28,6 +29,7 @@ auto dom::detail::throw_v8_exception(
         ext::string_view exception_message)
         -> void
 {
+    using enum v8_primitive_error_t;
     if (condition())
     {
         // create the v8 primitive exception object, and set its type based on the enum value
@@ -62,24 +64,24 @@ auto dom::detail::throw_v8_exception(
     if (condition())
     {
         // start the error message with the description
-        ext::string exception_message = description;
+        auto exception_message = ext::string{description};
 
         // bullet point the possible causes (if there are any)
         if (!possible_causes.empty())
         {
-            exception_message += "\n\nPossible causes:\n";
+            exception_message += u8"\n\nPossible causes:\n";
             ranges::fold_left(std::move(possible_causes), exception_message, exception_string_formatter{});
         }
 
         // bullet point the possible fixes (if there are any)
         if (!possible_fixes.empty())
         {
-            exception_message += "\n\nPossible fixes:\n";
+            exception_message += u8"\n\nPossible fixes:\n";
             ranges::fold_left(std::move(possible_fixes), exception_message, exception_string_formatter{});
         }
 
         // bullet point the relevant information / memory addresses of objects
-        exception_message += "\n\nRelevant information / memory addresses:\n";
+        exception_message += u8"\n\nRelevant information / memory addresses:\n";
         ranges::fold_left(std::forward<T>(object_information)..., exception_message, exception_string_formatter{});
 
         // the 'condition' has already been asserted, so throw the exception

@@ -32,6 +32,7 @@
 #include <range/v3/view/reverse.hpp>
 #include <range/v3/view/slice.hpp>
 
+
 auto dom::detail::flatten_more(
         event_listener_options_t&& options)
         -> ext::map<ext::string, ext::any>

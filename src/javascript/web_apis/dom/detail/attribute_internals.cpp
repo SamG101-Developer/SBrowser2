@@ -10,8 +10,11 @@
 #include "dom/detail/observer_internals.hpp"
 
 #include "dom/nodes/attr.hpp"
+#include "dom/nodes/attr_private.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/element_private.hpp"
 #include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/shadow_root_private.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/find_if.hpp>
@@ -132,8 +135,8 @@ auto dom::detail::set_attribute(
             {
                 return attribute->d_func()->element && attribute->d_func()->element != new_owner_element;
             },
-            "The Attribute node's owner_element must be either Null or equal to the new owner element (attribute is"
-            "currently in use for another element node at the moment");
+            u8"The Attribute node's owner_element must be either Null or equal to the new owner element (attribute is"
+            u8"currently in use for another element node at the moment");
 
     // get the (possibly existing) attribute with the same local name and namespace as 'attribute', and either return
     // 'attribute' if the 'attribute' is the same attribute as 'old_attribute', replace the 'old_attribute' with
@@ -212,5 +215,5 @@ auto dom::detail::qualified_name(
         nodes::attr* attribute)
         -> ext::string
 {
-    return attribute->d_func()->namespace_prefix + ":" + attribute->d_func()->local_name;
+    return attribute->d_func()->namespace_prefix + u8":" + attribute->d_func()->local_name;
 }

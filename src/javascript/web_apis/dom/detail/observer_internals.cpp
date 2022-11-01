@@ -10,12 +10,20 @@
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/mutations/mutation_observer.hpp"
+#include "dom/mutations/mutation_observer_private.hpp"
 #include "dom/mutations/mutation_record.hpp"
+#include "dom/mutations/mutation_record_private.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/element_private.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
+#include "dom/nodes/node.hpp
+#include "dom/nodes/node_private.hpp
 #include "dom/other/dom_implementation.hpp"
+#include "dom/other/dom_implementation_private.hpp"
 
 #include "html/elements/html_slot_element.hpp"
+#include "html/elements/html_slot_element_private.hpp"
 
 #include <magic_enum.hpp>
 #include <range/v3/action/remove_if.hpp>
@@ -33,10 +41,11 @@ auto dom::detail::notify_mutation_observers()
     using notify_set_t = ext::set<mutations::mutation_observer*>;
     using signal_set_t = ext::set<html::elements::html_slot_element*>;
 
-    javascript::environment::realms::set(nullptr_surrounding_global_object, "mutation_observer_microtask_queued", false);
-    const auto notify_set = javascript::environment::realms::get<notify_set_t>(nullptr_surrounding_global_object, "notify_observers");
-    const auto signal_set = javascript::environment::realms::get<signal_set_t>(nullptr_surrounding_global_object, "signal_slots");
-    javascript::environment::realms::set(nullptr_surrounding_global_object, "signal_slots", signal_set_t{});
+    // TODO : move to dom::nodes::window
+    javascript::environment::realms::set(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued", false);
+    decltype(auto) notify_set = javascript::environment::realms::get<notify_set_t>(nullptr_surrounding_global_object, u8"notify_observers");
+    decltype(auto) signal_set = javascript::environment::realms::get<signal_set_t>(nullptr_surrounding_global_object, u8"signal_slots");
+    javascript::environment::realms::set(nullptr_surrounding_global_object, u8"signal_slots", signal_set_t{});
 
     // iterate every MutationObserver in the 'notify_set'
     for (mutations::mutation_observer* const mo: notify_set)
@@ -69,7 +78,7 @@ auto dom::detail::notify_mutation_observers()
 
     // fire a "slotchange" event at every slot in the JavaScript environment list TODO : why
     for (decltype(auto) slot: signal_set)
-        fire_event("slotchange", slot, {{"bubbles", true}});
+        fire_event(u8"slotchange", slot, {{u8"bubbles", true}});
 }
 
 
@@ -98,7 +107,7 @@ auto dom::detail::queue_microtask(
 }
 
 
-auto dom::detail::queue_mutation_record(
+auto dom::detail::queue_mutation_record( // TODO : const std::string& ???
         const mutation_type_t type,
         nodes::node* target,
         const std::string& name,
@@ -127,23 +136,23 @@ auto dom::detail::queue_mutation_record(
             // 'interested_observers' map
             auto options = registered->options;
 
-            if (type == ATTRIBUTES && options.try_emplace("attributes").second && (ranges::contains(options["attributeFilter"].to<ext::vector<ext::string>>(), name) || !namespace_.empty())
-                || node != target && options.try_emplace("subtree", true).first->second.to<ext::boolean>() == false
-                || type == CHILD_LIST && options.try_emplace("childList", true).first->second.to<ext::boolean>() == false
-                || type == ATTRIBUTES && options.try_emplace("attributes", true).first->second.to<ext::boolean>() == false
-                || type == CHARACTER_DATA && options.try_emplace("characterData", true).first->second.to<ext::boolean>() == false)
+            if (type == ATTRIBUTES && options.try_emplace(u8"attributes").second && (ranges::contains(options[u8"attributeFilter"].to<ext::vector<ext::string>>(), name) || !namespace_.empty())
+                || node != target && options.try_emplace(u8"subtree", true).first->second.to<ext::boolean>() == false
+                || type == CHILD_LIST && options.try_emplace(u8"childList", true).first->second.to<ext::boolean>() == false
+                || type == ATTRIBUTES && options.try_emplace(u8"attributes", true).first->second.to<ext::boolean>() == false
+                || type == CHARACTER_DATA && options.try_emplace(u8"characterData", true).first->second.to<ext::boolean>() == false)
             {
                 auto mo = registered->observer.get();
 
                 // if the MutationObserver is not in the map, then insert it with an empty string as the corresponding
                 // value
                 if (!ranges::contains(interested_observers | ranges::views::keys, mo))
-                    interested_observers.insert_or_assign(mo, "");
+                    interested_observers.insert_or_assign(mo, u8"");
 
                 // if there is a valid old value supplied in the 'options' dictionary that matches the 'type', then set
                 // the value of the MutationObserver to the old value
-                if (type == ATTRIBUTES && options.try_emplace("attributeOldValue", false).first->second == true
-                        || type == CHARACTER_DATA && options.try_emplace("characterDataOldValue", false).first->second == true)
+                if (type == ATTRIBUTES && options.try_emplace(u8"attributeOldValue", false).first->second == true
+                        || type == CHARACTER_DATA && options.try_emplace(u8"characterDataOldValue", false).first->second == true)
                     interested_observers.insert_or_assign(mo, old_value);
             }
         }
@@ -154,7 +163,7 @@ auto dom::detail::queue_mutation_record(
     for (const auto& [observer, mapped_old_value]: interested_observers)
     {
         auto record = std::make_unique<mutations::mutation_record>();
-        record->d_func()->type = magic_enum::enum_name(type) | ranges::views::lowercase() | ranges::to<ext::string>;
+        record->d_func()->type = magic_enum::enum_name(type) | ranges::views::lowercase | ranges::to<ext::string>;
         record->d_func()->attribute_name = name;
         record->d_func()->attribute_namespace = namespace_;
         record->d_func()->old_value = mapped_old_value;
@@ -195,9 +204,9 @@ auto dom::detail::queue_mutation_observer_microtask() -> void
 
     // get if the surrounding global object's 'mutation_observer_microtask_queued' attribute is set to true; return
     // early if it is, otherwise set it to true, and queue a microtask to 'notify_mutation_observers()'
-    const auto queued = javascript::environment::realms::get<ext::boolean>(nullptr_surrounding_global_object, "mutation_observer_microtask_queued");
+    const auto queued = javascript::environment::realms::get<ext::boolean>(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued");
     return_if(queued);
-    javascript::environment::realms::set(nullptr_surrounding_global_object, "mutation_observer_microtask_queued", true);
+    javascript::environment::realms::set(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued", true);
 
     queue_microtask(&notify_mutation_observers);
 }
@@ -217,9 +226,9 @@ auto dom::detail::queue_task(
         document = document ? document : implied_document();
 
         const v8::Local<v8::Function> microtask = v8::Function::New(event_loop->GetCurrentContext(), std::forward<F>(steps));
-        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "source"), task_source);
-        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "document"), v8pp::to_v8(event_loop, document));
-        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, "set"), v8pp::to_v8(event_loop, ext::set<void*>{}));
+        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, u8"source"), task_source);
+        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, u8"document"), v8pp::to_v8(event_loop, document));
+        microtask->Set(event_loop->GetCurrentContext(), v8pp::to_v8(event_loop, u8"set"), v8pp::to_v8(event_loop, ext::set<void*>{}));
 
         // enqueue the microtask to the event loop
         event_loop->EnqueueMicrotask(microtask);
@@ -235,9 +244,9 @@ auto dom::detail::queue_global_task(
         -> void
 {
     JS_REALM_GET_RELEVANT(global_object);
-    decltype(auto) document = javascript::environment::realms::get<ext::string>(global_object, "type") == "Window"
-                     ? javascript::environment::realms::get<nodes::document*>(global_object, "associated_document")
-                     : nullptr;
+    decltype(auto) document = javascript::environment::realms::get<ext::string>(global_object, u8"type") == u8"Window"
+            ? javascript::environment::realms::get<nodes::document*>(global_object, u8"associated_document")
+            : nullptr;
 
     queue_task(task_source, std::forward<F>(steps), global_object_relevant_agent, document);
 }

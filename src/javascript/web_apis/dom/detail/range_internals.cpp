@@ -9,15 +9,22 @@
 #include "dom/detail/mutation_internals.hpp"
 #include "dom/detail/text_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
-
 #include "dom/nodes/character_data.hpp"
+#include "dom/nodes/character_data_private.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/element_private.hpp"
 #include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/document_fragment_private.hpp"
 #include "dom/nodes/document_type.hpp"
+#include "dom/nodes/document_type_private.hpp"
 #include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/shadow_root_private.hpp"
 #include "dom/other/dom_implementation.hpp"
+#include "dom/other/dom_implementation_private.hpp"
 #include "dom/ranges/range.hpp"
+#include "dom/ranges/range_private.hpp"
 
 #include <range/v3/view/filter.hpp>
 
@@ -64,11 +71,11 @@ auto dom::detail::set_start_or_end(
 
     throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [new_container] {return dynamic_cast<nodes::document_type*>(new_container);},
-            "The container of a Range can not be a DocumentType node");
+            u8"The container of a Range can not be a DocumentType node");
 
     throw_v8_exception<INDEX_SIZE_ERR>(
             [new_offset, index = index(new_container)] {return new_offset > index;},
-            "The offset must be <= the index of the container");
+            u8"The offset must be <= the index of the container");
 
     decltype(auto) root_match = root(range) == root(new_container);
 
@@ -143,7 +150,7 @@ auto dom::detail::copy_data(
     append(clone, fragment);
 
     if (replace)
-        detail::replace_data(container, start_offset, end_offset - start_offset, "");
+        detail::replace_data(container, start_offset, end_offset - start_offset, u8"");
 }
 
 
@@ -168,8 +175,8 @@ auto dom::detail::append_to_sub_fragment(
     subrange.d_func()->end->node     = end_container;
     subrange.d_func()->end->offset   = end_offset;
 
-    auto* const subfragment = what == EXTRACT ? subrange.extract_contents() : subrange.clone_contents();
-    append(clone, subfragment);
+    decltype(auto) subfragment = what == EXTRACT ? subrange.extract_contents() : subrange.clone_contents();
+    append(std::move(clone), subfragment);
     return subfragment;
 }
 
@@ -184,7 +191,7 @@ auto dom::detail::create_new_node_and_offset(
 
     auto* new_node = detail::is_ancestor(start_container, end_container)
             ? start_container
-            : common_ancestor->d_func()->parent_node;
+            : common_ancestor->d_func()->parent_node.get();
 
     auto new_offset = detail::is_ancestor(start_container, end_container)
             ? start_offset
