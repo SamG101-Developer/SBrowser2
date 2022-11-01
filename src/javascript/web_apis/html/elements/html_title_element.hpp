@@ -3,23 +3,20 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_title_element;}
+namespace html::elements {class html_title_element_private;}
 
 
 class html::elements::html_title_element
         : public html::elements::html_element
 {
 public constructors:
-    html_title_element();
+    DOM_CTORS(html_title_element);
+    MAKE_PIMPL(html_title_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> text;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(text);
-    DEFINE_CUSTOM_SETTER(text);
+    DEFINE_GETTER(text, ext::string);
+    DEFINE_SETTER(text, ext::string);
 };
 
 
