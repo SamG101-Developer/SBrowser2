@@ -47,9 +47,6 @@ public constructors:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
 
-public friends:
-    friend auto ext::get_pimpl<self_t>(self_t*);
-
 protected:
     std::unique_ptr<dom_object_private> d_ptr;
 };
