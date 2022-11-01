@@ -5,6 +5,7 @@
 #include "html/elements/html_element.hpp"
 #include "html/mixins/validatable.hpp"
 namespace html::elements {class html_output_element;}
+namespace html::elements {class html_output_element_private;}
 
 namespace html::elements {class html_form_element;}
 
@@ -14,26 +15,21 @@ class html::elements::html_output_element
 {
 public constructors:
     DOM_CTORS(html_output_element);
-    html_output_element() = default;
+    MAKE_PIMPL(html_output_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> html_for;
-    ext::property<ext::string> name;
-    ext::property<ext::string> type;
-    ext::property<ext::string> default_value;
-    ext::property<ext::string> value;
-    ext::property<html_form_element*> form;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
+    DEFINE_GETTER(html_for, ext::string_view);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(type, ext::string);
+    DEFINE_GETTER(default_value, ext::string);
+    DEFINE_GETTER(value, ext::string);
+    DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(labels, ext::vector_span<dom::nodes::node*>);
 
-private cpp_properties:
-    ext::string m_default_value_override;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(default_value);
-
-    DEFINE_CUSTOM_GETTER(type) {return "output";}
-    DEFINE_CUSTOM_SETTER(default_value);
-    DEFINE_CUSTOM_SETTER(value);
+    DEFINE_SETTER(name, ext::string);
+    DEFINE_SETTER(default_value, ext::string);
+    DEFINE_SETTER(value, ext::string);
 };
 
 

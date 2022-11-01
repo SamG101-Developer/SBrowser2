@@ -57,7 +57,7 @@ namespace dom::detail
     auto string_replace_all(
             ext::string_view string,
             nodes::node* parent)
-            -> void;
+            -> ext::string; // TODO : return string (modified)
 
     auto is_document_available_to_user(
             nodes::document* document,
