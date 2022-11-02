@@ -97,9 +97,6 @@ struct dom::detail::custom_element_reactions_stack_t
 
 struct dom::detail::custom_element_definition_t
 {
-    using lifecycle_callback_t = ext::function<void()>;
-    using html_element_constructor_t = ext::function<nodes::element*()>;
-
     ext::boolean form_associated;
     ext::boolean disable_internals;
     ext::boolean disable_shadow;
@@ -109,15 +106,9 @@ struct dom::detail::custom_element_definition_t
 
     ext::vector<ext::string> observed_attributes;
     ext::vector<nodes::element*> construction_stack;
-    html_element_constructor_t constructor;
+    detail::html_element_constructor_t constructor;
 
-    ext::map<ext::string, lifecycle_callback_t> lifecycle_callbacks
-    {
-            {u8"connectedCallback"     , [] {}}, {u8"disconnectedCallback"    , [] {}},
-            {u8"adoptedCallback"       , [] {}}, {u8"attributeChangedCallback", [] {}},
-            {u8"formAssociatedCallback", [] {}}, {u8"formDisabledCallback"    , [] {}},
-            {u8"formResetCallback"     , [] {}}, {u8"formStateRestoreCallback", [] {}}
-    };
+    ext::map<ext::string, detail::lifecycle_callback_t> lifecycle_callbacks;
 };
 
 
