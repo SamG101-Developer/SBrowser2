@@ -12,6 +12,7 @@
 namespace dom::events {class event;}
 namespace dom::mutations {class mutation_observer;}
 namespace dom::mutations {class mutation_record;}
+namespace dom::nodes {class element;}
 namespace dom::nodes {class event_target;}
 namespace dom::nodes {class node;}
 namespace html::elements {class html_script_element;}
@@ -64,6 +65,8 @@ namespace dom::detail
     using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::elements::html_script_element>, std::unique_ptr<svg::elements::svg_script_element>>;
     using mutation_observer_init_t = ext::map<ext::string, ext::any>;
+    using lifecycle_callback_t = ext::function<void()>;
+    using html_element_constructor_t = ext::function<nodes::element*()>;
 }
 
 
