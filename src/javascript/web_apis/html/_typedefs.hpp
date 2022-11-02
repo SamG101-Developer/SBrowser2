@@ -121,6 +121,7 @@ namespace html::detail
             TBODY, TD, TEMPLATE, TEXTAREA, TFOOT, TH, THEAD, TIME, TITLE, TR, TRACK, U, UL, VAR, VIDEO, WBR
     };
     enum class blocking_t {RENDER};
+    enum class track_element_kind_t {SUBTITLES, CAPTIONS, DESCRIPTIONS, CHAPTERS, METADATA};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
