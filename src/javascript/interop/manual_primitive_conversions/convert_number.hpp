@@ -16,79 +16,75 @@ struct v8pp::convert<ext::number<T>>
     using from_type = ext::number<T>;
     using to_type = v8::Local<v8::Value>;
 
-    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean;
-    auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type;
-    auto static to_v8(v8::Isolate* isolate, const from_type& cpp_value_number_object) -> to_type;
+    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean requires std::floating_point<T>;
+    auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type requires std::floating_point<T>;
+    auto static to_v8(v8::Isolate* isolate, from_type cpp_value_number_object) -> to_type requires std::floating_point<T>;
+
+    auto static is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean requires (!std::floating_point<T>);
+    auto static from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type requires (!std::floating_point<T>);
+    auto static to_v8(v8::Isolate* isolate, from_type cpp_value_number_object) -> to_type requires (!std::floating_point<T>);
 };
 
 
 template <typename T>
-auto v8pp::convert<ext::number<T>>::is_valid(
-        v8::Isolate* isolate,
-        v8::Local<v8::Value> v8_value)
-        -> ext::boolean
+auto v8pp::convert<ext::number<T>>::is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean requires std::floating_point<T>
 {
-    if constexpr (std::floating_point<T>)
-        return not v8_value.IsEmpty() && v8_value->IsNumber();
-    else
-        return not v8_value.IsEmpty() && v8_value->IsBigInt();
+    return not v8_value.IsEmpty() && v8_value->IsNumber();
 }
 
 
 template <typename T>
-inline auto v8pp::convert<ext::number<T>>::from_v8(
-        v8::Isolate* isolate,
-        v8::Local<v8::Value> v8_value)
-        -> from_type
+auto v8pp::convert<ext::number<T>>::is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean requires (!std::floating_point<T>)
+{
+    return not v8_value.IsEmpty() && v8_value->IsBigInt();
+}
+
+
+template <typename T>
+inline auto v8pp::convert<ext::number<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type requires std::floating_point<T>
 {
     if (!is_valid(isolate, v8_value))
         throw std::invalid_argument{"Invalid type for converting to ext::number<_Tx> from v8"};
-    
     v8::HandleScope javascript_scope{isolate};
 
-    if constexpr (std::floating_point<T>)
-    {
-        // create the ext::number<T> object from the primitive number conversion
-        auto v8_value_number            = v8_value.template As<v8::Number>();
-        auto cpp_value_number_primitive = convert<T>::from_v8(isolate, v8_value_number);
-        auto cpp_value_number_object    = from_type{std::move(cpp_value_number_primitive)};
-        return cpp_value_number_object;
-    }
-    else
-    {
-        // create the ext::number<T> object from the primitive number conversion
-        auto v8_value_number            = v8_value.template As<v8::BigIntObject>();
-        auto cpp_value_number_primitive = convert<T>::from_v8(isolate, v8_value_number);
-        auto cpp_value_number_object    = from_type{std::move(cpp_value_number_primitive)};
-        return cpp_value_number_object;
-    }
+    // Create the ext::number<T> object from the primitive number conversion.
+    auto cpp_value = convert<T>::from_v8(isolate, v8_value.template As<v8::Number>());
+    return from_type{cpp_value};
 }
 
 
 template <typename T>
-inline auto v8pp::convert<ext::number<T>>::to_v8(
-        v8::Isolate* isolate,
-        const from_type& cpp_value_number_object)
-        -> to_type
+inline auto v8pp::convert<ext::number<T>>::from_v8(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> from_type requires (!std::floating_point<T>)
+{
+    if (!is_valid(isolate, v8_value))
+        throw std::invalid_argument{"Invalid type for converting to ext::number<_Tx> from v8"};
+    v8::HandleScope javascript_scope{isolate};
+
+    // Create the ext::number<T> object from the primitive number conversion.
+    auto cpp_value = convert<T>::from_v8(isolate, v8_value.template As<v8::BigIntObject>());
+    return from_type{cpp_value};
+}
+
+
+template <typename T>
+inline auto v8pp::convert<ext::number<T>>::to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type requires std::floating_point<T>
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 
-    if constexpr (std::floating_point<T>)
-    {
-        // create the v8::Number object from the primitive number conversion
-        auto cpp_value_number_primitive = *cpp_value_number_object;
-        auto v8_value                   = convert<bool>::to_v8(isolate, cpp_value_number_primitive);
-        auto v8_value_number            = v8_value.template As<v8::Number>();
-        return javascript_scope.Escape(v8_value_number);
-    }
-    else
-    {
-        // create the v8::BigInt object from the primitive number conversion
-        auto cpp_value_number_primitive = *cpp_value_number_object;
-        auto v8_value                   = convert<bool>::to_v8(isolate, cpp_value_number_primitive);
-        auto v8_value_number            = v8_value.template As<v8::BigIntObject>();
-        return javascript_scope.Escape(v8_value_number);
-    }
+    // Create the v8::Number object from the primitive number conversion.
+    auto v8_value = convert<bool>::to_v8(isolate, *cpp_value);
+    return javascript_scope.Escape(v8_value.template As<v8::Number>());
+}
+
+
+template <typename T>
+inline auto v8pp::convert<ext::number<T>>::to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type requires (!std::floating_point<T>)
+{
+    v8::EscapableHandleScope javascript_scope{isolate};
+
+    // Create the v8::BigInt object from the primitive number conversion.
+    auto v8_value = convert<bool>::to_v8(isolate, *cpp_value);
+    return javascript_scope.Escape(v8_value.template As<v8::BigIntObject>());
 }
 
 

@@ -3,7 +3,6 @@
 #define SBROWSER2_CONVERT_ANY_HPP
 
 #include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_number_float.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_string.hpp"
 
@@ -18,41 +17,26 @@ struct v8pp::convert<ext::any>
     using from_type = ext::any;
     using to_type = v8::Local<v8::Value>;
 
-    static auto is_valid(
-            v8::Isolate* isolate,
-            v8::Local<v8::Value> v8_value)
-            -> ext::boolean;
-
-    static auto from_v8(
-            v8::Isolate* isolate,
-            to_type v8_value)
-            -> from_type;
-
-    static auto to_v8(
-            v8::Isolate* isolate,
-            const from_type& cpp_value)
-            -> to_type;
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean;
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
+    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type;
 };
 
 
-inline auto v8pp::convert<ext::any>::is_valid(
-        v8::Isolate* isolate,
-        v8::Local<v8::Value> v8_value)
-        -> ext::boolean
+inline auto v8pp::convert<ext::any>::is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
 {
-    return true;
+    return !v8_value.IsEmpty();
 }
 
 
-inline auto v8pp::convert<ext::any>::from_v8(
-        v8::Isolate* isolate,
-        to_type v8_value)
-        -> from_type
+inline auto v8pp::convert<ext::any>::from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
 {
-    if (not is_valid(isolate, v8_value)) throw std::invalid_argument{"Invalid type for converting to ext::any from v8"};
+    if (not is_valid(isolate, v8_value))
+        throw std::invalid_argument{"Invalid type for converting to ext::any from v8"};
+
     v8::HandleScope javascript_scope{isolate};
 
-    // create the value of the correct type based on the type of v8 value passed into the method
+    // Create the value of the correct type based on the type of v8 value passed into the method.
     if (v8_value->IsUndefined() || v8_value.IsEmpty())
         return from_type{};
 
@@ -77,19 +61,16 @@ inline auto v8pp::convert<ext::any>::from_v8(
     if (v8_value->IsObject())
         ; /* TODO */
 
-    // if the data type is unknown (ie hint to implement)
+    // If the data type is unknown (ie hint to implement).
     throw std::invalid_argument{"Unknown type being converted to ext::any from v8"};
 }
 
 
-inline auto v8pp::convert<ext::any>::to_v8(
-        v8::Isolate* isolate,
-        const from_type& cpp_value)
-        -> to_type
+inline auto v8pp::convert<ext::any>::to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type
 {
     v8::EscapableHandleScope javascript_scope{isolate};
 
-    // create the value of the correct type based n the type of the cpp value passed into the method
+    // Create the value of the correct type based n the type of the cpp value passed into the method.
     if (cpp_value.is_empty())
         return javascript_scope.Escape(v8::Undefined(isolate));
 
@@ -111,8 +92,9 @@ inline auto v8pp::convert<ext::any>::to_v8(
     if (/* TODO : Object */ false)
         ;
 
-    // if the data type is unknown (ie hint to implement)
+    // If the data type is unknown (ie hint to implement).
     throw std::invalid_argument{"Unknown type being converted from ext::any to v8"};
 }
+
 
 #endif //SBROWSER2_CONVERT_ANY_HPP
