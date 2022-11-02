@@ -5,6 +5,7 @@
 #include "html/elements/html_element.hpp"
 #include "ext/vector_like.hpp"
 namespace html::elements {class html_select_element;}
+namespace html::elements {class html_select_element_private;}
 
 #include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class node;}
@@ -17,23 +18,32 @@ class html::elements::html_select_element
 {
 public constructors:
     DOM_CTORS(html_select_element);
-    html_select_element();
+    MAKE_PIMPL(html_select_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> autocomplete;
-    ext::property<ext::string> name;
-    ext::property<ext::string> type;
-    ext::property<ext::string> value;
-    ext::property<ext::boolean> disabled;
-    ext::property<ext::boolean> multiple;
-    ext::property<ext::boolean> required;
-    ext::property<html_form_element*> form;
-    ext::property<ext::number<ulong>> size;
-    ext::property<ext::number<long>> selected_index;
+    DEFINE_GETTER(autocomplete, ext::string_view);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(value, ext::string);
+    DEFINE_GETTER(disabled, ext::boolean);
+    DEFINE_GETTER(multiple, ext::boolean);
+    DEFINE_GETTER(required, ext::boolean);
+    DEFINE_GETTER(form, html_form_element*);
+    DEFINE_GETTER(size, ext::number<ulong>);
+    DEFINE_GETTER(type, ext::string);
+    DEFINE_GETTER(selected_index, ext::number<long>);
+    DEFINE_GETTER(options, ext::vector_span<detail::option_like_element_t>);
+    DEFINE_GETTER(selected_options, ext::vector_span<html_element*>);
+    DEFINE_GETTER(labels, ext::vector_span<dom::nodes::node*>);
 
-    ext::property<std::unique_ptr<ext::vector<detail::option_like_element_t>>> options;
-    ext::property<std::unique_ptr<ext::vector<html_element*>>> selected_options;
-    ext::property<std::unique_ptr<ext::vector<dom::nodes::node*>>> labels;
+    DEFINE_SETTER(autocomplete, ext::string);
+    DEFINE_SETTER(name, ext::string);
+    DEFINE_SETTER(value, ext::string);
+    DEFINE_SETTER(disabled, ext::boolean);
+    DEFINE_SETTER(multiple, ext::boolean);
+    DEFINE_SETTER(required, ext::boolean);
+    DEFINE_SETTER(size, ext::number<ulong>);
+    DEFINE_SETTER(selected_index, ext::number<long>);
 };
 
 
