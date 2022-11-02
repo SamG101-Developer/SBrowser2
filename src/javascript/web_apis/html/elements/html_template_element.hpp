@@ -4,6 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_template_element;}
+namespace html::elements {class html_template_element_private;}
 
 namespace dom::nodes {class document_fragment;}
 
@@ -13,13 +14,11 @@ class html::elements::html_template_element
 {
 public constructors:
     DOM_CTORS(html_template_element);
-    html_template_element();
+    MAKE_PIMPL(html_template_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<std::unique_ptr<dom::nodes::document_fragment>> content;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DEFINE_GETTER(content, dom::nodes::document_fragment*);
 };
 
 

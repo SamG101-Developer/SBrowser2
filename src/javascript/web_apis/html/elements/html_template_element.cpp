@@ -1,9 +1,11 @@
 #include "html_template_element.hpp"
+#include "html_template_element_private.hpp"
 
 #include "ext/casting.hpp"
 
 #include "dom/detail/node_internals.hpp"
 #include "dom/nodes/document_fragment.hpp"
+#include "dom/nodes/document_fragment_private.hpp"
 
 #include "html/detail/document_internals.hpp"
 
@@ -12,23 +14,37 @@
 
 html::elements::html_template_element::html_template_element()
 {
-    m_dom_behaviour.adopting_steps =
-            [this]
+    INIT_PIMPL(html_template_element);
+    ACCESS_PIMPL(html_template_element);
+
+    d->adopting_steps =
+            [d]
             {
-                decltype(auto) document = detail::appropriate_template_contents_owner_document(owner_document());
-                dom::detail::adopt(content(), document);
+        decltype(auto) document = detail::appropriate_template_contents_owner_document(d->node_document.get());
+        dom::detail::adopt(d->template_contents.get(), document); // TODO : ownership
             };
 
-    m_dom_behaviour.cloning_steps =
-            [this](dom::nodes::node* clone, dom::nodes::document* document, ext::boolean deep)
+    d->cloning_steps =
+            [d](dom::nodes::node* clone, dom::nodes::document* document, ext::boolean deep)
             {
-                return_if (!deep);
-                auto copied_contents = content()->child_nodes() | ranges::views::transform(ext::bind_back{dom::detail::clone<dom::nodes::document_fragment>, content()->owner_document(), true});
+        return_if (!deep);
+        auto copied_contents = d->template_contents->d_func()->child_nodes
+                | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
+                | ranges::views::transform(BIND_BACK(dom::detail::clone<dom::nodes::document_fragment>, d->template_contents->d_func()->node_document.get(), true));
 
-                ext::apply(
-                        ext::make_tuple(copied_contents),
-                        &dom_cast<html_template_element*>(clone)->content()->append);
-            };
+        ext::apply(ext::make_tuple(copied_contents), &dom_cast<html_template_element*>(clone)->d_func()->template_contents->append);};
 
-    HTML_CONSTRUCTOR
+    decltype(auto) document = detail::appropriate_template_contents_owner_document(d->node_document.get());
+    d->template_contents = std::make_unique<dom::nodes::document_fragment>();
+    d->template_contents->d_func()->node_document = document;
+    d->template_contents->d_func()->host = this;
+
+    HTML_CONSTRUCTOR;
+}
+
+
+auto html::elements::html_template_element::get_content() const -> dom::nodes::document_fragment*
+{
+    ACCESS_PIMPL(const html_template_element);
+    return d->template_contents.get();
 }
