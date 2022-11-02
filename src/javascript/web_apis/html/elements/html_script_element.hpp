@@ -31,7 +31,7 @@ private js_properties:
     DEFINE_GETTER(text, ext::string);
     DEFINE_GETTER(integrity, ext::string);
     DEFINE_GETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
-    DEFINE_GETTER(blocking, ext::string);
+    DEFINE_GETTER(blocking, ext::vector_span<detail::blocking_t>);
 
     DEFINE_SETTER(src, ext::string);
     DEFINE_SETTER(type, ext::string);

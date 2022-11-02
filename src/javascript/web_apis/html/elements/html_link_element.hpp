@@ -32,7 +32,7 @@ private js_properties:
     DEFINE_GETTER(referrer, referrer_policy::detail::referrer_policy_t);
     DEFINE_GETTER(disabled, ext::boolean);
     DEFINE_GETTER(sizes, ext::vector_span<ext::string>);
-    DEFINE_GETTER(blocking, ext::vector_span<ext::string>);
+    DEFINE_GETTER(blocking, ext::vector_span<detail::blocking_t>);
 
     DEFINE_SETTER(href, ext::string);
     DEFINE_SETTER(cross_origin, ext::string);

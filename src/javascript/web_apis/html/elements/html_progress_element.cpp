@@ -33,7 +33,7 @@ auto html::elements::html_progress_element::set_value(ext::number<double> new_va
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(html_progress_element);
-        return d->value = new_value;
+        return d->value = new_value > 0 && new_value < d->max ? new_value : d->value;
     CE_REACTIONS_METHOD_EXE
 }
 
