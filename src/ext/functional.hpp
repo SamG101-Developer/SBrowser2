@@ -65,5 +65,8 @@ _EXT_END
 template <typename R, typename ...Types> // TODO
 auto operator==(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> ext::boolean;
 
+template <typename R, typename ...Types> // TODO
+auto operator <=>(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs);
+
 
 #endif //SBROWSER2_FUNCTIONAL_HPP
