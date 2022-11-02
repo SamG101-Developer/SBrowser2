@@ -3,25 +3,33 @@
 
 #include "html/elements/html_element.hpp"
 namespace html::elements {class html_source_element;}
+namespace html::elements {class html_source_element_private;}
 
 
 class html::elements::html_source_element
         : public html_element
 {
 public constructors:
-    html_source_element();
+    DOM_CTORS(html_source_element);
+    MAKE_PIMPL(html_source_element);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string, true> src;
-    ext::property<ext::string, true> type;
-    ext::property<ext::string, true> srcset;
-    ext::property<ext::string, true> sizes;
-    ext::property<ext::string, true> media;
-    ext::property<ext::number<ulong>, true> width;
-    ext::property<ext::number<ulong>, true> height;
+    DEFINE_GETTER(src, ext::string_view);
+    DEFINE_GETTER(type, ext::string_view);
+    DEFINE_GETTER(srcset, ext::string_view);
+    DEFINE_GETTER(sizes, ext::string_view);
+    DEFINE_GETTER(media, ext::string_view);
+    DEFINE_GETTER(width, ext::number<ulong>);
+    DEFINE_GETTER(height, ext::number<ulong>);
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+    DEFINE_SETTER(src, ext::string);
+    DEFINE_SETTER(type, ext::string);
+    DEFINE_SETTER(srcset, ext::string);
+    DEFINE_SETTER(sizes, ext::string);
+    DEFINE_SETTER(media, ext::string);
+    DEFINE_SETTER(width, ext::number<ulong>);
+    DEFINE_SETTER(height, ext::number<ulong>);
 };
 
 
