@@ -7,6 +7,7 @@
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 
 #include "html/elements/html_base_element.hpp"
 #include "html/detail/context_internals.hpp"
@@ -16,6 +17,7 @@
 #include "infra/detail/infra_strings_internals.hpp"
 
 #include "permissions_policy/detail/algorithm_internals.hpp"
+#include "url/detail/url_internals.hpp"
 
 #include <magic_enum.hpp>
 
@@ -27,7 +29,7 @@ auto html::detail::node_is_browsing_context_connected(
     // A node is browsing context connected when it is connected, and the browsing context of the shadow including root
     // is not null.
     auto shadow_root = dynamic_cast<dom::nodes::document*>(dom::detail::shadow_including_root(node));
-    return dom::detail::is_connected(node) && shadow_root && shadow_root->m_browsing_context.get();
+    return dom::detail::is_connected(node) && shadow_root && shadow_root->d_func()->browsing_context.get();
 }
 
 
@@ -38,7 +40,7 @@ auto html::detail::is_cookie_averse_document(
     // a Document is a cookie averse document if it doesn't have a browsing context, and the scheme of the URL is not
     // HTTPS - this is because cookies need to be transported securely (HTTPS ensures this), and a browsing context
     // ensures that cookies are only shred to the correct Documents
-    return !document->m_browsing_context || document->url()->scheme() != "https";
+    return !document->d_func()->browsing_context || document->d_func()->url->scheme() != u8"https";
 }
 
 
@@ -47,9 +49,9 @@ auto html::detail::fallback_base_url(
         -> ext::string
 {
     // TODO : iFrame stuff
-    return document->url() == "about:blank" && document->m_browsing_context->creator_base_url
-            ? document->m_browsing_context->creator_base_url
-            : document->url();
+    return *document->d_func()->url == u8"about:blank" && document->d_func()->browsing_context->creator_base_url
+            ? document->d_func()->browsing_context->creator_base_url
+            : document->d_func()->url;
 }
 
 
@@ -58,8 +60,8 @@ auto html::detail::document_base_url(
         -> ext::string
 {
     auto html_base_element_descendants = dom::detail::descendants(document)
-            | ranges::views::cast_all_to<elements::html_base_element*>()
-            | ranges::views::filter([](elements::html_base_element* element) {JS_REALM_GET_RELEVANT(element); return reflect_has_attribute_value(element, "href", element_relevant);});
+            | ranges::views::cast<elements::html_base_element*>
+            | ranges::views::filter([](elements::html_base_element* element) {!element->d_func()->href.empty();});
 
     return html_base_element_descendants.empty()
             ? fallback_base_url(document)
@@ -72,7 +74,7 @@ auto html::detail::shared_declarative_refresh_steps(
         ext::string&& input,
         elements::html_meta_element* meta) -> void
 {
-    return_if (document->m_will_declaratively_refresh);
+    return_if (document->d_func()->will_declaratively_refresh);
 
     // set the 'position' to point to the start of the 'input' string. collect all the whitespace character from the
     // beginning of the 'input' (strip leading spaces)
@@ -100,7 +102,7 @@ auto html::detail::shared_declarative_refresh_steps(
         auto return_characters = {char(0x003b), char(0x002c)};
 
         infra::detail::collect_ascii_whitespace(input, position);
-        return_if(!ranges::contains(return_characters, *position));
+        return_if (!ranges::contains(return_characters, *position));
         ranges::advance(position, 1);
         infra::detail::collect_ascii_whitespace(input, position);
     }
@@ -124,7 +126,7 @@ auto html::detail::shared_declarative_refresh_steps(
                 url_string = ranges::subrange(url_string.begin(), ranges::find(url_string.begin() + 1, url_string.end(), quote));
 
             // parse the url
-            return detail::miscellaneous_internals::parse_url(url_string, document);
+            return detail::parse_url(url_string, document);
         };
 
         // url will either be:
@@ -150,7 +152,7 @@ auto html::detail::shared_declarative_refresh_steps(
         ranges::advance(position, r_match);
         if (!r_match)
         {
-            auto parsed_url = detail::miscellaneous_internals::parse_url(url_string, document);
+            auto parsed_url = detail::parse_url(url_string, document);
             break_if(parsed_url.first.empty());
             url_record = parsed_url.second;
         }
@@ -161,7 +163,7 @@ auto html::detail::shared_declarative_refresh_steps(
         ranges::advance(position, l_match);
         if (!l_match)
         {
-            auto parsed_url = detail::miscellaneous_internals::parse_url(url_string, document);
+            auto parsed_url = detail::parse_url(url_string, document);
             break_if(parsed_url.first.empty());
             url_record = parsed_url.second;
         }
@@ -173,7 +175,7 @@ auto html::detail::shared_declarative_refresh_steps(
         ranges::advance(position, equal_match);
         if (!equal_match)
         {
-            auto parsed_url = detail::miscellaneous_internals::parse_url(url_string, document);
+            auto parsed_url = detail::parse_url(url_string, document);
             break_if(parsed_url.first.empty());
             url_record = parsed_url.second;
         }
@@ -185,7 +187,7 @@ auto html::detail::shared_declarative_refresh_steps(
 
     } while (position != input.end());
 
-    document->m_will_declaratively_refresh = ext::boolean::TRUE();
+    document->d_func()->will_declaratively_refresh = true;
 
     // TODO
 }
@@ -195,9 +197,9 @@ auto html::detail::has_stylesheet_blocking_scripts(
         const dom::nodes::document* document)
         -> ext::boolean
 {
-    return document->m_script_blocking_style_sheet_counter > 0
-            || document->m_browsing_context
-            && document->m_browsing_context->container_document->m_script_blocking_style_sheet_counter > 0;
+    return document->d_func()->script_blocking_style_sheet_counter > 0
+            || document->d_func()->browsing_context
+            && document->d_func()->browsing_context->container_document->m_script_blocking_style_sheet_counter > 0;
 }
 
 
@@ -217,9 +219,8 @@ auto html::detail::allowed_to_use(
     using feature_t = permissions_policy::detail::feature_t;
     using enum permissions_policy::detail::inherited_policy_value_t;
 
-    return_if(!document->m_browsing_context) ext::boolean::FALSE();
+    return_if(!document->d_func()->browsing_context) false;
     return permissions_policy::detail::algorithm_internals::is_feature_enabled_in_document_for_origin(
             magic_enum::enum_cast<feature_t>(feature).value(),
-            document,
-            document->m_origin) == ENABLED;
+            document, document->d_func()->origin) == ENABLED;
 }

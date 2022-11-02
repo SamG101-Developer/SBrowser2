@@ -104,9 +104,9 @@ custom_operator(go)
     }
 
 
-#define HTML_CONSTRUCTOR      \
-    {                         \
-        JS_REALM_GET_CURRENT; \
+#define HTML_CONSTRUCTOR     \
+    {                        \
+        JS_REALM_GET_CURRENT \
     }
 
 #endif //SBROWSER2_CUSTOM_OPERATOR_HPP

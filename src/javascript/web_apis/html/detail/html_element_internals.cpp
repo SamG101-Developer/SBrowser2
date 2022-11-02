@@ -57,18 +57,18 @@ auto html::detail::advisory_information(
 {
     // if the element is a HTMLTitleElement, then return the text value of the element; this is the behaviour that other
     // elements try to achieve as-well, by propagating the ancestors until one of them is a HMTLTitleElement
-    if (auto* title_element  = dynamic_cast<elements::html_title_element*>(element))
+    if (decltype(auto) title_element = dynamic_cast<elements::html_title_element*>(element))
         return title_element->text();
 
     // if the parent element of an element is an Element or subclass, then all the advisory method with the parent
     // element (this might not get the actual text value, but assuming a parent in the ancestor chain is a
     // HTMLTitleElement, the text will eventually propagate back down the function call chain)
-    if (auto* parent_element = element->parent_element())
+    if (decltype(auto) parent_element = element->parent_element())
         return advisory_information(parent_element);
 
     // if the element isn't a HTMLTitleElement, and there is no parent element of 'html_element', then return the
     // default value, which is an empty string
-    return "";
+    return u8"";
 }
 
 
