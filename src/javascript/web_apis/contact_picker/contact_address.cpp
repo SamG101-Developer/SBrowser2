@@ -10,63 +10,63 @@ contact_picker::contact_address::contact_address()
 }
 
 
-auto contact_picker::contact_address::get_city() const -> ext::string
+auto contact_picker::contact_address::get_city() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->city;
 }
 
 
-auto contact_picker::contact_address::get_country() const -> ext::string
+auto contact_picker::contact_address::get_country() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->country;
 }
 
 
-auto contact_picker::contact_address::get_dependant_locality() const -> ext::string
+auto contact_picker::contact_address::get_dependant_locality() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->dependent_locality;
 }
 
 
-auto contact_picker::contact_address::get_organization() const -> ext::string
+auto contact_picker::contact_address::get_organization() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->organization;
 }
 
 
-auto contact_picker::contact_address::get_phone() const -> ext::string
+auto contact_picker::contact_address::get_phone() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->phone_number;
 }
 
 
-auto contact_picker::contact_address::get_postal_code() const -> ext::string
+auto contact_picker::contact_address::get_postal_code() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->postal_code;
 }
 
 
-auto contact_picker::contact_address::get_recipient() const -> ext::string
+auto contact_picker::contact_address::get_recipient() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->recipient;
 }
 
 
-auto contact_picker::contact_address::get_region() const -> ext::string
+auto contact_picker::contact_address::get_region() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->region;
 }
 
 
-auto contact_picker::contact_address::get_sorting_code() const -> ext::string
+auto contact_picker::contact_address::get_sorting_code() const -> ext::string_view
 {
     ACCESS_PIMPL(const contact_address);
     return d->sorting_code;
@@ -80,9 +80,7 @@ auto contact_picker::contact_address::get_address_line() const -> ext::vector<ex
 }
 
 
-auto contact_picker::contact_address::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto contact_picker::contact_address::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<contact_address>{isolate}
         .inherit<dom_object>()

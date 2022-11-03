@@ -33,9 +33,7 @@ dom::mutations::mutation_observer::mutation_observer(detail::mutation_callback_t
 }
 
 
-auto dom::mutations::mutation_observer::observe(
-        nodes::node* target,
-        detail::mutation_observer_init_t&& options) -> void
+auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mutation_observer_init_t&& options) -> void
 {
     ACCESS_PIMPL(mutation_observer);
     using enum v8_primitive_error_t;

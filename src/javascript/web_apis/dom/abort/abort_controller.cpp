@@ -29,9 +29,7 @@ auto dom::abort::abort_controller::get_signal() const -> abort_signal*
 }
 
 
-auto dom::abort::abort_controller::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::abort::abort_controller::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<abort_controller>{isolate}
         .inherit<dom_object>()

@@ -15,8 +15,8 @@ class device_orientation::device_orientation_event
         : public dom::events::event
 {
 public constructors:
-    DOM_CTORS(device_orientation_event);
     device_orientation_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
+    DOM_CTORS(device_orientation_event);
     MAKE_PIMPL(device_orientation_event);
     MAKE_V8_AVAILABLE;
 

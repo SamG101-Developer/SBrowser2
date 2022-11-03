@@ -90,9 +90,7 @@ auto dom::abort::abort_signal::get_reason() const -> ext::any
 }
 
 
-auto dom::abort::abort_signal::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::abort::abort_signal::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<abort_signal>{isolate}
         .inherit<event_target>()

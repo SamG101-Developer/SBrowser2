@@ -140,6 +140,9 @@ target_include_directories(veque INTERFACE ${FETCH_CONTENT_BASE_DIR}/vectorrepla
 add_library(crypto ${cryptopp_src})
 target_include_directories(crypto PUBLIC ${FETCH_CONTENT_BASE_DIR}/crypto-src)
 
+add_library(hwinfo INTERFACE)
+target_include_directories(hwinfo INTERFACE ${FETCH_CONTENT_BASE_DIR}/hardwareinfo-src/include)
+
 target_link_libraries(${PROJECT_NAME}
         assert expected function2::function2 unordered_dense::unordered_dense jsonpp optional effolkronium_random
         range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo crypto asap

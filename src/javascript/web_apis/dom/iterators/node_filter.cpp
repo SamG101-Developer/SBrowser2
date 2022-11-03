@@ -29,9 +29,7 @@ auto dom::node_iterators::node_filter::set_accept_node(detail::accept_callback_t
 }
 
 
-auto dom::node_iterators::node_filter::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::node_iterators::node_filter::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<node_filter>{isolate}
         .static_("FILTER_ACCEPT", node_filter::FILTER_ACCEPT, true)

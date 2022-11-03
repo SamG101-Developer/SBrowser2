@@ -44,9 +44,7 @@ auto dom::node_iterators::abstract_iterator::get_what_to_show() const -> ext::nu
 }
 
 
-auto dom::node_iterators::abstract_iterator::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::node_iterators::abstract_iterator::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<abstract_iterator>{isolate}
         .inherit<dom_object>()

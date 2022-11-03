@@ -1,6 +1,7 @@
 #include "contacts_manager.hpp"
 #include "contacts_manager_private.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/casting.hpp"
 #include "javascript/environment/realms_2.hpp"
 
@@ -24,14 +25,15 @@ contact_picker::contacts_manager::contacts_manager()
 }
 
 
-auto contact_picker::contacts_manager::get_properties()
-        -> ext::promise<ext::vector<detail::contact_property_t>>
+auto contact_picker::contacts_manager::get_properties() -> ext::promise<ext::vector<detail::contact_property_t>>
 {
+    ACCESS_PIMPL(contacts_manager);
+
     // Create a promise, and in parallel, set the value of it to the supported properties of the contact source
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
     ext::promise<ext::vector<detail::contact_property_t>> promise;
-    GO [properties = d_ptr->supported_properties, &promise] mutable {promise.resolve(std::move(properties));};
+    GO [properties = d->supported_properties, &promise] mutable {promise.resolve(std::move(properties));};
     return promise;
 }
 
@@ -41,6 +43,9 @@ auto contact_picker::contacts_manager::select(
         detail::contacts_select_options_t&& options)
         -> ext::promise<ext::vector<detail::contact_info_t>>
 {
+    ACCESS_PIMPL(contacts_manager);
+    using enum dom::detail::dom_exception_error_t;
+
     // Get the relevant browsing context from the relevant JavaScript realm. Create an empty promise for returning
     // either rejected or resolved.
     JS_REALM_GET_RELEVANT(this);
@@ -51,13 +56,13 @@ auto contact_picker::contacts_manager::select(
     // contact information (incorrect context).
     if (!html::detail::is_top_level_browsing_context(relevant_browsing_context))
     {
-        promise.reject(dom::other::dom_exception{"Browsing context is not top level", INVALID_STATE_ERR});
+        promise.reject(dom::other::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
         return promise;
     }
 
     if (/* TODO : SECURITY_ERR check here */)
     {
-        promise.reject(dom::other::dom_exception{"TODO", SECURITY_ERR});
+        promise.reject(dom::other::dom_exception{u8"TODO", SECURITY_ERR});
         return promise;
     }
 
@@ -65,7 +70,7 @@ auto contact_picker::contacts_manager::select(
     // invalid state, because this method is already running (close previous picker and open again)
     if (relevant_browsing_context.m_contact_picker_is_showing)
     {
-        promise.reject(dom::other::dom_exception{"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
+        promise.reject(dom::other::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
         return promise;
     }
 
@@ -80,7 +85,7 @@ auto contact_picker::contacts_manager::select(
     // If any of the properties aren't supported, then this is a JavaScript TypeError (invalid properties are detected
     // by discovering any properties in the 'properties' list that aren't in the supported properties with a
     // 'set_difference' check.
-    if (!ranges::views::set_difference(d_ptr->supported_properties, properties).empty())
+    if (!ranges::views::set_difference(d->supported_properties, properties).empty())
     {
         promise.reject(); // TODO : JavaScript TypeError
         return promise;
@@ -98,14 +103,14 @@ auto contact_picker::contacts_manager::select(
         // contact being 'selected_contacts' -- this is potentially thread blocking, because of the gUI, which is why
         // this part of the method is ran in another thread.
         JS_EXCEPTION_HANDLER;
-        decltype(auto) multiple = options.at("multiple").to<ext::boolean>();
+        decltype(auto) multiple = options.at(u8"multiple").to<ext::boolean>();
         decltype(auto) selected_contacts = detail::launch(multiple, properties);
 
         // Reject the promise if there was an issue with selecting a contact in the gUI, or if no contact was selected
         // TODO: is selecting no contact an error?
         if (JS_EXCEPTION_HAS_THROWN || !selected_contacts.has_value())
         {
-            promise.reject(dom::other::dom_exception{"Error launching options and properties", INVALID_STATE_ERR});
+            promise.reject(dom::other::dom_exception{u8"Error launching options and properties", INVALID_STATE_ERR});
             return;
         }
 
@@ -122,9 +127,7 @@ auto contact_picker::contacts_manager::select(
 }
 
 
-auto contact_picker::contacts_manager::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto contact_picker::contacts_manager::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<contacts_manager>{isolate}
         .inherit<dom_object>()

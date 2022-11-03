@@ -7,13 +7,17 @@
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 
+#include <hwinfo/battery.h>
+
 
 DEFINE_PRIVATE_CLASS(battery, battery_manager) : dom::nodes::event_target_private
 {
-    ext::boolean charging = true;
-    ext::number<double> charging_time = 0.0;
-    ext::number<double> discharging_time = ext::number<double>::inf();
-    ext::number<double> level = 1.0;
+    auto charging() const -> ext::boolean {return battery->charging();};
+    auto charging_time() const -> ext::number<double> {/* TODO */};
+    auto discharging_time() const -> ext::number<double> {/* TODO */};
+    auto level() const -> ext::number<double> {/* TODO */};
+
+    std::unique_ptr<hwinfo::Battery> battery;
 };
 
 

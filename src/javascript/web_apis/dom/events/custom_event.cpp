@@ -12,9 +12,7 @@ dom::events::custom_event::custom_event(
 }
 
 
-auto dom::events::custom_event::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto dom::events::custom_event::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<custom_event>{isolate}
         .inherit<event>()

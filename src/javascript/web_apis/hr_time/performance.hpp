@@ -36,7 +36,7 @@ public js_methods:
     auto clear_resource_timings() -> void;
     auto set_resource_timing_buffer_size(ext::number<ulong> max_size) -> void;
 
-    /* [USER_TIMING] */
+    /* [USER-TIMING] */
     auto mark(ext::string&& mark_name, user_timing::detail::performance_mark_options_t&& mar_options = {}) -> user_timing::performance_mark;
     auto measure(ext::string&& measure_name, user_timing::detail::performance_measure_options_t&& measure_options = {}) -> user_timing::performance_measure;
     auto measure(ext::string&& measure_name, ext::string&& mark_start, ext::string&& mark_end) -> user_timing::performance_measure;
