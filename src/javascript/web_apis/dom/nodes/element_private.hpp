@@ -11,6 +11,7 @@
 #include "aria/mixins/aria_mixin_private.hpp"
 
 #include "ext/boolean.hpp"
+#include "ext/memory.hpp"
 #include "ext/queue.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)
@@ -34,7 +35,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, element)
     detail::custom_element_state_t custom_element_state;
     ext::string is;
 
-    shadow_root* shadow_root;
+    std::observer_ptr<shadow_root> shadow_root;
     ext::string id;
     ext::string class_;
     ext::string slot;
