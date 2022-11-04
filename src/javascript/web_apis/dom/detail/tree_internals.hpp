@@ -8,6 +8,8 @@
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
+namespace dom::nodes {class document;}
+namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 namespace dom::nodes {class text;}
 
@@ -145,6 +147,10 @@ namespace dom::detail
     auto is_document_element(
             const nodes::node* node_a)
             -> ext::boolean;
+
+    auto document_element(
+            const nodes::document* document)
+            -> nodes::element*;
 }
 
 

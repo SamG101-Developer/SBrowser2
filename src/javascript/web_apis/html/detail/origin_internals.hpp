@@ -3,15 +3,17 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_ORIGIN_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/expected.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(url)
 
 
 namespace html::detail
 {
     auto effective_domain(
             const origin_t& origin)
-            -> ext::string;
+            -> ext::expected<url::detail::url_t>;
 
     auto serialize_origin(
             const origin_t& origin)

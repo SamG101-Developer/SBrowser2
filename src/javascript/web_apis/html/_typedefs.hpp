@@ -122,6 +122,7 @@ namespace html::detail
     };
     enum class blocking_t {RENDER};
     enum class track_element_kind_t {SUBTITLES, CAPTIONS, DESCRIPTIONS, CHAPTERS, METADATA};
+    enum class document_readiness_state_t {COMPLETE, INTERACTIVE};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;

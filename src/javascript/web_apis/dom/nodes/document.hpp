@@ -14,6 +14,7 @@ namespace dom::nodes {class document_private;}
 #include "ext/concepts.hpp"
 #include "ext/map.hpp"
 #include "ext/promise.hpp"
+#include "ext/ranges.hpp"
 #include "ext/set.hpp"
 #include "ext/tuple.hpp"
 #include "ext/variant.hpp"
@@ -87,19 +88,19 @@ public constructors:
 
 public js_methods:
     /* [DOM] */
-    [[nodiscard]] auto create_element(ext::string&& local_name, ext::map<ext::string, ext::any>&& options = {}) const -> element;
-    [[nodiscard]] auto create_element_ns(ext::string&& namespace_, ext::string&& qualified_name, ext::map<ext::string, ext::any>&& options = {}) const -> element;
-    [[nodiscard]] auto create_document_fragment() const -> document_fragment;
-    [[nodiscard]] auto create_text_node(ext::string&& data) const -> text;
-    [[nodiscard]] auto create_cdata_section_node(ext::string&& data) const -> cdata_section;
-    [[nodiscard]] auto create_comment(ext::string&& data) const -> comment;
-    [[nodiscard]] auto create_processing_instruction(ext::string&& target, ext::string&& data) const -> processing_instruction;
-    [[nodiscard]] auto create_attribute(ext::string&& local_name) const -> attr;
-    [[nodiscard]] auto create_attribute_ns(ext::string&& namespace_, ext::string&& qualified_name) const -> attr;
+    _EXT_NODISCARD auto create_element(ext::string&& local_name, ext::map<ext::string, ext::any>&& options = {}) -> std::unique_ptr<element>;
+    _EXT_NODISCARD auto create_element_ns(ext::string&& namespace_, ext::string&& qualified_name, ext::map<ext::string, ext::any>&& options = {}) -> std::unique_ptr<element>;
+    _EXT_NODISCARD auto create_document_fragment() -> std::unique_ptr<document_fragment>;
+    _EXT_NODISCARD auto create_text_node(ext::string&& data) -> std::unique_ptr<text>;
+    _EXT_NODISCARD auto create_cdata_section_node(ext::string&& data) -> std::unique_ptr<cdata_section>;
+    _EXT_NODISCARD auto create_comment(ext::string&& data) -> std::unique_ptr<comment>;
+    _EXT_NODISCARD auto create_processing_instruction(ext::string&& target, ext::string&& data) -> std::unique_ptr<processing_instruction>;
+    _EXT_NODISCARD auto create_attribute(ext::string&& local_name) -> std::unique_ptr<attr>;
+    _EXT_NODISCARD auto create_attribute_ns(ext::string&& namespace_, ext::string&& qualified_name) -> std::unique_ptr<attr>;
 
-    [[nodiscard]] auto create_range() const -> node_ranges::range;
-    auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::node_iterator;
-    auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) const -> node_iterators::tree_walker;
+    _EXT_NODISCARD auto create_range() -> std::unique_ptr<node_ranges::range>;
+    auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) -> std::unique_ptr<node_iterators::node_iterator>;
+    auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) -> std::unique_ptr<node_iterators::tree_walker>;
 
     auto import_node(node* new_node, ext::boolean deep = false) -> node*;
     auto adopt_node(node* new_node) -> node*;
@@ -131,28 +132,6 @@ public js_methods:
     auto layout_now() -> void;
 
 private js_properties:
-
-    /* [HTML] */
-    ext::property<std::unique_ptr<html::other::location>> location;
-    ext::property<ext::string> domain;
-    ext::property<ext::string> referrer;
-    ext::property<ext::string> cookie;
-    ext::property<ext::string> last_modified;
-    ext::property<ext::string> ready_state;
-    ext::property<ext::string> title; // TODO : CE_REACTIONS
-    ext::property<ext::string> dir; // TODO : CE_REACTIONS
-
-    ext::property<html::elements::html_body_element*> body; // TODO : CE_REACTIONS
-    ext::property<html::elements::html_head_element*> head; // TODO : CE_REACTIONS
-    ext::property<ranges::any_view<html::elements::html_image_element*>> images;
-    ext::property<ranges::any_view<html::elements::html_link_element*>> links;
-    ext::property<ranges::any_view<html::elements::html_form_element*>> forms;
-    ext::property<ranges::any_view<html::elements::html_script_element*>> scripts;
-    ext::property<detail::html_or_svg_script_element_t> current_script;
-
-    ext::property<window_proxy*> default_view;
-    ext::property<ext::string> design_mode;
-
     /* [PERMISSIONS_POLICY] */
     ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
 
@@ -169,9 +148,9 @@ private js_properties:
 private js_properties:
     /* [DOM] */
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_NODE;}
-    DEFINE_GETTER(node_name, ext::string) override {return "#document";}
-    DEFINE_GETTER(node_value, ext::string) override {return "";}
-    DEFINE_GETTER(text_content, ext::string) override {return "";}
+    DEFINE_GETTER(node_name, ext::string) override {return u8"#document";}
+    DEFINE_GETTER(node_value, ext::string) override {return u8"";}
+    DEFINE_GETTER(text_content, ext::string) override {return u8"";}
 
     DEFINE_SETTER(node_value, ext::string) override {};
     DEFINE_SETTER(text_content, ext::string) override {}
@@ -185,25 +164,30 @@ private js_properties:
     DEFINE_GETTER(implementation, other::dom_implementation*);
 
     /* [HTML] */
-    DEFINE_GETTER(last_modified);
-    DEFINE_GETTER(cookie);
-    DEFINE_GETTER(body);
-    DEFINE_GETTER(head);
-    DEFINE_GETTER(title);
-    DEFINE_GETTER(images);
-    DEFINE_GETTER(links);
-    DEFINE_GETTER(forms);
-    DEFINE_GETTER(scripts);
-    DEFINE_GETTER(dir);
-    DEFINE_GETTER(design_mode);
-    DEFINE_GETTER(domain);
+    DEFINE_GETTER(location, html::other::location*);
+    DEFINE_GETTER(domain, ext::string);
+    DEFINE_GETTER(referrer, ext::string_view);
+    DEFINE_GETTER(cookie, ext::string);
+    DEFINE_GETTER(ready_state, html::detail::document_readiness_state_t);
+    DEFINE_GETTER(title, ext::string);
+    DEFINE_GETTER(dir, html::detail::directionality_t);
+    DEFINE_GETTER(body, html::elements::html_body_element*);
+    DEFINE_GETTER(head, html::elements::html_head_element*);
+    DEFINE_GETTER(images, ranges::any_helpful_view<html::elements::html_image_element*>);
+    DEFINE_GETTER(links, ranges::any_helpful_view<html::elements::html_element*>);
+    DEFINE_GETTER(forms, ranges::any_helpful_view<html::elements::html_form_element*>);
+    DEFINE_GETTER(scripts, ranges::any_helpful_view<html::elements::html_script_element*>);
+    DEFINE_GETTER(current_script, html::detail::html_or_svg_image_element_t);
+    DEFINE_GETTER(default_view, window_proxy*);
+    DEFINE_GETTER(design_mode, ext::boolean);
 
-    DEFINE_SETTER(ready_state);
-    DEFINE_SETTER(cookie);
-    DEFINE_SETTER(title);
-    DEFINE_SETTER(body);
-    DEFINE_SETTER(design_mode);
-    DEFINE_SETTER(domain);
+    DEFINE_SETTER(domain, ext::string);
+    DEFINE_SETTER(cookie, ext::string);
+    DEFINE_GETTER(last_modified, ext::string);
+    DEFINE_SETTER(title, ext::string);
+    DEFINE_SETTER(dir, html::detail::directionality_t);
+    DEFINE_SETTER(body, html::elements::html_body_element*);
+    DEFINE_SETTER(design_mode, ext::boolean);
 
     /* [PAGE_VISIBILITY] */
     DEFINE_GETTER(hidden);

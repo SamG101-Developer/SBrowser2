@@ -47,6 +47,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
 
     detail::module_map_t module_map;
     ext::boolean is_initial = false;
+    ext::string referrer;
 
     // Document Timing & Context
     std::unique_ptr<html::detail::document_load_timing_info_t> load_timing_info;
@@ -54,20 +55,14 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
     std::unique_ptr<html::detail::browsing_context_t> browsing_context;
 
     ext::set<element*> render_blocking_elements;
-
     ext::boolean will_declaratively_refresh;
-
     ext::number<int> script_blocking_style_sheet_counter = 0;
-
     ext::map<html::detail::preload_key_t*, html::detail::preload_entry_t*> preloaded_resources;
-
     std::unique_ptr<intersection_observer::intersection_observer> lazy_load_intersection_observer;
-
     ext::map<html::detail::available_image_t*, std::byte[]> list_of_available_images;
-
     ext::boolean design_mode_enabled;
-
     html::detail::sandboxing_flag_set_t active_sandboxing_set;
+    html::detail::document_readiness_state_t current_readiness_state;
 
     // IFrame
     ext::boolean iframe_load_in_progress_flag;
@@ -78,6 +73,17 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
     ext::set<html::elements::html_script_element*> set_of_scripts_to_execute;
     ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order;
     ext::vector<html::elements::html_script_element*> list_of_scripts_to_execute_in_order_when_document_finished_parsing;
+
+    // Elements
+    auto title_element() const -> html::elements::html_title_element* {};
+    auto head_element() const -> html::elements::html_head_element* {};
+    auto body_element() const -> html::elements::html_body_element* {};
+    auto html_element() const -> html::elements::html_html_element* {};
+    html::detail::html_or_svg_image_element_t current_script;
+
+    // Other
+    html::detail::directionality_t dir;
+    std::unique_ptr<node_ranges::range> active_range;
 
     /* [DEVICE_POSTURE] */
     ext::number<double> s_current_posture;

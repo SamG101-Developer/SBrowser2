@@ -43,7 +43,7 @@ auto dom::nodes::attr::set_node_value(ext::string new_node_value) -> ext::string
     // 'new_node_value'. Apply custom element reactions to this setter.
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(attr);
-        return d->value = new_node_value;
+        return d->value = std::move(new_node_value);
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -54,7 +54,7 @@ auto dom::nodes::attr::set_text_content(ext::string new_text_content) -> ext::st
     // 'new_text_content'. Apply custom element reactions to this getter.
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(attr);
-        return d->value = new_text_content;
+        return d->value = std::move(new_text_content);
     CE_REACTIONS_METHOD_EXE
 }
 

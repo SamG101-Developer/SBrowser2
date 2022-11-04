@@ -10,6 +10,7 @@ namespace dom::events {class event_private;}
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/vector.hpp"
+namespace dom::nodes {class document;}
 namespace dom::nodes {class event_target;}
 namespace dom::nodes {class shadow_root;}
 
@@ -18,6 +19,7 @@ class dom::events::event
         : public virtual dom_object
 {
 public friends:
+    friend class dom::nodes::document;
     friend class dom::nodes::event_target;
     friend class dom::nodes::shadow_root;
 
