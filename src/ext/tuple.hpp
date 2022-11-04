@@ -13,6 +13,10 @@ _EXT_BEGIN
     using namespace tuplet;
 _EXT_END
 
+_EXT_LITERALS_BEGIN
+    using namespace tuplet::literals;
+_EXT_LITERALS_END
+
 
 _EXT_DETAIL_BEGIN
 
