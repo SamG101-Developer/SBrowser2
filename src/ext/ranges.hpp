@@ -42,6 +42,9 @@
     struct name##_fn {code};          \
     RANGES_INLINE_VARIABLE(name##_fn, name)
 
+#define RANGE_VIEW_STRUCT_T(name, code) \
+    struct name##_fn {code};
+
 #define RANGE_ACTION_STRUCT(name, code) \
     struct name##_fn {code};            \
     RANGES_INLINE_VARIABLE(name##_fn, name)
@@ -222,7 +225,7 @@ namespace ranges::views
     //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;};
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
     template <filter_compare_t Comparison = filter_compare_t::EQ>
-    RANGE_VIEW_STRUCT(filter_eq,
+    RANGE_VIEW_STRUCT_T(filter_eq,
             template <typename Attr COMMA typename T COMMA typename F>
             constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity) const // TODO -> Attr to general typename (for any method), then specialiaze is_member_function for Attr
             {
@@ -252,6 +255,8 @@ namespace ranges::views
                 [attribute = std::forward<Attr>(attribute), value = std::forward<T>(value), f = std::forward<F>(proj)]<typename V>
                 (V&& candidate) mutable {return std::mem_fn(std::forward<Attr>(attribute)(f(std::forward<V>(candidate)))) >= std::forward<T>(value);});
             })
+    template <filter_compare_t Comparison>
+    inline constexpr auto filter_eq = filter_eq_fn<Comparison>{};
 
 
     RANGE_VIEW_CLOSURE_STRUCT(transpose,
