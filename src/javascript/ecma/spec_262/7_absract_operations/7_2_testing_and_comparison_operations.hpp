@@ -27,7 +27,7 @@ namespace javascript::ecma
     /* 7.2.10 */ auto SameValue(v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y) -> ext::boolean;
     /* 7.2.11 */ auto SameValueZero(v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y) -> ext::boolean;
     /* 7.2.12 */ auto SameValueNonNumeric(v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y) -> ext::boolean;
-    /* 7.2.13 */ auto IsLessThan(v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y, ext::boolean_view left_first) -> ext::boolean;
+    /* 7.2.13 */ auto IsLessThan(v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y, ext::boolean left_first) -> ext::boolean;
     /* 7.2.14 */ auto IsLooselyEqual(v8::Local<v8::Value> value) -> ext::boolean;
     /* 7.2.15 */ auto IsStrictlyEqual(v8::Local<v8::Value> value) -> ext::boolean;
 }
@@ -37,8 +37,8 @@ auto javascript::ecma::IsArray(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
-        if (!value->IsObject()) return false;
-        if (value->IsArray()) return true;
+        return_if (!value->IsObject()) false;
+        return_if (value->IsArray()) true;
         if (auto proxy = value.As<v8::Proxy>(); value->IsProxy())
         {
             auto* isolate = v8::Isolate::GetCurrent();
