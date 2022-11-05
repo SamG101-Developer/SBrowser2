@@ -162,6 +162,8 @@ inline auto javascript::interop::expose(
     EXPOSE_CLASS_TO_MODULE(CustomEvent, dom::events::custom_event);
     EXPOSE_CLASS_TO_MODULE(Event, dom::events::event);
 
+    local_context->Global()->SetPrototype(local_context, v8_module.new_instance()); // TODO : check if this works
+
     return persistent_context;
 }
 
