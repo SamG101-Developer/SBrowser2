@@ -5,7 +5,9 @@
 #include "ext/vector_like.hpp"
 #include "html/mixins/window_or_worker_global_scope.hpp"
 namespace dom::nodes {class window;}
+namespace dom::nodes {class window_private;}
 
+#include "ext/span.hpp"
 #include "ext/threading.hpp"
 #include "ext/type_traits.hpp"
 #include "ext/queue.hpp"
@@ -33,94 +35,57 @@ class dom::nodes::window final
         , public ext::vector_like<html::detail::browsing_context_t*>
         , public html::mixins::window_or_worker_global_scope
 {
+public constructors:
+    DOM_CTORS(window);
+    MAKE_PIMPL(window);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
-    /* HTML */
+    /* [HTML] */
     auto close() -> void;
     auto stop() -> void;
     auto focus() -> void;
     auto blur() -> void;
 
-    auto open(ext::string_view url = "", ext::string_view targtet = "_blank", ext::string_view features = "") -> window_proxy;
+    auto open(ext::string_view url = u8"", ext::string_view targtet = u8"_blank", ext::string_view features = u8"") -> window_proxy;
 
-    auto alert(ext::string&& message = "") -> void;
-    auto confirm(ext::string&& message = "") -> ext::boolean;
-    auto prompt(ext::string&& message = "", ext::string&& default_ = "") -> ext::string;
+    auto alert(ext::string&& message = u8"") -> void;
+    auto confirm(ext::string&& message = u8"") -> ext::boolean;
+    auto prompt(ext::string&& message = u8"", ext::string&& default_ = u8"") -> ext::string;
     auto print() -> void;
 
-    auto post_message(ext::any&& message, ext::string_view target_origin = "/", ext::vector_view<ext::any> transfer = {}) -> void;
+    auto post_message(ext::any&& message, ext::string_view target_origin = u8"/", ext::vector_span<ext::any> transfer = {}) -> void;
     auto post_message(ext::any&& message, detail::window_post_message_options_t&& options = {}) -> void;
 
-    /* BACKGROUND_TASKS */
-    auto request_idle_callback(
-            background_tasks::detail::idle_request_callback_t&& callback,
-            background_tasks::detail::idle_request_options_t&& options)
-            -> ext::number<ulong>;
+    /* [BACKGROUND-TASKS] */
+    auto request_idle_callback(background_tasks::detail::idle_request_callback_t&& callback, background_tasks::detail::idle_request_options_t&& options) -> ext::number<ulong>;
+    auto cancel_idle_task(ext::number<ulong> handle) -> void;
 
-    auto cancel_idle_task(
-            ext::number<ulong> handle)
-            -> void;
-
-    /* SELECTION */
+    /* [SELECTION] */
     auto get_selection() -> selection::selection*;
 
-    /* CSSOM */
-    auto get_computed_style(element* element, ext::string_view pseudo_element = "") -> css::cssom::other::css_style_declaration;
+    /* [CSSOM] */
+    auto get_computed_style(element* element, ext::string_view pseudo_element = u8"") -> css::cssom::other::css_style_declaration;
 
 private js_properties:
-    /* HTML */
-    ext::property<std::unique_ptr<window_proxy>> window;
-    ext::property<std::unique_ptr<window_proxy>> self;
-    ext::property<std::unique_ptr<document>> document;
-    ext::property<ext::string> name;
+    /* [HTML] */
+    DEFINE_GETTER(window, window_proxy*);
+    DEFINE_GETTER(document, document*);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(location, html::other::location*);
+    DEFINE_GETTER(history, html::other::history*);
+    DEFINE_GETTER(custom_elements, html::other::custom_element_registry*);
+    DEFINE_GETTER(closed, ext::boolean);
+    DEFINE_GETTER(top, window_proxy*);
+    DEFINE_GETTER(opener, window_proxy*);
+    DEFINE_GETTER(parent, window_proxy*);
+    DEFINE_GETTER(frame_element, dom::nodes::element*);
+    DEFINE_GETTER(navigator, html::other::navigator*);
+    DEFINE_GETTER(origin_agent_cluster, ext::boolean);
 
-    ext::property<std::unique_ptr<html::other::location>> location;
-    ext::property<std::unique_ptr<html::other::history>> history;
-    ext::property<std::unique_ptr<html::other::custom_element_registry>> custom_elements;
-
-    ext::property<ext::string> status;
-    ext::property<ext::boolean> closed;
-
-    ext::property<std::unique_ptr<window_proxy>> frames;
-    ext::property<std::unique_ptr<window_proxy>> top;
-    ext::property<std::unique_ptr<window_proxy>> parent;
-    ext::property<ext::any> opener;
-    ext::property<std::unique_ptr<dom::nodes::element>> frame_element;
-
-    ext::property<std::unique_ptr<html::other::navigator>> navigator;
-    ext::property<ext::boolean> origin_agent_cluster;
-
-private js_slots:
-    ext::slot<html::detail::cross_origin_property_descriptor_map_t> s_cross_origin_property_descriptor_map;
-
-private cpp_properties:
-    /* HTML */
-    ext::boolean m_has_dispatched_scroll_event = false;
-    std::unique_ptr<dom::detail::custom_element_reactions_stack_t> m_custom_element_reaction_stack;
-    ext::queue<dom::nodes::element*>* m_current_element_queue;
-    hr_time::dom_high_res_time_stamp last_activation_timestamp;
-
-    /* BACKGROUND_TASKS */
-    ext::vector<background_tasks::detail::idle_request_callback_t> m_idle_request_callbacks;
-    ext::vector<background_tasks::detail::idle_request_callback_t> m_runnable_idle_callbacks;
-    ext::number<ulong> m_idle_callback_identifier;
-
-    /* EVENT_TIMING */
-    ext::vector<event_timing::performance_event_timing*> m_entries_to_be_queued;
-    std::unique_ptr<event_timing::performance_event_timing> m_pending_first_pointer_down;
-    ext::boolean m_has_dispatched_input_event;
-    ext::number<short> m_user_interaction_value = ext::number<int>::random(100, 10000);
-    ext::map<ext::number<int>, event_timing::performance_event_timing*> m_pending_key_downs;
-    ext::map<ext::number<int>, event_timing::performance_event_timing*> m_pending_pointer_downs;
-    ext::map<ext::number<int>, ext::number<int>> m_pointer_interaction_value_map;
-    ext::set<ext::number<int>> m_pointer_is_drag_set;
-    std::unique_ptr<event_timing::event_counts> m_event_counts;
-    std::unique_ptr<event_timing::interaction_counts> m_interaction_counts;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(name);
-    DEFINE_CUSTOM_GETTER(closed);
-
-    DEFINE_CUSTOM_SETTER(name);
+    DEFINE_SETTER(name, ext::string);
+    DEFINE_SETTER(opener, window_proxy*);
+    DEFINE_SETTER(frame_element, dom::nodes::element*);
 };
 
 

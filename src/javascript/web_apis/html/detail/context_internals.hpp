@@ -2,6 +2,7 @@
 #define SBROWSER2_CONTEXT_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/memory.hpp"
 #include "ext/pair.hpp"
 #include "ext/vector.hpp"
 #include <memory>
@@ -220,13 +221,27 @@ struct html::detail::browsing_context_t
 
     sandboxing_flag_set_t popup_sandboxing_set;
 
-    ext::vector<dom::nodes::document*> session_history {};
-
     /* [CONTACT-PICKER] */
     ext::boolean m_contact_picker_is_showing = false;
 
     /* [PAYMENT-REQUEST] */
     ext::boolean payment_request_is_showing = false;
+};
+
+
+struct html::detail::navigable_t
+{
+    ext::string  id;
+    std::observer_ptr<navigable_t> parent;
+    std::unique_ptr<session_history_t> current_session_history;
+    std::unique_ptr<session_history_t> active_session_history;
+    ext::boolean is_closing;
+    ext::boolean is_delaying_load_events;
+
+    auto active_document() const -> dom::nodes::document*;
+    auto active_browsing_context() const -> browsing_context_t&;
+    auto active_window_proxy() const -> dom::nodes::window_proxy*;
+    auto target_name() const -> ext::string;
 };
 
 #endif //SBROWSER2_CONTEXT_INTERNALS_HPP

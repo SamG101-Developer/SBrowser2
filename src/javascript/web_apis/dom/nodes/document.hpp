@@ -189,13 +189,13 @@ private js_properties:
     DEFINE_SETTER(body, html::elements::html_body_element*);
     DEFINE_SETTER(design_mode, ext::boolean);
 
-    /* [PAGE_VISIBILITY] */
-    DEFINE_GETTER(hidden);
+    /* [PAGE_VISIBILITY] */ // TODO
+    DEFINE_GETTER(hidden, ext::boolean);
     DEFINE_GETTER(visibility_state, page_visibility::detail::visibility_state_t);
 
     DEFINE_SETTER(visibility_state, page_visibility::detail::visibility_state_t);
 
-    /* [CSS_WEB_ANIMATIONS] */
+    /* [CSS_WEB_ANIMATIONS] */ // TODO
     DEFINE_GETTER(timeline);
 };
 

@@ -146,6 +146,8 @@ namespace html::detail
     struct task_queue_t;
     struct drag_data_store_item_list_t;
     struct drag_data_store_t;
+    struct navigable_t;
+    struct session_history_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;

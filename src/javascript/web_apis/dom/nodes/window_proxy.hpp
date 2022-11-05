@@ -3,26 +3,23 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PROXY_HPP
 
 #include "dom_object.hpp"
+#include <v8-object.h>
 namespace dom::nodes {class window_proxy;}
+namespace dom::nodes {class window_proxy_private;}
 
 namespace dom::nodes {class window;}
 
 
 class dom::nodes::window_proxy
         : public virtual dom_object
+        , public v8::Object
 {
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+public constructors:
+    window_proxy();
+    MAKE_PIMPL(window_proxy);
+    MAKE_V8_AVAILABLE;
 
-private js_slots:
-    ext::slot<std::unique_ptr<dom::nodes::window>> s_window;
-};
-
-
-class window_proxy_exotic_object
-        : v8::Object
-{
-public:
+public js_properties:
     auto GetPrototype() -> v8::Local<v8::Value>;
     auto SetPrototype(v8::Local<v8::Context> context, v8::Local<v8::Value> prototype) -> v8::Maybe<bool>;
     auto IsExtensible() -> bool;
@@ -34,9 +31,6 @@ public:
     auto Delete(v8::Local<v8::Context> context, v8::Local<v8::Value> key) -> v8::Maybe<bool>;
     auto GetOwnPropertyNames(v8::Local<v8::Context> context) -> v8::MaybeLocal<v8::Array>;
 };
-
-
-// TODO : custom conversion
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PROXY_HPP

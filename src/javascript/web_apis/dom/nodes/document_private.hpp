@@ -18,6 +18,7 @@
 namespace dom::nodes {class element;}
 namespace encoding {class encoding;}
 namespace html::elements {class html_script_element;}
+namespace html::other {class history;}
 namespace intersection_observer {class intersection_observer;}
 namespace screen_wake_lock {class wake_lock_sentinel;}
 
@@ -48,6 +49,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
     detail::module_map_t module_map;
     ext::boolean is_initial = false;
     ext::string referrer;
+    std::unique_ptr<html::other::history> history;
 
     // Document Timing & Context
     std::unique_ptr<html::detail::document_load_timing_info_t> load_timing_info;
