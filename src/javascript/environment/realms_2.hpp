@@ -33,7 +33,7 @@
     auto object ## _creation_realm = v8pp::to_v8(current_agent, object)->GetCreationContextChecked(); \
     auto object ## _creation_agent = creation_realm->GetIsolate();                                    \
     auto object ## _creation_global_object = _JS_GLOBAL_OBJECT_FROM_REALM(creation);                  \
-    auto current_settings_object = _JS_SETTINGS_OBJECT_FROM_REALM(relevant)
+    auto object ## _creation_settings_object = _JS_SETTINGS_OBJECT_FROM_REALM(relevant)
 
 #define JS_REALM_GET_IMPLIED                                            \
     auto implied_agent = v8::Isolate::GetCurrent();                     \
