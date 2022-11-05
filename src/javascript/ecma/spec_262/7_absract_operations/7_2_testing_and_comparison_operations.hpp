@@ -14,7 +14,7 @@
 #include <v8-proxy.h>
 #include <v8-value.h>
 
-namespace javascript::ecma
+namespace js::ecma
 {
     /* 7.2.02 */ auto IsArray(v8::Local<v8::Value> value) -> ext::boolean;
     /* 7.2.03 */ auto IsCallable(v8::Local<v8::Value> value) -> ext::boolean;
@@ -33,7 +33,7 @@ namespace javascript::ecma
 }
 
 
-auto javascript::ecma::IsArray(
+auto js::ecma::IsArray(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -51,7 +51,7 @@ auto javascript::ecma::IsArray(
 }
 
 
-auto javascript::ecma::IsCallable(
+auto js::ecma::IsCallable(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -61,7 +61,7 @@ auto javascript::ecma::IsCallable(
 }
 
 
-auto javascript::ecma::IsConstructor(
+auto js::ecma::IsConstructor(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -71,7 +71,7 @@ auto javascript::ecma::IsConstructor(
 }
 
 
-auto javascript::ecma::IsExtensible(
+auto js::ecma::IsExtensible(
         v8::Local<v8::Object> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -81,7 +81,7 @@ auto javascript::ecma::IsExtensible(
 }
 
 
-auto javascript::ecma::IsIntegralNumber(
+auto js::ecma::IsIntegralNumber(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -95,7 +95,7 @@ auto javascript::ecma::IsIntegralNumber(
 }
 
 
-auto javascript::ecma::IsPropertyKey(
+auto js::ecma::IsPropertyKey(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -104,7 +104,7 @@ auto javascript::ecma::IsPropertyKey(
 }
 
 
-auto javascript::ecma::IsRegExp(
+auto js::ecma::IsRegExp(
         v8::Local<v8::Value> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -120,7 +120,7 @@ auto javascript::ecma::IsRegExp(
 }
 
 
-auto javascript::ecma::IsStringWellFormedUnicode(
+auto js::ecma::IsStringWellFormedUnicode(
         v8::Local<v8::String> value) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -137,7 +137,7 @@ auto javascript::ecma::IsStringWellFormedUnicode(
 }
 
 
-auto javascript::ecma::SameValue(
+auto js::ecma::SameValue(
         v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -150,7 +150,7 @@ auto javascript::ecma::SameValue(
 }
 
 
-auto javascript::ecma::SameValueZero(
+auto js::ecma::SameValueZero(
         v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y) -> ext::boolean
 {
     JS_BLOCK_ENTER
@@ -163,7 +163,7 @@ auto javascript::ecma::SameValueZero(
 }
 
 
-auto javascript::ecma::SameValueNonNumeric(
+auto js::ecma::SameValueNonNumeric(
         v8::Local<v8::Value> value_x, v8::Local<v8::Value> value_y) -> ext::boolean
 {
     JS_BLOCK_ENTER

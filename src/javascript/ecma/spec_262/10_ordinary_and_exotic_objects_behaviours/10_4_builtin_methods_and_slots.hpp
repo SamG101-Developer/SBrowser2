@@ -3,14 +3,14 @@
 
 #include <v8-object.h>
 
-namespace javascript::ecma
+namespace js::ecma
 {
     /* 10.4.7.1 */ // v8::Object::SetPrototype(...)
     /* 10.4.7.2 */ auto SetImmutablePrototype(v8::Local<v8::Object> O, v8::Local<v8::Object> V) -> bool;
 }
 
 
-auto javascript::ecma::SetImmutablePrototype(
+auto js::ecma::SetImmutablePrototype(
         v8::Local<v8::Object> O,
         v8::Local<v8::Object> V)
         -> bool
