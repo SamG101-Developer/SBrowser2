@@ -1,6 +1,6 @@
 #ifndef SBROWSER2_ENVIRONMENT_MODULE_HPP
 #define SBROWSER2_ENVIRONMENT_MODULE_HPP
 
-namespace javascript::environment {enum class module_t {WINDOW, WORKER, WORKLET};}
+namespace js::env {enum class module_t {WINDOW, WORKER, WORKLET};}
 
 #endif //SBROWSER2_ENVIRONMENT_MODULE_HPP

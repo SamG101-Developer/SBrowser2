@@ -14,7 +14,7 @@
 #include <libplatform/libplatform.h>
 
 
-namespace javascript::environment {
+namespace js::env {
     auto initialize_v8_engine(
             char** argv)
             -> int;
@@ -45,7 +45,7 @@ namespace javascript::environment {
 std::unique_ptr<v8::Platform> platform;
 
 
-auto javascript::environment::initialize_v8_engine(char** argv) -> int
+auto js::env::initialize_v8_engine(char** argv) -> int
 {
     // initialize the icu default location and the external startup data
     v8::V8::InitializeICUDefaultLocation(argv[0]);
@@ -70,7 +70,7 @@ auto javascript::environment::initialize_v8_engine(char** argv) -> int
 }
 
 
-inline auto javascript::environment::create_new_isolate() -> v8::Isolate*
+inline auto js::env::create_new_isolate() -> v8::Isolate*
 {
     // create the create_params object for the array buffer allocator
     v8::Isolate::CreateParams create_params;
@@ -82,7 +82,7 @@ inline auto javascript::environment::create_new_isolate() -> v8::Isolate*
 }
 
 
-inline auto javascript::environment::create_new_context(v8::Isolate* isolate, module_t module_type) -> v8::Persistent<v8::Context>&
+inline auto js::env::create_new_context(v8::Isolate* isolate, module_t module_type) -> v8::Persistent<v8::Context>&
 {
     // create the isolate_ and handle_scope
     v8::Isolate::Scope isolate_scope(isolate);
@@ -94,7 +94,7 @@ inline auto javascript::environment::create_new_context(v8::Isolate* isolate, mo
 }
 
 
-inline auto javascript::environment::execute(v8::Isolate* isolate, const v8::Persistent<v8::Context>& persistent_context, const char* code) -> void
+inline auto js::env::execute(v8::Isolate* isolate, const v8::Persistent<v8::Context>& persistent_context, const char* code) -> void
 {
     // create the isolate_scope, handle_scope and context_scope
     v8::Isolate::Scope isolate_scope(isolate);
@@ -115,7 +115,7 @@ inline auto javascript::environment::execute(v8::Isolate* isolate, const v8::Per
 }
 
 
-inline auto javascript::environment::dispose_isolate(v8::Isolate* isolate) -> void
+inline auto js::env::dispose_isolate(v8::Isolate* isolate) -> void
 {
     // delete the array buffer allocator for the isolate and displose the isolate instance
     delete isolate->GetArrayBufferAllocator();
@@ -123,7 +123,7 @@ inline auto javascript::environment::dispose_isolate(v8::Isolate* isolate) -> vo
 }
 
 
-auto javascript::environment::dispose_v8_engine() -> int
+auto js::env::dispose_v8_engine() -> int
 {
     // shutdown the platform, dispose the platform, and dispose v8
     v8::V8::Dispose();

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ENVIRONMENT_SETTINGS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ENVIRONMENT_SETTINGS_HPP
 
-namespace javascript::environment {struct settings_t;}
+namespace js::env {struct settings_t;}
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
@@ -11,7 +11,7 @@ namespace service_workers::workers {class service_worker_private;}
 namespace service_workers::workers {class service_worker;}
 
 
-struct javascript::environment::settings_t
+struct js::env::settings_t
 {
     /* [HTML] */
     std::unique_ptr<url::detail::url_t> api_base_url;
