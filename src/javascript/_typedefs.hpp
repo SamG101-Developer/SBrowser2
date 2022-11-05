@@ -4,7 +4,7 @@
 #include "ext/number.hpp"
 #include "ext/vector.hpp"
 
-namespace javascript::detail::js
+namespace js::detail::js
 {
     using float32_array = ext::vector<ext::number<float >>;
     using float64_array = ext::vector<ext::number<double>>;
