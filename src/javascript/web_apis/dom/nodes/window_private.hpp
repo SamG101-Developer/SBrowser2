@@ -16,7 +16,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, window) : dom::nodes::event_target_private
     /* [HTML] */
     ext::boolean has_dispatched_scroll_event = false;
     std::unique_ptr<dom::detail::custom_element_reactions_stack_t> custom_element_reaction_stack;
-    ext::queue<dom::nodes::element*>* current_element_queue;
+    ext::queue<dom::nodes::element*> current_element_queue;
     hr_time::dom_high_res_time_stamp last_activation_timestamp;
     html::detail::cross_origin_property_descriptor_map_t cross_origin_property_descriptor_map;
 
@@ -24,6 +24,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, window) : dom::nodes::event_target_private
     std::unique_ptr<document> document;
     std::unique_ptr<html::other::location> location;
     std::unique_ptr<html::other::custom_element_registry> custom_elements;
+    std::unique_ptr<html::navigators::navigator> navigator;
 
     /* [BACKGROUND-TASKS] */
     ext::vector<background_tasks::detail::idle_request_callback_t> idle_request_callbacks;
