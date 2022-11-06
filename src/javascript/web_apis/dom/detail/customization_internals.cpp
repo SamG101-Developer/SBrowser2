@@ -252,8 +252,8 @@ auto dom::detail::upgrade_element(
     decltype(auto) construct_result = definition->constructor();
 
     JS_BLOCK_ENTER // throw an error if 'construction_result' is the same object as 'element'
-    auto* const isolate = v8::Isolate::GetCurrent();
-    if (javascript::ecma::SameValue(v8pp::to_v8(isolate, construct_result), v8pp::to_v8(isolate, element)))
+    decltype(auto) isolate = v8::Isolate::GetCurrent();
+    if (js::ecma::SameValue(v8pp::to_v8(isolate, construct_result), v8pp::to_v8(isolate, element)))
         throw_v8_exception<V8_TYPE_ERROR>();
     JS_BLOCK_EXIT
 

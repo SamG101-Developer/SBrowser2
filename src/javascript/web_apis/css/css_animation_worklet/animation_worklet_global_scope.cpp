@@ -74,7 +74,7 @@ auto css::css_animation_worklet::animation_worklet_global_scope::register_animat
         dom::detail::queue_task(html::detail::dom_manipulation_task_source,
                 [current_global_object, &stateful, name = std::move(name)]
                 {
-                    decltype(auto) associated_document = javascript::environment::realms::get<dom::nodes::document*>(current_global_object, "$AssociatedDocument");
+                    decltype(auto) associated_document = js::env::realms::get<dom::nodes::document*>(current_global_object, "$AssociatedDocument");
                     detail::document_animator_definition_t document_definition {.stateful_flag = stateful};
 
                     if (associated_document->m_document_animator_definitions().contains(name))

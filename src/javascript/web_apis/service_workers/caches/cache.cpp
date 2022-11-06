@@ -4,7 +4,7 @@
 #include "ext/promise.hpp"
 #include "ext/ranges.hpp"
 
-#include "javascript/environment/environment_settings.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include INCLUDE_INNER_TYPES(fetch)
 
@@ -66,9 +66,8 @@ auto service_workers::caches::cache::match_all(
 
         auto reject_cross_origin = [&promise](fetch::response* response)
         {
-            JS_REALM_GET_RELEVANT(promise);
-            decltype(auto) settings_object = v8pp::from_v8<javascript::environment::settings_t>(promise_relevant_agent, promise_relevant_settings_object);
-            return response->d_ptr->type == "opaque" && !fetch::detail::cross_origin_resource_policy_checl(settings_obnject->origin, promise_relevant_global_object, "", response->d_ptr);
+            auto e = js::env::env::relevant(promise);
+            return response->d_func()->type == u8"opaque" && !fetch::detail::cross_origin_resource_policy_checl(e.cpp.settings()->origin, e.js.global(), u8"", response);
         };
 
         responses

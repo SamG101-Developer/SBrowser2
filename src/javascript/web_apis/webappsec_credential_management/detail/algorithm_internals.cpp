@@ -1,7 +1,7 @@
 #include "algorithm_internals.hpp"
 
 #include "ext/enums.hpp"
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 #include "javascript/environment/environment_settings.hpp"
 
 #include "dom/abort/abort_signal.hpp"
@@ -24,11 +24,11 @@ auto webappsec::detail::same_origin_with_ancestors(
         v8::Local<v8::Object> settings)
         -> ext::boolean
 {
-    JS_REALM_GET_RELEVANT(settings);
-    decltype(auto) window = v8pp::from_v8<dom::nodes::window*>(settings_relevant_agent, settings_relevant_global_object);
+    auto e = js::env::env::relevant(settings);
+    decltype(auto) window = e.cpp.global<dom::nodes::window*>();
     return_if (!window->document()) false;
 
-    decltype(auto) settings_object = v8pp::from_v8<javascript::environment::settings_t*>(settings_relevant_agent, settings);
+    decltype(auto) settings_object = v8pp::from_v8<js::env::settings_t*>(settings_relevant_agent, settings);
     decltype(auto) origin = settings_object->origin;
     decltype(auto) current = window->document()->m_browsing_context.get();
 
@@ -64,7 +64,7 @@ auto webappsec::detail::request_credential(
     return_if (abort_signal->aborted()) promise.reject(abort_signal->reason());
     // TODO: mediation
 
-    decltype(auto) settings_object = v8pp::from_v8<javascript::environment::settings_t*>(current_agent, current_settings_object);
+    decltype(auto) settings_object = v8pp::from_v8<js::env::settings_t*>(current_agent, current_settings_object);
     decltype(auto) origin = settings_object->origin;
     decltype(auto) is_same_origin_with_ancestors = same_origin_with_ancestors(settings_object);
 

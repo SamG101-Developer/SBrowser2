@@ -24,7 +24,7 @@ dom::mutations::mutation_observer::mutation_observer(detail::mutation_callback_t
 {
     JS_REALM_GET_RELEVANT(this);
     decltype(auto) window = v8pp::from_v8<nodes::window*>(this_relevant_agent, this_relevant_global_object);
-    decltype(auto) agent_mutation_observers = this_relevant_agent->GetData(javascript::isolate_data_slots::mutation_observers);
+    decltype(auto) agent_mutation_observers = this_relevant_agent->GetData(js::isolate_data_slots::mutation_observers);
     static_cast<ext::vector<std::unique_ptr<mutation_observer>>*>(agent_mutation_observers)->emplace_back(this);
 
     INIT_PIMPL(mutation_observer);

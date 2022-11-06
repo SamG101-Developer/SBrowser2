@@ -1,7 +1,8 @@
 #include "rtc_peer_connection.hpp"
 #include "rtc_peer_connection_private.hpp"
 
-#include "environment/environment_settings.hpp"
+#include "javascript/environment/environment_settings.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
@@ -20,14 +21,13 @@ web_rtc::pc::rtc_peer_connection::rtc_peer_connection(detail::rtc_configuration_
     INIT_PIMPL(rtc_peer_connection);
 
     JS_EXCEPTION_HANDLER;
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) settings_object = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_settings_object);
+    auto e = js::env::env::relevant(this);
 
     ACCESS_PIMPL(rtc_peer_connection);
     using enum dom::detail::dom_exception_error_t;
 
-    d->document_origin = settings_object->origin;
-    auto current_time = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d->document_origin = e.cpp.settings()->origin;
+    auto current_time = hr_time::detail::current_hr_time(e.js.global());
     auto original_certificates = configuration[u8"certificates"].to<ext::vector<rtc_certificate*>>();
     auto certificates = original_certificates
             | ranges::views::remove_if([current_time](auto* c) {return c->d_func()->expires < current_time;})

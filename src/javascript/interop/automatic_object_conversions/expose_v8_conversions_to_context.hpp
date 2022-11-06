@@ -78,12 +78,12 @@
     auto v8_##javascript_class_name = cpp_class_name::to_v8(isolate); \
     v8_module.class_(#javascript_class_name, v8_##javascript_class_name)
 
-namespace javascript::interop {auto expose(v8::Isolate* isolate, environment::module_t module_type) -> v8::Persistent<v8::Context>&;}
+namespace js::interop {auto expose(v8::Isolate* isolate, env::module_t module_type) -> v8::Persistent<v8::Context>&;}
 
 
-inline auto javascript::interop::expose(
+inline auto js::interop::expose(
         v8::Isolate* isolate,
-        environment::module_t module_type)
+        env::module_t module_type)
         -> v8::Persistent<v8::Context>&
 {
     // create the context objects and create a module for the classes ie the Window module
@@ -95,7 +95,7 @@ inline auto javascript::interop::expose(
     // different classes are exposed to different modules, and assign the module name TODO : secure contexts
     switch (module_type)
     {
-        case (environment::module_t::WINDOW):
+        case (env::module_t::WINDOW):
         {
             /* [ACCELEROMETER] */
             EXPOSE_CLASS_TO_MODULE(Accelerometer, accelerometer::accelerometer);
@@ -144,13 +144,13 @@ inline auto javascript::interop::expose(
             EXPOSE_CLASS_TO_MODULE(Range, dom::node_ranges::range);
         }
 
-        case (environment::module_t::WORKER):
+        case (env::module_t::WORKER):
         {
             /* [DOM] */
             EXPOSE_CLASS_TO_MODULE(DOMImplementation, dom::other::dom_implementation);
         }
 
-        case (environment::module_t::WORKLET):
+        case (env::module_t::WORKLET):
         {
         }
     }

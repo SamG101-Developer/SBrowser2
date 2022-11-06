@@ -2,7 +2,8 @@
 
 #include "ext/optional.hpp"
 #include "ext/ranges.hpp"
-#include "javascript/environment/realms_2.hpp"
+
+#include "javascript/environment/realms.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
@@ -17,8 +18,8 @@
 #include "dom/nodes/element_private.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_private.hpp"
-#include "dom/nodes/node.hpp
-#include "dom/nodes/node_private.hpp
+#include "dom/nodes/node.hpp"
+#include "dom/nodes/node_private.hpp"
 #include "dom/other/dom_implementation.hpp"
 #include "dom/other/dom_implementation_private.hpp"
 
@@ -37,15 +38,15 @@ auto dom::detail::notify_mutation_observers()
     // set the 'mutation_observer_microtask_queued' variable to false, and get the 'notify_set' (MutationObserver set),
     // and the signal set (HTMLSlotElement set). clear the 'signal_set' in the environment (clone is saved locally)
 
-    JS_REALM_GET_SURROUNDING(nullptr);
+    auto e = js::env::env::surrounding(nullptr);
     using notify_set_t = ext::set<mutations::mutation_observer*>;
     using signal_set_t = ext::set<html::elements::html_slot_element*>;
 
     // TODO : move to dom::nodes::window
-    javascript::environment::realms::set(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued", false);
-    decltype(auto) notify_set = javascript::environment::realms::get<notify_set_t>(nullptr_surrounding_global_object, u8"notify_observers");
-    decltype(auto) signal_set = javascript::environment::realms::get<signal_set_t>(nullptr_surrounding_global_object, u8"signal_slots");
-    javascript::environment::realms::set(nullptr_surrounding_global_object, u8"signal_slots", signal_set_t{});
+    js::env::realms::set(e.js.global(), u8"mutation_observer_microtask_queued", false);
+    decltype(auto) notify_set = js::env::realms::get<notify_set_t>(e.js.global(), u8"notify_observers");
+    decltype(auto) signal_set = js::env::realms::get<signal_set_t>(e.js.global(), u8"signal_slots");
+    js::env::realms::set(e.js.global(), u8"signal_slots", signal_set_t{});
 
     // iterate every MutationObserver in the 'notify_set'
     for (mutations::mutation_observer* const mo: notify_set)
@@ -61,7 +62,7 @@ auto dom::detail::notify_mutation_observers()
         // TODO : why?
         for (const nodes::node* const node: *mo->d_func()->node_list)
             node->d_func()->registered_observer_list = node->d_func()->registered_observer_list
-                    | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<transient_registered_observer_t*>()
+                    | ranges::views::cast<transient_registered_observer_t*>
                     | ranges::views::remove_if([mo](auto* observer) {return observer->observer.get() == mo;});
 
         // if there are any MutationRecords from the JavaScript environment, call 'mo''s callback with the list of
@@ -90,7 +91,8 @@ auto dom::detail::queue_microtask(
         -> void
 {
     JS_BLOCK_ENTER
-        JS_REALM_GET_IMPLIED;
+        auto e = js::env::env::implied();
+
         // set the 'event loop' and 'document' to the implied objects (via the implied realm) TODO
         event_loop = event_loop ? event_loop : implied_agent;
         document = document ? document : implied_document();
@@ -200,13 +202,13 @@ auto dom::detail::queue_tree_mutation_record(
 
 auto dom::detail::queue_mutation_observer_microtask() -> void
 {
-    JS_REALM_GET_SURROUNDING(nullptr);
+    auto e = js::env::env::surrounding(nullptr);
 
     // get if the surrounding global object's 'mutation_observer_microtask_queued' attribute is set to true; return
     // early if it is, otherwise set it to true, and queue a microtask to 'notify_mutation_observers()'
-    const auto queued = javascript::environment::realms::get<ext::boolean>(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued");
+    decltype(auto) queued = js::env::realms::get<ext::boolean>(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued");
     return_if(queued);
-    javascript::environment::realms::set(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued", true);
+    js::env::realms::set(nullptr_surrounding_global_object, u8"mutation_observer_microtask_queued", true);
 
     queue_microtask(&notify_mutation_observers);
 }
@@ -244,8 +246,8 @@ auto dom::detail::queue_global_task(
         -> void
 {
     JS_REALM_GET_RELEVANT(global_object);
-    decltype(auto) document = javascript::environment::realms::get<ext::string>(global_object, u8"type") == u8"Window"
-            ? javascript::environment::realms::get<nodes::document*>(global_object, u8"associated_document")
+    decltype(auto) document = js::env::realms::get<ext::string>(global_object, u8"type") == u8"Window"
+            ? js::env::realms::get<nodes::document*>(global_object, u8"associated_document")
             : nullptr;
 
     queue_task(task_source, std::forward<F>(steps), global_object_relevant_agent, document);

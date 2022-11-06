@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ISOLATE_DATA_SLOTS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ISOLATE_DATA_SLOTS_HPP
 
-namespace javascript::isolate_data_slots
+namespace js::isolate_data_slots
 {
     constexpr auto mutation_observers = 0;
 }

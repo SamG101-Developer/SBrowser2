@@ -2,15 +2,18 @@
 #include "service_worker_container_private.hpp"
 
 #include "javascript/environment/environment_settings.hpp"
-
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(service_workers)
+#include "javascript/environment/realms.hpp"
 
 #include "service_workers/clients/client.hpp"
 #include "service_workers/detail/job_internals.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/observer_internals.hpp"
+
+#include "html/_typedefs.hpp"
 #include "html/detail/task_internals.hpp"
+
+#include "service_workers/_typedefs.hpp"
 #include "storage/detail/storage_internals.hpp"
 #include "url/detail/url_internals.hpp"
 
@@ -24,10 +27,9 @@ auto service_workers::workers::service_worker_container::register_(
 {
     ACCESS_PIMPL(service_worker_container);
 
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) settings_object = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_settings_object);
-    decltype(auto) api_base_url    = url::detail::url_serializer(*settings_object->api_base_url);
-    decltype(auto) scope_url       = options.try_emplace("scope", "").first->second.to<ext::string>();
+    auto e = js::env::env::relevant(this);
+    decltype(auto) api_base_url = url::detail::url_serializer(*e.cpp.settings()->api_base_url);
+    decltype(auto) scope_url    = options[u8"scope"].to<ext::string>();
 
     auto promise = ext::promise<service_worker_registration>{};
     decltype(auto) client = d->service_worker_client;
@@ -46,17 +48,16 @@ auto service_workers::workers::service_worker_container::get_registration(
     ACCESS_PIMPL(service_worker_container);
     using enum dom::detail::dom_exception_error_t;
 
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) settings_object = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_settings_object);
-    decltype(auto) api_base_url    = url::detail::url_serializer(*settings_object->api_base_url);
+    auto e = js::env::env::relevant(this);
+    decltype(auto) api_base_url = url::detail::url_serializer(*e.cpp.settings()->api_base_url);
     auto promise = ext::promise<service_worker_registration*>{};
 
     decltype(auto) client = d->service_worker_client;
-    auto storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(this_relevant_agent, client));
+    auto storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(e.js.agent(), client));
     auto parsed_client_url = url::detail::url_parser(client_url, api_base_url);
 
-    return_if (!parsed_client_url.has_value()) promise.reject(v8::Exception::TypeError(v8pp::to_v8(this_relevant_agent, "TODO")));
-    return_if (url::detail::origin(*parsed_client_url) != html::detail::origin(v8pp::to_v8(this_relevant_agent, client))) promise.reject(dom::other::dom_exception{"TODO", SECURITY_ERR});
+    return_if (!parsed_client_url.has_value()) promise.reject(v8::Exception::TypeError(v8pp::to_v8(e.js.agent(), "TODO")));
+    return_if (url::detail::origin(*parsed_client_url) != html::detail::origin(v8pp::to_v8(e.js.agent(), client))) promise.reject(dom::other::dom_exception{"TODO", SECURITY_ERR});
 
     GO [&promise, storage_key = std::move(storage_key), parsed_client_url = std::move(*parsed_client_url)] mutable
     {
@@ -72,10 +73,10 @@ auto service_workers::workers::service_worker_container::get_registrations()
         -> ext::promise<const ext::vector<service_worker_registration>>
 {
     ACCESS_PIMPL(service_worker_container);
+    auto e = js::env::env::relevant(this);
 
-    JS_REALM_GET_RELEVANT(this);
     decltype(auto) client = d->service_worker_client;
-    auto client_storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(this_relevant_agent, client));
+    auto client_storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(e.js.agent(), client));
     auto promise = ext::promise<const ext::vector<service_worker_registration>>{};
 
     GO [&promise, storage_key = std::move(client_storage_key)]

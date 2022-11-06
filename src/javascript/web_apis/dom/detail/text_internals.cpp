@@ -57,7 +57,7 @@ auto dom::detail::replace_data(
     // get the live ranges from the surrounding realm, because these need to be updated for the mutations in the Text
     // node
     JS_REALM_GET_SURROUNDING(text_node);
-    decltype(auto) live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(text_node_surrounding_global_object, "live_ranges");
+    decltype(auto) live_ranges = js::env::realms::get<ext::vector<node_ranges::range*>>(text_node_surrounding_global_object, "live_ranges");
 
     // ranges whose start container is the Text node and whose start offset is in the data that was replaced: set the
     // start offset to the offset of the data being replaced
@@ -159,7 +159,7 @@ auto dom::detail::split(
         insert(&new_text_node, parent, detail::next_sibling(existing_text_node));
 
         JS_REALM_GET_SURROUNDING(existing_text_node);
-        decltype(auto) live_ranges = javascript::environment::realms::get<ext::vector<node_ranges::range*>>(existing_text_node_surrounding_global_object, "live_ranges");
+        decltype(auto) live_ranges = js::env::realms::get<ext::vector<node_ranges::range*>>(existing_text_node_surrounding_global_object, "live_ranges");
 
         ranges::for_each(
                 live_ranges | ranges::views::filter([existing_text_node, offset](auto* range) {return range->d_func()->start->node == existing_text_node && range->d_func()->start->offset > offset;}),

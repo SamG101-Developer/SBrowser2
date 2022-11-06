@@ -23,7 +23,7 @@ auto geolocation::detail::request_position(
         -> void
 {
     JS_REALM_GET_CURRENT
-    decltype(auto) document = javascript::environment::realms::get<dom::nodes::document*>(current_global_object, "$AssociatedDocument");
+    decltype(auto) document = js::env::realms::get<dom::nodes::document*>(current_global_object, "$AssociatedDocument");
 
     if (!html::detail::allowed_to_use(document, "geolocation"))
     {

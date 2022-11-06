@@ -22,7 +22,7 @@ auto dom::nodes::window_proxy::SetPrototype(
         v8::Local<v8::Value> prototype)
         -> v8::Maybe<bool>
 {
-    javascript::ecma::SetImmutablePrototype(*this, prototype);
+    js::ecma::SetImmutablePrototype(*this, prototype);
 }
 
 

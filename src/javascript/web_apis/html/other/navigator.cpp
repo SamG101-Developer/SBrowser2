@@ -1,8 +1,9 @@
 #include "navigator.hpp"
 
-#include "environment/environment_settings.hpp"
 #include "ext/threading.hpp"
-#include "javascript/environment/realms_2.hpp"
+
+#include "javascript/environment/environment_settings.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "battery/battery_manager.hpp"
 
@@ -44,12 +45,12 @@ auto html::other::navigator::send_beacon(
         fetch::detail::body_init_t data)
         -> void
 {
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) base   = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_global_object)->api_base_url.get();
-    decltype(auto) origin = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_global_object)->origin;
-
+    auto e = js::env::env::relevant(this);
+    decltype(auto) base   = e.cpp.settings()->api_base_url.get();
+    decltype(auto) origin = e.cpp.settings()->origin;
     auto parsed_url = url::detail::url_parser(std::move(url), base);
 
+    // TODO
 }
 
 
@@ -60,16 +61,18 @@ auto html::other::navigator::set_client_badge(
     // Run an algorithm in parallel that handles setting the badge of the Document.
     GO [this, &contents]
     {
-        JS_REALM_GET_RELEVANT(this);
-        auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
+        auto e = js::env::env::relevant(this);
+        decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
         document->m_badge = !contents.has_value()
                 ? badging::detail::badge_value_t::FLAG : *contents == 0
                 ? badging::detail::badge_value_t::NOTHING : std::move(*contents);
+
+        // TODO
     };
 
     // Return a resolved ext::promise<void> whilst the above code is executing in another thread.
     ext::promise<void> promise;
-    promise.set_value();
+    promise.resolve();
     return promise;
 }
 
@@ -79,14 +82,14 @@ auto html::other::navigator::clear_client_badge()
 {
     GO [this]
     {
-        JS_REALM_GET_RELEVANT(this);
-        auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "responsible_document");
+        auto e = js::env::env::relevant(this);
+        decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
         document->m_badge = badging::detail::badge_value_t::NOTHING;
     };
 
     // Return a resolved ext::promise<void> whilst the above code is executing in another thread.
     ext::promise<void> promise;
-    promise.set_value();
+    promise.resolve();
     return promise;
 }
 
@@ -101,14 +104,14 @@ auto html::other::navigator::get_battery()
             : ext::promise<battery::battery_manager*>{};
 
     // Get the associated document of the relevant global object, cast to a Document.
-    JS_REALM_GET_RELEVANT(this);
-    auto* document = javascript::environment::realms::get<dom::nodes::document*>(this_relevant_global_object, "associated_document");
+    auto e = js::env::env::relevant(this);
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
 
     // If the Document isn't allowed to use the Battery feature, then reject the [[BatteryPromise]] with a
     // NOT_ALLOWED_ERR, and return the contents of the [[BatteryManager]] slot.
-    if (!html::detail::allowed_to_use(document, "battery"))
+    if (!html::detail::allowed_to_use(document, u8"battery"))
     {
-        s_battery_promise().set_exception(dom::other::dom_exception{"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
+        s_battery_promise().set_exception(dom::other::dom_exception{u8"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
         return s_battery_promise();
     }
 
@@ -128,23 +131,20 @@ auto html::other::navigator::get_battery()
 auto html::other::navigator::get_gamepads()
         -> ext::vector<gamepad::gamepad*>&
 {
+    using enum dom::detail::dom_exception_error_t;
+
     // Get the associated document of the relevant global object, cast to a Document.
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document();
+    auto e = js::env::env::relevant(this);
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
     return_if (!document || !dom::detail::is_document_fully_active(document)) {};
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            [document]
-            {
-                return !html::detail::allowed_to_use(
-                        document,
-                        "gamepad");
-            },
+            BIND_FRONT(!html::detail::allowed_to_use, document, u8"gamepad"),
             "Document is not allowed to use the 'gamepad' feature");
 
     return_if (!s_has_gamepad_gesture()) {};
 
-    auto now = hr_time::detail::current_hr_time(this_relevant_global_object);
+    auto now = hr_time::detail::current_hr_time(e.js.global());
     auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed();};
 
     for (auto* gamepad: s_gamepads() | ranges::views::filter(std::move(valid_gamepad)))

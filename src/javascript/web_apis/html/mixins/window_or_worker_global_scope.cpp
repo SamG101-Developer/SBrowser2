@@ -2,6 +2,7 @@
 #include "window_or_worker_global_scope_private.hpp"
 
 #include "javascript/environment/environment_settings.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
@@ -101,23 +102,20 @@ auto html::mixins::window_or_worker_global_scope::queue_microtask(ext::function<
 
 auto html::mixins::window_or_worker_global_scope::get_origin() const -> ext::string
 {
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) settings = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_settings_object);
-    return detail::serialize_origin(settings->origin);
+    auto e = js::env::env::relevant(this);
+    return detail::serialize_origin(e.cpp.settings()->origin);
 }
 
 
 auto html::mixins::window_or_worker_global_scope::get_is_secure_context() const -> ext::boolean
 {
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) settings = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_settings_object);
-    return settings->is_secure_context;
+    auto e = js::env::env::relevant(this);
+    return e.cpp.settings()->is_secure_context;
 }
 
 
 auto html::mixins::window_or_worker_global_scope::get_cross_origin_isolated() const -> ext::boolean
 {
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) settings = v8pp::from_v8<javascript::environment::settings_t*>(this_relevant_agent, this_relevant_settings_object);
-    return settings->cross_origin_isolated_capability;
+    auto e = js::env::env::relevant(this);
+    return e.cpp.settings()->cross_origin_isolated_capability;
 }

@@ -3,7 +3,8 @@
 
 #include "ext/enums.hpp"
 #include "ext/optional.hpp"
-#include "javascript/environment/environment_settings.hpp"
+
+#include "javascript/environment/realms.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
@@ -29,23 +30,17 @@ auto presentation::detail::construct_presentation_request(
 {
     using enum dom::detail::dom_exception_error_t;
 
-    JS_REALM_GET_RELEVANT(request);
-    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(request_relevant_agent, request_relevant_global_object)->d_func()->document;
-    decltype(auto) api_base_url = *v8pp::from_v8<javascript::environment::settings_t*>(current_agent, current_settings_object)->api_base_url;
+    auto e = js::env::env::current();
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document;
+    decltype(auto) api_base_url = *e.cpp.settings()->api_base_url;
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            [document]
-            {
-                return document->d_func()->active_sandboxing_set & html::detail::sandboxing_flag_set_t::PRESENTATION;
-            },
+            [document] {return document->d_func()->active_sandboxing_set & html::detail::sandboxing_flag_set_t::PRESENTATION;},
             u8"Document flag disallows presentations being used");
 
     decltype(auto) presentation_urls = urls
             | ranges::views::transform(BIND_BACK(url::detail::basic_url_parser, api_base_url))
-            | ranges::views::for_each([](auto&& url) {
-                dom::detail::throw_v8_exception<SYNTAX_ERR>(
-                        [&url] {return !url.has_value();},
-                        u8"URL Parsing Error");});
+            | ranges::views::for_each([](auto&& url) {dom::detail::throw_v8_exception<SYNTAX_ERR>([&url] {return !url.has_value();}, u8"URL Parsing Error");});
     // TODO : filter by allowed schemes
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(

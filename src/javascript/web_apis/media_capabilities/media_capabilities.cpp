@@ -27,7 +27,7 @@ auto media::capabilities::media_capabilities::decoding_info(
         return promise.reject(dom::other::dom_exception{"Global object can not be a WorkerGlobalScope", INVALID_STATE_ERR});
 
     if (configuration.contains("keySystemConfiguration") && secure_contexts::detail::is_environment_settings_object_in_secure_context(current_settings_object))
-        return promise.reject(dom::other::dom_exception{"Global environment settings must be in a secure context", SECURITY_ERR});;
+        return promise.reject(dom::other::dom_exception{"Global env settings must be in a secure context", SECURITY_ERR});;
 
     GO [&promise, configuration = std::move(configuration)] mutable
     {

@@ -4,15 +4,15 @@
 
 int main(int argc, char** argv)
 {
-    javascript::environment::initialize_v8_engine(argv);
-    auto* isolate = javascript::environment::create_new_isolate();
-    auto& context = javascript::environment::create_new_context(isolate, javascript::environment::module_t::WINDOW);
+    js::env::initialize_v8_engine(argv);
+    auto* isolate = js::env::create_new_isolate();
+    auto& context = js::env::create_new_context(isolate, js::env::module_t::WINDOW);
 
-    javascript::environment::execute(isolate, context, "let e = new Window.Event({bubbles: true});"
+    js::env::execute(isolate, context, "let e = new Window.Event({bubbles: true});"
                                                        "e.bubbles");
 
-    javascript::environment::dispose_isolate(isolate);
-    javascript::environment::dispose_v8_engine();
+    js::env::dispose_isolate(isolate);
+    js::env::dispose_v8_engine();
 
     return 0;
 }

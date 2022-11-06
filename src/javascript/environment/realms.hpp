@@ -30,13 +30,6 @@ struct js::env::env
     };
 
 public:
-    template <typename U>
-    _EXT_NODISCARD auto global_cpp() const
-    {return v8pp::from_v8<U>(m_agent, m_global);}
-
-    _EXT_NODISCARD auto settings_cpp() const
-    {return v8pp::from_v8<settings_t*>(m_agent, m_settings);}
-
     struct
     {
         _EXT_NODISCARD auto agent() const -> v8::Isolate*;
