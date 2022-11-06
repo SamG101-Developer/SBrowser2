@@ -1,46 +1,51 @@
 #include "navigator.hpp"
+#include "navigator_private.hpp"
 
 #include "ext/threading.hpp"
 
 #include "javascript/environment/environment_settings.hpp"
 #include "javascript/environment/realms.hpp"
 
+#include "badging/_typedefs.hpp"
 #include "battery/battery_manager.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/node_internals.hpp"
 #include "dom/other/dom_exception.hpp"
+#include "dom/other/dom_exception_private.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
+
+#include "hr_time/performance.hpp"
+#include "hr_time/detail/time_internals.hpp"
 
 #include "gamepad/gamepad.hpp"
-#include "hr_time/performance.hpp"
 #include "html/detail/document_internals.hpp"
 #include "mediacapture_main/media_devices.hpp"
 
 #include "url/detail/encoding_internals.hpp"
 #include "url/detail/url_internals.hpp"
-#include "v8pp/convert.hpp"
 
 #include <range/v3/view/filter.hpp>
 
-#include INCLUDE_INNER_TYPES(badging)
-#include INCLUDE_INNER_TYPES(dom)
 
-
-auto html::other::navigator::get_user_media(
+auto html::navigators::navigator::get_user_media(
         ext::map<ext::string, ext::any>&& constraints,
-        html::other::navigator::navigator_user_media_success_callback&& success_callback,
-        html::other::navigator::navigator_user_media_error_callback&& error_callback)
-const -> void
+        navigator_user_media_success_callback_t&& success_callback,
+        navigator_user_media_error_callback_t&& error_callback)
+        const -> void
 {
-    auto promise = media_devices()->get_user_media(std::move(constraints));
+    ACCESS_PIMPL(const navigator);
+    auto promise = d->media_devices->get_user_media(std::move(constraints));
     // TODO : call success_callback when ext::promise set-value called
     // TODO : call error callback when ext::promise set-error called
 }
 
 
-auto html::other::navigator::send_beacon(
+auto html::navigators::navigator::send_beacon(
         ext::string&& url,
         fetch::detail::body_init_t data)
         -> void
@@ -54,7 +59,7 @@ auto html::other::navigator::send_beacon(
 }
 
 
-auto html::other::navigator::set_client_badge(
+auto html::navigators::navigator::set_client_badge(
         ext::optional<ext::number<ulonglong>> contents)
         -> ext::promise<void>
 {
@@ -77,7 +82,7 @@ auto html::other::navigator::set_client_badge(
 }
 
 
-auto html::other::navigator::clear_client_badge()
+auto html::navigators::navigator::clear_client_badge()
         -> ext::promise<void>
 {
     GO [this]
@@ -94,13 +99,16 @@ auto html::other::navigator::clear_client_badge()
 }
 
 
-auto html::other::navigator::get_battery()
+auto html::navigators::navigator::get_battery()
         -> ext::promise<battery::battery_manager*>&
 {
+    ACCESS_PIMPL(navigator);
+    using enum dom::detail::dom_exception_error_t;
+
     // If the [[BatteryPromise]] slot is empty, then create a new slot, as the contents of the lost (promise) are
     // required for the rest of the method.
-    s_battery_promise = s_battery_promise().get_future().get()
-            ? s_battery_promise()
+    d->battery_promise = d->battery_promise.value()
+            ? d->battery_promise
             : ext::promise<battery::battery_manager*>{};
 
     // Get the associated document of the relevant global object, cast to a Document.
@@ -111,26 +119,27 @@ auto html::other::navigator::get_battery()
     // NOT_ALLOWED_ERR, and return the contents of the [[BatteryManager]] slot.
     if (!html::detail::allowed_to_use(document, u8"battery"))
     {
-        s_battery_promise().set_exception(dom::other::dom_exception{u8"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
-        return s_battery_promise();
+        d->battery_promise.reject(dom::other::dom_exception{u8"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
+        return d->battery_promise;
     }
 
     // Otherwise, fill the [[BatteryManager]] slot with a new BatteryManager object (will be deleted in the destructor
     // of the Navigator)
     else
     {
-        s_battery_manager = s_battery_manager() ?: new battery::battery_manager{};
-        s_battery_promise().set_value(s_battery_manager());
+        d->battery_manager = d->battery_manager ?: new battery::battery_manager{};
+        d->battery_promise.reject(d->battery_manager);
     }
 
     // Return the [[BatteryPromise]]
-    return s_battery_promise();
+    return d->battery_promise;
 }
 
 
-auto html::other::navigator::get_gamepads()
-        -> ext::vector<gamepad::gamepad*>&
+auto html::navigators::navigator::get_gamepads()
+        -> ext::vector_span<gamepad::gamepad*>
 {
+    ACCESS_PIMPL(navigator);
     using enum dom::detail::dom_exception_error_t;
 
     // Get the associated document of the relevant global object, cast to a Document.
@@ -140,18 +149,18 @@ auto html::other::navigator::get_gamepads()
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
             BIND_FRONT(!html::detail::allowed_to_use, document, u8"gamepad"),
-            "Document is not allowed to use the 'gamepad' feature");
+            u8"Document is not allowed to use the 'gamepad' feature");
 
-    return_if (!s_has_gamepad_gesture()) {};
+    return_if (!d->has_gamepad_gesture()) {};
 
     auto now = hr_time::detail::current_hr_time(e.js.global());
-    auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->s_exposed();};
+    auto valid_gamepad = [](gamepad::gamepad* gamepad) {return gamepad && !gamepad->d_func()->exposed;};
 
-    for (auto* gamepad: s_gamepads() | ranges::views::filter(std::move(valid_gamepad)))
+    for (auto* gamepad: d->gamepads | ranges::views::filter(std::move(valid_gamepad)))
     {
-        gamepad->s_exposed = true;
-        gamepad->s_timestamp = now;
+        gamepad->d_func()->exposed = true;
+        gamepad->d_func()->timestamp = now;
     }
 
-    return s_gamepads();
+    return d->gamepads;
 }

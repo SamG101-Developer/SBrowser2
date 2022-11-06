@@ -4,15 +4,16 @@
 
 #include "dom_object.hpp"
 namespace html::other {class location;}
-
-#include INCLUDE_INNER_TYPES(html)
+namespace html::other {class location_private;}
 
 
 class html::other::location
         : public virtual dom_object
 {
-private js_slots:
-    ext::slot<detail::cross_origin_property_descriptor_map_t> s_cross_origin_property_descriptor_map;
+public constructors:
+    location();
+    MAKE_PIMPL(location);
+    MAKE_V8_AVAILABLE;
 };
 
 
