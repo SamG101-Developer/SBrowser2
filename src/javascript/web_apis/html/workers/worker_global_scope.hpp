@@ -2,28 +2,31 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_GLOBAL_SCOPE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_GLOBAL_SCOPE_HPP
 
-#include "dom_object.hpp"
+#include "dom/nodes/event_target.hpp"
 #include "html/mixins/window_or_worker_global_scope.hpp"
 namespace html::workers {class worker_global_scope;}
+namespace html::workers {class worker_global_scope_private;}
 
-#include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(reporting)
-namespace reporting {class registered_observer;}
+namespace html::workers {class worker_location;}
+namespace html::workers {class worker_navigator;}
 
 
 class html::workers::worker_global_scope
-        : public virtual dom_object
+        : public dom::nodes::event_target
         , public html::mixins::window_or_worker_global_scope
 {
 public constructors:
     DOM_CTORS(worker_global_scope);
-    worker_global_scope() = default;
+    MAKE_PIMPL(worker_global_scope);
+    MAKE_V8_AVAILABLE;
 
-private cpp_properties:
-    ext::vector<reporting::detail::endpoint_t*> m_endpoints_list;
-    ext::vector<reporting::detail::report_t*> m_reports_list;
-    ext::vector<reporting::detail::report_t*> m_reports_buffer;
-    ext::vector<reporting::registered_observer*> m_registered_reporting_observer_list;
+public js_methods:
+    template <ext::type_is<ext::string>... Args> auto import_scripts(Args... urls);
+
+public js_properties:
+    DEFINE_GETTER(self, worker_global_scope*);
+    DEFINE_GETTER(location, worker_location*);
+    DEFINE_GETTER(navigator, worker_navigator*);
 };
 
 

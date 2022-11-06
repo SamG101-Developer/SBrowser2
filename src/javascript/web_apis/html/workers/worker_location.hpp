@@ -1,18 +1,21 @@
 #pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_LOCATION_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_LOCATION_HPP
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_LOCATION_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_LOCATION_HPP
 
+// Inheritance Includes & This Class
 #include "dom_object.hpp"
-namespace html::other {class location;}
-namespace html::other {class location_private;}
+namespace html::workers {class worker_location;}
+namespace html::workers {class worker_location_private;}
+
+// Other Includes & Forward Declarations
 
 
-class html::other::location
-        : public virtual dom_object
+class html::workers::worker_location
+        : public dom_object
 {
 public constructors:
-    location();
-    MAKE_PIMPL(location);
+    worker_location();
+    MAKE_PIMPL(worker_location);
     MAKE_V8_AVAILABLE;
 
 public js_properties:
@@ -30,4 +33,4 @@ public js_properties:
 };
 
 
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_LOCATION_HPP
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_LOCATION_HPP

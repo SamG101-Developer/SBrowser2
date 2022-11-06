@@ -124,6 +124,7 @@ namespace html::detail
     enum class track_element_kind_t {SUBTITLES, CAPTIONS, DESCRIPTIONS, CHAPTERS, METADATA};
     enum class document_readiness_state_t {COMPLETE, INTERACTIVE};
     enum class scroll_restoration_t {AUTO, MANUAL};
+    enum worjer_global_scope_type_t {CLASSIC, MODULE};
 
     struct browsing_context_t;
     struct document_load_timing_info_t;
@@ -196,6 +197,7 @@ namespace html::detail
     using timer_handler_t = ext::variant<ext::string, ext::function<void()>>;
     using image_bitmap_source_t = ext::extend_variant_t<canvas_image_source_t, file_api::blob*, canvasing::image_data*>;
     using image_bitmap_options_t = ext::map<ext::string, ext::any>;
+    using worklet_options_t = ext::map<ext::string, ext::any>;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
