@@ -32,9 +32,7 @@ public constructors:
     MAKE_PIMPL_TEMPLATED(vector_like, T);
 
     explicit vector_like()
-    {
-        INIT_PIMPL_TEMPLATED(vector_like, T);
-    }
+    {INIT_PIMPL_TEMPLATED(vector_like, T);}
 
 public:
     virtual auto operator[](number<size_t> index) -> T& = 0;
