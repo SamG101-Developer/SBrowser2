@@ -11,6 +11,7 @@
 #include "ext/pair.hpp"
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
+#include "ext/variadic.hpp"
 
 #include <range/v3/range/conversion.hpp>
 
@@ -280,6 +281,13 @@ namespace ranges::views
         return predicate()
                 ? ranges::views::for_each(std::forward<T>(truth_function))
                 : ranges::views::for_each(std::forward<U>(false_function));
+            })
+
+    RANGE_VIEW_STRUCT(parse_csv,
+            constexpr auto operator()() const
+            {
+        return ranges::views::transform(BIND_BACK(ranges::views::split, ','))
+                | ranges::views::transform([](auto&& pair) {return _EXT make_pair(std::move(pair.front()), std::move(pair.back()));});
             })
 }
 
