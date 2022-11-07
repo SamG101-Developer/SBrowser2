@@ -4,17 +4,19 @@
 
 #include "dom_object.hpp"
 namespace encoding::mixins {class text_encoder_common;}
+namespace encoding::mixins {class text_encoder_common_private;}
 
 
 class encoding::mixins::text_encoder_common
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(text_encoder_common);
-    text_encoder_common() = default;
+    text_encoder_common();
+    MAKE_PIMPL(text_encoder_common);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> encoding;
+    DEFINE_GETTER(encoding, ext::string_view);
 };
 
 

@@ -4,23 +4,24 @@
 
 #include "dom_object.hpp"
 #include "encoding/mixins/text_decoder_common.hpp"
-namespace encoding::detail {class text_decoder;}
+namespace encoding {class text_decoder;}
+namespace encoding {class text_decoder_private;}
 
-#include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(encoding)
+#include INCLUDE_INNER_TYPES(web_idl)
 
 
-class encoding::detail::text_decoder
+class encoding::text_decoder
         : public virtual dom_object
         , public mixins::text_decoder_common
 {
 public constructors:
-    DOM_CTORS(text_decoder);
-    text_decoder() = default;
-    text_decoder(ext::string_view lavel = "utf-8", detail::text_decoder_options_t&& options = {});
+    text_decoder(ext::string_view label = u8"utf-8", detail::text_decoder_options_t&& options = {});
+    MAKE_PIMPL(text_decoder);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto decode(v8::Local<v8::ArrayBuffer> input, text_decode_options_t&& options = {});
+    auto decode(v8::Local<v8::BufferSource> input, detail::text_decode_options_t&& options = {});
 };
 
 

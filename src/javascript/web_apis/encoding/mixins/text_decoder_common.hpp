@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace encoding::mixins {class text_decoder_common;}
+namespace encoding::mixins {class text_decoder_common_private;}
 
 #include "ext/variant.hpp"
 #include INCLUDE_INNER_TYPES(encoding)
@@ -14,22 +15,14 @@ class encoding::mixins::text_decoder_common
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(text_decoder_common);
-    text_decoder_common() = default;
+    text_decoder_common();
+    MAKE_PIMPL(text_decoder_common);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> encoding_object;
-    ext::property<ext::boolean> fatal;
-    ext::property<ext::boolean> ignore_bom;
-
-private cpp_properties:
-    const encoding& m_encoding;
-    const detail::decoder_t& m_decoder;
-    const detail::encoder_t& m_encoder;
-    detail::io_queue_t& m_io_queue;
-    ext::boolean m_ignore_bom;
-    ext::boolean m_bom_seen;
-    ext::variant<detail::decoder_error_mode_t, detail::encoder_error_mode_t> m_error_mode;
+    DEFINE_GETTER(encoding, ext::string);
+    DEFINE_GETTER(fatal, ext::boolean);
+    DEFINE_GETTER(ignore_bom, ext::boolean);
 };
 
 
