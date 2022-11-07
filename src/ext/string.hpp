@@ -3,10 +3,13 @@
 #define SBROWSER2_STRING_HPP
 
 #include "ext/keywords.hpp"
+#include "ext/functional.hpp"
 #include <sstream>
 #include <string>
 #include <string_view>
 #include <cryptopp/secblock.h>
+#include <range/v3/algorithm/fold.hpp>
+#include <range/v3/to_container.hpp>
 
 
 _EXT_BEGIN
@@ -35,6 +38,11 @@ _EXT_BEGIN
 
     auto to_lower = []<typename T>(T character) -> T {return std::tolower(character);};
     auto to_upper = []<typename T>(T character) -> T {return std::toupper(character);};
+
+    template <typename T, ext::type_is<typename T::value_type> ...Args>
+    auto sequence_matches(T&& string, Args&&... sequence)
+    {return string == ranges::fold_left({sequence...}, u8"", ext::ops::add) | ranges::to<T>();}
+
 _EXT_END
 
 
