@@ -333,6 +333,23 @@ namespace ranges::actions
             {return {all(std::forward<Rng>(rng)) COMMA dom_cast<T>};}) // TODO | ranges::views::remove(nullptr)
     template <_EXT is_pointer T>
     inline constexpr auto cast = action_closure<cast_fn<T>>{};
+
+    RANGE_ACTION_STRUCT(remove_key,
+            template <typename K COMMA _EXT callable F>
+            constexpr auto operator()(K&& key, F&& proj = _EXT identity) const
+            {
+        return ranges::make_action_closure(BIND_BACK(remove_key_fn{}, std::forward<K>(key), std::forward<F>(proj)));
+            }
+
+            template <typename Rng COMMA typename K COMMA _EXT callable F>
+            constexpr auto operator()(Rng&& rng, K&& key, F&& proj = _EXT identity)
+            {
+        auto keys = rng | ranges::views::keys;
+        auto iterator = ranges::remove(keys, std::forward<K>(key), std::forward<F>(proj));
+        auto iterator_distance = ranges::distance(ranges::begin(keys), iterator);
+        ranges::erase(std::forward<Rng>(rng), ranges::begin(std::forward<Rng>(rng)) + iterator_distance, ranges::end(std::forward<Rng>(rng)));
+        return std::forward<Rng>(rng);
+            })
 }
 
 
