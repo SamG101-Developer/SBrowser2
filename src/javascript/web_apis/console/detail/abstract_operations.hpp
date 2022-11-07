@@ -18,11 +18,18 @@ namespace console::detail
             Args&&... args)
             -> ext::string;
 
-    template <typename ...Args>
+    template <ext::type_is_enum E, typename ...Args>
     auto printer(
-            print_type_t format_type,
+            E format_type,
             Args&&... data)
             -> void;
 }
+
+
+struct console::detail::group_t
+{
+    ext::string label;
+};
+
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_DETAIL_ABSTRACT_OPERATIONS_HPP

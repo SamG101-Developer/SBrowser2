@@ -4,72 +4,75 @@
 
 #include "dom_object.hpp"
 namespace console {class console;}
+namespace console {class console_private;}
 
 #include INCLUDE_INNER_TYPES(console)
 #include "ext/map.hpp"
 #include "ext/stack.hpp"
 #include "ext/vector.hpp"
 
-class console::console
+class console::console : virtual public dom_object
 {
+public constructors:
+    console();
+    MAKE_PIMPL(console);
+    MAKE_V8_AVAILABLE;
+
+public js_methods:
     // Logging
     template <typename ...Args>
-    static auto assert_(ext::boolean condition = false, Args&&... data) -> void;
+    auto assert_(ext::boolean condition = false, Args&&... data) -> void;
 
-    static auto clear() -> void;
-
-    template <typename ...Args>
-    static auto debug(Args&&... data) -> void;
+    auto clear() -> void;
 
     template <typename ...Args>
-    static auto error(Args&&... data) -> void;
+    auto debug(Args&&... data) -> void;
 
     template <typename ...Args>
-    static auto info(Args&&... data) -> void;
+    auto error(Args&&... data) -> void;
 
     template <typename ...Args>
-    static auto log(Args&&... data) -> void;
+    auto info(Args&&... data) -> void;
 
     template <typename ...Args>
-    static auto warn(Args&&... data) -> void;
+    auto log(Args&&... data) -> void;
 
     template <typename ...Args>
-    static auto table(ext::vector<ext::tuple<Args...>>&& table_data = nullptr, ext::vector<ext::string>&& properties = {}) -> void;
+    auto warn(Args&&... data) -> void;
 
     template <typename ...Args>
-    static auto trace(Args&&... data) -> void;
+    auto table(ext::vector<ext::tuple<Args...>>&& table_data = nullptr, ext::vector<ext::string>&& properties = {}) -> void;
+
+    template <typename ...Args>
+    auto trace(Args&&... data) -> void;
 
     template <typename T>
-    static auto dir(ext::any&& item, T&& options = nullptr) -> void;
+    auto dir(ext::any&& item, T&& options = nullptr) -> void;
 
     template <typename ...Args>
-    static auto dirxml(Args&&... data) -> void;
+    auto dirxml(Args&&... data) -> void;
 
     // Count
-    static auto count(ext::string&& label = "default") -> void;
+    auto count(ext::string&& label = u8"default") -> void;
 
-    static auto count_reset(ext::string&& label = "default") -> void;
+    auto count_reset(ext::string&& label = u8"default") -> void;
 
     // Grouping
     template <typename ...Args>
-    static auto group(Args&&... data) -> void;
+    auto group(Args&&... data) -> void;
 
     template <typename ...Args>
-    static auto group_collapsed(Args&&... data) -> void;
+    auto group_collapsed(Args&&... data) -> void;
 
-    static auto group_end();
+    auto group_end();
 
     // Timing
-    static auto time(ext::string&& label = "default") -> void;
+    auto time(ext::string&& label = u8"default") -> void;
 
     template <typename ...Args>
-    static auto time_log(ext::string&& label = "default", Args&&... data);
+    auto time_log(ext::string&& label = u8"default", Args&&... data) -> void;
 
-    static auto time_end(ext::string&& label = "default") -> void;
-
-private:
-    static ext::stack<ext::string> m_group_stack;
-    static ext::map<ext::any, ext::number<size_t>> m_count_map;
+    auto time_end(ext::string&& label = u8"default") -> void;
 };
 
 
