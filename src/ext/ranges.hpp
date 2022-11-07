@@ -347,8 +347,12 @@ namespace ranges::actions
         auto keys = rng | ranges::views::keys;
         auto iterator = ranges::remove(keys, std::forward<K>(key), std::forward<F>(proj));
         auto iterator_distance = ranges::distance(ranges::begin(keys), iterator);
+        decltype(auto) removed_value = std::move(rng[std::forward<K>(key)]);
         ranges::erase(std::forward<Rng>(rng), ranges::begin(std::forward<Rng>(rng)) + iterator_distance, ranges::end(std::forward<Rng>(rng)));
-        return std::forward<Rng>(rng);
+        return std::move(removed_value);
+
+        // TODO : return type won't work for chaining
+        // TODO : simpler: ranges::actions::remove(ext::make_pair(key, range[key])) ? (maybe get pair type somehow)
             })
 }
 
