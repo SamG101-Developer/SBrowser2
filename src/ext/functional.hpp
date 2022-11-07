@@ -50,13 +50,13 @@ namespace cmp // TODO : <, >, <=, >=
 
 
 #define BIND_FRONT(function, ...)                 \
-    [&]<typename ...Args>(Args&&... args) mutable \
-    {return function(__VA_ARGS__, std::forward<Args>(args)...);}
+    [&]<typename ..._Args>(_Args&&... args) mutable \
+    {return function(__VA_ARGS__, std::forward<_Args>(args)...);}
 
 
 #define BIND_BACK(function, ...)                  \
-    [&]<typename ...Args>(Args&&... args) mutable \
-    {return function(std::forward<Args>(args)..., __VA_ARGS__);}
+    [&]<typename ..._Args>(_Args&&... args) mutable \
+    {return function(std::forward<_Args>(args)..., __VA_ARGS__);}
 
 
 _EXT_END
