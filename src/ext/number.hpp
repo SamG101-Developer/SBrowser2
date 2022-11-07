@@ -61,11 +61,11 @@ using longdouble = long double;
 
 _EXT_BEGIN
 
-template <arithmetic T>
+template <arithmetic T, bool unrestricted = false>
 class number final
 {
 public:
-    template <arithmetic U>
+    template <arithmetic U, bool>
     friend class _EXT number;
 
     using value_t = T;
