@@ -9,7 +9,6 @@
 #include "ext/keywords.hpp"
 #include "ext/map.hpp"
 #include "ext/number.hpp"
-#include "ext/tuple.hpp"
 #include "ext/variant.hpp"
 
 #include <memory>
@@ -42,16 +41,6 @@ struct extend_variant<variant<OldTypes...>, NewTypes...>
 
 template <typename OldVariant, typename ...NewTypes>
 using extend_variant_t = typename extend_variant<OldVariant, NewTypes...>::type;
-
-
-// get the first type from a variadic
-template <size_t Index, typename ...Types>
-struct nth_variadic_type
-{using type = decltype(_EXT get<Index>(variant<Types...>{}));}; // TODO : do without constructing object
-
-template <size_t Index, typename ...Types>
-using nth_variadic_type_t = typename nth_variadic_type<Index, Types...>::type;
-
 
 // other
 

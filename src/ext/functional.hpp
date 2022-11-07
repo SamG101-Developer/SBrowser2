@@ -2,7 +2,6 @@
 #define SBROWSER2_FUNCTIONAL_HPP
 
 #include "ext/concepts.hpp"
-#include "ext/tuple.hpp"
 #include <function2/function2.hpp>
 
 

@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_EXT_TUPLE_HPP
 #define SBROWSER2_SRC_EXT_TUPLE_HPP
 
-#include <functional>
-#include <initializer_list>
+#include "ext/functional.hpp"
+#include "ext/initializer_list.hpp"
+
 #include <iterator>
-#include <type_traits>
 
 #include <tuplet/tuple.hpp>
 
@@ -19,20 +19,13 @@ _EXT_LITERALS_END
 
 
 _EXT_DETAIL_BEGIN
+    template <class T, class Tuple, size_t... Indices>
+    constexpr auto make_from_tuple(Tuple&& tuple, std::index_sequence<Indices...>) -> T
+    {return T{ext::get<Indices>(std::forward<Tuple>(tuple))...};}
 
-template <class T, class Tuple, size_t... Indices>
-constexpr auto make_from_tuple(Tuple&& tuple, std::index_sequence<Indices...>) -> T
-{
-    return T{ext::get<Indices>(std::forward<Tuple>(tuple))...};
-}
-
-
-template <size_t... Is, typename T, typename F, typename Iterable>
-constexpr auto tuple_foreach(std::index_sequence<Is...>, T&& tuple, F&& function, Iterable&& iterable) -> void
-{
-    (iterable.push_back(function(ext::get<Is>(std::forward<T>(tuple)))), ...);
-}
-
+    template <size_t... Is, typename T, typename F, typename Iterable>
+    constexpr auto tuple_foreach(std::index_sequence<Is...>, T&& tuple, F&& function, Iterable&& iterable) -> void
+    {(iterable.push_back(function(ext::get<Is>(std::forward<T>(tuple)))), ...);}
 _EXT_DETAIL_END
 
 
