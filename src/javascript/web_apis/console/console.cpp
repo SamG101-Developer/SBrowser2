@@ -242,4 +242,7 @@ auto console::console::time_end(ext::string&& label) -> void
     auto e = js::env::env::relevant(this);
 
     auto start_time = d->timer_table |= ranges::actions::remove_key(std::move(label), ext::identity);
+    auto duration = hr_time::detail::current_hr_time(e.js.global()) - start_time;
+    auto concat = std::move(label) + char8_t(0x003a) + char8_t(0x0020) + ext::to_string(duration);
+    detail::printer(detail::timer_type_t::TIME_END, std::move(concat));
 }
