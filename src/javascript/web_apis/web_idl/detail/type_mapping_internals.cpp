@@ -1,6 +1,8 @@
 #include "type_mapping_internals.hpp"
 
 #include "dom/detail/observer_internals.hpp"
+#include "ext/array_buffer.hpp"
+#include "v8-forward.h"
 #include "v8-promise.h"
 
 #include <v8-internal.h>
@@ -134,4 +136,76 @@ auto web_idl::detail::get_promise_for_waiting_for_all(ext::vector_span<ext::prom
     auto failure_steps = BIND_FRONT(reject_promise, promise);
     wait_for_all(promises, std::move(success_steps), std::move(failure_steps));
     return promise;
+}
+
+
+template <typename T>
+auto web_idl::detail::create_array_buffer(T&& byte_sequence, v8::Local<v8::Context> realm) -> ext::array_buffer
+{
+    auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate(), byte_sequence.size());
+    auto array_buffer = convert<ext::array_buffer>(js_array_buffer);
+    return write(std::forward<T>(byte_sequence), array_buffer);
+}
+
+
+template <typename U, typename T>
+auto web_idl::detail::create_array_buffer_view(T&& byte_sequence, v8::Local<v8::Context> realm) -> U
+{
+    assert(!std::is_same_v<U COMMA ext::data_view> && byte_sequence.size() % U::element_size == 0);
+    auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate(), v8::ArrayBuffer::NewBackingStore(byte_sequence.data(), byte_sequence.size()));
+    auto js_view = U::v8_constructor(js_array_buffer);
+    return convert<U>(js_view);
+}
+
+
+auto web_idl::detail::get_copy_of_bytes_in_buffer_source(ext::buffer_source source, v8::Local<v8::Context> realm) -> void*
+{
+    using namespace ext::literals;
+
+    auto js_buffer_source = ext::visit([realm, source]<typename T>(T&& array_buffer) {return v8pp::to_v8(realm->GetIsolate(), source);}, source);
+    auto js_array_buffer = js_buffer_source;
+    auto offset = 0_n;
+    auto length = 0_n;
+
+    if (js_buffer_source->IsArrayBufferView())
+    {
+        js_array_buffer = js_buffer_source.As<v8::ArrayBufferView>()->Buffer();
+        offset = js_buffer_source.As<v8::ArrayBufferView>()->ByteOffset();
+        length = js_buffer_source.As<v8::ArrayBufferView>()->ByteLength();
+    }
+    else
+    {
+        assert (js_buffer_source->IsArrayBuffer() || js_buffer_source->IsSharedArrayBuffer());
+        length = js_buffer_source.As<v8::ArrayBuffer>()->ByteLength();
+    }
+
+    if (js_array_buffer.As<v8::ArrayBufferView>()->Buffer().IsEmpty()) // TODO : ===IsDetached
+        return nullptr;
+    // TODO
+}
+
+
+auto web_idl::detail::byte_length(ext::buffer_source source, v8::Local<v8::Context> realm) -> ext::number<size_t>
+{
+    // TODO : variants all working?
+    auto js_buffer_source = ext::visit([realm, source]<typename T>(T&& array_buffer) {return v8pp::to_v8(realm->GetIsolate(), source);}, source);
+    return js_buffer_source->IsArrayBufferView()
+            ? js_buffer_source.As<v8::ArrayBufferView>()->ByteLength()
+            : js_buffer_source.As<v8::ArrayBuffer>()->ByteLength();
+}
+
+
+auto web_idl::detail::underlying_data(ext::buffer_source source, v8::Local<v8::Context> realm) -> ext::array_buffer
+{
+    auto js_buffer_source = ext::visit([realm, source]<typename T>(T&& array_buffer) {return v8pp::to_v8(realm->GetIsolate(), source);}, source);
+    return convert<ext::array_buffer>(realm->GetIsolate(), js_buffer_source->IsArrayBufferView()
+            ? js_buffer_source.As<v8::ArrayBufferView>()->Buffer()
+            : js_buffer_source.As<v8::ArrayBuffer>());
+}
+
+
+template <typename T>
+auto web_idl::detail::write(T&& byte_sequence, ext::array_buffer& array_buffer, v8::Local<v8::Context> realm) -> ext::array_buffer&
+{
+    auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate())
 }
