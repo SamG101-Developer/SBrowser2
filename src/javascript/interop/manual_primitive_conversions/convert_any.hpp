@@ -1,13 +1,21 @@
 #pragma once
+#include "v8-forward.h"
 #ifndef SBROWSER2_CONVERT_ANY_HPP
 #define SBROWSER2_CONVERT_ANY_HPP
 
-#include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_string.hpp"
-
 #include "ext/any.hpp"
+#include "ext/optional.hpp"
+#include "ext/symbol.hpp"
+
+#include "web_idl/detail/type_mapping_internals.hpp"
+
+#include <v8-container.h>
+#include <v8-context.h>
+#include <v8-isolate.h>
+#include <v8-object.h>
 #include <v8-primitive.h>
+#include <v8-typed-array.h>
+#include <v8-value.h>
 #include <v8pp/convert.hpp>
 
 
@@ -17,83 +25,87 @@ struct v8pp::convert<ext::any>
     using from_type = ext::any;
     using to_type = v8::Local<v8::Value>;
 
-    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean;
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
+    {return !v8_value.IsEmpty();}
+
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
-    static auto to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type;
+    static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type;
 };
 
 
-inline auto v8pp::convert<ext::any>::is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
+template <>
+struct v8pp::convert<void>
 {
-    return !v8_value.IsEmpty();
-}
+    using from_type = void;
+    using to_type = v8::Local<v8::Primitive>;
+
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
+    {return !v8_value.IsEmpty() && v8_value->IsUndefined();}
+
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
+    static auto to_v8(v8::Isolate* isolate) -> to_type;
+};
 
 
-inline auto v8pp::convert<ext::any>::from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
+template <>
+struct v8pp::convert<ext::boolean>
 {
-    if (not is_valid(isolate, v8_value))
-        throw std::invalid_argument{"Invalid type for converting to ext::any from v8"};
+    using from_type = ext::boolean;
+    using to_type = v8::Local<v8::Boolean>;
 
-    v8::HandleScope javascript_scope{isolate};
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
+    {return !v8_value.IsEmpty() && (v8_value->IsBoolean() || v8_value->IsBooleanObject());}
 
-    // Create the value of the correct type based on the type of v8 value passed into the method.
-    if (v8_value->IsUndefined() || v8_value.IsEmpty())
-        return from_type{};
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
+    {return v8_value->ToBoolean(isolate)->Value();}
 
-    if (v8_value->IsNull())
-        return from_type{nullptr};
-
-    if (v8_value->IsBoolean())
-        return from_type{convert<ext::boolean>::from_v8(isolate, v8_value.As<v8::Boolean>())};
-
-    if (v8_value->IsNumber())
-        return from_type{convert<ext::number<double>>::from_v8(isolate, v8_value.As<v8::Number>())};
-
-    if (v8_value->IsBigInt())
-        return from_type{convert<ext::number<size_t>>::from_v8(isolate, v8_value.As<v8::BigInt>())};
-
-    if (v8_value->IsString())
-        return from_type{convert<ext::string>::from_v8(isolate, v8_value.As<v8::String>())};
-
-    if (v8_value->IsSymbol())
-        ; /* TODO */
-
-    if (v8_value->IsObject())
-        ; /* TODO */
-
-    // If the data type is unknown (ie hint to implement).
-    throw std::invalid_argument{"Unknown type being converted to ext::any from v8"};
-}
+    static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type
+    {return v8::Boolean::New(isolate, cpp_value);}
+};
 
 
-inline auto v8pp::convert<ext::any>::to_v8(v8::Isolate* isolate, const from_type& cpp_value) -> to_type
+template <std::integral T, bool unrestricted> requires unrestricted
+struct v8pp::convert<ext::number<T, unrestricted>>
 {
-    v8::EscapableHandleScope javascript_scope{isolate};
+    using from_type = ext::number<int8_t>;
+    using to_type = v8::Local<v8::Number>;
 
-    // Create the value of the correct type based n the type of the cpp value passed into the method.
-    if (cpp_value.is_empty())
-        return javascript_scope.Escape(v8::Undefined(isolate));
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
+    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
 
-    if (cpp_value.type() == typeid(void))
-        return javascript_scope.Escape(v8::Null(isolate));
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
+    {return web_idl::detail::convert_to_int<sizeof(T), std::is_signed_v<T>>(v8_value->ToInteger(isolate->GetCurrentContext()).ToLocalChecked());}
 
-    if (cpp_value.type() == typeid(ext::boolean))
-        return javascript_scope.Escape(convert<ext::boolean>::to_v8(isolate, cpp_value.to<ext::boolean>()));
+    static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type
+    {return v8::Integer::New(isolate, cpp_value);}
+};
 
-    if (cpp_value.is_arithmetic_type())
-        return javascript_scope.Escape(convert<ext::number<double>>::to_v8(isolate, cpp_value.to<ext::number<double>>())); // TODO : Number()/BigInt()?
 
-    if (cpp_value.type() == typeid(ext::string))
-        return javascript_scope.Escape(convert<ext::string>::to_v8(isolate, cpp_value.to<ext::string>()));
+template <>
+struct v8pp::convert<ext::number<float, true>>
+{
+    using from_type = ext::number<float, true>;
+    using to_type = v8::Local<v8::Number>;
 
-    if (/* TODO : Symbol */ false)
-        ;
+    static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
+    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
 
-    if (/* TODO : Object */ false)
-        ;
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
+    {
+        if (x == v8::Number::N)
+    }
+};
 
-    // If the data type is unknown (ie hint to implement).
-    throw std::invalid_argument{"Unknown type being converted from ext::any to v8"};
+
+auto v8pp::convert<ext::any>::from_v8(v8::Isolate* isolate, v8pp::convert<ext::any>::to_type v8_value) -> from_type
+{
+    return_if (v8_value->IsUndefined()) v8pp::convert<void>::from_v8(isolate, v8_value);
+    return_if (v8_value->IsNull()) nullptr;
+    return_if (v8_value->IsBoolean() || v8_value->IsBooleanObject()) v8pp::from_v8<ext::boolean>(isolate, v8_value);
+    return_if (v8_value->IsNumber() || v8_value->IsNumberObject()) v8pp::from_v8<ext::number<double>>(isolate, v8_value);
+    return_if (v8_value->IsBigInt() || v8_value->IsBigIntObject()) v8pp::from_v8<ext::number<bigint>>(isolate, v8_value);
+    return_if (v8_value->IsString() || v8_value->IsStringObject()) v8pp::from_v8<ext::string>(isolate, v8_value);
+    return_if (v8_value->IsSymbol() || v8_value->IsSymbolObject()) v8pp::from_v8<ext::symbol>(isolate, v8_value);
 }
 
 
