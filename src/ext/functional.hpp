@@ -39,12 +39,40 @@ private:
 namespace cmp // TODO : <, >, <=, >=
 {
     auto eq =
-        []<typename T, typename U>(T&& left, U&& right)
-        {return std::forward<T>(left) == std::forward<U>(right);};
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) == std::forward<U>(right);};
 
     auto ne =
-        []<typename T, typename U>(T&& left, U&& right)
-        {return std::forward<T>(left) != std::forward<U>(right);};
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) != std::forward<U>(right);};
+
+    auto lt =
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) < std::forward<U>(right);};
+
+    auto gt =
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) > std::forward<U>(right);};
+
+    auto le =
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) <= std::forward<U>(right);};
+
+    auto ge =
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) >= std::forward<U>(right);};
+}
+
+
+namespace ops
+{
+    auto add =
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) + std::forward<U>(right);};
+
+    auto minus =
+            []<typename T, typename U>(T&& left, U&& right)
+            {return std::forward<T>(left) - std::forward<U>(right);};
 }
 
 
