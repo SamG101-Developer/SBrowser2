@@ -7,20 +7,23 @@
 
 namespace encoding::detail
 {
+    template <typename T>
     auto index_gb18030_ranges_code_point(
-            const ext::string::iterator& pointer)
-            -> char;
+            typename T::iterator& pointer)
+            -> typename T::value_type;
 
+    template <typename T>
     auto index_gb1030_ranges_pointer(
-            char code_point)
-            -> ext::string::iterator;
+            typename T::value_type code_point)
+            -> ext::string::iterator&;
 
     auto index_shift_jis_pointer()
             -> void;
 
+    template <typename T>
     auto index_big5_pointer(
-            char code_point)
-            -> ext::string::iterator;
+            typename T::value_type code_point)
+            -> typename T::iterator;
 };
 
 
