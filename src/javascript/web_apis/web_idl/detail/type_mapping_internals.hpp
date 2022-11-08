@@ -84,6 +84,8 @@ namespace web_idl::detail
     // template <> /* 3.2.21 - Sequence TODO (ext::vector<T>) */
     // template <> /* 3.2.22 - Record TODO (const ext::map<K, V>)? */
     // template <> /* 3.2.23 - Enums TODO (ext::promise<T>) */
+    // template <> /* 3.2.24 - Union TODO (ext::variant<Ts...>) */
+    // template <> /* 3.2.25 - ArrayBuffer TODO required? been using v8::ArrayBuffer in code anyway */
 
     /* 3.2.23.1 */
     template <typename T>
@@ -118,6 +120,15 @@ namespace web_idl::detail
 
     template <typename T>
     auto mark_as_handled(ext::promise<T>& promise) -> void;
+
+    /* 3.2.25 */
+    template <typename T>
+    auto create_array_buffer(T byte_sequence, v8::Local<v8::Context> realm); // TODO -> ?
+
+    template <typename T>
+    auto create_array_buffer_view(T byte_sequence, v8::Local<v8::Context> realm); // TODO -> ?
+
+    auto get_copy_of_bytes_in_buffer_source(/* TODO */); // TODO : -> TODO
 }
 
 
