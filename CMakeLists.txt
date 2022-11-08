@@ -28,6 +28,10 @@ FetchContent_Declare(ExpectedReplacement
         GIT_REPOSITORY https://github.com/TartanLlama/expected.git
         GIT_TAG master)
 
+FetchContent_Declare(FileSystemReplacement
+        GIT_REPOSITORY https://github.com/cginternals/cppfs.git
+        GIT_TAG master)
+
 FetchContent_Declare(FunctionReplacement
         GIT_REPOSITORY https://github.com/Naios/function2.git
         GIT_TAG master)
@@ -57,7 +61,7 @@ FetchContent_Declare(RangeReplacement
         GIT_TAG master)
 
 FetchContent_Declare(RegexReplacement # TODO : switch to Hyper...1
-        GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
+        GIT_REPOSITORY https://github.com/google/re2.git
         GIT_TAG main)
 
 FetchContent_Declare(StackReplacement SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/stackreplacement-src/plf
@@ -82,6 +86,10 @@ FetchContent_Declare(VectorReplacement SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/vect
 
 FetchContent_Declare(HardwareInfo
         GIT_REPOSITORY https://github.com/lfreist/hwinfo.git
+        GIT_TAG main)
+
+FetchContent_Declare(BigInt
+        GIT_REPOSITORY https://github.com/rgroshanrg/bigint.git
         GIT_TAG main)
 
 FetchContent_Declare(Crypto SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/crypto-src/cryptopp
@@ -113,10 +121,10 @@ FetchContent_Declare(V8PP
         GIT_TAG master)
 
 FetchContent_MakeAvailable(
-        AssertReplacement ExpectedReplacement FunctionReplacement HashMapSetReplacement JsonReplacement
-        OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement StackReplacement
-        StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo Crypto DateTime
-        MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        AssertReplacement ExpectedReplacement FileSystemReplacement FunctionReplacement HashMapSetReplacement
+        JsonReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement
+        StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo BigInt
+        Crypto DateTime MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -137,6 +145,9 @@ target_include_directories(plf_queue INTERFACE ${FETCH_CONTENT_BASE_DIR}/queuere
 add_library(veque INTERFACE)
 target_include_directories(veque INTERFACE ${FETCH_CONTENT_BASE_DIR}/vectorreplacement-src/veque/include)
 
+add_library(bigint INTERFACE)
+target_include_directories(bigint INTERFACE "${FETCH_CONTENT_BASE_DIR}/bigint-src/Big Integer Library in Single file")
+
 add_library(crypto ${cryptopp_src})
 target_include_directories(crypto PUBLIC ${FETCH_CONTENT_BASE_DIR}/crypto-src)
 
@@ -144,9 +155,9 @@ add_library(hwinfo INTERFACE)
 target_include_directories(hwinfo INTERFACE ${FETCH_CONTENT_BASE_DIR}/hardwareinfo-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert expected function2::function2 unordered_dense::unordered_dense jsonpp optional effolkronium_random
-        range-v3::range-v3 ctre::ctre plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo crypto asap
-        magic_enum::magic_enum self_macro stduuid v8pp)
+        assert expected cppfs function2::function2 unordered_dense::unordered_dense jsonpp optional effolkronium_random
+        range-v3::range-v3 re2::re2 plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo bigint crypto
+        asap magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()
