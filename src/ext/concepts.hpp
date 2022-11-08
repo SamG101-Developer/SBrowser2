@@ -5,6 +5,7 @@
 #include "ext/keywords.hpp"
 #include <range/v3/range/concepts.hpp>
 #include <type_traits>
+#include <bigint.h>
 
 
 _EXT_BEGIN
@@ -85,7 +86,7 @@ concept type_is_not = (!std::same_as<std::remove_cvref<TypeTpCheck>, TypesToChec
 
 // check if a type is a primitive numeric type
 template <typename T>
-concept arithmetic = std::integral<T> || std::floating_point<T>;
+concept arithmetic = std::integral<T> || std::floating_point<T> || _EXT type_is<T, bigint>;
 
 
 // check if a type is callable
