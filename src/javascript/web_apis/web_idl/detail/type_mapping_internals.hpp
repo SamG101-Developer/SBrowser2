@@ -6,6 +6,7 @@
 #include "ext/map.hpp"
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
+#include "ext/span.hpp"
 #include "ext/symbol.hpp"
 #include "ext/type_traits.hpp"
 #include <v8-forward.h>
@@ -90,6 +91,33 @@ namespace web_idl::detail
 
     template <typename T>
     auto create_resolved_promise(T&& x, v8::Local<v8::Context> realm) -> ext::promise<T>;
+
+    template <typename T>
+    auto create_rejected_promise(T&& reason, v8::Local<v8::Context> realm) -> ext::promise<T>;
+
+    template <typename T>
+    auto resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<T>&& x = ext::nullopt) -> void;
+
+    template <typename T, typename U>
+    auto reject_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& reason) -> void;
+
+    template <typename T, ext::callable F0, ext::callable F1>
+    auto react(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<F0>&& fullfilled_steps = ext::nullopt, ext::optional<F1>&& rejected_steps = ext::nullopt) -> void;
+
+    template <typename T, ext::callable F>
+    auto upon_fulfillment(ext::promise<T>& promise, v8::Local<v8::Context> realm, T&& v) -> void;
+
+    template <typename T, typename U, typename F>
+    auto upon_rejection(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& r) -> void;
+
+    template <typename T, ext::callable F0, ext::callable F1>
+    auto wait_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm, F0&& success_steps, F1&& failure_steps) -> void;
+
+    template <typename T>
+    auto get_promise_for_waiting_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm) -> ext::promise<T>;
+
+    template <typename T>
+    auto mark_as_handled(ext::promise<T>& promise) -> void;
 }
 
 
