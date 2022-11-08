@@ -1,5 +1,4 @@
 #include "console.hpp"
-#include "_typedefs.hpp"
 #include "console_private.hpp"
 
 #include "ext/any.hpp"
