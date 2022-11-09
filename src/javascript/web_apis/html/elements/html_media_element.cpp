@@ -84,7 +84,7 @@ auto html::elements::html_media_element::add_text_track(
     decltype(auto) raw_track = dynamic_cast<basic_media::text_track*>(d->tracks.back().get());
 
     dom::detail::queue_media_element_task(this,
-            BIND_FRONT(dom::detail::fire_event<events::track_event>, u8"addtrack", d->tracks, {{"track", raw_track}}));
+            BIND_FRONT(dom::detail::fire_event<events::track_event>, u"addtrack", d->tracks, {{u"track", raw_track}}));
 
     return raw_track;
 }

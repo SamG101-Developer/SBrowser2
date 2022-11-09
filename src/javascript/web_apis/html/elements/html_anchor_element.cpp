@@ -19,7 +19,7 @@ html::elements::html_anchor_element::html_anchor_element()
     d->activation_behaviour = [this](dom::events::event* event)
     {
         JS_REALM_GET_RELEVANT(this);
-        return_if(!reflect_has_attribute_value(this, "href", this_relevant));
+        return_if(!reflect_has_attribute_value(this, u"href", this_relevant));
 
         ext::string hyperlink_suffix;
         // TODO : distance from mouse click, requires UIEvents
@@ -27,7 +27,7 @@ html::elements::html_anchor_element::html_anchor_element()
         auto y = ext::number<int>{};
         hyperlink_suffix = char8_t(0x003f) + ext::to_string(x) + char8_t(0x002c) + ext::to_string(y);
 
-        reflect_has_attribute_value(this, "download", this_relevant) && !download().empty() // TODO : or expressed preference to download
+        reflect_has_attribute_value(this, u"download", this_relevant) && !download().empty() // TODO : or expressed preference to download
                 ? detail::download_hyperlink(this, hyperlink_suffix)
                 : detail::follow_hyperlink(this, hyperlink_suffix);
     };
@@ -174,9 +174,7 @@ auto html::elements::html_anchor_element::set_text(ext::string new_text) -> ext:
 }
 
 
-auto html::elements::html_anchor_element::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::elements::html_anchor_element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<html_anchor_element>{isolate}
             .ctor<>()

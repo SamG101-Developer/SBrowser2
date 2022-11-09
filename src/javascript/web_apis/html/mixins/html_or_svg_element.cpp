@@ -24,8 +24,8 @@ auto html::mixins::html_or_svg_element::focus(detail::focus_options_t&& options)
 
     d->locked_for_focus = true;
     detail::focusing_steps(this);
-    if (options[u8"focusVisible"]) detail::indicate_focus();
-    if (!options[u8"preventScroll"]) detail::scroll_element_into_view("auto");
+    if (options[u"focusVisible"]) detail::indicate_focus();
+    if (!options[u"preventScroll"]) detail::scroll_element_into_view(u"auto");
     d->locked_for_focus = false;
 }
 

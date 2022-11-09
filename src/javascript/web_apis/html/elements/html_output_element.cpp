@@ -31,7 +31,7 @@ auto html::elements::html_output_element::get_name() const -> ext::string_view
 
 auto html::elements::html_output_element::get_type() const -> ext::string
 {
-    return u8"output";
+    return u"output";
 }
 
 

@@ -30,7 +30,7 @@ auto html::elements::html_table_element::create_caption() -> html_table_caption_
     // Otherwise, create a new HTMLTableCaptionElement and insert it into this HTMLTableElement before the first
     // HTMLTableCaptionElement child of this HTMLTableElement. Return the new HTMLTableCaptionElement.
     decltype(auto) children = d->child_nodes | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get);
-    decltype(auto) new_caption = detail::table_create<html_table_caption_element>(u8"caption", d->node_document.get());
+    decltype(auto) new_caption = detail::table_create<html_table_caption_element>(u"caption", d->node_document.get());
     decltype(auto) inserted = dom::detail::insert(std::move(new_caption), this, children.front());
     return dom_cast<html_table_caption_element*>(inserted);
 }
@@ -49,7 +49,7 @@ auto html::elements::html_table_element::create_t_head() -> html_table_section_e
     // before the first [HTMLTableCaptionElement | HTMLTableColElement] child of this HTMLTableElement. Return the new
     // HTMLTableSectionElement(local_name="thead).
     decltype(auto) children = d->table_children<html_table_caption_element, html_table_col_element>();
-    decltype(auto) new_t_head = detail::table_create<html_table_section_element>(u8"thead", d->node_document.get());
+    decltype(auto) new_t_head = detail::table_create<html_table_section_element>(u"thead", d->node_document.get());
     decltype(auto) inserted = dom::detail::insert(std::move(new_t_head), this, children.front());
     return dom_cast<html_table_section_element*>(inserted);
 }
@@ -66,7 +66,7 @@ auto html::elements::html_table_element::create_t_foot() -> html_table_section_e
 
     // Otherwise, create a new HTMLTableSectionElement(local_name="tfoot") and insert it into this HTMLTableElement
     // after the last Node child of this HTMLTableElement. Return the new HTMLTableSectionElement(local_name="tfoot").
-    decltype(auto) new_t_foot = detail::table_create<html_table_section_element>(u8"thead", d->node_document.get());
+    decltype(auto) new_t_foot = detail::table_create<html_table_section_element>(u"thead", d->node_document.get());
     decltype(auto) inserted = dom::detail::append(std::move(new_t_foot), this);
     return dom_cast<html_table_section_element*>(inserted);
 }
@@ -78,7 +78,7 @@ auto html::elements::html_table_element::create_t_body() -> html_table_section_e
 
     // Create a new HTMLTableSectionElement(local_name="tbody") and insert it into this HTMLTableElement after the last
     // HTMLTableSectionElement(local_name="tbody"). Return the new HTMLTableSectionElement(local_name="tbody").
-    decltype(auto) new_t_body = detail::table_create<html_table_section_element>(u8"tbody", d->node_document.get());
+    decltype(auto) new_t_body = detail::table_create<html_table_section_element>(u"tbody", d->node_document.get());
     decltype(auto) inserted = dom::detail::insert(std::move(new_t_body), this, d->t_bodies.back()); // TODO : insert AFTER not BEFORE
     return dom_cast<html_table_section_element*>(inserted);
 }
@@ -95,8 +95,8 @@ auto html::elements::html_table_element::insert_row(ext::number<long> index) -> 
 
     if (d->t_rows.empty() && d->t_bodies.empty())
     {
-        decltype(auto) new_body = detail::table_create<html_table_section_element>(u8"tbody", d->node_document.get());
-        decltype(auto) new_row  = detail::table_create<html_table_row_element>(u8"row", d->node_document.get());
+        decltype(auto) new_body = detail::table_create<html_table_section_element>(u"tbody", d->node_document.get());
+        decltype(auto) new_row  = detail::table_create<html_table_row_element>(u"row", d->node_document.get());
         dom::detail::append(std::move(new_row), new_body);
         dom::detail::append(std::move(new_body), this);
         return d->t_rows.back();
@@ -104,11 +104,11 @@ auto html::elements::html_table_element::insert_row(ext::number<long> index) -> 
 
     if (d->t_rows.empty())
     {
-        decltype(auto) new_row = detail::table_create<html_table_row_element>(u8"row", d->node_document.get());
+        decltype(auto) new_row = detail::table_create<html_table_row_element>(u"row", d->node_document.get());
         return dom::detail::append(std::move(new_row), d->t_bodies.back());
     }
 
-    decltype(auto) new_row = detail::table_create<html_table_row_element>(u8"row", d->node_document.get());
+    decltype(auto) new_row = detail::table_create<html_table_row_element>(u"row", d->node_document.get());
     return index == -1 || index == d->t_rows.size()
             ? dom::detail::append(std::move(new_row), d->t_rows.back()->d_func()->parent_node.get())
             : dom::detail::insert(std::move(new_row), d->t_rows.at(index));

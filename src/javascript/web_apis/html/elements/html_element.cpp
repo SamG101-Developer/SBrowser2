@@ -51,7 +51,7 @@ auto html::elements::html_element::click() -> void
     return_if (d->click_in_progress_flag);
 
     d->click_in_progress_flag = true;
-    detail::fire_synthetic_pointer_event("click", this, true);
+    detail::fire_synthetic_pointer_event(u"click", this, true);
     d->click_in_progress_flag = false;
 }
 
@@ -82,7 +82,7 @@ auto html::elements::html_element::attach_internals() -> other::element_internal
     d->attached_internals = true;
 
     auto element_internals = other::element_internals{};
-    element_internals->target_element = this;
+    element_internals->d_func()->target_element = this;
     return element_internals;
 }
 
@@ -213,7 +213,7 @@ auto html::elements::html_element::set_inner_text(ext::string new_inner_text) ->
     // to set the 'inner_text' of a HTMLElement, a DocumentFragment is generated from the input 'val', and everything
     // contained by this node is replaced with the DocumentFragment
     ACCESS_PIMPL(html_element);
-    decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_inner_text), d->node_document);
+    decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_inner_text), d->node_document.get());
     dom::detail::replace_all(std::move(fragment), this);
 }
 
@@ -233,23 +233,23 @@ auto html::elements::html_element::set_outer_text(ext::string new_outer_text) ->
     // this node's replacement doesn't have any child nodes
     decltype(auto) next = dom::detail::next_sibling(this);
     decltype(auto) prev = dom::detail::previous_sibling(this);
-    decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_outer_text), d->node_document);
+    decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_outer_text), d->node_document.get());
 
     // if the replacement for this node doesn't have any children, then create an empty Text node, and append it to the
     // replacement 'fragment' node; the replacement has to have a child TODO : why?
     // so the default option is to add an empty Text node as the child
     if (!fragment->has_child_nodes())
     {
-        auto text_node = std::make_unique<dom::nodes::text>(u8"");
-        text_node->d_func()->node_document = d->node_document;
-        dom::detail::append(std::move(text_node), fragment);
+        auto text_node = std::make_unique<dom::nodes::text>(u"");
+        text_node->d_func()->node_document = d->node_document.get();
+        dom::detail::append(std::move(text_node), fragment.get());
     }
 
     // replace this node with the 'fragment' in the parent node ('outer_text' replacement includes replacing this node,
     // where-as the inner text replacement replaces everything contained by this node)
-    dom::detail::replace(std::move(fragment), d->parent_node, this);
+    dom::detail::replace(std::move(fragment), d->parent_node.get(), this);
 
-    if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(next->previous_sibling()))
+    if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(dom::detail::previous_sibling(next)))
         detail::merge_with_next_text_node(text_node);
 
     if (decltype(auto) text_node = dynamic_cast<dom::nodes::text*>(prev))
@@ -265,4 +265,6 @@ auto html::elements::html_element::to_v8(v8::Isolate* isolate) -> v8pp::class_<s
         .inherit<mixins::html_or_svg_element>()
         .inherit<css::cssom::mixins::element_css_inline_style>()
         .auto_wrap_objects(); // TODO
+
+    return std::move(conversion);
 }

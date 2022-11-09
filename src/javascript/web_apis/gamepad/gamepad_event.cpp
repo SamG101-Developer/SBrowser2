@@ -12,20 +12,18 @@ gamepad::gamepad_event::gamepad_event(
     INIT_PIMPL(gamepad_event);
     ACCESS_PIMPL(gamepad_event);
 
-    d->gamepad = event_init.try_emplace("gamepad", ext::nullptr_cast<gamepad*>()).first->second.to<gamepad*>();
+    d->gamepad = event_init[u"gamepad"].to<gamepad*>();
 }
 
 
 auto gamepad::gamepad_event::get_gamepad() const -> gamepad*
 {
     ACCESS_PIMPL(const gamepad_event);
-    return d->gamepad;
+    return d->gamepad.get();
 }
 
 
-auto gamepad::gamepad_event::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto gamepad::gamepad_event::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<gamepad_event>{isolate}
         .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()

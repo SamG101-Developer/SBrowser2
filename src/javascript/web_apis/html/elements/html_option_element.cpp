@@ -28,27 +28,27 @@ html::elements::html_option_element::html_option_element()
     d->insertion_steps =
             [d]
             {
-                decltype(auto) parent = d->parent_node.get();
-                return_if (decltype(auto) cast_parent = dom_cast<html_select_element*>(parent))
-                    detail::selectedness_settings_algorithm(cast_parent);
+        decltype(auto) parent = d->parent_node.get();
+        return_if (decltype(auto) cast_parent = dom_cast<html_select_element*>(parent))
+            detail::selectedness_settings_algorithm(cast_parent);
 
-                decltype(auto) cast_parent = dom_cast<html_opt_group_element*>(d->parent_node.get());
-                decltype(auto) cast_grandparent = dom_cast<html_select_element*>(parent->d_func()->parent_node.get());
-                return_if (cast_parent && cast_grandparent)
-                    detail::selectedness_settings_algorithm(cast_grandparent);
+        decltype(auto) cast_parent = dom_cast<html_opt_group_element*>(d->parent_node.get());
+        decltype(auto) cast_grandparent = dom_cast<html_select_element*>(parent->d_func()->parent_node.get());
+        return_if (cast_parent && cast_grandparent)
+            detail::selectedness_settings_algorithm(cast_grandparent);
             };
 
     d->remove_steps =
             [d](dom::nodes::node* old_parent)
             {
-                decltype(auto) parent = d->parent_node.get();
-                return_if (decltype(auto) cast_parent = dom_cast<html_select_element*>(parent))
-                    detail::selectedness_settings_algorithm(cast_parent);
+        decltype(auto) parent = d->parent_node.get();
+        return_if (decltype(auto) cast_parent = dom_cast<html_select_element*>(parent))
+            detail::selectedness_settings_algorithm(cast_parent);
 
-                decltype(auto) cast_parent = dom_cast<html_opt_group_element*>(d->parent_node.get());
-                decltype(auto) cast_grandparent = dom_cast<html_select_element*>(parent->d_func()->parent_node.get());
-                return_if (cast_parent && cast_grandparent)
-                    detail::selectedness_settings_algorithm(cast_grandparent);
+        decltype(auto) cast_parent = dom_cast<html_opt_group_element*>(d->parent_node.get());
+        decltype(auto) cast_grandparent = dom_cast<html_select_element*>(parent->d_func()->parent_node.get());
+        return_if (cast_parent && cast_grandparent)
+            detail::selectedness_settings_algorithm(cast_grandparent);
             };
 }
 

@@ -41,7 +41,7 @@ auto html::elements::html_field_set_element::get_form() const -> html_form_eleme
 
 auto html::elements::html_field_set_element::get_elements() const -> ranges::any_helpful_view<html::elements::html_element*>
 {
-    return dom::detail::descendants(this) | ranges::views::filter([]<typename T>(T* element) {return html::concepts::labelable_elements<T>;});
+    return dom::detail::descendants(this) | ranges::views::filter([]<typename T>(T* element) {return html::concepts::labelable_elements<T>;}); // TODO : condense
 }
 
 
@@ -74,4 +74,6 @@ auto html::elements::html_field_set_element::to_v8(v8::Isolate* isolate) -> v8pp
         .property("type", &html_field_set_element::get_type)
         .property("elements", &html_field_set_element::get_elements)
         .auto_wrap_objects();
+
+    return std::move(conversion);
 }

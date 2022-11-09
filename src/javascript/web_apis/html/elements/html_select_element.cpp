@@ -88,7 +88,7 @@ auto html::elements::html_select_element::get_size() const -> ext::number<ulong>
 auto html::elements::html_select_element::get_type() const -> ext::string
 {
     ACCESS_PIMPL(const html_select_element);
-    return d->multiple ? u8"select-multiple" : u8"select-one"; // TODO : enum
+    return d->multiple ? u"select-multiple" : u"select-one"; // TODO : enum
 }
 
 

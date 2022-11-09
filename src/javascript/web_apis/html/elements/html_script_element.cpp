@@ -24,7 +24,7 @@ html::elements::html_script_element::html_script_element()
 
 auto html::elements::html_script_element::supports(ext::string_view type) -> ext::boolean
 {
-    auto types = {u8"classic", u8"module", u8"importmap"};
+    auto types = {u"classic", u"module", u"importmap"};
     return ranges::contains(types, type);
 }\
 

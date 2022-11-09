@@ -23,7 +23,7 @@ auto html::elements::html_slot_element::assigned_nodes(
         const -> ranges::any_helpful_view<dom::nodes::node*>
 {
     ACCESS_PIMPL(const html_slot_element);
-    return options[u8"flatten"].to<ext::boolean>()
+    return options[u"flatten"].to<ext::boolean>()
             ? d->assigned_nodes | ranges::views::underlying
             : dom::detail::find_flattened_slottables(this);
 }
