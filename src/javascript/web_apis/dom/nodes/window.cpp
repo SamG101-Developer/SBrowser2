@@ -39,7 +39,7 @@ auto dom::nodes::window::request_idle_callback(
 
         // Continue if the timeout value in the 'options' dictionary is greater than 0 (can't wait for <= 0
         // milliseconds)
-        if (auto timeout = options["timeout"].to<ext::number<int>>(); timeout > 0)
+        if (auto timeout = options[u"timeout"].to<ext::number<int>>(); timeout > 0)
         {
             // Sleep the thread for the correct number of milliseconds, and then wait for other instances of
             // this method to finish, as long as they started before this method did (their thread is before
@@ -68,16 +68,18 @@ auto dom::nodes::window::cancel_idle_task(
         ext::number<ulong> handle)
         -> void
 {
+    ACCESS_PIMPL(window);
+
     // Remove the callback at the 'handle' index from both the idle-request and runnable-idle callback lists.
-    m_idle_request_callbacks  |= ranges::actions::remove_at_index(handle);
-    m_runnable_idle_callbacks |= ranges::actions::remove_at_index(handle);
+    d->idle_request_callbacks  |= ranges::actions::remove_at_index(handle);
+    d->runnable_idle_callbacks |= ranges::actions::remove_at_index(handle);
 }
 
 
 auto dom::nodes::window::get_window() const -> window_proxy*
 {
-    JS_REALM_GET_RELEVANT(this);
-    return v8pp::from_v8<window_proxy*>(this_relevant_agent, this_relevant_realm->Global()->GetPrototype()); // TODO
+    auto e = js::env::env::relevant(this);
+    return v8pp::from_v8<window_proxy*>(e.js.agent(), e.js.realm()->Global()->GetPrototype()); // TODO
 }
 
 
@@ -91,7 +93,7 @@ auto dom::nodes::window::get_document() const -> document*
 auto dom::nodes::window::get_name() const -> ext::string_view
 {
     ACCESS_PIMPL(const window);
-    return d->navigable ? d->navigable->target_name() : u8"";
+    return d->navigable ? d->navigable->target_name() : u"";
 }
 
 
@@ -127,7 +129,7 @@ auto dom::nodes::window::get_top() const -> window_proxy*
 {
     ACCESS_PIMPL(const window);
     return d->navigable
-            ? html::detail:top_level_traversable(d->navigable.get())->active_window_proxy
+            ? html::detail::top_level_traversable(d->navigable.get())->active_window_proxy
             : nullptr;
 }
 
@@ -144,6 +146,6 @@ auto dom::nodes::window::get_parent() const -> window_proxy*
 auto dom::nodes::window::set_name(ext::string new_name) -> ext::string
 {
     ACCESS_PIMPL(window);
-    return_if (!d->navigable) u8"";
+    return_if (!d->navigable) u"";
     return d->navigable->active_session_history->document_state->navigable_target_name = std::move(new_name);
 }
