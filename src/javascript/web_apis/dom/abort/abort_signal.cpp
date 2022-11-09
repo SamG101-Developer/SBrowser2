@@ -33,26 +33,26 @@ auto dom::abort::abort_signal::abort(
 }
 
 
-auto dom::abort::abort_signal::timeout(ext::number<ulonglong> milliseconds) -> abort_signal
+auto dom::abort::abort_signal::timeout(ext::number<ulonglong> milliseconds) -> std::unique_ptr<abort_signal>
 {
     using enum dom::detail::dom_exception_error_t;
 
     // Create a new AbortSignal (on the stack - not a node-like object), and access the relevant Realm to the newly
     // created AbortSignal.
-    auto signal = abort_signal{};
-    JS_REALM_GET_RELEVANT(signal);
+    auto signal = std::make_unique<abort_signal>();
+    auto e = js::env::env::relevant(signal.get());
 
     // Create the 'timeout_error_callback' - this callback will throw a TIMEOUT_ERR DomException. Set the 'callback'
     // (which will be executed after the time) so queue a global task that will execute the 'callback' in the
     // AbortSignal's relevant global object, and in the timer task source (non-blocking to dom manipulation).
     auto timeout_error_callback = [] {detail::throw_v8_exception<TIMEOUT_ERR>();};
     auto callback =
-            [signal_relevant_global_object, callback = std::move(timeout_error_callback)] mutable
-            {detail::queue_global_task(html::detail::timer_task_source, signal_relevant_global_object, std::move(callback));};
+            [&e, callback = std::move(timeout_error_callback)] mutable
+            {detail::queue_global_task(html::detail::timer_task_source, e.js.global(), std::move(callback));};
 
     // Run the 'callback' after the timer has finished ('milliseconds' milliseconds timeout), and execute it in the
     // AbortSignal's relevant global object.
-    html::detail::run_steps_after_timeout(signal_relevant_global_object, u8"AbortSignal-timeout", milliseconds, callback);
+    html::detail::run_steps_after_timeout(e.js.global(), u"AbortSignal-timeout", milliseconds, callback);
 
     // Return the newly created AbortSignal
     return signal;

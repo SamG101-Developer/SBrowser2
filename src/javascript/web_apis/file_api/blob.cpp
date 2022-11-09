@@ -22,14 +22,14 @@ file_api::blob::blob(
     ACCESS_PIMPL(blob);
 
     d->byte_sequence = detail::process_blob_parts(std::move(blob_parts), std::move(options));
-    d->type = "";
+    d->type = u"";
 
-    auto options_type = options["type"]to<ext::string>();
+    auto options_type = options[u"type"].to<ext::string>();
 
     if (!options_type.empty())
     {
         return_if (ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)));
-        d->type = options_type | ranges::views::lowercase() | ranges::to<ext::string>;
+        d->type = options_type | ranges::views::lowercase | ranges::to<ext::string>;
     }
 }
 
@@ -88,8 +88,8 @@ auto file_api::blob::_serialize(
         ext::boolean for_storage) -> void
 {
     ACCESS_PIMPL(blob);
-    serialized.insert_or_assign("$SnapshotState", d->snapshot_state);
-    serialized.insert_or_assign("$ByteSequence" , d->byte_sequence);
+    serialized.insert_or_assign(u"$SnapshotState", d->snapshot_state);
+    serialized.insert_or_assign(u"$ByteSequence" , d->byte_sequence);
 }
 
 
@@ -99,8 +99,8 @@ auto file_api::blob::_deserialize(
         -> self_t*
 {
     ACCESS_PIMPL(blob);
-    d->snapshot_state = serialized.at("$SnapshotState").to<decltype(d->snapshot_state)>();
-    d->byte_sequence  = serialized.at("$ByteSequence ").to<decltype(d->byte_sequence)>();
+    d->snapshot_state = serialized.at(u"$SnapshotState").to<decltype(d->snapshot_state)>();
+    d->byte_sequence  = serialized.at(u"$ByteSequence ").to<decltype(d->byte_sequence)>();
     return this;
 }
 

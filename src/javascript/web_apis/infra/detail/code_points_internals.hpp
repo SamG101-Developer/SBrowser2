@@ -2,6 +2,7 @@
 #define SBROWSER2_CODE_POINTS_INTERNALS_HPP
 
 #include "ext/boolean.hpp"
+#include "ext/string.hpp"
 
 #define DIGITS '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 
@@ -15,75 +16,75 @@ namespace infra::detail
     };
 
     auto is_surrogate(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_scalar(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_non_character(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_code_point(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_tab_or_newline(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
 
     auto is_ascii_newline(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_whitespace(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_c0_control(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_c0_control_or_space(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_control(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
 
     auto is_ascii_digit(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_upper_hex_digit(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_lower_hex_digit(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_hex_digit(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_upper_alpha(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_lower_alpha(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_alpha(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
     
     auto is_ascii_alphanumeric(
-            char32_t code_point)
+            ext::string::value_type code_point)
             -> ext::boolean;
 }
 

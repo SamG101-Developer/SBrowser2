@@ -14,7 +14,7 @@ auto dom::nodes::cdata_section::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the fixed string "#cdata-section". Apply custom element reactions to this getter.
     CE_REACTIONS_METHOD_DEF
-        return u8"#cdata-section";
+        return u"#cdata-section";
     CE_REACTIONS_METHOD_EXE
 }
 

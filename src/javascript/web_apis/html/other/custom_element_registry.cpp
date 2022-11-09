@@ -16,6 +16,7 @@
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/node_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
 
 auto html::other::custom_element_registry::define(
@@ -25,12 +26,12 @@ auto html::other::custom_element_registry::define(
         -> void
 {
     ACCESS_PIMPL(custom_element_registry);
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
     using enum v8_primitive_error_t;
     using enum dom::detail::dom_exception_error_t;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [this_relevant_agent, &constructor] {return !v8pp::to_v8(this_relevant_agent, constructor)->IsConstructor();},
+            [&e, &constructor] {return !v8pp::to_v8(e.js.agent(), constructor)->IsConstructor();},
             u8"Must be a valid constructor");
 
     dom::detail::throw_v8_exception<SYNTAX_ERR>(
@@ -46,7 +47,7 @@ auto html::other::custom_element_registry::define(
             u8"Constructor already exists");
 
     decltype(auto) local_name = name;
-    decltype(auto) extends = options[u8"extends"].to<ext::string>();
+    decltype(auto) extends = options[u"extends"].to<ext::string>();
     if (!extends.empty())
     {
         dom::detail::throw_v8_exception<SYNTAX_ERR>(
@@ -69,7 +70,7 @@ auto html::other::custom_element_registry::define(
 
     JS_EXCEPTION_HANDLER;
     using namespace ext::literals;
-    decltype(auto) v8_constructor = v8pp::to_v8(this_relevant_agent, constructor);
+    decltype(auto) v8_constructor = v8pp::to_v8(e.js.agent(), constructor);
     decltype(auto) v8_prototype = v8_constructor->GetPrototype();
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
@@ -78,37 +79,37 @@ auto html::other::custom_element_registry::define(
 
     auto lifecycle_callbacks = ext::map<ext::string, dom::detail::lifecycle_callback_t>{};
 
-    for (auto callback_name: {u8"connectedCallback", u8"disconnectedCallback", u8"adoptedCallback", u8"attributeChangedCallback"})
+    for (auto callback_name: {u"connectedCallback", u"disconnectedCallback", u"adoptedCallback", u"attributeChangedCallback"})
     {
-        auto callback_value = v8_prototype.As<v8::Object>()->Get(this_relevant_realm, v8pp::to_v8(this_relevant_agent, callback_name)).ToLocalChecked();
-        auto callback = v8pp::from_v8<dom::detail::lifecycle_callback_t>(this_relevant_agent, callback_value);
+        auto callback_value = v8_prototype.As<v8::Object>()->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), callback_name)).ToLocalChecked();
+        auto callback = v8pp::from_v8<dom::detail::lifecycle_callback_t>(e.js.agent(), callback_value);
         lifecycle_callbacks.try_emplace(callback_name, std::move(callback));
         JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
     }
 
-    if (!lifecycle_callbacks[u8"attributeChangedCallback"].empty())
+    if (!lifecycle_callbacks[u"attributeChangedCallback"].empty())
     {
-        auto observed_attributes_iterable = v8_constructor->Get(this_relevant_realm, v8pp::to_v8(this_relevant_agent, u8"observedAttributes"_es)).ToLocalChecked();
-        observed_attributes = v8pp::from_v8<ext::vector<ext::string>>(this_relevant_agent, observed_attributes_iterable);
+        auto observed_attributes_iterable = v8_constructor->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u"observedAttributes"_s16)).ToLocalChecked();
+        observed_attributes = v8pp::from_v8<ext::vector<ext::string>>(e.js.agent(), observed_attributes_iterable);
         JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
     }
 
-    auto disabled_features_iterable = v8_constructor->Get(this_relevant_realm, v8pp::to_v8(this_relevant_agent, u8"disabledFeatures"_es)).ToLocalChecked();
-    auto disabled_features = v8pp::from_v8<ext::vector<ext::string>>(this_relevant_agent, disabled_features_iterable);
+    auto disabled_features_iterable = v8_constructor->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u"disabledFeatures"_s16)).ToLocalChecked();
+    auto disabled_features = v8pp::from_v8<ext::vector<ext::string>>(e.js.agent(), disabled_features_iterable);
     JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
 
-    disable_internals = ranges::contains(disabled_features, u8"internals");
-    disable_shadow = ranges::contains(disabled_features, u8"shadow");
+    disable_internals = ranges::contains(disabled_features, u"internals");
+    disable_shadow = ranges::contains(disabled_features, u"shadow");
     JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
 
-    auto form_associated_value = v8_constructor->Get(this_relevant_realm, v8pp::to_v8(this_relevant_agent, u8"formAssociated"_es)).ToLocalChecked();
-    form_associated = v8pp::from_v8<ext::boolean>(this_relevant_agent, form_associated_value);
+    auto form_associated_value = v8_constructor->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u"formAssociated"_s16)).ToLocalChecked();
+    form_associated = v8pp::from_v8<ext::boolean>(e.js.agent(), form_associated_value);
     JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
 
-    for (auto callback_name: {u8"formAssociatedCallback", u8"formResetCallback", u8"formDisabledCallback", u8"formStateRestoreCallback"})
+    for (auto callback_name: {u"formAssociatedCallback", u"formResetCallback", u"formDisabledCallback", u"formStateRestoreCallback"})
     {
-        auto callback_value = v8_prototype.As<v8::Object>()->Get(this_relevant_realm, v8pp::to_v8(this_relevant_agent, callback_name)).ToLocalChecked();
-        auto callback = v8pp::from_v8<dom::detail::lifecycle_callback_t>(this_relevant_agent, callback_value);
+        auto callback_value = v8_prototype.As<v8::Object>()->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), callback_name)).ToLocalChecked();
+        auto callback = v8pp::from_v8<dom::detail::lifecycle_callback_t>(e.js.agent(), callback_value);
         lifecycle_callbacks.try_emplace(callback_name, std::move(callback));
         JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
     }
@@ -124,7 +125,7 @@ auto html::other::custom_element_registry::define(
 
     d->custom_element_definitions.emplace(definition);
 
-    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->document;
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document;
     dom::detail::shadow_including_descendants(document)
             | ranges::views::cast<dom::nodes::element*>
             | ranges::views::filter_eq(&dom::nodes::element_private::namespace_, dom::detail::HTML, ext::get_pimpl)

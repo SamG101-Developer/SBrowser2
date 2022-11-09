@@ -53,9 +53,9 @@ public js_methods:
     auto dirxml(Args&&... data) -> void;
 
     // Count
-    auto count(ext::string&& label = u8"default") -> void;
+    auto count(ext::string&& label = u"default") -> void;
 
-    auto count_reset(ext::string&& label = u8"default") -> void;
+    auto count_reset(ext::string&& label = u"default") -> void;
 
     // Grouping
     template <typename ...Args>
@@ -67,12 +67,12 @@ public js_methods:
     auto group_end();
 
     // Timing
-    auto time(ext::string&& label = u8"default") -> void;
+    auto time(ext::string&& label = u"default") -> void;
 
     template <typename ...Args>
-    auto time_log(ext::string&& label = u8"default", Args&&... data) -> void;
+    auto time_log(ext::string&& label = u"default", Args&&... data) -> void;
 
-    auto time_end(ext::string&& label = u8"default") -> void;
+    auto time_end(ext::string&& label = u"default") -> void;
 };
 
 

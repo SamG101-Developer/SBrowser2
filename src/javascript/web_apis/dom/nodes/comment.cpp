@@ -21,7 +21,7 @@ auto dom::nodes::comment::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the fixed string "#comment". Apply custom element reactions to this getter.
     CE_REACTIONS_METHOD_DEF
-        return u8"#comment";
+        return u"#comment";
     CE_REACTIONS_METHOD_EXE
 }
 

@@ -8,7 +8,7 @@
 
 namespace ambient_light_sensor::detail
 {
-    using ambient_light_reading_values = ext::map<ext::string, ext::any>;
+    using ambient_light_reading_values = ext::map<dom_string, ext::any>;
 };
 
 

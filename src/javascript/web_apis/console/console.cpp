@@ -35,7 +35,7 @@ auto console::console::assert_(ext::boolean condition, Args&& ...data) -> void
 
     // Create a message, and if there were no arguments passed in as extra 'data', set the data tuple to the message,
     // otherwise forward the 'data' arguments into a tuple.
-    auto message = u8"Assertion failed";
+    auto message = u"Assertion failed";
     auto data_tuple = sizeof...(data) == 0
             ? ext::forward_as_tuple(std::move(message))
             : ext::forward_as_tuple(std::forward<Args>(data)...);
@@ -169,7 +169,7 @@ auto console::console::count(ext::string&& label) -> void
     ACCESS_PIMPL(console);
     d->count_map[label] += 1; // If doesn't exists -> becomes 0, then incrmenets to 1
 
-    auto concat = label + char8_t(0x003a) + char8_t(0x0020) + ext::to_string(d->count_map.at(std::move(label)));
+    auto concat = label + char16_t(0x003a) + char16_t(0x0020) + ext::to_string(d->count_map.at(std::move(label)));
     detail::logger(detail::count_type_t::COUNT, concat);
 }
 
@@ -230,7 +230,7 @@ auto console::console::time_log(ext::string&& label, Args&& ...data) -> void
 
     auto start_time = d->timer_table[label];
     auto duration = hr_time::detail::current_hr_time(e.js.global()) - start_time;
-    auto concat = std::move(label) + char8_t(0x003a) + char8_t(0x0020) + ext::to_string(duration);
+    auto concat = std::move(label) + char16_t(0x003a) + char16_t(0x0020) + ext::to_string(duration);
     detail::printer(detail::timer_type_t::TIME_LOG, std::move(concat), std::forward<Args>(data)...);
 }
 
@@ -242,6 +242,6 @@ auto console::console::time_end(ext::string&& label) -> void
 
     auto start_time = d->timer_table |= ranges::actions::remove_key(std::move(label), ext::identity);
     auto duration = hr_time::detail::current_hr_time(e.js.global()) - start_time;
-    auto concat = std::move(label) + char8_t(0x003a) + char8_t(0x0020) + ext::to_string(duration);
+    auto concat = std::move(label) + char16_t(0x003a) + char16_t(0x0020) + ext::to_string(duration);
     detail::printer(detail::timer_type_t::TIME_END, std::move(concat));
 }

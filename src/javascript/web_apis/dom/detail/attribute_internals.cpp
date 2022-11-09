@@ -43,7 +43,7 @@ auto dom::detail::handle_attributes_changes(
 
     // if the element is custom, enqueue a custom element reaction
     if (owner_element->d_func()->custom_element_state == custom_element_state_t::CUSTOM)
-        enqueue_custom_element_callback_reaction(owner_element, "attributeCallbackChanged", local_name, old_value, new_value, namespace_);
+        enqueue_custom_element_callback_reaction(owner_element, u"attributeCallbackChanged", local_name, old_value, new_value, namespace_);
 
     // notify the node to execute its attribute-change behaviour steps
     owner_element->dom_object::d_func()->attribute_change_steps(local_name, old_value, new_value, namespace_);
@@ -215,5 +215,5 @@ auto dom::detail::qualified_name(
         nodes::attr* attribute)
         -> ext::string
 {
-    return attribute->d_func()->namespace_prefix + u8":" + attribute->d_func()->local_name;
+    return attribute->d_func()->namespace_prefix + u":" + attribute->d_func()->local_name;
 }

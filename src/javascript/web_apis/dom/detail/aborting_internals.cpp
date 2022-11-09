@@ -22,7 +22,7 @@ auto dom::detail::signal_abort(
 
     // fire an event to notify that the signal abort has happened; the event is directed at the signal that has
     // been aborted
-    fire_event("Abort", signal);
+    fire_event(u"Abort", signal);
 }
 
 

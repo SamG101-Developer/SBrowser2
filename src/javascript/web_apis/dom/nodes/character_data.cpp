@@ -55,7 +55,7 @@ auto dom::nodes::character_data::delete_data(
     // private class). This is semantically the same as deleting data, but uses a common detail procedure to multiple
     // other class methods to reduce code duplication. Return the 'data'.
     ACCESS_PIMPL(character_data);
-    detail::replace_data(this, offset, count, u8"");
+    detail::replace_data(this, offset, count, u"");
     return d->data;
 }
 

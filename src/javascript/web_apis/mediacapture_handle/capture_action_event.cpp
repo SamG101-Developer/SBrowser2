@@ -11,7 +11,7 @@ mediacapture::handle::capture_action_event::capture_action_event(
     INIT_PIMPL(capture_action_event);
 
     ACCESS_PIMPL(capture_action_event);
-    d->action = event_init[u8"action"].to<detail::capture_action_t>();
+    d->action = event_init[u"action"].to<detail::capture_action_t>();
 }
 
 

@@ -16,8 +16,8 @@ auto html::mixins::content_editable::get_content_editable() const -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const content_editable);
-        return_if (!d->content_editable.has_value()) u8"inherited";
-        return *d->content_editable ? u8"true" : u8"false";
+        return_if (!d->content_editable.has_value()) u"inherited";
+        return *d->content_editable ? u"true" : u"false";
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -46,7 +46,7 @@ auto html::mixins::content_editable::set_content_editable(
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(content_editable);
-        return d->content_editable = new_content_editable == u8"inherited" ? ext::nullopt : std::lexical_cast<bool>(new_content_editable);
+        return d->content_editable = new_content_editable == u"inherited" ? ext::nullopt : std::lexical_cast<bool>(new_content_editable);
     CE_REACTIONS_METHOD_EXE
 }
 
