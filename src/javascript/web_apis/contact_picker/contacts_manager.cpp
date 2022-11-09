@@ -1,20 +1,25 @@
 #include "contacts_manager.hpp"
 #include "contacts_manager_private.hpp"
 
-#include "dom/_typedefs.hpp"
 #include "ext/casting.hpp"
-#include "javascript/environment/realms_2.hpp"
+
+#include "javascript/environment/realms.hpp"
 
 #include "contact_picker/detail/contact_internals.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
 #include "dom/other/dom_exception.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
 #include "html/detail/context_internals.hpp"
 #include "html/detail/task_internals.hpp"
+
+#include "web_idl/detail/type_mapping_internals.hpp"
 
 #include <range/v3/view/set_algorithm.hpp>
 
@@ -33,7 +38,9 @@ auto contact_picker::contacts_manager::get_properties() -> ext::promise<ext::vec
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
     ext::promise<ext::vector<detail::contact_property_t>> promise;
-    GO [properties = d->supported_properties, &promise] mutable {promise.resolve(std::move(properties));};
+    GO [properties = d->supported_properties, e = js::env::env::relevant(this), &promise] mutable
+    {web_idl::detail::resolve_promise(promise, e.js.realm(), std::move(properties));};
+
     return promise;
 }
 
@@ -48,21 +55,21 @@ auto contact_picker::contacts_manager::select(
 
     // Get the relevant browsing context from the relevant JavaScript realm. Create an empty promise for returning
     // either rejected or resolved.
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) relevant_browsing_context = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->document()->m_browsing_context.get();
+    auto e = js::env::env::relevant(this);
+    decltype(auto) relevant_browsing_context = *v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->document->d_func()->browsing_context;
     ext::promise<ext::vector<detail::contact_info_t>> promise;
 
     // If the relevant browsing context is not top level, then the ContactsManager is in an invalid state to select a
     // contact information (incorrect context).
     if (!html::detail::is_top_level_browsing_context(relevant_browsing_context))
     {
-        promise.reject(dom::other::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
+        web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
         return promise;
     }
 
     if (/* TODO : SECURITY_ERR check here */)
     {
-        promise.reject(dom::other::dom_exception{u8"TODO", SECURITY_ERR});
+        web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"TODO", SECURITY_ERR});
         return promise;
     }
 
@@ -70,7 +77,7 @@ auto contact_picker::contacts_manager::select(
     // invalid state, because this method is already running (close previous picker and open again)
     if (relevant_browsing_context.m_contact_picker_is_showing)
     {
-        promise.reject(dom::other::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
+        web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
         return promise;
     }
 
@@ -97,20 +104,20 @@ auto contact_picker::contacts_manager::select(
 
     // In another thread (so GUI is non-blocking), begin the selection process to select a contact from the contacts
     // picker.
-    GO [options, &promise, &relevant_browsing_context, &properties]
+    GO [options, &e, &promise, &relevant_browsing_context, &properties]
     {
         // Launch the contacts picker with the 'multiple' boolean option from the 'options', with the resulting selected
         // contact being 'selected_contacts' -- this is potentially thread blocking, because of the gUI, which is why
         // this part of the method is ran in another thread.
         JS_EXCEPTION_HANDLER;
-        decltype(auto) multiple = options.at(u8"multiple").to<ext::boolean>();
+        decltype(auto) multiple = options.at(u"multiple").to<ext::boolean>();
         decltype(auto) selected_contacts = detail::launch(multiple, properties);
 
         // Reject the promise if there was an issue with selecting a contact in the gUI, or if no contact was selected
         // TODO: is selecting no contact an error?
         if (JS_EXCEPTION_HAS_THROWN || !selected_contacts.has_value())
         {
-            promise.reject(dom::other::dom_exception{u8"Error launching options and properties", INVALID_STATE_ERR});
+            web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"Error launching options and properties", INVALID_STATE_ERR});
             return;
         }
 
