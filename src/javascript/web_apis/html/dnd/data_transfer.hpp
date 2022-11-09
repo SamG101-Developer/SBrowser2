@@ -29,7 +29,7 @@ public js_methods:
 private js_properties:
     DEFINE_GETTER(drop_effect, detail::drop_effect_t);
     DEFINE_GETTER(effect_allowed, detail::effect_allowed_t);
-    DEFINE_GETTER(items, ext::vector_span<data_transfer*>);
+    DEFINE_GETTER(items, ext::vector_span<data_transfer_item*>); // TODO : check type (...*)
 
     DEFINE_SETTER(drop_effect, detail::drop_effect_t);
     DEFINE_SETTER(effect_allowed, detail::effect_allowed_t);

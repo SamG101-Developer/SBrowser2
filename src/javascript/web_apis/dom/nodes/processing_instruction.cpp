@@ -6,11 +6,11 @@
 
 dom::nodes::processing_instruction::processing_instruction()
 {
-    INIT_PIMPL(processing_instruction)
+    INIT_PIMPL(processing_instruction);
 }
 
 
-auto dom::nodes::processing_instruction::get_target() const -> ext::string
+auto dom::nodes::processing_instruction::get_target() const -> ext::string_view
 {
     // The 'target' getter returns the equivalent 'target' attribute value that is stored in the private class.
     ACCESS_PIMPL(const processing_instruction);

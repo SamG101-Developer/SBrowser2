@@ -9,13 +9,13 @@ namespace dom::nodes {class window;}
 
 namespace background_tasks::detail
 {
-    template <callable F>
+    template <ext::callable F>
     auto start_idle_period(
             dom::nodes::window* window,
             F&& get_deadline)
             -> void;
 
-    template <callable F>
+    template <ext::callable F>
     auto invoke_idle_callbacks_algorithm(
             dom::nodes::window* window,
             F&& get_deadline)
