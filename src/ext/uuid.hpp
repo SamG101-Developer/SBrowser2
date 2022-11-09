@@ -8,7 +8,8 @@
 
 
 _EXT_BEGIN
-    using namespace uuids;
+    namespace uuid = uuids;
+    auto to_string(uuids::uuid) -> ext::string;
 _EXT_END
 
 
