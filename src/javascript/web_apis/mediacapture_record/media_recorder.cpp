@@ -1,38 +1,46 @@
 #include "media_recorder.hpp"
+#include "media_recorder_private.hpp"
 
 #include "ext/ranges.hpp"
 
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(mediacapture_record)
-
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
+
 #include "mediacapture_main/detail/track_internals.hpp"
 #include "mediacapture_main/media_stream.hpp"
+#include "mediacapture_main/media_stream_private.hpp"
 #include "mediacapture_main/media_stream_track.hpp"
+#include "mediacapture_main/media_stream_track_private.hpp"
+#include "mediacapture_record/_typedefs.hpp"
 
 
 mediacapture::record::media_recorder::media_recorder(
-        main::media_stream* stream_option,
+        main::media_stream* stream,
         detail::media_recorder_options&& options)
 {
-    decltype(auto) mime_type_option = options.try_emplace("mimeType", "").first->second.to<decltype(mime_type)::value_t>();
-    decltype(auto) bits_per_second_option = options.try_emplace("bitsPerSecond").first->second.to<decltype(s_constrained_bits_per_second)::value_t>();
+    INIT_PIMPL(media_recorder);
+    using enum dom::detail::dom_exception_error_t;
+
+    ACCESS_PIMPL(media_recorder);
+    decltype(auto) mime_type_option = options[u"mimeType"].to<decltype(d->mime_type)>();
+    decltype(auto) bits_per_second_option = options["bitsPerSecond"].to<decltype(d->constrained_bits_per_second)>();
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [mime_type = std::move(mime_type_option)] {return !media_recorder::is_type_supported(mime_type);},
-            "'mimeType' option is not supported");
+            u8"'mimeType' option is not supported");
 
-    s_constrained_mime_type = std::move(mime_type_option);
-    s_constrained_bits_per_second = std::move(bits_per_second_option);
+    d->constrained_mime_type = std::move(mime_type_option);
+    d->constrained_bits_per_second = std::move(bits_per_second_option);
 
-    stream = stream_option;
-    mime_type = s_constrained_mime_type();
-    state = detail::recording_state_t::INACTIVE;
+    d->stream = stream;
+    d->mime_type = d->constrained_mime_type;
+    d->state = detail::recording_state_t::INACTIVE;
 
-    // TODO : check default (audio-default + video-default ~= constrained-default)
-    video_bits_per_second = options.try_emplace("videoBitsPerSecond", 1024).first->second.to<decltype(video_bits_per_second)::value_t>();
-    audio_bits_per_second = options.try_emplace("audioBitsPerSecond", 4096).first->second.to<decltype(audio_bits_per_second)::value_t>();
-    audio_bitrate_mode = options.try_emplace("audioBitrateMode", detail::bitrate_mode_t::VARIABLE).first->second.to<decltype(audio_bitrate_mode)::value_t>();
+    d->video_bits_per_second = options[u"videoBitsPerSecond", 1024].to<decltype(d->video_bits_per_second)>();
+    d->audio_bits_per_second = options[u"audioBitsPerSecond", 1024].to<decltype(d->audio_bits_per_second)>();
+    d->audio_bitrate_mode = options[u"audioBitrateMode", detail::bitrate_mode_t::VARIABLE].to<decltype(d->audio_bitrate_mode)>();
+
+    // TODO
 }
 
 
@@ -40,22 +48,59 @@ auto mediacapture::record::media_recorder::start(
         ext::number<ulong> timeslice)
         -> void
 {
-    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [state = state()] {return state != detail::recording_state_t::INACTIVE;},
-            "The 'state' property must not be \"inactive\"");
+    ACCESS_PIMPL(const media_recorder);
+    using enum dom::detail::dom_exception_error_t;
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [stream = stream()] {return !stream->active();},
-            "The 'stream' property must be \"active\"");
+            [d] {return d->state != detail::recording_state_t::INACTIVE;},
+            u8"The 'state' property must not be \"inactive\"");
 
-    decltype(auto) tracks = stream()->get_tracks() | ranges::views::filter(detail::is_live_track);
-    // TODO: webrtc check
-    // TODO: constrain mime-type
-    // TODO: constrain bits
-    // TODO: lots
+    dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
+            [d] {return !d->stream->active();},
+            u8"The 'stream' property must be \"active\"");
 
-    GO []
-    {
-        // TODO
-    };
+    decltype(auto) tracks = d->stream->get_tracks() | ranges::views::filter(detail::is_live_track);
+    // TODO
+}
+
+
+auto mediacapture::record::media_recorder::get_stream() const -> main::media_stream*
+{
+    ACCESS_PIMPL(const media_recorder);
+    return d->stream.get();
+}
+
+
+auto mediacapture::record::media_recorder::get_mime_type() const -> ext::string_view
+{
+    ACCESS_PIMPL(const media_recorder);
+    return d->mime_type;
+}
+
+
+auto mediacapture::record::media_recorder::get_state() const -> detail::recording_state_t
+{
+    ACCESS_PIMPL(const media_recorder);
+    return d->state;
+}
+
+
+auto mediacapture::record::media_recorder::get_video_bits_per_second() const -> ext::number<ulong>
+{
+    ACCESS_PIMPL(const media_recorder);
+    return d->video_bits_per_second;
+}
+
+
+auto mediacapture::record::media_recorder::get_audio_bits_per_second() const -> ext::number<ulong>
+{
+    ACCESS_PIMPL(const media_recorder);
+    return d->audio_bits_per_second;
+}
+
+
+auto mediacapture::record::media_recorder::get_audio_bitrate_mode() const -> detail::bitrate_mode_t
+{
+    ACCESS_PIMPL(const media_recorder);
+    return d->audio_bitrate_mode;
 }
