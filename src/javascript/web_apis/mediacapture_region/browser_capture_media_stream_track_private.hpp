@@ -1,0 +1,12 @@
+#pragma once
+#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_REGION_BROWSER_CAPTURE_MEDIA_STREAM_TRACK_PRIVATE_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_REGION_BROWSER_CAPTURE_MEDIA_STREAM_TRACK_PRIVATE_HPP
+
+#include "ext/pimpl.hpp"
+#include "mediacapture_main/media_stream_track_private.hpp"
+
+
+DEFINE_PRIVATE_CLASS(mediacapture::region, browser_capture_media_stream_track) : mediacapture::main::media_stream_track_private {};
+
+
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_REGION_BROWSER_CAPTURE_MEDIA_STREAM_TRACK_PRIVATE_HPP
