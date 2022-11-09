@@ -20,9 +20,9 @@ auto dom::mixins::non_element_parent_node::get_element_by_id(const ext::string_v
     using enum ranges::filter_compare_t;
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
-            | ranges::views::filter(ext::pointer_not_null{})
-            | ranges::views::filter_eq<EQ>(&nodes::element_private::id, id, &ext::get_pimpl<nodes::element>);
+            | ranges::views::cast<nodes::element*>
+            | ranges::views::filter(ext::pointer_not_null)
+            | ranges::views::filter_eq<EQ>(&nodes::element_private::id, id, ext::get_pimpl);
 
     return matches.empty() ? nullptr : matches.front();
 }
