@@ -3,7 +3,9 @@
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/element_private.hpp"
 #include "dom/nodes/shadow_root.hpp"
+#include "dom/nodes/shadow_root_private.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 
@@ -43,7 +45,7 @@ auto dom::detail::is_assigned(
         -> ext::boolean
 {
     // 'node_a' is assigned if it is a slottable whose assigned slot is not nullptr
-    return node_a && is_slottable(node_a) && dom_cross_cast<const mixins::slottable*>(node_a)->d_func()->ssigned_slot;
+    return node_a && is_slottable(node_a) && dom_cross_cast<const mixins::slottable*>(node_a)->d_func()->assigned_slot;
 }
 
 
