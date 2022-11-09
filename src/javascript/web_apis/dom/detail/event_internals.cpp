@@ -11,6 +11,7 @@
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/events/event.hpp"
+#include "dom/nodes/event_target.hpp"
 #include "dom/nodes/shadow_root.hpp"
 #include "dom/nodes/window.hpp"
 
