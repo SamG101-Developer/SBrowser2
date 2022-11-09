@@ -3,6 +3,7 @@
 
 namespace js::env {struct settings_t;}
 
+#include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
 #include <v8pp/class.hpp>
@@ -18,6 +19,7 @@ struct js::env::settings_t
     html::detail::origin_t origin;
     ext::boolean cross_origin_isolated_capability;
     ext::boolean is_secure_context;
+    hr_time::dom_high_res_time_stamp time_origin;
 
     /* [SERVICE-WORKERS] */
     ext::map<service_workers::workers::service_worker_private*, service_workers::workers::service_worker*> service_worker_object_map;
