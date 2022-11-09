@@ -26,8 +26,6 @@ DEFINE_PRIVATE_CLASS(media::source, source_buffer) : dom::nodes::event_target_pr
     ext::vector<std::unique_ptr<html::basic_media::video_track>> video_tracks;
     ext::vector<std::unique_ptr<html::basic_media::text_track >> text_tracks;
 
-    ext::boolean generate_timestamps_flag;
-
     void* input_buffer;
     ext::boolean buffer_full_flag;
     ext::number<double> group_start_timestamp;
