@@ -305,7 +305,7 @@ auto dom::detail::insert(
                     inclusive_descendant_element && is_connected(inclusive_descendant))
 
                 is_custom(dynamic_cast<nodes::element*>(inclusive_descendant))
-                        ? enqueue_custom_element_callback_reaction(inclusive_descendant_element, "connectedCallback")
+                        ? enqueue_custom_element_callback_reaction(inclusive_descendant_element, u"connectedCallback")
                         : try_to_upgrade_element(inclusive_descendant_element);
         }
     }

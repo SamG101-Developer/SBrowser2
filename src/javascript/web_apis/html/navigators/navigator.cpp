@@ -117,9 +117,9 @@ auto html::navigators::navigator::get_battery()
 
     // If the Document isn't allowed to use the Battery feature, then reject the [[BatteryPromise]] with a
     // NOT_ALLOWED_ERR, and return the contents of the [[BatteryManager]] slot.
-    if (!html::detail::allowed_to_use(document, u8"battery"))
+    if (!html::detail::allowed_to_use(document, u"battery"))
     {
-        d->battery_promise.reject(dom::other::dom_exception{u8"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
+        d->battery_promise.reject(dom::other::dom_exception{u"Document is not allowed to use the Battery feature", NOT_ALLOWED_ERR});
         return d->battery_promise;
     }
 
@@ -148,7 +148,7 @@ auto html::navigators::navigator::get_gamepads()
     return_if (!document || !dom::detail::is_document_fully_active(document)) {};
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            BIND_FRONT(!html::detail::allowed_to_use, document, u8"gamepad"),
+            BIND_FRONT(!html::detail::allowed_to_use, document, u"gamepad"),
             u8"Document is not allowed to use the 'gamepad' feature");
 
     return_if (!d->has_gamepad_gesture()) {};

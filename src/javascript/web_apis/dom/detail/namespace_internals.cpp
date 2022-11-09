@@ -39,15 +39,15 @@ auto dom::detail::validate_and_extract(
             u8"Prefix and namespace must not both be empty");
 
     throw_v8_exception<NAMESPACE_ERR>(
-            [prefix, namespace_] {return prefix == u8"xml" && namespace_ == XML;},
+            [prefix, namespace_] {return prefix == u"xml" && namespace_ == XML;},
             u8"Prefix and namespace must match (xml prefix)");
 
     throw_v8_exception<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name] {return (prefix == u8"xmlns" || qualified_name == u8"xmlns") && namespace_ != XMLNS;},
+            [prefix, namespace_, qualified_name] {return (prefix == u"xmlns" || qualified_name == u"xmlns") && namespace_ != XMLNS;},
             u8"Prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
     throw_v8_exception<NAMESPACE_ERR>(
-            [prefix, namespace_, qualified_name] {return (prefix != u8"xmlns" && qualified_name != u8"xmlns") && namespace_ == XMLNS;},
+            [prefix, namespace_, qualified_name] {return (prefix != u"xmlns" && qualified_name != u"xmlns") && namespace_ == XMLNS;},
             u8"prefix / qualified_name and namespace must match (xmlns prefix / qualified_name)");
 
     // return the prefix and local name - namespace_ and qualified name don't change, so they can be got from wherever

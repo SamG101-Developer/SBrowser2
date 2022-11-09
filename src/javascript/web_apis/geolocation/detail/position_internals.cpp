@@ -23,9 +23,9 @@ auto geolocation::detail::request_position(
         -> void
 {
     JS_REALM_GET_CURRENT
-    decltype(auto) document = js::env::realms::get<dom::nodes::document*>(current_global_object, "$AssociatedDocument");
+    decltype(auto) document = js::env::realms::get<dom::nodes::document*>(current_global_object, u"$AssociatedDocument");
 
-    if (!html::detail::allowed_to_use(document, "geolocation"))
+    if (!html::detail::allowed_to_use(document, u"geolocation"))
     {
         if (watch_id.has_value()) geolocation->s_watch_ids |= ranges::actions::remove(watch_id);
         callback_with_error(std::move(error_callback), error_reason_t::PERMISSION_DENIED);
@@ -35,7 +35,7 @@ auto geolocation::detail::request_position(
     while (document->visibility_state() != page_visibility::detail::visibility_state_t::VISIBLE)
         continue;
 
-    permissions::detail::permissions_descriptor_t descriptor{{"name", "geolocation"}};
+    permissions::detail::permissions_descriptor_t descriptor{{u"name", u"geolocation"}};
     auto permission = permissions::detail::request_permission_to_use(std::move(descriptor));
 
     if (permission == permissions::detail::permission_state_t::DENIED)

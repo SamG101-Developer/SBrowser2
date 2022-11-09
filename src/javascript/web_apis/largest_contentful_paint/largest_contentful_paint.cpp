@@ -48,19 +48,19 @@ auto largest_contentful_paint::largest_contentful_paint::get_url() const -> ext:
 auto largest_contentful_paint::largest_contentful_paint::get_element() const -> dom::nodes::element*
 {
     ACCESS_PIMPL(const largest_contentful_paint);
-    return element_timing::get_element(d->element, nullptr);
+    return element_timing::get_element(d->element.get(), nullptr);
 }
 
 
 auto largest_contentful_paint::largest_contentful_paint::get_name() const -> ext::string
 {
-    return "";
+    return u"";
 }
 
 
 auto largest_contentful_paint::largest_contentful_paint::get_entry_type() const -> ext::string
 {
-    return "largest-contentful-paint";
+    return u"largest-contentful-paint";
 }
 
 

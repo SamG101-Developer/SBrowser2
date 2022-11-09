@@ -20,7 +20,7 @@ private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return PROCESSING_INSTRUCTION_NODE;}
 
     /* CSSOM */
-    DEFINE_GETTER(target, ext::string);
+    DEFINE_GETTER(target, ext::string_view);
     DEFINE_SETTER(data, ext::string);
 };
 

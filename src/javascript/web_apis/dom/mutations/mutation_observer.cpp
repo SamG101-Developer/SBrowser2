@@ -4,7 +4,7 @@
 
 #include "ext/ranges.hpp"
 
-#include "javascript/environment/isolate_data_slots.hpp"
+#include "javascript/environment/global_slots.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
@@ -41,17 +41,17 @@ auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mut
     // If there is an old attribute value and an attribute filter, then set the "attributes" option to true, as it is
     // the attribute that must be being observerd (implied by giving an old value and filter). The check on the
     // "attributes" option is for micro-optimization.
-    if (options.contains(u8"attributeOldValue") && options.contains(u8"attributeFilter") && !options.contains(u8"attributes"))
-        options.insert_or_assign(u8"attributes", ext::boolean::TRUE_());
+    if (options.contains(u"attributeOldValue") && options.contains(u"attributeFilter") && !options.contains(u"attributes"))
+        options.insert_or_assign(u"attributes", ext::boolean::TRUE_());
 
     // If there is an olf character data value, the set the "characterData" option to true, as it is the character data
     // that must be being observed (implied by giving an old value). The check on the "charcaterData" option is for
     // micro-optimization.
-    if (options.contains(u8"characterOldDataValue") && !options.contains(u8"characterData"))
-        options.insert_or_assign(u8"characterData", ext::boolean::TRUE_());
+    if (options.contains(u"characterOldDataValue") && !options.contains(u"characterData"))
+        options.insert_or_assign(u"characterData", ext::boolean::TRUE_());
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [&options] {!options.contains(u8"childList") && !options.contains(u8"attributes") && !options.contains(u8"characterData");},
+            [&options] {!options.contains(u"childList") && !options.contains(u"attributes") && !options.contains(u"characterData");},
             u8"Either the childList, attributes of characterData must be observed");
 
 
@@ -64,13 +64,13 @@ auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mut
     using enum ranges::filter_compare_t;
     target->d_func()->registered_observer_list
             | ranges::views::transform(&std::unique_ptr<detail::registered_observer_t>::get)
-            | ranges::views::filter_eq<EQ>(&detail::registered_observer_t::observer, this, ext::identity{})
+            | ranges::views::filter_eq<EQ>(&detail::registered_observer_t::observer, this, ext::identity)
             | ranges::views::for_each([d, &node_removal](detail::registered_observer_t* registered) {d->node_list | ranges::views::for_each(BIND_FRONT(node_removal, registered));})
             | ranges::views::for_each([options = std::move(options)](detail::registered_observer_t* registered) {registered->options = options;});
 
     target->d_func()->registered_observer_list
             | ranges::views::transform(&std::unique_ptr<detail::registered_observer_t>::get)
-            | ranges::views::filter_eq<NE>(&detail::registered_observer_t::observer, this, ext::identity{})
+            | ranges::views::filter_eq<NE>(&detail::registered_observer_t::observer, this, ext::identity)
             | ranges::views::for_each(/* TODO */);
 }
 

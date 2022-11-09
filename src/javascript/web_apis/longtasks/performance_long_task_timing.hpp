@@ -24,7 +24,7 @@ private js_properties:
     DEFINE_GETTER(attribution, ext::vector_view<task_attribution_timing*>);
 
     DEFINE_GETTER(name, ext::string) override;
-    DEFINE_GETTER(entry_type, ext::string) override {return "longtask";}
+    DEFINE_GETTER(entry_type, ext::string) override {return u"longtask";}
     DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override;
 };

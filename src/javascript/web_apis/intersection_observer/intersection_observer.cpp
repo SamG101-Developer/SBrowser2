@@ -26,21 +26,22 @@ intersection_observer::intersection_observer::intersection_observer(
         detail::intersection_observer_init_t&& options)
 {
     INIT_PIMPL(intersection_observer);
+    using enum v8_primitive_error_t;
 
     // Try to parse the "rootMargin" option (converted to a string) from the 'options' dictionary. The result is an
     // optional list of strings, with no value indicating a failure in the parsing. If there was a parsing failure, then
     // throw a JavaScript syntax error.
-    auto parsed_root_margin = detail::parse_root_margin(options.try_emplace("rootMargin").first->second.to<ext::string>());
+    auto parsed_root_margin = detail::parse_root_margin(options.try_emplace(u"rootMargin").first->second.to<ext::string>());
     dom::detail::throw_v8_exception<V8_SYNTAX_ERROR>(
             [has_value = parsed_root_margin.has_value()] {return !has_value;},
-            "Error parsing the 'rootMargin' option");
+            u8"Error parsing the 'rootMargin' option");
 
     // Get the "thresholds" (converted to a list of doubles), and throw a JavaScript RangeError if any of the threshold
     // values are less than 0.0 or greater than 1.0 (the threshold values must confirm to this range).
-    auto parsed_thresholds = options.try_emplace("threshold").first->second.to<ext::vector<ext::number<double>>>();
+    auto parsed_thresholds = options.try_emplace(u"threshold").first->second.to<ext::vector<ext::number<double>>>();
     dom::detail::throw_v8_exception<V8_RANGE_ERROR>(
             [&parsed_thresholds] {return ranges::any_of(parsed_thresholds, [](auto&& value) {return value < 0.0 || value > 1.0;});},
-            "All values in the 'threshold' option must conform to [0.0 <= v <= 1.0]");
+            u8"All values in the 'threshold' option must conform to [0.0 <= v <= 1.0]");
 
     // Sort the 'parsed_thresholds' into ascending order.
     // TODO: this shouldn't happen if the range is empty
@@ -50,7 +51,7 @@ intersection_observer::intersection_observer::intersection_observer(
     // to the 'parsed_thresholds' converted to a list if not empty, otherwise {0.0}
     ACCESS_PIMPL(intersection_observer);
     d->callback = std::move(callback);
-    d->root = options.try_emplace("root", nullptr).first->second.to<dom::nodes::node*>();
+    d->root = options[u"root"].to<dom::nodes::node*>();
     d->root_margin = *parsed_root_margin;
     d->thresholds = parsed_thresholds.empty() ? parsed_thresholds : decltype(d->thresholds){0.0};
 }

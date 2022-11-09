@@ -64,7 +64,7 @@ auto media::source::media_source::add_source_buffer(ext::string_view type) -> so
 
     auto event_fire = BIND_FRONT(dom::detail::queue_task,
             html::detail::dom_manipulation_task_source,
-            [d](source_buffer* target) {dom::detail::fire_event(u8"addsourcebuffer", target);});
+            [d](source_buffer* target) {dom::detail::fire_event(u"addsourcebuffer", target);});
 
     d->source_buffers
             | ranges::views::transform(&std::unique_ptr<media_source>::get)
@@ -95,10 +95,10 @@ auto media::source::media_source::remove_source_buffer(source_buffer* buffer) ->
         buffer->d_func()->updating = false;
 
         dom::detail::queue_task(html::detail::dom_manipulation_task_source,
-                [buffer] {dom::detail::fire_event(u8"abort", buffer);});
+                [buffer] {dom::detail::fire_event(u"abort", buffer);});
 
         dom::detail::queue_task(html::detail::dom_manipulation_task_source,
-                [buffer] {dom::detail::fire_event(u8"updateend", buffer);});
+                [buffer] {dom::detail::fire_event(u"updateend", buffer);});
     }
 
     for (decltype(auto) audio_track: buffer->d_func()->audio_tracks)
@@ -139,13 +139,13 @@ auto media::source::media_source::remove_source_buffer(source_buffer* buffer) ->
         d->active_source_buffers |= ranges::actions::remove(buffer);
         dom::detail::queue_task(html::detail::dom_manipulation_task_source,
                 [active_buffers = d->active_source_buffers]
-                {dom::detail::fire_event(u8"removesourcebuffer", active_buffers);});
+                {dom::detail::fire_event(u"removesourcebuffer", active_buffers);});
     }
 
     d->source_buffers |= ranges::actions::remove(buffer);
     dom::detail::queue_task(html::detail::dom_manipulation_task_source,
             [active_buffers = buffers]
-            {dom::detail::fire_event(u8"removesourcebuffer", active_buffers);});
+            {dom::detail::fire_event(u"removesourcebuffer", active_buffers);});
 
     // TODO: Destroy all resources for sourceBuffer. (where is unique_ptr<source_buffer> stored?)
 }
@@ -163,9 +163,7 @@ auto media::source::media_source::end_of_stream(ext::optional<detail::end_of_str
     dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [d] {return ranges::any_of(
                     d->source_buffers
-                            | ranges::views::transform([](auto&& buffer) {return buffer->d_func()->updating;}),
-                    BIND_FRONT(std::equal_to{},
-                               true));
+                            | ranges::views::transform([](auto&& buffer) {return buffer->d_func()->updating;}), BIND_FRONT(ext::cmp::eq, true));
             },
             u8"Cannot end a stream that contains updating buffers");
 
@@ -258,12 +256,7 @@ auto media::source::media_source::set_duration(ext::number<double> new_duration)
             u8"Ready state must be open");
 
     dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
-            [d]
-            {
-                return ranges::any_of(
-                        d->source_buffers,
-                        [](auto&& buffer) {return buffer->d_func()->updating == true;})
-            },
+            [d] {return ranges::any_of(d->source_buffers, [](auto&& buffer) {return buffer->d_func()->updating == true;});},
             u8"No source buffers can be updating");
 
     detail::duration_change(this, new_duration);

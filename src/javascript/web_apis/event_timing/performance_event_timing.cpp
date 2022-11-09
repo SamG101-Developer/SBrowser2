@@ -10,6 +10,7 @@
 #include "dom/nodes/shadow_root.hpp"
 
 #include "pointer_events/pointer_event.hpp"
+#include "pointer_events/pointer_event_private.hpp"
 #include "ui_events/keyboard_event.hpp"
 
 #include "performance_timeline/performance_entry.hpp"
@@ -72,7 +73,7 @@ auto event_timing::performance_event_timing::get_name() const -> ext::string
 auto event_timing::performance_event_timing::get_entry_type() const -> ext::string
 {
     ACCESS_PIMPL(const performance_event_timing);
-    return "event"; // TODO : "first-input"?
+    return u"event"; // TODO : u"first-input"?
 }
 
 
