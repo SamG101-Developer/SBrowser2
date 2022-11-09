@@ -2,7 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_REALMS_HPP
 
 #include "ext/concepts.hpp"
+#include "ext/keywords.hpp"
 #include "javascript/environment/environment_settings.hpp"
+#include "javascript/environment/global_slots.hpp"
 
 #include <v8-context.h>
 #include <v8-isolate.h>
@@ -14,7 +16,9 @@
 namespace js::env {struct env;}
 namespace js::env
 {
-    auto private_property(const env& e, ext::string_view property) -> v8::Local<v8::Private>;
+    template <typename T> auto get_slot(const env& e, int slot) -> T;
+    template <typename T> auto set_slot(const env& e, int slot, T&& value) -> void;
+    auto del_slot(const env& e, int slot) -> void; // TODO : return deleted?
 }
 
 
@@ -26,7 +30,7 @@ struct js::env::env
         m_agent = isolate;
         m_realm = std::mem_fn(context)(isolate);
         m_global = m_realm->Global();
-        m_settings = get_settings();
+        m_settings = v8pp::to_v8(m_agent, get_settings());
     };
 
 public:
@@ -47,19 +51,21 @@ public:
     } cpp;
 
 public:
-    auto static current() -> env;
-    auto static implied() -> env;
-    auto static incumbent() -> env;
+    static auto current() -> env;
+    static auto implied() -> env;
+    static auto incumbent() -> env;
 
-    template <typename T> auto static entry(T&& cpp_object) -> env;
-    template <typename T> auto static relevant(T&& cpp_object) -> env;
-    template <typename T> auto static surrounding(T&& cpp_object) -> env;
-    template <typename T> auto static associated(T&& cpp_object) -> env;
-    template <typename T> auto static creation(T&& cpp_object) -> env;
+    template <typename T> static auto entry(T&& cpp_object) -> env;
+    template <typename T> static auto relevant(T&& cpp_object) -> env;
+    template <typename T> static auto surrounding(T&& cpp_object) -> env;
+    template <typename T> static auto associated(T&& cpp_object) -> env;
+    template <typename T> static auto creation(T&& cpp_object) -> env;
+    
+    static auto from_global_object(v8::Local<v8::Value> js_object) -> env;
 
 private:
-    _EXT_NODISCARD auto get_settings() const
-    {return m_global->GetPrivate(m_realm, private_property(*this, u8"[[Settings]]")).ToLocalChecked().As<v8::Object>();}
+    _EXT_NODISCARD auto get_settings() const -> settings_t*
+    {return get_slot<settings_t*>(*this, js::global_slots::settings);}
 
     v8::Isolate* m_agent = nullptr;
     v8::Local<v8::Context> m_realm;
@@ -68,8 +74,24 @@ private:
 };
 
 
-inline auto js::env::private_property(const js::env::env& e, ext::string_view property) -> v8::Local<v8::Private>
-{return v8::Private::New(e.js.agent(), v8pp::to_v8(e.js.agent(), property));}
+template <typename T>
+inline auto js::env::get_slot(const js::env::env& e, int slot) -> T
+{
+    return v8pp::from_v8<T>(e.js.agent(), e.js.global()->GetInternalField(slot));
+}
+
+
+template <typename T>
+inline auto js::env::set_slot(const js::env::env& e, int slot, T&& value) -> void
+{
+    e.js.global()->SetInternalField(slot, v8pp::to_v8(e.js.agent(), std::forward<T>(value)));
+}
+
+
+inline auto js::env::del_slot(const js::env::env& e, int slot) -> void
+{
+    e.js.global()->GetInternalField(slot).Clear();
+}
 
 auto js::env::env::current() -> env
 {return env{v8::Isolate::GetCurrent(), &v8::Isolate::GetCurrentContext};}
