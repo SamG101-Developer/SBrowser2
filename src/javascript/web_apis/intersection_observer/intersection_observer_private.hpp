@@ -6,6 +6,7 @@
 
 #include INCLUDE_INNER_TYPES(intersection_observer)
 #include "ext/array.hpp"
+#include "ext/memory.hpp"
 #include "ext/vector.hpp"
 
 namespace css::geometry {class dom_rect_readonly;}
@@ -18,7 +19,7 @@ DEFINE_PRIVATE_CLASS(intersection_observer, intersection_observer) : virtual dom
     ext::vector<dom::nodes::element*> observation_targets;
     ext::vector<intersection_observer*> queued_entries;
     ext::vector<ext::number<double>> thresholds;
-    dom::nodes::node* root;
+    std::observer_ptr<dom::nodes::node> root;
 };
 
 

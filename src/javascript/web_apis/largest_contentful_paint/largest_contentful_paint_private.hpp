@@ -17,7 +17,7 @@ DEFINE_PRIVATE_CLASS(largest_contentful_paint, largest_contentful_paint) : perfo
     ext::string id;
     ext::string url;
 
-    dom::nodes::element* element;
+    std::observer_ptr<dom::nodes::element> element;
 };
 
 

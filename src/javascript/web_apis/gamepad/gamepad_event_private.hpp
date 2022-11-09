@@ -4,12 +4,13 @@
 #include "ext/pimpl.hpp"
 #include "dom/events/event_private.hpp"
 
+#include "ext/memory.hpp"
 namespace gamepad {class gamepad;}
 
 
 DEFINE_PRIVATE_CLASS(gamepad, gamepad_event) : dom::events::event_private
 {
-    gamepad* gamepad = nullptr;
+    std::observer_ptr<gamepad> gamepad = nullptr;
 };
 
 
