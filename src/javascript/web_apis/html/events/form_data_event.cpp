@@ -12,7 +12,7 @@ html::events::form_data_event::form_data_event(
     INIT_PIMPL(form_data_event);
 
     ACCESS_PIMPL(form_data_event);
-    d->form_data = std::unique_ptr<xhr::form_data>{event_init[u8"formData"].to<xhr::form_data*>()};
+    d->form_data = std::unique_ptr<xhr::form_data>{event_init[u"formData"].to<xhr::form_data*>()};
 }
 
 

@@ -39,17 +39,17 @@ auto dom::nodes::event_target::add_event_listener(
 
     // Create an event listener that is the flattened options, and insert the callback and type.
     auto event_listener = detail::flatten_more(std::move(options));
-    event_listener.insert_or_assign(u8"callback", std::move(callback));
-    event_listener.insert_or_assign(u8"type", std::move(type));
+    event_listener.insert_or_assign(u"callback", std::move(callback));
+    event_listener.insert_or_assign(u"type", std::move(type));
 
     // Get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map.
-    decltype(auto) signal = event_listener[u8"signal"].to<abort::abort_signal*>();
+    decltype(auto) signal = event_listener[u"signal"].to<abort::abort_signal*>();
 
     // Return if any of the following conditions are true
     //  - There is no callback - invoking the event listener would have no effect and would waste cycles;
     //  - There is a signal that has already aborted - no need for the event listener to exist;
     //  - The event listener is already stored in the event listeners list - no duplicates allowed;
-    if (!event_listener.contains(u8"callback")
+    if (!event_listener.contains(u"callback")
             || signal && signal->d_func()->aborted()
             || ranges::contains(d->event_listeners, event_listener))
         return;
@@ -72,21 +72,21 @@ auto dom::nodes::event_target::remove_event_listener(
 
     // Create a dummy event listener that is the flattened options, and insert the callback and type
     auto event_listener = detail::flatten_more(std::move(options));
-    event_listener.insert_or_assign(u8"callback", std::move(callback));
-    event_listener.insert_or_assign(u8"type", std::move(type));
+    event_listener.insert_or_assign(u"callback", std::move(callback));
+    event_listener.insert_or_assign(u"type", std::move(type));
 
     // Set the removed attribute of the listener to true (so if the listener is being held in a variable it can be
     // detected that it is no longer in use)
-    event_listener.insert_or_assign(u8"removed", ext::boolean::FALSE_());
+    event_listener.insert_or_assign(u"removed", ext::boolean::FALSE_());
 
     // Alias the callback type for convenience, and remove all event listeners that have a matching callback, type and
     // capture attribute to event_listener
     auto event_listener_equality_check = [event_listener](ext::map<ext::string, ext::any>&& e)
     {
         using callback_t = detail::event_listener_callback_t;
-        return e[u8"callback"].to<callback_t>() == event_listener.at(u8"callback").to<callback_t>()
-                && e[u8"type"].to<ext::string_view>() == event_listener.at(u8"type").to<ext::string_view>()
-                && e[u8"capture"].to<ext::boolean>() == event_listener.at(u8"capture").to<ext::boolean>();
+        return e[u"callback"].to<callback_t>() == event_listener.at(u"callback").to<callback_t>()
+                && e[u"type"].to<ext::string_view>() == event_listener.at(u"type").to<ext::string_view>()
+                && e[u"capture"].to<ext::boolean>() == event_listener.at(u"capture").to<ext::boolean>();
     };
 
     d->event_listeners |= ranges::actions::remove_if(event_listener_equality_check);

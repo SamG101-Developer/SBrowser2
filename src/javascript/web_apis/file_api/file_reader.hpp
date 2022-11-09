@@ -25,7 +25,7 @@ public js_static_constants:
 
 public js_methods:
     auto read_as_array_buffer(blob* blob_object) -> void;
-    auto read_as_text(blob* blob_object, ext::string_view encoding = "") -> void;
+    auto read_as_text(blob* blob_object, ext::string_view encoding = u"") -> void;
     auto read_as_data_url(blob* blob_object) -> void;
     auto abort() -> void;
 

@@ -47,17 +47,17 @@ auto file_api::file_reader::abort()
     ACCESS_PIMPL(file_reader);
 
     if (d->state == detail::state_t::EMPTY || d->state == detail::state_t::DONE)
-        return static_cast<void>(d->result = "");
+        return static_cast<void>(d->result = u"");
 
     if (d->state == detail::state_t::LOADING)
-        ext::tie(d->state, d->result) = ext::make_tuple(detail::state_t::DONE, "");
+        ext::tie(d->state, d->result) = ext::make_tuple(detail::state_t::DONE, u"");
 
     html::detail::file_reading_task_source.queue.clear();
     // TODO : algorithm termination
 
-    detail::fire_progress_event("abort", this);
+    detail::fire_progress_event(u"abort", this);
     if (d->state == detail::state_t::LOADING)
-        detail::fire_progress_event("loadend", this);
+        detail::fire_progress_event(u"loadend", this);
 }
 
 

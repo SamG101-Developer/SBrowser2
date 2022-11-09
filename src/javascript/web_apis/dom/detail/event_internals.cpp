@@ -39,7 +39,7 @@ auto dom::detail::flatten_more(
 {
     // return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
     return ext::holds_alternative<ext::boolean>(std::move(options))
-           ? ext::map<ext::string, ext::any>{std::make_pair("capture", ext::get<ext::boolean>(std::move(options)))}
+           ? ext::map<ext::string, ext::any>{std::make_pair(u"capture", ext::get<ext::boolean>(std::move(options)))}
            : ext::get<ext::map<ext::string, ext::any>>(std::move(options));
 }
 
@@ -51,7 +51,7 @@ auto dom::detail::flatten(
     // return the boolean if a boolean value is being stored in the variant, otherwise the capture option of the map
     return ext::holds_alternative<ext::boolean>(std::move(options))
            ? ext::get<ext::boolean>(std::move(options))
-           : ext::get<ext::map<ext::string, ext::any>>(options).at("capture").to<ext::boolean>();
+           : ext::get<ext::map<ext::string, ext::any>>(options).at(u"capture").to<ext::boolean>();
 }
 
 
@@ -63,8 +63,8 @@ auto dom::detail::remove_all_event_listeners(
     // algorithm defined above (not just popping items from a list)
     for (ext::map<ext::string, ext::any>& existing_listener: event_target->m_event_listeners)
         event_target->remove_event_listener(
-                existing_listener.at("type").to<ext::string>(),
-                existing_listener.at("callback").to<detail::event_listener_callback_t>(),
+                existing_listener.at(u"type").to<ext::string>(),
+                existing_listener.at(u"callback").to<detail::event_listener_callback_t>(),
                 std::move(existing_listener));
 }
 
@@ -76,21 +76,21 @@ auto dom::detail::dispatch(
 {
     event->d_func()->dispatch_flag = true;
 
-    /* LARGEST_CONTENTFUL_PAINT BEGIN */
+    /* ↓ [LARGEST-CONTENTFUL-PAINT] ↓ */
     JS_REALM_GET_RELEVANT(target);
     if (auto* window = v8pp::from_v8<nodes::window*>(target_relevant_agent, target_relevant_global_object);
             window != nullptr
-            && event->d_func()->type() == "scroll"
+            && event->d_func()->type() == u"scroll"
             && event->d_func()->is_trusted())
         window->d_func()->has_dispatched_scroll_event = true;
-    /* LARGEST_CONTENTFUL_PAINT END */
+    /* ↑ [LARGEST-CONTENTFUL-PAINT] ↑ */
 
-    /* EVENT_TIMING BEGIN */
+    /* ↓ [EVENT-TIMING] ↓ */
     auto interaction_id = event_timing::detail::compute_interaction_id(event);
     auto entry_timing = event_timing::detail::initialize_event_timing(event, hr_time::detail::current_hr_time(target_relevant_global_object), std::move(interaction_id));
-    /* EVENT_TIMING END */
+    /* ↑ [EVENT-TIMING] ↑ */
 
-    const auto is_activation_event = event->d_func()->type == "click"; // && dynamic_cast<ui_events::events::mouse_event*>(event)
+    const auto is_activation_event = event->d_func()->type == u"click"; // && dynamic_cast<ui_events::events::mouse_event*>(event)
     nodes::event_target* activation_target = is_activation_event ? target : nullptr;
     const nodes::event_target* related_target = detail::retarget(event->d_func()->related_target, target);
     ext::boolean clear_targets = false;
@@ -213,9 +213,9 @@ auto dom::detail::dispatch(
     if (activation_target)
         activation_target->d_func()->activation_behaviour(event);
 
-    /* EVENT_TIMING BEGIN */
+    /* ↓ [EVENT-TIMING] ↓ */
     event_timing::detail::finalize_event_timing(&entry_timing, event, target, hr_time::detail::current_hr_time(target_relevant_global_object));
-    /* EVENT_TIMING END */
+    /* ↑ [EVENT-TIMING] ↑ */
 
     // the dispatch was successful if the event wasn't cancelled during path traversal
     return !event->d_func()->canceled_flag;
@@ -234,7 +234,7 @@ auto dom::detail::append_to_event_path(
     // the 'invocation_target' is in the shadow tree if it has a ShadowRoot root node, and the 'invocation_target' is
     // the root of a closed tree if it is a "closed" ShadowRoot node itself
     const ext::boolean invocation_target_in_shadow_tree = is_root_shadow_root(dynamic_cast<nodes::node*>(invocation_target));
-    const ext::boolean root_of_closed_tree = dynamic_cast<nodes::shadow_root*>(invocation_target)->mode() == "closed";
+    const ext::boolean root_of_closed_tree = dynamic_cast<nodes::shadow_root*>(invocation_target)->mode() == u"closed";
 
     // emplace a new 'event_path_struct' into the event's path, casting the range to a vector
     event_path_struct_t s
@@ -290,9 +290,9 @@ auto dom::detail::inner_invoke(
     // phase of the event ie a 'capturing' listener can only be invoked for an event in the 'CAPTURING_PHASE', and a
     // listener whose 'capturing' attribute is set to false can only be invoked for an event in the 'BUBBLING_PHASE'
     for (const auto& listener: event_listeners
-            | ranges::views::filter([event](const auto& listener) {return listener.at("type").template to<ext::string>() == event->d_func()->type;})
-            | ranges::views::filter([phase](const auto& listener) {return listener.at("capture").template to<ext::boolean>() && phase == events::event::CAPTURING_PHASE;})
-            | ranges::views::filter([phase](const auto& listener) {return !listener.at("capture").template to<ext::boolean>() && phase == events::event::BUBBLING_PHASE;}))
+            | ranges::views::filter([event](const auto& listener) {return listener.at(u"type").template to<ext::string>() == event->d_func()->type;})
+            | ranges::views::filter([phase](const auto& listener) {return listener.at(u"capture").template to<ext::boolean>() && phase == events::event::CAPTURING_PHASE;})
+            | ranges::views::filter([phase](const auto& listener) {return !listener.at(u"capture").template to<ext::boolean>() && phase == events::event::BUBBLING_PHASE;}))
     {
         // if the event listener's 'once' attribute is set to true, then remove the event listener from the
         // EventTarget's listener list (not the copied range, as this won't affect the actual EventTarget)
@@ -301,7 +301,7 @@ auto dom::detail::inner_invoke(
 
         // type alias the callback type for convenience, and get the associated javascript realm for the listener's
         // callback function object
-        auto javascript_callback = v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at("callback").to<detail::event_listener_callback_t>());
+        auto javascript_callback = v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at(u"callback").to<detail::event_listener_callback_t>());
         JS_REALM_GET_ASSOCIATED(javascript_callback);
 
         // if the global object for the associated realm is a Window object, then save its 'current_event' attribute,
@@ -316,8 +316,8 @@ auto dom::detail::inner_invoke(
         // set the event's passive listener flag if the listener is a passive listener, invoke the callback with the
         // event type and event object, and then unset the passive listener flag in the event object, as there isn't a
         // known passive listener whose callback is currently executing
-        event->d_func()->in_passive_listener_flag = listener.at("passive").to<ext::boolean>();
-        listener.at("callback").to<detail::event_listener_callback_t>()("handleEvent", event);
+        event->d_func()->in_passive_listener_flag = listener.at(u"passive").to<ext::boolean>();
+        listener.at(u"callback").to<detail::event_listener_callback_t>()(u"handleEvent", event);
         event->d_func()->in_passive_listener_flag = false;
 
         // restore the current event back to the Window associated global object
@@ -342,94 +342,94 @@ auto dom::detail::fire_event(
 
     string_switch(e)
     {
-        string_case("pointerover"):
-        string_case("pointerdown"):
-        string_case("pointermove"):
-        string_case("pointerup"):
-        string_case("pointerout"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", true);
+        string_case(u"pointerover"):
+        string_case(u"pointerdown"):
+        string_case(u"pointermove"):
+        string_case(u"pointerup"):
+        string_case(u"pointerout"):
+            init.template insert_or_assign(u"bubbles", true);
+            init.template insert_or_assign(u"cancelable", true);
             break;
 
-        string_case("pointerenter"):
-        string_case("pointerleave"):
-        string_case("load"):
-        string_case("unload"):
-        string_case("abort"):
-        string_case("error"):
-            init.template insert_or_assign("bubbles", false);
-            init.template insert_or_assign("cancelable", false);
+        string_case(u"pointerenter"):
+        string_case(u"pointerleave"):
+        string_case(u"load"):
+        string_case(u"unload"):
+        string_case(u"abort"):
+        string_case(u"error"):
+            init.template insert_or_assign(u"bubbles", false);
+            init.template insert_or_assign(u"cancelable", false);
             break;
 
-        string_case("pointerrawupdate"):
-        string_case("pointercancel"):
-        string_case("gotpointercapture"):
-        string_case("lostpointercapture"):
-        string_case("select"):
-        string_case("animationstart"):
-        string_case("animationend"):
-        string_case("animationiteration"):
-        string_case("animationcancelable"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", false);
+        string_case(u"pointerrawupdate"):
+        string_case(u"pointercancel"):
+        string_case(u"gotpointercapture"):
+        string_case(u"lostpointercapture"):
+        string_case(u"select"):
+        string_case(u"animationstart"):
+        string_case(u"animationend"):
+        string_case(u"animationiteration"):
+        string_case(u"animationcancelable"):
+            init.template insert_or_assign(u"bubbles", true);
+            init.template insert_or_assign(u"cancelable", false);
             break;
 
-        string_case("touchcancel"):
-            init.template insert_or_assign("cancelable", false);
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("composed", true);
+        string_case(u"touchcancel"):
+            init.template insert_or_assign(u"cancelable", false);
+            init.template insert_or_assign(u"bubbles", true);
+            init.template insert_or_assign(u"composed", true);
             break;
 
-        string_case("blur"):
-        string_case("focus"):
-        string_case("mouseenter"):
-        string_case("mouseleave"):
-            init.template insert_or_assign("bubbles", false);
-            init.template insert_or_assign("cancelable", false);
-            init.template insert_or_assign("composed", true);
+        string_case(u"blur"):
+        string_case(u"focus"):
+        string_case(u"mouseenter"):
+        string_case(u"mouseleave"):
+            init.template insert_or_assign(u"bubbles", false);
+            init.template insert_or_assign(u"cancelable", false);
+            init.template insert_or_assign(u"composed", true);
             break;
 
-        string_case("focusin"):
-        string_case("focusout"):
-        string_case("input"):
-        string_case("compositionupdate"):
-        string_case("compositionend"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", false);
-            init.template insert_or_assign("composed", true);
+        string_case(u"focusin"):
+        string_case(u"focusout"):
+        string_case(u"input"):
+        string_case(u"compositionupdate"):
+        string_case(u"compositionend"):
+            init.template insert_or_assign(u"bubbles", true);
+            init.template insert_or_assign(u"cancelable", false);
+            init.template insert_or_assign(u"composed", true);
             break;
 
-        string_case("auxclick"):
-        string_case("click"):
-        string_case("contextmenu"):
-        string_case("dblclick"):
-        string_case("mousedown"):
-        string_case("mousemove"):
-        string_case("mouseout"):
-        string_case("mouseover"):
-        string_case("mouseup"):
-        string_case("beforeinput"):
-        string_case("keydown"):
-        string_case("keyup"):
-        string_case("compositionstart"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("cancelable", true);
-            init.template insert_or_assign("composed", true);
+        string_case(u"auxclick"):
+        string_case(u"click"):
+        string_case(u"contextmenu"):
+        string_case(u"dblclick"):
+        string_case(u"mousedown"):
+        string_case(u"mousemove"):
+        string_case(u"mouseout"):
+        string_case(u"mouseover"):
+        string_case(u"mouseup"):
+        string_case(u"beforeinput"):
+        string_case(u"keydown"):
+        string_case(u"keyup"):
+        string_case(u"compositionstart"):
+            init.template insert_or_assign(u"bubbles", true);
+            init.template insert_or_assign(u"cancelable", true);
+            init.template insert_or_assign(u"composed", true);
             break;
 
-        string_case("wheel"):
-        string_case("touchstart"):
-        string_case("touchend"):
-        string_case("touchmove"):
-            init.template insert_or_assign("bubbles", true);
-            init.template insert_or_assign("composed", true);
+        string_case(u"wheel"):
+        string_case(u"touchstart"):
+        string_case(u"touchend"):
+        string_case(u"touchmove"):
+            init.template insert_or_assign(u"bubbles", true);
+            init.template insert_or_assign(u"composed", true);
             break;
     }
 
     if constexpr (type_is<T, indexed_db::events::idb_version_change_event>)
     {
-        init.template insert_or_assign("bubbles", false);
-        init.template insert_or_assign("cancelable", false);
+        init.template insert_or_assign(u"bubbles", false);
+        init.template insert_or_assign(u"cancelable", false);
     }
 
     // create a new event of type T, setting the event type and options, and then dispatch it to 'target'

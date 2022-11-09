@@ -12,7 +12,7 @@ html::events::drag_event::drag_event(
     INIT_PIMPL(drag_event);
 
     ACCESS_PIMPL(drag_event);
-    d->data_transfer = std::unique_ptr<dnd::data_transfer>{event_init[u8"dataTransfer"].to<dnd::data_transfer*>()};
+    d->data_transfer = std::unique_ptr<dnd::data_transfer>{event_init[u"dataTransfer"].to<dnd::data_transfer*>()};
 }
 
 

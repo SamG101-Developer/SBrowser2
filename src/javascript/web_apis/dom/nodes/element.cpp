@@ -117,7 +117,7 @@ auto dom::nodes::element::get_attribute(
     // 'get_attribute_node(...).value'
     ACCESS_PIMPL(const element);
     decltype(auto) match_attribute = get_attribute_node(qualified_name);
-    return match_attribute ? match_attribute->d_func()->value : u8"";
+    return match_attribute ? match_attribute->d_func()->value : u"";
 }
 
 
@@ -129,7 +129,7 @@ auto dom::nodes::element::get_attribute_ns(
     // get the Attr node by the 'namespace_' and 'local_name', and return the value of the node; syntactic sugar for
     // 'get_attribute_node_ns(...).value'
     decltype(auto) match_attribute = get_attribute_node_ns(namespace_, local_name);
-    return match_attribute ? match_attribute->d_func()->value : u8"";
+    return match_attribute ? match_attribute->d_func()->value : u"";
 }
 
 
@@ -176,7 +176,7 @@ auto dom::nodes::element::set_attribute(
 
         // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
-        decltype(auto) new_attribute = detail::create(qualified_name, "", value, "", d->node_document);
+        decltype(auto) new_attribute = detail::create(qualified_name, u"", value, u"", d->node_document);
         return detail::set_attribute(this, &new_attribute);
     CE_REACTIONS_METHOD_EXE
 }
@@ -343,12 +343,12 @@ auto dom::nodes::element::attach_shadow(
     using enum dom::detail::dom_exception_error_t;
 
     auto shadow_attachable_local_names = {
-        u8"article", u8"aside", u8"blockquote", u8"body", u8"div", u8"footer", u8"h1", u8"h2", u8"h3", u8"h4", u8"h5",
-        u8"h6", u8"header", u8"main", u8"nav", u8"p", u8"section", u8"span"};
+        u"article", u"aside", u"blockquote", u"body", u"div", u"footer", u"h1", u"h2", u"h3", u"h4", u"h5",
+        u"h6", u"header", u"main", u"nav", u"p", u"section", u"span"};
 
     auto valid_custom = detail::is_valid_custom_element_name(d->local_name);
     auto valid_local  = ranges::contains(shadow_attachable_local_names, d->local_name);
-    auto definition = detail::lookup_custom_element_definition(d->node_document, d->namespace_, d->local_name, d->is);
+    auto definition = detail::lookup_custom_element_definition(d->node_document.get(), d->namespace_, d->local_name, d->is);
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->namespace_ != detail::HTML;});
@@ -365,9 +365,9 @@ auto dom::nodes::element::attach_shadow(
     auto shadow = std::make_unique<shadow_root>();
     shadow->d_func()->node_document = d->node_document;
     shadow->d_func()->host = this;
-    shadow->d_func()->mode = options[u8"mode"].to<detail::shadow_root_mode_t>();
-    shadow->d_func()->delegates_focus = options[u8"delegatesFocus"].to<ext::boolean>();
-    shadow->d_func()->slot_assignment = options[u8"slotAssignment"].to<detail::slot_assignment_mode_t>();
+    shadow->d_func()->mode = options[u"mode"].to<detail::shadow_root_mode_t>();
+    shadow->d_func()->delegates_focus = options[u"delegatesFocus"].to<ext::boolean>();
+    shadow->d_func()->slot_assignment = options[u"slotAssignment"].to<detail::slot_assignment_mode_t>();
     d->shadow_root = shadow.get();
     return shadow;
 }
@@ -440,7 +440,7 @@ auto dom::nodes::element::get_id() const -> ext::string
 auto dom::nodes::element::get_shadow_root() const -> nodes::shadow_root*
 {
     ACCESS_PIMPL(const element);
-    return d->shadow_root;
+    return d->shadow_root.get();
 }
 
 

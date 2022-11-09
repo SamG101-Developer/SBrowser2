@@ -27,7 +27,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
 
     // Split the class names of a Node by spaces, and determine 'lower', which causes everything to be compared in
     // lowercase; if 'lower' is true, then convert the 'class_names' list into lowercase strings.
-    auto lower = base->d_func()->node_document->d_func()->mode == u8"quirks";
+    auto lower = base->d_func()->node_document->d_func()->mode == u"quirks";
     auto class_list = class_names
             | ranges::views::split_string(' ')
             | ranges::views::transform_if(lower, ranges::actions::lowercase);
@@ -43,7 +43,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
     // Filter the elements by applying the 'match_callback' onto each Element; if all the Element's class list items are
     // in the 'class_names' parameter, then keep the element, otherwise discard it.
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::cast<nodes::element*>
             | ranges::views::filter(match_callback);
 
     return matches;
@@ -59,7 +59,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
 
     // Determine 'lower', which causes everything to be compared in lowercase; if 'lower' is true, then convert the
     // 'qualified_name' into a lowercase string.
-    auto lower = base->d_func()->node_document->d_func()->mode == u8"quirks";
+    auto lower = base->d_func()->node_document->d_func()->mode == u"quirks";
     auto that_qualified_name = ext::string{qualified_name};
     if (lower) that_qualified_name |= ranges::actions::lowercase();
 
@@ -69,14 +69,14 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
     {
         auto this_qualified_name = detail::qualified_name(element);
         if (lower) this_qualified_name |= ranges::actions::lowercase();
-        return this_qualified_name == u8"*" || this_qualified_name == that_qualified_name;
+        return this_qualified_name == u"*" || this_qualified_name == that_qualified_name;
     };
 
     // Filter the elements by applying the 'match_callback' onto each Element; if the Element's qualified name equals
     // the 'qualified_name' parameter, then keep the element, otherwise discard it.
     using f_t = ext::function<bool(nodes::element*)>;
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::cast<nodes::element*>
             | ranges::views::filter(match_callback);
 
     return matches;
@@ -98,14 +98,14 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
     {
         auto this_namespace = element->d_func()->namespace_;
         auto this_local_name = element->d_func()->local_name;
-        return (this_namespace == u8"*" || this_namespace == namespace_)
-                && (this_local_name == u8"*" || this_local_name == local_name);
+        return (this_namespace == u"*" || this_namespace == namespace_)
+                && (this_local_name == u"*" || this_local_name == local_name);
     };
 
     // Filter the elements by applying the 'match_callback' onto each Element; if the Element's namespace and local name
     // equal the 'namespace_' and 'local_name' parameters, then keep the element, otherwise discard it.
     auto matches = detail::descendants(base)
-            | ranges::views::cast_all_to<nodes::element*>()
+            | ranges::views::cast<nodes::element*>
             | ranges::views::filter(match_callback);
 
     return matches;

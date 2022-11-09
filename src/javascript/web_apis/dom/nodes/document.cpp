@@ -81,15 +81,15 @@ dom::nodes::document::document()
     ACCESS_PIMPL(document);
 
     JS_REALM_GET_SURROUNDING(this);
-    d->url = std::make_unique<url::detail::url_t>(u8"about:blank");
-    d->content_type = u8"application/xml";
-    d->ready_state = u8"complete";
+    d->url = std::make_unique<url::detail::url_t>(u"about:blank");
+    d->content_type = u"application/xml";
+    d->ready_state = u"complete";
     d->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->d_func()->origin;
     d->get_the_parent =
             [this, d](events::event* event)
             {
                 JS_REALM_GET_RELEVANT(this);
-                return_if(event->d_func()->type == u8"load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
+                return_if(event->d_func()->type == u"load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
 
                 decltype(auto) global_object = v8pp::from_v8<event_target*>(this_relevant_agent, this_relevant_global_object);
                 return global_object;
@@ -109,9 +109,9 @@ auto dom::nodes::document::create_element(
 
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
         // to the empty string otherwise
-        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d->type == u8"html");
-        auto html_adjusted_namespace_ = d->type == u8"html" || d->content_type == u8"application/xhtml+xml" ? detail::HTML : u8"";
-        auto is = options[u8"is"].to<ext::string>();
+        auto html_adjusted_local_name = detail::html_adjust_string(std::move(local_name), d->type == u"html");
+        auto html_adjusted_namespace_ = d->type == u"html" || d->content_type == u"application/xhtml+xml" ? detail::HTML : u"";
+        auto is = options[u"is"].to<ext::string>();
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, u8"", is, true);
@@ -129,7 +129,7 @@ auto dom::nodes::document::create_element_ns(
         // determine the 'prefix' and 'local_name' from the 'namespace_' and 'qualified_name', using the detail
         // 'validate_and_extract(...)' method
         auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
-        auto is = options[u8"is"].to<ext::string>();
+        auto is = options[u"is"].to<ext::string>();
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, local_name, std::move(namespace_), prefix, is, true);
@@ -162,11 +162,11 @@ auto dom::nodes::document::create_cdata_section_node(ext::string&& data) -> std:
     using enum detail::dom_exception_error_t;
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [this, type = d->type] {return type == u8"html";},
+            [this, type = d->type] {return type == u"html";},
             u8"Cannot create a CDataSection node in a HTML Document");
 
     detail::throw_v8_exception<INVALID_CHARACTER_ERR>(
-            [data = std::move(data)] {return data.contains(u8"]]>");},
+            [data = std::move(data)] {return data.contains(u"]]>");},
             u8"Cannot create a CDataSection node with ']]>' in the data");
 
     auto node = std::make_unique<cdata_section>();
@@ -190,7 +190,7 @@ auto dom::nodes::document::create_processing_instruction(ext::string&& target, e
     using enum detail::dom_exception_error_t;
 
     detail::throw_v8_exception<INVALID_CHARACTER_ERR>(
-            [data = std::move(data)] {return data.contains(u8"?>");},
+            [data = std::move(data)] {return data.contains(u"?>");},
             u8"Cannot create a CDataSection node with '?>' in the data");
 
     auto node = std::make_unique<processing_instruction>();
@@ -204,7 +204,7 @@ auto dom::nodes::document::create_processing_instruction(ext::string&& target, e
 auto dom::nodes::document::create_attribute(ext::string&& local_name) -> std::unique_ptr<attr>
 {
     ACCESS_PIMPL(const document);
-    auto html_adjusted_local_name = d->type == u8"html"
+    auto html_adjusted_local_name = d->type == u"html"
             ? local_name | ranges::views::lowercase | ranges::to<ext::string>
             : std::move(local_name);
 
@@ -276,9 +276,9 @@ auto dom::nodes::document::adopt_node(node* new_node) -> node*
 
 auto dom::nodes::document::get_location() const -> html::other::location*
 {
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
     return detail::is_document_fully_active(this)
-            ? v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->location.get()
+            ? v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->location.get()
             : nullptr;
 }
 
@@ -305,7 +305,7 @@ auto dom::nodes::document::set_domain(ext::string new_domain) -> ext::string
             u8"Sandboxing prevents domain from being set");
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            [this] {return html::detail::allowed_to_use(this, u8"document-domain");},
+            [this] {return html::detail::allowed_to_use(this, u"document-domain");},
             u8"Document not allowed to use document-domain feature");
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
@@ -316,11 +316,11 @@ auto dom::nodes::document::set_domain(ext::string new_domain) -> ext::string
             [d, &new_domain] {return !html::detail::is_registerable_domain_suffix_or_equal_to(new_domain, html::detail::effective_domain(d->origin));},
             u8"The new domain must be a registerable domain or equal to Document's origin");
 
-    JS_REALM_GET_SURROUNDING(this);
-    return_if (false) u8""; // TODO : Agent->AgentCluster->IsOriginKeyed()
+    auto e = js::env::env::surrounding(this);
+    return_if (false) u""; // TODO : Agent->AgentCluster->IsOriginKeyed()
 
     using namespace ext::literals;
-    ext::get<html::detail::tuple_origin_t>(d->origin).[3_tag] = std::move(new_domain);
+    ext::get<html::detail::tuple_origin_t>(d->origin)[3_tag] = std::move(new_domain);
 }
 
 
@@ -338,7 +338,7 @@ auto dom::nodes::document::get_cookie() const -> ext::string
 
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
     // return the empty string instead.
-    return_if (html::detail::is_cookie_averse_document(this)) u8"";
+    return_if (html::detail::is_cookie_averse_document(this)) u"";
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
@@ -347,7 +347,7 @@ auto dom::nodes::document::get_cookie() const -> ext::string
             u8"Can not get the cookie of a Document whose origin is opaque");
 
     // return the true value of the cookie
-    return html::detail::cookie_string(*d->url, "non-HTTP", &encoding::detail::decode_without_bom);
+    return html::detail::cookie_string(*d->url, u8"non-HTTP", &encoding::detail::decode_without_bom);
 }
 
 
@@ -359,7 +359,7 @@ auto dom::nodes::document::get_last_modified() const -> ext::string
     // time object with a strict format, push this into a stream, and finally return the string that the
     // std::stringstream holds.
     std::time_t decimal_time = std::stoll(*d->last_modified);
-    auto formatted_time = ext::string_stream{} << std::put_time(std::localtime(&decimal_time), u8"%m/%d/%Y %H:%M:%S");
+    auto formatted_time = ext::string_stream{} << std::put_time(std::localtime(&decimal_time), u"%m/%d/%Y %H:%M:%S");
     return formatted_time.str();
 }
 
@@ -399,7 +399,7 @@ auto dom::nodes::document::get_dir() const -> html::detail::directionality_t
     // if the 'document_element' exists, and is a HTMLElement based object, then forward its 'dir' attribute value as
     // the Document's 'dir' attribute value, otherwise the empty string
     decltype(auto) html_document_element = d->html_element();
-    return html_document_element ? html_document_element->d_func()->dir : u8"";
+    return html_document_element ? html_document_element->d_func()->dir : u"";
 }
 
 
@@ -443,11 +443,11 @@ auto dom::nodes::document::get_links() const -> ranges::any_helpful_view<html::e
     // collection), and have their href attribute set
     decltype(auto) link_elements = detail::descendants(this)
             | ranges::views::cast<html::elements::html_link_element*>
-            | ranges::views::filter_eq<NE>(html::elements::html_link_element_private::href, u8"", ext::get_pimpl);
+            | ranges::views::filter_eq<NE>(html::elements::html_link_element_private::href, u"", ext::get_pimpl);
 
     decltype(auto) area_elements = detail::descendants(this)
             | ranges::views::cast<html::elements::html_area_element*>
-            | ranges::views::filter_eq<NE>(html::elements::html_area_element_private::href, u8"", ext::get_pimpl);
+            | ranges::views::filter_eq<NE>(html::elements::html_area_element_private::href, u"", ext::get_pimpl);
 
     return ranges::views::concat(link_elements, area_elements);
 }
@@ -498,7 +498,7 @@ auto dom::nodes::document::set_cookie(ext::string new_cookie) -> ext::string
 
     // if this Document is cookie averse, then it is not in the correct condition to return the value of the cookie, so
     // return the empty string instead.
-    return_if (html::detail::is_cookie_averse_document(this)) u8"";
+    return_if (html::detail::is_cookie_averse_document(this)) u"";
 
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
@@ -552,7 +552,7 @@ auto dom::nodes::document::set_title(ext::string new_title) -> ext::string
         if (!title_element)
         {
             detail::insert(
-                    detail::create_an_element(document_element->d_func()->node_document.get(), u8"title", detail::SVG),
+                    detail::create_an_element(document_element->d_func()->node_document.get(), u"title", detail::SVG),
                     detail::document_element(this), document_element->d_func()->child_nodes.front().get());
             title_element = document_element->d_func()->child_nodes.front().get();
         }
@@ -563,13 +563,13 @@ auto dom::nodes::document::set_title(ext::string new_title) -> ext::string
 
     else if (document_element->d_func()->namespace_uri == detail::HTML)
     {
-        return_if(!d->title() && ! d->head()) u8"";
+        return_if(!d->title() && ! d->head()) u"";
         decltype(auto) title_element = d->title();
 
         if (!title_element)
         {
             detail::append(
-                    detail::create_an_element(document_element->d_func()->node_document, u8"title", detail::HTML),
+                    detail::create_an_element(document_element->d_func()->node_document, u"title", detail::HTML),
                     d->head());
         }
 
@@ -577,7 +577,7 @@ auto dom::nodes::document::set_title(ext::string new_title) -> ext::string
         detail::string_replace_all(std::move(new_title), title_element);
     }
 
-    return u8"";
+    return u"";
 }
 
 

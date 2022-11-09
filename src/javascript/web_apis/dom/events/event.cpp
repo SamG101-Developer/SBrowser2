@@ -12,18 +12,18 @@ dom::events::event::event(
         ext::map<ext::string, ext::any>&& event_init)
 {
     INIT_PIMPL(event);
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
 
     ACCESS_PIMPL(event);
     d->type = std::move(event_type);
-    d->bubbles = event_init[u8"bubbles"].to<decltype(d->bubbles)>();
-    d->cancelable = event_init[u8"cancelable"].to<decltype(d->cancelable)>();
-    d->composed = event_init[u8"composed"].to<decltype(d->composed)>();
+    d->bubbles = event_init[u"bubbles"].to<decltype(d->bubbles)>();
+    d->cancelable = event_init[u"cancelable"].to<decltype(d->cancelable)>();
+    d->composed = event_init[u"composed"].to<decltype(d->composed)>();
     d->target = nullptr;
     d->current_target = nullptr;
     d->related_target = nullptr;
     d->event_phase = std::bit_cast<ushort>(NONE);
-    d->time_stamp = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d->time_stamp = hr_time::detail::current_hr_time(e.js.global());
     d->is_trusted = false;
     d->touch_targets = {};
     d->path = {};

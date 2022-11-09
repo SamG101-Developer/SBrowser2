@@ -17,7 +17,7 @@ auto dom::nodes::document_fragment::get_node_name() const -> ext::string
     // The 'node_name' getter returns the fixed string "#document-origin". Apply custom element reactions to this
     // getter.
     CE_REACTIONS_METHOD_DEF
-        return u8"#document-fragment";
+        return u"#document-fragment";
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -26,7 +26,7 @@ auto dom::nodes::document_fragment::get_node_value() const -> ext::string
 {
     // The 'node_vaue' getter returns the fixed string "". Apply custom element reactions to this getter.
     CE_REACTIONS_METHOD_DEF
-        return u8"";
+        return u"";
     CE_REACTIONS_METHOD_EXE
 }
 

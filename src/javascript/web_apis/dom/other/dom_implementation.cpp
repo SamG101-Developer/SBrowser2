@@ -60,9 +60,9 @@ auto dom::other::dom_implementation::create_document(
     // Set the document's 'content_type' based on the 'namespace_' parameter.
     string_switch(namespace_)
     {
-        string_case(detail::HTML): document->d_func()->content_type = u8"application/xhtml+xml";
-        string_case(detail::SVG ): document->d_func()->content_type = u8"application/svg+xml";
-        string_default: document->d_func()->content_type = u8"application/xml";
+        string_case(detail::HTML): document->d_func()->content_type = u"application/xhtml+xml";
+        string_case(detail::SVG ): document->d_func()->content_type = u"application/svg+xml";
+        string_default: document->d_func()->content_type = u"application/xml";
     }
 
     return std::move(document);
@@ -76,20 +76,20 @@ auto dom::other::dom_implementation::create_html_document(
     // Create the Document frame that will hold a basic "html -> head, body" structure; the content type is set to the
     // HTML content type, and the document type is set to HTML, signifying that the document is a HTML document.
     auto document = std::make_unique<nodes::document>();
-    document->d_func()->content_type = u8"text/html";
-    document->d_func()->type = u8"html";
+    document->d_func()->content_type = u"text/html";
+    document->d_func()->type = u"html";
 
     // Create a DocumentType node that is always the first child of a Document; name it "html", and set its document to
     // this node's owner document.
     auto doctype = std::make_unique<nodes::document_type>();
-    doctype->d_func()->name = u8"html";
+    doctype->d_func()->name = u"html";
     doctype->d_func()->node_document = document.get();
 
     // Begin the basic structure with a HTMLHtmlElement, containing a HTMLHeadElement (access previous element with
     // document->child_nodes()->at(...) - index 0 is the DocumentType node.
     detail::append(std::move(doctype), document.get());
-    detail::append(detail::create_an_element(document.get(), u8"html", detail::HTML), document.get());
-    detail::append(detail::create_an_element(document.get(), u8"head", detail::HTML), document->d_func()->child_nodes.at(1).get());
+    detail::append(detail::create_an_element(document.get(), u"html", detail::HTML), document.get());
+    detail::append(detail::create_an_element(document.get(), u"head", detail::HTML), document->d_func()->child_nodes.at(1).get());
 
     // If there is a 'title', then add a HTMLTitleElement into the HTMLHeadElement, and a Text node into the
     // HTMLTitleElement, containing the 'title' text.
@@ -97,12 +97,12 @@ auto dom::other::dom_implementation::create_html_document(
     {
         auto title_text = std::make_unique<nodes::text>(std::move(title));
         title_text->d_func()->node_document = document.get();
-        detail::append(detail::create_an_element(document.get(), u8"title", detail::HTML), document->d_func()->child_nodes.at(2).get());
+        detail::append(detail::create_an_element(document.get(), u"title", detail::HTML), document->d_func()->child_nodes.at(2).get());
         detail::append(std::move(title_text), document->d_func()->child_nodes.at(3).get());
     }
 
     // Add the HTMLBodyElement into the HTMLHtmlElement - this is where all the other nodes will be inserted into, as
     // the body acts as a container to the displayable elements.
-    detail::append(detail::create_an_element(document.get(), u8"body", detail::HTML), document->d_func()->child_nodes.at(1).get());
+    detail::append(detail::create_an_element(document.get(), u"body", detail::HTML), document->d_func()->child_nodes.at(1).get());
     return std::move(document);
 }

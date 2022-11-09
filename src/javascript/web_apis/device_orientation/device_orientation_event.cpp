@@ -12,10 +12,9 @@ device_orientation::device_orientation_event::device_orientation_event(
     INIT_PIMPL(device_orientation_event);
     ACCESS_PIMPL(device_orientation_event);
 
-    // TODO : ?
-    d->alpha = event_init[u8"alpha"].try_to<decltype(d->alpha)>();
-    d->beta  = event_init[u8"beta" ].try_to<decltype(d->beta )>();
-    d->gamma = event_init[u8"gamma"].try_to<decltype(d->gamma)>();
+    d->alpha = event_init[u"alpha"].to<decltype(d->alpha)>();
+    d->beta  = event_init[u"beta" ].to<decltype(d->beta )>();
+    d->gamma = event_init[u"gamma"].to<decltype(d->gamma)>();
 }
 
 
@@ -23,6 +22,34 @@ auto device_orientation::device_orientation_event::request_permission() -> ext::
 {
     ext::promise<detail::permission_state_t> promise;
     // TODO
+}
+
+
+auto device_orientation::device_orientation_event::get_alpha() const -> ext::number<double>
+{
+    ACCESS_PIMPL(const device_orientation_event);
+    return d->alpha;
+}
+
+
+auto device_orientation::device_orientation_event::get_beta() const -> ext::number<double>
+{
+    ACCESS_PIMPL(const device_orientation_event);
+    return d->beta;
+}
+
+
+auto device_orientation::device_orientation_event::get_gamma() const -> ext::number<double>
+{
+    ACCESS_PIMPL(const device_orientation_event);
+    return d->gamma;
+}
+
+
+auto device_orientation::device_orientation_event::get_absolute() const -> ext::boolean
+{
+    ACCESS_PIMPL(const device_orientation_event);
+    return d->absolute;
 }
 
 

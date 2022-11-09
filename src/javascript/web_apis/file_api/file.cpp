@@ -20,15 +20,15 @@ file_api::file::file(
     ACCESS_PIMPL(file);
 
     auto bytes = detail::process_blob_parts(std::move(file_bits), std::move(options));
-    auto options_type = options["type"].to<ext::string>();
+    auto options_type = options[u"type"].to<ext::string>();
 
     if (!ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)))
         options_type |= ranges::actions::lowercase();
 
-    JS_REALM_GET_RELEVANT(this);
-    auto options_date = options.contains("lastModified")
-            ? options["lastModified"].to<hr_time::epoch_time_stamp>()
-            : std::bit_cast<hr_time::epoch_time_stamp>(hr_time::detail::current_hr_time(this_relevant_global_object));
+    auto e = js::env::env::relevant(this);
+    auto options_date = options.contains(u"lastModified")
+            ? options[u"lastModified"].to<hr_time::epoch_time_stamp>()
+            : std::bit_cast<hr_time::epoch_time_stamp>(hr_time::detail::current_hr_time(e.js.global()));
 
     d->name = std::move(file_name);
     d->byte_sequence = std::move(bytes);
@@ -43,10 +43,10 @@ auto file_api::file::_serialize(
         -> void
 {
     ACCESS_PIMPL(file);
-    serialized.insert_or_assign("$SnapshotState", d->snapshot_state);
-    serialized.insert_or_assign("$ByteSequence", d->byte_sequence);
-    serialized.insert_or_assign("$Name", d->name);
-    serialized.insert_or_assign("$LastModified", d->last_modified);
+    serialized.insert_or_assign(u"$SnapshotState", d->snapshot_state);
+    serialized.insert_or_assign(u"$ByteSequence", d->byte_sequence);
+    serialized.insert_or_assign(u"$Name", d->name);
+    serialized.insert_or_assign(u"$LastModified", d->last_modified);
 }
 
 
@@ -56,10 +56,10 @@ auto file_api::file::_deserialize(
         -> self_t*
 {
     ACCESS_PIMPL(file);
-    d->snapshot_state = serialized.at("$SnapshotState").to<decltype(d->snapshot_state)>();
-    d->byte_sequence = serialized.at("$SnapshotState").to<decltype(d->byte_sequence)>();
-    d->name = serialized.at("$SnapshotState").to<decltype(d->name)>();
-    d->last_modified = serialized.at("$SnapshotState").to<decltype(d->last_modified)>();
+    d->snapshot_state = serialized.at(u"$SnapshotState").to<decltype(d->snapshot_state)>();
+    d->byte_sequence = serialized.at(u"$SnapshotState").to<decltype(d->byte_sequence)>();
+    d->name = serialized.at(u"$SnapshotState").to<decltype(d->name)>();
+    d->last_modified = serialized.at(u"$SnapshotState").to<decltype(d->last_modified)>();
 }
 
 

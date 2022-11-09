@@ -18,7 +18,7 @@ public friends:
     friend class dom::abort::abort_signal;
 
 public constructors:
-    dom_exception(ext::string&& message, exception_t type);
+    dom_exception(ext::u8string&& message, exception_t type);
     MAKE_PIMPL(dom_exception);
     MAKE_V8_AVAILABLE;
 };
