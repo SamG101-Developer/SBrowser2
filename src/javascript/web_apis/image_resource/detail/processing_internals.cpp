@@ -33,7 +33,7 @@ auto image_resource::detail::process_image_resource_from_api(
 
     auto e = js::env::env::relevant(nullptr);
     decltype(auto) base_url = *e.cpp.settings()->api_base_url;
-    decltype(auto) parsed_mime_type = mimesniff::detail::parse_mime_type(image_resource.try_emplace("type").first->first);
+    decltype(auto) parsed_mime_type = mimesniff::detail::parse_mime_type(image_resource.try_emplace(u"type").first->first);
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [has_value = parsed_mime_type.has_value()] {return !has_value;},
@@ -45,7 +45,7 @@ auto image_resource::detail::process_image_resource_from_api(
 
     auto image = image_resource_t
     {
-        .src = url::detail::url_parser(image_resource.try_emplace(u8"src").first->second),
+        .src = url::detail::url_parser(image_resource.try_emplace(u"src").first->second),
         // TODO: .sizes =
         .type = *parsed_mime_type,
         .label = serive_accessible_name()
@@ -62,17 +62,17 @@ auto image_resource::detail::process_image_resource_from_json(
 {
     auto e = js::env::env::relevant(json_object);
     return_if (!json_object->IsObject() || json_object.IsEmpty()) ext::failure_t{};
-    return_if (!json_object->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u8"src")).ToLocalChecked()->IsString()) ext::failure_t{};
+    return_if (!json_object->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u"src")).ToLocalChecked()->IsString()) ext::failure_t{};
 
     auto image = image_resource_options_t{};
     decltype(auto) base_url = *e.cpp.settings()->api_base_url;
-    decltype(auto) src = url::detail::url_parser(v8pp::from_v8<ext::string>(e.js.egent(), json_object->Get(e.js.realm(), v8pp::to_v8(e.js.agent, u8"src")).ToLocalChecked()), url::detail::url_serializer(base));
-    decltype(auto) mime_type = mimesniff::detail::parse_mime_type(v8pp::from_v8<ext::string>(e.js.egent(), json_object->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u8"type")).ToLocalChecked()));
+    decltype(auto) src = url::detail::url_parser(v8pp::from_v8<ext::string>(e.js.egent(), json_object->Get(e.js.realm(), v8pp::to_v8(e.js.agent, u"src")).ToLocalChecked()), url::detail::url_serializer(base));
+    decltype(auto) mime_type = mimesniff::detail::parse_mime_type(v8pp::from_v8<ext::string>(e.js.egent(), json_object->Get(e.js.realm(), v8pp::to_v8(e.js.agent(), u"type")).ToLocalChecked()));
 
-    image.insert(u8"src", url::detail::url_serializer(src));
+    image.insert(u"src", url::detail::url_serializer(src));
     // TODO : sizes
-    image.insert(u8"type", mimesniff::detail::essence(*mime_type));
-    image.insert(u8"label", serive_accessible_name());
+    image.insert(u"type", mimesniff::detail::essence(*mime_type));
+    image.insert(u"label", serive_accessible_name());
     return image;
 }
 
@@ -90,7 +90,7 @@ auto image_resource::detail::fetching_image_resource(
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [client = true_request.client] {return client.IsEmpty();},
-            u8"Request's client mustn't be null");
+            u"Request's client mustn't be null");
 
     return  fetch::detail::fetch(request);
 }

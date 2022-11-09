@@ -22,7 +22,7 @@ auto media::source::source_buffer::append_buffer(v8::BufferSource data) -> void
 
     dom::detail::queue_task(
             html::detail::dom_manipulation_task_source,
-            [this] {dom::detail::fire_event(u8"updatestart", this);});
+            [this] {dom::detail::fire_event(u"updatestart", this);});
 
     GO detail::buffer_append;
 }
@@ -44,11 +44,11 @@ auto media::source::source_buffer::abort() -> void
 
         dom::detail::queue_task(
                 html::detail::dom_manipulation_task_source,
-                [this] {dom::detail::fire_event(u8"abort", this);});
+                [this] {dom::detail::fire_event(u"abort", this);});
 
         dom::detail::queue_task(
                 html::detail::dom_manipulation_task_source,
-                [this] {dom::detail::fire_event(u8"updateend", this);});
+                [this] {dom::detail::fire_event(u"updateend", this);});
     }
 
     detail::reset_parser_state();

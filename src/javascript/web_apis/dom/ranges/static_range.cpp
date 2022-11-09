@@ -17,10 +17,10 @@ dom::node_ranges::static_range::static_range(detail::static_range_init_t&& init)
 
     using enum detail::dom_exception_error_t;
 
-    d->start->node = init[u8"startContainer"].to<nodes::node*>();
-    d->end->node = init[u8"endContainer"].to<nodes::node*>();
-    d->start->offset = init[u8"startOffset"].to<ext::number<ulong>>();
-    d->end->offset = init[u8"endOffset"].to<ext::number<ulong>>();
+    d->start->node = init[u"startContainer"].to<nodes::node*>();
+    d->end->node = init[u"endContainer"].to<nodes::node*>();
+    d->start->offset = init[u"startOffset"].to<ext::number<ulong>>();
+    d->end->offset = init[u"endOffset"].to<ext::number<ulong>>();
 
     detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [d] {return dom_multi_cast<nodes::document_type*, nodes::attr*>(d->start->node.get());},
