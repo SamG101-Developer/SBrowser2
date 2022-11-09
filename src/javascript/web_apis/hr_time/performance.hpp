@@ -30,7 +30,7 @@ public js_methods:
     /* [PERFORMANCE-TIMELINE] */
     auto get_entries() -> ext::vector<performance_timeline::performance_entry*>;
     auto get_entries_by_type(ext::string_view type) -> ext::vector<performance_timeline::performance_entry*>;
-    auto get_entries_by_name(ext::string_view name, ext::string_view type = u8"") -> ext::vector<performance_timeline::performance_entry*>;
+    auto get_entries_by_name(ext::string_view name, ext::string_view type = u"") -> ext::vector<performance_timeline::performance_entry*>;
 
     /* [RESOURCE-TIMING] */
     auto clear_resource_timings() -> void;
