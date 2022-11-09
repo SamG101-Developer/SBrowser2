@@ -8,7 +8,8 @@ dom::events::custom_event::custom_event(
         : event(std::move(event_type), std::move(event_init))
 {
     INIT_PIMPL(custom_event);
-    d_func()->detail = 0;
+    ACCESS_PIMPL(custom_event);
+    d->detail = 0;
 }
 
 

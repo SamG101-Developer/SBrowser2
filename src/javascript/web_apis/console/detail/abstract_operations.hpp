@@ -8,21 +8,13 @@
 namespace console::detail
 {
     template <typename ...Args>
-    auto logger(
-            log_level_t log_level,
-            Args&&... args)
-            -> void;
+    auto logger(log_level_t log_level, Args&&... args) -> void;
 
     template <typename ...Args>
-    auto formatter(
-            Args&&... args)
-            -> ext::string;
+    auto formatter(Args&&... args) -> ext::string;
 
     template <ext::type_is_enum E, typename ...Args>
-    auto printer(
-            E format_type,
-            Args&&... data)
-            -> void;
+    auto printer(E format_type, Args&&... data) -> void;
 }
 
 

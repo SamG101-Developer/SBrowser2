@@ -13,8 +13,8 @@ class magnetometer::magnetometer
         : public sensors::sensor
 {
 public constructors:
-    DOM_CTORS(magnetometer);
     magnetometer(detail::magnetometer_sensor_options_t&& options);
+    DOM_CTORS(magnetometer);
     MAKE_PIMPL(magnetometer);
     MAKE_V8_AVAILABLE;
 

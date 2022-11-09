@@ -59,9 +59,7 @@ auto geolocation::geolocation_coordinates::get_speed() const -> ext::number<doub
 }
 
 
-auto geolocation::geolocation_coordinates::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto geolocation::geolocation_coordinates::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) declaration = v8pp::class_<geolocation_coordinates>{isolate}
         .inherit<dom_object>()

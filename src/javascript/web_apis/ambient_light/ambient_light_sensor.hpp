@@ -11,8 +11,8 @@ class ambient_light_sensor::ambient_light_sensor
         : public sensors::sensor
 {
 public constructors:
-    DOM_CTORS(ambient_light_sensor);
     ambient_light_sensor(sensors::detail::sensor_options_t&& options = {});
+    DOM_CTORS(ambient_light_sensor);
     MAKE_PIMPL(ambient_light_sensor);
     MAKE_V8_AVAILABLE;
 

@@ -11,8 +11,8 @@ class accelerometer::linear_accelerometer
         : public accelerometer
 {
 public constructors:
-    DOM_CTORS(linear_accelerometer);
     linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
+    DOM_CTORS(linear_accelerometer);
     MAKE_PIMPL(linear_accelerometer);
     MAKE_V8_AVAILABLE;
 };

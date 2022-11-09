@@ -39,9 +39,7 @@ auto html::basic_media::abstract_track::get_source_buffer() const -> media::sour
 }
 
 
-auto html::basic_media::abstract_track::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::basic_media::abstract_track::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<abstract_track>{isolate}
         .inherit<dom_object>()

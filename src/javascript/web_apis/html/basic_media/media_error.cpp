@@ -3,9 +3,7 @@
 #include INCLUDE_INNER_TYPES(html)
 
 
-auto html::basic_media::media_error::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::basic_media::media_error::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     using enum detail::media_error_type_t;
 

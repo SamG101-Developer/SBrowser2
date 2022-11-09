@@ -12,8 +12,8 @@
 html::dnd::data_transfer::data_transfer()
 {
     INIT_PIMPL(data_transfer);
-    ACCESS_PIMPL(data_transfer);
 
+    ACCESS_PIMPL(data_transfer);
     d->drag_data_store = std::make_unique<detail::drag_data_store_t>();
     d->drag_data_store->drag_data_store_item_list = {};
     d->drag_data_store->drag_data_store_mode = detail::drag_data_store_mode_t::READ_WRITE;
@@ -52,7 +52,7 @@ auto html::dnd::data_transfer::get_effect_allowed() const -> detail::effect_allo
 }
 
 
-auto html::dnd::data_transfer::get_items() const -> ext::vector_span<data_transfer*>
+auto html::dnd::data_transfer::get_items() const -> ext::vector_span<data_transfer_item*>
 {
     ACCESS_PIMPL(const data_transfer);
     return d->items | ranges::views::transform(&std::unique_ptr<data_transfer_item>::get);

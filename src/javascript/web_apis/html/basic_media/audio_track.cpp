@@ -18,9 +18,7 @@ auto html::basic_media::audio_track::set_enabled(ext::boolean new_enabled) -> ex
 }
 
 
-auto html::basic_media::audio_track::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::basic_media::audio_track::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<audio_track>{isolate}
         .inherit<abstract_track>()

@@ -24,9 +24,7 @@ auto geolocation::geolocation_position::get_timestamp() const -> hr_time::epoch_
 }
 
 
-auto geolocation::geolocation_position::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto geolocation::geolocation_position::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<geolocation_position>{isolate}
         .inherit<dom_object>()

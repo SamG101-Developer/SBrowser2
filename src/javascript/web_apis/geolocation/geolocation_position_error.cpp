@@ -19,9 +19,7 @@ geolocation::geolocation_position_error::geolocation_position_error(
 }
 
 
-auto geolocation::geolocation_position_error::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto geolocation::geolocation_position_error::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     using enum detail::geolocation_position_error_t;
 

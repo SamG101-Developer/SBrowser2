@@ -6,7 +6,7 @@
 namespace geolocation {class geolocation;}
 namespace geolocation {class geolocation_private;}
 
-#include INCLUDE_INNER_TYPES(geolocation);
+#include INCLUDE_INNER_TYPES(geolocation)
 
 
 class geolocation::geolocation

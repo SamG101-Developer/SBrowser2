@@ -11,8 +11,8 @@ class accelerometer::gravity_sensor
         : public accelerometer
 {
 public constructors:
-    DOM_CTORS(gravity_sensor);
     gravity_sensor(detail::accelerometer_sensor_options_t&& options);
+    DOM_CTORS(gravity_sensor);
     MAKE_PIMPL(gravity_sensor);
     MAKE_V8_AVAILABLE;
 };
