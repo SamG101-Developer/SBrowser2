@@ -7,8 +7,10 @@
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_type.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/node.hpp"
+#include "dom/nodes/node_private.hpp"
 #include "dom/nodes/text.hpp"
-
+#include "dom/nodes/text_private.hpp"
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/drop_while.hpp>
 #include <range/v3/view/filter.hpp>
@@ -72,7 +74,7 @@ auto dom::detail::is_sibling(
         -> ext::boolean
 {
     // 'node_a' is a sibling of 'node_b' if they have the same 'parent_node'
-    return node_a->d_func()->parent_node == node_b->d_func()->parent_node;
+    return node_a->d_func()->parent_node.get() == node_b->d_func()->parent_node.get();
 }
 
 
@@ -160,7 +162,7 @@ auto dom::detail::all_following(
 {
     auto descendant_nodes = descendants(node_a);
     return descendant_nodes
-           | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<T*>()
+           | ranges::views::cast<T*>
            | ranges::views::filter([index_a = index(node_a)](T* descendant) {return index(descendant) < index_a;});
 }
 
@@ -172,7 +174,7 @@ auto dom::detail::all_preceding(
 {
     auto descendant_nodes = descendants(node_a);
     return descendant_nodes
-           | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<T*>()
+           | ranges::views::cast<T*>
            | ranges::views::filter([index_a = index(node_a)](T* descendant) {return index(descendant) > index_a;});
 }
 
@@ -184,7 +186,7 @@ auto dom::detail::all_preceding_siblings(
 {
     auto sibling_nodes = node_a->d_func()->parent_node->child_nodes;
     return sibling_nodes
-           | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<T*>()
+           | ranges::views::cast<T*>()
            | ranges::views::filter([index_a = ranges::find(sibling_nodes, node_a), &sibling_nodes](T* sibling) {return ranges::find(sibling_nodes, sibling) < index_a;});
 }
 
@@ -196,7 +198,7 @@ auto dom::detail::all_following_siblings(
 {
     auto sibling_nodes = node_a->d_func()->parent_node->child_nodes();
     return sibling_nodes
-           | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<T*>()
+           | ranges::views::cast<T*>()
            | ranges::views::filter([index_a = ranges::find(sibling_nodes, node_a), &sibling_nodes](T* sibling) {return ranges::find(sibling_nodes, sibling) > index_a;});
 }
 
@@ -245,16 +247,16 @@ auto dom::detail::contiguous_text_nodes(
 
     // previous consecutive text nodes as a range (adjacent to 'node_a')
     auto previous_consecutive_text_nodes = sibling_nodes | ranges::views::reverse
-            | ranges::views::drop_while([&node_a](const nodes::node* const sibling) {return sibling != node_a;})
-            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::text*>(false)
-            | ranges::views::take_while([](const nodes::text* const sibling_text_node) -> bool {return sibling_text_node;})
+            | ranges::views::drop_while(BIND_FRONT(ext::cmp::ne, node_a))
+            | ranges::views::cast<nodes::text*> // TODO : keep nullptr
+            | ranges::views::take_while(ext::identity)
             | ranges::views::reverse;
 
     // next consecutive text nodes as a range (adjacent to 'node_a')
     auto next_consecutive_text_nodes = sibling_nodes
-            | ranges::views::drop_while([&node_a](const nodes::node* const sibling) {return sibling != node_a;})
-            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::text*>(false)
-            | ranges::views::take_while([](const nodes::text* const sibling_text_node) -> bool {return sibling_text_node;});
+            | ranges::views::drop_while(BIND_FRONT(ext::cmp::ne, node_a))
+            | ranges::views::cast<nodes::text*> // TODO : keep nullptr
+            | ranges::views::take_while(ext::identity);
 
     return ranges::views::concat(previous_consecutive_text_nodes, current_text_node, next_consecutive_text_nodes);
 }
@@ -275,7 +277,7 @@ auto dom::detail::child_text_nodes(
 {
     return node_a->d_func()->parent_node->d_func()->child_nodes
             | ranges::views::transform(&std::unique_ptr<nodes::node>::get)
-            | ranges::views::cast_all_to.CALL_TEMPLATE_LAMBDA<nodes::text*>();
+            | ranges::views::cast<nodes::text*>;
 }
 
 
@@ -284,7 +286,7 @@ auto dom::detail::descendant_text_content(
         -> ext::string
 {
     return descendant_text_nodes(node_a)
-           | ranges::views::transform([](auto* descendant_text_node) {return descendant_text_node->d_func()->data;})
+           | ranges::views::transform_to_attr(&nodes::text_private::data, ext::get_pimpl)
            | ranges::to<ext::string>();
 }
 
@@ -294,8 +296,8 @@ auto dom::detail::child_text_content(
         -> ext::string
 {
     return child_text_nodes(node_a)
-           | ranges::views::transform([](auto* child_text_node) {return child_text_node->d_func()->data;})
-           | ranges::to<ext::string>();
+            | ranges::views::transform_to_attr(&nodes::text_private::data, ext::get_pimpl)
+            | ranges::to<ext::string>();
 }
 
 
@@ -313,5 +315,5 @@ auto dom::detail::is_document_element(
         const nodes::node* const node_a)
         -> ext::boolean
 {
-    return is_element_node(node_a) && dynamic_cast<nodes::document*>(node_a->d_func()->parent_node);
+    return is_element_node(node_a) && dom_cast<nodes::document*>(node_a->d_func()->parent_node.get());
 }
