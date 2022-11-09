@@ -15,7 +15,7 @@ class badging::mixins::navigator_badge
         : public virtual dom_object
 {
 public constructors:
-    navigator_badge() = default;
+    navigator_badge();
     MAKE_PIMPL(navigator_badge);
     MAKE_V8_AVAILABLE;
 
