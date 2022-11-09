@@ -29,11 +29,11 @@ auto html::mixins::window_or_worker_global_scope::btoa(ext::string_view data) ->
     dom::detail::throw_v8_exception<INVALID_CHARACTER_ERR>(
             [data]
             {
-                return ranges::any_of(
-                        data,
-                        [](char8_t code_point) {return code_point > 0x00ff;});
+        return ranges::any_of(
+                data,
+                [](char8_t code_point) {return code_point > 0x00ff;});
             },
-            u8"Code point must be <= 0x00ff");
+            u"Code point must be <= 0x00ff");
 
     return infra::detail::forgiving_base64_encode(data);
 }
@@ -50,7 +50,7 @@ auto html::mixins::window_or_worker_global_scope::atob(ext::string_view data) ->
                 decoded_data,
                 [](char8_t code_point) {return code_point > 0x00ff;});
             },
-            u8"Code point must be <= 0x00ff");
+            u"Code point must be <= 0x00ff");
 
     return decoded_data;
 }

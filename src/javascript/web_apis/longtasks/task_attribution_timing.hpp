@@ -21,8 +21,8 @@ private js_properties:
     DEFINE_GETTER(container_id, ext::string);
     DEFINE_GETTER(container_name, ext::string);
 
-    DEFINE_GETTER(name, ext::string) override {return "unknown";}
-    DEFINE_GETTER(entry_type, ext::string) override {return "taskattribution";}
+    DEFINE_GETTER(name, ext::string) override {return u"unknown";}
+    DEFINE_GETTER(entry_type, ext::string) override {return u"taskattribution";}
     DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override {return 0;}
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override {return 0;}
 };

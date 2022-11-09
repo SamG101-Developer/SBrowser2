@@ -12,7 +12,7 @@ auto html::mixins::validatable::check_validity() -> ext::boolean
     if (detail::candidate_for_constraint_validation(this) && ! detail::satitisfies_constaints(this))
     {
         decltype(auto) cast_this = dom_cross_cast<html::elements::html_element*>(this);
-        dom::detail::fire_event(u8"invalid", cast_this, {{u8"cancelable", true}});
+        dom::detail::fire_event(u"invalid", cast_this, {{u"cancelable", true}});
         return false;
     }
 
@@ -36,6 +36,6 @@ auto html::mixins::validatable::get_validity() const -> other::validity_state*
 auto html::mixins::validatable::get_validation_message() const -> ext::string
 {
     return detail::candidate_for_constraint_validation(this) || detail::satisfies_constraints(this)
-            ? u8""
-            : u8"TODO : useful message";
+            ? u""
+            : u"TODO : useful message";
 }

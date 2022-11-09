@@ -35,7 +35,7 @@ auto dom::nodes::text::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the fixed string "#text". Apply custom element reactions to this getter.
     CE_REACTIONS_METHOD_DEF
-        return u8"#text";
+        return u"#text";
     CE_REACTIONS_METHOD_EXE
 }
 
@@ -45,7 +45,7 @@ auto dom::nodes::text::get_whole_text() const -> ext::string
     // TODO -> create contiguous_text_content(...) in detail
     // The whole text of a Text node is the contiguous node data ie the combined data of all the contiguous Text nodes
     dom::detail::contiguous_text_nodes(this)
-            | ranges::views::transform(&text_private::data, &text::d_func)
+            | ranges::views::transform(&text_private::data, ext::get_pimpl)
             | ranges::to<ext::string>();
 }
 

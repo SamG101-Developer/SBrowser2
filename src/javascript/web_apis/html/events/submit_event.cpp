@@ -12,7 +12,7 @@ html::events::submit_event::submit_event(
     INIT_PIMPL(submit_event);
 
     ACCESS_PIMPL(submit_event);
-    d->submitter = std::unique_ptr<elements::html_form_element>(event_init[u8"submitter"].to<elements::html_form_element*>());
+    d->submitter = std::unique_ptr<elements::html_form_element>(event_init[u"submitter"].to<elements::html_form_element*>());
 }
 
 

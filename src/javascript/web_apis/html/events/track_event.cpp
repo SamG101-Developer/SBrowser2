@@ -12,7 +12,7 @@ html::events::track_event::track_event(
     INIT_PIMPL(track_event);
 
     ACCESS_PIMPL(track_event);
-    d->track = std::unique_ptr<basic_media::abstract_track>(event_init[u8"track"].to<basic_media::abstract_track*>());
+    d->track = std::unique_ptr<basic_media::abstract_track>(event_init[u"track"].to<basic_media::abstract_track*>());
 }
 
 

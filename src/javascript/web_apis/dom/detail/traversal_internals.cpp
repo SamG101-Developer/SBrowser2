@@ -2,12 +2,16 @@
 #include "dom/_typedefs.hpp"
 #include "ext/keywords.hpp"
 
-#include "dom/nodes/node.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/iterators/node_iterator.hpp"
+#include "dom/iterators/node_iterator_private.hpp"
 #include "dom/iterators/node_filter.hpp"
+#include "dom/iterators/node_filter_private.hpp"
 #include "dom/iterators/tree_walker.hpp"
+#include "dom/iterators/tree_walker_private.hpp"
+#include "dom/nodes/node.hpp"
+#include "dom/nodes/node_private.hpp"
 
 
 auto dom::detail::filter(
@@ -19,7 +23,7 @@ auto dom::detail::filter(
 
     throw_v8_exception<INVALID_STATE_ERR>(
             [iterator] {return iterator->d_func()->active_flag;},
-            "NodeIterator/TreeWalker must be inactive to start filtering");
+            u8"NodeIterator/TreeWalker must be inactive to start filtering");
 
     // get the 'node_type' of the 'node', and if the 'what_to_shot' doesn't have this bit set, then return FILTER_SKIP;
     // if there is no filter, then return FILTER_ACCEPT as everything is automatically accepted. for example, if the
@@ -43,8 +47,7 @@ auto dom::detail::filter(
     // the error; this means that the state of the NodeIterator/TreeWalker has been adjusted for post-filtering, and the
     // error can be managed correctly
     iterator->d_func()->active_flag = false;
-    if (JS_EXCEPTION_HAS_THROWN)
-        JS_EXCEPTION_RETHROW;
+    JS_EXCEPTION_RETHROW_IF_HAS_THROWN;
 
     // otherwise, return the result of the filtering process (FILTER_SKIP / FILTER_REJECT / FILTER_ACCEPT
     return result;
