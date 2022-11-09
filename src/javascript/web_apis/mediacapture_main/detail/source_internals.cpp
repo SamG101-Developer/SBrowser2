@@ -10,7 +10,7 @@
 
 auto mediacapture::detail::initialize_underlying_source(
         main::media_stream_track* track,
-        media_stream_track_source& source)
+        media_stream_track_source_t& source)
         -> void
 {
     track->m_source = source;
@@ -21,13 +21,13 @@ auto mediacapture::detail::initialize_underlying_source(
 
 
 auto mediacapture::detail::tie_track_source_to_context(
-        media_stream_track_source& source)
+        media_stream_track_source_t& source)
         -> void
 {
     // get the relevant JavaScript realm of the source, and extract the set of sources in the media_stream_track_sources
     // slot of the global object
     JS_REALM_GET_RELEVANT(source)
-    auto sources = js::env::realms::get<ext::set<media_stream_track_source>*>(
+    auto sources = js::env::realms::get<ext::set<media_stream_track_source_t>*>(
             source_relevant_global_object, "[[media_stream_track_sources]]");
 
     // insert the source into the sources set - this is what ties the source back to the context; it is bound into the
@@ -41,7 +41,7 @@ auto mediacapture::detail::stop_all_sources(
         -> void
 {
     // extract the set of sources in the media_stream_track_sources slot of the 'global_object'
-    auto sources = js::env::realms::get<ext::set<media_stream_track_source>*>(
+    auto sources = js::env::realms::get<ext::set<media_stream_track_source_t>*>(
             global_object, "[[media_stream_track_sources]]");
 
     // the filter checks if the relevant JavaScript realm's global object is the global object that was passed into this

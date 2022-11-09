@@ -18,11 +18,11 @@ namespace mediacapture::detail
 {
     auto initialize_underlying_source(
             main::media_stream_track* track,
-            media_stream_track_source& source)
+            media_stream_track_source_t& source)
             -> void;
 
     auto tie_track_source_to_context(
-            media_stream_track_source& source)
+            media_stream_track_source_t& source)
             -> void;
 
     auto stop_all_sources(
@@ -31,7 +31,7 @@ namespace mediacapture::detail
 };
 
 
-struct mediacapture::detail::media_stream_track_source
+struct mediacapture::detail::media_stream_track_source_t
 {
     ext::string source_type;
     ext::function<void(const main::media_stream_track*)> source_specific_construction_steps;

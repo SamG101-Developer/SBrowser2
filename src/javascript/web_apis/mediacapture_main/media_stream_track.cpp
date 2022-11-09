@@ -9,7 +9,7 @@
 
 
 mediacapture::main::media_stream_track::media_stream_track(
-        detail::media_stream_track_source& source,
+        detail::media_stream_track_source_t& source,
         ext::boolean tie_source_to_context) // TODO : params?
 {
     INIT_PIMPL(media_stream_track);

@@ -8,6 +8,7 @@
 
 #include INCLUDE_INNER_TYPES(mediacapture_handle)
 #include INCLUDE_INNER_TYPES(mediacapture_main)
+#include "ext/memory.hpp"
 
 
 DEFINE_PRIVATE_CLASS(mediacapture::main, media_stream_track)
@@ -21,7 +22,7 @@ DEFINE_PRIVATE_CLASS(mediacapture::main, media_stream_track)
     ext::boolean muted;
     detail::media_stream_track_state_t ready_state;
 
-    std::unique_ptr<detail::media_stream_track_source> source;
+    std::observer_ptr<detail::media_stream_track_source_t> source;
 
     /* [MEDIACAPTURE-HANDLE] */
     ext::vector<detail::capture_action_t> available_capture_actions;

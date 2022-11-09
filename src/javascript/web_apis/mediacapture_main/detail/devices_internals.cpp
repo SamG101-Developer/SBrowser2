@@ -71,7 +71,7 @@ auto mediacapture::detail::on_page_load(
 
         js::env::realms::set(
                 media_devices_relevant_global_object, "[[media_stream_track_sources]]",
-                ext::set<media_stream_track_source*>{});
+                ext::set<media_stream_track_source_t*>{});
 
 
         using permissions::detail::powerful_feature_t;
