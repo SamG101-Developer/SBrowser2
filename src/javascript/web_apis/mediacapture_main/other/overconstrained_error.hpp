@@ -11,7 +11,7 @@ class mediacapture::main::other::overconstrained_error
         : public dom::other::dom_exception
 {
 public constructors:
-    overconstrained_error(ext::string&& constraint, ext::string&& message = u8"");
+    overconstrained_error(ext::string&& constraint, ext::string&& message = u"");
     MAKE_PIMPL(overconstrained_error);
     MAKE_V8_AVAILABLE;
 

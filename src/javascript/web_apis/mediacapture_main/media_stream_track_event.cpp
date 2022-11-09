@@ -12,7 +12,7 @@ mediacapture::main::media_stream_track_event::media_stream_track_event(
     INIT_PIMPL(media_stream_track_event);
 
     ACCESS_PIMPL(media_stream_track_event);
-    d->track = event_init[u8"track"].to<decltype(d->track)::pointer>();
+    d->track = event_init[u"track"].to<decltype(d->track)::pointer>();
 }
 
 

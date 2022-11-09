@@ -37,9 +37,9 @@ auto mediacapture::main::mixins::constrainable::get_settings() const -> detail::
     // [[settings]] internal slot
     return base->d_func()->ready_state == detail::media_stream_track_state_t::ENDED
             ? ext::map<ext::string, ext::any>{
-                {"deviceId", base->d_func()->device_id},
-                {"facingMode", base->d_func()->facing_mode},
-                {"groupId", base->d_func()->group_id}}
+                {u"deviceId", base->d_func()->device_id},
+                {u"facingMode", base->d_func()->facing_mode},
+                {u"groupId", base->d_func()->group_id}}
             : d->settings;
 }
 
