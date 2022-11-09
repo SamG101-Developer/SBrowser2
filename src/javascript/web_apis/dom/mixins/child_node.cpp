@@ -21,7 +21,7 @@ auto dom::mixins::child_node::before(T&&... nodes) -> nodes::node*
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to insert nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->d_func()->parent_node;
+        decltype(auto) parent = base->d_func()->parent_node.get();
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // The 'viable_previous_siblings' are all the preceding siblings of 'node' that aren't in 'nodes' - this is the
@@ -50,7 +50,7 @@ auto dom::mixins::child_node::after(T&&... nodes) -> nodes::node*
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to insert nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->d_func()->parent_node;
+        decltype(auto) parent = base->d_func()->parent_node.get();
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // The 'viable_next_siblings' are all the following siblings of 'node' that aren't in 'nodes' - this is the set
@@ -78,7 +78,7 @@ auto dom::mixins::child_node::replace_with(T&& ...nodes) -> nodes::node*
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to replace nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->d_func()->parent_node;
+        decltype(auto) parent = base->d_func()->parent_node.get();
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // Convert the 'nodes' into a single Node.
@@ -86,7 +86,7 @@ auto dom::mixins::child_node::replace_with(T&& ...nodes) -> nodes::node*
         
         // If the 'parent' matches the node's parent, replace this node with 'node', otherwise insert 'node' into
         // 'parent', before the determined 'viable_next_sibling'.
-        if (base->d_func()->parent_node == parent)
+        if (base->d_func()->parent_node.get() == parent)
             detail::replace(base, parent, node);
         else
         {
@@ -109,7 +109,7 @@ auto dom::mixins::child_node::remove() -> nodes::node*
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to remove nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
-        decltype(auto) parent = base->d_func()->parent_node;
+        decltype(auto) parent = base->d_func()->parent_node.get();
         return_if (!parent) ext::nullptr_cast<nodes::node*>();
 
         // Remove this node from the DOM tree.

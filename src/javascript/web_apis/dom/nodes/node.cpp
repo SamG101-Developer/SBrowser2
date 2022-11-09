@@ -1,9 +1,10 @@
 #include "node.hpp"
+#include "environment/global_slots.hpp"
 #include "node_private.hpp"
 
 #include "ext/casting.hpp"
 #include "ext/ranges.hpp"
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/customization_internals.hpp"
@@ -56,7 +57,7 @@ dom::nodes::node::node()
             [this, d](events::event* event)
             {return detail::is_assigned(this) ? dom_cross_cast<mixins::slottable*>(this)->d_func()->assigned_slot : d->parent_node;};
 
-    /* FULLSCREEN */
+    /* [FULLSCREEN] */
     d->remove_steps = [this, d](dom::nodes::node*)
     {
         using enum ranges::filter_compare_t;
@@ -176,36 +177,36 @@ auto dom::nodes::node::normalize() -> node*
             // Get the current node as the next text node (whose text has been combined into the text node's text).
             decltype(auto) current_node = detail::next_sibling(text_node);
 
-            JS_REALM_GET_SURROUNDING(this);
-            auto live_ranges = js::env::realms::get<ext::vector<node_ranges::range*>>(this_surrounding_global_object, "live_ranges");
+            auto e = js::env::env::surrounding(this);
+            auto live_ranges = js::env::get_slot<ext::vector<node_ranges::range*>*>(e, js::global_slots::live_ranges);
 
             // Iterate by incrementing the current_node to the next sibling.
             while (detail::is_exclusive_text_node(current_node))
             {
                 // Ranges whose starting node is current_node: increment the starting offset by the length of the text
                 // of the text node (text has shifted back to previous node) and set the starting node to the text node.
-                live_ranges
+                *live_ranges
                         | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->start->node == current_node;})
                         | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->start->offset = range->d_func()->start->offset + length;})
                         | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->start->node = text_node;});
 
                 // Ranges whose ending node is current_node: increment the ending offset by the length of the text of
                 // the text node (text has shifted back to previous node) abd set the ending node to the text node.
-                live_ranges
+                *live_ranges
                         | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->end->node == current_node;})
                         | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->end->offset = range->d_func()->end->offset + length;})
                         | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->end->node = text_node;});
 
                 // Ranges whose starting node is current_node's parent: set the starting offset to the length of the
                 // text in the text node and set the starting node to the text node TODO : why?
-                live_ranges
+                *live_ranges
                         | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->start->node == current_node->d_func()->parent_node;})
                         | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->start->offset = length;})
                         | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->start->node = text_node;});
 
                 // Ranges whose ending node is current_node's parent: set the ending offset to the length of the text in
                 // the text node and set the ending node to the text node TODO : why?
-                live_ranges
+                *live_ranges
                         | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->end->node == current_node->d_func()->parent_node;})
                         | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->end->offset = length;})
                         | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->end->node = text_node;});
@@ -261,7 +262,7 @@ auto dom::nodes::node::is_equal_node(node* other) -> ext::boolean
 auto dom::nodes::node::is_default_namespace(ext::string_view namespace_) -> ext::boolean
 {
     // The namespace is the default namespace if it matches locating an empty namespace for this node.
-    return namespace_ == detail::locate_a_namespace(this, u8"");
+    return namespace_ == detail::locate_a_namespace(this, u"");
 }
 
 
@@ -279,11 +280,11 @@ auto dom::nodes::node::lookup_prefix(ext::string_view namespace_) -> ext::string
 
     // Document type node: return empty string.
     if (auto* document_type_cast = dynamic_cast<document_type*>(this))
-        return u8"";
+        return u"";
 
     // Document fragment: return empty string.
     if (auto* document_fragment_cast = dynamic_cast<document_fragment*>(this))
-        return u8"";
+        return u"";
 
     // Attribute node: return the lookup for the owner element
     if (auto* attribute_cast = dynamic_cast<attr*>(this))
@@ -362,21 +363,21 @@ auto dom::nodes::node::get_child_nodes() const -> ranges::any_view<node*>
 auto dom::nodes::node::get_parent_node() const -> node*
 {
     ACCESS_PIMPL(const node);
-    return d->parent_node;
+    return d->parent_node.get();
 }
 
 
 auto dom::nodes::node::get_parent_element() const -> element*
 {
     ACCESS_PIMPL(const node);
-    return dom_cast<element*>(d->parent_node);
+    return dom_cast<element*>(d->parent_node.get());
 }
 
 
 auto dom::nodes::node::get_owner_document() const -> document*
 {
     ACCESS_PIMPL(const node);
-    return d->node_document;
+    return d->node_document.get();
 }
 
 
