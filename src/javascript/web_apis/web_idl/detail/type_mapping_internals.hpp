@@ -144,10 +144,13 @@ namespace web_idl::detail
     auto create_rejected_promise(T&& reason, v8::Local<v8::Context> realm) -> ext::promise<T>;
 
     template <typename T>
-    auto resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<T>&& x = ext::nullopt) -> void;
+    auto resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm) -> ext::promise<T>&;
+
+    template <typename T>
+    auto resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, T&& x) -> ext::promise<T>&;
 
     template <typename T, typename U>
-    auto reject_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& reason) -> void;
+    auto reject_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& reason) -> ext::promise<T>&;
 
     template <typename T, ext::callable F0, ext::callable F1>
     auto react(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<F0>&& fullfilled_steps = ext::nullopt, ext::optional<F1>&& rejected_steps = ext::nullopt) -> void;

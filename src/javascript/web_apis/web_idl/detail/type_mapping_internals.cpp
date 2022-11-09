@@ -41,20 +41,32 @@ auto web_idl::detail::create_rejected_promise(T&& reason, v8::Local<v8::Context>
 
 
 template <typename T>
-auto web_idl::detail::resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<T>&& x) -> void
+auto web_idl::detail::resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm) -> ext::promise<T>&
 {
     auto js_promise = v8pp::to_v8(realm->GetIsolate(), promise).template As<v8::Promise::Resolver>();
-    auto js_value = x.has_value() ? v8pp::to_v8(realm->GetIsolate(), std::forward<T>(x)) : v8::Null(realm->GetIsolate());
+    auto js_value = v8::Null(realm->GetIsolate());
     js_promise.Resolve(realm, js_value);
+    return promise;
+}
+
+
+template <typename T>
+auto web_idl::detail::resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, T&& x) -> ext::promise<T>&
+{
+    auto js_promise = v8pp::to_v8(realm->GetIsolate(), promise).template As<v8::Promise::Resolver>();
+    auto js_value = v8pp::to_v8(realm->GetIsolate(), std::forward<T>(x));
+    js_promise.Resolve(realm, js_value);
+    return promise;
 }
 
 
 template <typename T, typename U>
-auto web_idl::detail::reject_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& reason) -> void
+auto web_idl::detail::reject_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& reason) -> ext::promise<T>&
 {
     auto js_promise = v8pp::to_v8(realm->GetIsolate(), promise).template As<v8::Promise::Resolver>();
     auto js_value = v8pp::to_v8(realm, std::forward<U>(reason));
     js_promise.Reject(realm, js_value);
+    return promise;
 }
 
 
