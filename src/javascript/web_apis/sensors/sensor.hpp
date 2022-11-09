@@ -14,6 +14,9 @@ namespace sensors {class sensor_private;}
 class sensors::sensor
         : public dom::nodes::event_target
 {
+public friends:
+    friend class accelerometer::accelerometer;
+
 public constructors:
     DOM_CTORS(sensor);
     MAKE_PIMPL(sensor);
