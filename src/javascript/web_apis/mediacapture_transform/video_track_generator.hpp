@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace mediacapture::transform {class video_track_generator;}
+namespace mediacapture::transform {class video_track_generator_private;}
 
 #include "ext/boolean.hpp"
 namespace streams::writable {class writable_stream;}
@@ -14,16 +15,16 @@ class mediacapture::transform::video_track_generator
         : public virtual dom_object
 {
 public constructors:
-    video_track_generator() = default;
+    video_track_generator();
+    MAKE_PIMPL(video_track_generator);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<std::unique_ptr<streams::writable::writable_stream>> writable;
-    ext::property<std::unique_ptr<main::media_stream_track>> track;
-    ext::property<ext::boolean> muted;
+    DEFINE_GETTER(writeable, streams::writable::writable_stream*);
+    DEFINE_GETTER(track, main::media_stream_track*);
+    DEFINE_GETTER(muted, ext::boolean);
 
-private js_slots:
-    ext::slot<std::unique_ptr<main::media_stream_track>> s_track;
-    ext::property<ext::boolean> s_muted;
+    DEFINE_SETTER(muted, ext::boolean);
 };
 
 
