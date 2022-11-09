@@ -3,6 +3,7 @@
 #define SBROWSER2_CUSTOM_OPERATOR_HPP
 
 #include "javascript/environment/realms.hpp"
+#include "javascript/environment/global_slots.hpp"
 #include "javascript/interop/annotations.hpp"
 
 #include <algorithm>
@@ -85,23 +86,23 @@ custom_operator(go)
 
 
 // TODO : if the function '_ce_method(...)' doesn't have a return value then branch and complete with no return
-#define CE_REACTIONS_METHOD_EXE                                                                                                       \
-    };                                                                                                                                \
-    {                                                                                                                                 \
-        using _stack_t = dom::detail::custom_element_reactions_stack_t;                                                               \
-        auto e = js::env::env::relevant(this);                                                                                        \
-        auto _ce_reactions_stack = v8pp::from_v8<_stack_t*>(e.js.agent(), e.js.global()->GetPrivate(e.js.agent(), u8"ce_reactions")); \
-        _ce_reactions_stack->emplace();                                                                                               \
-                                                                                                                                      \
-        JS_EXCEPTION_HANDLER;                                                                                                         \
-        auto _value = _ce_method();                                                                                                   \
-        auto _queue = _ce_reactions_stack->top();                                                                                     \
-        _ce_reactions_stack->pop();                                                                                                   \
-                                                                                                                                      \
-        if (JS_EXCEPTION_HAS_THROWN)                                                                                                  \
-            JS_EXCEPTION_RETHROW;                                                                                                     \
-                                                                                                                                      \
-        return _value;                                                                                                                \
+#define CE_REACTIONS_METHOD_EXE                                                                      \
+    };                                                                                               \
+    {                                                                                                \
+        using _stack_t = dom::detail::custom_element_reactions_stack_t;                              \
+        auto _e = js::env::env::relevant(this);                                                      \
+        auto _ce_reactions_stack = js::env::get_slot<_stack_t*>(_e, js::global_slots::ce_reactions); \
+        _ce_reactions_stack->emplace();                                                              \
+                                                                                                     \
+        JS_EXCEPTION_HANDLER;                                                                        \
+        auto _value = _ce_method();                                                                  \
+        auto _queue = _ce_reactions_stack->top();                                                    \
+        _ce_reactions_stack->pop();                                                                  \
+                                                                                                     \
+        if (JS_EXCEPTION_HAS_THROWN)                                                                 \
+            JS_EXCEPTION_RETHROW;                                                                    \
+                                                                                                     \
+        return _value;                                                                               \
     }
 
 
