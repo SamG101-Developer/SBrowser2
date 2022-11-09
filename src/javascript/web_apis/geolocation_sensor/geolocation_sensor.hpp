@@ -14,9 +14,9 @@ class geolocation_sensor::geolocation_sensor
         : public sensors::sensor
 {
 public constructors:
+    geolocation_sensor(detail::geolocation_sensor_options_t&& options);
     DOM_CTORS(geolocation_sensor);
     MAKE_PIMPL(geolocation_sensor);
-    geolocation_sensor(detail::geolocation_sensor_options_t&& options);
     MAKE_V8_AVAILABLE;
 
 public js_methods:

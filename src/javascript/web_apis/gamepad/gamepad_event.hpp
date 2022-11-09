@@ -13,7 +13,6 @@ class gamepad::gamepad_event
         : public dom::events::event
 {
 public constructors:
-    gamepad_event();
     gamepad_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(gamepad_event);
     MAKE_V8_AVAILABLE;
