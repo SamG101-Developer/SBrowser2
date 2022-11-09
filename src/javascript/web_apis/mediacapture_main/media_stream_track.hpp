@@ -4,7 +4,6 @@
 
 #include "dom/nodes/event_target.hpp"
 #include "mediacapture_main/mixins/constrainable.hpp"
-#include "html/mixins/transferable.hpp"
 namespace mediacapture::main {class media_stream_track;}
 namespace mediacapture::main {class media_stream_track_private;}
 
@@ -25,16 +24,17 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 private constructors:
-    media_stream_track(detail::media_stream_track_source& source, ext::boolean tie_source_to_context = true);
+    media_stream_track(detail::media_stream_track_source_t& source, ext::boolean tie_source_to_context = true);
 
 public js_methods:
     auto clone() const -> media_stream_track;
     auto stop() -> void;
 
-    /* [MEDIACAPTURE-HANDLE] */
+    /* ↓ [MEDIACAPTURE-HANDLE] ↓ */
     auto get_capture_handle() -> detail::capture_handle_t;
     auto get_supported_capture_actions() -> ext::vector_span<ext::string>;
     auto send_capture_action(detail::capture_action_t action) -> ext::promise<void>;
+    /* ↑ [MEDIACAPTURE-HANDLE] ↑ */
 
 private js_properties:
     DEFINE_GETTER(kind, ext::string_view);
