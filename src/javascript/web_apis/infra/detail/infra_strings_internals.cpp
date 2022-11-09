@@ -3,11 +3,9 @@
 #include "ext/functional.hpp"
 #include "ext/pair.hpp"
 #include "ext/ranges.hpp"
+#include "ext/regex.hpp"
 
 #include "infra/detail/code_points_internals.hpp"
-
-#include <functional>
-#include <regex>
 
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/ends_with.hpp>
@@ -24,7 +22,7 @@ auto infra::detail::strip_newlines(
     using enum literals;
 
     // remove all the new line code points
-    string = std::regex_replace(string, std::regex("["s + LF + "|" + CR + "]"), "");
+    string = std::regex_replace(string, std::regex::("["s + LF + "|" + CR + "]"), "");
     return string;
 }
 
