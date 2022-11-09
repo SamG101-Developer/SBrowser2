@@ -1,12 +1,13 @@
 #include "performance.hpp"
 #include "performance_private.hpp"
 
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/nodes/window.hpp"
-#include "hr_time/detail/time_internals.hpp"
+#include "dom/nodes/window_private.hpp"
 
-#include INCLUDE_INNER_TYPES(hr_time)
+#include "hr_time/_typedefs.hpp"
+#include "hr_time/detail/time_internals.hpp"
 
 
 hr_time::performance::performance()
@@ -19,8 +20,8 @@ auto hr_time::performance::now() const -> dom_high_res_time_stamp
 {
     // the time at 'now()' is the current high resolution time returned from the detail method, with the global object
     // set to the relevant global object of this Performance class
-    JS_REALM_GET_RELEVANT(this);
-    return detail::current_hr_time(this_relevant_global_object);
+    auto e = js::env::env::relevant(this);
+    return detail::current_hr_time(e.js.global());
 }
 
 
@@ -28,28 +29,26 @@ auto hr_time::performance::get_time_origin() const -> dom_high_res_time_stamp
 {
     // the 'time_origin' of this Performance class will always be the value returned from the detail method which gets
     // the value from the global object, set to the relevant global object of the Performance class
-    JS_REALM_GET_RELEVANT(this);
-    return detail::get_time_origin_timestamp(this_relevant_global_object);
+    auto e = js::env::env::relevant(this);
+    return detail::get_time_origin_timestamp(e.js.global());
 }
 
 
 auto hr_time::performance::get_event_counts() const -> const event_timing::event_counts*
 {
-    JS_REALM_GET_RELEVANT(this);
-    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->event_counts.get();
+    auto e = js::env::env::relevant(this);
+    return v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->event_counts.get();
 }
 
 
 auto hr_time::performance::get_interaction_counts() const -> const event_timing::interaction_counts*
 {
-    JS_REALM_GET_RELEVANT(this);
-    return v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->interaction_counts.get();
+    auto e = js::env::env::relevant(this);
+    return v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->interaction_counts.get();
 }
 
 
-auto hr_time::performance::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto hr_time::performance::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversions = v8pp::class_<performance>{isolate}
         .inherit<dom::nodes::event_target>()

@@ -4,15 +4,21 @@
 
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/element.hpp"
+#include "dom/nodes/element_private.hpp"
 #include "dom/nodes/node.hpp"
+#include "dom/nodes/node_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
 #include "hr_time/performance.hpp"
 #include "html/detail/task_internals.hpp"
 
 #include "intersection_observer/intersection_observer.hpp"
+#include "intersection_observer/intersection_observer_private.hpp"
 #include "intersection_observer/intersection_observer_entry.hpp"
+#include "intersection_observer/intersection_observer_entry_private.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/action/remove.hpp>
@@ -29,7 +35,7 @@ auto intersection_observer::detail::intersection_root(
 {
     // The intersection root of an IntersectionObserver is the explicit root is available, otherwise the implicit root
     // -- so the 'root' attribute  if it isn't nullptr, otherwise the implied root.
-    decltype(auto) root = ext::visit([](auto* node) {return dynamic_cast<dom::nodes::node*>(node);}, observer->root());
+    decltype(auto) root = ext::visit([](auto* node) {return dynamic_cast<dom::nodes::node*>(node);}, observer->d_func()->root.get());
     return root ?: implicit_root(observer);
 }
 
@@ -40,9 +46,9 @@ auto intersection_observer::detail::implicit_root(
 {
     // Get the current javascript context, and return the document of the current Window global object as the implicit
     // root.
-    JS_REALM_GET_CURRENT; // TODO
-    decltype(auto) window = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object);
-    decltype(auto) implicit_root = window->document();
+    auto e = js::env::env::current();
+    decltype(auto) window = e.cpp.global<dom::nodes::window*>();
+    decltype(auto) implicit_root = window->d_func()->document.get();
 
     return implicit_root;
 }
@@ -53,7 +59,7 @@ auto intersection_observer::detail::is_explicit_root_observer(
         -> ext::boolean
 {
     // An explicit root observer is an IntersectionObserver whose 'root' attribute isn't nullptr.
-    decltype(auto) root = ext::visit([](auto* node) {return dynamic_cast<dom::nodes::node*>(node);}, observer->root());
+    decltype(auto) root = ext::visit([](auto* node) {return dynamic_cast<dom::nodes::node*>(node);}, observer->d_func()->root.get());
     return root != nullptr;
 }
 
@@ -62,7 +68,7 @@ auto intersection_observer::detail::is_implicit_root_observer(
         intersection_observer* observer) -> ext::boolean
 {
     // An explicit root observer is an IntersectionObserver whose 'root' attribute is nullptr.
-    decltype(auto) root = ext::visit([](auto* node) {return dynamic_cast<dom::nodes::node*>(node);}, observer->root());
+    decltype(auto) root = ext::visit([](auto* node) {return dynamic_cast<dom::nodes::node*>(node);}, observer->d_func()->root.get());
     return root == nullptr;
 }
 
@@ -72,13 +78,13 @@ auto intersection_observer::detail::parse_root_margin(
         -> ext::optional<ext::array<ext::number<int>, 4>>
 {
     auto tokens = ext::vector<ext::string>{}; // TODO: css::detail::parse_list_of_component_values(margin_string);
-    tokens |= ranges::actions::remove(" ");
+    tokens |= ranges::actions::remove(u" ");
 
     auto validity_check = []<typename T>(T&& value) {return css::detail::is_absolute_length_dimension(std::forward<T>(value) || css::detail::is_percentage_token(std::forward<T>(value)));};
     return_if (tokens.size() > 4) ext::nullopt;
     return_if (ranges::any_of(tokens, validity_check)) ext::nullopt;
 
-    if (tokens.empty()) tokens.emplace_back("0px");
+    if (tokens.empty()) tokens.emplace_back(u"0px");
 
     // TODO
     auto parsed = tokens
@@ -110,14 +116,14 @@ auto intersection_observer::detail::notify_intersection_observers(
         -> void
 {
     document->m_intersection_observer_task_queued = false;
-    auto notify_list = ext::vector_view<intersection_observer*>{}; // TODO: IntersectionObservers whose root is 'document'
+    auto notify_list = ext::vector_span<intersection_observer*>{}; // TODO: IntersectionObservers whose root is 'document'
 
     for (decltype(auto) observer: notify_list)
     {
-        continue_if (observer->s_queued_entries().empty());
+        continue_if (observer->d_func()->queued_entries().empty());
 
         decltype(auto) queue = observer->take_records();
-        decltype(auto) callback = observer->s_callback();
+        decltype(auto) callback = observer->d_func()->callback();
 
         JS_EXCEPTION_HANDLER;
         callback(queue, observer);

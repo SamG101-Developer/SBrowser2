@@ -7,10 +7,10 @@
 media::playback_quality::video_playback_quality::video_playback_quality()
 {
     INIT_PIMPL(video_playback_quality);
-    JS_REALM_GET_CURRENT;
+    auto e = js::env::env::current();
 
     ACCESS_PIMPL(video_playback_quality);
-    d->creation_time = hr_time::detail::current_hr_time(current_global_object);
+    d->creation_time = hr_time::detail::current_hr_time(e.js.global());
 }
 
 

@@ -7,7 +7,7 @@
 #include "ext/tuple.hpp"
 #include "ext/ranges.hpp"
 
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/customization_internals.hpp"
@@ -26,9 +26,11 @@
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/node_private.hpp"
 #include "dom/nodes/processing_instruction.hpp"
+#include "dom/nodes/processing_instruction_private.hpp"
 #include "dom/nodes/text.hpp"
 #include "dom/nodes/text_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/for_each.hpp>
@@ -41,9 +43,9 @@ dom::node_ranges::range::range()
     INIT_PIMPL(range);
     ACCESS_PIMPL(range);
 
-    JS_REALM_GET_CURRENT;
-    d->start->node = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
-    d->end->node = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
+    auto e = js::env::env::current();
+    d->start->node = v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->document.get();
+    d->end->node = v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->document.get();
     d->start->offset = 0;
     d->end->offset = 0;
 }
@@ -53,7 +55,7 @@ auto dom::node_ranges::range::set_start(nodes::node* new_container, ext::number<
 {
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [new_container] {return new_container->d_func()->parent_node;},
+            [new_container] {return new_container->d_func()->parent_node.get();},
             u8"New start container must have a parent");
 
     // set the start of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
@@ -66,12 +68,12 @@ auto dom::node_ranges::range::set_start_before(nodes::node* new_container) -> vo
 {
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [new_container] {return new_container->d_func()->parent_node;},
+            [new_container] {return new_container->d_func()->parent_node.get();},
             u8"New start container must have a parent");
 
     // set the start of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' as the offset
-    auto parent_node = new_container->d_func()->parent_node;
+    auto parent_node = new_container->d_func()->parent_node.get();
     auto new_offset = detail::index(new_container);
     detail::set_start_or_end(this, parent_node, new_offset, true);
 }
@@ -81,12 +83,12 @@ auto dom::node_ranges::range::set_start_after(nodes::node* new_container) -> voi
 {
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [new_container] {return new_container->d_func()->parent_node;},
+            [new_container] {return new_container->d_func()->parent_node.get();},
             u8"New start container must have a parent");
 
     // set the start of this range to be after the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' + 1 as the offset
-    auto parent_node = new_container->d_func()->parent_node;
+    auto parent_node = new_container->d_func()->parent_node.get();
     auto new_offset = detail::index(new_container) + 1;
     detail::set_start_or_end(this, parent_node, new_offset, true);
 }
@@ -96,7 +98,7 @@ auto dom::node_ranges::range::set_end(nodes::node* new_container, ext::number<ul
 {
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [new_container] {return new_container->d_func()->parent_node;},
+            [new_container] {return new_container->d_func()->parent_node.get();},
             u8"New end container must have a parent");
 
     // set the end of this range to the 'new_container' and 'new_offset' variables, by calling the detail method with
@@ -109,12 +111,12 @@ auto dom::node_ranges::range::set_end_before(nodes::node* new_container) -> void
 {
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [new_container] {return new_container->d_func()->parent_node;},
+            [new_container] {return new_container->d_func()->parent_node.get();},
             u8"New end container must have a parent");
 
     // set the end of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' as the offset
-    auto parent_node = new_container->d_func()->parent_node;
+    auto parent_node = new_container->d_func()->parent_node.get();
     auto new_offset = detail::index(new_container);
     detail::set_start_or_end(this, parent_node, new_offset, false);
 }
@@ -126,12 +128,12 @@ auto dom::node_ranges::range::set_end_after(
 {
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [new_container] {return new_container->d_func()->parent_node;},
+            [new_container] {return new_container->d_func()->parent_node.get();},
             u8"New end container must have a parent");
 
     // set the end of this range to be before the 'new_container', by calling the detail method with the parent of the
     // 'new_container' and the index of the 'new_container' + 1 as the offset
-    auto parent_node = new_container->d_func()->parent_node;
+    auto parent_node = new_container->d_func()->parent_node.get();
     auto new_offset = detail::index(new_container) + 1;
     detail::set_start_or_end(this, parent_node, new_offset, false);
 }
@@ -151,7 +153,7 @@ auto dom::node_ranges::range::insert_node(
                 {
                     return dom_multi_cast<nodes::comment*, nodes::processing_instruction*>(d->start->node.get())
                             || dom_cast<nodes::text*>(d->start->node.get()) && !new_container->d_func()->parent_node
-                            || d->start->node == new_container;
+                            || d->start->node.get() == new_container;
                 },
                 u8"Cannot insert a new container into a Range whose start node is a Comment/ProcessingInstruction, an orphaned Text node, or is the new container");
 
@@ -212,7 +214,7 @@ auto dom::node_ranges::range::intersects_node(
 
     // get the container's parent and offset, as they would be called multiple times otherwise, and save them under
     // variables
-    auto container_parent = container->d_func()->parent_node;
+    auto container_parent = container->d_func()->parent_node.get();
     auto container_offset = detail::index(container);
 
     // if the node occurs before the end of the range, and after the start of the range, then it must be within the
@@ -230,7 +232,7 @@ auto dom::node_ranges::range::select_node(
     ACCESS_PIMPL(const range);
     using enum dom::detail::dom_exception_error_t;
     dom::detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
-            [container] {return container->d_func()->parent_node;},
+            [container] {return container->d_func()->parent_node.get();},
             u8"New container must have a parent");
 
     // get the index if the container sand save it as a variable to remove code duplication
@@ -239,7 +241,7 @@ auto dom::node_ranges::range::select_node(
     // set the start and end containers to the parent of the container (so that the container is contained by the
     // range), and set the start offset to the index of the container (so the first node is the container), and set the
     // end offset to the index of the container + 1 (so the only node in the range is the container)
-    auto parent_node = container->d_func()->parent_node;
+    auto parent_node = container->d_func()->parent_node.get();
     ext::tie(d->start->node, d->start->offset) = ext::make_tuple(parent_node, index);
     ext::tie(d->end->node  , d->end->offset  ) = ext::make_tuple(parent_node, index + 1);
 }
@@ -381,7 +383,7 @@ auto dom::node_ranges::range::extract_contents() -> std::unique_ptr<nodes::docum
         // create a DocumentFragment node, and set its document to the same document that owns the 'start_container' of this
         // range; if this range is collapsed, then it doesn't contain anything, so return the empty DocumentFragment
         auto fragment = std::make_unique<nodes::document_fragment>();
-        fragment->d_func()->node_document = d->start->node->d_func()->node_document;
+        fragment->d_func()->node_document = d->start->node->d_func()->node_document.get();
         return_if (detail::is_range_collapsed(this)) fragment;
 
         // check if the start container of this Range is a textual container or not, ie is it / does it inherit the
@@ -392,7 +394,7 @@ auto dom::node_ranges::range::extract_contents() -> std::unique_ptr<nodes::docum
         // if the start container is textual, and the start and end containers are the same, then the Range is selecting a
         // textual node's contents, so clone the text from the 'start_offset' to the 'end_offset', append the extracted
         // text into 'fragment', and return 'fragment' - no more processing to do for single node contents extraction
-        if (textual_start_container && textual_end_container && d->start->node == d->end->node)
+        if (textual_start_container && textual_end_container && d->start->node.get() == d->end->node.get())
         {
             detail::copy_data(d->start->node.get(), fragment.get(), textual_start_container, d->start->offset, d->end->offset, true);
             return fragment;
@@ -449,7 +451,7 @@ auto dom::node_ranges::range::clone_contents() -> std::unique_ptr<nodes::documen
         // create a DocumentFragment node, and set its document to the same document that owns the 'start_container' of this
         // range; if this range is collapsed, then it doesn't contain anything, so return the empty DocumentFragment
         auto fragment = std::make_unique<nodes::document_fragment>();
-        fragment->d_func()->node_document = d->start->node->d_func()->node_document;
+        fragment->d_func()->node_document = d->start->node->d_func()->node_document.get();
         return_if (detail::is_range_collapsed(this)) fragment;
 
         // check if the start container of this Range is a textual container or not, ie is it / does it inherit the
@@ -460,7 +462,7 @@ auto dom::node_ranges::range::clone_contents() -> std::unique_ptr<nodes::documen
         // if the start container is textual, and the start and end containers are the same, then the Range is selecting a
         // textual node's contents, so clone the text from the 'start_offset' to the 'end_offset', append the extracted
         // text into 'fragment', and return 'fragment' - no more processing to do for single node contents extraction
-        if (textual_start_container && textual_end_container && d->start->node == d->end->node)
+        if (textual_start_container && textual_end_container && d->start->node.get() == d->end->node.get())
         {
             detail::copy_data(d->start->node.get(), fragment.get(), textual_start_container, d->start->offset, d->end->offset, false);
             return fragment;
@@ -511,12 +513,12 @@ auto dom::node_ranges::range::delete_contents() -> void
         // if the start container is textual, and the start and end containers are the same, then the Range is selecting a
         // textual node's contents, so clone the text from the 'start_offset' to the 'end_offset', append the extracted
         // text into 'fragment', and return 'fragment' - no more processing to do for single node contents extraction
-        if (textual_start_container && textual_end_container && d->start->node == d->end->node)
-            detail::replace_data(textual_start_container, d->start->offset, d->end->offset - d->start->offset, u8"");
+        if (textual_start_container && textual_end_container && d->start->node.get() == d->end->node.get())
+            detail::replace_data(textual_start_container, d->start->offset, d->end->offset - d->start->offset, u"");
 
         auto nodes_to_remove = detail::descendants(detail::root(this))
                 | ranges::views::filter([this](nodes::node* node) {return  detail::contains(node, this);})
-                | ranges::views::filter([this](nodes::node* node) {return !detail::contains(node->d_func()->parent_node, this);});
+                | ranges::views::filter([this](nodes::node* node) {return !detail::contains(node->d_func()->parent_node.get(), this);});
 
         // get the 'new_node' and 'new_offset', by calling the helper method, which determines theses values using the
         // containers and the 'start_offset'
@@ -524,13 +526,13 @@ auto dom::node_ranges::range::delete_contents() -> void
                 detail::create_new_node_and_offset(d->start->node.get(), d->end->node.get(), d->start->offset);
 
         if (textual_start_container)
-            detail::replace_data(textual_start_container, d->start->offset, detail::length(d->start->node.get()), u8"");
+            detail::replace_data(textual_start_container, d->start->offset, detail::length(d->start->node.get()), u"");
 
         for (const auto& node_to_remove: nodes_to_remove)
             detail::remove(node_to_remove);
 
         if (textual_end_container)
-            detail::replace_data(textual_end_container, 0, d->end->offset, u8"");
+            detail::replace_data(textual_end_container, 0, d->end->offset, u"");
 
         ext::tie(d->start->node, d->start->offset) = ext::make_tuple(new_node, new_offset);
         ext::tie(d->end->node  , d->end->offset  ) = ext::make_tuple(new_node, new_offset);
@@ -612,7 +614,7 @@ dom::node_ranges::range::operator ext::string() const
 
     s += detail::descendant_text_nodes(detail::root(this))
             | ranges::views::filter(BIND_BACK(detail::contains, this))
-            | ranges::views::transform(&nodes::text_private::data, &nodes::text::d_func)
+            | ranges::views::transform(&nodes::text_private::data, ext::get_pimpl)
             | ranges::to<ext::string>();
 
     if (textual_end_container)

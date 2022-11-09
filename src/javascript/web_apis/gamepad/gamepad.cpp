@@ -5,10 +5,12 @@
 #include "ext/uuid.hpp"
 
 #include "dom/nodes/window.hpp"
-#include "hr_time/detail/time_internals.hpp"
-#include "gamepad/detail/construction_internals.hpp"
+#include "dom/nodes/window_private.hpp"
 
+#include "hr_time/detail/time_internals.hpp"
 #include "hr_time/performance.hpp"
+
+#include "gamepad/detail/construction_internals.hpp"
 
 #include <range/v3/algorithm/find.hpp>
 
@@ -17,12 +19,11 @@ gamepad::gamepad::gamepad()
         : index{detail::select_unused_gamepad_index(this)}
 {
     INIT_PIMPL(gamepad);
+    auto e = js::env::env::relevant(this);
+
     ACCESS_PIMPL(gamepad);
-
-    JS_REALM_GET_RELEVANT(this);
-
     d->id = ext::to_string(ext::uuid_system_generator{}());
-    d->timestamp = hr_time::detail::current_hr_time(this_relevant_global_object);
+    d->timestamp = hr_time::detail::current_hr_time(e.js.global());
     d->mapping = detail::select_mapping(this);
     d->axes = detail::initialize_axes(this);
     d->buttons = detail::initialize_buttons(this);
@@ -39,8 +40,9 @@ auto gamepad::gamepad::get_id() const -> ext::string
 auto gamepad::gamepad::get_index() const -> ext::number<long>
 {
     ACCESS_PIMPL(const gamepad);
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) gamepads = v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object)->d_func()->navigator->d_func()->gamepads;
+    auto e = js::env::env::relevant(this);
+
+    decltype(auto) gamepads = e.cpp.global<dom::nodes::window*>()->d_func()->navigator->d_func()->gamepads;
     decltype(auto) iterator = ranges::find(gamepads, this);
     return ranges::distance(gamepads.begin(), iterator);
 }

@@ -1,12 +1,15 @@
 #include "geolocation.hpp"
 #include "geolocation_private.hpp"
 
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/detail/node_internals.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
+#include "geolocation/_typedefs.hpp"
 #include "geolocation/detail/position_internals.hpp"
 
 #include <range/v3/action/remove.hpp>
@@ -24,8 +27,8 @@ auto geolocation::geolocation::get_current_position(
         detail::position_options_t&& options)
         -> void
 {
-    JS_REALM_GET_CURRENT;
-    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
+    auto e = js::env::env::current();
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
     if (!dom::detail::is_document_fully_active(document))
     {
         detail::callback_with_error(this, std::move(error_callback), detail::error_reason_t::POSITION_UNAVAILABLE);
@@ -49,8 +52,10 @@ auto geolocation::geolocation::watch_position(
         detail::position_options_t&& options)
         -> ext::number<long>
 {
-    JS_REALM_GET_CURRENT;
-    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object)->d_func()->document;
+    ACCESS_PIMPL(geolocation);
+    auto e = js::env::env::current();
+
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
     if (!dom::detail::is_document_fully_active(document))
     {
         detail::callback_with_error(this, std::move(error_callback), detail::error_reason_t::POSITION_UNAVAILABLE);
@@ -58,7 +63,7 @@ auto geolocation::geolocation::watch_position(
     }
 
     auto watch_id = ext::number<ulong>::random();
-    s_watch_ids().emplace_back(std::move(watch_id));
+    d->watch_ids.emplace_back(std::move(watch_id));
 
     GO [
             success_callback = std::move(success_callback),
@@ -74,18 +79,14 @@ auto geolocation::geolocation::watch_position(
 }
 
 
-auto geolocation::geolocation::clear_watch(
-        ext::number<long> watch_id)
-        -> void
+auto geolocation::geolocation::clear_watch(ext::number<long> watch_id) -> void
 {
     ACCESS_PIMPL(geolocation);
     d->watch_ids |= ranges::actions::remove(watch_id);
 }
 
 
-auto geolocation::geolocation::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto geolocation::geolocation::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<geolocation>{isolate}
         .function("getCurrentPosition", &geolocation::get_current_position)
