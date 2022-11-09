@@ -38,9 +38,9 @@ namespace mediacapture::detail
             -> ext::boolean;
 
     const ext::set<ext::string> allowed_constraints {
-        "width", "height", "aspect_ratio", "frame_rate", "facing_mode", "resize_mode", "sample_rate", "sample_size",
-        "echo_cancellation", "auto_gain_control", "noise_suppression", "latency", "channel_count", "device_id",
-        "group"};
+        u"width", u"height", u"aspect_ratio", u"frame_rate", u"facing_mode", u"resize_mode", u"sample_rate",
+        u"sample_size", u"echo_cancellation", u"auto_gain_control", u"noise_suppression", u"latency", u"channel_count",
+        u"device_id", u"group"};
 };
 
 
