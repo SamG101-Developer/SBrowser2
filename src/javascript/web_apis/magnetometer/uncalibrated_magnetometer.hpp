@@ -13,8 +13,8 @@ class magnetometer::uncalibrated_magnetometer
         : public magnetometer::magnetometer
 {
 public constructors:
-    DOM_CTORS(uncalibrated_magnetometer);
     uncalibrated_magnetometer(detail::magnetometer_sensor_options_t&& options);
+    DOM_CTORS(uncalibrated_magnetometer);
     MAKE_PIMPL(uncalibrated_magnetometer);
     MAKE_V8_AVAILABLE;
 
