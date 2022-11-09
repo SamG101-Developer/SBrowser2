@@ -12,11 +12,13 @@
 
 DEFINE_PRIVATE_CLASS(battery, battery_manager) : dom::nodes::event_target_private
 {
+    // Internal accessors to wrap around the battery pointer (accessible from other APIs)
     auto charging() const -> ext::boolean {return battery->charging();};
     auto charging_time() const -> ext::number<double> {/* TODO */};
     auto discharging_time() const -> ext::number<double> {/* TODO */};
     auto level() const -> ext::number<double> {/* TODO */};
 
+    // Hold a pointer to the battery to constantly get information (not available with static method)
     std::unique_ptr<hwinfo::Battery> battery;
 };
 
