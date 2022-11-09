@@ -4,6 +4,7 @@
 
 #include "dom/nodes/event_target.hpp"
 namespace mediacapture::record {class media_recorder;}
+namespace mediacapture::record {class media_recorder_private;}
 
 #include INCLUDE_INNER_TYPES(mediacapture_record)
 namespace mediacapture::main {class media_stream;}
@@ -13,9 +14,10 @@ class mediacapture::record::media_recorder
         : public dom::nodes::event_target
 {
 public constructors:
+    media_recorder(main::media_stream* stream, detail::media_recorder_options&& options = {});
     DOM_CTORS(media_recorder);
-    media_recorder() = default;
-    media_recorder(main::media_stream* stream_option, detail::media_recorder_options&& options = {});
+    MAKE_PIMPL(media_recorder);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     static auto is_type_supported(ext::string_view type) -> ext::boolean;
@@ -27,16 +29,13 @@ public js_methods:
     auto request_data() -> void;
 
 private js_properties:
-    ext::property<std::unique_ptr<main::media_stream>> stream;
-    ext::property<ext::string> mime_type;
-    ext::property<detail::recording_state_t> state;
-    ext::property<ext::number<ulong>> video_bits_per_second;
-    ext::property<ext::number<ulong>> audio_bits_per_second;
-    ext::property<detail::bitrate_mode_t> audio_bitrate_mode;
+    DEFINE_GETTER(stream, main::media_stream*);
+    DEFINE_GETTER(mime_type, ext::string_view);
+    DEFINE_GETTER(state, detail::recording_state_t);
 
-private js_slots:
-    ext::slot<ext::string> s_constrained_mime_type;
-    ext::slot<ext::number<ulong>> s_constrained_bits_per_second;
+    DEFINE_GETTER(video_bits_per_second, ext::number<ulong>);
+    DEFINE_GETTER(audio_bits_per_second, ext::number<ulong>);
+    DEFINE_GETTER(audio_bitrate_mode, detail::bitrate_mode_t);
 };
 
 

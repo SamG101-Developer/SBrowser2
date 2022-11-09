@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace mediacapture::image {class image_capture;}
+namespace mediacapture::image {class image_capture_private;}
 
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(html)
@@ -16,8 +17,9 @@ class mediacapture::image::image_capture
         : public virtual dom_object
 {
 public constructors:
-    image_capture() = default;
     image_capture(main::media_stream_track* video_track);
+    MAKE_PIMPL(image_capture);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto take_photo(detail::photo_settings_t&& photo_settings = {}) -> ext::promise<file_api::blob*>;
@@ -26,7 +28,7 @@ public js_methods:
     auto grab_frame() -> ext::promise<html::canvasing::image_bitmap*>;
 
 private js_properties:
-    ext::property<std::unique_ptr<main::media_stream_track>> track;
+    DEFINE_GETTER(track, main::media_stream_track*);
 };
 
 

@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace mediacapture::region {class crop_target;}
+namespace mediacapture::region {class crop_target_private;}
 
 #include "ext/promise.hpp"
 namespace dom::nodes {class element;}
@@ -13,8 +14,10 @@ class mediacapture::region::crop_target
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(crop_target);
-    crop_target() = default;
+    crop_target();
+    MAKE_PIMPL(crop_target);
+    MAKE_SERIALIZABLE;
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     static auto from_element(dom::nodes::element) -> ext::promise<crop_target>;

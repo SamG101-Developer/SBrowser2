@@ -4,23 +4,22 @@
 
 #include "mediacapture_main/media_stream_track.hpp"
 namespace mediacapture::region {class browser_capture_media_stream_track;}
+namespace mediacapture::region {class browser_capture_media_stream_track_private;}
 
 namespace mediacapture::region {class crop_target;}
 
 
 class mediacapture::region::browser_capture_media_stream_track
-        : public main::media_stream_track
+        : public mediacapture::main::media_stream_track
 {
 public constructors:
     DOM_CTORS(browser_capture_media_stream_track);
-    browser_capture_media_stream_track() = default;
+    MAKE_PIMPL(browser_capture_media_stream_track);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto crop_to(crop_target* crop_target) -> ext::promise<void>;
     auto clone() -> browser_capture_media_stream_track;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const&& -> ext::any override;
 };
 
 
