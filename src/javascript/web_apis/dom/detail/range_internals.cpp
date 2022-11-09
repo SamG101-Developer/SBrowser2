@@ -142,7 +142,7 @@ auto dom::detail::copy_data(
         nodes::character_data* const container,
         ext::number<ulong> start_offset,
         ext::number<ulong> end_offset,
-        ext::boolean  replace)
+        ext::boolean replace)
         -> nodes::document_fragment*
 {
     decltype(auto) clone = std::make_unique<decltype(child)::self_t>(child->clone_node());
@@ -150,7 +150,9 @@ auto dom::detail::copy_data(
     append(clone, fragment);
 
     if (replace)
-        detail::replace_data(container, start_offset, end_offset - start_offset, u8"");
+        detail::replace_data(container, start_offset, end_offset - start_offset, u"");
+
+    // TODO : return? std::unique_ptr<nodes::document_fragment>?
 }
 
 
@@ -162,7 +164,7 @@ auto dom::detail::append_to_sub_fragment(
         nodes::node* const end_container,
         ext::number<ulong> end_offset,
         const append_action_t what)
-        -> nodes::document_fragment*
+        -> std::unique_ptr<nodes::document_fragment>
 {
     return_if (!child) nullptr;
 

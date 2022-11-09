@@ -78,7 +78,7 @@ namespace dom::detail
             nodes::node* end_container,
             ext::number<ulong> end_offset,
             append_action_t what)
-            -> nodes::document_fragment*;
+            -> std::unique_ptr<nodes::document_fragment>;
 
     auto create_new_node_and_offset(
             nodes::node* start_container,
