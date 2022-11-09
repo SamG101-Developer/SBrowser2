@@ -12,12 +12,13 @@
 #include <range/v3/view/any_view.hpp>
 
 
-using namespace std::string_literals;
-
 mediacapture::main::media_stream::media_stream()
-        : m_track_set{}
-        , id{ext::to_string(ext::uuid_system_generator{}())}
-{}
+{
+    INIT_PIMPL(media_stream);
+
+    ACCESS_PIMPL(media_stream);
+    d->id = ext::to_string(ext::uuid::uuid_system_generator{}()); // TODO : create static generator
+}
 
 
 mediacapture::main::media_stream::media_stream(
@@ -39,9 +40,7 @@ mediacapture::main::media_stream::media_stream(
     // set the track set to the 'track' parameter - the parameter is a vector, but the iterators are moved into the set
     // being stored by this MediaStream object
     ACCESS_PIMPL(media_stream);
-    d->track_set = ext::set<media_stream_track*>{
-        std::make_move_iterator(tracks.begin()),
-        std::make_move_iterator(tracks.end())};
+    d->track_set = ext::set<media_stream_track*>{std::make_move_iterator(tracks.begin()), std::make_move_iterator(tracks.end())};
 }
 
 
@@ -60,9 +59,9 @@ auto mediacapture::main::media_stream::get_audio_tracks()
     // return live range of the track set whose kind is "audio" (the predicate formula is to `invoke` the property to
     // get its value)
     ACCESS_PIMPL(const media_stream);
-    using enum ranges::views::filter_compare_t;
+    using enum ranges::filter_compare_t;
     return d->track_set
-            | ranges::views::filter_eq<EQ>(&media_stream_track::kind, u8"audio", ext::invoke{});
+            | ranges::views::filter_eq<EQ>(&media_stream_track_private::kind, u"audio", ext::get_pimpl);
 }
 
 
@@ -72,9 +71,9 @@ auto mediacapture::main::media_stream::get_video_tracks()
     // return live range of the track set whose kind is "video" (the predicate formula is to `invoke` the property to
     // get its value)
     ACCESS_PIMPL(const media_stream);
-    using enum ranges::views::filter_compare_t;
+    using enum ranges::filter_compare_t;
     return d->track_set
-            | ranges::views::filter_eq<EQ>(&media_stream_track::kind, u8"video", ext::invoke{});
+            | ranges::views::filter_eq<EQ>(&media_stream_track_private::kind, u"video", ext::get_pimpl);
 }
 
 
@@ -85,9 +84,9 @@ auto mediacapture::main::media_stream::get_track_by_id(
     // return the first track (of any type), whose 'id' matches the 'track_id' parameter - if there are no matching
     // tracks, then a nullptr is returned, mapping to a Null object in JavaScript
     ACCESS_PIMPL(const media_stream);
-    using enum ranges::views::filter_compare_t;
+    using enum ranges::filter_compare_t;
     auto matching_tracks = d->track_set
-            | ranges::views::filter_eq<EQ>(&media_stream_track::id, track_id, ext::invoke{});
+            | ranges::views::filter_eq<EQ>(&media_stream_track_private::id, track_id, ext::get_pimpl);
 
     return matching_tracks.front();
 }
@@ -111,13 +110,12 @@ auto mediacapture::main::media_stream::remove_track(
 }
 
 
-auto mediacapture::main::media_stream::clone()
-        const -> media_stream
+auto mediacapture::main::media_stream::clone() const -> media_stream
 {
     ACCESS_PIMPL(const media_stream);
-    media_stream stream_clone{d->track_set
+    return {d->track_set
             | ranges::views::transform(&media_stream_track::clone)
-            | ranges::to<ext::vector<media_stream_track*>>};
+            | ranges::to<ext::vector<media_stream_track*>>()};
 }
 
 
