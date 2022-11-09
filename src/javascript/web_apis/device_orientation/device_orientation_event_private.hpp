@@ -2,10 +2,10 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_ORIENTATION_DEVICE_ORIENTATION_EVENT_PRIVATE_HPP
 
 #include "ext/pimpl.hpp"
-#include "dom/events/event.hpp"
+#include "dom/events/event_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event)
+DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event) : virtual dom::events::event_private
 {
     ext::number<double> alpha;
     ext::number<double> beta;
