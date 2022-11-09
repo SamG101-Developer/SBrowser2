@@ -13,10 +13,10 @@ class edit_context::events::text_update_event
         : public dom::events::event
 {
 public constructors:
+    text_update_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     DOM_CTORS(text_update_event);
     MAKE_PIMPL(text_update_event);
     MAKE_V8_AVAILABLE;
-    text_update_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
 private js_methods:
     auto get_text_formats() -> ext::vector_view<text_format*>;

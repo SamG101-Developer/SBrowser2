@@ -4,13 +4,11 @@
 
 html::basic_media::time_ranges::time_ranges()
 {
-    INIT_PIMPL(time_ranges)
+    INIT_PIMPL(time_ranges);
 }
 
 
-auto html::basic_media::time_ranges::start(
-        ext::number<long> index) const
-        -> ext::number<double>
+auto html::basic_media::time_ranges::start(ext::number<long> index) const -> ext::number<double>
 {
     // Get the start of the range that is at 'index' position in the internal 'm_ranges' list of ranges. The start of
     // the range is the first element in the pair.
@@ -19,9 +17,7 @@ auto html::basic_media::time_ranges::start(
 }
 
 
-auto html::basic_media::time_ranges::end(
-        ext::number<long> index) const
-        -> ext::number<double>
+auto html::basic_media::time_ranges::end(ext::number<long> index) const -> ext::number<double>
 {
     // Get the end of the range that is at 'index' position in the internal 'm_ranges' list of ranges. The end of the
     // range is the second element in the pair.
@@ -30,9 +26,7 @@ auto html::basic_media::time_ranges::end(
 }
 
 
-auto html::basic_media::time_ranges::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::basic_media::time_ranges::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<time_ranges>{isolate}
         .function("start", &time_ranges::start)

@@ -38,9 +38,7 @@ auto html::basic_media::text_track::get_active_cues() const -> ranges::any_helpf
 }
 
 
-auto html::basic_media::text_track::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::basic_media::text_track::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<text_track>{isolate}
         .inherit<abstract_track>()

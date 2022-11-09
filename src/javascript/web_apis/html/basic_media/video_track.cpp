@@ -18,9 +18,7 @@ auto html::basic_media::video_track::set_selected(ext::boolean new_selected) -> 
 }
 
 
-auto html::basic_media::video_track::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto html::basic_media::video_track::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<video_track>{isolate}
         .inherit<abstract_track>()

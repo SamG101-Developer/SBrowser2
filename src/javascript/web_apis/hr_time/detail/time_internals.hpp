@@ -8,6 +8,7 @@
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace hr_time::hr_time {class performance;}
 
+
 namespace hr_time::detail
 {
     auto get_time_origin_timestamp(
