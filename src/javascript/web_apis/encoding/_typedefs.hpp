@@ -21,9 +21,8 @@ namespace encoding::detail
     enum class encoder_error_mode_t {FATAL, HTML};
     enum class decoder_error_mode_t {REPLACEMENT, FATAL};
 
-    using item_t = char8_t;
+    using item_t = ext::string::value_type;
     using io_queue_t = ext::queue<item_t>;
-    using handler_algorithm_t = ext::function<ext::tuple<handle_state_t, ext::string>(io_queue_t& io_queue, item_t item)>;
     using text_decoder_options_t = ext::map<ext::string, ext::any>;
     using text_decode_options_t = ext::map<ext::string, ext::any>;
     using text_encoder_encoder_into_result_t = ext::map<ext::string, ext::any>;
