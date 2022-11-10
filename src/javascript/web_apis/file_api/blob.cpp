@@ -21,16 +21,11 @@ file_api::blob::blob(
     INIT_PIMPL(blob);
     ACCESS_PIMPL(blob);
 
+    // Set the byte sequence to the processed 'blob_parts', and set the type to the string conversion of the "type"
+    // option. If the 'type' contains blacklisted characters, set the type to empty.
     d->byte_sequence = detail::process_blob_parts(std::move(blob_parts), std::move(options));
-    d->type = u"";
-
-    auto options_type = options[u"type"].to<ext::string>();
-
-    if (!options_type.empty())
-    {
-        return_if (ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)));
-        d->type = options_type | ranges::views::lowercase | ranges::to<ext::string>;
-    }
+    d->type = options[u"type"].to<ext::string>() | ranges::views::lowercase | ranges::to<ext::string>;
+    d->type = ranges::contains_any(d->type, ranges::views::closed_iota(0x0020, 0x007e)) ? u"" : d->type;
 }
 
 
@@ -38,19 +33,22 @@ auto file_api::blob::slice(
         ext::number<longlong> start,
         ext::number<longlong> end,
         ext::string_view content_type)
-        -> blob
+        -> std::unique_ptr<blob>
 {
     ACCESS_PIMPL(blob);
 
+    // Get the 'relative_[start|end]' by taking the modulo of [start|end] against the size of the 'byte_sequence'. The
+    // 'span' is the maximum of the difference between the ['relative_start' -> 'relative_end'] and 0 (ie force a
+    // negative slice length up to 0).
     auto relative_start = start % d->byte_sequence.size();
     auto relative_end = end % d->byte_sequence.size();
     auto span = ext::max((relative_end - relative_start), 0);
 
     auto relative_content_type = ext::string{content_type};
     if (!ranges::contains_any(content_type, ranges::views::closed_iota(0x0020, 0x007e)))
-        relative_content_type |= ranges::actions::lowercase();
+        relative_content_type |= ranges::actions::lowercase;
 
-    auto blob_object = blob{{d->byte_sequence.substr(*relative_start, *span)}};
+    auto blob_object = std::make_unique<blob>(d->byte_sequence.substr(*relative_start, *span));
     blob_object->d_func()->type = relative_content_type;
     return blob_object;
 }
@@ -119,9 +117,7 @@ auto file_api::blob::get_type() const -> ext::string
 }
 
 
-auto file_api::blob::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto file_api::blob::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<blob>{isolate}
         .inherit<dom_object>()
