@@ -23,7 +23,7 @@ file_api::file::file(
     auto options_type = options[u"type"].to<ext::string>();
 
     if (!ranges::contains_any(options_type, ranges::views::closed_iota(0x0020, 0x007e)))
-        options_type |= ranges::actions::lowercase();
+        options_type |= ranges::actions::lowercase;
 
     auto e = js::env::env::relevant(this);
     auto options_date = options.contains(u"lastModified")
@@ -77,9 +77,7 @@ auto file_api::file::get_last_modified() const -> ext::number<longlong>
 }
 
 
-auto file_api::file::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto file_api::file::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<file>{isolate}
         .inherit<blob>()

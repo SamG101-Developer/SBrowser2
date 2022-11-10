@@ -2,6 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FULLSCREEN_DETAIL_FULLSCREEN_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FULLSCREEN_DETAIL_FULLSCREEN_INTERNALS_HPP
 
+#include "ext/boolean.hpp"
+#include "ext/vector.hpp"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 

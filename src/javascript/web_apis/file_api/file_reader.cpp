@@ -16,33 +16,25 @@ file_api::file_reader::file_reader()
 }
 
 
-auto file_api::file_reader::read_as_array_buffer(
-        blob* blob_object)
-        -> void
+auto file_api::file_reader::read_as_array_buffer(blob* blob_object) -> void
 {
     detail::read_operation(this, blob_object); // TODO
 }
 
 
-auto file_api::file_reader::read_as_text(
-        file_api::blob* blob_object,
-        ext::string_view encoding)
-        -> void
+auto file_api::file_reader::read_as_text(file_api::blob* blob_object, ext::string_view encoding) -> void
 {
     detail::read_operation(this, blob_object, encoding); // TODO
 }
 
 
-auto file_api::file_reader::read_as_data_url(
-        file_api::blob* blob_object)
-        -> void
+auto file_api::file_reader::read_as_data_url(file_api::blob* blob_object) -> void
 {
     detail::read_operation(this, blob_object); // TODO
 }
 
 
-auto file_api::file_reader::abort()
-        -> void
+auto file_api::file_reader::abort() -> void
 {
     ACCESS_PIMPL(file_reader);
 
@@ -71,7 +63,7 @@ auto file_api::file_reader::get_ready_state() const -> ext::number<ushort>
 auto file_api::file_reader::get_result() const -> detail::result_t
 {
     ACCESS_PIMPL(const file_reader);
-    return ext::visit([]<typename T>(T&& val) mutable -> detail::result_t {return std::forward<T>(val);}, d->result);
+    return ext::visit([]<typename T>(T&& val) mutable -> detail::result_t {return std::forward<T>(val);}, d->result); // TODO : ?
 }
 
 

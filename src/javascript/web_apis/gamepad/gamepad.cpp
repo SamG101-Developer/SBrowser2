@@ -22,7 +22,7 @@ gamepad::gamepad::gamepad()
     auto e = js::env::env::relevant(this);
 
     ACCESS_PIMPL(gamepad);
-    d->id = ext::to_string(ext::uuid_system_generator{}());
+    d->id = ext::to_string(ext::uuid::uuid_system_generator{}());
     d->timestamp = hr_time::detail::current_hr_time(e.js.global());
     d->mapping = detail::select_mapping(this);
     d->axes = detail::initialize_axes(this);
@@ -30,7 +30,7 @@ gamepad::gamepad::gamepad()
 }
 
 
-auto gamepad::gamepad::get_id() const -> ext::string
+auto gamepad::gamepad::get_id() const -> ext::string_view
 {
     ACCESS_PIMPL(const gamepad);
     return d->id;
@@ -83,9 +83,7 @@ auto gamepad::gamepad::get_buttons() const -> ext::vector_span<gamepad_button*>
 }
 
 
-auto gamepad::gamepad::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto gamepad::gamepad::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<gamepad>{isolate}
         .inherit<dom_object>()

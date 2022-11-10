@@ -29,9 +29,7 @@ auto gamepad::gamepad_button::get_value() const -> ext::number<double>
 }
 
 
-auto gamepad::gamepad_button::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto gamepad::gamepad_button::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<gamepad_button>{isolate}
         .inherit<dom_object>()
