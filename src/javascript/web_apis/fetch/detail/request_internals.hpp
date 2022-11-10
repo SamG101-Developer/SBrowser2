@@ -16,45 +16,45 @@ namespace fetch {class request;}
 namespace fetch::detail
 {
     auto is_subresource_request(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::boolean;
 
     auto is_non_subresource_request(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::boolean;
 
     auto is_navigation_request(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::boolean;
 
     auto has_redirect_tainted_origin(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::boolean;
 
     auto serialize_request_origin(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::string;
 
     auto byte_serializing_request_origin(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::string;
 
     auto clone_request(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> request_t;
 
     auto add_range_header_to_request(
-            const request_t& internal_request_object,
+            const request_t& request,
             ext::number<int> first,
             ext::number<int> last = -1)
             -> void;
 
     auto check_if_cross_origin_embedder_policy_allows_credentials(
-            const request_t& internal_request_object)
+            const request_t& request)
             -> ext::boolean;
 
     auto create_request_object(
-            const request_t& internal_request_object,
+            const request_t& request,
             header_guard_t header_guard,
             v8::Local<v8::Context> realm)
             -> request;
