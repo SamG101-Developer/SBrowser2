@@ -61,14 +61,16 @@ struct encoding::detail::encoding_t
 
 struct encoding::detail::encoder_decoder_t
 {
-    handler_algorithm_t handler_algorithm;
+    virtual auto handler_algorithm(io_queue_t& io_queue, item_t item) -> ext::tuple<handle_state_t, ext::string> = 0;
 };
 
 
 struct encoding::detail::encoder_t : public encoder_decoder_t {};
+
 struct encoding::detail::utf8_encoder_t : public encoder_t {};
 
 struct encoding::detail::decoder_t : public encoder_decoder_t {};
+
 struct encoding::detail::utf8_decoder_t : public decoder_t {};
 
 

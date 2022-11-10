@@ -22,7 +22,7 @@
 #include <range/v3/view/transform.hpp>
 
 
-template <header_value_object_t T>
+template <fetch::detail::header_value_object_t T>
 auto fetch::detail::get_structured_field_value(
         const header_name_t& header_name,
         const headers_t& headers)
@@ -91,7 +91,7 @@ auto fetch::detail::get_header_value(
 
 
 auto fetch::detail::get_decode_split_value(
-        const const header_name_t& header_name,
+        const header_name_t& header_name,
         const headers_t& headers)
         -> header_names_t
 {
@@ -135,7 +135,7 @@ auto fetch::detail::get_decode_split_value(
         // append the new value with spaces and tabs removed from the back and front of the string, and then reset the
         // value string for the next iteration pass
         values.push_back(infra::detail::strip_leading_and_trailing_ascii_whitespace(value));
-        value = "";
+        value = u"";
     }
 
     // return the list of header values that have been decoded and split into a list
@@ -231,7 +231,7 @@ auto fetch::detail::convert_header_names_to_sorted_lowercase_set(
     // method; object is still a range
     auto sorted_lowercase_header_names = ranges::sort(
             header_names | ranges::views::transform([](const header_name_t& header_name) {header_name | ranges::views::lowercase() | ranges::to<ext::string>;}),
-            infra::detail::infra_string_internals::is_code_unit_less_than);
+            infra::detail::is_code_unit_less_than);
 
     // return the range converted to list of strings (header names)
     return sorted_lowercase_header_names | ranges::to<ext::vector<ext::string>>;
@@ -260,15 +260,15 @@ auto fetch::detail::is_cors_safelisted_request_header(
         -> ext::boolean
 {
     return_if (header.second.size() > 123) false;
-    auto lowercase_header_name = header.first | ranges::views::lowercase() | ranges::to<ext::string>;
+    auto lowercase_header_name = header.first | ranges::views::lowercase | ranges::to<ext::string>;
 
     string_switch(lowercase_header_name)
     {
-        string_case("accept"):
+        string_case(u"accept"):
             return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
 
-        string_case("accept-language"):
-        string_case("content-language"):
+        string_case(u"accept-language"):
+        string_case(u"content-language"):
             auto stripped_header_value = header.second
                     | ranges::views::remove_if(ext::bind_front(ranges::contains, ranges::views::closed_iota(0x30, 0x39)))
                     | ranges::views::remove_if(ext::bind_front(ranges::contains, ranges::views::closed_iota(0x41, 0x5a)))
@@ -277,15 +277,15 @@ auto fetch::detail::is_cors_safelisted_request_header(
 
             return_if (!stripped_header_value.empty()) false;
 
-        string_case("content-type"):
+        string_case(u"content-type"):
         {
             return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
             auto mime_type = mime_sniffing::mime_type_internals::parse(header.second);
             return_if(mime_type.empty()) false;
-            return_if(!ranges::contains(std::initializer_list<ext::string>{"application/x-www-form-urlencoded", "multipart/form-data", "text/plain"}, mime_type.essence)) false;
+            return_if(!ranges::contains(std::initializer_list<ext::string>{u"application/x-www-form-urlencoded", u"multipart/form-data", u"text/plain"}, mime_type.essence)) false;
         }
 
-        string_case("range");
+        string_case(u"range");
             return_if (!is_simple_range_header_value(header.second));
 
         string_default:

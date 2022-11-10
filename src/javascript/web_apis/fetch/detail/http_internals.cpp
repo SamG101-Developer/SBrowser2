@@ -1,102 +1,72 @@
 #include "http_internals.hpp"
 
-#include "ext/ranges.hpp"
-
-#include <initializer_list>
+#include "infra/detail/infra_strings_internals.hpp"
+#include "range/v3/iterator/operations.hpp"
+#include "url/detail/url_internals.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 
 
-auto fetch::detail::report_timing(
-        fetch_controller_t* controller,
-        v8::Local<v8::Object> global_object)
-        -> void
-{
-    // assert that the 'controller' has report timing steps - a callback for reporting the timing information; if this
-    // callback exists, then call it with the 'global_object'
-    assert(controller->report_timing_steps.has_value());
-    controller->report_timing_steps.value()(global_object);
-}
-
-
-auto fetch::detail::extract_full_timing_info(
-        fetch_controller_t* controller)
-        -> fetch_timing_info_t*
-{
-    // assert that the 'controller' has a full timing info - a struct for saving the timing information; if this struct
-    // exists, then return it
-    assert(controller->full_timing_info);
-    return controller->full_timing_info;
-}
-
-
-auto fetch::detail::abort_fetch_controller(
-        fetch_controller_t* controller)
-        -> void
-{
-    // to abort the 'controller', set its 'state' to the ABORTED state
-    controller->state = fetch_controller_state_t::ABORTED;
-}
-
-
-auto fetch::detail::terminate_fetch_controller(
-        fetch_controller_t* controller)
-        -> void
-{
-    // to abort the 'terminated', set its 'state' to the TERMINATED state
-    controller->state = fetch_controller_state_t::TERMINATED;
-}
-
-
-auto fetch::detail::is_aborted(
-        fetch_controller_t* controller)
-        -> ext::boolean
-{
-    // a 'controller' is aborted if its 'state' is ABORTED
-    return controller->state == fetch_controller_state_t::ABORTED;
-}
-
-
-auto fetch::detail::is_cancelled(
-        fetch_controller_t* controller)
-        -> ext::boolean
-{
-    // a 'controller' is cancelled if its 'state' is ABORTED or TERMINATED
-    return controller->state == fetch_controller_state_t::ABORTED || controller->state == fetch_controller_state_t::TERMINATED;
-}
-
-
-auto fetch::detail::is_url_local(
-        url::detail::url_t& url)
-        -> ext::boolean
+auto fetch::detail::is_url_local(url::detail::url_t& url) -> ext::boolean
 {
     // a url is local if its scheme is a local scheme; these schemes are the "about", "blob" and "data" schemes
-    ext::string url_local_schemes[3] {"about", "blob", "data"};
+    auto url_local_schemes = {u"about", u"blob", u"data"};
     return ranges::contains(url_local_schemes, url.scheme());
 }
 
 
-auto fetch::detail::is_cors_safelisted_method(
-        ext::string_view method)
-        -> ext::boolean
+auto fetch::detail::is_http_newline_byte(char8_t character) -> ext::boolean
 {
-    ext::string cors_safelisted_methods[3] {"GET", "HEAD", "POST"};
-    return ranges::contains(cors_safelisted_methods, normalize_method(method));
+    return character == 0x0a || character == 0x0d;
 }
 
 
-auto fetch::detail::is_forbidden_method(
-        ext::string_view method)
-        -> ext::boolean
+auto fetch::detail::is_http_tab_or_space_byte(char8_t character) -> ext::boolean
 {
-    ext::string forbidden_methods[3] {"CONNECT", "TRACE", "TRACK"};
-    return ranges::contains(forbidden_methods, normalize_method(method));
+    return character == 0x09 || character == 0x20;
 }
 
 
-auto fetch::detail::normalize_method(
-        ext::string_view method)
+auto fetch::detail::is_http_whitespace_byte(char8_t character) -> ext::boolean
+{
+    return is_http_newline_byte(character) || is_http_tab_or_space_byte(character);
+}
+
+
+auto fetch::detail::collect_http_quoted_string(
+        ext::string& input,
+        ext::string::iterator& position,
+        ext::boolean extract_value_flag)
         -> ext::string
 {
-    return method | ranges::views::uppercase() | ranges::to<ext::string>();
+    auto position_start = position;
+    auto value = ext::string{};
+    assert(*position = char16_t(0x0022));
+
+    ranges::advance(position, 1);
+
+    while (true)
+    {
+        value += infra::detail::collect_code_points_not_matching(input, position, 0x0022, 0x005c);
+        break_if (position == input.end());
+
+        auto quote_or_backslash = *position;
+        ranges::advance(position, 1);
+
+        if (quote_or_backslash == 0x005c)
+        {
+            value += *position;
+            break_if (position == input.end());
+            ranges::advance(position, 1);
+        }
+        else
+        {
+            assert(quote_or_backslash == 0x0022);
+            break;
+        }
+    }
+
+    return extract_value_flag
+            ? value
+            : ext::string{position_start, position};
 }
