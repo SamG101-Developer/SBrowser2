@@ -10,7 +10,7 @@
 
 DEFINE_PRIVATE_CLASS(encoding::mixins, text_encoder_common) : virtual dom_object_private
 {
-    ext::string encoding = u8"utf-8";
+    ext::string encoding = u"utf-8";
 };
 
 

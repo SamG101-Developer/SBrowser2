@@ -46,13 +46,13 @@ namespace infra::detail
     auto collect_code_points_matching(
             ext::string& string,
             ext::string::iterator& position,
-            ext::type_is<ext::string::value_type> auto&&... code_points)
+            auto... code_points)
             -> ext::string;
 
     auto collect_code_points_not_matching(
             ext::string& string,
             ext::string::iterator& position,
-            ext::type_is<ext::string::value_type> auto&&... code_points)
+            auto... code_points)
             -> ext::string;
 
     auto is_code_unit_prefix(
