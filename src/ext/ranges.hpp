@@ -296,12 +296,14 @@ namespace ranges::views
 namespace ranges::actions
 {
     RANGE_ACTION_CLOSURE_STRUCT(lowercase,
-            constexpr auto operator()() const
-            {return ranges::actions::transform(_EXT to_lower);})
+            template <typename Rng>
+            constexpr auto operator()(Rng&& rng) const -> Rng
+            {ranges::actions::transform(std::forward<Rng>(rng) COMMA _EXT to_lower); return std::forward<Rng>(rng);})
 
     RANGE_ACTION_CLOSURE_STRUCT(uppercase,
-            constexpr auto operator()() const
-            {return ranges::actions::transform(_EXT to_upper);})
+            template <typename Rng>
+            constexpr auto operator()(Rng&& rng) const -> Rng
+            {ranges::actions::transform(std::forward<Rng>(rng) COMMA _EXT to_upper); return std::forward<Rng>(rng);})
 
     RANGE_ACTION_STRUCT(replace,
             template <typename T COMMA _EXT callable F>
