@@ -63,42 +63,41 @@ namespace fetch::detail
 
 struct fetch::detail::request_t
 {
-    ext::string method = "GET";
+    ext::string method = u"GET";
     std::unique_ptr<url::detail::url_t> url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
-    std::unique_ptr<headers_t> header_list;
+    headers_t header_list;
     std::unique_ptr<body_t> body;
 
     v8::Local<v8::Object> client;
     v8::Local<v8::Object> reserved_client;
-    v8::Local<v8::Object> window;
+    v8::Local<v8::Object> window; // TODO : type (variant with enum)
 
     ext::string replaces_client;
 
     ext::boolean keep_alive = false;
     initiator_type_t initiator_type;
-    service_workers_mode_t service_workers_mode {service_workers_mode_t::ALL};
+    service_workers_mode_t service_workers_mode = service_workers_mode_t::ALL;
     initiator_t initiator;
     destination_t destination;
 
     auto is_script_like() -> ext::boolean;
 
     ext::any priority;
-    ext::string origin {"client"};
+    ext::string origin = u"client";
 
     std::unique_ptr<html::detail::policy_container_t> policy_container;
     ext::variant<referrer_t, url::detail::url_t*> referrer = referrer_t::CLIENT;
     referrer_policy::detail::referrer_policy_t referrer_policy;
-    mode_t mode {mode_t::NO_CORS};
-    ext::boolean use_cors_preflight_flag;
 
+    mode_t mode = mode_t::NO_CORS;
     credentials_t credentials_mode = credentials_t::SAME_ORIGIN;
-    ext::boolean use_url_credentials_flag;
-
     cache_t cache_mode = cache_t::DEFAULT;
     redirect_t redirect_mode {redirect_t::FOLLOW};
+    ext::boolean use_cors_preflight_flag;
+    ext::boolean use_url_credentials_flag;
 
     ext::string integrity_metadata;
     ext::string cryptographic_nonce_metadata;
@@ -109,8 +108,8 @@ struct fetch::detail::request_t
     ext::boolean user_activation;
     ext::boolean render_blocking;
 
-    ext::vector<url::detail::url_t> url_list;
-    auto associated_url() -> url::detail::url_t;
+    ext::vector<url::detail::url_t*> url_list;
+    auto current_url() -> url::detail::url_t&;
     ext::number<int> redirect_count = 0;
     response_tainting_t response_tainting;
     ext::boolean prevent_no_cache_cache_control_header_modification_flag;
