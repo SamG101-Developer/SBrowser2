@@ -15,11 +15,16 @@ namespace service_workers::workers {class service_worker;}
 struct js::env::settings_t
 {
     /* [HTML] */
+    // TODO : Realm, API-URL-Character-Encoding
+
+    dom::detail::module_map_t module_map;
     std::unique_ptr<url::detail::url_t> api_base_url;
     html::detail::origin_t origin;
     ext::boolean cross_origin_isolated_capability;
-    ext::boolean is_secure_context;
     hr_time::dom_high_res_time_stamp time_origin;
+    std::shared_ptr<html::detail::policy_container_t> policy_container;
+
+    ext::boolean is_secure_context;
 
     /* [SERVICE-WORKERS] */
     ext::map<service_workers::workers::service_worker_private*, service_workers::workers::service_worker*> service_worker_object_map;

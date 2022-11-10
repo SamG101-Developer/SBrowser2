@@ -84,14 +84,11 @@ namespace fetch::detail
 
 struct fetch::detail::response_t
 {
-    enum class type_t {BASIC, CORS, DEFAULT, ERROR, OPAQUE, OPAQUE_REDIRECT};
-    enum class cache_t {LOCAL, VALIDATED};
-
-    type_t type {type_t::DEFAULT};
+    response_type_t type = response_type_t::DEFAULT;
     ext::boolean aborted_flag;
 
-    ext::vector<url::detail::url_t*> url_list;
     auto associated_url() -> url::detail::url_t;
+    ext::vector<url::detail::url_t*> url_list;
 
     ext::number<int> status;
     ext::string status_message;
@@ -99,7 +96,7 @@ struct fetch::detail::response_t
     std::unique_ptr<headers_t> header_list;
     std::unique_ptr<body_t> body;
 
-    cache_t cache_state;
+    response_cache_t cache_state;
     header_names_t cors_exposed_header_name_list;
 
     ext::boolean range_requested_flag;
@@ -108,6 +105,7 @@ struct fetch::detail::response_t
 
     std::unique_ptr<response_body_info_t> body_information;
     std::unique_ptr<service_workers::detail::service_worker_timing_info_t> service_worker_timing_information;
+    ext::boolean has_cross_origin_redirects = false;
 };
 
 

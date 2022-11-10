@@ -9,7 +9,7 @@
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 
-namespace fetch::detail
+namespace fetch::detail // TODO : const ...& vs ..._view
 {
     DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(header_value_object_t, header_value_variable, void*);
     ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(header_value_variable, header_value_object_t::DICT, ext::map<header_value_t COMMA header_values_t>);

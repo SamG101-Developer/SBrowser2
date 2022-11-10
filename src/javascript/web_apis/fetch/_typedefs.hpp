@@ -46,6 +46,8 @@ namespace fetch::detail
     enum class parser_metadata_t  {PARSER_INSERTED, NOT_PARSER_INSERTED};
     enum class response_tainting_t {BASIC, CORS, OPAQUE};
     enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
+    enum class response_type_t {BASIC, CORS, DEFAULT, ERROR, OPAQUE, OPAQUE_REDIRECT};
+    enum class response_cache_t {LOCAL, VALIDATED};
 
     // body related
     using body_with_tuple = ext::tuple<body_t&, ext::string>;

@@ -44,7 +44,7 @@ namespace fetch::detail
             -> request_t;
 
     auto add_range_header_to_request(
-            const request_t& request,
+            request_t& request,
             ext::number<int> first,
             ext::number<int> last = -1)
             -> void;
@@ -64,7 +64,7 @@ namespace fetch::detail
 struct fetch::detail::request_t
 {
     ext::string method = u"GET";
-    std::unique_ptr<url::detail::url_t> url;
+    std::shared_ptr<url::detail::url_t> url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
@@ -86,9 +86,9 @@ struct fetch::detail::request_t
     auto is_script_like() -> ext::boolean;
 
     ext::any priority;
-    ext::string origin = u"client";
+    html::detail::origin_t origin = u"client"_s16;
 
-    std::unique_ptr<html::detail::policy_container_t> policy_container;
+    std::shared_ptr<html::detail::policy_container_t> policy_container;
     ext::variant<referrer_t, url::detail::url_t*> referrer = referrer_t::CLIENT;
     referrer_policy::detail::referrer_policy_t referrer_policy;
 

@@ -66,27 +66,23 @@ auto fetch::detail::header_list_contains_header(
 
 
 auto fetch::detail::get_header_value(
-        const const header_name_t& header_name,
+        const header_name_t& header_name,
         const headers_t& headers)
         -> header_value_t
 {
     // convert the 'header_name' to lowercase for comparisons (the headers stored in the list are all in lowercase
     // already; this conversion is done in the 'set_header(...)' method for uniformity between all header names inserted
     // into the 'headers'
-    auto lowercase_header_name = header_name | ranges::views::lowercase() | ranges::to<ext::string>();
+    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to<ext::string>();
 
     // filter all the headers down to headers that have the same name as 'lowercase_header_name', and then transform
     // them to have a COMMA followed by a SPACE. remove teh last occurrence of ", " by matching it to the end character
     // as-well ie ", \0"
-    auto matching_headers_values = headers
-            | ranges::views::filter([lowercase_header_name](const header_t& header) {return header.first == lowercase_header_name;})
-            | ranges::views::transform([](const header_t& header) {return header.second + char(0x2c) + char(0x20);})
-            | ranges::views::remove(ext::string{} + char(0x2c) + char(0x20) + '\0');
-
-    // join the header values into one string and return it - this will make the header values look like
-    // "val1, val2, val3"
-    auto joined_matching_headers_values = matching_headers_values | ranges::to<ext::string>;
-    return joined_matching_headers_values;
+    return headers
+            | ranges::views::filter(BIND_BACK(ext::pair_key_matches, std::move(lowercase_header_name)))
+            | ranges::views::transform([](const header_t& header) {return header.second + char16_t(0x002c) + char16_t(0x0020);})
+            | ranges::views::remove(char16_t(0x002c) + char16_t(0x0020) + '\0')
+            | ranges::to<ext::string>();
 }
 
 
@@ -161,7 +157,7 @@ auto fetch::detail::delete_header(
     // convert the 'header_name' to lowercase for comparisons (the headers stored in the list are all in lowercase
     // already; this conversion is done in the 'set_header(...)' method for uniformity between all header names inserted
     // into the 'headers'
-    auto lowercase_header_name = header_name | ranges::views::lowercase() | ranges::to<ext::string>;
+    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to<ext::string>;
 
     // remove the individual headers from the 'headers' list whose key value matches 'header_name' (can be more
     // than one header ith a matching name to 'header_name'
@@ -175,7 +171,7 @@ auto fetch::detail::set_header(
         headers_t& headers)
         -> void
 {
-    auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase() | ranges::to<ext::string>, header.second);
+    auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase | ranges::to<ext::string>, header.second);
 
     // if any of the headers have their name matching the new 'header' name, then perform specific replacement steps;
     // otherwise, just append the new header
@@ -202,7 +198,7 @@ auto fetch::detail::combine_header(
         const headers_t& headers)
         -> void
 {
-    auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase() | ranges::to<ext::string>, header.second);
+    auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase | ranges::to<ext::string>, header.second);
 
     // if any of the headers have their name matching the new 'header' name, then perform specific combinations steps;
     // otherwise, just append the new header
@@ -214,7 +210,7 @@ auto fetch::detail::combine_header(
 
         // append to the value of the first occurrence of the lowercase header name with a COMMA and then a SPACE,
         // followed by the new header value
-        ranges::first_where(headers, header_matches).second += char(0x2c) + char(0x20) + lowercase_header.second;
+        (*ranges::first_where(headers, header_matches)).second += char(0x2c) + char(0x20) + lowercase_header.second;
         return;
     }
 
@@ -230,7 +226,7 @@ auto fetch::detail::convert_header_names_to_sorted_lowercase_set(
     // transform the 'header_names' to lowercase strings, using the infra 'byte_less_than' functor as the sorting
     // method; object is still a range
     auto sorted_lowercase_header_names = ranges::sort(
-            header_names | ranges::views::transform([](const header_name_t& header_name) {header_name | ranges::views::lowercase() | ranges::to<ext::string>;}),
+            header_names | ranges::views::transform([](const header_name_t& header_name) {header_name | ranges::views::lowercase | ranges::to<ext::string>;}),
             infra::detail::is_code_unit_less_than);
 
     // return the range converted to list of strings (header names)
