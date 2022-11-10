@@ -21,7 +21,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_GETTER(id, ext::string);
+    DEFINE_GETTER(id, ext::string_view);
     DEFINE_GETTER(index, ext::number<long>);
     DEFINE_GETTER(connected, ext::boolean);
 

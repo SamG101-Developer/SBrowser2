@@ -26,20 +26,20 @@ namespace fetch::detail
 
 
     auto report_timing(
-            fetch_controller_t* controller,
+            fetch_controller_t& controller,
             v8::Local<v8::Object> global_object)
             -> void;
 
     auto process_next_manual_redirect(
-            fetch_controller_t* controller)
+            fetch_controller_t& controller)
             -> void;
 
     auto extract_full_timing_info(
-            fetch_controller_t* controller)
+            fetch_controller_t& controller)
             -> fetch_timing_info_t*;
 
     auto abort_fetch_controller(
-            fetch_controller_t* controller,
+            fetch_controller_t& controller,
             ext::optional<dom::other::dom_exception> error = ext::nullopt)
             -> void;
 
@@ -49,15 +49,15 @@ namespace fetch::detail
             -> dom::other::dom_exception;
 
     auto terminate_fetch_controller(
-            fetch_controller_t* controller)
+            fetch_controller_t& controller)
             -> void;
 
     auto is_aborted(
-            fetch_controller_t* controller)
+            fetch_params_t& params)
             -> ext::boolean;
 
     auto is_cancelled(
-            fetch_controller_t* controller)
+            fetch_params_t& params)
             -> ext::boolean;
 
     auto is_cors_safelisted_method(
@@ -77,7 +77,7 @@ namespace fetch::detail
             -> ext::string;
 
     auto terminate_fetch_group(
-            fetch_group_t* fetch_group_object)
+            fetch_group_t& fetch_group_object)
             -> void;
 
     auto create_opaque_timing_info(

@@ -15,45 +15,45 @@
 
 
 auto fetch::detail::report_timing(
-        fetch_controller_t* controller,
+        fetch_controller_t& controller,
         v8::Local<v8::Object> global_object)
         -> void
 {
     // assert that the 'controller' has report timing steps - a callback for reporting the timing information; if this
     // callback exists, then call it with the 'global_object'
-    assert(!controller->report_timing_steps.empty());
-    controller->report_timing_steps(global_object);
+    assert(!controller.report_timing_steps.empty());
+    controller.report_timing_steps(global_object);
 }
 
 
 auto fetch::detail::process_next_manual_redirect(
-        fetch::detail::fetch_controller_t* controller)
+        fetch_controller_t& controller)
         -> void
 {
-    assert(!controller->next_manual_redirect_steps.empty());
-    controller->next_manual_redirect_steps();
+    assert(!controller.next_manual_redirect_steps.empty());
+    controller.next_manual_redirect_steps();
 }
 
 
 auto fetch::detail::extract_full_timing_info(
-        fetch_controller_t* controller)
+        fetch_controller_t& controller)
         -> fetch_timing_info_t*
 {
     // assert that the 'controller' has a full timing info - a struct for saving the timing information; if this struct
     // exists, then return it
-    assert(controller->full_timing_info);
-    return controller->full_timing_info.get();
+    assert(controller.full_timing_info);
+    return controller.full_timing_info.get();
 }
 
 
 auto fetch::detail::abort_fetch_controller(
-        fetch::detail::fetch_controller_t* controller,
+        fetch_controller_t& controller,
         ext::optional<dom::other::dom_exception> error)
         -> void
 {
     // to abort the 'controller', set its 'state' to the ABORTED state
     using enum dom::detail::dom_exception_error_t;
-    controller->state = fetch_controller_state_t::ABORTED;
+    controller.state = fetch_controller_state_t::ABORTED;
     auto fallback_error = dom::other::dom_exception{u8"", ABORT_ERR};
     auto abort_error = error.value_or(fallback_error);
 
@@ -62,24 +62,24 @@ auto fetch::detail::abort_fetch_controller(
 }
 
 
-auto fetch::detail::terminate_fetch_controller(fetch_controller_t* controller) -> void
+auto fetch::detail::terminate_fetch_controller(fetch_controller_t& controller) -> void
 {
     // to abort the 'terminated', set its 'state' to the TERMINATED state
-    controller->state = fetch_controller_state_t::TERMINATED;
+    controller.state = fetch_controller_state_t::TERMINATED;
 }
 
 
-auto fetch::detail::is_aborted(fetch_controller_t* controller) -> ext::boolean
+auto fetch::detail::is_aborted(fetch_params_t& params) -> ext::boolean
 {
     // a 'controller' is aborted if its 'state' is ABORTED
-    return controller->state == fetch_controller_state_t::ABORTED;
+    return params.controller->state == fetch_controller_state_t::ABORTED;
 }
 
 
-auto fetch::detail::is_cancelled(fetch_controller_t* controller) -> ext::boolean
+auto fetch::detail::is_cancelled(fetch_params_t& params) -> ext::boolean
 {
     // a 'controller' is cancelled if its 'state' is ABORTED or TERMINATED
-    return controller->state == fetch_controller_state_t::ABORTED || controller->state == fetch_controller_state_t::TERMINATED;
+    return params.controller->state == fetch_controller_state_t::ABORTED || params.controller->state == fetch_controller_state_t::TERMINATED;
 }
 
 
