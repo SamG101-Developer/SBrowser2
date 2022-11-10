@@ -51,6 +51,7 @@ namespace fetch::detail
     using body_with_tuple = ext::tuple<body_t&, ext::string>;
     using xml_http_request_body_init_t = ext::variant<file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
     using body_init_t = ext::extend_variant_t<xml_http_request_body_init_t, streams::readable::readable_stream*>;
+    using body_with_type_t = ext::tuple<body_t*, ext::string>;
 
     // connection related
     using network_partition_key_t = ext::pair<ext::string, ext::string>;
