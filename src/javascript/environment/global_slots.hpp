@@ -13,7 +13,7 @@ namespace js::global_slots
     constexpr auto ce_reactions = 6;
 
     /* [MEDIACAPTURE-MAIN] */
-    constexpr auto
+    // constexpr auto
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_GLOBAL_SLOTS_HPP

@@ -81,8 +81,8 @@ auto fetch::detail::get_header_value(
     return headers
             | ranges::views::filter(BIND_BACK(ext::pair_key_matches, std::move(lowercase_header_name)))
             | ranges::views::transform([](const header_t& header) {return header.second + char16_t(0x002c) + char16_t(0x0020);})
-            | ranges::views::remove(char16_t(0x002c) + char16_t(0x0020) + '\0')
-            | ranges::to<ext::string>();
+            | ranges::views::remove(ext::string{char16_t(0x002c) + char16_t(0x0020) + '\0'})
+            | ranges::to<header_value_t>();
 }
 
 

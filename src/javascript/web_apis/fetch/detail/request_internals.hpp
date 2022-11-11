@@ -41,7 +41,7 @@ namespace fetch::detail
 
     auto clone_request(
             const request_t& request)
-            -> request_t;
+            -> std::unique_ptr<request_t>;
 
     auto add_range_header_to_request(
             request_t& request,
@@ -63,13 +63,15 @@ namespace fetch::detail
 
 struct fetch::detail::request_t
 {
+    request_t(const request_t& request) = default;
+
     ext::string method = u"GET";
     std::shared_ptr<url::detail::url_t> url;
 
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
     headers_t header_list;
-    std::unique_ptr<body_t> body;
+    std::shared_ptr<body_t> body;
 
     v8::Local<v8::Object> client;
     v8::Local<v8::Object> reserved_client;

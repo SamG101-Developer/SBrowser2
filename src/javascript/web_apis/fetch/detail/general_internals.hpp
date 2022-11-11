@@ -1,4 +1,5 @@
 #pragma once
+#include "ext/memory.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_DETAIL_GENERAL_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_DETAIL_GENERAL_INTERNALS_HPP
 
@@ -159,6 +160,10 @@ struct fetch::detail::fetch_record_t
 struct fetch::detail::fetch_group_t
 {
     ext::vector<fetch_record_t*> fetch_records;
+    std::observer_ptr<request_t> request;
+    std::observer_ptr<fetch_controller_t> fetch_controller; // TODO : unique_ptr?
+
+    ~fetch_group_t();
 };
 
 

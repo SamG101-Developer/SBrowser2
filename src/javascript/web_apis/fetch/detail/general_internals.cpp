@@ -1,17 +1,27 @@
 #include "general_internals.hpp"
 
-
-#include "dom/detail/observer_internals.hpp"
 #include "ext/ranges.hpp"
 
 #include "dom/_typedefs.hpp"
+#include "dom/detail/observer_internals.hpp"
 #include "dom/other/dom_exception.hpp"
 
+#include "fetch/detail/request_internals.hpp"
 #include "html/detail/task_internals.hpp"
 
 #include <initializer_list>
-
 #include <range/v3/algorithm/contains.hpp>
+
+
+fetch::detail::fetch_group_t::~fetch_group_t()
+{
+    using enum ranges::filter_compare_t;
+
+    fetch_records
+            | ranges::views::filter_eq<NE>(&fetch_record_t::controller, nullptr, ext::underlying)
+            | ranges::views::filter([](fetch_record_t* record) {return !record->request->done_flag || !record->request->keep_alive;})
+            | ranges::views::for_each([](fetch_record_t* record) {terminate_fetch_controller(*record->controller);});
+}
 
 
 auto fetch::detail::report_timing(
@@ -109,8 +119,18 @@ auto fetch::detail::normalize_method(
 }
 
 
+auto fetch::detail::translate_potential_destination(
+        ext::string_view potential_destination)
+        -> ext::string
+{
+    return_if (potential_destination == u"fetch") u"";
+    ASSERT (magic_enum::enum_contains<destination_t>(potential_destination));
+    return potential_destination;
+}
+
+
 auto fetch::detail::create_opaque_timing_info(
-        fetch::detail::fetch_timing_info_t& timing_info)
+        fetch_timing_info_t& timing_info)
         -> std::unique_ptr<fetch_timing_info_t>
 {
     auto opaque_timing_info = std::make_unique<fetch_timing_info_t>();

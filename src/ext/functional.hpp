@@ -18,6 +18,8 @@ auto invoke = [](callable auto&& object) {return object();};
 
 auto deref = [](auto* object) {return *object;};
 
+auto underlying = [](auto&& object) {return object.get();};
+
 auto pointer_not_null = [](auto* object) {return object != nullptr;};
 
 template <callable F>

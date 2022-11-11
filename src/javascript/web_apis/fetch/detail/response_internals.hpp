@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "ext/boolean.hpp"
+#include "ext/expected.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 
@@ -17,62 +18,66 @@ namespace fetch {class response;}
 namespace fetch::detail
 {
     auto serialize_response_url_for_reporting(
-            const response_t& internal_response_object)
+            const response_t& response)
             -> ext::string;
 
     auto is_aborted_network_error(
-            const response_t& internal_response_object)
+            const response_t& response)
             -> ext::boolean;
 
     auto is_network_error(
-            const response_t& internal_response_object)
+            const response_t& response)
             -> ext::boolean;
 
-    auto appropriate_network_error(
+    auto create_appropriate_network_error(
             const fetch_params_t& params)
-            -> response_t;
+            -> std::unique_ptr<response_t>;
 
-    auto basic_filtered_response(
-            const response_t& internal_response_object)
-            -> const response_t;
+    auto is_filtered_response(
+            const response_t& response)
+            -> ext::boolean;
 
-    auto cors_filtered_response(
-            const response_t& internal_response_object)
-            -> const response_t;
+    auto is_basic_filtered_response(
+            const response_t& response)
+            -> ext::boolean;
 
-    auto opaque_filtered_response(
-            const response_t& internal_response_object)
-            -> const response_t;
+    auto is_cors_filtered_response(
+            const response_t& response)
+            -> ext::boolean;
 
-    auto opaque_redirect_filtered_response(
-            const response_t& internal_response_object)
-            -> const response_t;
+    auto is_opaque_filtered_response(
+            const response_t& response)
+            -> ext::boolean;
+
+    auto is_opaque_redirect_filtered_response(
+            const response_t& response)
+            -> ext::boolean;
 
     auto clone_response(
-            const response_t& internal_response_object)
-            -> response_t;
+            const response_t& response)
+            -> std::unique_ptr<response_t>;
 
     auto is_fresh_response(
-            const response_t& response_object)
+            const response_t& response)
             -> ext::boolean;
 
     auto is_stale_while_revalidate_response(
-            const response_t& internal_response_object)
+            const response_t& response)
             -> ext::boolean;
 
     auto is_stale_response(
-            const response_t& internal_response_object)
+            const response_t& response)
             -> ext::boolean;
 
     auto location_url(
-            const response_t& internal_response_object)
-            -> url::detail::url_t;
+            const response_t& response)
+            -> ext::expected<url::detail::url_t>;
 
     auto create_response(
-            const response_t& internal_response_object,
+            const response_t& response,
             header_guard_t header_guard,
             v8::Local<v8::Context> realm)
-            -> response;
+            -> std::unique_ptr<fetch::response>;
 
     auto initialize_response(
             const response& response_object,
@@ -84,6 +89,9 @@ namespace fetch::detail
 
 struct fetch::detail::response_t
 {
+    response_t() = default;
+    response_t(const response_t& response);
+
     response_type_t type = response_type_t::DEFAULT;
     ext::boolean aborted_flag;
 
@@ -93,8 +101,8 @@ struct fetch::detail::response_t
     ext::number<int> status;
     ext::string status_message;
 
-    std::unique_ptr<headers_t> header_list;
-    std::unique_ptr<body_t> body;
+    headers_t header_list;
+    std::shared_ptr<body_t> body;
 
     response_cache_t cache_state;
     header_names_t cors_exposed_header_name_list;
@@ -103,9 +111,12 @@ struct fetch::detail::response_t
     ext::boolean request_includes_credentials = true;
     ext::boolean timing_allow_passed_flag;
 
-    std::unique_ptr<response_body_info_t> body_information;
-    std::unique_ptr<service_workers::detail::service_worker_timing_info_t> service_worker_timing_information;
+    std::shared_ptr<response_body_info_t> body_information;
+    std::shared_ptr<service_workers::detail::service_worker_timing_info_t> service_worker_timing_information;
     ext::boolean has_cross_origin_redirects = false;
+
+    //
+    std::unique_ptr<response_t> internal_response;
 };
 
 

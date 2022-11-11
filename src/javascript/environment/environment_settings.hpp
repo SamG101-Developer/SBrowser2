@@ -4,6 +4,7 @@
 namespace js::env {struct settings_t;}
 
 #include INCLUDE_INNER_TYPES(hr_time)
+#include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
 #include <v8pp/class.hpp>
@@ -25,6 +26,9 @@ struct js::env::settings_t
     std::shared_ptr<html::detail::policy_container_t> policy_container;
 
     ext::boolean is_secure_context;
+
+    /* [FETCH] */
+    std::unique_ptr<fetch::detail::fetch_group_t> fetch_group;
 
     /* [SERVICE-WORKERS] */
     ext::map<service_workers::workers::service_worker_private*, service_workers::workers::service_worker*> service_worker_object_map;

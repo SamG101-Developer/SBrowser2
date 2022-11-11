@@ -7,7 +7,7 @@
 #include "web_idl/detail/type_mapping_internals.hpp"
 
 
-auto fetch::detail::clone_body(fetch::detail::body_t& body) -> std::unique_ptr<body_t>
+auto fetch::detail::clone_body(body_t& body) -> std::unique_ptr<body_t>
 {
     auto [out1, out2] = streams::detail::tee(body.stream.get());
     body.stream = std::move(out1);
@@ -30,10 +30,10 @@ auto fetch::detail::get_byte_sequence_as_body(ext::u8string_view byte_sequence) 
 
 template <ext::type_is<v8::Local<v8::Object>, html::detail::task_queue_t> T>
 auto fetch::detail::incrementally_read_body(
-        fetch::detail::body_t& body,
-        fetch::detail::algorithm_t&& process_body_chunk,
-        fetch::detail::algorithm_t&& process_end_of_body,
-        fetch::detail::algorithm_t&& process_body_error,
+        body_t& body,
+        algorithm_t&& process_body_chunk,
+        algorithm_t&& process_end_of_body,
+        algorithm_t&& process_body_error,
         T&& task_destination)
         -> void
 {
@@ -49,9 +49,9 @@ template <ext::type_is<v8::Local<v8::Object>, html::detail::task_queue_t> T>
 auto fetch::detail::incrementally_read_loop(
         streams::readable::readable_stream_default_reader* reader,
         T&& task_destination,
-        fetch::detail::algorithm_t&& process_body_chunk,
-        fetch::detail::algorithm_t&& process_end_of_body,
-        fetch::detail::algorithm_t&& process_body_error)
+        algorithm_t&& process_body_chunk,
+        algorithm_t&& process_end_of_body,
+        algorithm_t&& process_body_error)
         -> void
 {
     auto continue_algorithm = [] {}; // TODO
@@ -69,9 +69,9 @@ auto fetch::detail::incrementally_read_loop(
 
 template <ext::type_is<v8::Local<v8::Object>, html::detail::task_queue_t> T>
 auto fetch::detail::fully_read_body(
-        fetch::detail::body_t& body,
-        fetch::detail::algorithm_t&& process_body,
-        fetch::detail::algorithm_t&& process_body_error,
+        body_t& body,
+        algorithm_t&& process_body,
+        algorithm_t&& process_body_error,
         T&& task_destination)
         -> void
 {
@@ -91,7 +91,7 @@ auto fetch::detail::fully_read_body(
 }
 
 
-auto fetch::detail::fully_read_body_as_promise(fetch::detail::body_t& body) -> int
+auto fetch::detail::fully_read_body_as_promise(body_t& body) -> int
 {
     JS_EXCEPTION_HANDLER;
     auto e = js::env::env::current(); // TODO : env

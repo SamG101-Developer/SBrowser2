@@ -73,6 +73,7 @@ public:
     number() = default;
     number(const number&) = default;
     number(number&&) noexcept = default;
+    number(ext::string_view string);
     auto operator=(const number&) -> number& = default;
     auto operator=(number&&) noexcept -> number& = default;
 

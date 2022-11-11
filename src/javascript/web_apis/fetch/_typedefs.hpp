@@ -66,9 +66,13 @@ namespace fetch::detail
 
     using header_names_t = ext::vector<header_name_t>;
     using header_values_t = ext::vector<header_value_t>;
-    using headers_t = ext::vector<header_t*>;
+    using headers_t = ext::vector<header_t>;
 
     using request_info_t = ext::variant<request*, ext::string>;
+
+    // authentication related
+    using authentication_entry_t = ext::tuple<ext::string, ext::string, v8::Local<v8::Context>>;
+    using proxy_authentication_entry_t = authentication_entry_t;
 }
 
 #endif //SBROWSER2_FETCH_TYPEDEFS_HPP
