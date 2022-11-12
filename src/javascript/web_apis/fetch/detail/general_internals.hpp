@@ -93,17 +93,6 @@ namespace fetch::detail
 }
 
 
-struct fetch::detail::connection_timing_info_t
-{
-    hr_time::dom_high_res_time_stamp domain_lookup_start_time = 0;
-    hr_time::dom_high_res_time_stamp domain_lookup_end_time = 0;
-    hr_time::dom_high_res_time_stamp connection_start_time = 0;
-    hr_time::dom_high_res_time_stamp connection_end_time = 0;
-    hr_time::dom_high_res_time_stamp secure_connection_start_time = 0;
-    ext::string alpn_negotiated_protocol;
-};
-
-
 struct fetch::detail::fetch_controller_t
 {
     fetch_controller_state_t state = fetch_controller_state_t::ONGOING;
