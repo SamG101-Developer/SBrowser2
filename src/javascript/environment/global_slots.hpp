@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_GLOBAL_SLOTS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_GLOBAL_SLOTS_HPP
 
-namespace js::global_slots
+namespace js::global_slots // TODO -> to enum??
 {
     /* [HTML] */
     constexpr auto mutation_observers = 0;
@@ -14,6 +14,9 @@ namespace js::global_slots
 
     /* [MEDIACAPTURE-MAIN] */
     // constexpr auto
+
+    /* [FETCH] */
+    constexpr auto connection_pool = 7;
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_GLOBAL_SLOTS_HPP
