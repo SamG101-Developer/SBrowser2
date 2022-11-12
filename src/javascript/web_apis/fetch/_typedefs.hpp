@@ -30,7 +30,7 @@ namespace fetch::detail
     struct request_t;
     struct response_t;
 
-    enum class net_connection_setting_t {NO, YES, YES_AND_DEDICATED};
+    enum class new_connection_setting_t {NO, YES, YES_AND_DEDICATED};
     enum class header_value_object_t {DICT, LIST, ITEM};
     enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
     enum class method_t {DELETE, GET, HEAD, OPTIONS, POST, PUT};
@@ -56,8 +56,9 @@ namespace fetch::detail
     using body_with_type_t = ext::tuple<body_t*, ext::string>;
 
     // connection related
-    using network_partition_key_t = ext::pair<ext::string, ext::string>;
-    using connection_pool = ext::map<network_partition_key_t, connection_t*>;
+    using network_partition_key_t = ext::pair<ext::string, ext::string>; // TODO : ?
+    using connection_pool_t = ext::vector<connection_t*>;
+    using proxy_t = ext::string;
 
     // header related
     using header_name_t = ext::string;

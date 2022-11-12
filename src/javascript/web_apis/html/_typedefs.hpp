@@ -6,6 +6,7 @@
 #include "ext/functional.hpp"
 #include "ext/map.hpp"
 #include "ext/number.hpp"
+#include "ext/optional.hpp"
 #include "ext/queue.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
@@ -150,6 +151,7 @@ namespace html::detail
     struct drag_data_store_t;
     struct navigable_t;
     struct session_history_t;
+    struct origin_t;
 
     using name_value_group_t = ext::pair<ext::vector<elements::html_element*>, ext::vector<elements::html_element*>>;
     using name_value_groups_t = ext::vector<name_value_group_t>;
@@ -188,11 +190,9 @@ namespace html::detail
     using browsing_context_set_t = ext::set<browsing_context_t*>;
     using property_descriptor_t = ext::string; // TODO
     using cross_origin_property_descriptor_map_t = ext::map<ext::tuple<v8::Object, v8::Object, ext::string>, property_descriptor_t>; // TODO
-    using tuple_origin_t = ext::tuple<ext::string, ext::string, ext::number<short>, url::detail::domain_t>;
-    using opaque_origin_t = ext::string;
-    using origin_t = ext::variant<opaque_origin_t, tuple_origin_t>;
+    using tuple_origin_t = ext::tuple<ext::string, ext::string, ext::number<short>, url::detail::domain_t>; // SCHEME, HOST, ...
     using scheme_and_host_t = ext::tuple<ext::string, ext::string>;
-    using site_t = ext::variant<opaque_origin_t, scheme_and_host_t>;
+    using site_t = ext::variant<origin_t, scheme_and_host_t>; // TODO
     using structured_serialize_options_t = ext::map<ext::string, ext::any>;
     using timer_handler_t = ext::variant<ext::string, ext::function<void()>>;
     using image_bitmap_source_t = ext::extend_variant_t<canvas_image_source_t, file_api::blob*, canvasing::image_data*>;
