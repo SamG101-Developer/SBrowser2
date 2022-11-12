@@ -19,6 +19,8 @@ namespace js::env
     template <typename T> auto get_slot(const env& e, int slot) -> T;
     template <typename T> auto set_slot(const env& e, int slot, T&& value) -> void;
     auto del_slot(const env& e, int slot) -> void; // TODO : return deleted?
+
+    _EXT_NODISCARD auto get_settings(v8::Local<v8::Object> object) -> settings_t*;
 }
 
 
@@ -30,7 +32,7 @@ struct js::env::env
         m_agent = isolate;
         m_realm = std::mem_fn(context)(isolate);
         m_global = m_realm->Global();
-        m_settings = v8pp::to_v8(m_agent, get_settings());
+        m_settings = v8pp::to_v8(m_agent, get_settings(*this));
     };
 
 public:
@@ -64,9 +66,6 @@ public:
     static auto from_global_object(v8::Local<v8::Value> js_object) -> env;
 
 private:
-    _EXT_NODISCARD auto get_settings() const -> settings_t*
-    {return get_slot<settings_t*>(*this, js::global_slots::settings);}
-
     v8::Isolate* m_agent = nullptr;
     v8::Local<v8::Context> m_realm;
     v8::Local<v8::Object> m_global;
@@ -92,6 +91,13 @@ inline auto js::env::del_slot(const js::env::env& e, int slot) -> void
 {
     e.js.global()->GetInternalField(slot).Clear();
 }
+
+
+auto js::env::get_settings(v8::Local<v8::Object> object) -> settings_t*
+{
+    return get_slot<settings_t*>(js::env::env::from_global_object(object), js::global_slots::settings);
+}
+
 
 auto js::env::env::current() -> env
 {return env{v8::Isolate::GetCurrent(), &v8::Isolate::GetCurrentContext};}
