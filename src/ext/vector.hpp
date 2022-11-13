@@ -3,7 +3,6 @@
 #define SBROWSER2_VECTOR_HPP
 
 #include "ext/allocator.hpp"
-#include "ext/keywords.hpp"
 #include <veque.hpp>
 #include <cryptopp/secblock.h>
 
