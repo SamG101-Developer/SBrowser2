@@ -14,8 +14,8 @@ class edit_context::text_format
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(text_format);
     text_format(detail::touch_format_init_t&& options = {});
+    DOM_CTORS(text_format);
     MAKE_PIMPL(text_format);
     MAKE_V8_AVAILABLE;
 

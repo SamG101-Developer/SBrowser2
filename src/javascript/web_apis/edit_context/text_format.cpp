@@ -3,8 +3,7 @@
 #include "ext/property.hpp"
 
 
-edit_context::text_format::text_format(
-        detail::touch_format_init_t&& options)
+edit_context::text_format::text_format(detail::touch_format_init_t&& options)
 {
     INIT_PIMPL(text_format);
 
