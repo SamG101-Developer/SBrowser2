@@ -4,7 +4,7 @@
 #include "html/detail/task_internals.hpp"
 #include "mediacapture_transform/media_stream_track_processor.hpp"
 
-#include "streams/detail/operations_internals.hpp"
+#include "streams/detail/abstract_operations_internals.hpp"
 #include "streams/readable/readable_stream.hpp"
 
 

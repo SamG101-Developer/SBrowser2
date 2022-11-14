@@ -2,7 +2,7 @@
 
 #include "dom/detail/exception_internals.hpp"
 
-#include "streams/detail/operations_internals.hpp"
+#include "streams/detail/abstract_operations_internals.hpp"
 #include "streams/readable/readable_stream.hpp"
 
 #include <v8-array-buffer.h>
