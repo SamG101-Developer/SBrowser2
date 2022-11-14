@@ -156,10 +156,10 @@ namespace web_idl::detail
     auto react(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<F0>&& fullfilled_steps = ext::nullopt, ext::optional<F1>&& rejected_steps = ext::nullopt) -> void;
 
     template <typename T, ext::callable F>
-    auto upon_fulfillment(ext::promise<T>& promise, v8::Local<v8::Context> realm, T&& v) -> void;
+    auto upon_fulfillment(ext::promise<T>& promise, v8::Local<v8::Context> realm, F&& steps) -> void;
 
-    template <typename T, typename U, typename F>
-    auto upon_rejection(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& r) -> void;
+    template <typename T, typename F>
+    auto upon_rejection(ext::promise<T>& promise, v8::Local<v8::Context> realm, F&& steps) -> void;
 
     template <typename T, ext::callable F0, ext::callable F1>
     auto wait_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm, F0&& success_steps, F1&& failure_steps) -> void;
