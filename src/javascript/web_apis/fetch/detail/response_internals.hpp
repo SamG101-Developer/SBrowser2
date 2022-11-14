@@ -102,7 +102,7 @@ struct fetch::detail::response_t
     ext::string status_message;
 
     headers_t header_list;
-    std::shared_ptr<body_t> body;
+    ext::variant<ext::u8string, std::shared_ptr<body_t>> body;
 
     response_cache_t cache_state;
     header_names_t cors_exposed_header_name_list;

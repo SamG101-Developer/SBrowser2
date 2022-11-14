@@ -71,11 +71,11 @@ struct fetch::detail::request_t
     ext::boolean local_urls_only_flag;
     ext::boolean unsafe_request_flag;
     headers_t header_list;
-    std::shared_ptr<body_t> body;
+    ext::variant<ext::u8string, std::shared_ptr<body_t>> body;
 
     v8::Local<v8::Object> client;
     v8::Local<v8::Object> reserved_client;
-    v8::Local<v8::Object> window; // TODO : type (variant with enum)
+    ext::variant<window_t, v8::Local<v8::Object>> window; // TODO : type (variant with enum)
 
     ext::string replaces_client;
 
@@ -90,7 +90,7 @@ struct fetch::detail::request_t
     ext::any priority;
     html::detail::origin_t origin = u"client"_s16;
 
-    std::shared_ptr<html::detail::policy_container_t> policy_container;
+    ext::variant<policy_container_t, std::shared_ptr<html::detail::policy_container_t>> policy_container;
     ext::variant<referrer_t, url::detail::url_t*> referrer = referrer_t::CLIENT;
     referrer_policy::detail::referrer_policy_t referrer_policy;
 
