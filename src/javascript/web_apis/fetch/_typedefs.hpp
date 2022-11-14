@@ -48,6 +48,9 @@ namespace fetch::detail
     enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
     enum class response_type_t {BASIC, CORS, DEFAULT, ERROR, OPAQUE, OPAQUE_REDIRECT};
     enum class response_cache_t {LOCAL, VALIDATED};
+    enum class window_t {CLIENT, NO_WINDOW};
+    enum class preload_response_t {PENDING};
+    enum class policy_container_t {CLIENT};
 
     // body related
     using body_with_tuple = ext::tuple<body_t&, ext::string>;
