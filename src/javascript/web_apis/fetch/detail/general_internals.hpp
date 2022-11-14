@@ -134,23 +134,24 @@ struct fetch::detail::fetch_params_t
 
     std::unique_ptr<fetch_controller_t> controller;
     std::unique_ptr<fetch_timing_info_t> timing_info;
-    std::unique_ptr<response_t> preloaded_response_candidate;
-    std::unique_ptr<request_t> request;
+    ext::variant<preload_response_t, std::unique_ptr<response_t>> preloaded_response_candidate;
+    std::observer_ptr<request_t> request;
 };
 
 
 struct fetch::detail::fetch_record_t
 {
-    std::unique_ptr<request_t> request;
-    std::unique_ptr<fetch_controller_t> controller;
+    // Don't retain any ownership over these pointers TODO ???
+    std::observer_ptr<request_t> request;
+    std::observer_ptr<fetch_controller_t> controller;
 };
 
 
 struct fetch::detail::fetch_group_t
 {
-    ext::vector<fetch_record_t*> fetch_records;
+    ext::vector<std::unique_ptr<fetch_record_t>> fetch_records;
     std::observer_ptr<request_t> request;
-    std::observer_ptr<fetch_controller_t> fetch_controller; // TODO : unique_ptr?
+    std::observer_ptr<fetch_controller_t> fetch_controller;
 
     ~fetch_group_t();
 };
