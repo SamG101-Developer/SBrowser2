@@ -20,6 +20,10 @@ namespace streams::detail
     enum class readable_stream_type_t {BYTES};
     enum class readable_stream_state_t {READABLE, CLOSED, ERRORED};
 
+    struct pull_into_descriptor_t;
+    struct read_request_t;
+    struct read_into_request_t;
+
     using readable_stream_get_reader_options_t = ext::map<ext::string, ext::any>;
     using readable_stream_iterator_options_t = ext::map<ext::string, ext::any>;
     using readable_writeable_pair_t = ext::map<ext::string, ext::any>;

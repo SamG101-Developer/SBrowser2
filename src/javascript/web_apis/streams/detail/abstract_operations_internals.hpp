@@ -1,5 +1,7 @@
 #pragma once
 #include "ext/array_buffer.hpp"
+#include "streams/readable/readable_byte_stream_controller.hpp"
+#include "streams/readable/readable_stream.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
@@ -7,7 +9,6 @@
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(streams)
 namespace dom::abort {class abort_signal;}
-namespace dom::other {class dom_exception;}
 namespace streams::readable {class readable_stream;}
 namespace streams::readable {class readable_stream_byob_reader;}
 namespace streams::readable {class readable_stream_default_reader;}
@@ -90,7 +91,7 @@ namespace streams::detail
 
     auto readable_stream_error(
             readable::readable_stream* stream,
-            dom::other::dom_exception* exception)
+            ext::any error)
             -> void;
 
     template <typename T>
@@ -178,6 +179,205 @@ namespace streams::detail
 
     auto readable_stream_default_controller_call_pull_if_needed(
             readable::abstract_readable_stream_controller* controller)
+            -> void;
+
+    auto readable_stram_default_controller_should_call_pull(
+            readable::readable_stream_default_controller* controller)
+            -> ext::boolean;
+
+    auto readable_streaf_default_controller_clear_algorithms(
+            readable::readable_stream_default_controller* controller)
+            -> void;
+
+    auto readable_stream_default_controller_close(
+            readable::readable_stream_default_controller* controller)
+            -> void;
+
+    template <typename T>
+    auto readable_stream_default_controller_enqueue(
+            readable::readable_stream_default_controller* controller,
+            chunk_t<T>&& chunk)
+            -> void;
+
+    auto readable_stream_default_controller_error(
+            readable::readable_stream_default_controller* controller,
+            ext::any error)
+            -> void;
+
+    auto readable_stream_default_controller_get_desired_size(
+            readable::readable_stream_default_controller* controller)
+            -> ext::number<size_t>; // TODO : return type
+
+    auto readable_stream_default_controller_has_backpressure(
+            readable::readable_stream_default_controller* controller)
+            -> ext::boolean;
+
+    auto readable_stream_default_controler_can_close_or_enqueue(
+            readable::readable_stream_default_controller* controller)
+            -> ext::boolean;
+
+    auto setup_readable_stream_default_controller(
+            readable::readable_stream* stream,
+            readable::readable_stream_default_controller* controller,
+            underlying_source_start_callback_t&& start_algorithm,
+            underlying_source_pull_callback_t&& pull_algorithm,
+            underlying_source_cancel_callback_t&& cancel_callback,
+            ext::number<int> high_water_mark, // TODO : type (T)
+            F&& size_algorithm)
+            -> void;
+
+    auto setup_readable_stream_default_controller_from_underlying_source(
+            readable::readable_stream* stream,
+            underlying_source_t&& underlying_source,
+            ext::number<int> high_water_mark, // TODO : type (T)
+            F&& size_algorithm)
+            -> void;
+
+    auto readable_byte_stream_controller_call_pull_if_needed(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controller_clear_algorithms(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controler_clear_pending_pull_intos(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controller_close(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controller_commit_pull_into_descriptor(
+            readable::readable_stream* stream,
+            pull_into_descriptor_t& pull_into_descriptor)
+            -> void; // TODO : not correct return type
+
+    template <typename T>
+    auto readable_byte_stream_controller_enqueue(
+            readable::readable_byte_stream_controller* controller,
+            chunk_t<T>&& chunk)
+            -> void;
+
+    auto readable_byte_stream_controller_enqueue_chunk_to_queue(
+            readable::readable_byte_stream_controller* controller,
+            ext::array_buffer buffer,
+            ext::number<size_t> byte_offset, // TODO : type
+            ext::number<size_t> byte_length) // TODO : type
+            -> void;
+
+    auto readable_byte_stream_controller_enqueue_cloned_chunk_to_queue(
+            readable::readable_byte_stream_controller* controller,
+            ext::array_buffer buffer,
+            ext::number<size_t> byte_offset, // TODO : type
+            ext::number<size_t> byte_length) // TODO : type
+            -> void;
+
+    auto readable_bytes_stream_controller_enqueued_detached_pull_into_queue(
+            readable::readable_byte_stream_controller* controller,
+            pull_into_descriptor_t& pull_into_descriptor)
+            -> void;
+
+    auto readable_byte_stream_controller_error(
+            readable::readable_byte_stream_controller* controller,
+            ext::any error)
+            -> void;
+
+    auto readable_byte_stream_controller_fill_head_pull_into_descriptor(
+            readable::readable_byte_stream_controller* controller,
+            ext::number<size_t> size,
+            pull_into_descriptor_t& pull_into_descriptor)
+            -> void;
+
+    auto readable_byte_stream_controller_fill_pull_into_descriptor_from_queue(
+            readable::readable_byte_stream_controller* controller,
+            pull_into_descriptor_t& pull_into_descriptor)
+            -> void;
+
+    auto readable_byte_stream_controller_fill_read_request_from_queue(
+            readable::readable_byte_stream_controller* controller,
+            read_request_t& read_request)
+            -> void;
+
+    auto readable_byte_stream_controller_get_byob_request(
+            readable::readable_byte_stream_controller* controller)
+            -> readable::readable_stream_byob_request*;
+
+    auto readable_byte_stream_controller_get_desired_size(
+            readable::readable_byte_stream_controller* controller)
+            -> ext::number<size_t>;
+
+    auto readable_byte_stream_controller_handle_queue_drain(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controller_invalidates_byob_request(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controller_process_pull_into_descriptors_using_queue(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_strea_controller_process_request_using_queue(
+            readable::readable_byte_stream_controller* controller)
+            -> void;
+
+    auto readable_byte_stream_controller_pull_into(
+            readable::readable_byte_stream_controller* controller,
+            ext::array_buffer_view& view,
+            read_into_request_t& read_into_request)
+            -> void;
+
+    auto readable_byte_stream_controller_responsd(
+            readable::readable_byte_stream_controller* controller,
+            ext::number<int> bytes_written) // TODO : type
+            -> void;
+
+    auto readable_byte_stream_cotroller_response_in_closed_state(
+            readable::readable_byte_stream_controller* controller,
+            pull_into_descriptor_t& first_descriptor)
+            -> void;
+
+    auto readable_byte_stream_controller_response_in_readable_state(
+            readable::readable_byte_stream_controller* controller,
+            ext::number<int> bytes_written,
+            pull_into_descriptor_t& pull_into_descriptor_t)
+            -> void;
+
+    auto readable_byte_stream_controller_response_internal(
+            readable::readable_byte_stream_controller* controller,
+            ext::number<int> bytes_written)
+            -> void;
+
+    auto readable_byte_stream_controller_response_with_new_view(
+            readable::readable_byte_stream_controller* controller,
+            ext::array_buffer_view& view)
+            -> void;
+
+    auto readable_byte_stream_controller_shift_pending_pull_into(
+            readable::readable_byte_stream_controller* controller)
+            -> pull_into_descriptor_t&;
+
+    auto readable_byte_stream_controller_should_call_pull(
+            readable::readable_byte_stream_controller* controller)
+            -> ext::boolean;
+
+    auto setup_readable_byte_stream_controller(
+            readable::readable_stream* stream,
+            readable::readable_byte_stream_controller* controller,
+            detail::underlying_source_start_callback_t&& start_algorithm,
+            detail::underlying_source_pull_callback_t&& pull_algorithm,
+            detail::underlying_source_cancel_callback_t&& cancel_algorithm,
+            ext::number<int> high_water_mark,
+            ext::boolean auto_alocate_chunk_size)
+            -> void;
+
+    auto setup_readable_byte_stream_controller_from_underlying_source(
+            readable::readable_stream* stream,
+            underlying_source_t&& underlying_source,
+            ext::number<int> high_water_mark)
             -> void;
 };
 
