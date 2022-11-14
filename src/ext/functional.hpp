@@ -37,31 +37,45 @@ private:
     F&& m_predicate;
 };
 
+template <typename ...Ts>
+struct overloaded : Ts...
+{
+    using Ts::operator()...;
+};
+
+template <typename ...Ts>
+overloaded(Ts...) -> overloaded<Ts...>;
+
 
 namespace cmp // TODO : <, >, <=, >=
 {
-    auto eq =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity)
-            {return proj(std::forward<T>(left)) == std::forward<U>(right);};
+    auto eq = overloaded
+            {
+        []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
+        {return proj(std::forward<T>(left)) == std::forward<U>(right);},
+
+        []<typename T, typename ...Ts>(T&& left, Ts&&... right)
+        {return ((left == std::forward<Ts>(right)) || ...);}
+            };
 
     auto ne =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity)
+            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
             {return proj(std::forward<T>(left)) != std::forward<U>(right);};
 
     auto lt =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity)
+            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
             {return proj(std::forward<T>(left)) < std::forward<U>(right);};
 
     auto gt =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity)
+            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
             {return proj(std::forward<T>(left)) > std::forward<U>(right);};
 
     auto le =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity)
+            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
             {return proj(std::forward<T>(left)) <= std::forward<U>(right);};
 
     auto ge =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity)
+            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
             {return proj(std::forward<T>(left)) >= std::forward<U>(right);};
 }
 
