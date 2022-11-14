@@ -28,7 +28,7 @@ public js_methods:
     auto update_selection(ext::number<ulong> start, ext::number<ulong> end) -> void;
     auto update_control_bound(css::geometry::dom_rect* new_control_bound) -> void;
     auto update_selection_bound(css::geometry::dom_rect* new_selection_bound) -> void;
-    auto update_character_bounds(ext::number<ulong> range_start, const ext::vector<css::geometry::dom_rect*>& character_bounds) -> void;
+    auto update_character_bounds(ext::number<ulong> range_start, ext::vector<std::unique_ptr<css::geometry::dom_rect>>&& character_bounds) -> void;
     auto attached_element() -> ext::vector<dom::nodes::element*>;
     auto character_bounds() -> ext::vector_span<css::geometry::dom_rect*>;
 
