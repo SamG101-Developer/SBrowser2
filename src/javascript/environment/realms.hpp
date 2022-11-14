@@ -32,7 +32,7 @@ struct js::env::env
         m_agent = isolate;
         m_realm = std::mem_fn(context)(isolate);
         m_global = m_realm->Global();
-        m_settings = v8pp::to_v8(m_agent, get_settings(*this));
+        m_settings = v8pp::to_v8(m_agent, get_settings(m_global));
     };
 
 public:
