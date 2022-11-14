@@ -1,5 +1,6 @@
 #include "readable_stream.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "ext/assertion.hpp"
 
 #include "dom/abort/abort_signal.hpp"
@@ -7,24 +8,18 @@
 #include INCLUDE_INNER_TYPES(streams)
 
 
-streams::readable::readable_stream::readable_stream()
-{
-    bind_get(locked);
-}
-
-
 streams::readable::readable_stream::readable_stream(
-        ext::map<ext::string, ext::any>&& underlying_source,
-        ext::map<ext::string, ext::any>&& strategy)
-        : readable_stream{}
+        detail::underlying_source_t&& underlying_source,
+        detail::queueing_strategy_t&& strategy)
 {
-    using detail::readable_stream_type_t;
+    using enum v8_primitive_error_t;
+
     detail::initialize_readable_stream(this);
-    if (underlying_source.contains("type") && underlying_source.at("type").to<readable_stream_type_t>() != readable_stream_type_t::BYTES)
+    if (underlying_source[u"type"].to<detail::readable_stream_type_t>() == detail::readable_stream_type_t::BYTES)
     {
         dom::detail::throw_v8_exception<V8_RANGE_ERROR>(
-                [&strategy] {return strategy.try_emplace("size").second;},
-                "The 'size' key of the dictionary can not be set if the underlying_type's 'type' is not bytes");
+                [&strategy] {return strategy.contains(u"size");},
+                u8"The 'size' key of the dictionary can not be set if the underlying_type's 'type' is not bytes");
 
         auto high_water_mark = detail::extract_high_water(std::move(strategy), 0);
         detail::set_up_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark);
@@ -32,7 +27,7 @@ streams::readable::readable_stream::readable_stream(
 
     else
     {
-        ASSERT(!underlying_source.contains("type"), "The 'type' item in the dictionary must be 'bytes'", underlying_source.at("type"));
+        ASSERT(!underlying_source.contains(u"type"));
         auto size_algorithm = detail::extract_size_algorithm(std::move(strategy));
         auto high_water_mark = detail::extract_high_water(std::move(strategy), 1);
         detail::set_up_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark, size_algorithm);

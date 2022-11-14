@@ -1,7 +1,7 @@
 #include "readable_stream_generic_reader.hpp"
 
 #include "dom/detail/exception_internals.hpp"
-#include "streams/detail/operations_internals.hpp"
+#include "streams/detail/abstract_operations_internals.hpp"
 
 
 streams::mixins::readable_stream_generic_reader::readable_stream_generic_reader()
