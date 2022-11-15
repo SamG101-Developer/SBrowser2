@@ -24,6 +24,10 @@ public js_methods:
     auto read(ext::buffer_source& buffer, detail::file_system_read_write_options_t&& options = {}) -> ext::number<ulonglong>;
     auto write(ext::buffer_source& buffer, detail::file_system_read_write_options_t&& options = {}) -> ext::number<ulonglong>;
     auto truncate(ext::number<ulonglong> new_size) -> void;
+
+    auto get_size() const -> ext::number<ulonglong>;
+    auto flush() -> void;
+    auto close() const -> void;
 };
 
 
