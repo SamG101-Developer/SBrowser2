@@ -20,7 +20,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 private js_properties:
-    DEFINE_GETTER(writeable, streams::writable::writable_stream*);
+    DEFINE_GETTER(writable, streams::writable::writable_stream*);
     DEFINE_GETTER(track, main::media_stream_track*);
     DEFINE_GETTER(muted, ext::boolean);
 

@@ -24,7 +24,7 @@ public constructors:
 
 public js_methods:
     auto get_file() -> ext::promise<file_api::file>;
-    auto create_writeable(detail::file_system_create_writable_options_t&& options = {}) -> ext::promise<file_system_writable_file_stream*>;
+    auto create_writable(detail::file_system_create_writable_options_t&& options = {}) -> ext::promise<file_system_writable_file_stream*>;
     auto create_sync_access_handle() -> ext::promise<file_system_sync_access_handle>;
 };
 
