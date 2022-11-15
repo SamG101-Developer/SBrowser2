@@ -1,18 +1,19 @@
 #include "readable_stream_byob_reader.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
+
+#include "streams/detail/readable_abstract_operations_internals.hpp"
 
 
 streams::readable::readable_stream_byob_reader::readable_stream_byob_reader(
         streams::readable::readable_stream* stream)
 {
-    detail::set_up_readable_stream_byob_reader(this, stream);
+    detail::setup_readable_stream_byob_reader(this, stream);
 }
 
 
-auto streams::readable::readable_stream_byob_reader::read(
-        v8::Local<v8::ArrayBufferView> view)
-        -> ext::promise<ext::map<ext::string, ext::any>>
+auto streams::readable::readable_stream_byob_reader::read(ext::array_buffer&& view) -> ext::promise<detail::readable_stream_read_result_t>
 {
     if (view->ByteLength() == 0 || view->Buffer()->ByteLength() == 0 || !view->HasBuffer() || !s_stream)
     {

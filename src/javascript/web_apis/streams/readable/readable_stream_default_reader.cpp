@@ -1,28 +1,35 @@
 #include "readable_stream_default_reader.hpp"
+#include "readable_stream_default_reader_private.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
+
+#include "streams/detail/readable_abstract_operations_internals.hpp"
 
 
 streams::readable::readable_stream_default_reader::readable_stream_default_reader(
         streams::readable::readable_stream* stream)
 {
-    detail::set_up_readable_stream_default_reader(this, stream);
+    detail::setup_readable_stream_default_reader(this, stream);
 }
 
 
 auto streams::readable::readable_stream_default_reader::read(
-        v8::Local<v8::ArrayBufferView> view)
-        -> ext::promise<ext::map<ext::string, ext::any>>
+        ext::array_buffer&& view)
+        -> ext::promise<detail::readable_stream_read_result_t>
 {
-    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [this] {return !s_stream;},
-            "Can not read with a ReadableStreamDefaultReader if the [[stream]] slot is empty");
+    ACCESS_PIMPL(readable_stream_default_reader);
+    using enum v8_primitive_error_t;
 
-    ext::promise<ext::map<ext::string, ext::any>> promise;
-    detail::read_request_t read_request
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+            [d] {return !d->stream;},
+            u8"Can not read with a ReadableStreamDefaultReader if the [[stream]] slot is empty");
+
+    auto promise = ext::promise<ext::map<ext::string, ext::any>>{};
+    auto read_request = std::make_unique<detail::read_request_t>();
     {
-        .chunk_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{"value", chunk}, {"done", false}});},
-        .close_steps = [&promise]() {promise.set_value({{"value", ""}, {"done", true}});},
+        .chunk_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{u"value", chunk}, {u"done", false}});},
+        .close_steps = [&promise]() {promise.set_value({{u"value", u""}, {u"done", true}});},
         .error_steps = [&promise](const detail::error_t& error) {promise.set_exception(error);}
     };
 
@@ -31,9 +38,9 @@ auto streams::readable::readable_stream_default_reader::read(
 }
 
 
-auto streams::readable::readable_stream_default_reader::release_lock()
-        -> void
+auto streams::readable::readable_stream_default_reader::release_lock() -> void
 {
-    return_if (!s_stream);
+    ACCESS_PIMPL(readable_stream_default_reader);
+    return_if (!d->stream);
     detail::readable_stream_default_reader_release(this);
 }

@@ -27,6 +27,7 @@ namespace streams::detail
     using readable_stream_get_reader_options_t = ext::map<ext::string, ext::any>;
     using readable_stream_iterator_options_t = ext::map<ext::string, ext::any>;
     using readable_writable_pair_t = ext::map<ext::string, ext::any>;
+    using readable_stream_read_result_t = ext::map<ext::string, ext::any>;
     using stream_pipe_options_t = ext::map<ext::string, ext::any>;
     using underlying_source_t = ext::map<ext::string, ext::any>;
     using underlying_source_start_callback_t = ext::function<ext::any(readable::abstract_readable_stream_controller* controller)>;

@@ -4,9 +4,10 @@
 
 #include "streams/readable/abstract_readable_stream_reader.hpp"
 namespace streams::readable {class readable_stream_default_reader;}
+namespace streams::readable {class readable_stream_default_reader_private;}
 
-#include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(streams)
+#include "ext/promise.hpp"
 namespace streams::readable {class readable_stream;}
 
 
@@ -14,16 +15,13 @@ class streams::readable::readable_stream_default_reader
         : public abstract_readable_stream_reader
 {
 public constructors:
-    DOM_CTORS(readable_stream_default_reader);
-    readable_stream_default_reader() = default;
-    explicit readable_stream_default_reader(readable_stream* stream);
+    readable_stream_default_reader(readable_stream* stream);
+    MAKE_PIMPL(readable_stream_default_reader);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto read(v8::Local<v8::ArrayBufferView> view = {}) -> ext::promise<ext::map<ext::string, ext::any>> override;
+    auto read(ext::array_buffer&& view = {}) -> ext::promise<detail::readable_stream_read_result_t> override;
     auto release_lock() -> void override;
-
-private js_slots:
-    ext::vector<detail::read_request_t*> s_read_requests;
 };
 
 

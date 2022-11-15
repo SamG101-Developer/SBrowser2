@@ -4,12 +4,22 @@
 
 #include "streams/mixins/readable_stream_generic_reader.hpp"
 namespace streams::readable {class abstract_readable_stream_reader;}
+namespace streams::readable {class abstract_readable_stream_reader_private;}
+
+#include INCLUDE_INNER_TYPES(streams)
+#include "ext/array_buffer.hpp"
+
 
 class streams::readable::abstract_readable_stream_reader
         : public mixins::readable_stream_generic_reader
 {
+public constructors:
+    abstract_readable_stream_reader();
+    MAKE_PIMPL(abstract_readable_stream_reader);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
-    virtual auto read(v8::Local<v8::ArrayBufferView> view = {}) -> ext::promise<ext::map<ext::string, ext::any>> = 0;
+    virtual auto read(ext::array_buffer&& view = {}) -> ext::promise<detail::readable_stream_read_result_t> = 0;
     virtual auto release_lock() -> void = 0;
 };
 
