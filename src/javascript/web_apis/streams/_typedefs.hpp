@@ -9,9 +9,11 @@
 #include "ext/string.hpp"
 #include "ext/variant.hpp"
 #include "ext/vector.hpp"
+#include "streams/writable/writable_stream_default_controller.hpp"
 
 namespace streams::readable {class abstract_readable_stream_reader;}
 namespace streams::readable {class abstract_readable_stream_controller;}
+namespace streams::writable {class writable_stream_default_writer;}
 
 
 namespace streams::detail
@@ -25,16 +27,24 @@ namespace streams::detail
     struct read_request_t;
     struct read_into_request_t;
     struct pending_abort_request_t;
+    struct closed_sentinel_t;
 
     using readable_stream_get_reader_options_t = ext::map<ext::string, ext::any>;
     using readable_stream_iterator_options_t = ext::map<ext::string, ext::any>;
     using readable_writable_pair_t = ext::map<ext::string, ext::any>;
     using readable_stream_read_result_t = ext::map<ext::string, ext::any>;
     using stream_pipe_options_t = ext::map<ext::string, ext::any>;
+
     using underlying_source_t = ext::map<ext::string, ext::any>;
     using underlying_source_start_callback_t = ext::function<ext::any(readable::abstract_readable_stream_controller* controller)>;
     using underlying_source_pull_callback_t = ext::function<ext::promise<void>(readable::abstract_readable_stream_controller* controller)>;
-    using underlying_source_cancel_callback_t = ext::function<ext::promise<void>(ext::optional<ext::any> reason)>;
+    using underlying_source_cancel_callback_t = ext::function<ext::promise<void>(ext::any reason)>;
+
+    using underlying_sink_t = ext::map<ext::string, ext::any>;
+    using underlying_sink_start_callback_t = ext::function<ext::any(writable::writable_stream_default_writer* controller)>;
+    using underlying_sink_write_callback_t = ext::function<ext::promise<void>(ext::any chunk, writable::writable_stream_default_controller* controller)>;
+    using underlying_sink_close_callback_t = ext::function<ext::promise<void>(ext::any reason)>;
+    using underlying_sink_abort_callback_t = ext::function<ext::promise<void>(ext::any reason)>;
 
     using chunk_t = ext::any;
 
@@ -42,7 +52,10 @@ namespace streams::detail
     using queueing_strategy_init_t = ext::map<ext::string, ext::any>;
     using queueing_strategy_size_t = ext::function<ext::number<double>(ext::any chunk)>;
     using high_water_mark_t = ext::number<int>;
+    using backpressure_t = ext::number<int>; // TODO : use everywhere
+
     using size_algorithm_t = ext::function<ext::number<size_t>(chunk_t chunk)>;
+    using strategy_size_algorithm_t = ext::function<ext::number<size_t>()>; // TODO : params?
 }
 
 
