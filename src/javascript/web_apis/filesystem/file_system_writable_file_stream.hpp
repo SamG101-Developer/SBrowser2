@@ -8,6 +8,8 @@ namespace filesystem {class file_system_writable_file_stream;}
 namespace filesystem {class file_system_writable_file_stream_private;}
 
 // Other Includes & Forward Declarations
+#include INCLUDE_INNER_TYPES(filesystem)
+#include "ext/promise.hpp"
 
 
 class filesystem::file_system_writable_file_stream
@@ -17,6 +19,11 @@ public constructors:
     file_system_writable_file_stream();
     MAKE_PIMPL(file_system_writable_file_stream);
     MAKE_V8_AVAILABLE;
+
+public js_methods:
+    auto write(detail::file_system_write_chunk_type_t&& data) -> ext::promise<void>;
+    auto seek(ext::number<ulonglong> position) -> ext::promise<void>;
+    auto truncate(ext::number<ulonglong> size) -> ext::promise<void>;
 };
 
 
