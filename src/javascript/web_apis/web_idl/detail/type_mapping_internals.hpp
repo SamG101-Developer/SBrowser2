@@ -196,7 +196,7 @@ namespace web_idl::detail
     auto transfer(ext::array_buffer& array_buffer, v8::Local<v8::Context> realm, v8::Local<v8::Context> target_realm);
 
     // TDODO : not in spec
-    auto internal_buffer(ext::array_buffer_view& array_buffer_view) -> ext::array_buffer&;
+    auto viewed_buffer(ext::array_buffer_view& array_buffer_view) -> ext::array_buffer&;
 }
 
 

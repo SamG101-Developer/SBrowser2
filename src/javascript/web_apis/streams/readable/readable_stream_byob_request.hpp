@@ -4,8 +4,9 @@
 
 #include "dom_object.hpp"
 namespace streams::readable {class readable_stream_byob_request;}
+namespace streams::readable {class readable_stream_byob_request_private;}
 
-#include <v8-forward.h>
+#include "ext/array_buffer.hpp"
 namespace streams::readable {class readable_byte_stream_controller;}
 
 
@@ -14,20 +15,15 @@ class streams::readable::readable_stream_byob_request
 {
 public constructors:
     readable_stream_byob_request();
+    MAKE_PIMPL(readable_stream_byob_request);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto respond(ext::number<ulonglong> bytes_written) -> void;
-    auto respond_with_new_view(v8::Local<v8::ArrayBufferView> view) -> void;
+    auto respond_with_new_view(ext::array_buffer_view&& view) -> void;
 
 private js_properties:
-    ext::property<v8::ArrayBufferView> view;
-
-private js_slots:
-    readable_byte_stream_controller* s_controller;
-    v8::ArrayBufferView s_view;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(view);
+    DEFINE_GETTER(view, ext::array_buffer_view);
 };
 
 

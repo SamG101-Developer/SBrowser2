@@ -25,8 +25,8 @@ auto streams::readable::readable_stream_byob_reader::read(
     auto e = js::env::env::relevant(this);
 
     if (web_idl::detail::byte_length(view, e.js.realm()) == 0
-            || web_idl::detail::byte_length(web_idl::detail::internal_buffer(view), e.js.realm()) == 0
-            || !web_idl::detail::is_detached(web_idl::detail::internal_buffer(view), e.js.realm())
+            || web_idl::detail::byte_length(web_idl::detail::viewed_buffer(view), e.js.realm()) == 0
+            || !web_idl::detail::is_detached(web_idl::detail::viewed_buffer(view), e.js.realm())
             || !d->stream)
         return web_idl::detail::create_rejected_promise<detail::readable_stream_read_result_t>(v8::Exception::TypeError());
 

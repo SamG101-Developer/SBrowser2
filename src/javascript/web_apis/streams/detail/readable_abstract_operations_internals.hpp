@@ -202,7 +202,7 @@ namespace streams::detail
             -> void;
 
     auto readable_stream_default_controller_get_desired_size(
-            readable::readable_stream_default_controller* controller)
+            const readable::readable_stream_default_controller* controller)
             -> ext::number<size_t>; // TODO : return type
 
     auto readable_stream_default_controller_has_backpressure(
@@ -297,11 +297,11 @@ namespace streams::detail
             -> void;
 
     auto readable_byte_stream_controller_get_byob_request(
-            readable::readable_byte_stream_controller* controller)
+            const readable::readable_byte_stream_controller* controller)
             -> readable::readable_stream_byob_request*;
 
     auto readable_byte_stream_controller_get_desired_size(
-            readable::readable_byte_stream_controller* controller)
+            const readable::readable_byte_stream_controller* controller)
             -> ext::number<size_t>;
 
     auto readable_byte_stream_controller_handle_queue_drain(
@@ -326,7 +326,7 @@ namespace streams::detail
             read_into_request_t& read_into_request)
             -> void;
 
-    auto readable_byte_stream_controller_responsd(
+    auto readable_byte_stream_controller_respond(
             readable::readable_byte_stream_controller* controller,
             ext::number<int> bytes_written) // TODO : type
             -> void;

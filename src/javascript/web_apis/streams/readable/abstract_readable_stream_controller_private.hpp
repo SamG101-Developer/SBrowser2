@@ -28,7 +28,7 @@ DEFINE_PRIVATE_CLASS(streams::readable, abstract_readable_stream_controller) : v
 
     virtual auto pull_steps(const detail::read_request_t& request) -> void = 0;
     virtual auto release_steps() -> void = 0;
-    virtual auto cancel_steps(ext::any&& reason) -> void = 0;
+    virtual auto cancel_steps(ext::any reason) -> void = 0;
 };
 
 
