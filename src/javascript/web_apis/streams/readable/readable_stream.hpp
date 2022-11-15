@@ -17,8 +17,8 @@ namespace streams::readable {class readable_byte_stream_controller;}
 namespace streams::readable {class readable_stream_default_controller;}
 namespace streams::readable {class readable_stream_default_reader;}
 namespace streams::readable {class readable_stream_byob_reader;}
-namespace streams::readable_writeable {class readable_writeable_pair;}
-namespace streams::writeable {class writeable_stream;}
+namespace streams::readable_writable {class readable_writable_pair;}
+namespace streams::writable {class writable_stream;}
 
 
 class streams::readable::readable_stream
@@ -31,10 +31,10 @@ public constructors:
 
 public js_methods:
     auto cancel(ext::any reason) -> ext::promise<void>; // TODO : optional 'reason'?
-    auto get_reader(detail::readable_stream_get_reader_options_t&& options = {}) -> abstract_readable_stream_reader*;
-    auto pipe_through(detail::readable_writeable_pair_t&& transform, detail::stream_pipe_options_t&& options = {}) -> readable_stream*;
-    auto pipe_to(writeable::writeable_stream* destination, detail::stream_pipe_options_t&& options = {}) -> ext::promise<void>;
-    auto tee() -> ext::vector<readable_stream*>;
+    auto get_reader(detail::readable_stream_get_reader_options_t&& options = {}) -> std::unique_ptr<abstract_readable_stream_reader>;
+    auto pipe_through(detail::readable_writable_pair_t&& transform, detail::stream_pipe_options_t&& options = {}) -> readable_stream*;
+    auto pipe_to(writable::writable_stream* destination, detail::stream_pipe_options_t&& options = {}) -> ext::promise<void>;
+    auto tee() -> ext::vector<std::unique_ptr<readable_stream>>;
 
 private js_properties:
     DEFINE_GETTER(locked, ext::boolean);

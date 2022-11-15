@@ -10,6 +10,7 @@
 #include "streams/detail/queue_abstract_operations.hpp"
 #include "streams/detail/readable_abstract_operations_internals.hpp"
 
+#include "v8-exception.h"
 #include "web_idl/detail/type_mapping_internals.hpp"
 
 
@@ -40,7 +41,9 @@ streams::readable::readable_stream::readable_stream(
 }
 
 
-auto streams::readable::readable_stream::cancel(ext::any reason) -> ext::promise<void>
+auto streams::readable::readable_stream::cancel(
+        ext::any reason)
+        -> ext::promise<void>
 {
     auto e = js::env::env::relevant(this);
     return !detail::is_readable_stream_locked(this)
@@ -50,82 +53,76 @@ auto streams::readable::readable_stream::cancel(ext::any reason) -> ext::promise
 
 
 auto streams::readable::readable_stream::get_reader(
-        ext::map<ext::string, ext::any>&& options)
-        -> detail::readable_stream_reader_t
+        detail::readable_stream_get_reader_options_t&& options)
+        -> std::unique_ptr<abstract_readable_stream_reader>
 {
-    return !options.contains("mode")
-            ? detail::abstract_operations_internals::acquire_readable_stream_default_reader(this)
-            : detail::abstract_operations_internals::acquire_readable_stream_byob_reader(this);
+    return !options.contains(u"mode")
+            ? detail::acquire_readable_stream_default_reader(this)
+            : detail::acquire_readable_stream_byob_reader(this);
 
 }
 
 
 auto streams::readable::readable_stream::pipe_through(
-        ext::map<ext::string, ext::any>&& transform,
-        ext::map<ext::string, ext::any>&& options)
+        detail::readable_writable_pair_t&& transform,
+        detail::stream_pipe_options_t&& options)
         -> readable_stream*
 {
+    using enum v8_primitive_error_t;
+
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [this] {return detail::is_readable_stream_locked(this);},
-            "Can not pipe through a locked stream");
+            u8"Can not pipe through a locked stream");
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [] {return detail::is_writeable_stream_locked(transform.at("writeable").to<writeable::writeable_stream*>());},
-            "Can not pipe through a locked stream");
+            [] {return detail::is_writable_stream_locked(transform[u"writable"].to<writable::writable_stream*>());},
+            u8"Can not pipe through a locked stream");
 
-    auto* signal = options.try_emplace("signal", nullptr).first->second.to<dom::abort::abort_signal*>();
+    decltype(auto) signal = options[u"signal"].to<dom::abort::abort_signal*>();
     auto promise = detail::readable_stream_pipe_to(
             this,
-            transform.try_emplace("writeable", false).first->second.to<ext::boolean>(),
-            transform.try_emplace("preventClose", nullptr).first->second.to<writeable::writeable_stream*>(),
-            transform.try_emplace("preventAbort", false).first->second.to<ext::boolean>(),
-            transform.try_emplace("preventCancel", false).first->second.to<ext::boolean>(),
+            transform[u"writable"].to<writable::writable_stream*>(),
+            transform[u"preventClose"].to<ext::boolean>(),
+            transform[u"preventAbort"].to<ext::boolean>(),
+            transform[u"preventCancel"].to<ext::boolean>(),
             signal);
 
     // TODO : set internal slot in the promise object
-    return transform.at("readable").to<readable_stream*>;
+    return transform[u"readable"].to<readable_stream*>();
 }
 
 
 auto streams::readable::readable_stream::pipe_to(
-        writeable::writeable_stream* destination,
+        writable::writable_stream* destination,
         ext::map<ext::string, ext::any>&& options)
         -> ext::promise<void>
 {
-    if (detail::abstract_operations_internals::is_readable_stream_locked(this))
-    {
-        ext::promise<void> promise;
-        promise.set_exception(); // TODO : JavaScript TypeError
-        return promise;
-    }
+    auto e = js::env::env::relevant(this);
+    
+    if (detail::is_readable_stream_locked(this))
+        return web_idl::detail::create_rejected_promise<void>(v8::Exception::TypeError(), e.js.realm());
 
-    if (detail::abstract_operations_internals::is_writeable_stream_locked(destination))
-    {
-        ext::promise<void> promise;
-        promise.set_exception(); // TODO : JavaScript TypeError
-        return promise;
-    }
+    if (detail::is_writable_stream_locked(destination))
+        return web_idl::detail::create_rejected_promise<void>(v8::Exception::TypeError(), e.js.realm());
 
-    auto* signal = options.try_emplace("signal", nullptr).first->second.to<dom::abort::abort_signal*>();
-    return detail::abstract_operations_internals::readable_stream_pipe_to(
+    decltype(auto) signal = options[u"signal"].to<dom::abort::abort_signal*>();
+    return detail::readable_stream_pipe_to(
             this,
             destination,
-            options.try_emplace("preventClose", nullptr).first->second.to<writeable::writeable_stream*>(),
-            options.try_emplace("preventAbort", false).first->second.to<ext::boolean>(),
-            options.try_emplace("preventCancel", false).first->second.to<ext::boolean>()
+            options[u"preventClose"].to<ext::boolean>(),
+            options[u"preventAbort"].to<ext::boolean>(),
+            options[u"preventCancel"].to<ext::boolean>(),
             signal);
 }
 
 
-auto streams::readable::readable_stream::tee()
-        -> ext::vector<readable_stream*>
+auto streams::readable::readable_stream::tee() -> ext::vector<std::unique_ptr<readable_stream>>
 {
-    return detail::abstract_operations_internals::readable_stream_tee(this, false);
+    return detail::readable_stream_tee(this, false);
 }
 
 
-auto streams::readable::readable_stream::get_locked()
-        const -> decltype(this->locked)::value_t
+auto streams::readable::readable_stream::get_locked() const -> ext::boolean
 {
-    return detail::abstract_operations_internals::is_readable_stream_locked(this);
+    return detail::is_readable_stream_locked(this);
 }

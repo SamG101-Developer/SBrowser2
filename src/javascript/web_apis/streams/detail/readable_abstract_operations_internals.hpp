@@ -44,7 +44,7 @@ namespace streams::detail
             -> void;
 
     auto is_readable_stream_locked(
-            readable::readable_stream* stream)
+            const readable::readable_stream* stream)
             -> ext::boolean;
 
     auto readable_stream_pipe_to(
@@ -59,16 +59,16 @@ namespace streams::detail
     auto readable_stream_tee(
             readable::readable_stream* stream,
             ext::boolean clone_for_branch_2)
-            -> ext::pair<std::unique_ptr<readable::readable_stream>, std::unique_ptr<readable::readable_stream>>;
+            -> ext::vector<std::unique_ptr<readable::readable_stream>>;
 
     auto readable_stream_default_tee(
             readable::readable_stream* stream,
             ext::boolean clone_for_branch_2)
-            -> ext::pair<std::unique_ptr<readable::readable_stream>, std::unique_ptr<readable::readable_stream>>;
+            -> ext::vector<std::unique_ptr<readable::readable_stream>>;
 
     auto readable_yte_stream_tee(
             readable::readable_stream* stream)
-            -> ext::pair<std::unique_ptr<readable::readable_stream>, std::unique_ptr<readable::readable_stream>>;
+            -> ext::vector<std::unique_ptr<readable::readable_stream>>;
 
     auto readable_stream_add_read_into_request(
             readable::readable_stream* stream,

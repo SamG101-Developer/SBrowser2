@@ -12,7 +12,6 @@
 
 DEFINE_PRIVATE_CLASS(streams::readable, readable_steam) : virtual dom_object_private
 {
-
     detail::readable_stream_reader_t reader;
     detail::readable_stream_controller_t controller;
     ext::boolean detached;
