@@ -178,11 +178,11 @@ namespace web_idl::detail
     template <typename U, typename T>
     auto create_array_buffer_view(T&& byte_sequence, v8::Local<v8::Context> realm) -> U;
 
-    auto get_copy_of_bytes_in_buffer_source(ext::buffer_source source, v8::Local<v8::Context> realm) -> void*;
+    auto get_copy_of_bytes_in_buffer_source(ext::buffer_source& source, v8::Local<v8::Context> realm) -> void*;
 
-    auto byte_length(ext::buffer_source source, v8::Local<v8::Context> realm) -> ext::number<size_t>;
+    auto byte_length(ext::buffer_source& source, v8::Local<v8::Context> realm) -> ext::number<size_t>;
 
-    auto underlying_data(ext::buffer_source source, v8::Local<v8::Context> realm) -> ext::array_buffer;
+    auto underlying_data(ext::buffer_source& source, v8::Local<v8::Context> realm) -> ext::array_buffer;
 
     template <typename T>
     auto write(T&& byte_sequence, ext::array_buffer& array_buffer, v8::Local<v8::Context> realm) -> ext::array_buffer&;

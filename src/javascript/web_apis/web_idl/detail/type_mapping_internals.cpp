@@ -71,7 +71,12 @@ auto web_idl::detail::reject_promise(ext::promise<T>& promise, v8::Local<v8::Con
 
 
 template <typename T, ext::callable F0, ext::callable F1>
-auto web_idl::detail::react(ext::promise<T>& promise, v8::Local<v8::Context> realm, ext::optional<F0>&& fullfilled_steps, ext::optional<F1>&& rejected_steps) -> void
+auto web_idl::detail::react(
+        ext::promise<T>& promise,
+        v8::Local<v8::Context> realm,
+        ext::optional<F0>&& fullfilled_steps,
+        ext::optional<F1>&& rejected_steps)
+        -> void
 {
     auto on_fullfilled_steps =
             [realm, fullfilled_steps = std::move(fullfilled_steps)](v8::Local<v8::Object> V) -> T
@@ -97,7 +102,12 @@ auto web_idl::detail::react(ext::promise<T>& promise, v8::Local<v8::Context> rea
 
 
 template <typename T, ext::callable F0, ext::callable F1>
-auto web_idl::detail::wait_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm, F0&& success_steps, F1&& failure_steps) -> void
+auto web_idl::detail::wait_for_all(
+        ext::vector_span<ext::promise<T>*> promises,
+        v8::Local<v8::Context> realm,
+        F0&& success_steps,
+        F1&& failure_steps)
+        -> void
 {
     using namespace ext::literals;
     auto fulfilled_count = 0_n;
@@ -140,7 +150,10 @@ auto web_idl::detail::wait_for_all(ext::vector_span<ext::promise<T>*> promises, 
 
 
 template <typename T>
-auto web_idl::detail::get_promise_for_waiting_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm) -> ext::promise<T>
+auto web_idl::detail::get_promise_for_waiting_for_all(
+        ext::vector_span<ext::promise<T>*> promises,
+        v8::Local<v8::Context> realm)
+        -> ext::promise<T>
 {
     auto js_promise = v8::Promise::Resolver::New(realm);
     auto promise = convert<ext::promise<T>>(js_promise);
@@ -152,7 +165,10 @@ auto web_idl::detail::get_promise_for_waiting_for_all(ext::vector_span<ext::prom
 
 
 template <typename T>
-auto web_idl::detail::create_array_buffer(T&& byte_sequence, v8::Local<v8::Context> realm) -> ext::array_buffer
+auto web_idl::detail::create_array_buffer(
+        T&& byte_sequence,
+        v8::Local<v8::Context> realm)
+        -> ext::array_buffer
 {
     auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate(), byte_sequence.size());
     auto array_buffer = convert<ext::array_buffer>(js_array_buffer);
@@ -161,7 +177,10 @@ auto web_idl::detail::create_array_buffer(T&& byte_sequence, v8::Local<v8::Conte
 
 
 template <typename U, typename T>
-auto web_idl::detail::create_array_buffer_view(T&& byte_sequence, v8::Local<v8::Context> realm) -> U
+auto web_idl::detail::create_array_buffer_view(
+        T&& byte_sequence,
+        v8::Local<v8::Context> realm)
+        -> U
 {
     assert(!std::is_same_v<U COMMA ext::data_view> && byte_sequence.size() % U::element_size == 0);
     auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate(), v8::ArrayBuffer::NewBackingStore(byte_sequence.data(), byte_sequence.size()));
@@ -170,7 +189,10 @@ auto web_idl::detail::create_array_buffer_view(T&& byte_sequence, v8::Local<v8::
 }
 
 
-auto web_idl::detail::get_copy_of_bytes_in_buffer_source(ext::buffer_source source, v8::Local<v8::Context> realm) -> void*
+auto web_idl::detail::get_copy_of_bytes_in_buffer_source(
+        ext::buffer_source& source,
+        v8::Local<v8::Context> realm)
+        -> void*
 {
     using namespace ext::literals;
 
@@ -197,7 +219,10 @@ auto web_idl::detail::get_copy_of_bytes_in_buffer_source(ext::buffer_source sour
 }
 
 
-auto web_idl::detail::byte_length(ext::buffer_source source, v8::Local<v8::Context> realm) -> ext::number<size_t>
+auto web_idl::detail::byte_length(
+        ext::buffer_source& source,
+        v8::Local<v8::Context> realm)
+        -> ext::number<size_t>
 {
     // TODO : variants all working?
     auto js_buffer_source = ext::visit([realm, source]<typename T>(T&& array_buffer) {return v8pp::to_v8(realm->GetIsolate(), source);}, source);
@@ -207,7 +232,10 @@ auto web_idl::detail::byte_length(ext::buffer_source source, v8::Local<v8::Conte
 }
 
 
-auto web_idl::detail::underlying_data(ext::buffer_source source, v8::Local<v8::Context> realm) -> ext::array_buffer
+auto web_idl::detail::underlying_data(
+        ext::buffer_source& source,
+        v8::Local<v8::Context> realm)
+        -> ext::array_buffer
 {
     auto js_buffer_source = ext::visit([realm, source]<typename T>(T&& array_buffer) {return v8pp::to_v8(realm->GetIsolate(), source);}, source);
     return convert<ext::array_buffer>(realm->GetIsolate(), js_buffer_source->IsArrayBufferView()
@@ -217,7 +245,11 @@ auto web_idl::detail::underlying_data(ext::buffer_source source, v8::Local<v8::C
 
 
 template <typename T>
-auto web_idl::detail::write(T&& byte_sequence, ext::array_buffer& array_buffer, v8::Local<v8::Context> realm) -> ext::array_buffer&
+auto web_idl::detail::write(
+        T&& byte_sequence,
+        ext::array_buffer& array_buffer,
+        v8::Local<v8::Context> realm)
+        -> ext::array_buffer&
 {
-    auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate())
+    auto js_array_buffer = v8::ArrayBuffer::New(realm->GetIsolate());
 }
