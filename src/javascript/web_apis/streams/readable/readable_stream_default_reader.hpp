@@ -15,6 +15,7 @@ class streams::readable::readable_stream_default_reader
         : public abstract_readable_stream_reader
 {
 public constructors:
+    readable_stream_default_reader();
     readable_stream_default_reader(readable_stream* stream);
     MAKE_PIMPL(readable_stream_default_reader);
     MAKE_V8_AVAILABLE;

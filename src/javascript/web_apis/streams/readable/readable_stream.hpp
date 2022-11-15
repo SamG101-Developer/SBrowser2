@@ -26,6 +26,7 @@ class streams::readable::readable_stream
         : public virtual dom_object
 {
 public constructors:
+    readable_stream();
     readable_stream(detail::underlying_source_t&& underlying_source, detail::queueing_strategy_t&& strategy = {});
     MAKE_PIMPL(readable_stream);
     MAKE_TRANSFERABLE(readable_stream);

@@ -11,14 +11,16 @@
 #include "ext/memory.hpp"
 
 
-DEFINE_PRIVATE_CLASS(streams::readable, readable_steam) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(streams::readable, readable_stream) : virtual dom_object_private
 {
+    MAKE_QIMPL(readable_stream);
+
     std::observer_ptr<abstract_readable_stream_reader> reader;
     std::observer_ptr<abstract_readable_stream_controller> controller;
     ext::boolean detached;
     ext::boolean disturbed;
     detail::readable_stream_state_t state;
-    ext::any error;
+    ext::any stored_error;
 };
 
 

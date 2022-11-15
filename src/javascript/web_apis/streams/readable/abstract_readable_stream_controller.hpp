@@ -11,7 +11,7 @@ namespace streams::readable {class readable_stream;}
 
 
 class streams::readable::abstract_readable_stream_controller
-        : public virtual dom_object
+        : virtual public dom_object
 {
 public constructors:
     abstract_readable_stream_controller();

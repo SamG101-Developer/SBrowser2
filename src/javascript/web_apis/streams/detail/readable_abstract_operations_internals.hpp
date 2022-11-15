@@ -367,7 +367,7 @@ namespace streams::detail
             detail::underlying_source_pull_callback_t&& pull_algorithm,
             detail::underlying_source_cancel_callback_t&& cancel_algorithm,
             ext::number<int> high_water_mark,
-            ext::boolean auto_alocate_chunk_size)
+            ext::optional<ext::number<int>> auto_alocate_chunk_size = ext::nullopt)
             -> void;
 
     auto setup_readable_byte_stream_controller_from_underlying_source(

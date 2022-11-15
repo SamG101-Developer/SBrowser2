@@ -19,10 +19,12 @@ namespace streams::detail
     enum class readable_stream_reader_mode_t {BYOB};
     enum class readable_stream_type_t {BYTES};
     enum class readable_stream_state_t {READABLE, CLOSED, ERRORED};
+    enum class writable_stream_state_t {READABLE, CLOSED, ERRORED, ERRORING};
 
     struct pull_into_descriptor_t;
     struct read_request_t;
     struct read_into_request_t;
+    struct pending_abort_request_t;
 
     using readable_stream_get_reader_options_t = ext::map<ext::string, ext::any>;
     using readable_stream_iterator_options_t = ext::map<ext::string, ext::any>;
