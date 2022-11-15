@@ -12,6 +12,8 @@
 
 DEFINE_PRIVATE_CLASS(battery, battery_manager) : dom::nodes::event_target_private
 {
+    MAKE_QIMPL(battery_manager);
+
     // Internal accessors to wrap around the battery pointer (accessible from other APIs)
     auto charging() const -> ext::boolean {return battery->charging();};
     auto charging_time() const -> ext::number<double> {/* TODO */};
