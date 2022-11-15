@@ -45,7 +45,7 @@ struct filesystem::detail::entry_t
 
 struct filesystem::detail::file_entry_t : entry_t
 {
-    ext::u8string byte_data;
+    ext::u8string binary_data;
     ext::number<double> modification_timestamp;
     lock_t lock;
     ext::number<int> shared_lock_count;
