@@ -1,30 +1,35 @@
 #include "readable_stream_default_controller.hpp"
+#include "readable_stream_default_controller_private.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 
-#include <v8-array-buffer.h>
+#include "streams/detail/readable_abstract_operations_internals.hpp"
 
 
-auto streams::readable::readable_stream_default_controller::close()
-        -> void
+auto streams::readable::readable_stream_default_controller::close() -> void
 {
-    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [] {return !detail::readable_stream_default_controller_can_close_or_enqueue(this);},
-            "Readable stream unable to close");
+    ACCESS_PIMPL(readable_stream_default_controller);
+    using enum v8_primitive_error_t;
 
-    detail::default_controller_close(this);
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+            [this] {return !detail::readable_stream_default_controller_can_close_or_enqueue(this);},
+            u8"Readable stream unable to close");
+
+    detail::readable_stream_default_controller_close(this);
 }
 
 
-auto streams::readable::readable_stream_default_controller::enqueue(
-        v8::Local<v8::ArrayBufferView> chunk)
-        -> void
+auto streams::readable::readable_stream_default_controller::enqueue(ext::any chunk) -> void
 {
-    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [] {return !detail::readable_stream_default_controller_can_close_or_enqueue(this);},
-            "Readable stream unable to close");
+    ACCESS_PIMPL(readable_stream_default_controller);
+    using enum v8_primitive_error_t;
 
-    detail::default_controller_enqueue(this);
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+            [this] {return !detail::readable_stream_default_controller_can_close_or_enqueue(this);},
+            u8"Readable stream unable to close");
+
+    detail::readable_stream_default_controller_enqueue(this, chunk);
 }
 
 

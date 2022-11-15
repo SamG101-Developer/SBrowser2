@@ -4,31 +4,30 @@
 
 #include "streams/readable/abstract_readable_stream_controller.hpp"
 namespace streams::readable {class readable_stream_default_controller;}
+namespace streams::readable {class readable_stream_default_controller_private;}
 
+#include INCLUDE_INNER_TYPES(streams)
 #include "ext/boolean.hpp"
 #include "ext/functional.hpp"
 #include "ext/number.hpp"
 #include "ext/queue.hpp"
-#include INCLUDE_INNER_TYPES(streams)
+
 
 class streams::readable::readable_stream_default_controller
         : public abstract_readable_stream_controller
 {
+public constructors:
+    readable_stream_default_controller();
+    MAKE_PIMPL(readable_stream_default_controller);
+    MAKE_V8_AVAILABLE;
+
 public js_methods:
     auto close() -> void override;
-    auto enqueue(v8::Local<v8::ArrayBufferView> chunk) -> void override;
-    auto error(ext::any&& error) -> void override;
-
-private js_slots:
-    ext::function<ext::number<int>(ext::queue<detail::chunk_t>)> s_strategy_size_algorithm;
-
-private js_slot_methods:
-    auto s_pull_steps(const detail::read_request_t& request) -> void override;
-    auto s_release_steps() -> void override {}
-    auto s_cancel_steps(ext::any&& reason) -> void override;
+    auto enqueue(detail::chunk_t chunk) -> void override;
+    auto error(ext::any error) -> void override;
 
 private js_properties:
-    DEFINE_CUSTOM_GETTER(desired_size) override;
+    DEFINE_GETTER(desired_size, ext::number<double>) override;
 };
 
 

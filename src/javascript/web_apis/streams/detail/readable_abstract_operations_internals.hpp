@@ -30,7 +30,7 @@ namespace streams::detail
             detail::underlying_source_pull_callback_t&& pull_algorithm,
             detail::underlying_source_cancel_callback_t&& cancel_algorithm,
             ext::number<int> high_water_mark = 1,
-            F3&& size_algorithm = [] {})
+            detail::size_algorithm_t&& size_algorithm = [](chunk_t) {})
             -> std::unique_ptr<readable::readable_stream>;
 
     auto create_readable_byte_stream(
@@ -209,7 +209,7 @@ namespace streams::detail
             readable::readable_stream_default_controller* controller)
             -> ext::boolean;
 
-    auto readable_stream_default_controler_can_close_or_enqueue(
+    auto readable_stream_default_controller_can_close_or_enqueue(
             readable::readable_stream_default_controller* controller)
             -> ext::boolean;
 

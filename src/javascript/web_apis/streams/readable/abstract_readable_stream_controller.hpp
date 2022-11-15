@@ -20,7 +20,7 @@ public constructors:
 
 public js_methods:
     virtual auto close() -> void = 0;
-    virtual auto enqueue(ext::any chunk) -> void = 0;
+    virtual auto enqueue(detail::chunk_t chunk) -> void = 0;
     virtual auto error(ext::any error) -> void = 0;
 
 private js_properties:
