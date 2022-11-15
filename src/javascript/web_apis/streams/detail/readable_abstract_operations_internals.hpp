@@ -51,7 +51,7 @@ namespace streams::detail
             readable::readable_stream* source,
             writable::writable_stream* destination,
             ext::boolean prevent_close,
-            ext::boolean prevent_sbort,
+            ext::boolean prevent_abort,
             ext::boolean prevent_cancel,
             dom::abort::abort_signal* signal = nullptr)
             -> ext::promise<void>;
@@ -66,7 +66,7 @@ namespace streams::detail
             ext::boolean clone_for_branch_2)
             -> ext::vector<std::unique_ptr<readable::readable_stream>>;
 
-    auto readable_yte_stream_tee(
+    auto readable_byte_stream_tee(
             readable::readable_stream* stream)
             -> ext::vector<std::unique_ptr<readable::readable_stream>>;
 

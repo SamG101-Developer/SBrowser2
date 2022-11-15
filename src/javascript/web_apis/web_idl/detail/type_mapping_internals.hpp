@@ -140,14 +140,15 @@ namespace web_idl::detail
     template <typename T>
     auto create_resolved_promise(T&& x, v8::Local<v8::Context> realm) -> ext::promise<T>;
 
+    auto create_resolved_promise(v8::Local<v8::Context> realm) -> ext::promise<void>;
+
     template <typename T>
     auto create_rejected_promise(ext::any reason, v8::Local<v8::Context> realm) -> ext::promise<T>;
 
     template <typename T>
-    auto resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm) -> ext::promise<T>&;
-
-    template <typename T>
     auto resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, T&& x) -> ext::promise<T>&;
+
+    auto resolve_promise(ext::promise<void>& promise, v8::Local<v8::Context> realm) -> ext::promise<void>&;
 
     template <typename T, typename U>
     auto reject_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, U&& reason) -> ext::promise<T>&;

@@ -30,14 +30,15 @@ namespace streams::detail
             -> void;
 
     auto is_writable_stream_locked(
-            writable::writable_stream* stream);
+            writable::writable_stream* stream)
+            -> ext::boolean;
 
     auto setup_writable_stream_default_writer(
             writable::writable_stream_default_writer* writer,
             writable::writable_stream* stream)
             -> void;
 
-    auto write_stream_abort(
+    auto writable_stream_abort(
             writable::writable_stream* stream,
             ext::any reason)
             -> ext::promise<void>; // TODO : return type
