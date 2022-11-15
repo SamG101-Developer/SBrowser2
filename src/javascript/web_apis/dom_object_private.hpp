@@ -46,7 +46,7 @@ struct dom_object_private
     BEHAVIOUR_METHOD()
             environment_discarding_steps;
 
-    virtual ~dom_object_private() = default;
+    virtual ~dom_object_private() {q_ptr.reset();};
 
 protected:
     std::observer_ptr<dom_object> q_ptr;

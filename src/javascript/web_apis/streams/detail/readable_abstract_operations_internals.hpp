@@ -17,7 +17,7 @@ namespace streams::writable {class writable_stream;}
 
 namespace streams::detail
 {
-    auto acquire_readable_stream_stream_byob_reader(
+    auto acquire_readable_stream_byob_reader(
             readable::readable_stream* stream)
              -> std::unique_ptr<readable::readable_stream_byob_reader>;
 
@@ -30,7 +30,7 @@ namespace streams::detail
             detail::underlying_source_pull_callback_t&& pull_algorithm,
             detail::underlying_source_cancel_callback_t&& cancel_algorithm,
             ext::number<int> high_water_mark = 1,
-            detail::size_algorithm_t&& size_algorithm = [](chunk_t) {})
+            detail::size_algorithm_t&& size_algorithm = [](chunk_t) {return 1;})
             -> std::unique_ptr<readable::readable_stream>;
 
     auto create_readable_byte_stream(
