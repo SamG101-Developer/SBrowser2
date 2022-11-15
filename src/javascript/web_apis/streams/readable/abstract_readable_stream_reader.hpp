@@ -19,7 +19,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    virtual auto read(ext::array_buffer&& view = {}) -> ext::promise<detail::readable_stream_read_result_t> = 0;
+    virtual auto read(ext::array_buffer_view&& view = {}) -> ext::promise<detail::readable_stream_read_result_t> = 0;
     virtual auto release_lock() -> void = 0;
 };
 

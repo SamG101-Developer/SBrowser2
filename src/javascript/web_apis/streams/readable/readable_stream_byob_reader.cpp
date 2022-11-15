@@ -1,9 +1,13 @@
 #include "readable_stream_byob_reader.hpp"
+#include "readable_stream_byob_reader_private.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 
 #include "streams/detail/readable_abstract_operations_internals.hpp"
+#include "web_idl/detail/type_mapping_internals.hpp"
+
+#include <v8-exception.h>
 
 
 streams::readable::readable_stream_byob_reader::readable_stream_byob_reader(
@@ -13,24 +17,26 @@ streams::readable::readable_stream_byob_reader::readable_stream_byob_reader(
 }
 
 
-auto streams::readable::readable_stream_byob_reader::read(ext::array_buffer&& view) -> ext::promise<detail::readable_stream_read_result_t>
+auto streams::readable::readable_stream_byob_reader::read(
+        ext::array_buffer_view&& view)
+        -> ext::promise<detail::readable_stream_read_result_t>
 {
-    if (view->ByteLength() == 0 || view->Buffer()->ByteLength() == 0 || !view->HasBuffer() || !s_stream)
-    {
-        ext::promise<ext::map<ext::string, ext::any>> promise;
-        promise.set_exception(); // TODO : JavaScript TypeError
-        return promise;
-    }
+    ACCESS_PIMPL(readable_stream_byob_reader);
+    auto e = js::env::env::relevant(this);
 
-    ext::promise<ext::map<ext::string, ext::any>> promise;
-    detail::read_into_request_t read_into_request
-    {
-        .chunk_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{"value", chunk}, {"done", false}});},
-        .close_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{"value", chunk}, {"done", true}});},
-        .error_steps = [&promise](const detail::error_t& error) {promise.set_exception(error);}
-    };
+    if (web_idl::detail::byte_length(view, e.js.realm()) == 0
+            || web_idl::detail::byte_length(web_idl::detail::internal_buffer(view), e.js.realm()) == 0
+            || !web_idl::detail::is_detached(web_idl::detail::internal_buffer(view), e.js.realm())
+            || !d->stream)
+        return web_idl::detail::create_rejected_promise<detail::readable_stream_read_result_t>(v8::Exception::TypeError());
 
-    detail::readable_stream_byob_reader_read(this, view, std::move(read_into_request));
+    auto promise = ext::promise<detail::readable_stream_read_result_t>{};
+    auto read_into_request = std::make_unique<detail::read_into_request_t>();
+    read_into_request.chunk_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{"value", chunk}, {"done", false}});};
+    read_into_request.close_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{"value", chunk}, {"done", true}});};
+    read_into_request.error_steps = [&promise](const detail::error_t& error) {promise.set_exception(error);};
+
+    detail::readable_stream_byob_reader_read(this, view, std::move(view), std::move(read_into_request));
     return promise;
 }
 

@@ -15,7 +15,7 @@ streams::readable::readable_stream_default_reader::readable_stream_default_reade
 
 
 auto streams::readable::readable_stream_default_reader::read(
-        ext::array_buffer&& view)
+        ext::array_buffer_view&& view)
         -> ext::promise<detail::readable_stream_read_result_t>
 {
     ACCESS_PIMPL(readable_stream_default_reader);
@@ -25,7 +25,7 @@ auto streams::readable::readable_stream_default_reader::read(
             [d] {return !d->stream;},
             u8"Can not read with a ReadableStreamDefaultReader if the [[stream]] slot is empty");
 
-    auto promise = ext::promise<ext::map<ext::string, ext::any>>{};
+    auto promise = ext::promise<detail::readable_stream_read_result_t>{};
     auto read_request = std::make_unique<detail::read_request_t>();
     {
         .chunk_steps = [&promise](detail::chunk_t* chunk) {promise.set_value({{u"value", chunk}, {u"done", false}});},

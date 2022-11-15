@@ -20,7 +20,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto read(ext::array_buffer&& view = {}) -> ext::promise<detail::readable_stream_read_result_t> override;
+    auto read(ext::array_buffer_view&& view = {}) -> ext::promise<detail::readable_stream_read_result_t> override;
     auto release_lock() -> void override;
 };
 
