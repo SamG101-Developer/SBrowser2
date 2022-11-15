@@ -41,9 +41,9 @@ auto streams::readable::readable_stream_byob_reader::read(
 }
 
 
-auto streams::readable::readable_stream_byob_reader::release_lock()
-        -> void
+auto streams::readable::readable_stream_byob_reader::release_lock() -> void
 {
-    return_if (!s_stream);
+    ACCESS_PIMPL(readable_stream_byob_reader);
+    return_if (!d->stream);
     detail::readable_stream_byob_reader_release(this);
 }
