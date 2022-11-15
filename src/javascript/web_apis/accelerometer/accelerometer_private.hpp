@@ -5,7 +5,10 @@
 #include "sensors/sensor_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(accelerometer, accelerometer) : sensors::sensor_private {};
+DEFINE_PRIVATE_CLASS(accelerometer, accelerometer) : sensors::sensor_private
+{
+    MAKE_QIMPL(accelerometer);
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_ACCELEROMETER_PRIVATE_HPP

@@ -1,15 +1,18 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_OBJECT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_OBJECT_PRIVATE_HPP
 
-#define BEHAVIOUR_METHOD(...) ext::function<void(__VA_ARGS__) const>
-
+#include "ext/memory.hpp"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}
 
+#define BEHAVIOUR_METHOD(...) ext::function<void(__VA_ARGS__) const>
+
 
 struct dom_object_private
 {
+    MAKE_QIMPL(dom_object);
+
     BEHAVIOUR_METHOD(
             dom::events::event* event_causing_activation)
             activation_behaviour;
@@ -43,8 +46,10 @@ struct dom_object_private
     BEHAVIOUR_METHOD()
             environment_discarding_steps;
 
-    // TODO : maybe have some global cleanup method that the destructor calls?
     virtual ~dom_object_private() = default;
+
+protected:
+    std::observer_ptr<dom_object> q_ptr;
 };
 
 

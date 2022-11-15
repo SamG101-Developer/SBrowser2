@@ -18,5 +18,5 @@ auto dom_object::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 dom_object::operator ext::string() const
 {
     using namespace ext::literals;
-    return u8"";
+    return u"";
 }

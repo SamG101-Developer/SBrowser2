@@ -10,6 +10,8 @@
 
 DEFINE_PRIVATE_CLASS(background_tasks, idle_deadline) : virtual dom_object_private
 {
+    MAKE_QIMPL(idle_deadline);
+
     ext::boolean timeout;
     detail::deadline_time_algorithm_t get_deadline_time = [] {return 0.0;};
 };
