@@ -183,8 +183,9 @@ auto streams::detail::readable_stream_tee(
 }
 
 
-auto streams::detail::readable_byte_stream_tee(
-        readable::readable_stream* stream)
+auto streams::detail::readable_stream_default_tee(
+        readable::readable_stream* stream,
+        ext::boolean clone_for_branch_2)
         -> ext::vector<std::unique_ptr<readable::readable_stream>>
 {
     auto reader = acquire_readable_stream_default_reader(stream);
