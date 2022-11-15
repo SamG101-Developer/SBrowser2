@@ -17,10 +17,10 @@ namespace streams::detail
             -> std::unique_ptr<writable::writable_stream_default_writer>;
 
     auto create_writable_stream(
-            start_algorithm_t&& start_algorithm,
-            write_algorithm_t&& write_algorithm,
-            close_algorithm_t&& close_algorithm,
-            abort_algorithm_t&& abort_algorithm,
+            underlying_sink_start_callback_t&& start_algorithm,
+            underlying_sink_write_callback_t&& write_algorithm,
+            underlying_sink_close_callback_t&& close_algorithm,
+            underlying_sink_abort_callback_t&& abort_algorithm,
             high_water_mark_t high_water_mark,
             size_algorithm_t&& size_algorithm)
             -> std::unique_ptr<writable::writable_stream>;
@@ -161,8 +161,54 @@ namespace streams::detail
             size_algorithm_t&& size_algorithm)
             -> void;
 
-    auto writeable_stream_default_controller_advance_queue_if_needed(
+    auto writable_stream_default_controller_advance_queue_if_needed(
             writable::writable_stream_default_controller* controller)
+            -> void;
+
+    auto writable_stream_default_controller_clear_algorithms(
+            writable::writable_stream_default_controller* controller)
+            -> void;
+
+    auto writable_stream_default_controller_close(
+            writable::writable_stream_default_controller* controller)
+            -> void;
+
+    auto writable_stream_default_controller_error(
+            writable::writable_stream_default_controller* controller,
+            ext::any error)
+            -> void;
+
+    auto writable_stream_default_controller_error_if_needed(
+            writable::writable_stream_default_controller* controller,
+            ext::any error)
+            -> void;
+
+    auto writable_stream_default_controller_get_backpressure(
+            writable::writable_stream_default_controller* controller)
+            -> ext::boolean;
+
+    auto writable_stream_default_controller_get_chunk_size(
+            writable::writable_stream_default_controller* controller,
+            ext::any chunk)
+            -> ext::number<size_t>;
+
+    auto writable_stream_default_controller_get_desired_size(
+            writable::writable_stream_default_controller* controller)
+            -> ext::number<size_t>;
+
+    auto writable_stream_default_controller_process_close(
+            writable::writable_stream_default_controller* controller)
+            -> void;
+
+    auto writable_stream_default_controller_process_write(
+            writable::writable_stream_default_controller* controller,
+            ext::any chunk)
+            -> void;
+
+    auto writable_stream_default_controller_write(
+            writable::writable_stream_default_controller* controller,
+            ext::any chunk,
+            ext::number<size_t> chunk_size)
             -> void;
 }
 
