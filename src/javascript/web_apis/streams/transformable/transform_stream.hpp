@@ -9,10 +9,12 @@ namespace streams::transformable {class transform_stream_private;}
 
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(streams)
+namespace streams::readable {class readable_stream;}
+namespace streams::writable {class writable_stream;}
 
 
 class streams::transformable::transform_stream
-        : public dom_object
+        : virtual public dom_object
 {
 public constructors:
     transform_stream(detail::transformer_t&& transformer, detail::queueing_strategy_t&& writable_strategy = {}, detail::queueing_strategy_t&& readable_strategy = {});
@@ -20,8 +22,8 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_properties:
-    DEFINE_GETTER(readable, readable_stream*);
-    DEFINE_GETTER(writable, writable_stream*);
+    DEFINE_GETTER(readable, readable::readable_stream*);
+    DEFINE_GETTER(writable, writable::writable_stream*);
 };
 
 
