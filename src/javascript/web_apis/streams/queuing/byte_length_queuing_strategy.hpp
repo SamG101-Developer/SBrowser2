@@ -20,7 +20,6 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_properties:
-    DEFINE_GETTER(high_water_mark, detail::high_water_mark_t) override;
     DEFINE_GETTER(size, ext::function<>) override;
 };
 

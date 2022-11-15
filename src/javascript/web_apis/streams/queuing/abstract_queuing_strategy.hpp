@@ -20,7 +20,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_properties:
-    virtual DEFINE_GETTER(high_water_mark, detail::high_water_mark_t) = 0;
+    DEFINE_GETTER(high_water_mark, detail::high_water_mark_t);
     virtual DEFINE_GETTER(size, ext::function<>) = 0;
 };
 
