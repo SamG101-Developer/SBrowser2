@@ -31,9 +31,9 @@ auto web_idl::detail::create_resolved_promise(T&& x, v8::Local<v8::Context> real
 
 
 template <typename T>
-auto web_idl::detail::create_rejected_promise(T&& reason, v8::Local<v8::Context> realm) -> ext::promise<T>
+auto web_idl::detail::create_rejected_promise(ext::any reason, v8::Local<v8::Context> realm) -> ext::promise<T>
 {
-    auto js_value = v8pp::to_v8(realm->GetIsolate(), std::forward<T>(reason));
+    auto js_value = v8pp::to_v8(realm->GetIsolate(), reason);
     auto js_promise_resolver = v8::Promise::Resolver::New(realm).ToLocalChecked();
     js_promise_resolver->Reject(realm, js_value);
     return convert<ext::promise<T>>(realm->GetIsolate(), js_promise_resolver->GetPromise());
