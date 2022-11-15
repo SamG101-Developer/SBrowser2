@@ -56,6 +56,8 @@ namespace streams::detail
 
     using size_algorithm_t = ext::function<ext::number<size_t>(chunk_t chunk)>;
     using strategy_size_algorithm_t = ext::function<ext::number<size_t>()>; // TODO : params?
+
+    using transformer_t = ext::map<ext::string, ext::any>;
 }
 
 
