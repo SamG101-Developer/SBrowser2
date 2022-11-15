@@ -60,7 +60,7 @@ using longdouble = long double;
 
 _EXT_BEGIN
 
-template <arithmetic T, bool unrestricted = false>
+template <arithmetic T, bool unrestricted = false> // TODO : change boolean to enum (restrict, enforce range, clamp etc)
 class number final
 {
 public:
