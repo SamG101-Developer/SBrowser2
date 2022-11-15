@@ -8,6 +8,7 @@ namespace streams::readable {class readable_stream_private;}
 
 
 #include INCLUDE_INNER_TYPES(streams)
+#include INCLUDE_INNER_TYPES(html)
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
 #include "ext/map.hpp"
@@ -27,6 +28,7 @@ class streams::readable::readable_stream
 public constructors:
     readable_stream(detail::underlying_source_t&& underlying_source, detail::queueing_strategy_t&& strategy = {});
     MAKE_PIMPL(readable_stream);
+    MAKE_TRANSFERABLE(readable_stream);
     MAKE_V8_AVAILABLE;
 
 public js_methods:

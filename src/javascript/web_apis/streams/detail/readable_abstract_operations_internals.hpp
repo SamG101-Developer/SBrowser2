@@ -125,7 +125,7 @@ namespace streams::detail
     auto readable_stream_reader_generic_cancel(
             readable::readable_stream* stream,
             ext::any reason)
-            -> void; // TODO : return type
+            -> ext::promise<void>;
 
     auto readable_stream_reader_generic_initialize(
             readable::abstract_readable_stream_reader* reader,

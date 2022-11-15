@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace streams::mixins {class readable_stream_generic_reader;}
+namespace streams::mixins {class readable_stream_generic_reader_private;}
 
 #include "ext/promise.hpp"
 namespace streams::readable {class readable_stream;}
@@ -14,20 +15,14 @@ class streams::mixins::readable_stream_generic_reader
 {
 public constructors:
     readable_stream_generic_reader();
+    MAKE_PIMPL(readable_stream_generic_reader);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
-    template <typename T>
-    auto cancel(T&& reason = nullptr) -> ext::promise<void>;
+    auto cancel(ext::any reason) -> ext::promise<void>;
 
 private js_properties:
-    ext::property<ext::promise<void>> closed;
-
-protected js_slots:
-    ext::promise<void> s_closed_promise;
-    readable::readable_stream* s_stream;
-
-private js_properties:
-    DEFINE_CUSTOM_GETTER(closed);
+    DEFINE_GETTER(closed, const ext::promise<void>&);
 };
 
 

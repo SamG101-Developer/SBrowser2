@@ -8,12 +8,13 @@
 #include INCLUDE_INNER_TYPES(streams)
 #include "ext/any.hpp"
 #include "ext/boolean.hpp"
+#include "ext/memory.hpp"
 
 
 DEFINE_PRIVATE_CLASS(streams::readable, readable_steam) : virtual dom_object_private
 {
-    detail::readable_stream_reader_t reader;
-    detail::readable_stream_controller_t controller;
+    std::observer_ptr<abstract_readable_stream_reader> reader;
+    std::observer_ptr<abstract_readable_stream_controller> controller;
     ext::boolean detached;
     ext::boolean disturbed;
     detail::readable_stream_state_t state;
