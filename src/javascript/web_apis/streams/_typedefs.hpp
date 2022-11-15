@@ -33,11 +33,13 @@ namespace streams::detail
     using underlying_source_pull_callback_t = ext::function<ext::promise<void>(readable::abstract_readable_stream_controller* controller)>;
     using underlying_source_cancel_callback_t = ext::function<ext::promise<void>(ext::optional<ext::any> reason)>;
 
-    template <typename T> using chunk_t = T;
+    using chunk_t = ext::any;
 
     using queueing_strategy_t = ext::map<ext::string, ext::any>;
     using queueing_strategy_init_t = ext::map<ext::string, ext::any>;
     using queueing_strategy_size_t = ext::function<ext::number<double>(ext::any chunk)>;
+    using high_water_mark_t = ext::number<int>;
+    using size_algorithm_t = ext::function<ext::number<size_t>(chunk_t chunk)>;
 }
 
 

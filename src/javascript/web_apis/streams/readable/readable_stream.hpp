@@ -30,8 +30,8 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    auto cancel(ext::optional<ext::any> reason = ext::nullopt) -> ext::promise<void>;
-    auto get_reader(detail::readable_stream_get_reader_options_t&& options = {}) -> detail::readable_stream_reader_t;
+    auto cancel(ext::any reason) -> ext::promise<void>; // TODO : optional 'reason'?
+    auto get_reader(detail::readable_stream_get_reader_options_t&& options = {}) -> abstract_readable_stream_reader*;
     auto pipe_through(detail::readable_writeable_pair_t&& transform, detail::stream_pipe_options_t&& options = {}) -> readable_stream*;
     auto pipe_to(writeable::writeable_stream* destination, detail::stream_pipe_options_t&& options = {}) -> ext::promise<void>;
     auto tee() -> ext::vector<readable_stream*>;

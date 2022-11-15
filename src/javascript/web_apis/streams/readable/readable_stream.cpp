@@ -1,11 +1,16 @@
 #include "readable_stream.hpp"
 
-#include "dom/_typedefs.hpp"
 #include "ext/assertion.hpp"
 
+#include "dom/_typedefs.hpp"
 #include "dom/abort/abort_signal.hpp"
 #include "dom/detail/exception_internals.hpp"
-#include INCLUDE_INNER_TYPES(streams)
+
+#include "streams/_typedefs.hpp"
+#include "streams/detail/queue_abstract_operations.hpp"
+#include "streams/detail/readable_abstract_operations_internals.hpp"
+
+#include "web_idl/detail/type_mapping_internals.hpp"
 
 
 streams::readable::readable_stream::readable_stream(
@@ -19,35 +24,28 @@ streams::readable::readable_stream::readable_stream(
     {
         dom::detail::throw_v8_exception<V8_RANGE_ERROR>(
                 [&strategy] {return strategy.contains(u"size");},
-                u8"The 'size' key of the dictionary can not be set if the underlying_type's 'type' is not bytes");
+                u8"The 'size' key of the dictionary can not be set if the underlying_type's 'type' is bytes");
 
-        auto high_water_mark = detail::extract_high_water(std::move(strategy), 0);
-        detail::set_up_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark);
+        auto high_water_mark = detail::extract_high_water_mark(std::move(strategy), 0);
+        detail::setup_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark);
     }
 
     else
     {
         ASSERT(!underlying_source.contains(u"type"));
         auto size_algorithm = detail::extract_size_algorithm(std::move(strategy));
-        auto high_water_mark = detail::extract_high_water(std::move(strategy), 1);
-        detail::set_up_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark, size_algorithm);
+        auto high_water_mark = detail::extract_high_water_mark(std::move(strategy), 1);
+        detail::setup_readable_stream_default_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark, std::move(size_algorithm));
     }
 }
 
 
-template <typename T>
-auto streams::readable::readable_stream::cancel(
-        T&& reason)
-        -> ext::promise<void>
+auto streams::readable::readable_stream::cancel(ext::any reason) -> ext::promise<void>
 {
-    if (detail::is_readable_stream_locked(this))
-    {
-        ext::promise<void> promise;
-        promise.set_exception(); // TODO : JavaScript TypeError
-        return promise;
-    }
-
-    return detail::readable_stream_cancel(this, std::forward<T>(reason));
+    auto e = js::env::env::relevant(this);
+    return !detail::is_readable_stream_locked(this)
+            ? web_idl::detail::create_rejected_promise<void>(reason, e.js.realm())
+            : detail::readable_stream_cancel(this, reason);
 }
 
 

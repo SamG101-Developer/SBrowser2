@@ -83,7 +83,7 @@ namespace streams::detail
     auto readable_stream_cancel(
             readable::readable_stream* stream,
             ext::any reason)
-            -> void;
+            -> ext::promise<void>; // TODO : web_idl::detail::react should return this type?
 
     auto readable_stream_close(
             readable::readable_stream* stream)
@@ -94,17 +94,15 @@ namespace streams::detail
             ext::any error)
             -> void;
 
-    template <typename T>
     auto readable_stream_fulfill_read_into_request(
             readable::readable_stream* stream,
-            chunk_t<T>&& chunk,
+            chunk_t chunk,
             ext::boolean done)
             -> void;
 
-    template <typename T>
     auto readable_stream_fulfill_read_request(
             readable::readable_stream* stream,
-            chunk_t<T>&& chunk,
+            chunk_t chunk,
             ext::boolean done)
             -> void;
 
@@ -193,10 +191,9 @@ namespace streams::detail
             readable::readable_stream_default_controller* controller)
             -> void;
 
-    template <typename T>
     auto readable_stream_default_controller_enqueue(
             readable::readable_stream_default_controller* controller,
-            chunk_t<T>&& chunk)
+            chunk_t chunk)
             -> void;
 
     auto readable_stream_default_controller_error(
@@ -223,14 +220,14 @@ namespace streams::detail
             underlying_source_pull_callback_t&& pull_algorithm,
             underlying_source_cancel_callback_t&& cancel_callback,
             ext::number<int> high_water_mark, // TODO : type (T)
-            F&& size_algorithm)
+            size_algorithm_t&& size_algorithm)
             -> void;
 
     auto setup_readable_stream_default_controller_from_underlying_source(
             readable::readable_stream* stream,
             underlying_source_t&& underlying_source,
             ext::number<int> high_water_mark, // TODO : type (T)
-            F&& size_algorithm)
+            size_algorithm_t&& size_algorithm)
             -> void;
 
     auto readable_byte_stream_controller_call_pull_if_needed(
@@ -254,10 +251,9 @@ namespace streams::detail
             pull_into_descriptor_t& pull_into_descriptor)
             -> void; // TODO : not correct return type
 
-    template <typename T>
     auto readable_byte_stream_controller_enqueue(
             readable::readable_byte_stream_controller* controller,
-            chunk_t<T>&& chunk)
+            chunk_t chunk)
             -> void;
 
     auto readable_byte_stream_controller_enqueue_chunk_to_queue(
