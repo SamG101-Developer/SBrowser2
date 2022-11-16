@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace storage {class storage_manager;}
+namespace storage {class storage_manager_private;}
 
 #include "ext/promise.hpp"
 #include "ext/any.hpp"
@@ -11,17 +12,21 @@ namespace storage {class storage_manager;}
 #include "ext/map.hpp"
 #include "ext/number.hpp"
 #include "ext/string.hpp"
+#include INCLUDE_INNER_TYPES(storage)
+
 
 class storage::storage_manager
-        : public virtual dom_object
+        : virtual public dom_object
 {
-public aliases:
-    using storage_estimate_t = ext::map<ext::string, ext::number<ulonglong>>;
+public constructors:
+    storage_manager();
+    MAKE_PIMPL(storage_manager);
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto persisted() -> ext::promise<ext::boolean>;
     auto persist() -> ext::promise<ext::boolean>;
-    auto estimate() -> ext::promise<storage_estimate_t>;
+    auto estimate() -> ext::promise<detail::storage_estimate_t>;
 };
 
 

@@ -4,6 +4,7 @@
 
 #include "dom_object.hpp"
 namespace storage::mixins {class navigator_storage;}
+namespace storage::mixins {class navigator_storage_private;}
 
 namespace storage {class storage_manager;}
 
@@ -11,11 +12,13 @@ namespace storage {class storage_manager;}
 class storage::mixins::navigator_storage
         : public virtual dom_object
 {
-private js_properties:
-    ext::property<storage_manager*> storage;
+public constructors:
+    navigator_storage();
+    MAKE_PIMPL(navigator_storage);
+    MAKE_V8_AVAILABLE;
 
-public cpp_methods:
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
+private js_properties:
+    DEFINE_GETTER(storage, storage_manager*);
 };
 
 

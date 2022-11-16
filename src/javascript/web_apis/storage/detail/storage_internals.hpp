@@ -62,6 +62,14 @@ namespace storage::detail
     auto create_storage_bucket(
             storage_type_t type)
             -> std::unique_ptr<storage_bucket_t>;
+
+    auto storage_usage(
+            storage_shelf_t& shelf)
+            -> ext::number<size_t>;
+
+    auto storage_quota(
+            storage_shelf_t& shelf)
+            -> ext::number<size_t>;
 };
 
 
@@ -82,6 +90,7 @@ struct storage::detail::storage_shelf_t
 struct storage::detail::storage_bucket_t
 {
     bottle_map_t bottle_map;
+    virtual ~storage_bucket_t();
 };
 
 

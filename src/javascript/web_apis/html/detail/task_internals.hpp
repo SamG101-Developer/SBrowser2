@@ -22,6 +22,9 @@ namespace html::detail
     task_queue_t history_traversal_task_source;
     task_queue_t canvas_blob_serialization_task_source;
 
+    /* STORAGE */ // TODO : official?
+    task_queue_t storage_task_source;
+
     /* SERVICE_WORKERS */
     task_queue_t handle_fetch_task_source;
     task_queue_t handle_functional_event_task_source;

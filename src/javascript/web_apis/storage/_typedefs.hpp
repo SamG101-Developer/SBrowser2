@@ -21,9 +21,10 @@ namespace storage::detail
     using storage_shed_t = ext::map<storage_key_t, storage_shelf_t*>;
     using bucket_map_t = ext::map<ext::string, std::unique_ptr<storage_bucket_t>>;
     using bottle_map_t = ext::map<storage_identifier_t, std::unique_ptr<storage_bottle_t>>;
+    using storage_map_t = ext::map<ext::string, ext::any>;
     using quota_t = ext::optional<ext::number<int>>;
 
-    using storage_map_t = ext::map<ext::string, ext::any>; // TODO : name
+    using storage_estimate_t = ext::map<ext::string, ext::number<ulonglong>>;
 }
 
 // namespace storage::detail
