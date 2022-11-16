@@ -4,20 +4,25 @@
 
 #include "dom_object.hpp"
 namespace url {class url_search_params;}
+namespace url {class url_search_params_private;}
 
-#include "ext/map.hpp"
+#include "ext/span.hpp"
 namespace url {class url;}
 
 
 class url::url_search_params
         : public virtual dom_object
 {
+public friends:
+    friend class url;
+
 public constructors:
-    DOM_CTORS(url_search_params);
-    url_search_params() = default;
-    url_search_params(const ext::vector<ext::vector<ext::string>>& init);
-    url_search_params(const ext::map<ext::string, ext::string>& init);
+    url_search_params(ext::vector_span<ext::vector<ext::string>> init);
+    url_search_params(ext::map_span<ext::string, ext::string> init);
     url_search_params(ext::string_view init);
+    MAKE_PIMPL(url_search_params);
+    MAKE_STRINGIFIER;
+    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto append(ext::string&& name, ext::string&& value) -> void;
@@ -28,13 +33,6 @@ public js_methods:
     auto set(ext::string&& name, ext::string&& value) -> void;
 
     auto sort() -> void;
-
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-
-private cpp_properties:
-    std::unique_ptr<ext::map<ext::string, ext::string>> m_list;
-    std::unique_ptr<url::url> m_url;
 };
 
 

@@ -138,17 +138,17 @@ namespace url::detail
 
     auto url_parser(
             ext::string_view input,
-            ext::string_view base_url = u8"",
+            ext::string_view base_url = u"",
             encoding::encoding* encoding = nullptr) // encoding::encoding::utf8)
-            -> ext::expected<url_t>;
+            -> ext::expected<std::unique_ptr<url_t>>;
 
     auto basic_url_parser(
             ext::string_view input,
-            ext::string_view base_url = u8"",
+            ext::string_view base_url = u"",
             encoding::encoding* encoding = nullptr, //encoding::encoding::utf8,
             ext::optional<const url_t&> url = ext::nullopt,
             state_override_t state_override = state_override_t::SCHEME_START_STATE)
-            -> ext::expected<url_t>;
+            -> ext::expected<std::unique_ptr<url_t>>;
 
     auto set_username(
             url_t& url,
@@ -200,7 +200,7 @@ struct url::detail::url_t
 };
 
 
-auto operator""_url(const char* string, size_t length) {return url::detail::url_t{ext::string{string, length}};}
+auto operator""_url(const char16_t* string, size_t length) {return url::detail::url_t{ext::string{string, length}};}
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP

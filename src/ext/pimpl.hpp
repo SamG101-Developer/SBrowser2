@@ -19,9 +19,9 @@ _EXT_END
 // class.
 #define MAKE_PIMPL(c)                                                                                                       \
 private:                                                                                                                    \
-    inline c ## _private* d_func() noexcept {return reinterpret_cast<c ## _private*>(this->d_ptr.get());}                   \
-    inline const c ## _private* d_func() const noexcept {return reinterpret_cast<const c ## _private*>(this->d_ptr.get());} \
-    friend c ## _private;                                                                                                   \
+    inline struct c ## _private* d_func() noexcept {return reinterpret_cast<struct c ## _private*>(this->d_ptr.get());}                   \
+    inline const struct c ## _private* d_func() const noexcept {return reinterpret_cast<const struct c ## _private*>(this->d_ptr.get());} \
+    friend struct c ## _private;                                                                                                   \
     SELF_MACRO_DEFINE_SELF(self_t, public)
 
 // Use this macro at the beginning of every templated class that will have a PIMPL private templated class attached to
@@ -30,9 +30,9 @@ private:                                                                        
 // 'self_t' as a type alias to the current templated class.
 #define MAKE_PIMPL_TEMPLATED(c, ...)                                                                                                                  \
 private:                                                                                                                                              \
-    inline c ## _private<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<c ## _private<__VA_ARGS__>*>(this->d_ptr.get());}                   \
-    inline const c ## _private<__VA_ARGS__>* d_func() const noexcept {return reinterpret_cast<const c ## _private<__VA_ARGS__>*>(this->d_ptr.get());} \
-    friend c ## _private<__VA_ARGS__>;                                                                                                                \
+    inline struct c ## _private<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<struct c ## _private<__VA_ARGS__>*>(this->d_ptr.get());}                   \
+    inline const struct c ## _private<__VA_ARGS__>* d_func() const noexcept {return reinterpret_cast<const struct c ## _private<__VA_ARGS__>*>(this->d_ptr.get());} \
+    friend struct c ## _private<__VA_ARGS__>;                                                                                                                \
     SELF_MACRO_DEFINE_SELF(self_t, public)
 
 
@@ -42,9 +42,9 @@ private:                                                                        
 // current class.
 #define MAKE_QIMPL(c)                                                                               \
 private:                                                                                            \
-    inline c* q_func() noexcept {return reinterpret_cast<c*>(this->q_ptr.get());}                   \
-    inline const c* q_func() const noexcept {return reinterpret_cast<const c*>(this->q_ptr.get());} \
-    friend c;                                                                                       \
+    inline class c* q_func() noexcept {return reinterpret_cast<class c*>(this->q_ptr.get());}                   \
+    inline const class c* q_func() const noexcept {return reinterpret_cast<const class c*>(this->q_ptr.get());} \
+    friend class c;                                                                                       \
 public:
 
 // Use this macro at the beginning of every templated class that will have a QIMPL public templated class attached to
@@ -53,9 +53,9 @@ public:
 // define a 'self_t' type alias tp the current templated class.
 #define MAKE_QIMPL_TEMPLATED(c, ...)                                                                                          \
 private:                                                                                                                      \
-    inline c<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<c<__VA_ARGS__>*>(this->q_ptr.get());}                   \
-    inline const c<__VA_ARGS__>* q_func() const noexcept {return reinterpret_cast<const c<__VA_ARGS__>*>(this->q_ptr.get());} \
-    friend c<__VA_ARGS__>;                                                                                                    \
+    inline class c<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<class c<__VA_ARGS__>*>(this->q_ptr.get());}                   \
+    inline const class c<__VA_ARGS__>* q_func() const noexcept {return reinterpret_cast<const class c<__VA_ARGS__>*>(this->q_ptr.get());} \
+    friend class c<__VA_ARGS__>;                                                                                                    \
 public:
 
 
