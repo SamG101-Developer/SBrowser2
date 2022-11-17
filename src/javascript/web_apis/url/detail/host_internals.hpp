@@ -86,15 +86,15 @@ namespace url::detail
             -> ext::boolean;
 
     auto host_serializer(
-            domain_t&& host)
+            ext::string_view host)
             -> domain_t;
 
     auto ipv4_serializer(
-            domain_t&& address)
+            ext::string_view address)
             -> domain_t;
 
     auto ipv6_serializer(
-            domain_t&& address)
+            ext::string_view address)
             -> domain_t;
 };
 
