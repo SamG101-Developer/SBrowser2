@@ -58,25 +58,50 @@ namespace cmp // TODO : <, >, <=, >=
         {return ((left == std::forward<Ts>(right)) || ...);}
             };
 
-    auto ne =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
-            {return proj(std::forward<T>(left)) != std::forward<U>(right);};
+    auto ne = overloaded
+            {
+        []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
+        {return proj(std::forward<T>(left)) != std::forward<U>(right);},
 
-    auto lt =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
-            {return proj(std::forward<T>(left)) < std::forward<U>(right);};
+        []<typename T, typename ...Ts>(T&& left, Ts&&... right)
+        {return ((left != std::forward<Ts>(right)) || ...);}
+            };
 
-    auto gt =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
-            {return proj(std::forward<T>(left)) > std::forward<U>(right);};
+    auto lt = overloaded
+            {
+        []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
+        {return proj(std::forward<T>(left)) < std::forward<U>(right);},
 
-    auto le =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
-            {return proj(std::forward<T>(left)) <= std::forward<U>(right);};
+        []<typename T, typename ...Ts>(T&& left, Ts&&... right)
+        {return ((left < std::forward<Ts>(right)) || ...);}
+            };
 
-    auto ge =
-            []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
-            {return proj(std::forward<T>(left)) >= std::forward<U>(right);};
+    auto gt = overloaded
+            {
+        []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
+        {return proj(std::forward<T>(left)) > std::forward<U>(right);},
+
+        []<typename T, typename ...Ts>(T&& left, Ts&&... right)
+        {return ((left > std::forward<Ts>(right)) || ...);}
+            };
+
+    auto le = overloaded
+            {
+        []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
+        {return proj(std::forward<T>(left)) <= std::forward<U>(right);},
+
+        []<typename T, typename ...Ts>(T&& left, Ts&&... right)
+        {return ((left <= std::forward<Ts>(right)) || ...);}
+            };
+
+    auto ge = overloaded
+            {
+        []<typename T, typename U, _EXT callable F>(T&& left, U&& right, F&& proj = _EXT identity) mutable
+        {return proj(std::forward<T>(left)) >= std::forward<U>(right);},
+
+        []<typename T, typename ...Ts>(T&& left, Ts&&... right)
+        {return ((left >= std::forward<Ts>(right)) || ...);}
+            };
 }
 
 
