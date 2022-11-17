@@ -12,24 +12,24 @@
 #include "dom_object_private.hpp"
 
 
-_EXT_BEGIN
-
-template <typename T>
-struct vector_like_private : virtual dom_object_private {};
+DEFINE_PRIVATE_CLASS_TEMPLATED(ext, vector_like, typename T) : virtual dom_object_private {};
 
 
-template <typename T>
-struct vector_like_linked_private : vector_like_private<T>
+DEFINE_PRIVATE_CLASS_TEMPLATED(ext, vector_like_linked, typename T) : vector_like_private<T>
 {
     std::unique_ptr<vector<T>> linked_vector;
 };
 
+
+
+_EXT_BEGIN
 
 template <typename T>
 class vector_like : public virtual dom_object
 {
 public constructors:
     MAKE_PIMPL_TEMPLATED(vector_like, T);
+    MAKE_V8_AVAILABLE;
 
     explicit vector_like()
     {INIT_PIMPL_TEMPLATED(vector_like, T);}
@@ -50,6 +50,8 @@ class vector_like_linked : public vector_like<T>
 {
 public constructors:
     MAKE_PIMPL_TEMPLATED(vector_like_linked, T);
+    MAKE_V8_AVAILABLE;
+
     explicit vector_like_linked(vector<T>* container = nullptr)
     {
         INIT_PIMPL_TEMPLATED(vector_like_linked, T);
