@@ -40,22 +40,22 @@ private:                                                                        
 // q_ptr, but cast into the correct type, as well as friending the public class. There are non-const and const versions
 // of the q_func() for const and non-const interface-method access. No need to define a 'self_t' type alias to the
 // current class.
-#define MAKE_QIMPL(c)                                                                               \
-private:                                                                                            \
+#define MAKE_QIMPL(c)                                                                                           \
+private:                                                                                                        \
     inline class c* q_func() noexcept {return reinterpret_cast<class c*>(this->q_ptr.get());}                   \
     inline const class c* q_func() const noexcept {return reinterpret_cast<const class c*>(this->q_ptr.get());} \
-    friend class c;                                                                                       \
+    friend class c                                                                                              \
 public:
 
 // Use this macro at the beginning of every templated class that will have a QIMPL public templated class attached to
 // it. It exposes the q_ptr, but cast into the correct templated type, as well as friending the public templated class.
 // There are non-const and const versions of the q_func() for const and non-const interface-method access. No need to
 // define a 'self_t' type alias tp the current templated class.
-#define MAKE_QIMPL_TEMPLATED(c, ...)                                                                                          \
-private:                                                                                                                      \
+#define MAKE_QIMPL_TEMPLATED(c, ...)                                                                                                      \
+private:                                                                                                                                  \
     inline class c<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<class c<__VA_ARGS__>*>(this->q_ptr.get());}                   \
     inline const class c<__VA_ARGS__>* q_func() const noexcept {return reinterpret_cast<const class c<__VA_ARGS__>*>(this->q_ptr.get());} \
-    friend class c<__VA_ARGS__>;                                                                                                    \
+    friend class c<__VA_ARGS__>                                                                                                           \
 public:
 
 
@@ -98,14 +98,14 @@ public:
 // Forward declare the existence of a public and private class in a namespace, and then begin the definition of the
 // struct. Follow the macro with an opening brace, the definition of attributes, and a closing brace.
 #define DEFINE_PRIVATE_CLASS(ns, c)      \
-    namespace ns {struct c;}             \
+    namespace ns {class c;}             \
     namespace ns {struct c ## _private;} \
     struct ns:: c ## _private
 
 // Forward declare the existence of a public and private templated class in a namespace, and then begin the definition
 // of the templated struct. Follow the macro with an opening brace, the definition of attributes, and a closing brace.
 #define DEFINE_PRIVATE_CLASS_TEMPLATED(ns, c, ...)              \
-    namespace ns {template <__VA_ARGS__> struct c;}             \
+    namespace ns {template <__VA_ARGS__> class c;}             \
     namespace ns {template <__VA_ARGS__> struct c ## _private;} \
     template <__VA_ARGS__> struct ns:: c ## _private
 
