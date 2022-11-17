@@ -3,23 +3,27 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_URL_SEARCH_PARAMS_HPP
 
 #include "dom_object.hpp"
+#include "ext/map_like.hpp"
 namespace url {class url_search_params;}
 namespace url {class url_search_params_private;}
 
-#include "ext/span.hpp"
+#include "ext/pair.hpp"
+#include "ext/map.hpp"
+#include "ext/vector.hpp"
 namespace url {class url;}
 
 
 class url::url_search_params
-        : public virtual dom_object
+        : virtual public dom_object
+        , ext::map_like_linked<ext::string, ext::string>
 {
 public friends:
     friend class url;
 
 public constructors:
-    url_search_params(ext::vector_span<ext::vector<ext::string>> init);
-    url_search_params(ext::map_span<ext::string, ext::string> init);
-    url_search_params(ext::string_view init);
+    url_search_params(ext::vector<ext::pair<ext::string, ext::string>>&& init);
+    url_search_params(ext::map<ext::string, ext::string>&& init);
+    url_search_params(ext::string_view init = u"");
     MAKE_PIMPL(url_search_params);
     MAKE_STRINGIFIER;
     MAKE_V8_AVAILABLE;

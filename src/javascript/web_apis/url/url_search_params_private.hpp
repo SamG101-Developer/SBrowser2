@@ -4,17 +4,20 @@
 
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
+#include "ext/map_like.hpp"
 
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 namespace url {class url;}
 
 
-DEFINE_PRIVATE_CLASS(url, url_search_params) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(url, url_search_params)
+        : virtual dom_object_private
+        , ext::map_like_linked_private<ext::string, ext::string>
 {
     MAKE_QIMPL(url_search_params);
 
-    ext::map<ext::string, ext::string> list;
+    ext::multi_map<ext::string, ext::string> list;
     std::observer_ptr<url> url;
 };
 

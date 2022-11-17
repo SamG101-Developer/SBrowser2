@@ -12,6 +12,8 @@
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
 namespace encoding {class encoding;}
+namespace url {class url_search_params;}
+class dom_object;
 
 
 namespace url::detail
@@ -153,12 +155,12 @@ namespace url::detail
     auto set_username(
             url_t& url,
             ext::string&& username)
-            -> void;
+            -> ext::string;
 
     auto set_password(
             url_t& url,
             ext::string&& username)
-            -> void;
+            -> ext::string;
 
     auto url_serializer(
             const url_t& url,
@@ -178,6 +180,10 @@ namespace url::detail
     auto origin(
             const url_t& url)
             -> html::detail::origin_t;
+
+    auto update_url_search_params(
+            url_search_params* query)
+            -> void;
 };
 
 
@@ -200,7 +206,7 @@ struct url::detail::url_t
 };
 
 
-auto operator""_url(const char16_t* string, size_t length) {return url::detail::url_t{ext::string{string, length}};}
+auto operator""_url(const char16_t* string, size_t length) -> std::unique_ptr<url::detail::url_t>; // TODO{return url::detail::url_t{ext::string{string, length}};}
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP

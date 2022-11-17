@@ -29,6 +29,7 @@ public js_methods:
     
 private js_properties:
     DEFINE_GETTER(href, ext::string);
+    DEFINE_GETTER(protocol, ext::string);
     DEFINE_GETTER(username, ext::string);
     DEFINE_GETTER(password, ext::string);
     DEFINE_GETTER(host, ext::string);
@@ -41,6 +42,7 @@ private js_properties:
     DEFINE_GETTER(search_params, url_search_params*);
 
     DEFINE_SETTER(href, ext::string);
+    DEFINE_SETTER(protocol, ext::string);
     DEFINE_SETTER(username, ext::string);
     DEFINE_SETTER(password, ext::string);
     DEFINE_SETTER(host, ext::string);
