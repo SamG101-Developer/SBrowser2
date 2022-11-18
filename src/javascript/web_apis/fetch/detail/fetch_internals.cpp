@@ -15,6 +15,7 @@
 
 #include "referrer_policy/_typedefs.hpp"
 #include "webappsec_csp/detail/integration_internals.hpp"
+#include "webappsec_mixed_content/detail/algorithm_internals.hpp"
 #include "dom/nodes/window.hpp"
 #include "hr_time/detail/time_internals.hpp"
 #include "url/detail/url_internals.hpp"
@@ -159,7 +160,7 @@ auto fetch::detail::main_fetch(
     // Report any content security policy violations from the request, and upgrade the request to a potentially
     // trustworthy url. All handled by webappsec-relate modules.
     webappsec::detail::report_content_security_policy_violations(request);
-    webappsec::detail::upgrade_request_to_potentially_trustworthy_url(request);
+    webappsec::detail::upgrade_mixed_content_request_to_potentially_trustworthy_url_if_appropriate(request);
 
     // If there is any reason to blockthe request (for using a bad port, webappsec mixed content reasons or webappsec
     // content security policy reasons), then set the response to a return error (don't return yet as other attributes
