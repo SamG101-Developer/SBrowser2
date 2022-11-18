@@ -2,12 +2,12 @@
 #ifndef SBROWSER2_HEADER_INTERNALS_HPP
 #define SBROWSER2_HEADER_INTERNALS_HPP
 
-
-#include <tuple>
 #include "ext/boolean.hpp"
+#include "ext/expected.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
+
 
 namespace fetch::detail // TODO : const ...& vs ..._view
 {
@@ -134,12 +134,12 @@ namespace fetch::detail // TODO : const ...& vs ..._view
 
     auto extract_header_values(
             const header_t& header)
-            -> header_values_t;
+            -> ext::expected<header_values_t>;
 
     auto extract_header_list_values(
             const header_name_t& header_name,
-            const header_t& header)
-            -> header_values_t;
+            const headers_t& headers)
+            -> ext::expected<header_values_t>;
 
     auto is_simple_range_header_value(
             header_value_t header_value)
