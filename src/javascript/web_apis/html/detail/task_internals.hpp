@@ -55,6 +55,9 @@ namespace html::detail
 
     /* MEDIA_PROCESSOR */
     task_queue_t media_processor_task_source;
+
+    /* [WEB-SOCKETS] */
+    task_queue_t websocket_task_source;
 }
 
 
