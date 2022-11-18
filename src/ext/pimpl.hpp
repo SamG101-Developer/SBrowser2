@@ -44,7 +44,7 @@ private:                                                                        
 private:                                                                                                        \
     inline class c* q_func() noexcept {return reinterpret_cast<class c*>(this->q_ptr.get());}                   \
     inline const class c* q_func() const noexcept {return reinterpret_cast<const class c*>(this->q_ptr.get());} \
-    friend class c                                                                                              \
+    friend class c;                                                                                             \
 public:
 
 // Use this macro at the beginning of every templated class that will have a QIMPL public templated class attached to
@@ -55,7 +55,7 @@ public:
 private:                                                                                                                                  \
     inline class c<__VA_ARGS__>* d_func() noexcept {return reinterpret_cast<class c<__VA_ARGS__>*>(this->q_ptr.get());}                   \
     inline const class c<__VA_ARGS__>* q_func() const noexcept {return reinterpret_cast<const class c<__VA_ARGS__>*>(this->q_ptr.get());} \
-    friend class c<__VA_ARGS__>                                                                                                           \
+    friend class c<__VA_ARGS__>;                                                                                                          \
 public:
 
 
