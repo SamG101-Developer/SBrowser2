@@ -21,6 +21,9 @@
 #define _EXT_SECURE_BEGIN namespace ext::secure {
 #define _EXT_SECURE_END } // namespace ext::secure
 
+#define RFC_DEFINITION_BEGIN namespace rfc {
+#define RFC_DEFINITION_END }
+
 
 #define COMMA ,
 
