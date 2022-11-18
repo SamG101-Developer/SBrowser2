@@ -63,7 +63,8 @@ namespace fetch::detail
 
 struct fetch::detail::request_t
 {
-    request_t(const request_t& request) = default;
+    request_t() = default;
+    request_t(const request_t&) = default;
 
     ext::string method = u"GET";
     std::shared_ptr<url::detail::url_t> url;

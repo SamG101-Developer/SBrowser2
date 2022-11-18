@@ -190,6 +190,7 @@ namespace url::detail
 struct url::detail::url_t
 {
     url_t(ext::string&& url_string);
+    url_t(const url_t&);
 
     ext::string scheme;
     ext::string username;
