@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLEAR_SITE_DATA_DETAIL_ALGORITHM_INTERNALS_HPP
 
 #include "ext/vector.hpp"
+#include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(fetch)
 
@@ -18,24 +19,24 @@ namespace webappsec::detail
             -> void;
 
     auto prepare_to_clear_origins_data(
-            ext::string_view origin,
-            ext::vector<ext::string>&& types)
-            -> ext::vector<ext::string>&&; // TODO : ext::vector<sandbox_value_t> ?
+            const html::detail::origin_t& origin,
+            ext::vector_span<ext::string> types)
+            -> ext::vector<html::detail::browsing_context_t*>;
 
     auto reload_browsing_contexts(
-            ext::vector<html::detail::browsing_context_t*>& context)
+            ext::vector_span<html::detail::browsing_context_t*> context)
             -> void;
 
     auto clear_cache_for_origin(
-            ext::string_view origin)
+            const html::detail::origin_t& origin)
             -> void;
 
     auto clear_cookies_for_origin(
-            ext::string_view origin)
+            const html::detail::origin_t& origin)
             -> void;
 
     auto clear_dom_accessible_storage_for_origin(
-            ext::string_view origin)
+            const html::detail::origin_t& origin)
             -> void;
 };
 
