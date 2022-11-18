@@ -42,6 +42,8 @@ _EXT_BEGIN
     template <typename T, ext::type_is<typename T::value_type> ...Args>
     auto sequence_matches(T&& string, Args&&... sequence)
     {return string == ranges::fold_left({sequence...}, u8"", ext::ops::add) | ranges::to<T>();}
+
+    auto random_string() -> ext::string; // TODO : Implement
 _EXT_END
 
 
