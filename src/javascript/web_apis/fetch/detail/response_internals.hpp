@@ -97,6 +97,7 @@ struct fetch::detail::response_t
 
     auto associated_url() -> url::detail::url_t;
     ext::vector<url::detail::url_t*> url_list;
+    auto url() const -> url::detail::url_t&;
 
     ext::number<int> status;
     ext::string status_message;
