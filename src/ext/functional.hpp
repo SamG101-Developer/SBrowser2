@@ -2,6 +2,7 @@
 #define SBROWSER2_FUNCTIONAL_HPP
 
 #include "ext/concepts.hpp"
+#include <compare>
 #include <function2/function2.hpp>
 
 
@@ -134,7 +135,7 @@ template <typename R, typename ...Types> // TODO
 auto operator==(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> ext::boolean;
 
 template <typename R, typename ...Types> // TODO
-auto operator <=>(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs);
+auto operator <=>(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> std::strong_ordering;
 
 
 #endif //SBROWSER2_FUNCTIONAL_HPP
