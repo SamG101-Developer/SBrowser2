@@ -38,6 +38,9 @@ struct js::env::settings_t
     std::unique_ptr<service_workers::workers::service_worker> active_service_worker;
     ext::boolean execution_ready_flag;
 
+    // ?
+    ext::vector<html::detail::browsing_context_t*> browsing_contexts;
+
     /* [FETCH] */
     std::unique_ptr<fetch::detail::fetch_group_t> fetch_group;
 
