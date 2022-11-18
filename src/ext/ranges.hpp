@@ -364,6 +364,20 @@ namespace ranges::actions
         // TODO : return type won't work for chaining
         // TODO : simpler: ranges::actions::remove(ext::make_pair(key, range[key])) ? (maybe get pair type somehow)
             })
+
+    RANGE_ACTION_STRUCT(multi_push_front,
+            template <typename ...Args>
+            constexpr auto operator()(Args&&... args) const
+            {
+                return (ranges::actions::push_front(std::forward<Args>(args)), ...);
+            })
+
+    RANGE_ACTION_STRUCT(multi_push_back,
+            template <typename ...Args>
+            constexpr auto operator()(Args&&... args) const
+            {
+        return (ranges::actions::push_back(std::forward<Args>(args)), ...);
+            })
 }
 
 
