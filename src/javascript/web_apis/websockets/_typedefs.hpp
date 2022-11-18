@@ -5,6 +5,8 @@
 namespace websockets::detail
 {
     struct websocket_t;
+
+    enum class binary_type_t {BLOB, ARRAYBUFFER};
 }
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS__TYPEDEFS_HPP
