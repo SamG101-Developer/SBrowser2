@@ -61,6 +61,9 @@ struct html::detail::origin_t
     url::detail::domain_t domain;
 
     auto is_opaque() -> ext::boolean {return scheme.empty() && host.empty() && port == 0 && domain.empty();}
+
+    auto operator==(const origin_t&) const -> bool = default;
+    auto operator!=(const origin_t&) const -> bool = default;
 };
 
 
