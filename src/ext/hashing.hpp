@@ -30,7 +30,8 @@ struct hash
         // FNV-1a 64 bit algorithm
         size_t result = 0xcbf29ce484222325; // FNV offset basis
 
-        for (char c: object) {
+        for (char c: object)
+        {
             result ^= c;
             result *= 1099511628211; // FNV prime
         }
@@ -38,6 +39,10 @@ struct hash
         return result;
     }
 };
+
+
+template <typename Rng>
+auto hash_range(Rng&& range) -> size_t;
 
 _EXT_END
 
@@ -57,7 +62,7 @@ _STD_BEGIN
 
     template <typename K, typename V>
     struct hash<_EXT map<K, V>>
-    {constexpr auto operator()(const _EXT map<K, V>& value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}};
+    {constexpr auto operator()(const _EXT map<K, V>& value) const noexcept -> size_t {return _EXT hash_range(value);}};
 
     template <typename T>
     struct hash<_EXT number<T>>
@@ -65,7 +70,7 @@ _STD_BEGIN
 
     template <typename T>
     struct hash<_EXT set<T>>
-    {constexpr auto operator()(const _EXT set<T>& value) const noexcept -> size_t {return _STD hash<size_t>{}(&value);}};
+    {constexpr auto operator()(const _EXT set<T>& value) const noexcept -> size_t {return _EXT hash_range(value);}};
 
     template <typename ...Ts>
     struct hash<_EXT tuple<Ts...>>
