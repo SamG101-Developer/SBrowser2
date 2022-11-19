@@ -15,6 +15,11 @@ public constructors:
     MAKE_PIMPL(location);
     MAKE_V8_AVAILABLE;
 
+public js_methods:
+    auto assgin(ext::string&& url) -> void;
+    auto replace(ext::string&& url) -> void;
+    auto reload() -> void;
+
 public js_properties:
     DEFINE_GETTER(origin, ext::string);
     DEFINE_GETTER(href, ext::string);

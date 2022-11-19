@@ -47,6 +47,10 @@ namespace webappsec::detail
     auto current_integrity_label(
 
             );
+
+    auto is_empty_label(
+            cowl::label* label)
+            -> ext::boolean;
 };
 
 
