@@ -9,6 +9,7 @@ namespace webappsec::detail
 {
     using principal_t = ext::string;
     using disjunction_set_t = ext::set<principal_t>;
+    using label_set_t = ext::set<disjunction_set_t>;
 }
 
 
