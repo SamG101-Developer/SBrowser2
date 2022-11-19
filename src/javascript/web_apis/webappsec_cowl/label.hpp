@@ -4,31 +4,29 @@
 
 #include "dom_object.hpp"
 namespace webappsec::cowl {class label;}
+namespace webappsec::cowl {class label_private;}
 
-#include "ext/set.hpp"
 #include INCLUDE_INNER_TYPES(webappsec_cowl)
-namespace webappsec::cowl {class privelege;}
+namespace webappsec::cowl {class privilege;}
 
 
 class webappsec::cowl::label
         : public virtual dom_object
 {
 public constructors:
-    label() = default;
-    label(detail::principal_t&& principal);
+    MAKE_PIMPL(label);
+    MAKE_STRINGIFIER;
+    MAKE_V8_AVAILABLE;
+    label(detail::principal_t&& principal = u"");
 
 public js_methods:
     auto equals(label* other) -> ext::boolean;
-    auto subsumes(label* other, privelege* priv = nullptr) -> ext::boolean;
-    auto and_(ext::variant<label*, ext::string> other) -> label;
-    auto or_(ext::variant<label*, ext::string> other) -> label;
+    auto subsumes(label* other, privilege* priv = nullptr) -> ext::boolean;
 
-public cpp_methods:
-    auto to_json() const -> ext::string override;
-    auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
-
-private cpp_properties:
-    ext::set<detail::disjunction_set_t> m_label_set;
+    auto and_(label* other) const -> std::unique_ptr<label>;
+    auto and_(ext::string&& other) const -> std::unique_ptr<label>;
+    auto or_(label* other) const -> std::unique_ptr<label>;
+    auto or_(ext::string&& other) const -> std::unique_ptr<label>;
 };
 
 
