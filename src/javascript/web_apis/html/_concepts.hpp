@@ -67,10 +67,10 @@ namespace html::concepts
     };
 
     template <typename T>
-    concept is_serializable = requires
+    concept is_serializable = requires (T* t)
     {
-        {T::_serialize  (std::declval<ext::map<ext::string, ext::any>>(), std::declval<ext::boolean>())} -> ext::type_is<void>;
-        {T::_deserialize(std::declval<ext::map<ext::string, ext::any>>(), std::declval<ext::boolean>())} -> ext::type_is<T*  >;
+        {t->_serialize  (ext::map<ext::string, ext::any>(), ext::boolean())} -> ext::type_is<void>;
+        {t->_deserialize(ext::map<ext::string, ext::any>(), ext::boolean())} -> ext::type_is<T*  >;
     };
 }
 
