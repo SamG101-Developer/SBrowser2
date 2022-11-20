@@ -4,11 +4,12 @@
 #include "ext/boolean.hpp"
 #include "ext/memory.hpp"
 #include "ext/pair.hpp"
+#include "ext/span.hpp"
 #include "ext/vector.hpp"
-#include <memory>
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(url)
+#include INCLUDE_INNER_TYPES(webappsec_cowl)
 
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
@@ -22,15 +23,15 @@ namespace html::detail
             const browsing_context_t& context)
             -> ext::boolean;
 
-    template <callable F>
+    template <ext::callable F>
     auto navigate(
             const browsing_context_t& context,
             const browsing_context_t& source_context,
             ext::boolean exceptions_enabled = false,
             history_handling_behaviour_t history_handling_behaviour = history_handling_behaviour_t::DEFAULT,
-            const html::detail::policy_container_t& history_policy_container = nullptr,
-            ext::string_view navigation_type = "",
-            ext::string_view navigation_id = "",
+            const html::detail::policy_container_t& history_policy_container = nullptr, // TODO : ext::optional<T> ?
+            ext::string_view navigation_type = u"",
+            ext::string_view navigation_id = u"",
             F&& process_response_end_of_body = []() {})
             -> void;
 
@@ -168,7 +169,7 @@ namespace html::detail
 
     auto document_tree_child_browsing_context_name_property_set(
             dom::nodes::window* window)
-            -> ext::vector_view<ext::string>;
+            -> ext::vector_span<ext::string>;
 
     auto discard(
             dom::nodes::document* document)
@@ -226,6 +227,9 @@ struct html::detail::browsing_context_t
 
     /* [PAYMENT-REQUEST] */
     ext::boolean payment_request_is_showing = false;
+
+    /* [WEBAPPSEC-COWL] */
+    std::unique_ptr<webappsec::detail::cowl_state_t> cowl_state;
 };
 
 
