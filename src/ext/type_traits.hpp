@@ -42,6 +42,15 @@ struct extend_variant<variant<OldTypes...>, NewTypes...>
 template <typename OldVariant, typename ...NewTypes>
 using extend_variant_t = typename extend_variant<OldVariant, NewTypes...>::type;
 
+
+// more elegant decltype
+template <typename T>
+struct typeof
+{using type = std::remove_cvref_t<std::remove_pointer_t<T>>;};
+
+template <typename T>
+using typeof_t = typename typeof<T>::type;
+
 // other
 
 template <typename T, typename F = std::less<T>>
