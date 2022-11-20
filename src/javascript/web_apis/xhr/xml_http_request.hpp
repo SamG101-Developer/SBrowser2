@@ -12,6 +12,7 @@ namespace xhr {class xml_http_request;}
 
 namespace fetch {class response;}
 namespace xhr {class xml_http_request_upload;}
+namespace webappsec::cowl {class labeled_object;}
 
 
 class xhr::xml_http_request
@@ -39,6 +40,9 @@ public js_methods:
     auto get_response_header(ext::string name) -> ext::string;
     auto get_all_response_header() -> ext::string_view;
     auto override_mimetype(ext::string_view mime) -> void;
+
+    /* [WEBAPPSEC-COWL] TODO : See other extensions to XHR spec */
+    auto send(webappsec::cowl::labeled_object* labeled_object) -> void;
 
 private js_properties:
     ext::property<ext::number<ushort>> ready_state;
