@@ -16,7 +16,7 @@ namespace webappsec::cowl {class privilege;}
 
 class webappsec::cowl::cowl
         : virtual public dom_object
-        , ext::singleton
+        , ext::singleton<cowl>
 {
 public constructors:
     cowl();

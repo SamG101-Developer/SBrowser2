@@ -14,7 +14,7 @@ namespace console {class console_private;}
 
 class console::console
         : virtual public dom_object
-        , ext::singleton
+        , ext::singleton<console>
 {
 public constructors:
     console();
