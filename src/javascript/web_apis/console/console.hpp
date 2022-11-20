@@ -3,6 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP
 
 #include "dom_object.hpp"
+#include "ext/singleton.hpp"
 namespace console {class console;}
 namespace console {class console_private;}
 
@@ -11,7 +12,9 @@ namespace console {class console_private;}
 #include "ext/stack.hpp"
 #include "ext/vector.hpp"
 
-class console::console : virtual public dom_object
+class console::console
+        : virtual public dom_object
+        , ext::singleton
 {
 public constructors:
     console();
