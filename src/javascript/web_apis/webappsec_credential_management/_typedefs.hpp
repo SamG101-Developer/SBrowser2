@@ -5,6 +5,8 @@
 #include "ext/map.hpp"
 #include "ext/string.hpp"
 
+namespace html::elements {class html_form_element;}
+
 
 namespace webappsec::detail
 {
@@ -16,6 +18,8 @@ namespace webappsec::detail
     using credential_creation_options_t = ext::map<ext::string, ext::any>;
     using credential_request_options_t = ext::map<ext::string, ext::any>;
     using credential_data_t = ext::map<ext::string, ext::any>;
+    using password_credential_data_t = ext::map<ext::string, ext::any>;
+    using password_credential_init_t = ext::variant<password_credential_data_t, html::elements::html_form_element*>;
 }
 
 

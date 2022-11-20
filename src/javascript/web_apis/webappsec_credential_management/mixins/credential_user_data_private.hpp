@@ -9,7 +9,7 @@
 #include "ext/string.hpp"
 
 
-DEFINE_PRIVATE_CLASS(webappsec::credential_management::mixins, credential_user_data) : dom_object_private
+DEFINE_PRIVATE_CLASS(webappsec::credential_management::mixins, credential_user_data) : virtual dom_object_private
 {
     MAKE_QIMPL(credential_user_data);
 

@@ -10,7 +10,7 @@
 namespace webappsec::credential_management {class credential;}
 
 
-DEFINE_PRIVATE_CLASS(webappsec::credential_management, credential) : dom_object_private
+DEFINE_PRIVATE_CLASS(webappsec::credential_management, credential) : virtual dom_object_private
 {
     MAKE_QIMPL(credential);
 
