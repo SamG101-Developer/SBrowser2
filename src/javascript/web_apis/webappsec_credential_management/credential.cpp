@@ -1,40 +1,25 @@
 #include "credential.hpp"
+#include "credential_private.hpp"
+
+#include "web_idl/detail/type_mapping_internals.hpp"
 
 
-auto webappsec::credential_management::credential::s_collect_from_credential_store(
-        const html::detail::origin_t& origin,
-        detail::credential_request_options_t&& options,
-        ext::boolean same_origin_with_ancestors)
-        -> ext::set<credential*>
+auto webappsec::credential_management::credential::is_conditional_mediation_available() -> ext::promise<ext::boolean>
 {
-    return {};
+    auto e = js::env::env::current(); // TODO : which realm?
+    return web_idl::detail::create_resolved_promise(ext::boolean::FALSE_(), e.js.realm());
 }
 
 
-auto webappsec::credential_management::credential::s_discover_from_external_source(
-        const html::detail::origin_t& origin,
-        detail::credential_request_options_t&& options,
-        ext::boolean same_origin_with_ancestors)
-        -> credential*
+auto webappsec::credential_management::credential::get_id() const -> ext::string_view
 {
-    return nullptr;
+    ACCESS_PIMPL(const credential);
+    return d->id;
 }
 
 
-auto webappsec::credential_management::credential::s_store(
-        credential* credential,
-        ext::boolean same_origin_with_ancestors)
-        -> class credential*
+auto webappsec::credential_management::credential::get_type() const -> ext::string_view
 {
-    return nullptr;
-}
-
-
-auto webappsec::credential_management::credential::s_create(
-        const html::detail::origin_t& origin,
-        detail::credential_request_options_t&& options,
-        ext::boolean same_origin_with_ancestors)
-        -> credential*
-{
-    return nullptr;
+    ACCESS_PIMPL(const credential);
+    return d->type;
 }

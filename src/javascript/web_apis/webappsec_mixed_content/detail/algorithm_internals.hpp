@@ -32,7 +32,7 @@ namespace webappsec::detail
             T&&)
             -> ext::boolean; // TODO
 
-    auto is_prior_authenticated_url(
+    auto is_priori_authenticated_url(
             const url::detail::url_t& url)
             -> ext::boolean;
 

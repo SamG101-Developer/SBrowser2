@@ -9,13 +9,14 @@
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(webappsec_credential_management)
 
+namespace js::env {class env;}
 namespace webappsec::credential_management {class credential;}
 
 
 namespace webappsec::detail
 {
     auto same_origin_with_ancestors(
-            v8::Local<v8::Object> settings)
+            js::env::env& e)
             -> ext::boolean;
 
     auto requires_use_mediation(
@@ -31,7 +32,6 @@ namespace webappsec::detail
             -> ext::boolean;
 
     auto request_credential(
-            credential_management::credential* credential,
             detail::credential_request_options_t&& options)
             -> ext::promise<credential_management::credential*>;
 
@@ -43,6 +43,14 @@ namespace webappsec::detail
 
     auto store_credential(
             credential_management::credential* credential)
+            -> ext::promise<credential_management::credential*>;
+
+    auto prevent_silent_access(
+            js::env::env& e)
+            -> ext::promise<void>;
+
+    auto create_credential(
+            detail::credential_request_options_t&& options)
             -> ext::promise<credential_management::credential*>;
 
     auto ask_user_to_choose_credentials(

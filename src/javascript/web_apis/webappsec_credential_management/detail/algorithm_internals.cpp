@@ -5,9 +5,12 @@
 #include "javascript/environment/environment_settings.hpp"
 
 #include "dom/abort/abort_signal.hpp"
+#include "dom/abort/abort_signal_private.hpp"
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
 #include "html/detail/context_internals.hpp"
 #include "html/detail/origin_internals.hpp"
@@ -21,21 +24,19 @@
 
 
 auto webappsec::detail::same_origin_with_ancestors(
-        v8::Local<v8::Object> settings)
+        js::env::env& e)
         -> ext::boolean
 {
-    auto e = js::env::env::relevant(settings);
     decltype(auto) window = e.cpp.global<dom::nodes::window*>();
-    return_if (!window->document()) false;
+    return_if (!window->d_func()->document.get()) false;
 
-    decltype(auto) settings_object = v8pp::from_v8<js::env::settings_t*>(settings_relevant_agent, settings);
-    decltype(auto) origin = settings_object->origin;
-    decltype(auto) current = window->document()->m_browsing_context.get();
+    decltype(auto) origin = *e.cpp.settings()->origin;
+    decltype(auto) current = window->d_func()->document->d_func()->browsing_context.get();
 
     while (current->parent_browsing_context)
     {
         current = current->parent_browsing_context;
-        return_if (!html::detail::same_origin(window->document()->m_orign, origin)) false;
+        return_if (!html::detail::same_origin(window->d_func()->document->d_func()->origin, origin)) false;
     }
 
     return true;
@@ -47,12 +48,11 @@ auto webappsec::detail::matchable_priori(
         -> ext::boolean
 {
     // TODO
-    return options.try_emplace("credential_store").first->second.to<detail::discovery_t>() != detail::discovery_t::CREDENTIAL_STORE;
+    return options[u"credential_store"].to<detail::discovery_t>() != detail::discovery_t::CREDENTIAL_STORE;
 }
 
 
 auto webappsec::detail::request_credential(
-        credential_management::credential* credential,
         detail::credential_request_options_t&& options)
         -> ext::promise<credential_management::credential*>
 {
@@ -60,7 +60,7 @@ auto webappsec::detail::request_credential(
     // TODO : assert settings is in a secure context
     auto promise = ext::promise<credential_management::credential*>{};
 
-    decltype(auto) abort_signal = options.try_emplace("signal", nullptr).first->second.to<dom::abort::abort_signal*>();
+    decltype(auto) abort_signal = options.try_emplace(u"signal", nullptr).first->second.to<dom::abort::abort_signal*>();
     return_if (abort_signal->aborted()) promise.reject(abort_signal->reason());
     // TODO: mediation
 
@@ -74,7 +74,7 @@ auto webappsec::detail::request_credential(
     {
         JS_EXCEPTION_HANDLER;
         decltype(auto) credentials = collect_credentials(origin, std::move(options), is_same_origin_with_ancestors);
-        decltype(auto) mediation = options.try_emplace("mediation").first->second.to<detail::credential_mediation_requirement_t>();
+        decltype(auto) mediation = options.try_emplace(u"mediation").first->second.to<detail::credential_mediation_requirement_t>();
 
         if (JS_EXCEPTION_HAS_THROWN)
             return promise.reject(JS_EXCEPTION);
