@@ -8,6 +8,8 @@
 
 #include "webappsec_cowl/_typedefs.hpp"
 #include "webappsec_cowl/detail/cowl_internals.hpp"
+#include "webappsec_cowl/label.hpp"
+#include "webappsec_cowl/label_private.hpp"
 
 #include <range/v3/action/push_back.hpp>
 #include <range/v3/view/set_algorithm.hpp>
@@ -39,7 +41,7 @@ auto webappsec::cowl::label::equals(label* other) -> ext::boolean
 
 auto webappsec::cowl::label::subsumes(label* other, privilege* priv) -> ext::boolean
 {
-    decltype(auto) label = priv ? and_(priv->as_label()) : this;
+    decltype(auto) label = priv ? and_(priv->as_label()).get() : this;
     return detail::label_subsumes(label, other);
 }
 

@@ -14,10 +14,10 @@ class webappsec::cowl::label
         : public virtual dom_object
 {
 public constructors:
+    label(detail::principal_t&& principal = u"");
     MAKE_PIMPL(label);
     MAKE_STRINGIFIER;
     MAKE_V8_AVAILABLE;
-    label(detail::principal_t&& principal = u"");
 
 public js_methods:
     auto equals(label* other) -> ext::boolean;
