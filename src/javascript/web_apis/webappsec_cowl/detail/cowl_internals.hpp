@@ -55,12 +55,12 @@ namespace webappsec::detail
             -> ext::boolean;
 
     auto current_confidentially_label(
-
-            );
+            js::env::env& environment)
+            -> cowl::label*;
 
     auto current_integrity_label(
-
-            );
+            js::env::env& environment)
+            -> cowl::label*;
 
     auto is_empty_label(
             cowl::label* label)
