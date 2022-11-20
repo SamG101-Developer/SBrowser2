@@ -14,6 +14,7 @@
 #include "html/detail/task_internals.hpp"
 
 #include "referrer_policy/_typedefs.hpp"
+#include "webappsec_cowl/detail/algorithm_internals.hpp"
 #include "webappsec_csp/detail/integration_internals.hpp"
 #include "webappsec_mixed_content/detail/algorithm_internals.hpp"
 #include "dom/nodes/window.hpp"
@@ -147,7 +148,7 @@ auto fetch::detail::fetch(
 auto fetch::detail::main_fetch(
         fetch::detail::fetch_params_t& fetch_params,
         ext::boolean recursive)
-        -> std::unique_ptr<response_t>
+        -> std::unique_ptr<response_t> // TODO : Mark off-spec code as off-spec: 'ARROW [SPEC] ARROW'
 {
     // Set the 'request' to the request attatched to the 'fetch_params' parameter. The 'response' is a network error if
     // the only local urls are allowed by the request, and the request's current url isn't a local url. Otherwise,
@@ -166,8 +167,9 @@ auto fetch::detail::main_fetch(
     // content security policy reasons), then set the response to a return error (don't return yet as other attributes
     // might need adjusting still).
     if (should_request_be_blocked_due_to_bad_port(request)
-            || webappsec::detail::should_fetching_request_be_blocked_as_mixed_content(request)
-            || webappsec::detail::should_request_be_blopcked_by_content_security_polocy(request))
+            || webappsec::detail::should_request_be_blocked_as_cowl(request)
+            || webappsec::detail::should_request_be_blocked_as_mixed_content(request)
+            || webappsec::detail::should_request_be_blocked_by_content_security_policy(request))
         response.reset(create_appropriate_network_error(fetch_params));
 
     // If the request's referrer policy is empty, then set it to the request's policy container's referrer policy - the
@@ -227,7 +229,10 @@ auto fetch::detail::main_fetch(
             return response;
 
         if (!is_network_error(*response) && !is_filtered_response(*response))
-            // TODO
+            ; // TODO
+
+        if (webappsec::detail::process_response_to_request_as_cowl(request, response))
+            response.reset(create_appropriate_network_error(fetch_params));
             };
 
     if (!recursive)

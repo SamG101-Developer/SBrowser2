@@ -53,6 +53,10 @@ private js_properties:
 
     /* [PERMISSIONS-POLICY] */
     DEFINE_GETTER(permissions_policy, permissions_policy::permissions_policy_object*);
+
+    /* [WEBAPPSEC-COWL] */
+    DEFINE_GETTER(cowl, ext::boolean);
+    DEFINE_SETTER(cowl, ext::boolean);
 };
 
 
