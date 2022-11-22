@@ -179,7 +179,7 @@ namespace url::detail
 
     auto origin(
             const url_t& url)
-            -> html::detail::origin_t;
+            -> std::unique_ptr<html::detail::origin_t>;
 
     auto update_url_search_params(
             url_search_params* query)

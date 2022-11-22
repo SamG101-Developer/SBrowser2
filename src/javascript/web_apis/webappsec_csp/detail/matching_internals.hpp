@@ -22,13 +22,13 @@ namespace webappsec::detail
     auto does_request_match_source_list(
             fetch::request& request,
             ext::vector_view<ext::string> source_list,
-            content_security_policy_t& csp)
+            policy_t& csp)
             -> ext::boolean;
 
     auto does_response_to_request_match_source_list(
             fetch::request& request,
             ext::vector_view<ext::string> source_list,
-            content_security_policy_t& csp)
+            policy_t& csp)
             -> ext::boolean;
 
     auto does_url_match_source_list_in_origin_with_redirected_count(

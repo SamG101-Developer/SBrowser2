@@ -17,7 +17,7 @@ namespace webappsec::detail
             -> ext::string;
 
     auto report_violation(
-            violation_t&& violation_object)
+            violation_t& violation)
             -> void;
 }
 

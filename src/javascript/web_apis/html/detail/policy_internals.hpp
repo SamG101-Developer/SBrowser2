@@ -4,7 +4,7 @@
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(content_security_policy)
+#include INCLUDE_INNER_TYPES(webappsec_csp)
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(referrer_policy)
 #include INCLUDE_INNER_TYPES(url)
@@ -36,7 +36,7 @@ namespace html::detail
 
 struct html::detail::policy_container_t
 {
-    ext::vector<content_security_policy::detail::content_security_policy_t*>& csp_list;
+    ext::vector<webappsec::detail::policy_t*> csp_list;
     std::unique_ptr<embedder_policy_t> embedder_policy;
     referrer_policy::detail::referrer_policy_t referrer_policy;
 };
@@ -48,8 +48,8 @@ struct html::detail::embedder_policy_t
 
     embedder_policy_value_t value = UNSAFE_NONE;
     embedder_policy_value_t report_only_value = UNSAFE_NONE;
-    ext::string reporting_endpoint = "";
-    ext::string report_only_reporting_endpoint = "";
+    ext::string reporting_endpoint = u"";
+    ext::string report_only_reporting_endpoint = u"";
 };
 
 
@@ -59,8 +59,8 @@ struct html::detail::cross_origin_opener_policy_t
 
     cross_origin_opener_policy_value_t value = UNSAFE_NONE;
     cross_origin_opener_policy_value_t report_only_value = UNSAFE_NONE;
-    ext::string reporting_endpoint = "";
-    ext::string report_only_reporting_endpoint = "";
+    ext::string reporting_endpoint = u"";
+    ext::string report_only_reporting_endpoint = u"";
 };
 
 

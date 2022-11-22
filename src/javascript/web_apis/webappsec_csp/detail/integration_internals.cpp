@@ -1,32 +1,28 @@
 #include "integration_internals.hpp"
 #include "directive_internals.hpp"
 
-#include INCLUDE_INNER_TYPES(content_security_policy)
-
 #include "ext/boolean.hpp"
+#include "ext/functional.hpp"
 #include "ext/ranges.hpp"
-
-#include "content_security_policy/detail/reporting_internals.hpp"
-#include "content_security_policy/detail/violation_internals.hpp"
 
 #include "fetch/detail/request_internals.hpp"
 #include "fetch/detail/response_internals.hpp"
 
 #include "html/detail/policy_internals.hpp"
+#include "webappsec_csp/_typedefs.hpp"
+#include "webappsec_csp/detail/csp_internals.hpp"
 
 
 auto webappsec::detail::report_content_security_policy_violations(
         const fetch::detail::request_t& request)
         -> void
 {
-    // Get the content security policy from the request's policy container.
-    using enum ranges::views::filter_compare_t;
-    decltype(auto) csp_list = request.policy_container->csp_list;
+    using enum ranges::filter_compare_t;
 
     // For each policy whose disposition is not ENFORCED, and is violated by the request, create a violation object, and
     // report the violation (only reported policies are used to report any violations).
-    for (decltype(auto) policy: csp_list
-            | ranges::views::filter_eq<NE>(&content_security_policy_t::disposition, disposition_t::ENFORCE, ext::identity{})
+    for (decltype(auto) policy: ext::get<1>(request.policy_container)->csp_list
+            | ranges::views::filter_eq<NE>(&policy_t::disposition, disposition_t::ENFORCE, ext::underlying)
             | ranges::views::filter([&request](auto* policy) {return does_request_violate_policy(request, *policy);}))
     {
         auto violation = create_violation_object(request, *policy);
@@ -37,23 +33,22 @@ auto webappsec::detail::report_content_security_policy_violations(
 
 auto webappsec::detail::should_request_be_blocked_by_content_security_policy(
         const fetch::detail::request_t& request)
-        -> ext::boolean
+        -> should_t
 {
     // Get the content security policy from the request's policy container. Default the result to false (request isn't
     // blocked by default)
-    using enum ranges::views::filter_compare_t;
-    decltype(auto) csp_list = request.policy_container->csp_list;
-    auto result = ext::boolean::FALSE_();
+    using enum ranges::filter_compare_t;
+    auto result = should_t::ALLOWED;
 
     // For each policy whose disposition is not REPORT, and is violated by the request, create a violation object, and
     // report the violation (Only enforced policies are used to check if a request should be blocked).
-    for (decltype(auto) policy: csp_list
-            | ranges::views::filter_eq<NE>(&content_security_policy_t::disposition, disposition_t::REPORT, ext::identity{})
+    for (decltype(auto) policy: ext::get<1>(request.policy_container)->csp_list
+            | ranges::views::filter_eq<NE>(&policy_t::disposition, disposition_t::REPORT, ext::underlying)
             | ranges::views::filter([&request](auto* policy) {return does_request_violate_policy(request, *policy);}))
     {
         auto violation = create_violation_object(request, *policy);
         report_violation(std::move(violation));
-        result = true;
+        result = should_t::BLOCKED;
     }
 
     // Return if the request should be blocked or not.
@@ -61,10 +56,10 @@ auto webappsec::detail::should_request_be_blocked_by_content_security_policy(
 }
 
 
-auto webappsec::detail::should_response_be_blocked_by_content_security_policy(
+auto webappsec::detail::should_response_to_request_be_blocked_by_content_security_policy(
         const fetch::detail::response_t& response,
         const fetch::detail::request_t& request)
-        -> ext::boolean
+        -> should_t
 {
     // Get the content security policy from the request's policy container. Default the result to false (response isn't
     // blocked by default)
