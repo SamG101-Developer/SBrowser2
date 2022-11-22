@@ -5,7 +5,8 @@
 #include "sensors/sensor_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(ambient_light_sensor, ambient_light_sensor) : sensors::sensor_private
+DEFINE_PRIVATE_CLASS(ambient_light_sensor, ambient_light_sensor)
+        : sensors::sensor_private
 {
     MAKE_QIMPL(ambient_light_sensor);
 };

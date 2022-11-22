@@ -8,8 +8,11 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::node_iterators, tree_walker) : abstract_iterator_private
+DEFINE_PRIVATE_CLASS(dom::node_iterators, tree_walker)
+        : abstract_iterator_private
 {
+    MAKE_QIMPL(tree_walker);
+
     std::observer_ptr<nodes::node> current;
 };
 

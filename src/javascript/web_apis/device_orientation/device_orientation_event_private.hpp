@@ -5,8 +5,11 @@
 #include "dom/events/event_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event) : virtual dom::events::event_private
+DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event)
+        : virtual dom::events::event_private
 {
+    MAKE_QIMPL(device_orientation);
+
     ext::number<double> alpha;
     ext::number<double> beta;
     ext::number<double> gamma;

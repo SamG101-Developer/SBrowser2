@@ -68,7 +68,7 @@ auto dom::abort::abort_signal::throw_if_aborted() -> void
     // stored in the 'reason' - the exception is effectively recreated, but into the 'throw_...' method, so it is
     // created and thrown at the correct time.
     detail::throw_v8_exception<ABORT_ERR>(
-            [this] {return detail::is_signal_aborted(this);},
+            [d] {return d->aborted();},
             d->abort_reason.to<dom::other::dom_exception>().d_func()->message);
 }
 

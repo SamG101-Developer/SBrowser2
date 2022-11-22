@@ -8,7 +8,8 @@
 #include INCLUDE_INNER_TYPES(background_tasks)
 
 
-DEFINE_PRIVATE_CLASS(background_tasks, idle_deadline) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(background_tasks, idle_deadline)
+        : virtual dom_object_private
 {
     MAKE_QIMPL(idle_deadline);
 

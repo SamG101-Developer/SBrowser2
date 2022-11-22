@@ -7,8 +7,11 @@
 #include INCLUDE_INNER_TYPES(device_posture)
 
 
-DEFINE_PRIVATE_CLASS(device_posture, device_posture) : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(device_posture, device_posture)
+        : dom::nodes::event_target_private
 {
+    MAKE_QIMPL(device_posture);
+
     detail::device_posture_type_t current_posture;
 };
 

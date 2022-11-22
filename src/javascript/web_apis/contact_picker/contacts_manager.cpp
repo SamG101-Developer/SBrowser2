@@ -19,6 +19,7 @@
 #include "html/detail/context_internals.hpp"
 #include "html/detail/task_internals.hpp"
 
+#include "v8-exception.h"
 #include "web_idl/detail/type_mapping_internals.hpp"
 
 #include <range/v3/view/set_algorithm.hpp>
@@ -56,47 +57,42 @@ auto contact_picker::contacts_manager::select(
     // Get the relevant browsing context from the relevant JavaScript realm. Create an empty promise for returning
     // either rejected or resolved.
     auto e = js::env::env::relevant(this);
-    decltype(auto) relevant_browsing_context = *v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->document->d_func()->browsing_context;
-    ext::promise<ext::vector<detail::contact_info_t>> promise;
+    decltype(auto) relevant_browsing_context = *e.cpp.global<dom::nodes::window*>()->d_func()->document->d_func()->browsing_context;
+    auto promise = ext::promise<ext::vector<detail::contact_info_t>>{};
 
     // If the relevant browsing context is not top level, then the ContactsManager is in an invalid state to select a
     // contact information (incorrect context).
     if (!html::detail::is_top_level_browsing_context(relevant_browsing_context))
-    {
-        web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
-        return promise;
-    }
+        return web_idl::detail::reject_promise(
+                promise, e.js.realm(),
+                dom::other::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
 
     if (/* TODO : SECURITY_ERR check here */)
-    {
-        web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"TODO", SECURITY_ERR});
-        return promise;
-    }
+        return web_idl::detail::reject_promise(
+                promise, e.js.realm(),
+                dom::other::dom_exception{u8"TODO", SECURITY_ERR});
 
     // If the contact picker is already showing in the relevant browsing context, then the ContactsManager is in an
     // invalid state, because this method is already running (close previous picker and open again)
     if (relevant_browsing_context.m_contact_picker_is_showing)
-    {
-        web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
-        return promise;
-    }
+        return web_idl::detail::reject_promise(
+                promise, e.js.realm(),
+                dom::other::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
 
     // If there are no properties, then there is nothing to choose from; this is a JavaScript TypeError, because the
     // properties is of an incorrect length.
     if (properties.empty())
-    {
-        promise.reject(); // TODO : JavaScript TypeError
-        return promise;
-    }
+        return web_idl::detail::reject_promise(
+                promise, e.js.realm(),
+                v8::Exception::TypeError());
 
     // If any of the properties aren't supported, then this is a JavaScript TypeError (invalid properties are detected
     // by discovering any properties in the 'properties' list that aren't in the supported properties with a
     // 'set_difference' check.
     if (!ranges::views::set_difference(d->supported_properties, properties).empty())
-    {
-        promise.reject(); // TODO : JavaScript TypeError
-        return promise;
-    }
+        return web_idl::detail::reject_promise(
+                promise, e.js.realm(),
+                v8::Exception::TypeError());
 
     // Set the contacts picker showing flag to true for the relevant browsing context, as the picker is about to be
     // shown.

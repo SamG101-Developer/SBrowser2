@@ -10,7 +10,8 @@
 #include <hwinfo/battery.h>
 
 
-DEFINE_PRIVATE_CLASS(battery, battery_manager) : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(battery, battery_manager)
+        : dom::nodes::event_target_private
 {
     MAKE_QIMPL(battery_manager);
 

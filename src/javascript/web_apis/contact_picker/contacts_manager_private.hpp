@@ -8,8 +8,10 @@
 #include "ext/vector.hpp"
 
 
-DEFINE_PRIVATE_CLASS(contact_picker, contacts_manager) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(contact_picker, contacts_manager)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(contacts_manager);
     ext::vector<detail::user_contact_t*> available_contacts;
     ext::vector<detail::contact_property_t> supported_properties;
 };

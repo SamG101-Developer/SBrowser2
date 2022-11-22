@@ -4,11 +4,13 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include INCLUDE_INNER_TYPES(dom);
+#include INCLUDE_INNER_TYPES(dom)
 
 
-DEFINE_PRIVATE_CLASS(dom::node_iterators, node_filter) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::node_iterators, node_filter)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(node_filter);
     detail::accept_callback_t accept_node_callback;
 };
 

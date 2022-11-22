@@ -8,8 +8,11 @@
 #include "ext/vector.hpp"
 
 
-DEFINE_PRIVATE_CLASS(contact_picker, contact_address) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(contact_picker, contact_address)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(contact_address);
+
     ext::string country;
     ext::vector<ext::string> address_line;
     ext::string region;

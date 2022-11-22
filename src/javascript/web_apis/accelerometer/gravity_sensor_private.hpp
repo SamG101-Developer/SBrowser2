@@ -5,7 +5,8 @@
 #include "accelerometer/accelerometer_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(accelerometer, gravity_sensor) : accelerometer_private
+DEFINE_PRIVATE_CLASS(accelerometer, gravity_sensor)
+        : accelerometer_private
 {
     MAKE_QIMPL(gravity_sensor);
 };

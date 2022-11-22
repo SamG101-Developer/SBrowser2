@@ -7,8 +7,11 @@
 #include "ext/any.hpp"
 
 
-DEFINE_PRIVATE_CLASS(dom::events, custom_event) : event_private
+DEFINE_PRIVATE_CLASS(dom::events, custom_event)
+        : event_private
 {
+    MAKE_QIMPL(custom_event);
+
     ext::any detail;
 };
 

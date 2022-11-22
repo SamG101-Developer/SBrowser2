@@ -21,7 +21,7 @@ auto ambient_light_sensor::ambient_light_sensor::get_illuminance() const -> ext:
     // from the ext::any type to a double. Return the double.
     auto candidate_illuminance = sensors::detail::get_value_from_latest_reading(this, u"illuminance");
     auto defaulted_illuminance = candidate_illuminance.value_or(sensors::detail::sensor_reading_t{});
-    auto extracted_illuminance = defaulted_illuminance.at(u"illuminance").to<ext::number<double>>();
+    auto extracted_illuminance = defaulted_illuminance[u"illuminance"].to<ext::number<double>>();
     return extracted_illuminance;
 }
 

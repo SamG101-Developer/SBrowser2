@@ -10,8 +10,11 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::node_iterators, abstract_iterator) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::node_iterators, abstract_iterator)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(abstract_iterator);
+
     ext::boolean active_flag;
 
     std::observer_ptr<dom::nodes::node> root;

@@ -126,7 +126,7 @@ auto dom::node_iterators::tree_walker::next_node() -> nodes::node*
 {
     ACCESS_PIMPL(tree_walker);
 
-    decltype(auto) node = d->current;
+    decltype(auto) node = d->current.get();
     decltype(auto) result = node_filter::FILTER_ACCEPT;
 
     while (true)

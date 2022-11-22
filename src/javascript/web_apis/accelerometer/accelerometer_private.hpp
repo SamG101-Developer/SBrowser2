@@ -5,7 +5,8 @@
 #include "sensors/sensor_private.hpp"
 
 
-DEFINE_PRIVATE_CLASS(accelerometer, accelerometer) : sensors::sensor_private
+DEFINE_PRIVATE_CLASS(accelerometer, accelerometer)
+        : sensors::sensor_private
 {
     MAKE_QIMPL(accelerometer);
 };

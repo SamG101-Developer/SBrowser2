@@ -8,8 +8,11 @@
 #include "ext/any.hpp"
 
 
-DEFINE_PRIVATE_CLASS(dom::abort, abort_signal) : nodes::event_target_private
+DEFINE_PRIVATE_CLASS(dom::abort, abort_signal)
+        : nodes::event_target_private
 {
+    MAKE_QIMPL(abort_signal);
+
     auto aborted() const -> ext::boolean {return abort_reason.has_value();}
     auto follow_signal(abort_signal* parent_signal) {/* TODO */}
 

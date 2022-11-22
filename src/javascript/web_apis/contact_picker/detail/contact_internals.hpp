@@ -5,6 +5,7 @@
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
+#include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(contact_picker)
 
 namespace file_api {class blob;}
@@ -14,7 +15,7 @@ namespace contact_picker::detail
 {
     auto launch(
             ext::boolean allow_multiple,
-            ext::vector_view<ext::string> properties)
+            ext::vector_span<ext::string> properties)
             -> ext::optional<user_contact_t>;
 }
 
