@@ -9,7 +9,9 @@
 DEFINE_PRIVATE_CLASS(dom::nodes, text)
         : character_data_private
         , mixins::slottable_private
-{};
+{
+    MAKE_QIMPL(text);
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_TEXT_PRIVATE_HPP

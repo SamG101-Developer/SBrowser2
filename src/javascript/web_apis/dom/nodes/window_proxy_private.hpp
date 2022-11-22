@@ -9,10 +9,13 @@
 namespace dom::nodes {class window;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, window_proxy) : dom_object_private
+DEFINE_PRIVATE_CLASS(dom::nodes, window_proxy)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(window_proxy);
+
     std::observer_ptr<window> window;
-    auto Window() const -> v8::Local<v8::Object>;
+    auto Window() const -> v8::Local<v8::Object>; // TODO : ?
 };
 
 

@@ -9,10 +9,14 @@
 namespace dom::nodes {class document;}
 namespace html::other {class custom_element_registry;}
 namespace html::other {class location;}
+namespace html::navigators {class navigator;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, window) : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(dom::nodes, window)
+        : dom::nodes::event_target_private
 {
+    MAKE_QIMPL(window);
+
     /* [HTML] */
     ext::boolean has_dispatched_scroll_event = false;
     std::unique_ptr<dom::detail::custom_element_reactions_stack_t> custom_element_reaction_stack;

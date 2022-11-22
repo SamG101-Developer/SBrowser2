@@ -8,8 +8,11 @@
 namespace dom::nodes {class document;}
 
 
-DEFINE_PRIVATE_CLASS(dom::other, dom_implementation) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::other, dom_implementation)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(dom_implementation);
+
     std::observer_ptr<nodes::document> document;
 };
 

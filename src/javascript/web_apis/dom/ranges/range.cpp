@@ -44,8 +44,8 @@ dom::node_ranges::range::range()
     ACCESS_PIMPL(range);
 
     auto e = js::env::env::current();
-    d->start->node = v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->document.get();
-    d->end->node = v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->document.get();
+    d->start->node = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
+    d->end->node = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
     d->start->offset = 0;
     d->end->offset = 0;
 }
@@ -606,7 +606,7 @@ dom::node_ranges::range::operator ext::string() const
     decltype(auto) textual_start_container = dom_cast<nodes::character_data*>(d->start->node.get());
     decltype(auto) textual_end_container   = dom_cast<nodes::character_data*>(d->end->node.get());
 
-    if (textual_start_container && textual_end_container && d->start->node == d->end->node)
+    if (textual_start_container && textual_end_container && d->start->node.get() == d->end->node)
         return detail::substring_data(textual_start_container, d->start->offset, d->end->offset - d->start->offset);
 
     if (textual_start_container)
@@ -614,7 +614,7 @@ dom::node_ranges::range::operator ext::string() const
 
     s += detail::descendant_text_nodes(detail::root(this))
             | ranges::views::filter(BIND_BACK(detail::contains, this))
-            | ranges::views::transform(&nodes::text_private::data, ext::get_pimpl)
+            | ranges::views::transform_to_attr(&nodes::text_private::data, ext::get_pimpl)
             | ranges::to<ext::string>();
 
     if (textual_end_container)
