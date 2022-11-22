@@ -52,7 +52,7 @@ namespace webgpu {class gpu_canvas_context;}
 namespace html::detail
 {
     enum class history_handling_behaviour_t {DEFAULT, /* TODO */};
-    enum class directionality_t {LTR, RTL, AUTO};
+    enum class directionality_t {LTR, RTL, AUTO, _};
     enum class bidirectional_char_t: char32_t {L = 0x200e, R = 0x200f, AL = 0x061c, EN, ES, ET, AN, CS, NSM, BN, B, S, WS, ON, LRE, LRO, RLE, PDF, LRI, RLI, FSI, PDI};
     enum class state_t {UNAVAILABLE, PARTIALLY_AVAILABLE, COMPLETELY_AVAILABLE, BROKEN};
     enum class phase_t {PRE_MEDIA, MEDIA};

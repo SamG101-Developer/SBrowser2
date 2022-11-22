@@ -28,6 +28,8 @@ DEFINE_PRIVATE_CLASS(dom::nodes, element)
         , aria::mixins::aria_mixin_private
 //        , css::css_web_animations::mixins::animatable_private
 {
+    MAKE_QIMPL(element);
+
     ext::string namespace_;
     ext::string namespace_prefix;
     ext::string local_name;
@@ -45,13 +47,13 @@ DEFINE_PRIVATE_CLASS(dom::nodes, element)
     ext::queue<detail::reaction_t*> custom_element_reaction_queue;
     std::unique_ptr<html::detail::browsing_context_t> nested_browsing_context;
 
-    /* FULLSCREEN */
+    /* [FULLSCREEN] */
     ext::boolean fullscreen_flag;
 
-    /* HTML */
+    /* [HTML] */
     ext::boolean click_in_progress_flag;
 
-    /* INTERSECTION_OBSERVERS */
+    /* [INTERSECTION-OBSERVERS] */
     ext::vector<std::unique_ptr<intersection_observer::detail::intersection_observer_registration_t>> registration_intersection_observers;
 };
 

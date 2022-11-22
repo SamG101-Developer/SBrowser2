@@ -11,9 +11,11 @@
 
 DEFINE_PRIVATE_CLASS(dom::nodes, character_data)
         : node_private
-        , child_node_private
-        , non_document_type_child_node_private
+        , mixins::child_node_private
+        , mixins::non_document_type_child_node_private
 {
+    MAKE_QIMPL(character_data);
+
     ext::string data;
 };
 

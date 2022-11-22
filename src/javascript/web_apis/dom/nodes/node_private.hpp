@@ -10,8 +10,11 @@
 namespace dom::nodes {class document;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, node) : event_target_private
+DEFINE_PRIVATE_CLASS(dom::nodes, node)
+        : event_target_private
 {
+    MAKE_QIMPL(node);
+
     ext::vector<std::unique_ptr<detail::registered_observer_t>> registered_observer_list;
     std::observer_ptr<dom::nodes::document> node_document;
 

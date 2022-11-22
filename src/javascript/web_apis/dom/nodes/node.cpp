@@ -168,7 +168,7 @@ auto dom::nodes::node::normalize() -> node*
             // Combine the text from the next consecutive text nodes into the text node -- this is because there is no
             // visual difference to merging all the text, and leaving teh nodes separate overcomplicates the object tree.
             auto data = dom::detail::contiguous_text_nodes(text_node)
-                        | ranges::views::transform(&text_private::data, &text::d_func)
+                        | ranges::views::transform_to_attr(&text_private::data, ext::get_pimpl)
                         | ranges::to<ext::string>();
 
             // Replace the data in this node with the combined data from the contiguous nodes.
@@ -178,38 +178,38 @@ auto dom::nodes::node::normalize() -> node*
             decltype(auto) current_node = detail::next_sibling(text_node);
 
             auto e = js::env::env::surrounding(this);
-            auto live_ranges = js::env::get_slot<ext::vector<node_ranges::range*>*>(e, js::global_slots::live_ranges);
+            auto live_ranges = js::env::get_slot<ext::vector<node_ranges::range*>>(e, js::global_slots::live_ranges);
 
             // Iterate by incrementing the current_node to the next sibling.
             while (detail::is_exclusive_text_node(current_node))
             {
                 // Ranges whose starting node is current_node: increment the starting offset by the length of the text
                 // of the text node (text has shifted back to previous node) and set the starting node to the text node.
-                *live_ranges
-                        | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->start->node == current_node;})
-                        | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->start->offset = range->d_func()->start->offset + length;})
-                        | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->start->node = text_node;});
+                live_ranges
+                        | ranges::views::filter([&current_node](auto* range) {return range->d_func()->start->node.get() == current_node;})
+                        | ranges::views::for_each([length](auto* range) {range->d_func()->start->offset = range->d_func()->start->offset + length;})
+                        | ranges::views::for_each([text_node](auto* range) {range->d_func()->start->node = text_node;});
 
                 // Ranges whose ending node is current_node: increment the ending offset by the length of the text of
                 // the text node (text has shifted back to previous node) abd set the ending node to the text node.
-                *live_ranges
-                        | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->end->node == current_node;})
-                        | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->end->offset = range->d_func()->end->offset + length;})
-                        | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->end->node = text_node;});
+                live_ranges
+                        | ranges::views::filter([&current_node](auto* range) {return range->d_func()->end->node.get() == current_node;})
+                        | ranges::views::for_each([length](auto* range) {range->d_func()->end->offset = range->d_func()->end->offset + length;})
+                        | ranges::views::for_each([text_node](auto* range) {range->d_func()->end->node = text_node;});
 
                 // Ranges whose starting node is current_node's parent: set the starting offset to the length of the
                 // text in the text node and set the starting node to the text node TODO : why?
-                *live_ranges
-                        | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->start->node == current_node->d_func()->parent_node;})
-                        | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->start->offset = length;})
-                        | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->start->node = text_node;});
+                live_ranges
+                        | ranges::views::filter([&current_node](auto* range) {return range->d_func()->start->node.get() == current_node->d_func()->parent_node.get();})
+                        | ranges::views::for_each([length](auto* range) {range->d_func()->start->offset = length;})
+                        | ranges::views::for_each([text_node](auto* range) {range->d_func()->start->node = text_node;});
 
                 // Ranges whose ending node is current_node's parent: set the ending offset to the length of the text in
                 // the text node and set the ending node to the text node TODO : why?
-                *live_ranges
-                        | ranges::views::filter([&current_node](node_ranges::range* range) {return range->d_func()->end->node == current_node->d_func()->parent_node;})
-                        | ranges::views::for_each([length](node_ranges::range* range) {range->d_func()->end->offset = length;})
-                        | ranges::views::for_each([text_node](node_ranges::range* range) {range->d_func()->end->node = text_node;});
+                live_ranges
+                        | ranges::views::filter([&current_node](auto* range) {return range->d_func()->end->node.get() == current_node->d_func()->parent_node.get();})
+                        | ranges::views::for_each([length](auto* range) {range->d_func()->end->offset = length;})
+                        | ranges::views::for_each([text_node](auto* range) {range->d_func()->end->node = text_node;});
 
                 // Increment the length by the current_node's length (so that the next current_node's offset can be
                 // incremented further as needed to be, and set the current node to the next sibling).

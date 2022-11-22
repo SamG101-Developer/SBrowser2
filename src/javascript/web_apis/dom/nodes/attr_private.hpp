@@ -8,8 +8,11 @@
 namespace dom::nodes {class element;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, attr) : node_private
+DEFINE_PRIVATE_CLASS(dom::nodes, attr)
+        : node_private
 {
+    MAKE_QIMPL(attr);
+
     ext::string namespace_;
     ext::string namespace_prefix;
     ext::string local_name;

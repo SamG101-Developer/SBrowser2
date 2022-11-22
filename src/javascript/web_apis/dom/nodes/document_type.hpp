@@ -24,15 +24,15 @@ public constructors:
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_TYPE_NODE;}
     DEFINE_GETTER(node_name, ext::string) override;
-    DEFINE_GETTER(node_value, ext::string) override {return u8"";}
-    DEFINE_GETTER(text_content, ext::string) override {return u8"";}
+    DEFINE_GETTER(node_value, ext::string) override {return u"";}
+    DEFINE_GETTER(text_content, ext::string) override {return u"";}
 
     DEFINE_SETTER(node_value, ext::string) override {}
     DEFINE_SETTER(text_content, ext::string) override {}
 
-    DEFINE_GETTER(name, ext::string);
-    DEFINE_GETTER(public_id, ext::string);
-    DEFINE_GETTER(system_id, ext::string);
+    DEFINE_GETTER(name, ext::string_view);
+    DEFINE_GETTER(public_id, ext::string_view);
+    DEFINE_GETTER(system_id, ext::string_view);
 };
 
 

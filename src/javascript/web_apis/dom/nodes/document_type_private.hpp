@@ -12,6 +12,8 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document_type)
         : node_private
         , mixins::child_node_private
 {
+    MAKE_QIMPL(document_type);
+
     ext::string name;
     ext::string public_id;
     ext::string system_id;

@@ -92,12 +92,12 @@ custom_operator(go)
         using _stack_t = dom::detail::custom_element_reactions_stack_t;                              \
         auto _e = js::env::env::relevant(this);                                                      \
         auto _ce_reactions_stack = js::env::get_slot<_stack_t*>(_e, js::global_slots::ce_reactions); \
-        _ce_reactions_stack->emplace();                                                              \
+        _ce_reactions_stack->queues.emplace();                                                       \
                                                                                                      \
         JS_EXCEPTION_HANDLER;                                                                        \
         auto _value = _ce_method();                                                                  \
-        auto _queue = _ce_reactions_stack->top();                                                    \
-        _ce_reactions_stack->pop();                                                                  \
+        auto _queue = _ce_reactions_stack->queues.top();                                             \
+        _ce_reactions_stack->queues.pop();                                                           \
                                                                                                      \
         if (JS_EXCEPTION_HAS_THROWN)                                                                 \
             JS_EXCEPTION_RETHROW;                                                                    \

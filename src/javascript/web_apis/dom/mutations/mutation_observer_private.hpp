@@ -10,8 +10,11 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mutations, mutation_observer) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::mutations, mutation_observer)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(mutation_observer);
+
     detail::mutation_callback_t callback;
     ext::vector<nodes::node*> node_list;
     ext::queue<std::unique_ptr<mutations::mutation_record>> record_queue;

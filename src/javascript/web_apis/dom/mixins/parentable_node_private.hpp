@@ -10,7 +10,8 @@
 #include <range/v3/view/transform.hpp>
 
 
-DEFINE_PRIVATE_CLASS(dom::mixins, parentable_node) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::mixins, parentable_node)
+        : virtual dom_object_private
 {
     ranges::any_helpful_view<nodes::element*> children = ext::cross_cast<nodes::node_private*>(this)->child_nodes
             | ranges::views::transform(&std::unique_ptr<nodes::node>::get)

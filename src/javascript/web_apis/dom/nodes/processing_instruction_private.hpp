@@ -11,6 +11,8 @@ DEFINE_PRIVATE_CLASS(dom::nodes, processing_instruction)
         : character_data_private
         , css::cssom::mixins::link_style_private
 {
+    MAKE_QIMPL(processing_instruction);
+
     ext::string target;
 };
 

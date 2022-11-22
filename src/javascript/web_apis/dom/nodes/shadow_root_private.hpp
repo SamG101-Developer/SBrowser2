@@ -12,6 +12,8 @@ DEFINE_PRIVATE_CLASS(dom::nodes, shadow_root)
         : document_fragment_private
         , mixins::document_or_shadow_root_private
 {
+    MAKE_QIMPL(shadow_root);
+
     detail::shadow_root_mode_t mode;
     detail::slot_assignment_mode_t slot_assignment;
     ext::boolean delegates_focus;

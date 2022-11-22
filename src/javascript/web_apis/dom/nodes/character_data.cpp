@@ -12,7 +12,10 @@ dom::nodes::character_data::character_data()
 }
 
 
-auto dom::nodes::character_data::substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string
+auto dom::nodes::character_data::substring_data(
+        ext::number<ulong> offset,
+        ext::number<ulong> count)
+        const -> ext::string
 {
     // To substring the data, substring 'count' characters from the index 'offset' (from the 'data' attribute stored in
     // the private class). Return the result of substringing the data (the private-class'data' attribute remains the
@@ -21,7 +24,9 @@ auto dom::nodes::character_data::substring_data(ext::number<ulong> offset, ext::
 }
 
 
-auto dom::nodes::character_data::append_data(ext::string&& new_data) -> ext::string
+auto dom::nodes::character_data::append_data(
+        ext::string&& new_data)
+        -> ext::string
 {
     // To append data: replace 0 characters after the length of this node with the 'new_data' (from the 'data' attribute
     // stored in the private class). This is semantically the same as appending data, but uses a common detail procedure

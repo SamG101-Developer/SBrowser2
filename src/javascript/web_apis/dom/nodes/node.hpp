@@ -76,7 +76,7 @@ public js_methods:
 
 private js_properties:
     virtual DEFINE_GETTER(node_type, ext::number<ushort>) = 0;
-    virtual DEFINE_GETTER(node_name, ext::string) = 0;
+    virtual DEFINE_GETTER(node_name, ext::string) = 0; // TODO : ext::string_view?
     virtual DEFINE_GETTER(text_content, ext::string) = 0;
     virtual DEFINE_GETTER(node_value, ext::string) = 0;
 

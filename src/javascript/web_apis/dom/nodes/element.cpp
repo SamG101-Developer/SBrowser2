@@ -363,7 +363,7 @@ auto dom::nodes::element::attach_shadow(
             [this] {return detail::is_shadow_host(this);});
 
     auto shadow = std::make_unique<shadow_root>();
-    shadow->d_func()->node_document = d->node_document;
+    shadow->d_func()->node_document = d->node_document.get();
     shadow->d_func()->host = this;
     shadow->d_func()->mode = options[u"mode"].to<detail::shadow_root_mode_t>();
     shadow->d_func()->delegates_focus = options[u"delegatesFocus"].to<ext::boolean>();

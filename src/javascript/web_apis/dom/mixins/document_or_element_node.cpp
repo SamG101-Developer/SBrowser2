@@ -61,14 +61,14 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
     // 'qualified_name' into a lowercase string.
     auto lower = base->d_func()->node_document->d_func()->mode == u"quirks";
     auto that_qualified_name = ext::string{qualified_name};
-    if (lower) that_qualified_name |= ranges::actions::lowercase();
+    if (lower) that_qualified_name |= ranges::actions::lowercase;
 
     // The 'match_callback' checks if the qualified name of en element matches the qualified name that was passed into
     // the function as parameter. the element's qualified name is concerned into lowercase is 'lower' is set.
     auto match_callback = [&that_qualified_name, lower](const nodes::element* const element)
     {
         auto this_qualified_name = detail::qualified_name(element);
-        if (lower) this_qualified_name |= ranges::actions::lowercase();
+        if (lower) this_qualified_name |= ranges::actions::lowercase;
         return this_qualified_name == u"*" || this_qualified_name == that_qualified_name;
     };
 

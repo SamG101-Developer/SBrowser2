@@ -14,6 +14,8 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document_fragment)
         , mixins::non_element_parent_node_private
         , mixins::parentable_node_private
 {
+    MAKE_QIMPL(document_fragment);
+
     dom::nodes::element* host;
 };
 

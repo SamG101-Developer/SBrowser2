@@ -7,7 +7,8 @@
 namespace html::elements {class html_slot_element;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mixins, slottable) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::mixins, slottable)
+        : virtual dom_object_private
 {
     ext::string name;
     std::observer_ptr<html::elements::html_slot_element> assigned_slot;

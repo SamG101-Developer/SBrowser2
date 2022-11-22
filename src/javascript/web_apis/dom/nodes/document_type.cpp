@@ -16,7 +16,7 @@ auto dom::nodes::document_type::get_node_name() const -> ext::string
 }
 
 
-auto dom::nodes::document_type::get_name() const -> ext::string
+auto dom::nodes::document_type::get_name() const -> ext::string_view
 {
     // The 'name' getter returns the equivalent 'name' attribute value that is stored in the private class.
     ACCESS_PIMPL(const document_type);
@@ -24,7 +24,7 @@ auto dom::nodes::document_type::get_name() const -> ext::string
 }
 
 
-auto dom::nodes::document_type::get_public_id() const -> ext::string
+auto dom::nodes::document_type::get_public_id() const -> ext::string_view
 {
     // The 'public_id' getter returns the equivalent 'public_id' attribute value that is stored in the private class.
     ACCESS_PIMPL(const document_type);
@@ -32,7 +32,7 @@ auto dom::nodes::document_type::get_public_id() const -> ext::string
 }
 
 
-auto dom::nodes::document_type::get_system_id() const -> ext::string
+auto dom::nodes::document_type::get_system_id() const -> ext::string_view
 {
     // The 'system_id' getter returns the equivalent 'system_id' attribute value that is stored in the private class.
     ACCESS_PIMPL(const document_type);

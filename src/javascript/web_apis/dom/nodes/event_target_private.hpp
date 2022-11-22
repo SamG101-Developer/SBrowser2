@@ -13,11 +13,13 @@ namespace dom::nodes {class event_target;}
 namespace dom::events {class event;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, event_target) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::nodes, event_target)
+        : virtual dom_object_private
 {
     MAKE_QIMPL(event_target);
 
-    ext::function<nodes::event_target*(events::event*)> get_the_parent;
+    auto get_the_parent(events::event*) -> nodes::event_target*;
+
     ext::vector<ext::map<ext::string, ext::any>> event_listeners;
 };
 

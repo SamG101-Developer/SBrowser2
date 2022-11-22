@@ -9,8 +9,11 @@
 namespace dom::nodes {class node;}
 
 
-DEFINE_PRIVATE_CLASS(dom::mutations, mutation_record) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(dom::mutations, mutation_record)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(mutation_record);
+
     ext::string type;
     ext::string attribute_name;
     ext::string attribute_namespace;

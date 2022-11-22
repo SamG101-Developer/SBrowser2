@@ -148,9 +148,9 @@ private js_properties:
 private js_properties:
     /* [DOM] */
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_NODE;}
-    DEFINE_GETTER(node_name, ext::string) override {return u8"#document";}
-    DEFINE_GETTER(node_value, ext::string) override {return u8"";}
-    DEFINE_GETTER(text_content, ext::string) override {return u8"";}
+    DEFINE_GETTER(node_name, ext::string) override {return u"#document";}
+    DEFINE_GETTER(node_value, ext::string) override {return u"";}
+    DEFINE_GETTER(text_content, ext::string) override {return u"";}
 
     DEFINE_SETTER(node_value, ext::string) override {};
     DEFINE_SETTER(text_content, ext::string) override {}

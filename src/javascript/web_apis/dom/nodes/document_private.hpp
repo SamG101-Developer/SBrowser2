@@ -31,13 +31,15 @@ DEFINE_PRIVATE_CLASS(dom::nodes, document)
         , mixins::parentable_node_private
         , xpath::xpath_evaluator_base_private
 {
+    MAKE_QIMPL(document);
+
     /* [DOM] */
     std::unique_ptr<encoding::encoding> encoding;
     std::unique_ptr<url::detail::url_t> url;
     ext::string content_type;
     ext::string type = u"xml";
     ext::string mode = u"no-quirks";
-    std::unique_ptr<html::detail::origin_t> origin;
+    std::shared_ptr<html::detail::origin_t> origin;
     dom::other::dom_implementation* implementation;
 
     /* [HTML] */

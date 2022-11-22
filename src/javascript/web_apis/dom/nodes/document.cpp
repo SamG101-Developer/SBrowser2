@@ -5,7 +5,7 @@
 #include "ext/enums.hpp"
 #include "ext/ranges.hpp"
 
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/event_internals.hpp"
@@ -57,6 +57,7 @@
 #include "html/elements/html_title_element_private.hpp"
 #include "html/other/location.hpp"
 
+#include "encoding/detail/encoding_internals.hpp"
 #include "file_api/detail/blob_internals.hpp"
 #include "hr_time/detail/time_internals.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
@@ -85,7 +86,7 @@ dom::nodes::document::document()
     d->url = std::make_unique<url::detail::url_t>(u"about:blank");
     d->content_type = u"application/xml";
     d->ready_state = u"complete";
-    d->origin = e.cpp.global<dom::nodes::window*>()->d_func()->origin;
+    d->origin = e.cpp.settings()->origin; // TODO : settings?
     d->get_the_parent =
             [this, d](events::event* event)
             {
@@ -279,7 +280,7 @@ auto dom::nodes::document::get_location() const -> html::other::location*
 {
     auto e = js::env::env::relevant(this);
     return detail::is_document_fully_active(this)
-            ? v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->location.get()
+            ? e.cpp.global<dom::nodes::window*>()->d_func()->location.get()
             : nullptr;
 }
 
@@ -287,8 +288,8 @@ auto dom::nodes::document::get_location() const -> html::other::location*
 auto dom::nodes::document::get_domain() const -> ext::string
 {
     ACCESS_PIMPL(const document);
-    decltype(auto) effective_domain = html::detail::effective_domain(d->origin);
-    return effective_domain.has_value() ? url::detail::url_serializer(*effective_domain) : u8"";
+    decltype(auto) effective_domain = html::detail::effective_domain(*d->origin);
+    return effective_domain.has_value() ? url::detail::url_serializer(*effective_domain) : u"";
 }
 
 
@@ -310,18 +311,18 @@ auto dom::nodes::document::set_domain(ext::string new_domain) -> ext::string
             u8"Document not allowed to use document-domain feature");
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            [d] {return !html::detail::effective_domain(d->origin).has_value();},
+            [d] {return !html::detail::effective_domain(*d->origin).has_value();},
             u8"Document must have an effective domain");
 
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            [d, &new_domain] {return !html::detail::is_registerable_domain_suffix_or_equal_to(new_domain, html::detail::effective_domain(d->origin));},
+            [d, &new_domain] {return !html::detail::is_registerable_domain_suffix_or_equal_to(new_domain, *html::detail::effective_domain(*d->origin));},
             u8"The new domain must be a registerable domain or equal to Document's origin");
 
     auto e = js::env::env::surrounding(this);
     return_if (false) u""; // TODO : Agent->AgentCluster->IsOriginKeyed()
 
     using namespace ext::literals;
-    ext::get<html::detail::tuple_origin_t>(d->origin)[3_tag] = std::move(new_domain);
+    return d->origin->domain = std::move(new_domain);
 }
 
 
@@ -344,7 +345,7 @@ auto dom::nodes::document::get_cookie() const -> ext::string
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
     detail::throw_v8_exception<SECURITY_ERR>(
-            [d] {return html::detail::is_opaque_origin(d->origin);},
+            [d] {return html::detail::is_opaque_origin(*d->origin);},
             u8"Can not get the cookie of a Document whose origin is opaque");
 
     // return the true value of the cookie
@@ -400,7 +401,7 @@ auto dom::nodes::document::get_dir() const -> html::detail::directionality_t
     // if the 'document_element' exists, and is a HTMLElement based object, then forward its 'dir' attribute value as
     // the Document's 'dir' attribute value, otherwise the empty string
     decltype(auto) html_document_element = d->html_element();
-    return html_document_element ? html_document_element->d_func()->dir : u"";
+    return html_document_element ? html_document_element->d_func()->dir : html::detail::directionality_t::_;
 }
 
 
@@ -504,7 +505,7 @@ auto dom::nodes::document::set_cookie(ext::string new_cookie) -> ext::string
     // if the origin of this Document is opaque, then throw a security error, because the security of the cookie cannot
     // be guaranteed, despite the Document not being cookie averse
     detail::throw_v8_exception<SECURITY_ERR>(
-            [d] {return html::detail::is_opaque_origin(d->origin);},
+            [d] {return html::detail::is_opaque_origin(*d->origin);},
             u8"Can not get the cookie of a Document whose origin is opaque");
 
     // set the true value of the cookie t the new cookie value passed in as a parameter
@@ -587,7 +588,7 @@ auto dom::nodes::document::set_dir(html::detail::directionality_t new_dir) -> ht
     ACCESS_PIMPL(document);
 
     decltype(auto) html_document_element = d->html_element();
-    return html_document_element ? html_document_element->d_func()->dir = std::move(new_dir) : u8"";
+    return html_document_element ? html_document_element->d_func()->dir = std::move(new_dir) : html::detail::directionality_t::_;
 }
 
 
