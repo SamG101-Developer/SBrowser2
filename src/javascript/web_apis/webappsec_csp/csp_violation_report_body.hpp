@@ -4,30 +4,32 @@
 
 #include "reporting/report_body.hpp"
 namespace webappsec::csp {class csp_violation_report_body;}
+namespace webappsec::csp {class csp_violation_report_body_private;}
+
+#include INCLUDE_INNER_TYPES(webappsec_csp)
 
 
 class webappsec::csp::csp_violation_report_body
         : reporting::report_body
 {
 public constructors:
-    DOM_CTORS(csp_violation_report_body);
+    csp_violation_report_body();
+    MAKE_PIMPL(csp_violation_report_body);
+    MAKE_V8_AVAILABLE;
 
 private js_properties:
-    ext::property<ext::string> document_url;
-    ext::property<ext::string> referrer;
-    ext::property<ext::string> blocked_url;
-    ext::property<ext::string> effective_directive;
-    ext::property<ext::string> original_policy;
-    ext::property<ext::string> source_file;
-    ext::property<ext::string> sample;
-    ext::property<ext::string> disposition;
+    DEFINE_GETTER(document_url, ext::string);
+    DEFINE_GETTER(referrer, ext::string);
+    DEFINE_GETTER(blocked_uri, ext::string);
+    DEFINE_GETTER(effective_directive, ext::string);
+    DEFINE_GETTER(original_policy, ext::string);
+    DEFINE_GETTER(source_file, ext::string);
+    DEFINE_GETTER(sample, ext::string);
+    DEFINE_GETTER(disposition, detail::security_policy_violation_event_disposition_t);
 
-    ext::property<ext::number<ushort>> status_code;
-    ext::property<ext::number<ulong>> line_number;
-    ext::property<ext::number<ulong>> column_number;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
+    DEFINE_GETTER(status_code, ext::number<ushort>);
+    DEFINE_GETTER(line_number, ext::number<ulong>);
+    DEFINE_GETTER(column_number, ext::number<ulong>);
 };
 
 

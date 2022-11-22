@@ -13,13 +13,7 @@ namespace reporting {class report_body;}
 
 DEFINE_PRIVATE_CLASS(reporting, report) : virtual dom_object_private
 {
-    std::unique_ptr<report_body> body;
-    std::unique_ptr<url::detail::url_t> url;
-    ext::string user_agent;
-    ext::string destination;
-    detail::report_type_t type;
-    hr_time::epoch_time_stamp timestamp;
-    ext::number<uint> attempts;
+    std::unique_ptr<detail::report_t> report;
 };
 
 
