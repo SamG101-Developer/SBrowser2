@@ -190,6 +190,8 @@ auto fetch::detail::main_fetch(
             [recursive, &fetch_params, &request] -> std::unique_ptr<response_t>
             {
 
+        // TODO : webappsec::detail::should_response_to_request_be_blocked_by_content_security_policy()?
+
         if (ext::get<1>(fetch_params.preloaded_response_candidate))
         {
             while (ext::holds_alternative<preload_response_t>(fetch_params.preloaded_response_candidate)) continue;
