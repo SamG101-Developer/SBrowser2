@@ -24,7 +24,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_properties:
-    DEFINE_GETTER(password, ext::string);
+    DEFINE_GETTER(password, ext::string_view);
 };
 
 
