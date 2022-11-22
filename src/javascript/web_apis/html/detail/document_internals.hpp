@@ -74,6 +74,12 @@ namespace html::detail
             dom::nodes::document* document)
             -> html::elements::html_title_element*;
 
+    auto create_and_initialize_document(
+            ext::string&& type,
+            ext::string&& content_type,
+            navigation_params_t&& params)
+            -> std::unique_ptr<dom::nodes::document>;
+
     /* [FULLSCREEN] TODO : move to correct file */
     auto m_fullscreen_element(
             dom::nodes::document* document)

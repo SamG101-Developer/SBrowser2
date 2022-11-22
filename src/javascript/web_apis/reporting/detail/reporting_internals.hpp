@@ -19,18 +19,20 @@
 
 namespace dom::nodes {class document;}
 namespace html::workers {class worker_global_scope;}
+namespace reporting {class report_body;}
 namespace reporting {class reporting_observer;}
 
 
 namespace reporting::detail
 {
-//    auto queue_report(
-//            html::mixins::serializable* serializable_object,
-//            ext::string&& type,
-//            ext::string&& destination,
-//            ext::optional<v8::Local<v8::Object>> object = ext::nullopt,
-//            ext::optional<url::detail::url_t> url = ext::nullopt)
-//            -> report_t;
+    template <html::concepts::is_serializable T>
+    auto generate_report(
+           T* serializable_object,
+           ext::string&& type,
+           ext::string&& destination,
+           ext::optional<v8::Local<v8::Object>> object = ext::nullopt,
+           ext::optional<url::detail::url_t*> url = ext::nullopt)
+           -> std::unique_ptr<report_t>;
 //
 //    auto serialize_list_or_reports_to_json(
 //            ext::vector_span<report_t*>)
@@ -84,6 +86,18 @@ struct reporting::detail::endpoint_t
     ext::string name;
     std::unique_ptr<url::detail::url_t> url;
     ext::number<uint> failures;
+};
+
+
+struct reporting::detail::report_t
+{
+    std::unique_ptr<report_body> body;
+    std::unique_ptr<url::detail::url_t> url;
+    ext::string user_agent;
+    ext::string destination;
+    detail::report_type_t type;
+    hr_time::epoch_time_stamp timestamp;
+    ext::number<uint> attempts;
 };
 
 

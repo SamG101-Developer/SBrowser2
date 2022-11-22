@@ -9,6 +9,18 @@
 
 namespace fetch::detail
 {
+    auto is_local_scheme(
+            ext::string_view scheme)
+            -> ext::boolean;
+
+    auto is_http_scheme(
+            ext::string_view scheme)
+            -> ext::boolean;
+
+    auto is_fetch_scheme(
+            ext::string_view scheme)
+            -> ext::boolean;
+
     auto is_url_local(
             url::detail::url_t& url)
             -> ext::boolean;
