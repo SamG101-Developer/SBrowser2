@@ -85,7 +85,7 @@ struct fetch::detail::connection_timing_info_t
     hr_time::dom_high_res_time_stamp connection_start_time = 0;
     hr_time::dom_high_res_time_stamp connection_end_time = 0;
     hr_time::dom_high_res_time_stamp secure_connection_start_time = 0;
-    ext::u8string alpn_negotiated_protocol;
+    ext::u8string alpn_negotiated_protocol; // TODO : Why us u8string?
 };
 
 

@@ -56,11 +56,9 @@ auto payment::request::payment_response::retry(
     using namespace ext::literals;
 
     decltype(auto) request = d->request;
-    JS_REALM_GET_RELEVANT(request);
+    auto e = js::env::env::relevant(request);
 
-    decltype(auto) document = v8pp::from_v8<dom::nodes::window*>(
-            request_relevant_agent,
-            request_relevant_global_object)->d_func()->document;
+    decltype(auto) document = e.cpp.global<dom::nodes::window*>()->d_func()->document;
 
     auto promise = ext::promise<void>{};
     return_if (!dom::detail::is_document_fully_active(document)) promise.reject(dom::other::dom_exception{u8"Document must be fully active", ABORT_ERR});

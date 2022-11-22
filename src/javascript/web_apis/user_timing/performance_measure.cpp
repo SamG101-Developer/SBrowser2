@@ -7,11 +7,11 @@
 user_timing::performance_measure::performance_measure()
 {
     INIT_PIMPL(performance_measure);
-    JS_REALM_GET_CURRENT;
-
     ACCESS_PIMPL(performance_measure);
-    d->entry_type = u8"measure";
-    d->start_time = hr_time::detail::current_hr_time(current_global_object);
+
+    auto e = js::env::env::current();
+    d->entry_type = u"measure";
+    d->start_time = hr_time::detail::current_hr_time(e.js.global());
 
     // TODO : name, duration, (start_time?)
 }

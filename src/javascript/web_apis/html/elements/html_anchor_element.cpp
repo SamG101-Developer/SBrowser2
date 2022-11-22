@@ -18,7 +18,7 @@ html::elements::html_anchor_element::html_anchor_element()
     ACCESS_PIMPL(html_anchor_element);
     d->activation_behaviour = [this](dom::events::event* event)
     {
-        JS_REALM_GET_RELEVANT(this);
+        auto e = js::env::env::relevant(this);
         return_if(!reflect_has_attribute_value(this, u"href", this_relevant));
 
         ext::string hyperlink_suffix;

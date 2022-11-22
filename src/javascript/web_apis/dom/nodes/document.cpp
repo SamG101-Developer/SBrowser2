@@ -33,6 +33,7 @@
 #include "dom/nodes/shadow_root.hpp"
 #include "dom/nodes/shadow_root_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 #include "dom/other/dom_implementation.hpp"
 #include "dom/ranges/range.hpp"
 #include "dom/ranges/range_private.hpp"
@@ -80,18 +81,18 @@ dom::nodes::document::document()
     INIT_PIMPL(document);
     ACCESS_PIMPL(document);
 
-    JS_REALM_GET_SURROUNDING(this);
+    auto e = js::env::env::surrounding(this);
     d->url = std::make_unique<url::detail::url_t>(u"about:blank");
     d->content_type = u"application/xml";
     d->ready_state = u"complete";
-    d->origin = v8pp::from_v8<window*>(this_surrounding_agent, this_surrounding_global_object)->d_func()->origin;
+    d->origin = e.cpp.global<dom::nodes::window*>()->d_func()->origin;
     d->get_the_parent =
             [this, d](events::event* event)
             {
-                JS_REALM_GET_RELEVANT(this);
+                auto e = js::env::env::relevant(this);
                 return_if(event->d_func()->type == u"load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
 
-                decltype(auto) global_object = v8pp::from_v8<event_target*>(this_relevant_agent, this_relevant_global_object);
+                decltype(auto) global_object = v8pp::from_v8<event_target*>(e.js.agent(), e.js.global());
                 return global_object;
             };
 

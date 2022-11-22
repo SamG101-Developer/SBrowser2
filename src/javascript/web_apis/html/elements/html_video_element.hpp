@@ -18,8 +18,8 @@ public constructors:
     MAKE_V8_AVAILABLE;
 
 public js_methods:
-    /* MEDIA_PLAYBACK_QUALITY*/
-    auto get_video_playback_quality() -> media::playback_quality::video_playback_quality;
+    /* [MEDIA-PLAYBACK-QUALITY] */
+    auto get_video_playback_quality() -> std::unique_ptr<media::playback_quality::video_playback_quality>;
 
 private js_properties:
     DEFINE_GETTER(width, ext::number<ulong>);

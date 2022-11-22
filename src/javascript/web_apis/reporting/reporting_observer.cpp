@@ -18,11 +18,11 @@ reporting::reporting_observer::reporting_observer(
 auto reporting::reporting_observer::observe() -> void
 {
     ACCESS_PIMPL(reporting_observer);
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
     // TODO : Global work
 
-    return_if (!d->options[u8"buffered"].to<ext::boolean>());
-    d->options[u8"buffered"] = false;
+    return_if (!d->options[u"buffered"].to<ext::boolean>());
+    d->options[u"buffered"] = false;
 
     // TODO : Global work
 }

@@ -103,33 +103,33 @@ auto media::source::media_source::remove_source_buffer(source_buffer* buffer) ->
 
     for (decltype(auto) audio_track: buffer->d_func()->audio_tracks)
     {
-        JS_REALM_GET_CURRENT;
+        auto e = js::env::env::current();
         audio_track->d_func()->source_buffer = nullptr;
         buffer->d_func()->audio_tracks |= ranges::actions::remove(std::move(audio_track));
         detail::mirror_if_necessary(
-                v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object),
+                e.cpp.global<dom::nodes::window*>(),
                 [&audio_tracks = buffer->d_func()->audio_tracks, audio_track = std::move(audio_track)] mutable
                 {audio_tracks |= ranges::actions::remove(std::move(audio_track));});
     }
 
     for (decltype(auto) video_track: buffer->d_func()->video_tracks)
     {
-        JS_REALM_GET_CURRENT;
+        auto e = js::env::env::current();
         video_track->d_func()->source_buffer = nullptr;
         buffer->d_func()->video_tracks |= ranges::actions::remove(std::move(video_track));
         detail::mirror_if_necessary(
-                v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object),
+                e.cpp.global<dom::nodes::window*>(),
                 [&video_tracks = buffer->d_func()->video_tracks, video_track = std::move(video_track)] mutable
                 {video_tracks |= ranges::actions::remove(std::move(video_track));});
     }
 
     for (decltype(auto) text_track: buffer->d_func()->text_tracks)
     {
-        JS_REALM_GET_CURRENT;
+        auto e = js::env::env::current();
         text_track->d_func()->source_buffer = nullptr;
         buffer->d_func()->text_tracks |= ranges::actions::remove(std::move(text_track));
         detail::mirror_if_necessary(
-                v8pp::from_v8<dom::nodes::window*>(current_agent, current_global_object),
+                e.cpp.global<dom::nodes::window*>(),
                 [&text_tracks = buffer->d_func()->text_tracks, text_track = std::move(text_track)] mutable
                 {text_tracks |= ranges::actions::remove(std::move(text_track));});
     }
@@ -189,7 +189,7 @@ auto media::source::media_source::set_live_seekable_range(
             u8"'start' must be positive and less than 'end'");
 
     d->live_seekable_range = std::make_unique<html::basic_media::time_ranges>();
-    d->live_seekable_range->d_func()->linked_list.emplace_back(start, end);
+    d->live_seekable_range->d_func()->linked_vector->emplace_back(start, end);
 }
 
 

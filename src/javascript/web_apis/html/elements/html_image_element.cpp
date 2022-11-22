@@ -296,7 +296,7 @@ auto html::elements::html_image_element::get_complete() const -> ext::boolean
     // if there is no 'src' or 'srcset', then the HTMLImageElement is automatically complete, as there is nothing to do;
     // this is teh same as when the 'src' exists but is an empty string. if the current request is COMPLETELY_AVAILABLE
     // or BROKEN, and there is no pending request, then the image is 'complete' too
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
     return !reflect_has_attribute_value(this, "src", this_relevant) && !reflect_has_attribute_value(this, "srcset", this_relevant)
            || !reflect_has_attribute_value(this, "srcset", this_relevant) && d->src.empty()
            || d->current_request->state == detail::state_t::COMPLETELY_AVAILABLE && !d->pending_request

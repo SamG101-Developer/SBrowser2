@@ -25,12 +25,12 @@ auto service_workers::workers::service_worker_registration::update()
     using enum dom::detail::dom_exception_error_t;
     auto promise = ext::promise<void>{};
 
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) global_scope = v8pp::from_v8<service_worker_global_scope*>(this_relevant_agent, this_relevant_global_object);
+    auto e = js::env::env::relevant(this);
+    decltype(auto) global_scope = e.cpp.global<service_worker_global_scope*>();
     decltype(auto) newest_worker = detail::get_newest_worker(this);
 
-    return_if (!newest_worker) promise.reject(dom::other::dom_exception{"Must have a valid newest worker", INVALID_STATE_ERR});
-    return_if (global_scope && global_scope->d_func()->service_worker->d_func()->state == detail::service_worker_state_t::INSTALLING) promise.reject(dom::other::dom_exception{"ServiceWorkerGlobalScope's worker cannot be installing", INVALID_STATE_ERR});
+    return_if (!newest_worker) promise.reject(dom::other::dom_exception{u8"Must have a valid newest worker", INVALID_STATE_ERR});
+    return_if (global_scope && global_scope->d_func()->service_worker->d_func()->state == detail::service_worker_state_t::INSTALLING) promise.reject(dom::other::dom_exception{u8"ServiceWorkerGlobalScope's worker cannot be installing", INVALID_STATE_ERR});
 
     auto job = detail::create_job(detail::job_type_t::UPDATE, d->storage_key, d->scope_url.get(), newest_worker->d_func()->script_url, promise, this_relevant_settings_object);
     job->worker_type = newest_worker->d_func()->type;
@@ -45,9 +45,9 @@ auto service_workers::workers::service_worker_registration::unregister()
 {
     ACCESS_PIMPL(service_worker_registration);
 
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
     auto promise = ext::promise<ext::boolean>{};
-    auto job = detail::create_job(detail::job_type_t::UNREGISTER, d->storage_key, *d->scope_url, nullptr, promise, this_relevant_settings_object);
+    auto job = detail::create_job(detail::job_type_t::UNREGISTER, d->storage_key, *d->scope_url, nullptr, promise, e.js.settings());
     detail::schedule_job(std::move(job));
 
     return promise;

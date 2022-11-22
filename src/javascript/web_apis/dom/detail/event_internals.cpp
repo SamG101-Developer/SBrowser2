@@ -78,7 +78,7 @@ auto dom::detail::dispatch(
     event->d_func()->dispatch_flag = true;
 
     /* ↓ [LARGEST-CONTENTFUL-PAINT] ↓ */
-    JS_REALM_GET_RELEVANT(target);
+    auto e = js::env::env::relevant(target);
     if (auto* window = v8pp::from_v8<nodes::window*>(target_relevant_agent, target_relevant_global_object);
             window != nullptr
             && event->d_func()->type() == u"scroll"
@@ -303,7 +303,7 @@ auto dom::detail::inner_invoke(
         // type alias the callback type for convenience, and get the associated javascript realm for the listener's
         // callback function object
         auto javascript_callback = v8pp::to_v8(v8::Isolate::GetCurrent(), listener.at(u"callback").to<detail::event_listener_callback_t>());
-        JS_REALM_GET_ASSOCIATED(javascript_callback);
+        auto e = js::env::env::associated(javascript_callback);
 
         // if the global object for the associated realm is a Window object, then save its 'current_event' attribute,
         // and set the attribute to the 'event', if the invocation target is in a shadow tree TODO : why?

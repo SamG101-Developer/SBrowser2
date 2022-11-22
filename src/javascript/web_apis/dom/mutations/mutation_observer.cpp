@@ -1,10 +1,11 @@
 #include "mutation_observer.hpp"
-#include "ext/functional.hpp"
 #include "mutation_observer_private.hpp"
 
+#include "ext/functional.hpp"
 #include "ext/ranges.hpp"
 
 #include "javascript/environment/global_slots.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
@@ -22,10 +23,10 @@
 
 dom::mutations::mutation_observer::mutation_observer(detail::mutation_callback_t&& callback)
 {
-    JS_REALM_GET_RELEVANT(this);
-    decltype(auto) window = v8pp::from_v8<nodes::window*>(this_relevant_agent, this_relevant_global_object);
-    decltype(auto) agent_mutation_observers = this_relevant_agent->GetData(js::isolate_data_slots::mutation_observers);
-    static_cast<ext::vector<std::unique_ptr<mutation_observer>>*>(agent_mutation_observers)->emplace_back(this);
+    auto e = js::env::env::relevant(this);
+    decltype(auto) v8_mutation_observers = e.js.global()->GetInternalField(js::global_slots::mutation_observers);
+    decltype(auto) mutation_observers = v8pp::from_v8<ext::vector<mutation_observer*>>(e.js.agent(), v8_mutation_observers); // TODO : T
+    mutation_observers.emplace_back(this);
 
     INIT_PIMPL(mutation_observer);
     ACCESS_PIMPL(mutation_observer);
@@ -42,13 +43,13 @@ auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mut
     // the attribute that must be being observerd (implied by giving an old value and filter). The check on the
     // "attributes" option is for micro-optimization.
     if (options.contains(u"attributeOldValue") && options.contains(u"attributeFilter") && !options.contains(u"attributes"))
-        options.insert_or_assign(u"attributes", ext::boolean::TRUE_());
+        options.insert_or_assign(u"attributes", true);
 
     // If there is an olf character data value, the set the "characterData" option to true, as it is the character data
     // that must be being observed (implied by giving an old value). The check on the "charcaterData" option is for
     // micro-optimization.
     if (options.contains(u"characterOldDataValue") && !options.contains(u"characterData"))
-        options.insert_or_assign(u"characterData", ext::boolean::TRUE_());
+        options.insert_or_assign(u"characterData", true);
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [&options] {!options.contains(u"childList") && !options.contains(u"attributes") && !options.contains(u"characterData");},

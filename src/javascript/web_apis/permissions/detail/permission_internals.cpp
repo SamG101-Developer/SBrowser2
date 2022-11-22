@@ -16,12 +16,12 @@ auto permissions::detail::get_current_permission_state(
         ext::optional<v8::Local<v8::Object>> environment_settings_object)
         -> permission_state_t
 {
-    JS_REALM_GET_CURRENT;
+    auto e = js::env::env::current();
 
     // create a mock 'permissions_descriptor' dictionary, with the "name" set the 'name' parameter. return the
     // permission state for this 'permissions_descriptor', and the settings object
-    permissions_descriptor_t permissions_descriptor {{"name", std::move(name)}};
-    return permission_state(std::move(permissions_descriptor), environment_settings_object.value_or(current_global_object));
+    permissions_descriptor_t permissions_descriptor {{u"name", std::move(name)}};
+    return permission_state(std::move(permissions_descriptor), environment_settings_object.value_or(e.js.settings()));
 }
 
 
@@ -33,18 +33,18 @@ auto permissions::detail::permission_state(
     // the 'settings' is teh 'environment_settings_object' if provided, otherwise the current global object's settings
     // object. if the settings object isn't secure, then return from the method - permission states can only be read in
     // secure contexts
-    JS_REALM_GET_CURRENT;
-    auto settings = environment_settings_object.value_or(current_global_object);
+    auto e = js::env::env::current();
+    auto settings = environment_settings_object.value_or(e.js.settings());
     // TODO : return if the settings object isn't secure
 
     // get the feature (permission whose state is to be determined) from the 'permission_descriptor' map, and convert
     // it to the enum value from the 'permissions_policy' api
     using permissions_policy::detail::feature_t;
-    auto feature_string = permission_descriptor.at("name").to<powerful_feature_t>().name;
+    auto feature_string = permission_descriptor[u"name"].to<powerful_feature_t>().name;
     auto feature = magic_enum::enum_cast<feature_t>(std::move(feature_string));
 
     // if the feature exists, and the current global object has an associated document, then if teh document isn't
-    // allowed to use the certain feature, return the 'DENIED' state
+    // allowed to use the certain feature, return the 'DENIED' state TODO
     if (feature.has_value() && js::env::realms::has(current_global_object, "associated_document"))
     {
         auto* document = js::env::realms::get<dom::nodes::document*>(current_global_object, "associated_document");
@@ -65,7 +65,7 @@ auto permissions::detail::request_permission_to_use(
     // the popup that is generated
     auto current_state = permission_state(std::move(permission_descriptor), ext::nullopt);
     return_if(current_state != permission_state_t::PROMPT) current_state;
-    return_if(gui::javascript_interop::permission_request_popup(permission_descriptor.at("name").to<powerful_feature_t>().name)) permission_state_t::GRANTED;
+    return_if(gui::javascript_interop::permission_request_popup(permission_descriptor[u"name"].to<powerful_feature_t>().name)) permission_state_t::GRANTED;
     return permission_state_t::DENIED;
 }
 
@@ -78,7 +78,7 @@ auto permissions::detail::default_permission_query_algorithm(
     // permission state
     auto state = permission_state(std::move(permission_descriptor), ext::nullopt);
     auto state_string = magic_enum::enum_name(state);
-    status->state = state_string;
+    status->d_func()->state = state_string;
 }
 
 
@@ -86,23 +86,23 @@ permissions::detail::powerful_feature_t::powerful_feature_t(
         ext::string&& powerful_feature_name)
         : name(powerful_feature_name)
 {
-    if (name == u8"persistent-storage")
+    if (name == u"persistent-storage")
         permission_revocation_algorithm =
                 [powerful_feature_name = std::move(powerful_feature_name)] mutable
         {
             return_if (get_current_permission_state(std::move(powerful_feature_name), ext::nullopt) == permission_state_t::GRANTED);
 
-            JS_REALM_GET_CURRENT
-            decltype(auto) shelf = storage::detail::obtain_local_storage_shelf(current_global_object);
-            shelf->bucket_map.emplace(u8"default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
+            auto e = js::env::env::current();
+            decltype(auto) shelf = storage::detail::obtain_local_storage_shelf(e.js.global());
+            shelf->bucket_map.emplace(u"default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
         };
 
-    if (name == u8"storage")
+    if (name == u"storage")
     {
         // TODO : sensors spec
     }
 
-    if (name == u8"speaker-selection")
+    if (name == u"speaker-selection")
     {
         // TODO: https://w3c.github.io/mediacapture-output/#permissions-integration
     }

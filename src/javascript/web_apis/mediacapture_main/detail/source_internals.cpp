@@ -1,7 +1,6 @@
 #include "source_internals.hpp"
 
-#include "ext/threading.hpp"
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "mediacapture_main/media_stream_track.hpp"
 
@@ -26,7 +25,7 @@ auto mediacapture::detail::tie_track_source_to_context(
 {
     // get the relevant JavaScript realm of the source, and extract the set of sources in the media_stream_track_sources
     // slot of the global object
-    JS_REALM_GET_RELEVANT(source)
+    auto e = js::env::env::relevant(source);
     auto sources = js::env::realms::get<ext::set<media_stream_track_source_t>*>(
             source_relevant_global_object, "[[media_stream_track_sources]]");
 

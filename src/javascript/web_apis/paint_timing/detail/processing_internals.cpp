@@ -24,10 +24,10 @@ auto paint_timing::detail::mark_paint_timing(
         dom::nodes::document* document)
         -> void
 {
-    JS_REALM_GET_RELEVANT(document);
+    auto e = js::env::env::relevant(document);
 
     return_if (!detail::is_paint_timing_eligible(document->d_func()->browsing_context));
-    auto paint_timestamp = hr_time::detail::current_hr_time(document_relevant_global_object);
+    auto paint_timestamp = hr_time::detail::current_hr_time(e.js.global());
 
     // TODO
 }

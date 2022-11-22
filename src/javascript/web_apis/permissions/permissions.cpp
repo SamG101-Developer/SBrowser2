@@ -16,7 +16,7 @@ auto permissions::permission::query(
         detail::permissions_descriptor_t&& permission_descriptor)
         -> ext::promise<permission_status*>
 {
-    JS_REALM_GET_RELEVANT(this)
+    auto e = js::env::env::relevant(this);
     if (v8pp::from_v8<dom::nodes::window*>(this_relevant_agent, this_relevant_global_object))
         ; // TODO : current settings object stuff
 
@@ -25,7 +25,7 @@ auto permissions::permission::query(
     using permissions_policy::detail::feature_t;
     using permissions::detail::powerful_feature_t;
 
-    auto feature_string = permission_descriptor.at("name").to<powerful_feature_t>().name;
+    auto feature_string = permission_descriptor[u"name"].to<powerful_feature_t>().name;
     auto feature = magic_enum::enum_cast<feature_t>(feature_string);
 
     // if the feature doesn't exist, then create a promise, reject it with a JavaScript TypeError, and return it - this
@@ -50,8 +50,8 @@ auto permissions::permission::query(
             [&promise, root_descriptor = std::move(permission_descriptor)] mutable
             {
                 permission_status status {std::move(root_descriptor)};
-                auto query = status->s_query;
-                query.at("name").to<powerful_feature_t>().permission_query_algorithm(std::move(query), &status);
+                auto query = status->d_func()->query;
+                query[u"name"].to<powerful_feature_t>().permission_query_algorithm(std::move(query), &status);
                 promise.set_value(&status);
             });
 

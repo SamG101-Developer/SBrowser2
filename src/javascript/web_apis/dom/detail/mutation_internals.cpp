@@ -1,6 +1,7 @@
 #include "mutation_internals.hpp"
 
 #include "dom/_typedefs.hpp"
+#include "environment/global_slots.hpp"
 #include "ext/casting.hpp"
 #include "ext/functional.hpp"
 #include "ext/ranges.hpp"
@@ -253,21 +254,23 @@ auto dom::detail::insert(
     // live range modifications for when the child exists (ie the node is being inserted and not appended)
     if (child)
     {
-        JS_REALM_GET_SURROUNDING(nullptr);
-        decltype(auto) live_ranges = js::env::realms::get<ext::vector<node_ranges::range*>>(nullptr_surrounding_global_object, u8"live_ranges");
+        auto e = js::env::env::surrounding(nullptr);
+        decltype(auto) live_ranges = js::env::get_slot<ext::vector<dom::node_ranges::range*>>(e, js::global_slots::live_ranges);
         decltype(auto) child_index = index(child);
 
         // ranges whose starting node is 'parent' and whose starting offset is greater that the index of 'child':
         // increment the start offset by the number of children being inserted
-        ranges::for_each(
-                live_ranges | ranges::views::filter([parent, child_index](const node_ranges::range* const range) {return range->d_func()->start->node == parent && range->d_func()->start->offset > child_index;}),
-                [count](node_ranges::range* const range) {range->d_func()->start->offset += count;});
+        live_ranges
+                | ranges::views::filter([parent](auto* range) {return range->d_func()->start->node.get() == parent;})
+                | ranges::views::filter([child_index](auto* range) {return range->d_func()->start->offset > child_index;})
+                | ranges::views::for_each([count](auto* range) {range->d_func()->start->offset += count;});
 
         // ranges whose ending node is 'parent' and whose ending offset is greater that the index of 'child': increment
         // the end offset by the number of children being inserted
-        ranges::for_each(
-                live_ranges | ranges::views::filter([parent, child_index](const node_ranges::range* const range) {return range->d_func()->end->node == parent && range->d_func()->end->offset > child_index;}),
-                [count](node_ranges::range* const range) {range->d_func()->end->offset += count;});
+        live_ranges
+                | ranges::views::filter([parent](auto* range) {return range->d_func()->end->node.get() == parent;})
+                | ranges::views::filter([child_index](auto* range) {return range->d_func()->end->offset > child_index;})
+                | ranges::views::for_each([count](auto* range) {range->d_func()->end->offset += count;});
     }
 
     // save the previous sibling here (used later, but mutations in the ext step would distort this value as the nodes

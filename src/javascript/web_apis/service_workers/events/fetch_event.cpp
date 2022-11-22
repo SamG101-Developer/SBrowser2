@@ -1,10 +1,11 @@
 #include "fetch_event.hpp"
 #include "fetch_event_private.hpp"
 
-#include INCLUDE_INNER_TYPES(dom)
-
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
+
 #include "service_workers/detail/event_internals.hpp"
+#include "web_idl/detail/type_mapping_internals.hpp"
 
 
 auto service_workers::events::fetch_event::respond_with(
@@ -27,17 +28,18 @@ auto service_workers::events::fetch_event::respond_with(
     d->stop_immediate_propagation_flag = true;
     d->respond_with_entered_flag = true;
 
-    JS_REALM_GET_RELEVANT(this);
-    r.rejection_steps = [d]
-    {
-        d->respond_with_error_flag = true;
-        d->wait_to_response_flag = false;
-    };
+    auto e = js::env::env::relevant(this);
+    web_idl::detail::react(r, e.js.realm(),
+        [d]
+        {
+            d->respond_with_error_flag = true;
+            d->wait_to_response_flag = false;
+        },
 
-    r.fulfillment_steps = [d]
-    {
-        // TODO
-    };
+        [d]
+        {
+            // TODO
+        });
 }
 
 

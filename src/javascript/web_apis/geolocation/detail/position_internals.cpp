@@ -1,15 +1,21 @@
 #include "position_internals.hpp"
 
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
+#include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
+
+#include "geolocation/_typedefs.hpp"
 #include "geolocation/geolocation.hpp"
-#include "html/detail/document_internals.hpp"
+#include "geolocation/geolocation_private.hpp"
+
+#include "permissions/_typedefs.hpp"
 #include "permissions/detail/permission_internals.hpp"
 
-#include INCLUDE_INNER_TYPES(geolocation)
-#include INCLUDE_INNER_TYPES(page_visibility)
-#include INCLUDE_INNER_TYPES(permissions)
+#include "html/detail/document_internals.hpp"
+#include "page_visibility/_typedefs.hpp"
 
 #include <range/v3/action/remove.hpp>
 
@@ -22,12 +28,12 @@ auto geolocation::detail::request_position(
         ext::optional<ext::number<long>> watch_id)
         -> void
 {
-    JS_REALM_GET_CURRENT
-    decltype(auto) document = js::env::realms::get<dom::nodes::document*>(current_global_object, u"$AssociatedDocument");
+    auto e = js::env::env::current();
+    decltype(auto) document = e.cpp.global<dom::nodes::window>()->d_func()->document.get();
 
     if (!html::detail::allowed_to_use(document, u"geolocation"))
     {
-        if (watch_id.has_value()) geolocation->s_watch_ids |= ranges::actions::remove(watch_id);
+        if (watch_id.has_value()) geolocation->d_func()->watch_ids |= ranges::actions::remove(watch_id);
         callback_with_error(std::move(error_callback), error_reason_t::PERMISSION_DENIED);
         return;
     }
@@ -40,7 +46,7 @@ auto geolocation::detail::request_position(
 
     if (permission == permissions::detail::permission_state_t::DENIED)
     {
-        if (watch_id.has_value()) geolocation->s_watch_ids |= ranges::actions::remove(watch_id);
+        if (watch_id.has_value()) geolocation->d_func()->watch_ids |= ranges::actions::remove(watch_id);
         callback_with_error(std::move(error_callback), error_reason_t::PERMISSION_DENIED);
         return;
     }

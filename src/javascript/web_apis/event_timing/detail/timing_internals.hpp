@@ -38,7 +38,7 @@ namespace event_timing::detail
             dom::events::event* event,
             ext::number<double> processing_start,
             ext::number<int> interaction_id)
-            -> performance_event_timing;
+            -> std::unique_ptr<performance_event_timing>;
 
     auto finalize_event_timing(
             performance_event_timing* timing_entry,

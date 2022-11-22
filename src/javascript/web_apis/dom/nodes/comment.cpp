@@ -3,16 +3,18 @@
 
 #include "dom/detail/customization_internals.hpp"
 #include "dom/nodes/document.hpp"
+#include "dom/nodes/document_private.hpp"
 #include "dom/nodes/window.hpp"
+#include "dom/nodes/window_private.hpp"
 
 
 dom::nodes::comment::comment(ext::string&& new_data)
 {
     INIT_PIMPL(comment);
-    JS_REALM_GET_RELEVANT(this);
+    auto e = js::env::env::relevant(this);
 
     ACCESS_PIMPL(comment);
-    d->node_document = v8pp::from_v8<window*>(this_relevant_agent, this_relevant_global_object)->d_func()->document;
+    d->node_document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
     d->data = std::move(new_data);
 }
 

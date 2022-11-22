@@ -13,15 +13,15 @@
 
 
 auto html::elements::html_video_element::get_video_playback_quality()
-        -> media::playback_quality::video_playback_quality
+        -> std::unique_ptr<media::playback_quality::video_playback_quality>
 {
-    JS_REALM_GET_CURRENT;
     ACCESS_PIMPL(const html_video_element);
+    auto e = js::env::env::current();
 
-    auto playback_quality = media::playback_quality::video_playback_quality{};
-    playback_quality.d_func()->creation_time = hr_time::detail::current_hr_time(current_global_object);
-    playback_quality.d_func()->total_video_frames = d->total_video_frame_count;
-    playback_quality.d_func()->dropped_video_frames = d->dropped_video_frame_count;
+    auto playback_quality = std::make_unique<media::playback_quality::video_playback_quality>();
+    playback_quality->d_func()->creation_time = hr_time::detail::current_hr_time(e.js.global());
+    playback_quality->d_func()->total_video_frames = d->total_video_frame_count;
+    playback_quality->d_func()->dropped_video_frames = d->dropped_video_frame_count;
     return playback_quality;
 }
 

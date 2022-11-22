@@ -102,10 +102,10 @@ auto service_workers::workers::service_worker_container::get_ready() const -> ex
 
     if (d->ready_promise.is_pending) GO [this, d]
     {
-        JS_REALM_GET_RELEVANT(this);
+        auto e = js::env::env::relevant(this);
 
         decltype(auto) client = d->service_worker_client;
-        auto storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(this_relevant_agent, client));
+        decltype(auto) storage_key = storage::detail::obtain_storage_key(v8pp::to_v8(this_relevant_agent, client));
         decltype(auto) registration = detail::match_service_worker_registration(storage_key /* TODO */);
 
         if (registration && registration->d_func()->active_worker)

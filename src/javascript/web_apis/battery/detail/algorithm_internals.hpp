@@ -10,7 +10,7 @@
 
 namespace battery::algorithm_internals
 {
-    template <type_is<ext::boolean, ext::number<double>> T>
+    template <ext::type_is<ext::boolean, ext::number<double>> T>
     auto update_battery_status_and_notify(
             T* property,
             T&& new_value,

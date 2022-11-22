@@ -14,19 +14,19 @@ user_timing::performance_mark::performance_mark(
     INIT_PIMPL(performance_mark);
     ACCESS_PIMPL(performance_mark);
 
-    JS_REALM_GET_CURRENT;
+    auto e = js::env::env::current();
     using enum v8_primitive_error_t;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [&mark_options] {return mark_options[u8"startTime"].to<decltype(d->start_time)>() < 0;},
+            [&mark_options] {return mark_options[u"startTime"].to<decltype(d->start_time)>() < 0;},
             u8"Start time must be >= 0");
 
     d->name = std::move(mark_name);
-    d->entry_type = u8"mark";
-    d->start_time = mark_options.try_emplace("startTime", hr_time::detail::current_hr_time(current_global_object)).to<hr_time::dom_high_res_time_stamp>();
+    d->entry_type = u"mark";
+    d->start_time = mark_options[u"startTime", hr_time::detail::current_hr_time(e.js.global())].to<hr_time::dom_high_res_time_stamp>();
     d->duration = 0;
 
-    d->detail = mark_options[u8"detail"]; // TODO : .to<ext::any>(); TODO : structured serialize
+    d->detail = mark_options[u"detail"]; // TODO : .to<ext::any>(); TODO : structured serialize
 }
 
 

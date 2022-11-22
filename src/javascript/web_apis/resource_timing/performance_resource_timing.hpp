@@ -24,7 +24,7 @@ public constructors:
 private js_properties:
     /* [RESOURCE-TIMING] */
     DEFINE_GETTER(initiator_type, fetch::detail::initiator_type_t);
-    DEFINE_GETTER(next_hop_protocol, ext::string);
+    DEFINE_GETTER(next_hop_protocol, ext::u8string_view);
     DEFINE_GETTER(worker_start, hr_time::dom_high_res_time_stamp);
     DEFINE_GETTER(redirect_start, hr_time::dom_high_res_time_stamp);
     DEFINE_GETTER(redirect_end, hr_time::dom_high_res_time_stamp);

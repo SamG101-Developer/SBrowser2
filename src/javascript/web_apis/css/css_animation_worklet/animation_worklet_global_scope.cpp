@@ -1,10 +1,8 @@
 #include "animation_worklet_global_scope.hpp"
 
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(css/css_animation_worklet)
-
+#include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"
@@ -19,8 +17,9 @@
 
 
 css::css_animation_worklet::animation_worklet_global_scope::animation_worklet_global_scope()
-        : INIT_PIMPL
-{}
+{
+    INIT_PIMPL(animation_worklet_global_scope);
+}
 
 
 auto css::css_animation_worklet::animation_worklet_global_scope::register_animator(
@@ -28,7 +27,8 @@ auto css::css_animation_worklet::animation_worklet_global_scope::register_animat
         detail::animator_instance_constructor_t&& animator)
         -> void
 {
-    JS_REALM_GET_CURRENT;
+    using enum v8_primitive_error_t;
+    auto e = js::env::env::current();
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
             [name = std::move(name)] {return false /* TODO */;},

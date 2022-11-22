@@ -36,7 +36,6 @@ auto largest_contentful_paint::detail::potentially_add_largest_contentful_paint_
     return_if (document->d_func()->content_set.contains(content_identifier));
     document->d_func()->content_set.emplace(std::move(content_identifier));
 
-    JS_REALM_GET_RELEVANT(document);
     auto e = js::env::env::relevant(document);
     decltype(auto) window = e.cpp.global<dom::nodes::window*>();
     return_if (window->d_func()->has_dispathced_scroll_event || window->d_func()->has_dispatched_input_event);
