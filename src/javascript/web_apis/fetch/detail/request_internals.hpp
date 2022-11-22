@@ -63,8 +63,9 @@ namespace fetch::detail
 
 struct fetch::detail::request_t
 {
-    request_t() = default;
-    request_t(const request_t&) = default;
+    request_t();
+    request_t(const request_t&);
+    ~request_t();
 
     ext::string method = u"GET";
     std::shared_ptr<url::detail::url_t> url;
@@ -89,7 +90,7 @@ struct fetch::detail::request_t
     auto is_script_like() -> ext::boolean;
 
     ext::any priority;
-    html::detail::origin_t origin = u"client"_s16;
+    std::shared_ptr<html::detail::origin_t> origin = u"client";
 
     ext::variant<policy_container_t, std::shared_ptr<html::detail::policy_container_t>> policy_container;
     ext::variant<referrer_t, url::detail::url_t*> referrer = referrer_t::CLIENT;
