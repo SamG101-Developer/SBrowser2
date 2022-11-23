@@ -19,7 +19,10 @@ auto edit_context::edit_context::update_text(
 }
 
 
-auto edit_context::edit_context::update_selection(ext::number<ulong> start, ext::number<ulong> end) -> void
+auto edit_context::edit_context::update_selection(
+        ext::number<ulong> start,
+        ext::number<ulong> end)
+        -> void
 {
     // To update a selection with a new 'start' and 'end', set the private 'selection_start' and 'selection_end'
     // attributes to the 'start' and 'end'. Only do this operation if the selection is active, and 'start' is less than
@@ -30,25 +33,29 @@ auto edit_context::edit_context::update_selection(ext::number<ulong> start, ext:
 }
 
 
-auto edit_context::edit_context::update_control_bound(css::geometry::dom_rect* new_control_bound) -> void
+auto edit_context::edit_context::update_control_bound(
+        std::unique_ptr<css::geometry::dom_rect> new_control_bound)
+        -> void
 {
     // To update the control bound with a 'new_control_bound', set the private 'control_bound' to 'new_control_band'.
     // Only do this operation if the selection is active. This allows for a nullptr to be set as the
     // 'new_control_bound'.
     ACCESS_PIMPL(edit_context);
     return_if (!d->activated);
-    d->control_bound.reset(new_control_bound);
+    d->control_bound = std::move(new_control_bound);
 }
 
 
-auto edit_context::edit_context::update_selection_bound(css::geometry::dom_rect* new_selection_bound) -> void
+auto edit_context::edit_context::update_selection_bound(
+        std::unique_ptr<css::geometry::dom_rect> new_selection_bound)
+        -> void
 {
     // To update the selection bound with a 'new_selection_bound', set the private 'selection_bound' to
     // 'new_selection_band'. Only do this operation if the selection is active. This allows for a nullptr to be set as
     // the 'new_selection_bound'.
     ACCESS_PIMPL(edit_context);
     return_if (!d->activated);
-    d->selection_bound.reset(new_selection_bound);
+    d->selection_bound = std::move(new_selection_bound);
 }
 
 
@@ -65,7 +72,8 @@ auto edit_context::edit_context::update_character_bounds(
 }
 
 
-auto edit_context::edit_context::character_bounds() -> ext::vector_span<css::geometry::dom_rect*>
+auto edit_context::edit_context::character_bounds()
+        -> ext::vector_span<css::geometry::dom_rect*>
 {
     // To view the character_bounds, the private 'cached_character_bounds' are viewed to get their underlying pointers,
     // and returned as a view over a vector.
