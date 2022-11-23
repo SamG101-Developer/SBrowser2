@@ -14,7 +14,7 @@ public constructors:
     ambient_light_sensor(sensors::detail::sensor_options_t&& options = {});
     DOM_CTORS(ambient_light_sensor);
     MAKE_PIMPL(ambient_light_sensor);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 private js_properties:
     DEFINE_GETTER(illuminance, ext::number<double>);

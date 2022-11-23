@@ -16,7 +16,7 @@ class aria::mixins::aria_mixin
 public constructors:
     DOM_CTORS(aria_mixin);
     MAKE_PIMPL(aria_mixin);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 private js_properties:
     DEFINE_GETTER(role, ext::string);

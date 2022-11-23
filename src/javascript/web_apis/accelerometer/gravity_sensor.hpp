@@ -14,7 +14,7 @@ public constructors:
     gravity_sensor(detail::accelerometer_sensor_options_t&& options);
     DOM_CTORS(gravity_sensor);
     MAKE_PIMPL(gravity_sensor);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 };
 
 

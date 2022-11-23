@@ -2,11 +2,12 @@
 #include "aria_mixin_private.hpp"
 
 
-auto aria::mixins::aria_mixin::to_v8(
+auto aria::mixins::aria_mixin::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t> // TODO : camelCase -> snake_case
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<aria_mixin>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .property("role", &aria_mixin::get_role)
         .property("ariaAtomic", &aria_mixin::get_aria_atomic)
@@ -59,5 +60,5 @@ auto aria::mixins::aria_mixin::to_v8(
         .property("ariaErrorMessageElement", &aria_mixin::get_aria_error_message_element)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

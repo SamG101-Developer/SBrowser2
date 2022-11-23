@@ -26,13 +26,16 @@ auto ambient_light_sensor::ambient_light_sensor::get_illuminance() const -> ext:
 }
 
 
-auto ambient_light_sensor::ambient_light_sensor::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto ambient_light_sensor::ambient_light_sensor::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<ambient_light_sensor>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<sensors::sensor>()
         .ctor<sensors::detail::sensor_options_t&&>()
         .property("illuminance", &ambient_light_sensor::get_illuminance)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

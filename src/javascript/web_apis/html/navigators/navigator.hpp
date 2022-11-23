@@ -19,6 +19,7 @@ namespace html::navigators {class navigator_private;}
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
 #include "ext/span.hpp"
+#include INCLUDE_INNER_TYPES(autoplay)
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(autoplay)
 #include INCLUDE_INNER_TYPES(vibration)
@@ -58,7 +59,7 @@ public constructors:
     navigator();
     ~navigator() override;
     MAKE_PIMPL(navigator);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(SECURE);
 
 public js_methods:
     /* [MEDIACAPTURE-MAIN] */
@@ -69,15 +70,15 @@ public js_methods:
             const -> void;
 
     /* [AUTOPLAY] */
-    auto get_autoplay_policy(autoplay::detail::autoplay_policy_media_type_t type);
-    auto get_autoplay_policy(elements::html_media_element* element);
-    auto get_autoplay_policy(webaudio::contexts::audo_context* context);
+    auto get_autoplay_policy(autoplay::detail::autoplay_policy_media_type_t type) -> autoplay::detail::autoplay_policy_t;
+    auto get_autoplay_policy(elements::html_media_element* element) -> autoplay::detail::autoplay_policy_t;
+    auto get_autoplay_policy(webaudio::contexts::audio_context* context) -> autoplay::detail::autoplay_policy_t;
 
     /* [VIBRATION] */
     auto vibrate(vibration::detail::vibrate_pattern_t&& pattern) -> ext::boolean;
 
     /* [BEACON] */
-    auto send_beacon(ext::string&& url, fetch::detail::body_init_t data = nullptr) -> void;
+    auto send_beacon(ext::string&& url, fetch::detail::body_init_t data = nullptr) -> ext::boolean;
 
     /* [BADGING] */
     auto set_client_badge(ext::optional<ext::number<ulonglong>> contents) -> ext::promise<void>;

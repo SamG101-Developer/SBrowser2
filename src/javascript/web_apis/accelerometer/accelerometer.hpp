@@ -16,7 +16,7 @@ public constructors:
     accelerometer(detail::accelerometer_sensor_options_t&& options);
     DOM_CTORS(accelerometer);
     MAKE_PIMPL(accelerometer);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 private js_properties:
     DEFINE_GETTER(x, ext::number<double>);

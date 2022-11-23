@@ -14,7 +14,7 @@ public constructors:
     linear_accelerometer(detail::accelerometer_sensor_options_t&& options);
     DOM_CTORS(linear_accelerometer);
     MAKE_PIMPL(linear_accelerometer);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 };
 
 

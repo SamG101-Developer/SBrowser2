@@ -17,7 +17,7 @@ class badging::mixins::navigator_badge
 public constructors:
     navigator_badge();
     MAKE_PIMPL(navigator_badge);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(SECURE);
 
 public js_methods:
     auto set_app_badge(ext::number<ulonglong> contents) -> ext::promise<void>;

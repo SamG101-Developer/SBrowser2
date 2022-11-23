@@ -3,6 +3,8 @@
 
 #include "ext/threading.hpp"
 
+#include "interop/automatic_object_conversions/expose_macros.hpp"
+
 #include "javascript/environment/environment_settings.hpp"
 #include "javascript/environment/realms.hpp"
 
@@ -18,6 +20,10 @@
 #include "dom/nodes/document_private.hpp"
 #include "dom/nodes/window.hpp"
 #include "dom/nodes/window_private.hpp"
+
+#include "fetch/_typedefs.hpp"
+#include "fetch/detail/header_internals.hpp"
+#include "fetch/detail/request_internals.hpp"
 
 #include "hr_time/performance.hpp"
 #include "hr_time/detail/time_internals.hpp"
@@ -48,14 +54,49 @@ auto html::navigators::navigator::get_user_media(
 auto html::navigators::navigator::send_beacon(
         ext::string&& url,
         fetch::detail::body_init_t data)
-        -> void
+        -> ext::boolean
 {
     auto e = js::env::env::relevant(this);
-    decltype(auto) base   = e.cpp.settings()->api_base_url.get();
-    decltype(auto) origin = e.cpp.settings()->origin;
-    auto parsed_url = url::detail::url_parser(std::move(url), base);
+    decltype(auto) base   = *e.cpp.settings()->api_base_url;
+    decltype(auto) origin = *e.cpp.settings()->origin;
 
-    // TODO
+    auto parsed_url = url::detail::url_parser(std::move(url), url::detail::url_serializer(base));
+    auto header_list = fetch::detail::headers_t{};
+    auto cors_mode = fetch::detail::mode_t::NO_CORS;
+
+    if (data) // TODO
+    {
+        auto [transmitted_data, content_type] = ext::make_tuple(ext::string{}, ext::string{}); // TODO
+        // TODO
+
+        if (!content_type.empty())
+        {
+            cors_mode = fetch::detail::is_cors_safelisted_request_header({u"Content-Type", content_type})
+                    ? fetch::detail::mode_t::NO_CORS
+                    : fetch::detail::mode_t::CORS;
+            fetch::detail::append_header({u"Content-Type", content_type}, header_list);
+        }
+    }
+
+    GO [cors_mode, &e, &header_list, &transmitted_data, parsed_url = std::move(parsed_url), origin = std::move(origin)] mutable
+    {
+        auto request = std::make_unique<fetch::detail::request_t>();
+        request->method = u"POST";
+        request->client = e.js.settings();
+        request->url = std::move(parsed_url);
+        request->header_list = std::move(header_list);
+        request->origin = std::move(origin);
+        request->keep_alive = true;
+        request->body = std::move(transmitted_data);
+        request->mode = cors_mode;
+        request->credentials_mode = fetch::detail::credentials_t::INCLUDE;
+        request->initiator_type = fetch::detail::initiator_type_t::BEACON;
+
+        fetch::detail::fetch(*fetch);
+    };
+    return true;
+
+    // TODO : no `data` => return false?
 }
 
 
@@ -163,4 +204,40 @@ auto html::navigators::navigator::get_gamepads()
     }
 
     return d->gamepads;
+}
+
+
+auto html::navigators::navigator::_to_v8(
+        js::env::module_t E, v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .inherit<html::navigators::mixins::navigator_id>()
+        .inherit<html::navigators::mixins::navigator_language>()
+        .inherit<html::navigators::mixins::navigator_on_line>()
+        .inherit<html::navigators::mixins::navigator_content_utils>()
+        .inherit<html::navigators::mixins::navigator_cookies>()
+        .inherit<html::navigators::mixins::navigator_plugins>()
+        .inherit<html::navigators::mixins::navigator_concurrent_hardware>()
+        .auto_wrap_objects();
+
+    V8_INTEROP_EXTEND_JS_OBJECT(ALL)
+        .function("sendBeacon", &navigator::send_beacon);
+
+    V8_INTEROP_EXTEND_JS_OBJECT(SECURE)
+        .inherit<badging::mixins::navigator_badge>()
+        .inherit<device_memory::mixins::navigator_device_memory>()
+        .inherit<storage::mixins::navigator_storage>()
+        .function("getBattery", &navigator::get_battery)
+        .function("setClientBadge", &navigator::set_client_badge)
+        .function("clearClientBadge", &navigator::clear_client_badge);
+
+    V8_INTEROP_EXTEND_JS_OBJECT(WINDOW)
+        .function<autoplay::detail::autoplay_policy_t(autoplay::detail::autoplay_policy_media_type_t)>("getAutoplayPolicy", &navigator::get_autoplay_policy)
+        .function<autoplay::detail::autoplay_policy_t(elements::html_media_element*)>("getAutoplayPolicy", &navigator::get_autoplay_policy)
+        // .function<autoplay::detail::autoplay_policy_t(webaudio::contexts::audio_context*)>("getAutoplayPolicy", &navigator::get_autoplay_policy);
+        ;
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

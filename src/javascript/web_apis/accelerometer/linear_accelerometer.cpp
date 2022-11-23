@@ -15,12 +15,15 @@ accelerometer::linear_accelerometer::linear_accelerometer(detail::accelerometer_
 }
 
 
-auto accelerometer::linear_accelerometer::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto accelerometer::linear_accelerometer::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<linear_accelerometer>{isolate}
-        .ctor<detail::accelerometer_local_coordinate_system_t&&>()
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<accelerometer>()
+        .ctor<detail::accelerometer_local_coordinate_system_t&&>()
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

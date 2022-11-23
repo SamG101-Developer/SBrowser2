@@ -13,7 +13,7 @@ class battery::battery_manager
 public constructors:
     DOM_CTORS(battery_manager);
     MAKE_PIMPL(battery_manager);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 private js_properties:
     DEFINE_GETTER(charging, ext::boolean);
