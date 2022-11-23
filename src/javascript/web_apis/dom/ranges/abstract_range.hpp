@@ -14,7 +14,7 @@ class dom::node_ranges::abstract_range
 public constructors:
     abstract_range();
     MAKE_PIMPL(abstract_range);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(start_container, nodes::node*);

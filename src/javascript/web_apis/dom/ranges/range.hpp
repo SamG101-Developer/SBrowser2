@@ -18,7 +18,7 @@ public friends:
 public constructors:
     range();
     MAKE_PIMPL(range);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
     MAKE_STRINGIFIER;
 
 public js_static_constants:

@@ -5,19 +5,22 @@
 
 
 dom::other::dom_exception::dom_exception(
-        ext::string&& message,
-        exception_t type)
+        ext::u8string&& message,
+        base_exception<dom::detail::dom_exception_error_t>::exception_t type)
         : base_exception{std::move(message), std::move(type)}
 {
     INIT_PIMPL(dom_exception);
 }
 
 
-auto dom::other::dom_exception::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::other::dom_exception::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
     using enum detail::dom_exception_error_t;
 
-    decltype(auto) conversion = v8pp::class_<dom_exception>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<base_exception<exception_t>>()
         .ctor<ext::string&&, exception_t>()
         .static_("INDEX_SIZE_ERR", INDEX_SIZE_ERR, true)
@@ -57,5 +60,5 @@ auto dom::other::dom_exception::to_v8(v8::Isolate* isolate) -> v8pp::class_<self
         .static_("NOT_ALLOWED_ERR", NOT_ALLOWED_ERR, true)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

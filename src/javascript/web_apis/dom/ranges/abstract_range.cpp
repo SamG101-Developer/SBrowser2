@@ -42,16 +42,18 @@ auto dom::node_ranges::abstract_range::get_collapsed() const -> ext::boolean
 }
 
 
-auto dom::node_ranges::abstract_range::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::node_ranges::abstract_range::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<abstract_range>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
-        .property("collapsed", &abstract_range::get_collapsed)
         .property("startContainer", &abstract_range::get_start_container)
         .property("startOffset", &abstract_range::get_start_offset)
         .property("endContainer", &abstract_range::get_end_container)
         .property("endOffset", &abstract_range::get_end_offset)
+        .property("collapsed", &abstract_range::get_collapsed)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

@@ -606,7 +606,7 @@ dom::node_ranges::range::operator ext::string() const
     decltype(auto) textual_start_container = dom_cast<nodes::character_data*>(d->start->node.get());
     decltype(auto) textual_end_container   = dom_cast<nodes::character_data*>(d->end->node.get());
 
-    if (textual_start_container && textual_end_container && d->start->node.get() == d->end->node)
+    if (textual_start_container && textual_end_container && d->start->node.get() == d->end->node.get())
         return detail::substring_data(textual_start_container, d->start->offset, d->end->offset - d->start->offset);
 
     if (textual_start_container)
@@ -622,9 +622,12 @@ dom::node_ranges::range::operator ext::string() const
 }
 
 
-auto dom::node_ranges::range::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::node_ranges::range::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<range>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .ctor<>()
         .inherit<abstract_range>()
         .static_("START_TO_START", range::START_TO_START)
@@ -654,5 +657,5 @@ auto dom::node_ranges::range::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t
         .property("commonAncestorContainer", &range::get_common_ancestor_container)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

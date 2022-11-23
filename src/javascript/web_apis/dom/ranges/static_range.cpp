@@ -17,10 +17,10 @@ dom::node_ranges::static_range::static_range(detail::static_range_init_t&& init)
 
     using enum detail::dom_exception_error_t;
 
-    d->start->node = init[u"startContainer"].to<nodes::node*>();
-    d->end->node = init[u"endContainer"].to<nodes::node*>();
-    d->start->offset = init[u"startOffset"].to<ext::number<ulong>>();
-    d->end->offset = init[u"endOffset"].to<ext::number<ulong>>();
+    d->start->node = init[u"startContainer"].to<decltype(d->start->node)>();
+    d->end->node = init[u"endContainer"].to<decltype(d->end->node)>();
+    d->start->offset = init[u"startOffset"].to<decltype(d->start->offset)>();
+    d->end->offset = init[u"endOffset"].to<decltype(d->end->offset)>();
 
     detail::throw_v8_exception<INVALID_NODE_TYPE_ERR>(
             [d] {return dom_multi_cast<nodes::document_type*, nodes::attr*>(d->start->node.get());},
@@ -32,12 +32,15 @@ dom::node_ranges::static_range::static_range(detail::static_range_init_t&& init)
 }
 
 
-auto dom::node_ranges::static_range::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::node_ranges::static_range::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<static_range>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<abstract_range>()
         .ctor<detail::static_range_init_t>()
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

@@ -106,3 +106,19 @@ auto dom::other::dom_implementation::create_html_document(
     detail::append(detail::create_an_element(document.get(), u"body", detail::HTML), document->d_func()->child_nodes.at(1).get());
     return std::move(document);
 }
+
+
+auto dom::other::dom_implementation::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .function("createDocumentType", &dom_implementation::create_document_type)
+        .function("createDocument", &dom_implementation::create_document)
+        .function("createHTMLDocument", &dom_implementation::create_html_document)
+        .auto_wrap_objects();
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
+}

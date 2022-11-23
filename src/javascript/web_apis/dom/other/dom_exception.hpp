@@ -20,7 +20,8 @@ public friends:
 public constructors:
     dom_exception(ext::u8string&& message, exception_t type);
     MAKE_PIMPL(dom_exception);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
+    MAKE_SERIALIZABLE;
 };
 
 
