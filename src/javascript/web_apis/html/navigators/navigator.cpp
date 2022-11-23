@@ -239,5 +239,8 @@ auto html::navigators::navigator::_to_v8(
         // .function<autoplay::detail::autoplay_policy_t(webaudio::contexts::audio_context*)>("getAutoplayPolicy", &navigator::get_autoplay_policy);
         ;
 
+    V8_INTEROP_EXTEND_JS_OBJECT(WORKER | SECURE)
+        .property("devicePosture", &navigator::get_device_posture);
+
     return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

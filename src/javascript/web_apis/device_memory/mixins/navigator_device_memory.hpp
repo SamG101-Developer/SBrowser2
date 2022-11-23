@@ -13,7 +13,7 @@ class device_memory::mixins::navigator_device_memory
 private constructors:
     navigator_device_memory();
     MAKE_PIMPL(navigator_device_memory);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
 
 private js_properties:
     DEFINE_GETTER(device_memory, ext::number<double>);

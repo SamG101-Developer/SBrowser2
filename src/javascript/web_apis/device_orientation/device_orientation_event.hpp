@@ -18,7 +18,7 @@ public constructors:
     device_orientation_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     DOM_CTORS(device_orientation_event);
     MAKE_PIMPL(device_orientation_event);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 public js_methods:
     static auto request_permission() -> ext::promise<detail::permission_state_t>;

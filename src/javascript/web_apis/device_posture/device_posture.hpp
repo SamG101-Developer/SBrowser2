@@ -15,7 +15,7 @@ class device_posture::device_posture
 public constructors:
     DOM_CTORS(device_posture);
     MAKE_PIMPL(device_posture);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 private js_properties:
     DEFINE_GETTER(type, detail::device_posture_type_t);

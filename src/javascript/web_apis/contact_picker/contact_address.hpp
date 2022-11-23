@@ -13,7 +13,7 @@ class contact_picker::contact_address
 public constructors:
     contact_address();
     MAKE_PIMPL(contact_address);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(city, ext::string_view);

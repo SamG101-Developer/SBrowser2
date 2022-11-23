@@ -53,11 +53,12 @@ auto device_orientation::device_orientation_event::get_absolute() const -> ext::
 }
 
 
-auto device_orientation::device_orientation_event::to_v8(
+auto device_orientation::device_orientation_event::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<device_orientation_event>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .ctor<ext::string, ext::map<ext::string, ext::any>>()
         .inherit<dom::events::event>()
         .property("alpha", &device_orientation_event::get_alpha)
@@ -66,5 +67,5 @@ auto device_orientation::device_orientation_event::to_v8(
         .property("absolute", &device_orientation_event::get_absolute)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

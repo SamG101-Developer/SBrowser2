@@ -17,7 +17,7 @@ class contact_picker::contacts_manager
 public constructors:
     contacts_manager();
     MAKE_PIMPL(contacts_manager);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 public js_methods:
     auto get_properties() -> ext::promise<ext::vector<detail::contact_property_t>>;

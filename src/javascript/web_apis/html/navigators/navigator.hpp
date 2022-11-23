@@ -27,6 +27,7 @@ namespace battery {class battery_manager;}
 namespace dom::other {class dom_exception;}
 namespace clipboard {class clipboard;}
 namespace contact_picker {class contacts_manager;}
+namespace device_posture {class device_posture;}
 namespace gamepad {class gamepad;}
 namespace html::elements {class html_media_element;}
 namespace media::capabilities {class media_capabilities;}
@@ -91,6 +92,9 @@ public js_methods:
     auto get_gamepads() -> ext::vector_span<gamepad::gamepad*>;
 
 private js_properties:
+    /* [DEVICE-POSTURE] */
+    DEFINE_GETTER(device_posture, device_posture::device_posture*);
+
     /* [MEDIACAPTURE-MAIN] */
     DEFINE_GETTER(media_devices, mediacapture::main::media_devices*);
 
