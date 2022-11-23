@@ -64,8 +64,8 @@ namespace fetch::detail
     using proxy_t = ext::string;
 
     // header related
-    using header_name_t = ext::string;
-    using header_value_t = ext::string;
+    using header_name_t = ext::u8string;
+    using header_value_t = ext::u8string;
     using header_t = ext::pair<header_name_t, header_value_t>;
 
     using header_names_t = ext::vector<header_name_t>;

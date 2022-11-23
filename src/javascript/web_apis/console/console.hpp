@@ -14,12 +14,12 @@ namespace console {class console_private;}
 
 class console::console
         : virtual public dom_object
-        , ext::singleton<console>
+        , public ext::singleton<console>
 {
 public constructors:
     console();
     MAKE_PIMPL(console);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
     // Logging

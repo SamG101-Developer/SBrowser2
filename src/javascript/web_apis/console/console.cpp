@@ -1,6 +1,7 @@
 #include "console.hpp"
 #include "console_private.hpp"
 
+#include "dom_object.hpp"
 #include "ext/any.hpp"
 #include "ext/functional.hpp"
 #include "ext/hashing.hpp"
@@ -244,4 +245,37 @@ auto console::console::time_end(ext::string&& label) -> void
     auto duration = hr_time::detail::current_hr_time(e.js.global()) - start_time;
     auto concat = std::move(label) + char16_t(0x003a) + char16_t(0x0020) + ext::to_string(duration);
     detail::printer(detail::timer_type_t::TIME_END, std::move(concat));
+}
+
+
+auto console::console::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .inherit<ext::singleton<console>>()
+        .function("assert", &console::assert_)
+        .function("clear", &console::clear)
+        .function("debug", &console::debug)
+        .function("error", &console::error)
+        .function("info", &console::info)
+        .function("log", &console::log)
+        .function("table", &console::table)
+        .function("trace", &console::trace)
+        .function("warn", &console::warn)
+        .function("dir", &console::dir)
+        .function("dirxml", &console::dirxml)
+        .function("count", &console::count)
+        .function("countReset", &console::count_reset)
+        .function("group", &console::group)
+        .function("groupCollapsed", &console::group_collapsed)
+        .function("groupEnd", &console::group_end)
+        .function("time", &console::time)
+        .function("timeLog", &console::time_log)
+        .function("timeEnd", &console::time_end)
+        .auto_wrap_objects();
+
+    V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

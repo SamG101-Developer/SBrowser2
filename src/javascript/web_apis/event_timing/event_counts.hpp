@@ -15,7 +15,7 @@ class event_timing::event_counts
 public constructors:
     event_counts();
     MAKE_PIMPL(event_counts);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 };
 
 

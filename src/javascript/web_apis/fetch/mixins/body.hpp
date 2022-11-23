@@ -3,11 +3,12 @@
 
 #include "dom_object.hpp"
 namespace fetch::mixins {class body;}
+namespace fetch::mixins {class body_private;}
 
+#include INCLUDE_INNER_TYPES(fetch)
 #include "ext/functional.hpp"
 #include "ext/promise.hpp"
 #include <v8-forward.h>
-#include INCLUDE_INNER_TYPES(fetch)
 namespace file_api {class blob;}
 namespace streams::readable {class readable_stream;}
 namespace xhr {class form_data;}
@@ -16,6 +17,11 @@ namespace xhr {class form_data;}
 class fetch::mixins::body
         : public virtual dom_object
 {
+public constructors:
+    body();
+    MAKE_PIMPL(body);
+    MAKE_V8_AVAILABLE(MIXIN);
+
 public js_methods:
     auto aray_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
     auto blob() -> ext::promise<file_api::blob>;
@@ -24,17 +30,8 @@ public js_methods:
     auto text() -> ext::promise<ext::string>;
 
 private js_properties:
-    ext::property<std::unique_ptr<streams::readable::readable_stream>> body;
-    ext::property<ext::boolean> body_used;
-
-public cpp_methods:
-    auto to_v8(v8::Isolate* isolate) const && -> ext::any override;
-
-private cpp_methods:
-    ext::function<ext::string()> mime_type_algorithm;
-
-private cpp_properties:
-    std::unique_ptr<detail::body_t> m_body;
+    DEFINE_GETTER(body, streams::readable::readable_stream*);
+    DEFINE_GETTER(body_used, ext::boolean);
 };
 
 

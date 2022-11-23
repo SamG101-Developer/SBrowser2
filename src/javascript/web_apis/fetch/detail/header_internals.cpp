@@ -145,7 +145,7 @@ auto fetch::detail::append_header(
         -> void
 {
     // append the 'header' to the end of the 'headers' list
-    headers.push_back(&header);
+    headers.push_back(header);
 }
 
 
@@ -289,4 +289,10 @@ auto fetch::detail::is_cors_safelisted_request_header(
     }
 
     return true;
+}
+
+
+auto fetch::detail::normalize(ext::u8string& potential_value) -> ext::u8string&
+{
+    return infra::detail::strip_leading_and_trailing_ascii_whitespace(potential_value);
 }

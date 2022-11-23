@@ -2,7 +2,6 @@
 #define SBROWSER2_BLOB_HPP
 
 #include "dom_object.hpp"
-#include "html/mixins/serializable.hpp"
 namespace file_api {class blob;}
 namespace file_api {class blob_private;}
 
@@ -22,14 +21,14 @@ class file_api::blob
 public constructors:
     blob(ext::vector<detail::blob_part_t>&& blob_parts = {}, detail::blob_property_bag_t&& options = {});
     MAKE_PIMPL(blob);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | WORKER);
     MAKE_SERIALIZABLE;
 
 public js_methods:
     auto slice(ext::number<longlong> start = 0, ext::number<longlong> end = ext::number<longlong>::max(), ext::string_view content_type = u"") -> std::unique_ptr<blob>;
-    auto stream() -> streams::readable::readable_stream;
+    auto stream() -> std::unique_ptr<streams::readable::readable_stream>;
     auto text() -> ext::promise<ext::string>;
-    auto array_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
+    auto array_buffer() -> ext::promise<ext::array_buffer>;
 
 private js_properties:
     DEFINE_GETTER(size, ext::number<ulonglong>);

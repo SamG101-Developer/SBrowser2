@@ -19,7 +19,7 @@ namespace file_api::detail
 {
     auto get_stream(
             blob* blob_object)
-            -> streams::readable::readable_stream;
+            -> std::unique_ptr<streams::readable::readable_stream>;
 
     auto process_blob_parts(
             ext::vector<detail::blob_part_t>&& parts,
@@ -33,8 +33,8 @@ namespace file_api::detail
     auto package_data(
             ext::string_view bytes,
             ext::string_view type,
-            ext::string_view mime_type = "",
-            ext::string_view encoding_name = "")
+            ext::string_view mime_type = u"",
+            ext::string_view encoding_name = u"")
             -> ext::string;
 
     auto generate_new_blob_url()

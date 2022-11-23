@@ -502,5 +502,8 @@ auto dom::nodes::element::_to_v8(
         .property("attributes", &element::get_attributes)
         .auto_wrap_objects();
 
+    V8_INTEROP_EXTEND_JS_OBJECT(ALL)
+        .property("editContext", &element::get_edit_context);
+
     return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

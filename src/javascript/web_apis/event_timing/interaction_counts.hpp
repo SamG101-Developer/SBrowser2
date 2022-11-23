@@ -15,7 +15,7 @@ class event_timing::interaction_counts
 public constructors:
     interaction_counts();
     MAKE_PIMPL(interaction_counts);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 };
 
 

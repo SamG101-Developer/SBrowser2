@@ -8,6 +8,7 @@ namespace event_timing {class performance_event_timing_private;}
 
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class event_target;}
+namespace dom::nodes {class node;}
 namespace dom::events {class event;}
 
 
@@ -17,7 +18,7 @@ class event_timing::performance_event_timing
 public constructors:
     performance_event_timing();
     MAKE_PIMPL(performance_event_timing);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
     MAKE_STRINGIFIER;
 
 private js_properties:
@@ -27,8 +28,8 @@ private js_properties:
     DEFINE_GETTER(target, dom::nodes::node*);
     DEFINE_GETTER(interaction_id, ext::number<ulonglong>);
 
-    DEFINE_GETTER(name, ext::string) override;
-    DEFINE_GETTER(entry_type, ext::string) override;
+    DEFINE_GETTER(name, ext::string_view) override;
+    DEFINE_GETTER(entry_type, ext::string_view) override;
     DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override;
 };

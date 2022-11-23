@@ -63,14 +63,14 @@ auto event_timing::performance_event_timing::get_interaction_id() const -> ext::
 }
 
 
-auto event_timing::performance_event_timing::get_name() const -> ext::string
+auto event_timing::performance_event_timing::get_name() const -> ext::string_view
 {
     ACCESS_PIMPL(const performance_event_timing);
     return d->event->d_func()->type;
 }
 
 
-auto event_timing::performance_event_timing::get_entry_type() const -> ext::string
+auto event_timing::performance_event_timing::get_entry_type() const -> ext::string_view
 {
     ACCESS_PIMPL(const performance_event_timing);
     return u"event"; // TODO : u"first-input"?
@@ -84,25 +84,19 @@ auto event_timing::performance_event_timing::get_start_time() const -> hr_time::
 }
 
 
-auto event_timing::performance_event_timing::to_v8(
-        v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+auto event_timing::performance_event_timing::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<performance_event_timing>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<performance_timeline::performance_entry>()
         .property("processingStart", &performance_event_timing::get_processing_start)
         .property("processingEnd", &performance_event_timing::get_processing_end)
         .property("cancelable", &performance_event_timing::get_cancelable)
         .property("target", &performance_event_timing::get_target)
         .property("interactionId", &performance_event_timing::get_interaction_id)
-
-        .property("name", &performance_event_timing::get_name)
-        .property("entryType", &performance_event_timing::get_entry_type)
-        .property("startTime", &performance_event_timing::get_start_time)
-        .property("duration", &performance_event_timing::get_duration)
-
         .function("toJSON", &performance_event_timing::operator ext::string)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

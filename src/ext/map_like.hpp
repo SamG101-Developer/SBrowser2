@@ -32,7 +32,7 @@ class map_like : public virtual dom_object
 {
 public constructors:
     MAKE_PIMPL_TEMPLATED(map_like, K, V);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
     explicit map_like()
     {
@@ -49,7 +49,7 @@ class map_like_linked : public map_like<K, V>
 {
 public constructors:
     MAKE_PIMPL_TEMPLATED(map_like_linked, K, V);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
     explicit map_like_linked(map<K, V>* container = nullptr)
     {

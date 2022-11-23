@@ -8,8 +8,8 @@
 
 
 DEFINE_PRIVATE_CLASS(event_timing, event_counts)
-    : virtual dom_object_private
-    , ext::map_like_linked_private<ext::string, ext::number<ulonglong>>
+        : virtual dom_object_private
+        , ext::map_like_linked_private<ext::string, ext::number<ulonglong>>
 {
     MAKE_QIMPL(event_counts);
 };

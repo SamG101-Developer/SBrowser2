@@ -22,6 +22,7 @@
 #include "hr_time/performance.hpp"
 #include "performance_timeline/detail/processing_internals.hpp"
 #include "pointer_events/pointer_event.hpp"
+#include "pointer_events/pointer_event_private.hpp"
 
 #include "ui_events/input_event.hpp"
 #include "ui_events/keyboard_event.hpp"

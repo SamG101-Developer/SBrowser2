@@ -1,9 +1,8 @@
 #pragma once
-#include "ext/boolean.hpp"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EVENT_TIMING_DETAIL_TIMING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EVENT_TIMING_DETAIL_TIMING_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/boolean.hpp"
 #include INCLUDE_INNER_TYPES(event_timing)
 #include INCLUDE_INNER_TYPES(hr_time)
 

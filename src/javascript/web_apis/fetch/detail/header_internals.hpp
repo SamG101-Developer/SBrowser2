@@ -9,8 +9,18 @@
 #include INCLUDE_INNER_TYPES(fetch)
 
 
-namespace fetch::detail // TODO : const ...& vs ..._view
+// TODO : const ...& vs ..._view
+// TODO : parameter order (name, list) or (list, name) etc
+namespace fetch::detail
 {
+    auto is_header_name(
+            ext::u8string_view)
+            -> ext::boolean;
+
+    auto is_header_value(
+            ext::u8string_view)
+            -> ext::boolean;
+
     DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(header_value_object_t, header_value_variable, void*);
     ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(header_value_variable, header_value_object_t::DICT, ext::map<header_value_t COMMA header_values_t>);
     ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(header_value_variable, header_value_object_t::LIST, ext::vector<header_value_t>);
@@ -120,8 +130,8 @@ namespace fetch::detail // TODO : const ...& vs ..._view
             const header_t& header)
             -> ext::boolean;
 
-    auto is_forbidden_header_name(
-            const header_name_t& header_name)
+    auto is_forbidden_request_header(
+            const header_t& header)
             -> ext::boolean;
 
     auto is_forbidden_response_header_name(
@@ -144,6 +154,10 @@ namespace fetch::detail // TODO : const ...& vs ..._view
     auto is_simple_range_header_value(
             header_value_t header_value)
             -> ext::boolean;
+
+    auto normalize(
+            ext::u8string& potential_value)
+            -> ext::u8string&;
 }
 
 

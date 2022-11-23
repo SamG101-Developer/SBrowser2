@@ -55,7 +55,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
-    /* DOM */
+    /* [DOM] */
     [[nodiscard]] auto has_attributes() const -> ext::boolean;
     [[nodiscard]] auto get_attribute_names() const -> ranges::any_view<ext::string>;
 
@@ -127,7 +127,7 @@ private js_properties:
     DEFINE_GETTER(attributes, ranges::any_helpful_view<attr*>);
 
     /* [EDIT-CONTENT] */
-    DEFINE_GETTER(edit_contxt, edit_context::edit_context*);
+    DEFINE_GETTER(edit_context, edit_context::edit_context*);
 };
 
 

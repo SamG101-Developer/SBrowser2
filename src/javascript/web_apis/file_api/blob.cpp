@@ -4,10 +4,14 @@
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 
-#include INCLUDE_INNER_TYPES(file_api)
-
+#include "file_api/_typedefs.hpp"
 #include "file_api/detail/blob_internals.hpp"
+
 #include "streams/readable/readable_stream.hpp"
+#include "streams/readable/readable_stream_private.hpp"
+#include "streams/detail/readable_abstract_operations_internals.hpp"
+
+#include "web_idl/detail/type_mapping_internals.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
@@ -55,7 +59,7 @@ auto file_api::blob::slice(
 
 
 auto file_api::blob::stream()
-        -> streams::readable::readable_stream
+        -> std::unique_ptr<streams::readable::readable_stream>
 {
     return detail::get_stream(this);
 }
@@ -65,18 +69,22 @@ auto file_api::blob::text()
         -> ext::promise<ext::string>
 {
     auto stream = detail::get_stream(this);
-    auto reader = streams::detail::get_reader(&stream);
-    auto promise = streams::detail::read_all_bytes(&stream, &reader);
-    // TODO : return transformation
+    auto reader = streams::detail::get_reader(stream.get());
+    auto promise = streams::detail::read_all_bytes(reader.get());
+
+    auto e = js::env::env::relevant(this); // TODO : env
+    return web_idl::detail::upon_fulfillment(
+            promise, e.js.realm(),
+            []<typename ...Args>(Args&&... arguments) {ext::nth_variadic_value<0>(std::forward<Args>(arguments)...);});
 }
 
 
 auto file_api::blob::array_buffer()
-        -> ext::promise<v8::Local<v8::ArrayBuffer>>
+        -> ext::promise<ext::array_buffer>
 {
     auto stream = detail::get_stream(this);
-    auto reader = streams::detail::get_reader(&stream);
-    auto promise = streams::detail::read_all_bytes(&stream, &reader);
+    auto reader = streams::detail::get_reader(stream.get());
+    auto promise = streams::detail::read_all_bytes(reader.get());
     // TODO : return transformation
 }
 

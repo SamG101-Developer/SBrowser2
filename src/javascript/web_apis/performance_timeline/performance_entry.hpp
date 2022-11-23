@@ -15,10 +15,10 @@ class performance_timeline::performance_entry
 public constructors:
     performance_entry();
     MAKE_PIMPL(performance_entry);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW); // TODO <- just a placeholder (WINDOW)
     MAKE_STRINGIFIER;
 
-protected cpp_accessors:
+protected js_properties:
     virtual DEFINE_GETTER(name, ext::string_view) = 0;
     virtual DEFINE_GETTER(entry_type, ext::string_view) = 0;
     virtual DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) = 0;

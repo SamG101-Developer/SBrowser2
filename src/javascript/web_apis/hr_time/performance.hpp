@@ -21,7 +21,7 @@ class hr_time::performance
 public constructors:
     performance();
     MAKE_PIMPL(performance);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW); // TODO <- placeholder (WINDOW)
 
 public js_methods:
     /* [HR-TIME] */
@@ -47,7 +47,7 @@ private js_properties:
     /* [HR-TIME] */
     DEFINE_GETTER(time_origin, ext::number<double>);
 
-    /* [EVENT-TIMING] */
+    /* [EVENT-TIMING] */ // TODO : WINDOW only
     DEFINE_GETTER(event_counts, const event_timing::event_counts*);
     DEFINE_GETTER(interaction_counts, const event_timing::interaction_counts*);
 };

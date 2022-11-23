@@ -5,6 +5,13 @@
 #include <utility>
 
 
+_EXT_DETAIL_BEGIN
+    template <signed Adjust, std::size_t... I, typename... T>
+    auto nth_variadic_values(std::index_sequence<I...>, T&&... t)
+    {return std::make_tuple(std::get<I + Adjust>(std::make_tuple(std::forward<T>(t)...))...);}
+_EXT_DETAIL_END
+
+
 _EXT_BEGIN
     // Get the single Nth element from a variadic argument
     template <size_t N, typename ...Args>
@@ -12,17 +19,13 @@ _EXT_BEGIN
     {return ext::get<N>(_EXT make_tuple<Args...>(std::forward<Args>(args)...));}
 
     // Get the Nth elements (I amount) from a variadic argument
-    template <signed Adjust, std::size_t... I, typename... T>
-    auto nth_variadic_values_(std::index_sequence<I...>, T&&... t)
-    {return std::make_tuple(std::get<I + Adjust>(std::make_tuple(std::forward<T>(t)...))...);}
-
     template <signed Begin, signed Size, typename... T>
     auto nth_variadic_values(T&&... t)
-    {return nth_variadic_values_<Begin>(std::make_index_sequence<(Size)>(), std::forward<T>(t)...);}
+    {return detail::nth_variadic_values<Begin>(std::make_index_sequence<(Size)>(), std::forward<T>(t)...);}
 
     template <signed Begin, typename... T>
     auto nth_variadic_values(T&&... t)
-    {return nth_variadic_values_<Begin>(std::make_index_sequence<(sizeof...(T) - Begin)>(), std::forward<T>(t)...);}
+    {return detail::nth_variadic_values<Begin>(std::make_index_sequence<(sizeof...(T) - Begin)>(), std::forward<T>(t)...);}
 
     // Get the single Nth type from a variadic argument
     template <size_t Index, typename ...Types>

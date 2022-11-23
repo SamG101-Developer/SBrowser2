@@ -8,7 +8,8 @@ namespace dom::nodes {class event_target;}
 namespace dom::events {class event;}
 
 
-DEFINE_PRIVATE_CLASS(event_timing, performance_event_timing) : performance_timeline::performance_entry_private
+DEFINE_PRIVATE_CLASS(event_timing, performance_event_timing)
+        : performance_timeline::performance_entry_private
 {
     MAKE_QIMPL(performance_event_timing);
 
