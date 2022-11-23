@@ -7,6 +7,7 @@ namespace dom::mutations {class mutation_record_private;}
 
 #include "ext/vector.hpp"
 #include "ext/span.hpp"
+namespace dom::nodes {class node;}
 
 
 class dom::mutations::mutation_record
@@ -15,7 +16,7 @@ class dom::mutations::mutation_record
 public constructors:
     mutation_record();
     MAKE_PIMPL(mutation_record);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(type, ext::string_view);

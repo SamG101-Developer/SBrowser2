@@ -61,7 +61,8 @@ auto edit_context::edit_context::update_selection_bound(
 
 auto edit_context::edit_context::update_character_bounds(
         ext::number<ulong> range_start,
-        ext::vector<std::unique_ptr<css::geometry::dom_rect>>&& character_bounds) -> void
+        ext::vector<std::unique_ptr<css::geometry::dom_rect>>&& character_bounds)
+        -> void
 {
     // To update the character bounds with a new 'range_start' and 'character_bounds', set the private
     // 'character_bounds_range_start' and 'cached_character_bounds' to 'range_start' and 'character_bounds'.
@@ -80,4 +81,34 @@ auto edit_context::edit_context::character_bounds()
     ACCESS_PIMPL(edit_context);
     return_if (!d->activated) {};
     return {d->cached_character_bounds | ranges::views::underlying};
+}
+
+
+auto edit_context::edit_context::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom::nodes::event_target>()
+        .ctor<detail::edit_context_init_t&&>()
+        .function("updateText", &edit_context::update_text)
+        .function("updateSelection", &edit_context::update_selection)
+        .function("updateControlBound", &edit_context::update_control_bound)
+        .function("updateSelectionBound", &edit_context::update_selection_bound)
+        .function("updateSelectionBound", &edit_context::update_character_bounds)
+        .function("attachedElements", &edit_context::attached_elements)
+        .function("characterBounds", &edit_context::character_bounds)
+        .property("text", &edit_context::get_text)
+        .property("selectionStart", &edit_context::get_selection_start)
+        .property("selectionEnd", &edit_context::get_selection_end)
+        .property("compositionRangeStart", &edit_context::get_composition_range_start)
+        .property("compositionRangeEnd", &edit_context::get_composition_range_end)
+        .property("characterBoundsRangeStart", &edit_context::get_character_bounds_range_start)
+        .property("isInComposition", &edit_context::get_is_in_composition)
+        .property("controlBound", &edit_context::get_control_bound)
+        .property("selectionBound", &edit_context::get_selection_bound)
+        .auto_wrap_objects();
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

@@ -22,7 +22,7 @@ public friends:
 public constructors:
     DOM_CTORS(abort_signal);
     MAKE_PIMPL(abort_signal);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
     static auto abort(ext::optional<ext::any>&& reason = ext::nullopt) -> abort_signal;

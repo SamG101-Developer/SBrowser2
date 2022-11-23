@@ -26,7 +26,7 @@ public friends:
 public: constructors
     event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(event);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 public: js_static_constants
     constexpr static const ext::number<ushort> NONE = 0;

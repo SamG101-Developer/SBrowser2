@@ -161,9 +161,12 @@ auto dom::events::event::composed_path() const -> ext::vector<nodes::event_targe
 }
 
 
-auto dom::events::event::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::events::event::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<event>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
         .static_("NONE", event::NONE, true)
@@ -188,5 +191,5 @@ auto dom::events::event::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
         .property("path", &event::get_path)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

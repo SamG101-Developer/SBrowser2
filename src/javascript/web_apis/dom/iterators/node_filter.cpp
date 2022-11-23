@@ -29,9 +29,12 @@ auto dom::node_iterators::node_filter::set_accept_node(detail::accept_callback_t
 }
 
 
-auto dom::node_iterators::node_filter::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::node_iterators::node_filter::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<node_filter>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .static_("FILTER_ACCEPT", node_filter::FILTER_ACCEPT, true)
         .static_("FILTER_SKIP", node_filter::FILTER_SKIP, true)
         .static_("FILTER_REJECT", node_filter::FILTER_REJECT, true)
@@ -48,5 +51,5 @@ auto dom::node_iterators::node_filter::to_v8(v8::Isolate* isolate) -> v8pp::clas
         .property("acceptNode", &node_filter::get_accept_node, &node_filter::set_accept_node)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

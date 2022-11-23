@@ -17,7 +17,7 @@ class dom::mixins::document_or_shadow_root
 public constructors:
     document_or_shadow_root();
     MAKE_PIMPL(document_or_shadow_root);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
     /* [CSS_WEB_ANIMATIONS] */

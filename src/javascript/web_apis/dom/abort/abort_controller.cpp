@@ -29,14 +29,17 @@ auto dom::abort::abort_controller::get_signal() const -> abort_signal*
 }
 
 
-auto dom::abort::abort_controller::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::abort::abort_controller::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<abort_controller>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .ctor<>()
         .function("abort", &abort_controller::abort)
         .property("signal", &abort_controller::get_signal)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

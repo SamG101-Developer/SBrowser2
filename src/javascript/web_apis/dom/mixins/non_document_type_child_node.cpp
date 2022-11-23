@@ -21,7 +21,7 @@ auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() c
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) siblings = base->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
     decltype(auto) previous_siblings = ranges::subrange(siblings.begin(), ranges::find(siblings, base));
-    return ranges::end(siblings | ranges::views::cast<nodes::element*>);
+    return ranges::back(previous_siblings | ranges::views::cast<nodes::element*>);
 }
 
 
@@ -32,18 +32,21 @@ auto dom::mixins::non_document_type_child_node::get_next_element_sibling() const
     // of this list; this is the next sibling.
     decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
     decltype(auto) siblings = base->d_func()->parent_node->d_func()->child_nodes | ranges::views::transform(&std::unique_ptr<nodes::node>::get);
-    decltype(auto) previous_siblings = ranges::subrange(ranges::find(siblings, base), siblings.end());
-    return ranges::front(siblings | ranges::views::cast<nodes::element*>);
+    decltype(auto) next_siblings = ranges::subrange(ranges::find(siblings, base), siblings.end());
+    return ranges::front(next_siblings | ranges::views::cast<nodes::element*>);
 }
 
 
-auto dom::mixins::non_document_type_child_node::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::mixins::non_document_type_child_node::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<non_document_type_child_node>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .property("previousElementSibling", &non_document_type_child_node::get_previous_element_sibling)
         .property("nextElementSibling", &non_document_type_child_node::get_next_element_sibling)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

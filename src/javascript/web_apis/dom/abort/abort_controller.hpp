@@ -15,7 +15,7 @@ class dom::abort::abort_controller
 public constructors:
     abort_controller();
     MAKE_PIMPL(abort_controller);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
     auto abort(ext::any&& reason) const -> void;

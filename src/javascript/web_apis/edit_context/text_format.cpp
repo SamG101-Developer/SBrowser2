@@ -16,3 +16,73 @@ edit_context::text_format::text_format(detail::touch_format_init_t&& options)
     d->underline_thickness = options[u"underlineThickness"].to<decltype(d->underline_thickness)>();
     d->underline_color = options[u"underlineColor"].to<decltype(d->underline_color)>();
 }
+
+
+auto edit_context::text_format::get_range_start() const -> ext::number<ulong>
+{
+    ACCESS_PIMPL(const text_format);
+    return d->range_start;
+}
+
+
+auto edit_context::text_format::get_range_end() const -> ext::number<ulong>
+{
+    ACCESS_PIMPL(const text_format);
+    return d->range_end;
+}
+
+
+auto edit_context::text_format::get_text_color() const -> ext::string_view
+{
+    ACCESS_PIMPL(const text_format);
+    return d->text_color;
+}
+
+
+auto edit_context::text_format::get_background_color() const -> ext::string_view
+{
+    ACCESS_PIMPL(const text_format);
+    return d->background_color;
+}
+
+
+auto edit_context::text_format::get_underline_style() const -> ext::string_view
+{
+    ACCESS_PIMPL(const text_format);
+    return d->underline_style;
+}
+
+
+auto edit_context::text_format::get_underline_color() const -> ext::string_view
+{
+    ACCESS_PIMPL(const text_format);
+    return d->underline_color;
+}
+
+
+auto edit_context::text_format::get_underline_thickness() const -> ext::string_view
+{
+    ACCESS_PIMPL(const text_format);
+    return d->underline_thickness;
+}
+
+
+auto edit_context::text_format::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .ctor<>()
+        .property("rangeStart", &text_format::get_range_start)
+        .property("rangeEnd", &text_format::get_range_end)
+        .property("textColor", &text_format::get_text_color)
+        .property("backgroundColor", &text_format::get_background_color)
+        .property("underlineStyle", &text_format::get_underline_style)
+        .property("underlineColor", &text_format::get_underline_color)
+        .property("underlineThickness", &text_format::get_underline_thickness)
+        .auto_wrap_objects();
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
+}

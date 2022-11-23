@@ -13,7 +13,7 @@ public constructors:
     custom_event() = default;
     custom_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(custom_event);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 private js_properties:
     DEFINE_GETTER(detail, ext::any) {return d_ptr->detail;};

@@ -16,7 +16,7 @@ class dom::node_iterators::node_iterator
 public constructors:
     node_iterator();
     MAKE_PIMPL(node_iterator);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     auto next_node() -> nodes::node*;

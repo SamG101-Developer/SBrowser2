@@ -19,7 +19,7 @@ class dom::mutations::mutation_observer
 public constructors:
     mutation_observer(detail::mutation_callback_t&& callback);
     MAKE_PIMPL(mutation_observer);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     auto observe(nodes::node* target, detail::mutation_observer_init_t&& options = {}) -> void;

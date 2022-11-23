@@ -17,16 +17,16 @@ public constructors:
     text_format(detail::touch_format_init_t&& options = {});
     DOM_CTORS(text_format);
     MAKE_PIMPL(text_format);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
-    DEFINE_GETTER(update_range_start, ext::number<ulong>);
-    DEFINE_GETTER(update_range_end, ext::number<ulong>);
-    DEFINE_GETTER(selection_start, ext::number<ulong>);
-    DEFINE_GETTER(selection_end, ext::number<ulong>);
-    DEFINE_GETTER(composition_start, ext::number<ulong>);
-    DEFINE_GETTER(composition_end, ext::number<ulong>);
-    DEFINE_GETTER(text, ext::string);
+    DEFINE_GETTER(range_start, ext::number<ulong>);
+    DEFINE_GETTER(range_end, ext::number<ulong>);
+    DEFINE_GETTER(text_color, ext::string_view);
+    DEFINE_GETTER(background_color, ext::string_view);
+    DEFINE_GETTER(underline_style, ext::string_view);
+    DEFINE_GETTER(underline_thickness, ext::string_view);
+    DEFINE_GETTER(underline_color, ext::string_view);
 };
 
 

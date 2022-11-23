@@ -16,7 +16,7 @@ class dom::mixins::document_or_element_node
 public constructors:
     document_or_element_node();
     MAKE_PIMPL(document_or_element_node);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
     _EXT_NODISCARD auto get_elements_by_class_name(ext::string_view class_names) const -> ranges::any_view<nodes::element*>;

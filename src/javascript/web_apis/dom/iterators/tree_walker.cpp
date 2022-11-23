@@ -163,9 +163,12 @@ auto dom::node_iterators::tree_walker::next_node() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::node_iterators::tree_walker::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<tree_walker>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<abstract_iterator>()
         .function("parentNode", &tree_walker::parent_node)
         .function("firstChild", &tree_walker::first_child)
@@ -177,5 +180,5 @@ auto dom::node_iterators::tree_walker::to_v8(v8::Isolate* isolate) -> v8pp::clas
         .property("currentNode", &tree_walker::get_current_node, &tree_walker::set_current_node)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

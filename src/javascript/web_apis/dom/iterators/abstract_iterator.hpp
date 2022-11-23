@@ -17,7 +17,7 @@ class dom::node_iterators::abstract_iterator
 public constructors:
     DOM_CTORS(abstract_iterator);
     MAKE_PIMPL(abstract_iterator);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(filter, node_filter*);

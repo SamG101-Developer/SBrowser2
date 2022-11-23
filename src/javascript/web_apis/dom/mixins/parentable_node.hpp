@@ -19,7 +19,7 @@ class dom::mixins::parentable_node
 public constructors:
     parentable_node();
     MAKE_PIMPL(parentable_node);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
     template <ext::type_is<nodes::node*, ext::string> ...T> auto prepend(T&&... nodes) -> nodes::node*;

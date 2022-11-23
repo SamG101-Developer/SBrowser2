@@ -1,4 +1,5 @@
 #include "mutation_record.hpp"
+#include "dom_object.hpp"
 #include "mutation_record_private.hpp"
 
 
@@ -62,4 +63,26 @@ auto dom::mutations::mutation_record::get_removed_nodes() const -> ext::vector_s
 {
     ACCESS_PIMPL(const mutation_record);
     return d->removed_nodes;
+}
+
+
+auto dom::mutations::mutation_record::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .property("type", &mutation_record::get_type)
+        .property("attributeName", &mutation_record::get_attribute_name)
+        .property("attributeNamespace", &mutation_record::get_attribute_namespace)
+        .property("oldValue", &mutation_record::get_old_value)
+        .property("target", &mutation_record::get_target)
+        .property("previousSibling", &mutation_record::get_previous_sibling)
+        .property("nextSibling", &mutation_record::get_next_sibling)
+        .property("addedNodes", &mutation_record::get_added_nodes)
+        .property("removedNodes", &mutation_record::get_removed_nodes)
+        .auto_wrap_objects();
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

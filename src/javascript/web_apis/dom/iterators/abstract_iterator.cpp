@@ -44,14 +44,17 @@ auto dom::node_iterators::abstract_iterator::get_what_to_show() const -> ext::nu
 }
 
 
-auto dom::node_iterators::abstract_iterator::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::node_iterators::abstract_iterator::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<abstract_iterator>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .property("filter", &abstract_iterator::get_filter)
         .property("root", &abstract_iterator::get_root)
         .property("whatToShow", &abstract_iterator::get_what_to_show)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

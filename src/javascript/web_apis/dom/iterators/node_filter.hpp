@@ -16,7 +16,7 @@ class dom::node_iterators::node_filter
 public constructors:
     node_filter();
     MAKE_PIMPL(node_filter);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_static_constants:
     constexpr static const ext::number<ushort> FILTER_ACCEPT = 1;

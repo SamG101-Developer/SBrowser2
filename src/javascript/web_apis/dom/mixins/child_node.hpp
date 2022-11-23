@@ -15,7 +15,7 @@ class dom::mixins::child_node
 public constructors:
     child_node();
     MAKE_PIMPL(child_node);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
     template <ext::type_is<nodes::node*, ext::string> ...T> auto before(T&&... nodes) -> nodes::node*;

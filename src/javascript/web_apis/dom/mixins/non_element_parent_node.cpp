@@ -28,12 +28,15 @@ auto dom::mixins::non_element_parent_node::get_element_by_id(const ext::string_v
 }
 
 
-auto dom::mixins::non_element_parent_node::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::mixins::non_element_parent_node::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<non_element_parent_node>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .function("getElementById", &non_element_parent_node::get_element_by_id)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

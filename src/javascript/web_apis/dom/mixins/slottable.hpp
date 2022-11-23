@@ -18,7 +18,7 @@ public friends:
 public constructors:
     slottable();
     MAKE_PIMPL(slottable);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 private js_properties:
     DEFINE_GETTER(assigned_slot, html::elements::html_slot_element*);

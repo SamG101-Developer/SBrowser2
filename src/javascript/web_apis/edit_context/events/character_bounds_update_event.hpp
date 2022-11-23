@@ -15,7 +15,7 @@ public constructors:
     character_bounds_update_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     DOM_CTORS(character_bounds_update_event);
     MAKE_PIMPL(character_bounds_update_event);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(range_start, ext::number<ulong>);

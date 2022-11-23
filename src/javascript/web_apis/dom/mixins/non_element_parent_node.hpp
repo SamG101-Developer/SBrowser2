@@ -14,7 +14,7 @@ class dom::mixins::non_element_parent_node
 public constructors:
     non_element_parent_node();
     MAKE_PIMPL(non_element_parent_node);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
     auto get_element_by_id(ext::string_view id) -> nodes::element*;

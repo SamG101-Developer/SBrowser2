@@ -112,14 +112,17 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
 }
 
 
-auto dom::mixins::document_or_element_node::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::mixins::document_or_element_node::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<document_or_element_node>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .function("getElementsByClassName", &document_or_element_node::get_elements_by_class_name)
         .function("getElementsByTagName", &document_or_element_node::get_elements_by_tag_name)
         .function("getElementsByTagNameNS", &document_or_element_node::get_elements_by_tag_name_ns)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

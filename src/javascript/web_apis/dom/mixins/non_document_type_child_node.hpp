@@ -14,7 +14,7 @@ class dom::mixins::non_document_type_child_node
 public constructors:
     non_document_type_child_node();
     MAKE_PIMPL(non_document_type_child_node);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(MIXIN);
 
 private js_properties:
     DEFINE_GETTER(previous_element_sibling, nodes::element*);

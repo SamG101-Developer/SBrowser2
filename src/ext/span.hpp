@@ -46,11 +46,7 @@ public aliases:
     using reverse_iterator = std::reverse_iterator<iterator>;
 
 public constructors:
-    span()
-            : fixed_begin{nullptr}
-            , fixed_end{nullptr}
-            , fixed_size{0}
-    {};
+    span() = default;
 
     span(const begin_iterator begin, const end_iterator end)
             : fixed_begin{begin}
@@ -112,9 +108,9 @@ public:
     auto at(size_type index) -> element_type {return *ranges::next(fixed_begin, index);}
 
 private:
-    const begin_iterator fixed_begin;
-    const end_iterator fixed_end;
-    const size_type fixed_size;
+    const begin_iterator fixed_begin = nullptr;
+    const end_iterator fixed_end = nullptr;
+    const size_type fixed_size = 0;
 };
 
 _EXT_END

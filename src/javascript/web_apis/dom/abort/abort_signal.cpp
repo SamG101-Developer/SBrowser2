@@ -90,9 +90,12 @@ auto dom::abort::abort_signal::get_reason() const -> ext::any
 }
 
 
-auto dom::abort::abort_signal::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::abort::abort_signal::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<abort_signal>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<event_target>()
         .function("timeout", &abort_signal::timeout)
         .function("abort", &abort_signal::abort)
@@ -101,5 +104,5 @@ auto dom::abort::abort_signal::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_
         .property("reason", &abort_signal::get_reason)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

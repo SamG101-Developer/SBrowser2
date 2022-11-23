@@ -6,7 +6,8 @@
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(edit_context::events, text_update_event) : dom::events::event_private
+DEFINE_PRIVATE_CLASS(edit_context::events, text_update_event)
+        : dom::events::event_private
 {
     MAKE_QIMPL(text_update_event);
 

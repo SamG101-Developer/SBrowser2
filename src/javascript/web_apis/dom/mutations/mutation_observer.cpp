@@ -100,3 +100,20 @@ auto dom::mutations::mutation_observer::take_records() -> ext::vector<mutation_r
     d->record_queue = {};
     return {std::make_move_iterator(&current_records.front()), std::make_move_iterator(&current_records.back())};
 }
+
+
+auto dom::mutations::mutation_observer::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .ctor<detail::mutation_callback_t&&>()
+        .function("observe", &mutation_observer::observe)
+        .function("disconnect", &mutation_observer::disconnect)
+        .function("takeRecords", &mutation_observer::take_records)
+        .auto_wrap_objects();
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
+}
