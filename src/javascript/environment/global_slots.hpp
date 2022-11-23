@@ -19,4 +19,14 @@ namespace js::global_slots // TODO -> to enum??
     constexpr auto connection_pool = 7;
 }
 
+
+namespace js::env
+{
+    class env;
+    template <typename T> auto get_slot(const env& e, int slot) -> T;
+    template <typename T> auto set_slot(const env& e, int slot, T&& value) -> void;
+    auto del_slot(const env& e, int slot) -> void; // TODO : return deleted?
+}
+
+
 #endif //SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_GLOBAL_SLOTS_HPP

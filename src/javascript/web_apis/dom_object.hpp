@@ -12,24 +12,14 @@ class dom_object_private;
 #include "ext/string.hpp"
 #include "ext/type_traits.hpp"
 #include <memory>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+
+#include "javascript/interop/automatic_object_conversions/expose_macros.hpp"
 
 
 #define DOM_CTORS(type)  \
     type();              \
     DISALLOW_COPY(type); \
     ALLOW_MOVE(type)
-
-
-#define MAKE_V8_AVAILABLE \
-public:                   \
-    static auto to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
-
-
-//#define EXPOSE_TO(...) \
-//public:                \
-//    static ext::variant<__VA_ARGS__> m_allowed_v8_contexts; // TODO : (move to d_ptr)
 
 
 #define MAKE_STRINGIFIER \
@@ -44,7 +34,7 @@ public constructors:
     dom_object(dom_object&&) noexcept = default;
     virtual ~dom_object() = default;
     MAKE_PIMPL(dom_object);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(_);
     MAKE_STRINGIFIER;
 
 protected:

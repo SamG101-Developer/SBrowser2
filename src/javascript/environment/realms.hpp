@@ -16,10 +16,6 @@
 namespace js::env {struct env;}
 namespace js::env
 {
-    template <typename T> auto get_slot(const env& e, int slot) -> T;
-    template <typename T> auto set_slot(const env& e, int slot, T&& value) -> void;
-    auto del_slot(const env& e, int slot) -> void; // TODO : return deleted?
-
     _EXT_NODISCARD auto get_settings(v8::Local<v8::Object> object) -> settings_t*;
 }
 
@@ -71,50 +67,6 @@ private:
     v8::Local<v8::Object> m_global;
     v8::Local<v8::Object> m_settings;
 };
-
-
-template <typename T>
-inline auto js::env::get_slot(const js::env::env& e, int slot) -> T
-{
-    return v8pp::from_v8<T>(e.js.agent(), e.js.global()->GetInternalField(slot));
-}
-
-
-template <typename T>
-inline auto js::env::set_slot(const js::env::env& e, int slot, T&& value) -> void
-{
-    e.js.global()->SetInternalField(slot, v8pp::to_v8(e.js.agent(), std::forward<T>(value)));
-}
-
-
-inline auto js::env::del_slot(const js::env::env& e, int slot) -> void
-{
-    e.js.global()->GetInternalField(slot).Clear();
-}
-
-
-auto js::env::get_settings(v8::Local<v8::Object> object) -> settings_t*
-{
-    return get_slot<settings_t*>(js::env::env::from_global_object(object), js::global_slots::settings);
-}
-
-
-auto js::env::env::current() -> env
-{return env{v8::Isolate::GetCurrent(), &v8::Isolate::GetCurrentContext};}
-
-auto js::env::env::implied() -> env
-{return current(); /* TODO : For now */}
-
-auto js::env::env::incumbent() -> env
-{return env{v8::Isolate::GetCurrent(), &v8::Isolate::GetIncumbentContext};}
-
-template <typename T>
-auto js::env::env::entry(T&& cpp_object) -> env
-{return env{v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<T>(cpp_object))->GetIsolate(), &v8::Isolate::GetEnteredOrMicrotaskContext};}
-
-template <typename T>
-auto js::env::env::relevant(T&& cpp_object) -> env
-{return env{v8pp::to_v8(v8::Isolate::GetCurrent(), std::forward<T>(cpp_object))->GetIsolate(), &v8::Isolate::GetCurrentContext};}
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_REALMS_HPP
