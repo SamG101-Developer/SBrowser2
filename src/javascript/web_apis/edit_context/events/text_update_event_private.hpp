@@ -8,6 +8,8 @@
 
 DEFINE_PRIVATE_CLASS(edit_context::events, text_update_event) : dom::events::event_private
 {
+    MAKE_QIMPL(text_update_event);
+
     ext::number<ulong> update_range_start;
     ext::number<ulong> update_range_end;
     ext::number<ulong> selection_start;

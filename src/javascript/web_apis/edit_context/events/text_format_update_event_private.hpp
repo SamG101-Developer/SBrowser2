@@ -8,7 +8,7 @@
 
 DEFINE_PRIVATE_CLASS(edit_context::events, text_format_update_event) : dom::events::event_private
 {
-
+    MAKE_QIMPL(text_format_update_event);
 };
 
 

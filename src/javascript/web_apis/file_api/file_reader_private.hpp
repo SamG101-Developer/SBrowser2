@@ -8,8 +8,11 @@
 namespace dom::other {class dom_exception;}
 
 
-DEFINE_PRIVATE_CLASS(file_api, file_reader) : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(file_api, file_reader)
+        : dom::nodes::event_target_private
 {
+    MAKE_QIMPL(file_reader);
+
     detail::state_t state;
     detail::result_t result;
     std::unique_ptr<dom::other::dom_exception> error;

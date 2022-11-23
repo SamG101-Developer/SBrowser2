@@ -11,6 +11,7 @@ DEFINE_PRIVATE_CLASS(encoding, text_decoder)
         : virtual dom_object_private
         , mixins::text_decoder_common_private
 {
+    MAKE_QIMPL(text_decoder);
     ext::boolean do_not_flush;
 };
 

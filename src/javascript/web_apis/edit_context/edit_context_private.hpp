@@ -8,8 +8,11 @@
 namespace css::geometry {class dom_rect;}
 
 
-DEFINE_PRIVATE_CLASS(edit_context, edit_context) : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(edit_context, edit_context)
+        : dom::nodes::event_target_private
 {
+    MAKE_QIMPL(edit_context);
+
     ext::string text;
     ext::number<ulong> selection_start;
     ext::number<ulong> selection_end;

@@ -8,8 +8,10 @@
 #include "ext/string.hpp"
 
 
-DEFINE_PRIVATE_CLASS(encoding::mixins, text_encoder_common) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(encoding::mixins, text_encoder_common)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(text_encoder_common);
     ext::string encoding = u"utf-8";
 };
 

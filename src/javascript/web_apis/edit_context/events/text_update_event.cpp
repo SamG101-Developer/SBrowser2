@@ -24,13 +24,13 @@ auto edit_context::events::text_update_event::to_v8(v8::Isolate* isolate) -> v8p
 {
     decltype(auto) conversion = v8pp::class_<text_update_event>{isolate}
         .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
-        .var("updateRangeStart", &text_update_event::update_range_start, true)
-        .var("updateRangeEnd", &text_update_event::update_range_end, true)
-        .var("selectionStart", &text_update_event::selection_start, true)
-        .var("selectionEnd", &text_update_event::selection_end, true)
-        .var("compositionStart", &text_update_event::composition_start, true)
-        .var("compositionEnd", &text_update_event::composition_end, true)
-        .var("text", &text_update_event::text, true)
+        .property("updateRangeStart", &text_update_event::get_update_range_start)
+        .property("updateRangeEnd", &text_update_event::get_update_range_end)
+        .property("selectionStart", &text_update_event::get_selection_start)
+        .property("selectionEnd", &text_update_event::get_selection_end)
+        .property("compositionStart", &text_update_event::get_composition_start)
+        .property("compositionEnd", &text_update_event::get_composition_end)
+        .property("text", &text_update_event::get_text)
         .auto_wrap_objects();
 
     return std::move(conversion);

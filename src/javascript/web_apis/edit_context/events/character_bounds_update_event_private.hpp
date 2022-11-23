@@ -6,8 +6,10 @@
 #include "ext/pimpl.hpp"
 
 
-DEFINE_PRIVATE_CLASS(edit_context::events, character_bounds_update_event) : dom::events::event_private
+DEFINE_PRIVATE_CLASS(edit_context::events, character_bounds_update_event)
+        : dom::events::event_private
 {
+    MAKE_QIMPL(character_bounds_update_event);
     ext::number<ulong> range_start;
     ext::number<ulong> range_end;
 };

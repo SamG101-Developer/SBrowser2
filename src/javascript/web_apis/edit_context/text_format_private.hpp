@@ -8,8 +8,11 @@
 #include "ext/string.hpp"
 
 
-DEFINE_PRIVATE_CLASS(edit_context, text_format) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(edit_context, text_format)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(text_format);
+
     ext::number<ulong> range_start;
     ext::number<ulong> range_end;
 

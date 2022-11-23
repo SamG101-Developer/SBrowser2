@@ -9,8 +9,10 @@
 #include "ext/variant.hpp"
 
 
-DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(text_decoder_common);
     std::unique_ptr<detail::encoding_t> encoding;
     std::unique_ptr<detail::decoder_t> decoder;
 
