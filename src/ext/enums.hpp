@@ -21,4 +21,10 @@ constexpr auto operator!(T rhs) -> bool
 {return std::bit_cast<std::underlying_type_t<T>>(rhs) != std::bit_cast<std::underlying_type_t<T>>(0);}
 
 
+_EXT_BEGIN
+    template <_EXT type_is_enum ...Types>
+    struct enum_list;
+_EXT_END
+
+
 #endif //SBROWSER2_SRC_EXT_ENUMS_HPP
