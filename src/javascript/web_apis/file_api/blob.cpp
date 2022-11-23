@@ -68,7 +68,7 @@ auto file_api::blob::stream()
 auto file_api::blob::text()
         -> ext::promise<ext::string>
 {
-    auto stream = detail::get_stream(this);
+    auto stream = detail::get_stream(thi s);
     auto reader = streams::detail::get_reader(stream.get());
     auto promise = streams::detail::read_all_bytes(reader.get());
 
