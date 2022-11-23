@@ -7,8 +7,11 @@
 #include "ext/string.hpp"
 
 
-DEFINE_PRIVATE_CLASS(file_api, blob) : virtual dom_object_private
+DEFINE_PRIVATE_CLASS(file_api, blob)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(blob);
+
     ext::string snapshot_state;
     ext::string byte_sequence;
     ext::string type;
