@@ -123,9 +123,12 @@ auto dom::nodes::attr::set_value(ext::string new_value) -> ext::string
 }
 
 
-auto dom::nodes::attr::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::attr::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<attr>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
         .property("namespaceURI", &attr::get_namespace_uri)
         .property("prefix", &attr::get_prefix)
@@ -135,5 +138,5 @@ auto dom::nodes::attr::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
         .property("ownerElement", &attr::get_owner_element)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

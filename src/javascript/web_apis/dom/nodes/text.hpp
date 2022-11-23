@@ -25,7 +25,7 @@ public constructors:
     text(ext::string&& new_data = u8"");
     DOM_CTORS(text);
     MAKE_PIMPL(text);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     auto split_text(ext::number<ulong> offset) -> std::unique_ptr<text>;

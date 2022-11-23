@@ -19,7 +19,7 @@ public friends:
 public constructors:
     DOM_CTORS(document_type);
     MAKE_PIMPL(document_type);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return DOCUMENT_TYPE_NODE;}

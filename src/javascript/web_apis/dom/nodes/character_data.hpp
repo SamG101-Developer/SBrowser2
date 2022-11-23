@@ -16,7 +16,7 @@ class dom::nodes::character_data
 public constructors:
     character_data();
     MAKE_PIMPL(character_data);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     [[nodiscard]] auto substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string;

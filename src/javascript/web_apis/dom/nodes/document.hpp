@@ -83,7 +83,7 @@ public friends:
 public constructors:
     DOM_CTORS(document);
     MAKE_PIMPL(document);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
     auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
 
 public js_methods:

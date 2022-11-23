@@ -52,7 +52,7 @@ public friends:
 public constructors:
     DOM_CTORS(element);
     MAKE_PIMPL(element);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     /* DOM */
@@ -120,9 +120,9 @@ private js_properties:
     DEFINE_GETTER(local_name, ext::string);
     DEFINE_GETTER(tag_name, ext::string);
     DEFINE_GETTER(class_list, ext::vector<ext::string>);
-    DEFINE_GETTER(class_name, ext::string); // TODO : ce-reactions
-    DEFINE_GETTER(slot, ext::string); // TODO : ce-reactions
-    DEFINE_GETTER(id, ext::string); // TODO : ce-reactions
+    DEFINE_GETTER(class_name, ext::string);
+    DEFINE_GETTER(slot, ext::string);
+    DEFINE_GETTER(id, ext::string);
     DEFINE_GETTER(shadow_root, nodes::shadow_root*);
     DEFINE_GETTER(attributes, ranges::any_helpful_view<attr*>);
 

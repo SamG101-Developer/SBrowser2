@@ -29,13 +29,16 @@ auto dom::nodes::processing_instruction::set_data(ext::string new_data) -> ext::
 }
 
 
-auto dom::nodes::processing_instruction::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::processing_instruction::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<processing_instruction>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<character_data>()
         .inherit<css::cssom::mixins::link_style>()
         .property("target", &processing_instruction::get_target)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

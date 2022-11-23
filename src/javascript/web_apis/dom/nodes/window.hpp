@@ -38,7 +38,7 @@ class dom::nodes::window final
 public constructors:
     DOM_CTORS(window);
     MAKE_PIMPL(window);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     /* [HTML] */

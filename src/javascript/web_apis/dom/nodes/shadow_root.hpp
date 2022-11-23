@@ -20,7 +20,7 @@ public friends:
 public constructors:
     shadow_root();
     MAKE_PIMPL(shadow_root);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(host, dom::nodes::element*);

@@ -17,7 +17,7 @@ public friends:
 public constructors:
     DOM_CTORS(xml_document);
     MAKE_PIMPL(xml_document);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 };
 
 

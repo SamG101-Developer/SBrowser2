@@ -451,9 +451,12 @@ auto dom::nodes::element::get_attributes() const -> ranges::any_helpful_view<att
 }
 
 
-auto dom::nodes::element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::element::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<element>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
         .inherit<mixins::child_node>()
         .inherit<mixins::document_or_element_node>()
@@ -462,7 +465,42 @@ auto dom::nodes::element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
         .inherit<mixins::slottable>()
         .inherit<aria::mixins::aria_mixin>()
         .inherit<css::css_web_animations::mixins::animatable>()
-        .auto_wrap_objects(); // TODO
+        .function("hasAttributes", &element::has_attributes)
+        .function("getAttributeNames", &element::get_attribute_names)
+        .function("hasAttribute", &element::has_attribute)
+        .function("hasAttributeNS", &element::has_attribute_ns)
+        .function("hasAttributeNode", &element::has_attribute_node)
+        .function("hasAttributeNodeNS", &element::has_attribute_node_ns)
+        .function("getAttribute", &element::get_attribute)
+        .function("getAttributeNS", &element::get_attribute_ns)
+        .function("getAttributeNode", &element::get_attribute_node)
+        .function("getAttributeNodeNS", &element::get_attribute_node_ns)
+        .function("setAttribute", &element::set_attribute)
+        .function("setAttributeNS", &element::set_attribute_ns)
+        .function("setAttributeNode", &element::set_attribute_node)
+        .function("setAttributeNodeNS", &element::set_attribute_node_ns)
+        .function("removeAttribute", &element::remove_attribute)
+        .function("removeAttributeNS", &element::remove_attribute_ns)
+        .function("removeAttributeNode", &element::remove_attribute_node)
+        .function("removeAttributeNodeNS", &element::remove_attribute_node_ns)
+        .function("toggleAttribute", &element::toggle_attribute)
+        .function("toggleAttributeNS", &element::toggle_attribute_ns)
+        .function("toggleAttributeNode", &element::toggle_attribute_node)
+        .function("toggleAttributeNodeNS", &element::toggle_attribute_node_ns)
+        .function("attachShadow", &element::attach_shadow)
+        .function("closest", &element::closest)
+        .function("matches", &element::matches)
+        .property("namespaceURI", &element::get_namespace_uri)
+        .property("prefix", &element::get_prefix)
+        .property("localName", &element::get_local_name)
+        .property("tagName", &element::get_tag_name)
+        .property("classList", &element::get_class_list)
+        .property("className", &element::get_class_name)
+        .property("slot", &element::get_slot)
+        .property("id", &element::get_id)
+        .property("shadowRoot", &element::get_shadow_root)
+        .property("attributes", &element::get_attributes)
+        .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

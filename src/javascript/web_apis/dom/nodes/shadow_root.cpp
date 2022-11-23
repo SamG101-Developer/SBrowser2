@@ -59,9 +59,12 @@ auto dom::nodes::shadow_root::get_delegates_focus() const -> ext::boolean
 }
 
 
-auto dom::nodes::shadow_root::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::shadow_root::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<shadow_root>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<document_fragment>()
         .inherit<mixins::document_or_shadow_root>()
         .property("host", &shadow_root::get_host)
@@ -70,5 +73,5 @@ auto dom::nodes::shadow_root::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t
         .property("delegatesFocus", &shadow_root::get_delegates_focus)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

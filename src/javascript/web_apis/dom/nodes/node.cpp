@@ -271,23 +271,23 @@ auto dom::nodes::node::lookup_prefix(ext::string_view namespace_) -> ext::string
     ACCESS_PIMPL(node);
 
     // Element node: return the lookup for the element.
-    if (auto* element_cast = dynamic_cast<element*>(this))
+    if (decltype(auto) element_cast = dynamic_cast<element*>(this))
         return detail::locate_a_namespace_prefix(element_cast, namespace_);
 
     // Document node: return the lookup for the document element.
-    if (auto* document_cast = dynamic_cast<document*>(this))
+    if (decltype(auto) document_cast = dynamic_cast<document*>(this))
         return detail::locate_a_namespace_prefix(document_cast->d_func()->document_element, namespace_);
 
     // Document type node: return empty string.
-    if (auto* document_type_cast = dynamic_cast<document_type*>(this))
+    if (decltype(auto) document_type_cast = dynamic_cast<document_type*>(this))
         return u"";
 
     // Document fragment: return empty string.
-    if (auto* document_fragment_cast = dynamic_cast<document_fragment*>(this))
+    if (decltype(auto) document_fragment_cast = dynamic_cast<document_fragment*>(this))
         return u"";
 
     // Attribute node: return the lookup for the owner element
-    if (auto* attribute_cast = dynamic_cast<attr*>(this))
+    if (decltype(auto) attribute_cast = dynamic_cast<attr*>(this))
         return detail::locate_a_namespace_prefix(attribute_cast->d_func()->element, namespace_);
 
     // Default: return the lookup for the parent element if it exists, otherwise empty string.
@@ -343,7 +343,7 @@ auto dom::nodes::node::remove_child(node* old_node) -> node*
 auto dom::nodes::node::get_base_uri() const -> ext::string
 {
     ACCESS_PIMPL(const node);
-    return url::detail::url_serializer(html::detail::document_base_url(d->node_document));
+    return url::detail::url_serializer(html::detail::document_base_url(d->node_document.get()));
 }
 
 
@@ -405,12 +405,22 @@ auto dom::nodes::node::get_next_sibling() const -> node*
 }
 
 
-auto dom::nodes::node::to_v8(
+auto dom::nodes::node::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<node>{isolate}
-        .inherit<event_target>() // TODO : other static attributes
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<event_target>()
+        .static_("ELEMENT_NODE", node::ELEMENT_NODE, true)
+        .static_("ATTRIBUTE_NODE", node::ATTRIBUTE_NODE, true)
+        .static_("TEXT_NODE", node::TEXT_NODE, true)
+        .static_("CDATA_SECTION_NODE", node::CDATA_SECTION_NODE, true)
+        .static_("PROCESSING_INSTRUCTION_NODE", node::PROCESSING_INSTRUCTION_NODE, true)
+        .static_("COMMENT_NODE", node::COMMENT_NODE, true)
+        .static_("DOCUMENT_NODE", node::DOCUMENT_NODE, true)
+        .static_("DOCUMENT_TYPE_NODE", node::DOCUMENT_TYPE_NODE, true)
+        .static_("DOCUMENT_FRAGMENT_NODE", node::DOCUMENT_FRAGMENT_NODE, true)
         .static_("DOCUMENT_POSITION_DISCONNECTED", node::DOCUMENT_POSITION_DISCONNECTED, true)
         .static_("DOCUMENT_POSITION_PRECEDING", node::DOCUMENT_POSITION_PRECEDING, true)
         .static_("DOCUMENT_POSITION_FOLLOWING", node::DOCUMENT_POSITION_FOLLOWING, true)
@@ -447,5 +457,5 @@ auto dom::nodes::node::to_v8(
         .property("nextSibling", &node::get_next_sibling)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

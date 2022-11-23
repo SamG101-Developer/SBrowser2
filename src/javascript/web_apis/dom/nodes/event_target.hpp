@@ -23,10 +23,10 @@ class dom::nodes::event_target
 public constructors:
     DOM_CTORS(event_target);
     MAKE_PIMPL(event_target);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
-    auto    add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::add_event_listener_options_t, ext::boolean>&& options = {}) -> void;
+    auto add_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::add_event_listener_options_t, ext::boolean>&& options = {}) -> void;
     auto remove_event_listener(ext::string&& type, detail::event_listener_callback_t&& callback, ext::variant<detail::event_listener_options_t, ext::boolean>&& options = {}) -> void;
     auto dispatch_event(events::event* event) -> ext::boolean;
 };

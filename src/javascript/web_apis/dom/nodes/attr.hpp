@@ -19,7 +19,7 @@ public friends:
 public constructors:
     attr();
     MAKE_PIMPL(attr);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return ATTRIBUTE_NODE;}

@@ -106,14 +106,17 @@ auto dom::nodes::event_target::dispatch_event(
             u8"Event must be initialized and not dispatched in order be dispatched");
 
     // Set the event trusted to false (manual dispatch), and dispatch the event through the tree
-    event->d_func()->is_trusted = ext::boolean::FALSE_();
+    event->d_func()->is_trusted = false;
     return detail::dispatch(event, this);
 }
 
 
-auto dom::nodes::event_target::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::event_target::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<event_target>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .ctor<>()
         .inherit<dom_object>()
         .function("addEventListener", &event_target::add_event_listener)
@@ -121,5 +124,5 @@ auto dom::nodes::event_target::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_
         .function("dispatchEvent", &event_target::dispatch_event)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

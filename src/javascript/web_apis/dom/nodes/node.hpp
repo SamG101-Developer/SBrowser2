@@ -35,7 +35,7 @@ public friends:
 public constructors:
     DOM_CTORS(node);
     MAKE_PIMPL(node);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_static_constants:
     constexpr static const ext::number<ushort> ELEMENT_NODE = 1;

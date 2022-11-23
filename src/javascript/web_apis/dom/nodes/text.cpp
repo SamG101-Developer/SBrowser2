@@ -50,16 +50,19 @@ auto dom::nodes::text::get_whole_text() const -> ext::string
 }
 
 
-auto dom::nodes::text::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::text::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<text>{isolate}
-            .ctor<>()
-            .ctor<ext::string_view>()
-            .inherit<character_data>()
-            .inherit<mixins::slottable>()
-            .function("splitText", &text::split_text)
-            .property("wholeText", &text::get_whole_text)
-            .auto_wrap_objects();
+    V8_INTEROP_CREATE_JS_OBJECT
+        .ctor<>()
+        .ctor<ext::string_view>()
+        .inherit<character_data>()
+        .inherit<mixins::slottable>()
+        .function("splitText", &text::split_text)
+        .property("wholeText", &text::get_whole_text)
+        .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

@@ -40,9 +40,12 @@ auto dom::nodes::document_type::get_system_id() const -> ext::string_view
 }
 
 
-auto dom::nodes::document_type::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::document_type::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<document_type>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
         .inherit<mixins::child_node>()
         .property("name", &document_type::get_name)
@@ -50,5 +53,5 @@ auto dom::nodes::document_type::to_v8(v8::Isolate* isolate) -> v8pp::class_<self
         .property("systemId", &document_type::get_system_id)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

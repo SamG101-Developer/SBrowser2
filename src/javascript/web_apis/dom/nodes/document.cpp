@@ -654,12 +654,45 @@ auto dom::nodes::document::operator[](
 }
 
 
-auto dom::nodes::document::to_v8(
+auto dom::nodes::document::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<document>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<node>()
+        .inherit<mixins::document_or_element_node>()
+        .inherit<mixins::document_or_shadow_root>()
+        .inherit<mixins::non_element_parent_node>()
+        .inherit<mixins::parentable_node>()
+        .inherit<xpath::xpath_evaluator_base>()
+        .inherit<ext::map_like<ext::string, ranges::any_view<element*>>>()
+        .function("createElement", &document::create_element)
+        .function("createElementNS", &document::create_element_ns)
+        .function("createDocumentFragment", &document::create_document_fragment)
+        .function("createTextNode", &document::create_text_node)
+        .function("createCDataSectionNode", &document::create_cdata_section_node)
+        .function("createComment", &document::create_comment)
+        .function("createProcessingInstruction", &document::create_processing_instruction)
+        .function("createAttribute", &document::create_attribute)
+        .function("createAttributeNS", &document::create_attribute_ns)
+        .function("createRange", &document::create_range)
+        .function("createNodeIterator", &document::create_node_iterator)
+        .function("createTreeWalker", &document::create_tree_walker)
+        .function("importNode", &document::import_node)
+        .function("adoptNode", &document::adopt_node)
+        .property("nodeType", &document::get_node_type)
+        .property("nodeName", &document::get_node_name)
+        .property("nodeValue", &document::get_node_value, &document::set_node_value)
+        .property("textContent", &document::get_text_content, &document::set_text_content)
+        .property("url", &document::get_url)
+        .property("compatMode", &document::get_compat_mode)
+        .property("characterSet", &document::get_character_set)
+        .property("contentType", &document::get_content_type)
+        .property("doctype", &document::get_doctype)
+        .property("documentElement", &document::get_document_element)
+        .property("implementation", &document::get_implementation)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

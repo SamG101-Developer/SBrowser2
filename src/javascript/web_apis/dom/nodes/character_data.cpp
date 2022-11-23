@@ -154,9 +154,12 @@ auto dom::nodes::character_data::set_data(ext::string new_data) -> ext::string
 }
 
 
-auto dom::nodes::character_data::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::character_data::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<character_data>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
         .inherit<dom::mixins::child_node>()
         .inherit<dom::mixins::non_document_type_child_node>()
@@ -169,6 +172,6 @@ auto dom::nodes::character_data::to_v8(v8::Isolate* isolate) -> v8pp::class_<sel
         .property("length", &character_data::get_length)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
 

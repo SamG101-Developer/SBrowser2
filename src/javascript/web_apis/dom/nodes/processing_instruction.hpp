@@ -14,7 +14,7 @@ class dom::nodes::processing_instruction final
 public constructors:
     processing_instruction();
     MAKE_PIMPL(processing_instruction);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(node_type, ext::number<ushort>) override {return PROCESSING_INSTRUCTION_NODE;}

@@ -46,14 +46,17 @@ auto dom::nodes::document_fragment::set_text_content(ext::string new_text_conten
 }
 
 
-auto dom::nodes::document_fragment::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto dom::nodes::document_fragment::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<document_fragment>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
         .inherit<mixins::non_element_parent_node>()
         .inherit<mixins::parentable_node>()
         .ctor<>()
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
