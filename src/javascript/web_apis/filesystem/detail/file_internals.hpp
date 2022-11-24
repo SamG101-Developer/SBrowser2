@@ -8,6 +8,8 @@
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(filesystem)
 #include INCLUDE_INNER_TYPES(permissions)
+namespace js::env {class env;}
+namespace filesystem {class file_system_writable_file_stream;}
 
 
 namespace filesystem::detail
@@ -29,6 +31,11 @@ namespace filesystem::detail
             entry_t& child,
             directory_entry_t& root)
             -> ext::promise<ext::vector<ext::string>>;
+
+    auto create_filesystem_writable_stream(
+            entry_t& entry,
+            js::env::env& e)
+            -> std::unique_ptr<filesystem::file_system_writable_file_stream>;
 }
 
 

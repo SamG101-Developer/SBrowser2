@@ -6,7 +6,7 @@
 
 _EXT_BEGIN
     template <typename T>
-    struct promise {};
+    struct promise {private: promise() = default;};
 _EXT_END
 
 

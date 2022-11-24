@@ -17,7 +17,6 @@ file_api::file::file(
         detail::file_property_bag_t&& options)
 {
     INIT_PIMPL(file);
-    ACCESS_PIMPL(file);
 
     auto bytes = detail::process_blob_parts(std::move(file_bits), std::move(options));
     auto options_type = options[u"type"].to<ext::string>();
@@ -30,6 +29,7 @@ file_api::file::file(
             ? options[u"lastModified"].to<hr_time::epoch_time_stamp>()
             : std::bit_cast<hr_time::epoch_time_stamp>(hr_time::detail::current_hr_time(e.js.global()));
 
+    ACCESS_PIMPL(file);
     d->name = std::move(file_name);
     d->byte_sequence = std::move(bytes);
     d->type = std::move(options_type);
@@ -77,14 +77,17 @@ auto file_api::file::get_last_modified() const -> ext::number<longlong>
 }
 
 
-auto file_api::file::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto file_api::file::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<file>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<blob>()
         .ctor<ext::vector<detail::blob_part_t>&&, ext::string&&, detail::file_property_bag_t&&>()
         .property("name", &file::get_name)
         .property("lastModified", &file::get_last_modified)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

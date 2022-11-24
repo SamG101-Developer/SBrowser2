@@ -7,6 +7,7 @@
 #include "ext/tuple.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)
+namespace dom::other {class dom_exception;}
 
 #define NO_CONDITION [] -> bool {return true;}
 #define P(key, val) tuplet::pair{key, val}
@@ -27,6 +28,9 @@ namespace dom::detail
             ext::vector<ext::u8string>&& possible_causes = {},
             ext::vector<ext::u8string>&& possible_fixes = {},
             T&&... object_information)
+            -> void;
+
+    auto throw_v8_exception(dom::other::dom_exception&& exception)
             -> void;
 }
 

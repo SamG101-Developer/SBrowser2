@@ -171,6 +171,16 @@ namespace web_idl::detail
     template <typename T>
     auto mark_as_handled(ext::promise<T>& promise) -> void;
 
+    // Not in spec
+    template <typename T>
+    auto wait_for_promise_to_fulfill_or_reject(ext::promise<T>&, v8::Local<v8::Context> realm) -> void;
+
+    template <typename T>
+    auto has_fulfilled(ext::promise<T>& promise, v8::Local<v8::Context> realm) -> ext::tuple<ext::boolean, ext::optional<T>>;
+
+    template <typename E, typename T>
+    auto has_rejected(ext::promise<T>& promise, v8::Local<v8::Context> realm) -> ext::tuple<ext::boolean, ext::optional<E>>;
+
     /* 3.2.25 */
     template <typename T>
     auto create_array_buffer(T&& byte_sequence, v8::Local<v8::Context> realm) -> ext::array_buffer;

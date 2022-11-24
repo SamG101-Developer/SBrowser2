@@ -74,12 +74,14 @@ auto file_api::file_reader::get_error() const -> dom::other::dom_exception*
 }
 
 
-auto file_api::file_reader::to_v8(
+auto file_api::file_reader::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<file_reader>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom::nodes::event_target>()
+        .ctor<>()
         .function("readAsArrayBuffer", &file_reader::read_as_array_buffer)
         .function("readAsBinaryString", &file_reader::read_as_array_buffer)
         .function("readAsText", &file_reader::read_as_text)
@@ -87,5 +89,5 @@ auto file_api::file_reader::to_v8(
         .function("abort", &file_reader::abort)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

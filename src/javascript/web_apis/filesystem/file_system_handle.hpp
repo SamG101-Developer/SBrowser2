@@ -19,8 +19,8 @@ class filesystem::file_system_handle
 public constructors:
     file_system_handle();
     MAKE_PIMPL(file_system_handle);
+    MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
     MAKE_SERIALIZABLE;
-    MAKE_V8_AVAILABLE;
 
 public js_methods:
     auto is_same_entry(file_system_handle* other) const -> ext::promise<ext::boolean>;

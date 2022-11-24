@@ -16,7 +16,7 @@ class file_api::file_reader
 public constructors:
     file_reader();
     MAKE_PIMPL(file_reader);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
 public js_static_constants:
     constexpr static const ext::number<ushort> EMPTY = 0;

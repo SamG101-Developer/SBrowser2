@@ -68,7 +68,7 @@ auto file_api::blob::stream()
 auto file_api::blob::text()
         -> ext::promise<ext::string>
 {
-    auto stream = detail::get_stream(thi s);
+    auto stream = detail::get_stream(this);
     auto reader = streams::detail::get_reader(stream.get());
     auto promise = streams::detail::read_all_bytes(reader.get());
 
@@ -125,9 +125,12 @@ auto file_api::blob::get_type() const -> ext::string
 }
 
 
-auto file_api::blob::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto file_api::blob::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
 {
-    decltype(auto) conversion = v8pp::class_<blob>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .ctor<ext::vector<detail::blob_part_t>&&, detail::blob_property_bag_t&&>()
         .function("slice", &blob::slice)
@@ -138,5 +141,5 @@ auto file_api::blob::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
         .property("type", &blob::get_type)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

@@ -9,7 +9,7 @@
 
 
 _EXT_BEGIN
-    namespace filesystem = cppfs;
+    namespace filesystem = cppfs; // TODO : filesystem -> fs?
 _EXT_END
 
 

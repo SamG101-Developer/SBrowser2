@@ -5,7 +5,7 @@
 
 #include "dom/nodes/document.hpp"
 #include "javascript/environment/environment_module.hpp"
-#include "javascript/environment/realms_2.hpp"
+#include "javascript/environment/realms.hpp"
 
 #include "javascript/interop/manual_primitive_conversions/convert_any.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
@@ -13,7 +13,6 @@
 #include "javascript/interop/manual_primitive_conversions/convert_map_like.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_optional.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_property.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_set.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_vector.hpp"
 #include "javascript/interop/manual_primitive_conversions/convert_vector_like.hpp"
@@ -74,9 +73,10 @@
 #include <v8pp/module.hpp>
 
 
-#define EXPOSE_CLASS_TO_MODULE(javascript_class_name, cpp_class_name) \
-    auto v8_##javascript_class_name = cpp_class_name::to_v8(isolate); \
-    v8_module.class_(#javascript_class_name, v8_##javascript_class_name)
+#define EXPOSE_CLASS_TO_MODULE(javascript_class_name, cpp_class_name)                 \
+    auto v8_ ## javascript_class_name = cpp_class_name::_to_v8(module_type, isolate); \
+    if (v8_ ## javascript_class_name[0_tag])                                          \
+        v8_module.class_(#javascript_class_name, v8_ ## javascript_class_name[1_tag])
 
 namespace js::interop {auto expose(v8::Isolate* isolate, env::module_t module_type) -> v8::Persistent<v8::Context>&;}
 
@@ -92,75 +92,54 @@ inline auto js::interop::expose(
     auto static persistent_context = v8::Persistent<v8::Context>{isolate, local_context};
     local_context->Enter();
 
+    using namespace ext::literals;
+
     // different classes are exposed to different modules, and assign the module name TODO : secure contexts
-    switch (module_type)
-    {
-        case (env::module_t::WINDOW):
-        {
-            /* [ACCELEROMETER] */
-            EXPOSE_CLASS_TO_MODULE(Accelerometer, accelerometer::accelerometer);
-            EXPOSE_CLASS_TO_MODULE(GravitySensor, accelerometer::gravity_sensor);
-            EXPOSE_CLASS_TO_MODULE(LinearAccelerometer, accelerometer::linear_accelerometer);
+    /* [ACCELEROMETER] */
+    EXPOSE_CLASS_TO_MODULE(Accelerometer, accelerometer::accelerometer);
+    EXPOSE_CLASS_TO_MODULE(GravitySensor, accelerometer::gravity_sensor);
+    EXPOSE_CLASS_TO_MODULE(LinearAccelerometer, accelerometer::linear_accelerometer);
 
-            /* [AMBIENT_LIGHT] */
-            EXPOSE_CLASS_TO_MODULE(AmbientLight, ambient_light_sensor::ambient_light_sensor);
+    /* [AMBIENT-LIGHT] */
+    EXPOSE_CLASS_TO_MODULE(AmbientLight, ambient_light_sensor::ambient_light_sensor);
 
-            /* [BACKGROUND_TASKS] */
-            EXPOSE_CLASS_TO_MODULE(IdleDeadline, background_tasks::idle_deadline);
+    /* [BACKGROUND-TASKS] */
+    EXPOSE_CLASS_TO_MODULE(IdleDeadline, background_tasks::idle_deadline);
 
-            /* [BATTERY_MANAGER] */
-            EXPOSE_CLASS_TO_MODULE(BatteryManager, battery::battery_manager);
+    /* [BATTERY-MANAGER] */
+    EXPOSE_CLASS_TO_MODULE(BatteryManager, battery::battery_manager);
 
-            /* [CONTACT_PICKER] */
-            EXPOSE_CLASS_TO_MODULE(ContactAddress, contact_picker::contact_address);
-            EXPOSE_CLASS_TO_MODULE(ContactsManager, contact_picker::contacts_manager);
+    /* [CONTACT-PICKER] */
+    EXPOSE_CLASS_TO_MODULE(ContactAddress, contact_picker::contact_address);
+    EXPOSE_CLASS_TO_MODULE(ContactsManager, contact_picker::contacts_manager);
 
-            /* [DOM] */
-            EXPOSE_CLASS_TO_MODULE(NodeFilter, dom::node_iterators::node_filter);
-            EXPOSE_CLASS_TO_MODULE(NodeIterator, dom::node_iterators::node_iterator);
-            EXPOSE_CLASS_TO_MODULE(TreeWalker, dom::node_iterators::tree_walker);
-            EXPOSE_CLASS_TO_MODULE(MutationObserver, dom::mutations::mutation_observer);
-            EXPOSE_CLASS_TO_MODULE(MutationRecord, dom::mutations::mutation_record);
-            EXPOSE_CLASS_TO_MODULE(Attr, dom::nodes::attr);
-            EXPOSE_CLASS_TO_MODULE(CDataSection, dom::nodes::attr);
-            EXPOSE_CLASS_TO_MODULE(CharacterData, dom::nodes::character_data);
-            EXPOSE_CLASS_TO_MODULE(Comment, dom::nodes::cdata_section);
-            EXPOSE_CLASS_TO_MODULE(Document, dom::nodes::document);
-            EXPOSE_CLASS_TO_MODULE(DocumentFragment, dom::nodes::document_fragment);
-            EXPOSE_CLASS_TO_MODULE(DocumentType, dom::nodes::document_type);
-            EXPOSE_CLASS_TO_MODULE(Element, dom::nodes::element);
-            EXPOSE_CLASS_TO_MODULE(EventTarget, dom::nodes::event_target);
-            EXPOSE_CLASS_TO_MODULE(Node, dom::nodes::node);
-            EXPOSE_CLASS_TO_MODULE(ProcessingInstruction, dom::nodes::processing_instruction);
-            EXPOSE_CLASS_TO_MODULE(ShadowRoot, dom::nodes::shadow_root);
-            EXPOSE_CLASS_TO_MODULE(Text, dom::nodes::text);
-            EXPOSE_CLASS_TO_MODULE(Window, dom::nodes::window);
-            EXPOSE_CLASS_TO_MODULE(WindowProxy, dom::nodes::window_proxy);
-            EXPOSE_CLASS_TO_MODULE(XMLDocument, dom::nodes::xml_document);
-            EXPOSE_CLASS_TO_MODULE(DOMException, dom::other::dom_exception);
-            EXPOSE_CLASS_TO_MODULE(DOMImplementation, dom::other::dom_implementation);
-            EXPOSE_CLASS_TO_MODULE(AbstractRange, dom::node_ranges::abstract_range);
-            EXPOSE_CLASS_TO_MODULE(StaticRange, dom::node_ranges::static_range);
-            EXPOSE_CLASS_TO_MODULE(Range, dom::node_ranges::range);
-        }
-
-        case (env::module_t::WORKER):
-        {
-            /* [DOM] */
-            EXPOSE_CLASS_TO_MODULE(DOMImplementation, dom::other::dom_implementation);
-        }
-
-        case (env::module_t::WORKLET):
-        {
-        }
-    }
-
-    // Add to all modules
     /* [DOM] */
-    EXPOSE_CLASS_TO_MODULE(AbortController, dom::abort::abort_controller);
-    EXPOSE_CLASS_TO_MODULE(AbortSignal, dom::abort::abort_signal);
-    EXPOSE_CLASS_TO_MODULE(CustomEvent, dom::events::custom_event);
-    EXPOSE_CLASS_TO_MODULE(Event, dom::events::event);
+    EXPOSE_CLASS_TO_MODULE(NodeFilter, dom::node_iterators::node_filter);
+    EXPOSE_CLASS_TO_MODULE(NodeIterator, dom::node_iterators::node_iterator);
+    EXPOSE_CLASS_TO_MODULE(TreeWalker, dom::node_iterators::tree_walker);
+    EXPOSE_CLASS_TO_MODULE(MutationObserver, dom::mutations::mutation_observer);
+    EXPOSE_CLASS_TO_MODULE(MutationRecord, dom::mutations::mutation_record);
+    EXPOSE_CLASS_TO_MODULE(Attr, dom::nodes::attr);
+    EXPOSE_CLASS_TO_MODULE(CDataSection, dom::nodes::attr);
+    EXPOSE_CLASS_TO_MODULE(CharacterData, dom::nodes::character_data);
+    EXPOSE_CLASS_TO_MODULE(Comment, dom::nodes::cdata_section);
+    EXPOSE_CLASS_TO_MODULE(Document, dom::nodes::document);
+    EXPOSE_CLASS_TO_MODULE(DocumentFragment, dom::nodes::document_fragment);
+    EXPOSE_CLASS_TO_MODULE(DocumentType, dom::nodes::document_type);
+    EXPOSE_CLASS_TO_MODULE(Element, dom::nodes::element);
+    EXPOSE_CLASS_TO_MODULE(EventTarget, dom::nodes::event_target);
+    EXPOSE_CLASS_TO_MODULE(Node, dom::nodes::node);
+    EXPOSE_CLASS_TO_MODULE(ProcessingInstruction, dom::nodes::processing_instruction);
+    EXPOSE_CLASS_TO_MODULE(ShadowRoot, dom::nodes::shadow_root);
+    EXPOSE_CLASS_TO_MODULE(Text, dom::nodes::text);
+    EXPOSE_CLASS_TO_MODULE(Window, dom::nodes::window);
+    EXPOSE_CLASS_TO_MODULE(WindowProxy, dom::nodes::window_proxy);
+    EXPOSE_CLASS_TO_MODULE(XMLDocument, dom::nodes::xml_document);
+    EXPOSE_CLASS_TO_MODULE(DOMException, dom::other::dom_exception);
+    EXPOSE_CLASS_TO_MODULE(DOMImplementation, dom::other::dom_implementation);
+    EXPOSE_CLASS_TO_MODULE(AbstractRange, dom::node_ranges::abstract_range);
+    EXPOSE_CLASS_TO_MODULE(StaticRange, dom::node_ranges::static_range);
+    EXPOSE_CLASS_TO_MODULE(Range, dom::node_ranges::range);
 
     local_context->Global()->SetPrototype(local_context, v8_module.new_instance()); // TODO : check if this works
 

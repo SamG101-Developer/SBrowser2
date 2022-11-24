@@ -8,8 +8,10 @@
 #include INCLUDE_INNER_TYPES(filesystem)
 
 
-DEFINE_PRIVATE_CLASS(filesystem, file_system_handle) : dom_object_private
+DEFINE_PRIVATE_CLASS(filesystem, file_system_handle)
+        : virtual dom_object_private
 {
+    MAKE_QIMPL(file_system_handle);
     std::shared_ptr<detail::entry_t> entry;
 };
 

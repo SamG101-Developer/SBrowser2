@@ -12,9 +12,10 @@ class file_api::file
         : public blob
 {
 public constructors:
+    file();
     file(ext::vector<detail::blob_part_t>&& file_bits, ext::string&& file_name, detail::file_property_bag_t&& options = {});
     MAKE_PIMPL(file);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | WORKER);
     MAKE_SERIALIZABLE;
 
 private js_properties:

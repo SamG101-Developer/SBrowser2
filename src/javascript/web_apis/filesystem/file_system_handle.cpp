@@ -1,4 +1,5 @@
 #include "file_system_handle.hpp"
+#include "dom_object.hpp"
 #include "file_system_handle_private.hpp"
 
 #include "dom/_typedefs.hpp"
@@ -65,4 +66,20 @@ auto filesystem::file_system_handle::get_name() const -> ext::string_view
 {
     ACCESS_PIMPL(const file_system_handle);
     return d->entry->name;
+}
+
+
+auto filesystem::file_system_handle::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .function("isSameEntry", &file_system_handle::is_same_entry)
+        .property("kind", &file_system_handle::get_kind)
+        .property("name", &file_system_handle::get_name)
+        .auto_wrap_objects();
+
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
