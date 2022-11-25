@@ -2,7 +2,6 @@
 #define SBROWSER2_SRC_EXT_TUPLE_HPP
 
 #include "ext/functional.hpp"
-#include "ext/initializer_list.hpp"
 
 #include <iterator>
 
