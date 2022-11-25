@@ -12,7 +12,5 @@
 #define JS_EXCEPTION _js_exception_handler.Exception()
 #define JS_EXCEPTION_RETHROW_IF_HAS_THROWN if (JS_EXCEPTION_HAS_THROWN) JS_EXCEPTION_RETHROW
 
-#define UNSCOPABLE v8::DontEnum // TODO -> link to JS @@unscopable
-
 
 #endif //SBROWSER2_ANNOTATIONS_HPP

@@ -1,6 +1,6 @@
 #include "customization_internals.hpp"
 
-#include "javascript/interop/annotations.hpp"
+#include "javascript/interop/error_macros.hpp"
 
 #include "dom/detail/construction_internals.hpp"
 #include "dom/detail/exception_internals.hpp"

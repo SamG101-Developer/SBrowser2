@@ -1,6 +1,6 @@
 #include "body_internals.hpp"
 
-#include "interop/annotations.hpp"
+#include "interop/error_macros.hpp"
 #include "javascript/environment/realms.hpp"
 
 #include "fetch/detail/general_internals.hpp"

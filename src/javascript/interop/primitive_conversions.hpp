@@ -11,7 +11,10 @@
 #include "ext/span.hpp"
 #include "ext/symbol.hpp"
 
-#include "javascript/ecma/spec_262/7_absract_operations/7_3_operations_on_objects.hpp"
+#include "javascript/ecma/262/7/1.hpp"
+#include "javascript/ecma/262/7/2.hpp"
+#include "javascript/ecma/262/7/3.hpp"
+#include "javascript/ecma/262/7/4.hpp"
 
 #include <magic_enum.hpp>
 #include <v8-array-buffer.h>
@@ -155,9 +158,9 @@ struct v8pp::convert<ext::number<double, true>>
 
 /* [3.2.9] - bigint */
 template <>
-struct v8pp::convert<ext::number<bigint>>
+struct v8pp::convert<ext::number<ulonglong>>
 {
-    using from_type = ext::number<bigint>;
+    using from_type = ext::number<ulonglong>;
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
@@ -320,7 +323,7 @@ struct v8pp::convert<T>
 };
 
 
-/* [3.2.19] - nullable (optional) */
+/* [3.2.20] - nullable (optional) */
 template <typename T>
 struct v8pp::convert<ext::optional<T>>
 {
@@ -348,6 +351,7 @@ struct v8pp::convert<ext::optional<T>>
 };
 
 
+/* [3.2.21] - sequence (vector) */
 template <typename T>
 struct v8pp::convert<ext::vector<T>>
 {
@@ -367,24 +371,34 @@ struct v8pp::convert<ext::vector<T>>
         if (method->IsUndefined())
             isolate->ThrowException(v8::Exception::TypeError(v8pp::to_v8(isolate, "Iterator cannot be undefined")));
 
-        // auto cpp_value = ext::vector<T>{v8_value->Length()};
-        // for (auto i = 0; i < v8_value->Length(); ++i)
-        //     cpp_value.template emplace_back(v8pp::from_v8<T>(isolate, v8_value->Get(isolate->GetCurrentContext(), i).ToLocalChecked()));
-        // return cpp_value;
+        auto cpp_value = from_type{};
+        auto iterator = js::ecma::GetIterator(v8_value, js::ecma::IteratorHint::kSync, method);
+        while (true)
+        {
+            auto next = js::ecma:IteratorStep(iterator);
+            if (!next) return cpp_value;
+            auto next_item = js::ecma::IteratorValue(next);
+            cpp_value.template emplace(v8pp::from_v8<T>(next_item));
+        }
     }
 
     static auto to_v8(v8::Isolate* isolate, from_view_type cpp_value) -> to_type
     {
+        auto v8_scope = v8::EscapableHandleScope{isolate};
         auto v8_value = v8::Array::New(isolate, cpp_value.size());
         for (auto i = 0; i < cpp_value.size(); ++i)
-            v8_value->Set(isolate->GetCurrentContext(), v8pp::to_v8(isolate, cpp_value.at(i)));
-        return v8_value;
+        {
+            auto v8_val = v8pp::to_v8(isolate, cpp_value[i]);
+            auto v8_property = js::ecma::ToString(i);
+            js::ecma::CreateDataProperty(v8_value, v8_property, v8_val);
+        }
+        return v8_scope.Escape(v8_value);
     };
 };
 
 
 template <typename T>
-struct v8pp::convert<ext::set<T>>
+struct v8pp::convert<ext::set<T>> // TODO
 {
     using from_type = ext::set<T>;
     using from_view_type = ext::set_span<T>;
@@ -411,6 +425,7 @@ struct v8pp::convert<ext::set<T>>
 };
 
 
+/* [3.2.23] - promise */
 template <typename T>
 struct v8pp::convert<ext::promise<T>>
 {
@@ -434,8 +449,19 @@ struct v8pp::convert<ext::variant<Ts...>>
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
     {return !v8_value.IsEmpty();}
 
-    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
-    static auto to_v8(v8::Isolate* isolate, from_type&& cpp_value) -> to_type;
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
+    {
+        auto v8_scope = v8::HandleScope{isolate};
+        auto cpp_value = ext::visit([isolate]<typename T>(v8::Local<v8::Value> v8_subvalue) {return v8pp::from_v8<T>(isolate, v8_subvalue);}, from_type{});
+        return cpp_value;
+    }
+
+    static auto to_v8(v8::Isolate* isolate, from_type&& cpp_value) -> to_type
+    {
+        auto v8_scope = v8::EscapableHandleScope{isolate};
+        auto v8_value = ext::visit([isolate]<typename T>(T&& cpp_subvalue) {return v8pp::to_v8(isolate, std::forward<T>(cpp_subvalue));}, std::move(cpp_value));
+        return v8_scope.template Escape(v8_value);
+    }
 };
 
 
@@ -489,7 +515,7 @@ auto v8pp::convert<ext::any>::from_v8(v8::Isolate* isolate, v8pp::convert<ext::a
     return_if (v8_value->IsNull()) nullptr;
     return_if (v8_value->IsBoolean() || v8_value->IsBooleanObject()) v8pp::from_v8<ext::boolean>(isolate, v8_value);
     return_if (v8_value->IsNumber() || v8_value->IsNumberObject()) v8pp::from_v8<ext::number<double>>(isolate, v8_value);
-    return_if (v8_value->IsBigInt() || v8_value->IsBigIntObject()) v8pp::from_v8<ext::number<bigint>>(isolate, v8_value);
+    return_if (v8_value->IsBigInt() || v8_value->IsBigIntObject()) v8pp::from_v8<ext::number<ulonglong>>(isolate, v8_value);
     return_if (v8_value->IsString() || v8_value->IsStringObject()) v8pp::from_v8<ext::string>(isolate, v8_value);
     return_if (v8_value->IsSymbol() || v8_value->IsSymbolObject()) v8pp::from_v8<ext::symbol>(isolate, v8_value);
 }

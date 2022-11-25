@@ -7,15 +7,7 @@
 #include "javascript/environment/environment_module.hpp"
 #include "javascript/environment/realms.hpp"
 
-#include "javascript/interop/manual_primitive_conversions/convert_any.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_boolean.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_map.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_map_like.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_number.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_optional.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_set.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_vector.hpp"
-#include "javascript/interop/manual_primitive_conversions/convert_vector_like.hpp"
+#include "javascript/interop/primitive_conversions.hpp"
 
 #include "accelerometer/accelerometer.hpp"
 #include "accelerometer/gravity_sensor.hpp"

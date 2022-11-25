@@ -13,9 +13,14 @@
 #include <v8-persistent-handle.h>
 #include <v8pp/convert.hpp>
 
-namespace js::env {struct env;}
+#define ISOLATE_AND_CONTEXT                             \
+    decltype(auto) isolate = v8::Isolate::GetCurrent(); \
+    auto context = isolate->GetCurrentContext();
+
+
 namespace js::env
 {
+    struct env;
     _EXT_NODISCARD auto get_settings(v8::Local<v8::Object> object) -> settings_t*;
 }
 

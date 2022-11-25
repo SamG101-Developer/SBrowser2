@@ -1,7 +1,7 @@
 #include "crypto_internals.hpp"
 
 #include "ext/custom_operator.hpp"
-#include "javascript/interop/annotations.hpp"
+#include "javascript/interop/error_macros.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(web_crypto)

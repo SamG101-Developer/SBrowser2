@@ -4,7 +4,7 @@
 #include "ext/threading.hpp"
 
 #include "javascript/environment/realms.hpp"
-#include "javascript/interop/annotations.hpp"
+#include "javascript/interop/error_macros.hpp"
 
 #include "dom/detail/observer_internals.hpp"
 #include "html/detail/task_internals.hpp"

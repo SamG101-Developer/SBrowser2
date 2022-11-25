@@ -2,7 +2,7 @@
 #define SBROWSER2_REFLECTION_HPP
 
 
-#include "javascript/interop/annotations.hpp"
+#include "javascript/interop/error_macros.hpp"
 
 #define reflect_get_attribute_value(_object, _attribute, _attribute_t, _env_t)                            \
     [_env_t ## _agent, _env_t ## _realm](auto _cpp_object, auto _cpp_attribute)                           \

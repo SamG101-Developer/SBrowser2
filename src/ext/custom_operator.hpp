@@ -4,7 +4,7 @@
 
 #include "javascript/environment/realms.hpp"
 #include "javascript/environment/global_slots.hpp"
-#include "javascript/interop/annotations.hpp"
+#include "javascript/interop/error_macros.hpp"
 
 #include <algorithm>
 #include <cmath>

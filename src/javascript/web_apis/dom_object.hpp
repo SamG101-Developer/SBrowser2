@@ -13,7 +13,7 @@ class dom_object_private;
 #include "ext/type_traits.hpp"
 #include <memory>
 
-#include "javascript/interop/automatic_object_conversions/expose_macros.hpp"
+#include "javascript/interop/expose_macros.hpp"
 
 
 #define DOM_CTORS(type)  \
