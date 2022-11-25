@@ -1,23 +1,31 @@
 #include "3.hpp"
 
+#include "ext/tuple.hpp"
+#include "javascript/environment/realms.hpp"
+
+#include <v8-forward.h>
 #include <v8-exception.h>
 #include <v8-internal.h>
 #include <v8-isolate.h>
 #include <v8-object.h>
 #include <v8pp/convert.hpp>
 
+#include <range/v3/view/iota.hpp>
+#include <range/v3/view/transform.hpp>
+
 
 auto js::ecma::Get(v8::Local<v8::Object> O, v8::Local<v8::Value> P) -> v8::Local<v8::Value>
 {
-    decltype(auto) isolate = v8::Isolate::GetCurrent();
-    auto context = isolate->GetCurrentContext();
+    ISOLATE_AND_CONTEXT;
+
     return O->Get(context, P).ToLocalChecked();
 }
 
 
 auto js::ecma::GetV(v8::Local<v8::Value> V, v8::Local<v8::Symbol> P) -> v8::Local<v8::Value>
 {
-    auto context = v8::Isolate::GetCurrent()->GetCurrentContext();
+    ISOLATE_AND_CONTEXT;
+
     auto O = V->ToObject(context).ToLocalChecked();
     return O->Get(context, V).ToLocalChecked();
 }
@@ -25,8 +33,7 @@ auto js::ecma::GetV(v8::Local<v8::Value> V, v8::Local<v8::Symbol> P) -> v8::Loca
 
 auto js::ecma::CreateDataProperty(v8::Local<v8::Object> O, v8::Local<v8::String> P, v8::Local<v8::Value> V)
 {
-    auto isolate = v8::Isolate::GetCurrent();
-    auto context = isolate->GetCurrentContext();
+    ISOLATE_AND_CONTEXT;
 
     auto new_descriptor = v8::PropertyDescriptor{V, true};
     new_descriptor.set_enumerable(true);
@@ -37,15 +44,31 @@ auto js::ecma::CreateDataProperty(v8::Local<v8::Object> O, v8::Local<v8::String>
 
 auto js::ecma::GetMethod(v8::Local<v8::Value> V, v8::Local<v8::Symbol> P) -> v8::Local<v8::Value>
 {
-    auto isolate = v8::Isolate::GetCurrent();
-    auto func = GetV(V, P);
+    ISOLATE_AND_CONTEXT;
 
-    if (func->IsUndefined() || func->IsNull())
-        return v8::Undefined(isolate);
+    auto func = GetV(V, P);
+    return_if (func->IsUndefined() || func->IsNull()) v8::Undefined(isolate);
 
     if (!IsCallable(func))
         isolate->ThrowException(v8::Exception::TypeError(v8pp::to_v8(isolate, "Function must be callable")));
 
     return func;
+}
+
+
+template <typename ...Args>
+auto js::ecma::Call(v8::Local<v8::Value> F, v8::Local<v8::Value> V, Args&& ...arguments) -> v8::Local<v8::Value>
+{
+    ISOLATE_AND_CONTEXT;
+
+    if (!IsCallable(F))
+        isolate->ThrowException(v8::Exception::TypeError(v8pp::to_v8(isolate, "Function must be callable")));
+
+    auto tuple = ext::make_tuple(std::forward<Args>(arguments)...);
+    auto cast_args = ranges::views::closed_iota(0, tuple.N)
+            | ranges::views::transform([tuple = std::move(tuple)](auto i) {return ext::get<i>(tuple);})
+            | ranges::views::transform([isolate](auto&& cpp_value) {return v8pp::to_v8(isolate, std::move(cpp_value));});
+
+    return F.As<v8::Function>()->Call(context, V, sizeof...(Args), cast_args.data());
 }
 
