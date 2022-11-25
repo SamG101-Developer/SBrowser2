@@ -16,7 +16,7 @@ _EXT_BEGIN
     // Get the single Nth element from a variadic argument
     template <size_t N, typename ...Args>
     auto nth_variadic_value(Args&&... args)
-    {return ext::get<N>(_EXT make_tuple<Args...>(std::forward<Args>(args)...));}
+    {return _EXT get<N>(_EXT make_tuple<Args...>(std::forward<Args>(args)...));}
 
     // Get the Nth elements (I amount) from a variadic argument
     template <signed Begin, signed Size, typename... T>
