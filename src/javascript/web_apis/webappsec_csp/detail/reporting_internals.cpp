@@ -94,7 +94,7 @@ auto webappsec::detail::report_violation(
                 request->method = u"POST";
                 request->url = std::make_shared<url::detail::url_t>(violation.url()); // TODO
                 request->origin = e.cpp.settings()->origin;
-                request->window = fetch::detail::window_t::NO_WINDOW;
+                request->window = fetch::detail::deferred_window_t::NO_WINDOW;
                 request->client = e.js.settings();
                 request->destination = fetch::detail::destination_t::REPORT;
                 request->initiator = fetch::detail::initiator_t::_;
