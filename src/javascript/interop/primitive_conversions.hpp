@@ -170,7 +170,7 @@ struct v8pp::convert<ext::number<ulonglong>>
 };
 
 
-/* [3.2.10] [3.2.12] - domstring usvstring */
+/* [3.2.10] [3.2.12] - domstring usvstring */ // TODO : use string_like concept?
 template <>
 struct v8pp::convert<ext::u16string>
 {

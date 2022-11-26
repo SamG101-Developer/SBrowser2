@@ -58,6 +58,10 @@ _EXT_BEGIN
     concept string_like = requires
     {ext::type_is_any_specialization<T, std::basic_string>;};
 
+    template <typename T>
+    concept char_like = requires
+    {ext::type_is<T, char8_t, char16_t, char32_t>;};
+
     template <string_like T>
     struct view_of
     {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};

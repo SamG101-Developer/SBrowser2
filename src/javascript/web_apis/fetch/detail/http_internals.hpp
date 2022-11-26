@@ -25,23 +25,27 @@ namespace fetch::detail
             url::detail::url_t& url)
             -> ext::boolean;
 
+    template <ext::char_like T>
     auto is_http_newline_byte(
-            char8_t character)
+            T character)
             -> ext::boolean;
 
+    template <ext::char_like T>
     auto is_http_tab_or_space_byte(
-            char8_t character)
+            T character)
             -> ext::boolean;
 
+    template <ext::char_like T>
     auto is_http_whitespace_byte(
-            char8_t character)
+            T character)
             -> ext::boolean;
 
+    template <ext::string_like T>
     auto collect_http_quoted_string(
-            ext::string& input,
-            ext::string::iterator& position,
+            T& input,
+            typename T::iterator& position,
             ext::boolean extract_value_flag = false)
-            -> ext::string;
+            -> T&;
 }
 
 

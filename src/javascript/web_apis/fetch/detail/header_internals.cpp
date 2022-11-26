@@ -4,6 +4,7 @@
 #include "ext/pair.hpp"
 #include "ext/ranges.hpp"
 
+#include "ext/string.hpp"
 #include "infra/detail/infra_strings_internals.hpp"
 #include "fetch/detail/http_internals.hpp"
 
@@ -24,8 +25,8 @@
 
 template <fetch::detail::header_value_object_t T>
 auto fetch::detail::get_structured_field_value(
-        const header_name_t& header_name,
-        const headers_t& headers)
+        ext::view_of_t<header_name_t> header_name,
+        ext::span_of_t<headers_t> headers)
         -> header_value_variable_t<T>
 {
     // get the raw header value from the 'headers', as a string - this could be a string, string representation of a
@@ -42,8 +43,8 @@ auto fetch::detail::get_structured_field_value(
 
 
 auto fetch::detail::set_structured_field_value(
-        const header_t& header,
-        const headers_t& headers)
+        fetch::detail::header_t&& header,
+        fetch::detail::headers_t& headers)
         -> void
 {
     // serialize the value of the header (string / dictionary / list, and set a header with the header name and
@@ -55,8 +56,8 @@ auto fetch::detail::set_structured_field_value(
 
 
 auto fetch::detail::header_list_contains_header(
-        const headers_t& headers,
-        const header_name_t& header_name)
+        ext::view_of_t<header_name_t> header_name,
+        ext::span_of_t<headers_t> headers)
         -> ext::boolean
 {
     // 'headers' contains the 'head_name' if any of the pairs in the 'headers' list have the first part of the pair set
@@ -66,8 +67,8 @@ auto fetch::detail::header_list_contains_header(
 
 
 auto fetch::detail::get_header_value(
-        const header_name_t& header_name,
-        const headers_t& headers)
+        ext::view_of_t<header_name_t> header_name,
+        ext::span_of_t<headers_t> headers)
         -> header_value_t
 {
     // convert the 'header_name' to lowercase for comparisons (the headers stored in the list are all in lowercase
@@ -80,27 +81,27 @@ auto fetch::detail::get_header_value(
     // as-well ie ", \0"
     return headers
             | ranges::views::filter(BIND_BACK(ext::pair_key_matches, std::move(lowercase_header_name)))
-            | ranges::views::transform([](const header_t& header) {return header.second + char16_t(0x002c) + char16_t(0x0020);})
+            | ranges::views::transform([](const header_t& header) {return header.second + char8_t(0x2c) + char8_t(0x20);})
             | ranges::views::remove(ext::string{char16_t(0x002c) + char16_t(0x0020) + '\0'})
             | ranges::to<header_value_t>();
 }
 
 
 auto fetch::detail::get_decode_split_value(
-        const header_name_t& header_name,
-        const headers_t& headers)
+        ext::view_of_t<header_name_t> header_name,
+        ext::span_of_t<headers_t> headers)
         -> header_names_t
 {
     // get the header value for the 'header_name' in 'headers', and return an empty list if there are no values
     // associated with the 'header_name'
-    ext::string input = get_header_value(header_name, headers);
+    auto input = get_header_value(header_name, headers);
     return_if(input.empty()) {};
 
     // set the 'position' to point at the start of the string, and initialize the current 'value, and the final 'values'
     // list that will be returned
     auto position = input.begin();
-    header_names_t values;
-    ext::string value;
+    auto values = header_names_t{};
+    auto value = ext::string{};
 
     // loop until the 'position' pointer points to the end of the header value string ('input')
     while (position != input.end())
@@ -130,7 +131,7 @@ auto fetch::detail::get_decode_split_value(
 
         // append the new value with spaces and tabs removed from the back and front of the string, and then reset the
         // value string for the next iteration pass
-        values.push_back(infra::detail::strip_leading_and_trailing_ascii_whitespace(value));
+        values.emplace_back(infra::detail::strip_leading_and_trailing_ascii_whitespace(value));
         value = u"";
     }
 
@@ -139,20 +140,14 @@ auto fetch::detail::get_decode_split_value(
 }
 
 
-auto fetch::detail::append_header(
-        const header_t& header,
-        headers_t& headers)
-        -> void
+auto fetch::detail::append_header(fetch::detail::header_t&& header, fetch::detail::headers_t& headers) -> void
 {
     // append the 'header' to the end of the 'headers' list
     headers.push_back(header);
 }
 
 
-auto fetch::detail::delete_header(
-        const header_name_t& header_name,
-        headers_t& headers)
-        -> void
+auto fetch::detail::delete_header(ext::view_of_t<header_name_t> header_name, fetch::detail::headers_t& headers) -> void
 {
     // convert the 'header_name' to lowercase for comparisons (the headers stored in the list are all in lowercase
     // already; this conversion is done in the 'set_header(...)' method for uniformity between all header names inserted
@@ -166,10 +161,7 @@ auto fetch::detail::delete_header(
 }
 
 
-auto fetch::detail::set_header(
-        const header_t& header,
-        headers_t& headers)
-        -> void
+auto fetch::detail::set_header(fetch::detail::header_t&& header, fetch::detail::headers_t& headers) -> void
 {
     auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase | ranges::to<ext::string>, header.second);
 
@@ -193,10 +185,7 @@ auto fetch::detail::set_header(
 }
 
 
-auto fetch::detail::combine_header(
-        const header_t& header,
-        const headers_t& headers)
-        -> void
+auto fetch::detail::combine_header(fetch::detail::header_t&& header, const fetch::detail::headers_t& headers) -> void
 {
     auto lowercase_header = std::make_pair(header.first | ranges::views::lowercase | ranges::to<ext::string>, header.second);
 
@@ -219,9 +208,7 @@ auto fetch::detail::combine_header(
 }
 
 
-auto fetch::detail::convert_header_names_to_sorted_lowercase_set(
-        const header_names_t& header_names)
-        -> header_names_t
+auto fetch::detail::convert_header_names_to_sorted_lowercase_set(ext::span_of_t<header_names_t> header_names) -> header_names_t
 {
     // transform the 'header_names' to lowercase strings, using the infra 'byte_less_than' functor as the sorting
     // method; object is still a range
@@ -234,9 +221,7 @@ auto fetch::detail::convert_header_names_to_sorted_lowercase_set(
 }
 
 
-auto fetch::detail::sort_and_combine(
-        const headers_t& headers)
-        -> headers_t
+auto fetch::detail::sort_and_combine(const fetch::detail::headers_t& headers) -> headers_t
 {
     headers_t formatted_headers;
     auto sorted_lowercase_header_names = convert_header_names_to_sorted_lowercase_set(headers | ranges::views::keys | ranges::to<ext::vector<ext::string>>);
@@ -251,9 +236,7 @@ auto fetch::detail::sort_and_combine(
 }
 
 
-auto fetch::detail::is_cors_safelisted_request_header(
-        const header_t& header)
-        -> ext::boolean
+auto fetch::detail::is_cors_safelisted_request_header(fetch::detail::header_t&& header) -> ext::boolean
 {
     return_if (header.second.size() > 123) false;
     auto lowercase_header_name = header.first | ranges::views::lowercase | ranges::to<ext::string>;
@@ -292,7 +275,8 @@ auto fetch::detail::is_cors_safelisted_request_header(
 }
 
 
-auto fetch::detail::normalize(ext::u8string& potential_value) -> ext::u8string&
+template <ext::string_like T>
+auto fetch::detail::normalize(T& potential_value) -> T&
 {
     return infra::detail::strip_leading_and_trailing_ascii_whitespace(potential_value);
 }

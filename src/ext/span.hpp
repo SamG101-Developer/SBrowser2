@@ -17,6 +17,7 @@
 #include <range/v3/range_fwd.hpp>
 #include <range/v3/iterator/operations.hpp>
 #include <range/v3/iterator/reverse_iterator.hpp>
+#include <type_traits>
 
 
 _EXT_BEGIN
@@ -137,6 +138,13 @@ _EXT_BEGIN
 
     template <typename T>
     using vector_span = ext::same_iterator_span<T, typename ext::vector<T>::const_iterator>;
+
+    template <typename T>
+    struct span_of
+    {using type = ext::span<typename T::value_type, decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;};
+
+    template <typename T>
+    using span_of_t = typename span_of<std::remove_cvref_t<T>>::type;
 _EXT_END
 
 
