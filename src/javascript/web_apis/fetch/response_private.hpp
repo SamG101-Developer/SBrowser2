@@ -17,8 +17,8 @@ DEFINE_PRIVATE_CLASS(fetch, response)
 
     std::unique_ptr<detail::response_t> response;
 
-    auto mime_type() -> ext::string override;
-    auto body() -> detail::body_t* override;
+    auto mime_type() const -> ext::string override;
+    auto body() const -> detail::body_t* override;
 };
 
 

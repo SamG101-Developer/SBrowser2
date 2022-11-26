@@ -96,10 +96,10 @@ struct fetch::detail::response_t
 
     auto associated_url() -> url::detail::url_t;
     ext::vector<url::detail::url_t*> url_list;
-    auto url() const -> url::detail::url_t&;
+    url::detail::url_t* const * url = url_list.end();
 
-    ext::number<int> status;
-    ext::string status_message;
+    ext::number<ushort> status;
+    ext::u8string status_message;
 
     headers_t header_list;
     ext::variant<ext::u8string, std::shared_ptr<body_t>> body;

@@ -23,7 +23,7 @@ public constructors:
     MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
-    auto aray_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
+    auto array_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
     auto blob() -> ext::promise<file_api::blob>;
     auto form_data() -> ext::promise<xhr::form_data>;
     auto json() -> ext::promise<ext::any>;

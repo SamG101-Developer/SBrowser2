@@ -20,7 +20,7 @@ class fetch::request
         , public mixins::body
 {
 public constructors:
-    request(detail::request_info_t&& input, ext::map<ext::string, ext::any> init = {});
+    request(detail::request_info_t&& input, detail::request_init_t&& init = {});
     MAKE_PIMPL(request);
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 

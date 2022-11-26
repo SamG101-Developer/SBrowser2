@@ -91,7 +91,8 @@ auto file_api::blob::array_buffer()
 
 auto file_api::blob::_serialize(
         ext::map<ext::string, ext::any>& serialized,
-        ext::boolean for_storage) -> void
+        ext::boolean for_storage)
+        -> void
 {
     ACCESS_PIMPL(blob);
     serialized.insert_or_assign(u"$SnapshotState", d->snapshot_state);

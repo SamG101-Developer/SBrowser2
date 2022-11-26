@@ -8,6 +8,7 @@ namespace fetch {class response;}
 namespace fetch {class response_private;}
 
 #include INCLUDE_INNER_TYPES(fetch)
+namespace fetch {class headers;}
 
 
 class fetch::response
@@ -27,13 +28,13 @@ public js_methods:
     auto clone() -> std::unique_ptr<response>;
 
 private js_properties:
-    DEFINE_GETTER(type, ext::string);
+    DEFINE_GETTER(type, detail::response_type_t);
     DEFINE_GETTER(url, ext::string);
     DEFINE_GETTER(redirected, ext::boolean);
     DEFINE_GETTER(status, ext::number<ushort>);
     DEFINE_GETTER(ok, ext::boolean);
-    DEFINE_GETTER(status_text, ext::string);
-    DEFINE_GETTER(headers, detail::headers_t);
+    DEFINE_GETTER(status_text, ext::u8string_view);
+    DEFINE_GETTER(headers, headers*);
 };
 
 

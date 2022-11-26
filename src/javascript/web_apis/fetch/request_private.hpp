@@ -20,8 +20,8 @@ DEFINE_PRIVATE_CLASS(fetch, request)
     std::unique_ptr<detail::request_t> request;
     std::unique_ptr<dom::abort::abort_signal> signal;
 
-    auto mime_type() -> ext::string override;
-    auto body() -> detail::body_t* override;
+    auto mime_type() const -> ext::string override;
+    auto body() const -> detail::body_t* override;
 };
 
 

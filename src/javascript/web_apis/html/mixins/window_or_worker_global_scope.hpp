@@ -7,7 +7,9 @@ namespace html::mixins {class window_or_worker_global_scope;}
 namespace html::mixins {class window_or_worker_global_scope_private;}
 
 #include "ext/promise.hpp"
+#include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
+namespace fetch {class response;}
 namespace indexed_db {class idb_factory;}
 namespace service_workers::caches {class cache_storage;}
 namespace web_crypto {class crypto;}
@@ -42,6 +44,9 @@ public js_methods:
 
     // Structured Cloning
     auto structured_clone(ext::any&& value, detail::structured_serialize_options_t&& options = {}) -> ext::any&;
+
+    /* [FETCH] */
+    auto fetch(fetch::detail::request_info_t&& input, fetch::detail::request_init_t&& init = {}) -> ext::promise<std::unique_ptr<fetch::response>>;
 
 private js_properties:
     DEFINE_GETTER(origin, ext::string);

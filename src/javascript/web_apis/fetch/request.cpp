@@ -1,4 +1,5 @@
 #include "request.hpp"
+#include "mixins/body.hpp"
 #include "request_private.hpp"
 
 #include "ext/casting.hpp"
@@ -23,7 +24,7 @@
 #include "url/detail/url_internals.hpp"
 
 
-fetch::request::request(detail::request_info_t&& input, ext::map<ext::string, ext::any> init)
+fetch::request::request(detail::request_info_t&& input, detail::request_init_t&& init)
 {
     INIT_PIMPL(request);
     ACCESS_PIMPL(request);
@@ -243,4 +244,33 @@ auto fetch::request::get_duplex() const -> detail::request_duplex_t
 {
     ACCESS_PIMPL(const request);
     return detail::request_duplex_t::HALF;
+}
+
+
+auto fetch::request::_to_v8(js::env::module_t E, v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
+{
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom_object>()
+        .inherit<mixins::body>()
+        .ctor<detail::request_info_t&&, detail::request_init_t&&>()
+        .function("clone", &request::clone)
+        .property("method", &request::get_method)
+        .property("URL", &request::get_url)
+        .property("headers", &request::get_headers)
+        .property("destination", &request::get_destination)
+        .property("referrer", &request::get_referrer)
+        .property("referrerPolicy", &request::get_referrer_policy)
+        .property("mode", &request::get_mode)
+        .property("credentials", &request::get_credentials)
+        .property("cache", &request::get_cache)
+        .property("redirect", &request::get_redirect)
+        .property("integrity", &request::get_integrity)
+        .property("keepalive", &request::get_keepalive)
+        .property("isReloadNavigation", &request::get_is_reload_navigation)
+        .property("isHistoryNavigation", &request::get_is_history_navigation)
+        .property("signal", &request::get_signal)
+        .property("duplex", &request::get_duplex)
+        .auto_wrap_objects();
+
+    V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

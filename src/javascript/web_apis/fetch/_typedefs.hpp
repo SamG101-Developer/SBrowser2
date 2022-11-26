@@ -84,6 +84,7 @@ namespace fetch::detail
 
     // request & response related
     using window_t = ext::variant<ext::variant_monostate_t, deferred_window_t, v8::Local<v8::Object>>;
+    using request_init_t = ext::map<ext::string, ext::any>;
     using response_init_t = ext::map<ext::string, ext::any>;
 }
 
