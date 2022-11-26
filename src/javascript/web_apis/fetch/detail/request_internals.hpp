@@ -57,8 +57,7 @@ namespace fetch::detail
 
     auto create_request_object(
             std::unique_ptr<request_t>&& inner_request,
-            header_guard_t header_guard,
-            js::env::env& e)
+            header_guard_t header_guard)
             -> std::unique_ptr<request>;
 }
 

@@ -126,7 +126,7 @@ auto fetch::request::clone() -> std::unique_ptr<request>
             u8"This Request (-> Body) must be usable", e);
 
     auto cloned_request = detail::clone_request(*d->request);
-    auto cloned_request_object = detail::create_request_object(std::move(cloned_request), d->headers->d_func()->headers_guard, e);
+    auto cloned_request_object = detail::create_request_object(std::move(cloned_request), d->headers->d_func()->headers_guard);
     dom::detail::follow_signal(cloned_request_object->d_func()->signal.get(), d->signal.get());
     return cloned_request_object;
 }
