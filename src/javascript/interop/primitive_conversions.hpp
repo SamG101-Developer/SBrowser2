@@ -68,10 +68,10 @@ struct v8pp::convert<ext::boolean>
     using to_type = v8::Local<v8::Boolean>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsBoolean() || v8_value->IsBooleanObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsBoolean();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
-    {return v8_value->ToBoolean(isolate)->Value();}
+    {return v8_value->BooleanValue(isolate);}
 
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type
     {return v8::Boolean::New(isolate, cpp_value);}
@@ -86,10 +86,9 @@ struct v8pp::convert<ext::number<T, unrestricted>>
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsNumber();}
 
-    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
-    {return web_idl::detail::convert_to_int<sizeof(T), std::is_signed_v<T>>(v8_value->ToInteger(isolate->GetCurrentContext()).ToLocalChecked());}
+    static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
 
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type
     {return v8::Integer::New(isolate, cpp_value);}
@@ -104,7 +103,7 @@ struct v8pp::convert<ext::number<float, false>>
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsNumber();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type;
@@ -119,7 +118,7 @@ struct v8pp::convert<ext::number<float, true>>
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsNumber();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type;
@@ -134,7 +133,7 @@ struct v8pp::convert<ext::number<double, false>>
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsNumber();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type;
@@ -149,7 +148,7 @@ struct v8pp::convert<ext::number<double, true>>
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsNumber() || v8_value->IsNumberObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsNumber();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type;
@@ -164,7 +163,7 @@ struct v8pp::convert<ext::number<ulonglong>>
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsBigInt() || v8_value->IsBigIntObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsBigInt();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type;
     static auto to_v8(v8::Isolate* isolate, from_type cpp_value) -> to_type;
@@ -180,7 +179,7 @@ struct v8pp::convert<ext::u16string>
     using to_type = v8::Local<v8::String>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsString() || v8_value->IsStringObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsString();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
     {return reinterpret_cast<const char16_t*>(*v8::String::Utf8Value(isolate, v8_value));}
@@ -199,7 +198,7 @@ struct v8pp::convert<ext::u8string>
     using to_type = v8::Local<v8::String>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && v8_value->IsString() || v8_value->IsStringObject();}
+    {return !v8_value.IsEmpty() && v8_value->IsString();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
     {return reinterpret_cast<const char8_t*>(*v8::String::Utf8Value(isolate, v8_value));}
@@ -301,7 +300,7 @@ struct v8pp::convert<T>
     using to_type = v8::Local<v8::String>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean
-    {return !v8_value.IsEmpty() && (v8_value->IsString() || v8_value->IsStringObject());}
+    {return !v8_value.IsEmpty() && v8_value->IsString();}
 
     static auto from_v8(v8::Isolate* isolate, to_type v8_value) -> from_type
     {
