@@ -20,6 +20,12 @@
 #include "contact_picker/contact_address.hpp"
 #include "contact_picker/contacts_manager.hpp"
 
+#include "console/console.hpp"
+
+#include "device_orientation/device_orientation_event.hpp"
+
+#include "device_posture/device_posture.hpp"
+
 #include "dom/abort/abort_controller.hpp"
 #include "dom/abort/abort_signal.hpp"
 #include "dom/events/custom_event.hpp"
@@ -54,6 +60,30 @@
 #include "dom/xpath/xpath_expression.hpp"
 #include "dom/xpath/xpath_evaluator.hpp"
 #include "dom/xslt/xslt_processor.hpp"
+
+#include "edit_context/edit_context.hpp"
+#include "edit_context/text_format.hpp"
+#include "edit_context/events/character_bounds_update_event.hpp"
+#include "edit_context/events/text_format_update_event.hpp"
+#include "edit_context/events/text_update_event.hpp"
+
+#include "encoding/text_decoder.hpp"
+#include "encoding/text_decoder_stream.hpp"
+#include "encoding/text_encoder.hpp"
+#include "encoding/text_encoder_stream.hpp"
+
+#include "event_timing/event_counts.hpp"
+#include "event_timing/interaction_counts.hpp"
+#include "event_timing/performance_event_timing.hpp"
+
+#include "fetch/headers.hpp"
+#include "fetch/request.hpp"
+#include "fetch/response.hpp"
+
+#include "file_api/blob.hpp"
+#include "file_api/file.hpp"
+#include "file_api/file_reader.hpp"
+#include "file_api/file_reader_sync.hpp"
 
 #include <v8-context.h>
 #include <v8-isolate.h>
@@ -101,11 +131,24 @@ inline auto js::interop::expose(
     /* [BATTERY-MANAGER] */
     EXPOSE_CLASS_TO_MODULE(BatteryManager, battery::battery_manager);
 
+    /* [CONSOLE] */
+    // TODO : Use Console as a pre-built object
+
     /* [CONTACT-PICKER] */
     EXPOSE_CLASS_TO_MODULE(ContactAddress, contact_picker::contact_address);
     EXPOSE_CLASS_TO_MODULE(ContactsManager, contact_picker::contacts_manager);
 
+    /* [DEVICE-ORIENTATION] */
+    EXPOSE_CLASS_TO_MODULE(DeviceOrientationEvent, device_orientation::device_orientation_event);
+
+    /* [DEVICE-POSTURE] */
+    EXPOSE_CLASS_TO_MODULE(DevicePosture, device_posture::device_posture);
+
     /* [DOM] */
+    EXPOSE_CLASS_TO_MODULE(AbortSignal, dom::abort::abort_signal);
+    EXPOSE_CLASS_TO_MODULE(AbortController, dom::abort::abort_controller);
+    EXPOSE_CLASS_TO_MODULE(Event, dom::events::event);
+    EXPOSE_CLASS_TO_MODULE(CustomEvent, dom::events::custom_event);
     EXPOSE_CLASS_TO_MODULE(NodeFilter, dom::node_iterators::node_filter);
     EXPOSE_CLASS_TO_MODULE(NodeIterator, dom::node_iterators::node_iterator);
     EXPOSE_CLASS_TO_MODULE(TreeWalker, dom::node_iterators::tree_walker);
@@ -132,8 +175,40 @@ inline auto js::interop::expose(
     EXPOSE_CLASS_TO_MODULE(AbstractRange, dom::node_ranges::abstract_range);
     EXPOSE_CLASS_TO_MODULE(StaticRange, dom::node_ranges::static_range);
     EXPOSE_CLASS_TO_MODULE(Range, dom::node_ranges::range);
+    // TODO : XPATH, XSLT
 
-    local_context->Global()->SetPrototype(local_context, v8_module.new_instance()); // TODO : check if this works
+    /* [EDIT-CONTEXT] */
+    EXPOSE_CLASS_TO_MODULE(EditContext, edit_context::edit_context);
+    EXPOSE_CLASS_TO_MODULE(TextFormat, edit_context::text_format);
+    EXPOSE_CLASS_TO_MODULE(CharacterBoundsUpdateEvent, edit_context::events::character_bounds_update_event);
+    EXPOSE_CLASS_TO_MODULE(TextFormatUpdateEvent, edit_context::events::text_format_update_event);
+    EXPOSE_CLASS_TO_MODULE(TextUpdateEvent, edit_context::events::text_update_event);
+
+    /* [ENCODING] */
+    EXPOSE_CLASS_TO_MODULE(TextDecoder, encoding::text_decoder);
+    EXPOSE_CLASS_TO_MODULE(TextDecoderStream, encoding::text_decoder_stream);
+    EXPOSE_CLASS_TO_MODULE(TextEncoder, encoding::text_encoder);
+    EXPOSE_CLASS_TO_MODULE(TextEncoderStream, encoding::text_encoder_stream);
+
+    /* [EVENT-TIMING] */
+    EXPOSE_CLASS_TO_MODULE(EventCounts, event_timing::event_counts);
+    EXPOSE_CLASS_TO_MODULE(InteractionCounts, event_timing::interaction_counts);
+    EXPOSE_CLASS_TO_MODULE(PerformanceEventTiming, event_timing::performance_event_timing);
+
+    /* [FETCH] */
+    EXPOSE_CLASS_TO_MODULE(Headers, fetch::headers);
+    EXPOSE_CLASS_TO_MODULE(Request, fetch::request);
+    EXPOSE_CLASS_TO_MODULE(Response, fetch::response);
+
+    /* [FILE-API] */
+    EXPOSE_CLASS_TO_MODULE(Blob, file_api::blob);
+    EXPOSE_CLASS_TO_MODULE(File, file_api::file);
+    EXPOSE_CLASS_TO_MODULE(FileReader, file_api::file_reader);
+    EXPOSE_CLASS_TO_MODULE(FileReaderSync, file_api::file_reader_sync);
+
+    // Register the module as the global object so that all the objects are accessible in the global naemspace, not
+    // window.EventTarget for example. TODO : Check if this works.
+    local_context->Global()->SetPrototype(local_context, v8_module.new_instance());
 
     return persistent_context;
 }
