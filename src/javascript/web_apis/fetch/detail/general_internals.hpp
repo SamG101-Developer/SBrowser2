@@ -21,9 +21,9 @@ namespace fetch::detail
 {
     using algorithm_t = ext::function<void(v8::Local<v8::Object>)>;
 
-    ext::vector<ext::number<int>> null_body_status {101, 103, 204, 205, 304};
-    ext::vector<ext::number<int>> ok_status = ranges::views::closed_iota(200, 299) | ranges::to<ext::vector<ext::number<int>>>;
-    ext::vector<ext::number<int>> redirect_status {101, 103, 204, 205, 304};
+    const ext::vector<ext::number<ushort>> null_body_status {101, 103, 204, 205, 304};
+    const ext::vector<ext::number<ushort>> ok_status = ranges::views::closed_iota(200, 299) | ranges::to<ext::vector<ext::number<ushort>>>;
+    const ext::vector<ext::number<ushort>> redirect_status {101, 103, 204, 205, 304};
 
 
     auto report_timing(
