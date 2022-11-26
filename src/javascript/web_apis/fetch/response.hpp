@@ -20,9 +20,9 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
 public js_methods:
-    static auto error() -> response;
-    static auto redirect(ext::string_view url, ext::number<ushort> status = 302);
-    static auto json(const ext::any& data, ext::map<ext::string, ext::any>&& init = {});
+    static auto error() -> std::unique_ptr<response>;
+    static auto redirect(ext::string_view url, ext::number<ushort> status = 302) -> std::unique_ptr<response>;
+    static auto json(const ext::any& data, ext::map<ext::string, ext::any>&& init = {}) -> std::unique_ptr<response>;
 
     auto clone() -> std::unique_ptr<response>;
 
