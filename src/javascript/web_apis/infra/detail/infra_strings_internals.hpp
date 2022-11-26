@@ -10,70 +10,90 @@
 
 namespace infra::detail
 {
+    template <ext::string_like T>
     auto strip_newlines(
-            ext::string& string)
-            -> ext::string&;
+            T& string)
+            -> T&;
 
+    template <ext::string_like T>
     auto normalize_newlines(
-            ext::string& string)
-            -> ext::string&;
+            T& string)
+            -> T&;
 
+    template <ext::string_like T>
     auto strip_leading_ascii_whitespace(
-            ext::string& string)
-            -> ext::string&;
+            T& string)
+            -> T&;
 
+    template <ext::string_like T>
     auto strip_trailing_ascii_whitespace(
-            ext::string& string)
-            -> ext::string&;
+            T& string)
+            -> T&;
 
+    template <ext::string_like T>
     auto strip_leading_and_trailing_ascii_whitespace(
-            ext::string& string)
-            -> ext::string&;
+            T& string)
+            -> T&;
 
+    template <ext::string_like T>
     auto strip_and_collapse_ascii_whitespace(
-            ext::string& string)
-            -> ext::string&;
+            T& string)
+            -> T&;
 
+    template <ext::string_like T>
     auto collect_ascii_whitespace(
-            ext::string& string,
-            ext::string::iterator& position)
+            T& string,
+            typename T::iterator& position)
             -> void;
 
+    template <ext::string_like T>
     auto is_ascii_string(
-            ext::string_view string)
+            ext::view_of_t<T> string)
             -> ext::boolean;
 
+    template <ext::string_like T>
     auto collect_code_points_matching(
-            ext::string& string,
-            ext::string::iterator& position,
+            T& string,
+            typename T::iterator& position,
             auto... code_points)
             -> ext::string;
 
+    template <ext::string_like T>
     auto collect_code_points_not_matching(
-            ext::string& string,
-            ext::string::iterator& position,
+            T& string,
+            typename T::iterator& position,
             auto... code_points)
             -> ext::string;
 
+    template <ext::string_like T>
     auto is_code_unit_prefix(
-            ext::string_view potential_prefix,
-            ext::string_view string)
+            ext::view_of_t<T> potential_prefix,
+            ext::view_of_t<T> string)
             -> ext::boolean;
 
+    template <ext::string_like T>
     auto is_code_unit_suffix(
-            ext::string_view potential_suffix,
-            ext::string_view string)
+            ext::view_of_t<T> potential_suffix,
+            ext::view_of_t<T> string)
             -> ext::boolean;
 
-    auto is_code_unit_substring(
-            ext::string_view potential_substring,
-            ext::string_view string)
-            -> ext::boolean;
-
+    template <ext::string_like T>
     auto is_code_unit_less_than(
-            ext::string_view string0,
-            ext::string_view string1)
+            ext::view_of_t<T> string0,
+            ext::view_of_t<T> string1)
             -> ext::boolean;
+
+    template <ext::string_like T>
+    auto code_unit_substring(
+            ext::number<size_t> start,
+            ext::number<size_t> length,
+            ext::view_of_t<T> string)
+            -> ext::string;
+
+    template <ext::string_like T>
+    auto code_unit_substring_from_start_to_end_within(
+            ext::view_of_t<T> string)
+            -> ext::string;
 }
 
 
