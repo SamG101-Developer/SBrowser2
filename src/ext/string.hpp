@@ -2,7 +2,8 @@
 #ifndef SBROWSER2_STRING_HPP
 #define SBROWSER2_STRING_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/allocator.hpp"
+#include "ext/concepts.hpp"
 #include "ext/functional.hpp"
 #include <sstream>
 #include <string>
@@ -13,44 +14,63 @@
 
 
 _EXT_BEGIN
+    // Define aliases
     using octet_t = char8_t;
-    using octet_string = std::basic_string<octet_t, std::char_traits<octet_t>, std::allocator<octet_t>>;
+    using octet_string = std::basic_string<octet_t, std::char_traits<octet_t>, _EXT allocator<octet_t>>;
     using octet_string_view = std::basic_string_view<octet_t>;
 
     using byte_t = char8_t;
-    using byte_string = std::basic_string<byte_t, std::char_traits<byte_t>, std::allocator<byte_t>>;
+    using byte_string = std::basic_string<byte_t, std::char_traits<byte_t>, _EXT allocator<byte_t>>;
     using byte_string_view = std::basic_string_view<byte_t>;
 
-    using u8string  = std::basic_string<char8_t, std::char_traits<char8_t>, std::allocator<char8_t>>;
+    // Define all string types, default is utf16 encoding
+    using u8string  = std::basic_string<char8_t, std::char_traits<char8_t>, _EXT allocator<char8_t>>;
     using u16string = std::u16string;
     using u32string = std::u32string;
     using string = u16string;
 
+    // Define all string view types, default is utf16 encoding
     using u8string_view  = std::basic_string_view<char8_t>;
     using u16string_view = std::u16string_view;
     using u32string_view = std::u32string_view;
     using string_view = u16string_view;
 
-    using u8string_stream = std::basic_stringstream<char8_t, std::char_traits<char8_t>, std::allocator<char8_t>>;
-    using u16string_stream = std::basic_stringstream<char16_t, std::char_traits<char16_t>, std::allocator<char16_t>>;
-    using u32string_stream = std::basic_stringstream<char32_t, std::char_traits<char32_t>, std::allocator<char32_t>>;
+    // Define all string stream types, default is utf16 encoding
+    using u8string_stream = std::basic_stringstream<char8_t, std::char_traits<char8_t>, _EXT allocator<char8_t>>;
+    using u16string_stream = std::basic_stringstream<char16_t, std::char_traits<char16_t>, _EXT allocator<char16_t>>;
+    using u32string_stream = std::basic_stringstream<char32_t, std::char_traits<char32_t>, _EXT allocator<char32_t>>;
     using string_stream = u16string_stream;
 
+    // Use better lower and upper conversion methods
     auto to_lower = []<typename T>(T character) -> T {return std::tolower(character);};
     auto to_upper = []<typename T>(T character) -> T {return std::toupper(character);};
 
+    // Allow comparison of a string against a seqeunce of characters
     template <typename T, ext::type_is<typename T::value_type> ...Args>
     auto sequence_matches(T&& string, Args&&... sequence)
     {return string == ranges::fold_left({sequence...}, u8"", ext::ops::add) | ranges::to<T>();}
 
-    auto random_string() -> ext::string; // TODO : Implement
+    // Random string generation
+    auto random_string() -> ext::string;
+
+    // Define concepts and struct for strings and string views
+    template <typename T>
+    concept string_like = requires
+    {ext::type_is_any_specialization<T, std::basic_string>;};
+
+    template <string_like T>
+    struct view_of
+    {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
+
+    template <string_like T>
+    using view_of_t = typename view_of<std::remove_cvref_t<T>>::type;
 _EXT_END
 
 
 _EXT_SECURE_BEGIN
-    using string = std::basic_string<_EXT u8string::value_type, _EXT u8string::traits_type, CryptoPP::AllocatorBase<_EXT u8string::value_type>>;
-    using string_view = _EXT u8string_view;
-    using string_stream = std::basic_stringstream<_EXT string_stream::char_type, _EXT string_stream::traits_type, CryptoPP::AllocatorBase<_EXT string_stream::char_type>>;
+    using string = std::basic_string<_EXT string::value_type, _EXT u8string::traits_type, _EXT secure::allocator<_EXT string::value_type>>;
+    using string_view = _EXT string_view;
+    using string_stream = std::basic_stringstream<_EXT string_stream::char_type, _EXT string_stream::traits_type, _EXT secure::allocator<_EXT string_stream::char_type>>;
 _EXT_SECURE_END
 
 
