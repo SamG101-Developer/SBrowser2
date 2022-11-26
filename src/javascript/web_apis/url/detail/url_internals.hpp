@@ -204,6 +204,8 @@ struct url::detail::url_t
 
     std::unique_ptr<file_api::detail::blob_url_entry_t> blob_url_entry {nullptr};
     std::unique_ptr<dom_object> object {nullptr};
+
+    auto operator*() -> ext::string {return url_serializer(*this);}
 };
 
 
