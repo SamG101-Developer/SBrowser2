@@ -3,10 +3,18 @@
 #include "ext/assertion.hpp"
 #include "ext/ranges.hpp"
 
+#include "dom/_typedefs.hpp"
+#include "dom/detail/exception_internals.hpp"
+
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/body_internals.hpp"
 #include "fetch/detail/general_internals.hpp"
 #include "fetch/detail/header_internals.hpp"
+#include "fetch/detail/request_internals.hpp"
+#include "fetch/headers.hpp"
+#include "fetch/headers_private.hpp"
+#include "fetch/response.hpp"
+#include "fetch/response_private.hpp"
 
 #include "url/detail/url_internals.hpp"
 
@@ -150,8 +158,8 @@ auto fetch::detail::is_fresh_response(
         const fetch::detail::response_t& response)
         -> ext::boolean
 {
-    auto current_age = ext::number<double>{get_header_value(u"Age"    , response.header_list)};
-    auto max_age     = ext::number<double>{get_header_value(u"Max-Age", response.header_list)};
+    auto current_age = ext::number<double>{get_header_value(u8"Age", response.header_list)};
+    auto max_age = ext::number<double>{get_header_value(u8"Max-Age", response.header_list)};
     return current_age < max_age;
 }
 
@@ -160,8 +168,8 @@ auto fetch::detail::is_stale_while_revalidate_response(
         const fetch::detail::response_t& response)
         -> ext::boolean
 {
-    auto current_age = ext::number<double>{get_header_value(u"Age"    , response.header_list)};
-    auto stale_lifetime = ext::number<double>{get_header_value(u"Stale-While-Revalidate", response.header_list)};
+    auto current_age = ext::number<double>{get_header_value(u8"Age", response.header_list)};
+    auto stale_lifetime = ext::number<double>{get_header_value(u8"Stale-While-Revalidate", response.header_list)};
     return is_fresh_response(response) && current_age < stale_lifetime;
 }
 
@@ -181,4 +189,51 @@ auto fetch::detail::location_url(
     return_if (!ranges::contains(redirect_status, response.status)) url::detail::url_t{u""};
     auto location = extract_header_list_values(u"Location", response.header_list);
     // TODO
+}
+
+
+auto fetch::detail::create_response_object(
+        std::unique_ptr<response_t>&& inner_response,
+        fetch::detail::header_guard_t header_guard)
+        -> std::unique_ptr<response>
+{
+    auto response_object = std::make_unique<response>();
+    response_object->d_func()->response = std::move(inner_response);
+    response_object->d_func()->headers = std::make_unique<headers>(inner_response->header_list, header_guard);
+    return response_object;
+}
+
+
+auto fetch::detail::initialize_response_object(
+        response* response_object,
+        fetch::detail::response_init_t&& init,
+        body_with_type_t&& body)
+        -> void
+{
+    using enum v8_primitive_error_t;
+    auto e = js::env::env::current(); // TODO : env
+
+    dom::detail::throw_v8_exception<V8_RANGE_ERROR>(
+            [status = init[u"status"].to<short>()] {return status < 200 || status > 599;},
+            u8"Invalid status - Must be 200 <= S < 600", e);
+
+    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+            [status_text = init[u"statusText"].to<ext::string>()] {return false; /* TODO */},
+            u8"Invalid statusText - Must match the reason-phrase token production", e);
+
+    response_object->d_func()->response->status = std::move(init[u"status"].to<ext::number<int>>());
+    response_object->d_func()->response->status_message = std::move(init[u"statusMessage"].to<ext::string>());
+    response_object->d_func()->response->header_list = std::move(init[u"headers"].to<headers_t>()); // TODO : unless empty
+
+    using namespace ext::literals;
+    if (body[0_tag])
+    {
+        dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+                [response_object] {ranges::contains(null_body_status, response_object->d_func()->response->status);},
+                u8"The given body must not have a null body status", e);
+
+        response_object->d_func()->response->body = std::move(body[0_tag]);
+        if (!body[1_tag].empty() && !header_list_contains_header(response_object->d_func()->headers->d_func()->headers_list, u8"Content-Type"))
+            append_header({u8"Content-Type", body[1_tag]}, response_object->d_func()->headers->d_func()->headers_list);
+    }
 }

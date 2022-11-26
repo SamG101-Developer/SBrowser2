@@ -5,6 +5,7 @@
 #include "ext/functional.hpp"
 #include "ext/number.hpp"
 #include "ext/pair.hpp"
+#include "ext/promise.hpp"
 #include "ext/string.hpp"
 
 #include <v8-object.h>
@@ -63,13 +64,13 @@ namespace fetch::detail
             -> ext::string; // TODO
 
     auto safely_extract_body(
-            body_init_t object)
-            -> ext::pair<body_t, ext::string>;
+            body_init_t&& object)
+            -> detail::body_with_type_t;
 
     auto extract(
-            body_init_t object,
+            body_init_t&& object,
             ext::boolean keepalive = false)
-            -> ext::pair<body_t, ext::string>;
+            -> detail::body_with_type_t;
 
     auto is_unusable(
             mixins::body* body)

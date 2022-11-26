@@ -10,11 +10,11 @@
 #include "dom/nodes/window_private.hpp"
 
 #include "fetch/_typedefs.hpp"
-#include "fetch/request.hpp"
-#include "fetch/request_private.hpp"
+#include "fetch/detail/body_internals.hpp"
 #include "fetch/headers.hpp"
 #include "fetch/headers_private.hpp"
-#include "fetch/detail/body_internals.hpp"
+#include "fetch/request.hpp"
+#include "fetch/request_private.hpp"
 
 #include "html/_typedefs.hpp"
 #include "html/detail/origin_internals.hpp"

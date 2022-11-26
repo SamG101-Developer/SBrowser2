@@ -18,11 +18,10 @@ DEFINE_PRIVATE_CLASS(fetch, request)
     MAKE_QIMPL(request);
 
     std::unique_ptr<detail::request_t> request;
-    std::unique_ptr<headers> headers;
     std::unique_ptr<dom::abort::abort_signal> signal;
 
-    auto mime_type() -> ext::string;
-    auto body() -> detail::body_t*;
+    auto mime_type() -> ext::string override;
+    auto body() -> detail::body_t* override;
 };
 
 

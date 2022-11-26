@@ -73,16 +73,15 @@ namespace fetch::detail
             const response_t& response)
             -> ext::expected<url::detail::url_t>;
 
-    auto create_response(
-            const response_t& response,
-            header_guard_t header_guard,
-            v8::Local<v8::Context> realm)
-            -> std::unique_ptr<fetch::response>;
+    auto create_response_object(
+            std::unique_ptr<response_t>&& inner_response,
+            header_guard_t header_guard)
+            -> std::unique_ptr<response>;
 
-    auto initialize_response(
-            const response& response_object,
-            ext::map<ext::string, ext::any>&& init,
-            body_t& internal_body_object)
+    auto initialize_response_object(
+            response* response_object,
+            response_init_t&& init,
+            body_with_type_t&& body = nullptr)
             -> void;
 }
 

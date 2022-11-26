@@ -15,8 +15,11 @@ DEFINE_PRIVATE_CLASS(fetch::mixins, body)
 {
     MAKE_QIMPL(body);
 
-    ext::function<auto() -> ext::string> mime_type_algorithm;
-    std::unique_ptr<detail::body_t> body;
+    std::unique_ptr<headers> headers;
+
+    // TODO : Provide default implementations?
+    virtual auto mime_type() -> ext::string = 0;
+    virtual auto body() -> detail::body_t* = 0;
 };
 
 

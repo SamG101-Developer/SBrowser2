@@ -58,10 +58,9 @@ namespace fetch::detail
     enum class request_redirect_t {FOLLOW, ERROR, MANUAL};
 
     // body related
-    using body_with_tuple = ext::tuple<body_t&, ext::string>;
-    using xml_http_request_body_init_t = ext::variant<file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
+    using xml_http_request_body_init_t = ext::variant<ext::variant_monostate_t , file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
     using body_init_t = ext::extend_variant_t<xml_http_request_body_init_t, streams::readable::readable_stream*>;
-    using body_with_type_t = ext::tuple<body_t*, ext::string>;
+    using body_with_type_t = ext::tuple<std::unique_ptr<body_t>, ext::string>;
 
     // connection related
     using network_partition_key_t = ext::pair<ext::string, ext::string>; // TODO : ?
@@ -83,8 +82,9 @@ namespace fetch::detail
     using authentication_entry_t = ext::tuple<ext::string, ext::string, v8::Local<v8::Context>>;
     using proxy_authentication_entry_t = authentication_entry_t;
 
-    // other
+    // request & response related
     using window_t = ext::variant<ext::variant_monostate_t, deferred_window_t, v8::Local<v8::Object>>;
+    using response_init_t = ext::map<ext::string, ext::any>;
 }
 
 #endif //SBROWSER2_FETCH_TYPEDEFS_HPP

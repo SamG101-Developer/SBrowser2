@@ -24,9 +24,6 @@ public constructors:
     MAKE_PIMPL(request);
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
-private constructors:
-    request();
-
 public js_methods:
     auto clone() -> std::unique_ptr<request>;
 
