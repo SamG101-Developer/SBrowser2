@@ -67,8 +67,8 @@ auto fetch::detail::fetch(
     if (ext::holds_alternative<ext::u8string>(request.body))
         request.body = as_body(request.body);
 
-    if (ext::get_and_equals<window_t>(request.window, window_t::CLIENT))
-        request.window = e.cpp.global<dom::nodes::window*>() ? e.js.global() : window_t::NO_WINDOW;
+    if (ext::get_and_equals<deferred_window_t>(request.window, deferred_window_t::CLIENT))
+        request.window = e.cpp.global<dom::nodes::window*>() ? e.js.global() : deferred_window_t::NO_WINDOW;
 
     if (request.origin == u"client")
         request.origin = *e.cpp.settings()->origin;

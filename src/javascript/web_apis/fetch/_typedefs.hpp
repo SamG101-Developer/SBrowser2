@@ -32,25 +32,30 @@ namespace fetch::detail
 
     enum class new_connection_setting_t {NO, YES, YES_AND_DEDICATED};
     enum class header_value_object_t {DICT, LIST, ITEM};
-    enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
+    enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
     enum class method_t {DELETE, GET, HEAD, OPTIONS, POST, PUT};
-    enum class initiator_type_t {NAVIGATION, AUDIO, BEACON, BODY, CSS, EARLY_HINT, EMBED, FETCH, FONT, FRAME, IFRAME, IMAGE, IMG, INPUT, LINK, OBJECT, PING, SCRIPT, TRACK, VIDEO, XMLHTTPREQUEST, OTHER};
+
+    enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
     enum class service_workers_mode_t {ALL, NONE};
-    enum class initiator_t {DOWNLOAD, IMAGESET, MANIFEST, PREFETCH, PRERENDER, XSLT, _};
-    enum class destination_t {AUDIO, AUDIOWORKLET, DOCUMENT, EMBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SERVICEWORKER, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT, _};
     enum class referrer_t {NO_REFERRER, CLIENT};
-    enum class mode_t {SAME_ORIGIN, CORS, NO_CORS, NAVIGATE, WEBSOCKET, ANONYMOUS /* Should this be here -> in HTML spec */};
-    enum class credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
-    enum class cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
-    enum class redirect_t {FOLLOW, ERROR, MANUAL};
     enum class parser_metadata_t  {PARSER_INSERTED, NOT_PARSER_INSERTED};
     enum class response_tainting_t {BASIC, CORS, OPAQUE};
-    enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
+
     enum class response_type_t {BASIC, CORS, DEFAULT, ERROR, OPAQUE, OPAQUE_REDIRECT};
     enum class response_cache_t {LOCAL, VALIDATED};
-    enum class window_t {CLIENT, NO_WINDOW};
+
+    enum class deferred_window_t {CLIENT, NO_WINDOW};
     enum class preload_response_t {PENDING};
     enum class policy_container_t {CLIENT};
+
+    enum class request_initiation_t {DOWNLOAD, IMAGESET, MANIFEST, PREFETCH, PRERENDER, XSLT, _};
+    enum class request_initiator_t {_, AUDIO, BEACON, BODY, CSS, EARLY_HINT, EMBED, FETCH, FONT, FRAME, IFRAME, IMAGE, IMG, INPUT, LINK, OBJECT, PING, SCRIPT, TRACK, VIDEO, XMLHTTPREQUEST, OTHER};
+    enum class request_destination_t {_, AUDIO, AUDIOWORLET, DOCUMENT, MEBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT, /* -- INNER -> */ SERVICEWORKER, WEBIDENTITY};
+    enum class request_mode_t {_, SAME_ORIGIN, NO_CORS, CORS, /* -- INNER -> */ NAVIGATE, WEBSOCKET, ANONYMOUS};
+    enum class request_credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
+    enum class request_cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
+    enum class request_duplex_t {HALF};
+    enum class request_redirect_t {FOLLOW, ERROR, MANUAL};
 
     // body related
     using body_with_tuple = ext::tuple<body_t&, ext::string>;
@@ -72,11 +77,14 @@ namespace fetch::detail
     using header_values_t = ext::vector<header_value_t>;
     using headers_t = ext::vector<header_t>;
 
-    using request_info_t = ext::variant<request*, ext::string>;
+    using request_info_t = ext::variant<std::unique_ptr<request>, ext::string>;
 
     // authentication related
     using authentication_entry_t = ext::tuple<ext::string, ext::string, v8::Local<v8::Context>>;
     using proxy_authentication_entry_t = authentication_entry_t;
+
+    // other
+    using window_t = ext::variant<ext::variant_monostate_t, deferred_window_t, v8::Local<v8::Object>>;
 }
 
 #endif //SBROWSER2_FETCH_TYPEDEFS_HPP

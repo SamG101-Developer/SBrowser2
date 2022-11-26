@@ -2,49 +2,49 @@
 #ifndef SBROWSER2_REQUEST_HPP
 #define SBROWSER2_REQUEST_HPP
 
+#include "dom_object.hpp"
 #include "mixins/body.hpp"
 namespace fetch {class request;}
+namespace fetch {class request_private;}
 
 #include "ext/map.hpp"
 #include "ext/variant.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
+#include INCLUDE_INNER_TYPES(referrer_policy)
 namespace dom::abort {class abort_signal;}
 namespace fetch {class headers;}
 
 
 class fetch::request
-        : public mixins::body
+        : virtual public dom_object
+        , public mixins::body
 {
 public constructors:
-    request(ext::variant<request*, ext::string> input, ext::map<ext::string, ext::any> init = {});
-    ~request() override = default;
+    request(detail::request_info_t&& input, ext::map<ext::string, ext::any> init = {});
+    MAKE_PIMPL(request);
+    MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
 public js_methods:
-    auto clone() -> request;
+    auto clone() -> std::unique_ptr<request>;
 
-private js_properties: // TODO : constrain attributes
-    DEFINE_GETTER(method, ext::string);
+private js_properties:
+    DEFINE_GETTER(method, detail::method_t);
     DEFINE_GETTER(url, ext::string);
-    DEFINE_GETTER(headers, detail::headers_t); // TODO : view
+    DEFINE_GETTER(headers, headers*);
 
-    DEFINE_GETTER(destination, ext::string);
+    DEFINE_GETTER(destination, detail::request_destination_t);
     DEFINE_GETTER(referrer, ext::string);
-    DEFINE_GETTER(referrer_policy, ext::string);
-    DEFINE_GETTER(mode, ext::string);
-    DEFINE_GETTER(credentials, ext::string);
-    DEFINE_GETTER(cache, ext::string);
-    DEFINE_GETTER(redirect, ext::string);
-    DEFINE_GETTER(integrity, ext::string);
+    DEFINE_GETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
+    DEFINE_GETTER(mode, detail::request_mode_t);
+    DEFINE_GETTER(credentials, detail::request_credentials_t);
+    DEFINE_GETTER(cache, detail::request_cache_t);
+    DEFINE_GETTER(redirect, detail::request_redirect_t);
+    DEFINE_GETTER(integrity, ext::string_view);
     DEFINE_GETTER(keepalive, ext::boolean);
     DEFINE_GETTER(is_reload_navigation, ext::boolean);
     DEFINE_GETTER(is_history_navigation, ext::boolean);
     DEFINE_GETTER(signal, dom::abort::abort_signal*);
-//
-//private cpp_methods:
-//    auto mime_type() -> ext::string;
-//
-//private cpp_properties:
-//    std::unique_ptr<detail::request_t> m_request;
+    DEFINE_GETTER(duplex, detail::request_duplex_t);
 };
 
 

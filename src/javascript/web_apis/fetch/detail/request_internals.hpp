@@ -4,6 +4,7 @@
 #include "ext/boolean.hpp"
 #include "ext/number.hpp"
 #include "ext/string.hpp"
+#include "fetch/_typedefs.hpp"
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(referrer_policy)
@@ -11,6 +12,7 @@
 
 namespace fetch {class headers;}
 namespace fetch {class request;}
+namespace js::env {class env;}
 
 
 namespace fetch::detail
@@ -54,10 +56,10 @@ namespace fetch::detail
             -> ext::boolean;
 
     auto create_request_object(
-            const request_t& request,
+            std::unique_ptr<request_t>&& inner_request,
             header_guard_t header_guard,
-            v8::Local<v8::Context> realm)
-            -> request;
+            js::env::env& e)
+            -> std::unique_ptr<request>;
 }
 
 
@@ -67,7 +69,7 @@ struct fetch::detail::request_t
     request_t(const request_t&);
     ~request_t();
 
-    ext::string method = u"GET";
+    method_t method = method_t::GET;
     std::shared_ptr<url::detail::url_t> url;
 
     ext::boolean local_urls_only_flag;
@@ -77,15 +79,15 @@ struct fetch::detail::request_t
 
     v8::Local<v8::Object> client;
     v8::Local<v8::Object> reserved_client;
-    ext::variant<window_t, v8::Local<v8::Object>> window; // TODO : type (variant with enum)
+    detail::window_t window;
 
     ext::string replaces_client;
 
     ext::boolean keep_alive = false;
-    initiator_type_t initiator_type;
     service_workers_mode_t service_workers_mode = service_workers_mode_t::ALL;
-    initiator_t initiator;
-    destination_t destination;
+    request_initiator_t initiator_type;
+    request_initiation_t initiator;
+    request_destination_t destination;
 
     auto is_script_like() -> ext::boolean;
 
@@ -96,10 +98,10 @@ struct fetch::detail::request_t
     ext::variant<referrer_t, url::detail::url_t*> referrer = referrer_t::CLIENT;
     referrer_policy::detail::referrer_policy_t referrer_policy;
 
-    mode_t mode = mode_t::NO_CORS;
-    credentials_t credentials_mode = credentials_t::SAME_ORIGIN;
-    cache_t cache_mode = cache_t::DEFAULT;
-    redirect_t redirect_mode {redirect_t::FOLLOW};
+    request_mode_t mode = request_mode_t::NO_CORS;
+    request_credentials_t credentials_mode = request_credentials_t::SAME_ORIGIN;
+    request_cache_t cache_mode = request_cache_t::DEFAULT;
+    request_redirect_t redirect_mode = request_redirect_t::FOLLOW;
     ext::boolean use_cors_preflight_flag;
     ext::boolean use_url_credentials_flag;
 
