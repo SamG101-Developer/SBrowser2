@@ -70,9 +70,10 @@ public:
     using value_t = T;
 
     constexpr number(T val): n(val) {}
-    number() = default;
+    constexpr number() = default;
     number(const number&) = default;
     number(number&&) noexcept = default;
+    number(ext::u8string_view string);
     number(ext::string_view string);
     auto operator=(const number&) -> number& = default;
     auto operator=(number&&) noexcept -> number& = default;
