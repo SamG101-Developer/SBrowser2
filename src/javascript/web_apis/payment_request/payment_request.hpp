@@ -18,8 +18,8 @@ class payment::request::payment_request
         : public dom::nodes::event_target
 {
 public constructors:
-    DOM_CTORS(payment_request);
     payment_request(ext::vector_span<detail::payment_method_data_t*> method_data, detail::payment_method_init_t&& details);
+    DOM_CTORS(payment_request);
     MAKE_PIMPL(payment_request);
     MAKE_V8_AVAILABLE;
 

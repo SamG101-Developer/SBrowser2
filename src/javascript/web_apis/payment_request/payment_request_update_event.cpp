@@ -49,11 +49,11 @@ auto payment::request::payment_request_update_event::update_with(
 
     dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [request] {return request->d_func()->state != detail::state_t::INTERACTIVE;},
-            "Request's state must be 'interactive'");
+            u8"Request's state must be 'interactive'");
 
     dom::detail::throw_v8_exception<INVALID_STATE_ERR>(
             [request] {return request->d_func()->updating;},
-            "Request cannot be updating");
+            u8"Request cannot be updating");
 
     d->stop_propagation_flag = true;
     d->stop_immediate_propagation_flag = true;
