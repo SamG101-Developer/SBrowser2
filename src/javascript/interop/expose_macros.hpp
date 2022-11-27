@@ -15,6 +15,7 @@
 #define V8_INTEROP_SUCCESSFUL_CONVERSION ext::make_tuple(true, std::move(v8_conversion))
 
 
+// TODO : Won't work: check that one of the envs are matched, and a special check for secure environments fag
 #define V8_INTEROP_CREATE_JS_OBJECT                                           \
     return_if (~(E & _allowed_v8_environments)) V8_INTEROP_FAILED_CONVERSION; \
     decltype(auto) v8_conversion = v8pp::class_<self_t>{isolate}
