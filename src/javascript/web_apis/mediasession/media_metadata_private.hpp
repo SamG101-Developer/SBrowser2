@@ -20,7 +20,7 @@ DEFINE_PRIVATE_CLASS(mediasession, media_metadata)
     ext::string title;
     ext::string artist;
     ext::string album;
-    ext::vector<detail::media_image_t> artowrk_imagesl
+    ext::vector<detail::media_image_t> artwork_images;
 };
 
 

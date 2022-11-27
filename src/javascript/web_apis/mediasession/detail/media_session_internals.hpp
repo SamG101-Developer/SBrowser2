@@ -4,8 +4,8 @@
 
 #include "ext/keywords.hpp"
 #include INCLUDE_INNER_TYPES(mediasession)
+namespace mediasession {class media_metadata;}
 namespace mediasession {class media_session;}
-namespace mediasession {class media_session_action_handler;}
 
 
 namespace mediasession::detail
@@ -22,7 +22,7 @@ namespace mediasession::detail
     auto update_action_handler(
             media_session* media_session,
             detail::media_session_action_t action,
-            media_session_action_handler* handler)
+            detail::media_session_action_handler_t&& handler)
             -> void;
 
     auto handle_media_session_actions()
@@ -39,6 +39,14 @@ namespace mediasession::detail
 
     auto current_playback_position()
             -> ext::number<double>;
+
+    auto empty_metadata(
+            media_metadata* metadata)
+            -> ext::boolean;
+
+    auto convert_artwork(
+            ext::vector<media_image_t>&& input)
+            -> ext::vector<media_image_t>;
 }
 
 

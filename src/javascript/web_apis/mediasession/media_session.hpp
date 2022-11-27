@@ -21,7 +21,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
-    auto set_action_handler(detail::media_session_action_t action, detail::media_session_action_handler_t handler) -> void;
+    auto set_action_handler(detail::media_session_action_t action, detail::media_session_action_handler_t&& handler) -> void;
     auto set_position_state(detail::media_position_state_t&& state = {}) -> void;
     auto set_microphone_active(ext::boolean active) -> void;
     auto set_camera_active(ext::boolean active) -> void;

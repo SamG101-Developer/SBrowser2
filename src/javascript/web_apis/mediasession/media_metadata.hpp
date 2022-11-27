@@ -21,10 +21,15 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
 
 public js_properties:
-    DEFINE_GETTER(title, ext::string);
-    DEFINE_GETTER(artist, ext::string);
-    DEFINE_GETTER(album, ext::string);
-    DEFINE_GETTER(artwork, ext::vector<detail::media_image_t>);
+    DEFINE_GETTER(title, ext::string_view);
+    DEFINE_GETTER(artist, ext::string_view);
+    DEFINE_GETTER(album, ext::string_view);
+    DEFINE_GETTER(artwork, ext::frozen_vector<detail::media_image_t>&);
+
+    DEFINE_SETTER(title, ext::string);
+    DEFINE_SETTER(artist, ext::string);
+    DEFINE_SETTER(album, ext::string);
+    DEFINE_SETTER(artwork, ext::frozen_vector<detail::media_image_t>&);
 };
 
 

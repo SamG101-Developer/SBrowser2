@@ -58,6 +58,9 @@ namespace html::detail
 
     /* [WEB-SOCKETS] */
     task_queue_t websocket_task_source;
+
+    /* [MEDIASESSION] */
+    task_queue_t media_session_task_source;
 }
 
 
