@@ -40,6 +40,15 @@ auto html::mixins::content_editable::get_input_mode() const -> detail::editable_
 }
 
 
+auto html::mixins::content_editable::get_virtual_keyboard_policy() const -> virtual_keyboard::detail::policy_t
+{
+    CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL(const content_editable);
+        return d->virtual_keyboard_policy;
+    CE_REACTIONS_METHOD_EXE
+}
+
+
 auto html::mixins::content_editable::set_content_editable(
         ext::string new_content_editable)
         -> ext::string

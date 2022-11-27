@@ -8,6 +8,7 @@ namespace html::mixins {class content_editable_private;}
 
 #include "ext/boolean.hpp"
 #include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(virtual_keyboard)
 
 
 class html::mixins::content_editable
@@ -27,6 +28,9 @@ private js_properties:
     DEFINE_SETTER(content_editable, ext::string);
     DEFINE_SETTER(enter_key_hit, detail::editable_enter_key_hit_t);
     DEFINE_SETTER(input_mode, detail::editable_input_mode_t);
+
+    /* [VIRTUAL-KEYBOARD] */
+    DEFINE_GETTER(virtual_keyboard_policy, virtual_keyboard::detail::policy_t);
 };
 
 

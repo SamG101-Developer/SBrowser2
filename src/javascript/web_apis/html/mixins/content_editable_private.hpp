@@ -9,6 +9,7 @@
 #include "ext/boolean.hpp"
 #include "ext/optional.hpp"
 #include INCLUDE_INNER_TYPES(html)
+#include INCLUDE_INNER_TYPES(virtual_keyboard)
 
 
 DEFINE_PRIVATE_CLASS(html::mixins, content_editable) : virtual dom_object_private
@@ -17,6 +18,9 @@ DEFINE_PRIVATE_CLASS(html::mixins, content_editable) : virtual dom_object_privat
 
     detail::editable_enter_key_hit_t enter_key_hit;
     detail::editable_input_mode_t input_mode;
+
+    /* [VIRTUAL-KEYBOARD] */
+    virtual_keyboard::detail::policy_t virtual_keyboard_policy;
 };
 
 
