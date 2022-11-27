@@ -12,6 +12,7 @@
 #include "badging/mixins/navigator_badge.hpp"
 #include "device_memory/mixins/navigator_device_memory.hpp"
 #include "storage/mixins/navigator_storage.hpp"
+#include "web_locks/mixins/navigator_locks.hpp"
 namespace html::navigators {class navigator;}
 namespace html::navigators {class navigator_private;}
 
@@ -52,6 +53,7 @@ class html::navigators::navigator
         , public badging::mixins::navigator_badge
         , public device_memory::mixins::navigator_device_memory
         , public storage::mixins::navigator_storage
+        , public web_locks::mixins::navigator_locks
 {
 private aliases:
     using navigator_user_media_success_callback_t = ext::function<void(mediacapture::main::media_stream*)>;

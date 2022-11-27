@@ -9,6 +9,7 @@
 #include "badging/mixins/navigator_badge.hpp"
 #include "device_memory/mixins/navigator_device_memory.hpp"
 #include "storage/mixins/navigator_storage.hpp"
+#include "web_locks/mixins/navigator_locks.hpp"
 namespace html::workers {class worker_navigator;}
 namespace html::workers {class worker_navigator_private;}
 

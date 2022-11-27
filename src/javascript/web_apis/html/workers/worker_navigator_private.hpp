@@ -23,6 +23,7 @@ DEFINE_PRIVATE_CLASS(html::workers, worker_navigator)
         , public badging::mixins::navigator_badge_private
         , public device_memory::mixins::navigator_device_memory_private
         , public storage::mixins::navigator_storage_private
+        , public web_locks::mixins::navigator_locks
 {};
 
 

@@ -80,6 +80,30 @@ namespace html::detail
             navigation_params_t&& params)
             -> std::unique_ptr<dom::nodes::document>;
 
+    auto load_html_document(
+            navigation_params_t&& params)
+            -> std::unique_ptr<dom::nodes::document>;
+
+    auto load_html_document(
+            navigation_params_t&& params,
+            ext::string&& type)
+            -> std::unique_ptr<dom::nodes::document>;
+
+    auto load_text_document(
+            navigation_params_t&& params,
+            ext::string&& type)
+            -> std::unique_ptr<dom::nodes::document>;
+
+    auto load_mulitpart_document(
+            navigation_params_t&& params
+            /* TODO */)
+            -> std::unique_ptr<dom::nodes::document>;
+
+    auto load_media_document(
+            navigation_params_t&& params,
+            ext::string&& type)
+            -> std::unique_ptr<dom::nodes::document>;
+
     /* [FULLSCREEN] TODO : move to correct file */
     auto m_fullscreen_element(
             dom::nodes::document* document)

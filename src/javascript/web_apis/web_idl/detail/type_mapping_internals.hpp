@@ -159,8 +159,11 @@ namespace web_idl::detail
     template <typename T, ext::callable F>
     auto upon_fulfillment(ext::promise<T>& promise, v8::Local<v8::Context> realm, F&& steps) -> ext::promise<T>&;
 
-    template <typename T, typename F>
+    template <typename T, ext::callable F>
     auto upon_rejection(ext::promise<T>& promise, v8::Local<v8::Context> realm, F&& steps) -> ext::promise<T>&;
+
+    template <typename T, ext::callable F>
+    auto upon_settlement(ext::promise<T>& promise, v8::Local<v8::Context> realm, F&& steps) -> ext::promise<T>&;
 
     template <typename T, ext::callable F0, ext::callable F1>
     auto wait_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm, F0&& success_steps, F1&& failure_steps) -> void;

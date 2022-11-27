@@ -61,6 +61,9 @@ namespace html::detail
 
     /* [MEDIASESSION] */
     task_queue_t media_session_task_source;
+
+    /* [WEB-LOCKS] */
+    task_queue_t web_locks_task_source;
 }
 
 

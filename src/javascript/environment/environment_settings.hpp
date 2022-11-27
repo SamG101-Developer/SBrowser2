@@ -13,6 +13,7 @@ namespace js::env {struct settings_t;}
 #include <v8pp/convert.hpp>
 namespace service_workers::workers {class service_worker_private;}
 namespace service_workers::workers {class service_worker;}
+namespace web_locks {class lock_manager;}
 
 
 struct js::env::settings_t
@@ -50,6 +51,9 @@ struct js::env::settings_t
 
     /* [SERVICE-WORKERS] */
     ext::map<service_workers::workers::service_worker_private*, service_workers::workers::service_worker*> service_worker_object_map;
+
+    /* [WEB-LOCKS] */
+    std::unique_ptr<web_locks::lock_manager> lock_manager;
 
     static auto to_v8(v8::Isolate* isolate)
     {return v8pp::class_<settings_t>{isolate};}

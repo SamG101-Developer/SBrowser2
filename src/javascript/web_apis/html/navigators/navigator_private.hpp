@@ -14,6 +14,7 @@
 #include "badging/mixins/navigator_badge_private.hpp"
 #include "device_memory/mixins/navigator_device_memory_private.hpp"
 #include "storage/mixins/navigator_storage_private.hpp"
+#include "web_locks/mixins/navigator_locks_private.hpp"
 
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
@@ -35,6 +36,7 @@ DEFINE_PRIVATE_CLASS(html::navigators, navigator)
         , public badging::mixins::navigator_badge_private
         , public device_memory::mixins::navigator_device_memory_private
         , public storage::mixins::navigator_storage_private
+        , public web_locks::mixins::navigator_locks_private
 {
     /* [BATTERY] */
     ext::promise<battery::battery_manager*> battery_promise;
