@@ -61,7 +61,7 @@ struct filesystem::detail::file_entry_t : entry_t
 
 struct filesystem::detail::directory_entry_t : entry_t
 {
-    ext::set<std::unique_ptr<entry_t>> children;
+    ext::set<std::shared_ptr<entry_t>> children;
     std::observer_ptr<entry_t> parent;
 };
 
