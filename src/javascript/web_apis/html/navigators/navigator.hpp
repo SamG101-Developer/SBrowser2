@@ -33,6 +33,7 @@ namespace html::elements {class html_media_element;}
 namespace media::capabilities {class media_capabilities;}
 namespace mediacapture::main {class media_devices;}
 namespace mediacapture::main {class media_stream;}
+namespace mediasession {class media_session;}
 namespace permissions {class permission;}
 namespace service_workers::workers {class service_worker_container;}
 namespace webappsec::credential_management {class credentials_container;}
@@ -124,6 +125,9 @@ private js_properties:
 
     /* [SCREN-WAKE-LOCK] */
     DEFINE_GETTER(wake_lock, screen_wake_lock::wake_lock); // TODO : attribute name
+
+    /* [MEDIA_SESSION] */
+    DEFINE_GETTER(media_session, mediasession::media_session*);
 };
 
 #endif //SBROWSER2_NAVIGATOR_HPP

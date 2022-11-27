@@ -19,6 +19,7 @@
 #include "ext/vector.hpp"
 namespace battery {class battery_manager;}
 namespace gamepad {class gamepad;}
+namespace mediasession {class media_session;}
 
 
 DEFINE_PRIVATE_CLASS(html::navigators, navigator)
@@ -42,6 +43,9 @@ DEFINE_PRIVATE_CLASS(html::navigators, navigator)
     /* [GAMEPAD] */
     ext::boolean has_gamepad_gesture;
     ext::vector<gamepad::gamepad*> gamepads;
+
+    /* [MEDIASESSION] */
+    std::unique_ptr<mediasession::media_session> media_session;
 };
 
 
