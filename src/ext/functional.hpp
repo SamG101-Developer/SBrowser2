@@ -118,12 +118,15 @@ namespace ops
 }
 
 
-#define BIND_FRONT(function, ...)                 \
+#define BIND_NO_ARGS(function)                     \
+    []<typename ..._Args>(_Args&&... args) mutable \
+    {return function(std::forward<_Args>(args)...);}
+
+#define BIND_FRONT(function, ...)                   \
     [&]<typename ..._Args>(_Args&&... args) mutable \
     {return function(__VA_ARGS__, std::forward<_Args>(args)...);}
 
-
-#define BIND_BACK(function, ...)                  \
+#define BIND_BACK(function, ...)                    \
     [&]<typename ..._Args>(_Args&&... args) mutable \
     {return function(std::forward<_Args>(args)..., __VA_ARGS__);}
 
