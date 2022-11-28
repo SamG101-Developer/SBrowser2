@@ -28,10 +28,10 @@ struct dom_object_private
             cloning_steps;
 
     BEHAVIOUR_METHOD(
-            ext::string local_name,
-            ext::string old_value,
-            ext::string new_value,
-            ext::string namespace_)
+            ext::string_view local_name,
+            ext::string_view old_value,
+            ext::string_view new_value,
+            ext::string_view namespace_)
             attribute_change_steps;
 
     BEHAVIOUR_METHOD()

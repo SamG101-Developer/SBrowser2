@@ -1,7 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/memory.hpp"
+#include <thread>
 #include INCLUDE_INNER_TYPES(html)
 
 
@@ -9,6 +10,7 @@ struct html::detail::task_queue_t
 {
     ext::queue<task_t> queue;
     ext::boolean enabled;
+    std::observer_ptr<std::thread::id> id;
 };
 
 
