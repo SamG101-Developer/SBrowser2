@@ -46,7 +46,7 @@ namespace dom::detail
             -> void;
 
     auto invoke(
-            event_path_struct_t* s,
+            event_path_struct_t& s,
             events::event* event,
             ext::number<uchar> phase)
             -> void;

@@ -22,9 +22,9 @@ DEFINE_PRIVATE_CLASS(dom::events, event)
     ext::boolean cancelable;
     ext::boolean composed;
 
-    nodes::event_target* target;
-    nodes::event_target* current_target;
-    nodes::event_target* related_target;
+    std::observer_ptr<nodes::event_target> target;
+    std::observer_ptr<nodes::event_target> current_target;
+    std::observer_ptr<nodes::event_target> related_target;
 
     ext::number<ushort> event_phase;
     ext::number<double> time_stamp;

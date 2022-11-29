@@ -60,7 +60,7 @@ namespace dom::detail
     using mutation_callback_t = ext::function<void(const ext::vector<mutations::mutation_record*>&, mutations::mutation_observer*)>;
     using static_range_init_t = ext::map<ext::string, ext::any>;
     using touch_targets_t = ext::vector<nodes::event_target*>;
-    using path_t = ext::vector<detail::event_path_struct_t*>;
+    using path_t = ext::vector<std::unique_ptr<detail::event_path_struct_t>>;
     using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
     using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::elements::html_script_element>, std::unique_ptr<svg::elements::svg_script_element>>;
