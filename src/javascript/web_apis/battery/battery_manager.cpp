@@ -12,6 +12,8 @@ battery::battery_manager::battery_manager()
 
 auto battery::battery_manager::get_charging() const -> ext::boolean
 {
+    // The 'charging' getter returns the equivalent 'charging' attribute value that is stored in the private class.
+    // Method call becuase the value is always changing, and has to be got at the exact time the property is accessed.
     ACCESS_PIMPL(const battery_manager);
     return d->charging();
 }
@@ -19,6 +21,9 @@ auto battery::battery_manager::get_charging() const -> ext::boolean
 
 auto battery::battery_manager::get_charging_time() const -> ext::number<double>
 {
+    // The 'charging_time' getter returns the equivalent 'charging_time' attribute value that is stored in the private
+    // class. Method call becuase the value is always changing, and has to be got at the exact time the property is
+    // accessed.
     ACCESS_PIMPL(const battery_manager);
     return d->charging_time();
 }
@@ -26,6 +31,9 @@ auto battery::battery_manager::get_charging_time() const -> ext::number<double>
 
 auto battery::battery_manager::get_discharging_time() const -> ext::number<double>
 {
+    // The 'discharging_time' getter returns the equivalent 'discharging_time' attribute value that is stored in the
+    // private class. Method call becuase the value is always changing, and has to be got at the exact time the property
+    // is accessed.
     ACCESS_PIMPL(const battery_manager);
     return d->discharging_time();
 }
@@ -33,6 +41,8 @@ auto battery::battery_manager::get_discharging_time() const -> ext::number<doubl
 
 auto battery::battery_manager::get_level() const -> ext::number<double>
 {
+    // The 'level' getter returns the equivalent 'level' attribute value that is stored in the private class. Method
+    // call becuase the value is always changing, and has to be got at the exact time the property is accessed.
     ACCESS_PIMPL(const battery_manager);
     return d->level();
 }

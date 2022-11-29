@@ -10,6 +10,7 @@ device_posture::device_posture::device_posture()
 
 auto device_posture::device_posture::get_type() const -> detail::device_posture_type_t
 {
+    // The 'type' getter returns the equivalent 'current_posture' attribute value that is stored in the private class.
     ACCESS_PIMPL(const device_posture);
     return d->current_posture;
 }

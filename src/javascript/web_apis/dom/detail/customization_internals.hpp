@@ -21,10 +21,10 @@ namespace dom::detail
     // custom element creation and upgrading
     auto create_an_element(
             nodes::document* document,
-            const ext::string& local_name,
-            const ext::string& namespace_,
-            const ext::string& prefix = u8"",
-            const ext::string& is = u8"",
+            ext::string&& local_name,
+            ext::string&& namespace_,
+            ext::string&& prefix = u"",
+            ext::string&& is = u"",
             ext::boolean  synchronous_custom_elements_flag = false)
             -> std::unique_ptr<nodes::element>;
 

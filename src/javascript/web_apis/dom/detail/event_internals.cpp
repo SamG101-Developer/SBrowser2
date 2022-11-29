@@ -38,10 +38,11 @@ auto dom::detail::flatten_more(
         event_listener_options_t&& options)
         -> ext::map<ext::string, ext::any>
 {
-    // return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
-    return ext::holds_alternative<ext::boolean>(std::move(options))
-           ? ext::map<ext::string, ext::any>{std::make_pair(u"capture", ext::get<ext::boolean>(std::move(options)))}
-           : ext::get<ext::map<ext::string, ext::any>>(std::move(options));
+    // Return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
+    // object. This just acts as a normalizer to get the "capture" value in map form.
+    return ext::holds_alternative<ext::boolean>(options)
+           ? ext::map<ext::string, ext::any>{{u"capture", ext::get<ext::boolean>(options)}}
+           : ext::get<ext::map<ext::string, ext::any>>(options);
 }
 
 
@@ -49,9 +50,10 @@ auto dom::detail::flatten(
         event_listener_options_t&& options)
         -> ext::boolean
 {
-    // return the boolean if a boolean value is being stored in the variant, otherwise the capture option of the map
-    return ext::holds_alternative<ext::boolean>(std::move(options))
-           ? ext::get<ext::boolean>(std::move(options))
+    // Return the boolean "capture" value if a boolean value is being stored in the variant, otherwise the capture
+    // option of the map. This just acts as a normalizer to get the boolean representation of the "capture" value
+    return ext::holds_alternative<ext::boolean>(options)
+           ? ext::get<ext::boolean>(options)
            : ext::get<ext::map<ext::string, ext::any>>(options).at(u"capture").to<ext::boolean>();
 }
 

@@ -40,7 +40,7 @@ DEFINE_PRIVATE_CLASS(html::navigators, navigator)
 {
     /* [BATTERY] */
     ext::promise<battery::battery_manager*> battery_promise;
-    battery::battery_manager* battery_manager;
+    std::unique_ptr<battery::battery_manager> battery_manager;
 
     /* [GAMEPAD] */
     ext::boolean has_gamepad_gesture;

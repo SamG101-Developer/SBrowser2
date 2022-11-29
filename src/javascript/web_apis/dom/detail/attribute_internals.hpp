@@ -15,8 +15,8 @@ namespace dom::detail
     auto handle_attributes_changes(
             const nodes::attr* attribute,
             nodes::element* owner_element,
-            const ext::string& old_value,
-            const ext::string& new_value)
+            ext::string_view old_value,
+            ext::string_view new_value)
             -> void;
 
     // general mutations to attributes
@@ -32,7 +32,7 @@ namespace dom::detail
 
     auto remove(
             nodes::attr* attribute)
-            -> nodes::attr*;
+            -> std::unique_ptr<nodes::attr>;
 
     auto replace(
             nodes::attr* old_attribute,
@@ -40,10 +40,10 @@ namespace dom::detail
             -> nodes::attr*;
 
     auto create(
-            const ext::string& local_name,
-            const ext::string& namespace_ = "",
-            const ext::string& value = "",
-            const ext::string& prefix = "",
+            ext::string&& local_name,
+            ext::string&& namespace_ = u"",
+            ext::string&& value = u"",
+            ext::string&& prefix = u"",
             nodes::document* owner_document = nullptr)
             -> std::unique_ptr<nodes::attr>;
 
@@ -61,8 +61,8 @@ namespace dom::detail
             nodes::element* owner_element,
             nodes::attr* attribute,
             ext::optional<ext::boolean> force,
-            ext::string_view qualified_name = "",
-            ext::string_view namespace_ = "")
+            ext::string_view qualified_name = u"",
+            ext::string_view namespace_ = u"")
             -> nodes::attr*;
 
     // setter helpers

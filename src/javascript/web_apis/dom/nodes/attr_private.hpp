@@ -4,6 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom/nodes/node_private.hpp"
 
+#include "ext/memory.hpp"
 #include "ext/string.hpp"
 namespace dom::nodes {class element;}
 
@@ -17,7 +18,7 @@ DEFINE_PRIVATE_CLASS(dom::nodes, attr)
     ext::string namespace_prefix;
     ext::string local_name;
     ext::string value;
-    dom::nodes::element* element;
+    std::observer_ptr<dom::nodes::element> element;
 };
 
 

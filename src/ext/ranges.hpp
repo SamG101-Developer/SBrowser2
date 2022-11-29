@@ -306,12 +306,12 @@ namespace ranges::actions
             {ranges::actions::transform(std::forward<Rng>(rng) COMMA _EXT to_upper); return std::forward<Rng>(rng);})
 
     RANGE_ACTION_STRUCT(replace,
-            template <typename T COMMA _EXT callable F>
-            constexpr auto operator()(T&& old_value, T&& new_value, F&& proj = _EXT identity) const
+            template <typename T COMMA typename U COMMA _EXT callable F>
+            constexpr auto operator()(T&& old_value, U&& new_value, F&& proj = _EXT identity) const
             {
         return ranges::actions::transform(
-                [old_value = std::forward<T>(old_value), new_value = std::forward<T>(new_value), f = std::forward<F>(proj)](T&& current_value) mutable
-                {return f(std::forward<T>(current_value)) == std::forward<T>(old_value) ? std::forward<T>(new_value) : std::forward<T>(current_value);});
+                [old_value = std::forward<T>(old_value), new_value = std::forward<U>(new_value), f = std::forward<F>(proj)]<typename V>(V&& current_value) mutable
+                {return f(std::forward<V>(current_value)) == std::forward<T>(old_value) ? std::forward<U>(new_value) : std::forward<V>(current_value);});
             })
 
     RANGE_ACTION_STRUCT(replace_if,

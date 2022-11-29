@@ -15,8 +15,8 @@
 #include <v8-object.h>
 
 
-template <typename ...Args>
-auto console::detail::logger(detail::log_level_t log_level, Args&& ...args) -> void
+template <ext::type_is_enum E, typename ...Args>
+auto console::detail::logger(E log_level, Args&& ...args) -> void
 {
     constexpr_return_if (sizeof...(args) == 0);
 

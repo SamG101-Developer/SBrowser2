@@ -36,9 +36,9 @@ namespace dom::detail
     auto queue_mutation_record(
             mutation_type_t type,
             nodes::node* target,
-            const std::string& name,
-            const std::string& namespace_,
-            const std::string& old_value,
+            ext::string_view name,
+            ext::string_view namespace_,
+            ext::string_view old_value,
             ext::vector_span<nodes::node*> added_nodes,
             ext::vector_span<nodes::node*> removed_nodes,
             nodes::node* previous_sibling,

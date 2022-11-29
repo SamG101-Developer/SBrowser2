@@ -73,6 +73,8 @@ auto console::console::clear() -> void
 template <typename ...Args>
 auto console::console::debug(Args&& ...data) -> void
 {
+    // Log data at the debug level by calling the internal logger with the level set to DEBUG - forward the rest of the
+    // arguments through to the logger.
     detail::logger(detail::log_level_t::DEBUG, std::forward<Args>(data)...);
 }
 
@@ -80,6 +82,8 @@ auto console::console::debug(Args&& ...data) -> void
 template <typename ...Args>
 auto console::console::error(Args&& ...data) -> void
 {
+    // Log data at the error level by calling the internal logger with the level set to ERROR - forward the rest of the
+    // arguments through to the logger.
     detail::logger(detail::log_level_t::ERROR, std::forward<Args>(data)...);
 }
 
@@ -87,6 +91,8 @@ auto console::console::error(Args&& ...data) -> void
 template <typename ...Args>
 auto console::console::info(Args&& ...data) -> void
 {
+    // Log data at the info level by calling the internal logger with the level set to INFO - forward the rest of the
+    // arguments through to the logger.
     detail::logger(detail::log_level_t::INFO, std::forward<Args>(data)...);
 }
 
@@ -94,6 +100,8 @@ auto console::console::info(Args&& ...data) -> void
 template <typename ...Args>
 auto console::console::log(Args&& ...data) -> void
 {
+    // Log data at the log level by calling the internal logger with the level set to LOG - forward the rest of the
+    // arguments through to the logger.
     detail::logger(detail::log_level_t::LOG, std::forward<Args>(data)...);
 }
 
@@ -101,6 +109,8 @@ auto console::console::log(Args&& ...data) -> void
 template <typename ...Args>
 auto console::console::warn(Args&& ...data) -> void
 {
+    // Log data at the warn level by calling the internal logger with the level set to WARN - forward the rest of the
+    // arguments through to the logger.
     detail::logger(detail::log_level_t::WARN, std::forward<Args>(data)...);
 }
 
@@ -150,8 +160,14 @@ auto console::console::table(
 template <typename ...Args>
 auto console::console::trace(Args&& ...data) -> void
 {
-    auto* isolate = v8::Isolate::GetCurrent();
+    // Get the isolate (current isolate), and the current trace. Do this by using the v8 internals to grab the current
+    // stack trace for the isolate, limited to a fixed value TODO : what should this value be
+    decltype(auto) isolate = v8::Isolate::GetCurrent();
     auto trace = v8pp::from_v8<ext::vector<ext::string>>(isolate, v8::StackTrace::CurrentStackTrace(isolate, 10));
+
+    // Form the data by forwarding the aguments into the internal formatter, and emplace this new data at the front of
+    // the stack trace ie the most recent information to be shwon (shown first). Convert the string-vector into a tuple
+    // and apply the tuple into the internal printer, with the print level set to TRACE.
     auto formatted_data = detail::formatter(std::forward<Args>(data)...);
     trace.template emplace_front(formatted_data);
     ext::apply(BIND_FRONT(detail::printer, detail::print_type_t::TRACE), ext::make_tuple(std::move(trace)));
@@ -161,22 +177,28 @@ auto console::console::trace(Args&& ...data) -> void
 template <typename T>
 auto console::console::dir(ext::any&& item, T&& options) -> void
 {
+    // Call the internal printer with the print level set to the DIR level, the one item
     detail::printer(detail::print_type_t::DIR, ext::vector<ext::any>{std::move(item)}, std::forward<T>(options));
 }
 
 
 auto console::console::count(ext::string&& label) -> void
 {
+    // Increment the label's count by 1 (if it doesn't already exist in the map, then it is auto initialized to 0, due
+    // to the try_emplace(...) methiod bing called internally.
     ACCESS_PIMPL(console);
-    d->count_map[label] += 1; // If doesn't exists -> becomes 0, then incrmenets to 1
+    auto new_count = d->count_map[label] += 1;
 
-    auto concat = label + char16_t(0x003a) + char16_t(0x0020) + ext::to_string(d->count_map.at(std::move(label)));
+    // Call the internal logger with the log level set to the COUNT level method to log a formatted version of the
+    // label, with the new count of 'label'.
+    auto concat = label + char16_t(0x003a) + char16_t(0x0020) + ext::to_string(new_count);
     detail::logger(detail::count_type_t::COUNT, concat);
 }
 
 
 auto console::console::count_reset(ext::string&& label) -> void
 {
+    // Set the count of the label to 0, whether the label exists or not.
     ACCESS_PIMPL(console);
     d->count_map.insert_or_assign(std::move(label), 0);
 }
@@ -187,9 +209,12 @@ auto console::console::group(Args&& ...data) -> void
 {
     ACCESS_PIMPL(console);
 
+    // Create a new group, and set the label to the value from calling the internal formatter, forwarding the data into
+    // the method. Call the internal print method with the print label set to GROUP, and print the created group. Push
+    // the new group onto the group stack.
     decltype(auto) group = std::make_unique<detail::group_t>();
     group->label = detail::formatter(std::forward<Args>(data)...);
-    detail::printer(detail::group_type_t::GROUP, std::move(group));
+    detail::printer(detail::group_type_t::GROUP, *group);
     d->group_stack.push(std::move(group));
 }
 
@@ -199,9 +224,12 @@ auto console::console::group_collapsed(Args&& ...data) -> void
 {
     ACCESS_PIMPL(console);
 
+    // Create a new group, and set the label to the value from calling the internal formatter, forwarding the data into
+    // the method. Call the internal print method with the print label set to GROUP_COLLAPSED, and print the created
+    // group. Push the new group onto the group stack.
     decltype(auto) group = std::make_unique<detail::group_t>();
     group->label = detail::formatter(std::forward<Args>(data)...);
-    detail::printer(detail::group_type_t::GROUP_COLLAPSED, std::move(group));
+    detail::printer(detail::group_type_t::GROUP_COLLAPSED, *group);
     d->group_stack.push(std::move(group));
 }
 

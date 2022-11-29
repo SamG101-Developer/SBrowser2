@@ -4,6 +4,9 @@
 
 auto device_memory::mixins::navigator_device_memory::get_device_memory() const -> ext::number<double>
 {
+    // The 'device_memory' getter returns the equivalent 'device_memory' attribute value that is stored in the private
+    // class. Method call becuase the value is always changing, and has to be got at the exact time the property is
+    // accessed.
     ACCESS_PIMPL(const navigator_device_memory);
     return d->device_memory();
 

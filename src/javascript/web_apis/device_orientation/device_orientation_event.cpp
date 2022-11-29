@@ -27,6 +27,7 @@ auto device_orientation::device_orientation_event::request_permission() -> ext::
 
 auto device_orientation::device_orientation_event::get_alpha() const -> ext::number<double>
 {
+    // The 'alpha' getter returns the equivalent 'alpha' attribute value that is stored in the private class.
     ACCESS_PIMPL(const device_orientation_event);
     return d->alpha;
 }
@@ -34,6 +35,7 @@ auto device_orientation::device_orientation_event::get_alpha() const -> ext::num
 
 auto device_orientation::device_orientation_event::get_beta() const -> ext::number<double>
 {
+    // The 'beta' getter returns the equivalent 'beta' attribute value that is stored in the private class.
     ACCESS_PIMPL(const device_orientation_event);
     return d->beta;
 }
@@ -41,6 +43,7 @@ auto device_orientation::device_orientation_event::get_beta() const -> ext::numb
 
 auto device_orientation::device_orientation_event::get_gamma() const -> ext::number<double>
 {
+    // The 'gamma' getter returns the equivalent 'gamma' attribute value that is stored in the private class.
     ACCESS_PIMPL(const device_orientation_event);
     return d->gamma;
 }
@@ -48,6 +51,7 @@ auto device_orientation::device_orientation_event::get_gamma() const -> ext::num
 
 auto device_orientation::device_orientation_event::get_absolute() const -> ext::boolean
 {
+    // The 'absolute' getter returns the equivalent 'absolute' attribute value that is stored in the private class.
     ACCESS_PIMPL(const device_orientation_event);
     return d->absolute;
 }

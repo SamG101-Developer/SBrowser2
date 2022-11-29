@@ -12,6 +12,7 @@ contact_picker::contact_address::contact_address()
 
 auto contact_picker::contact_address::get_city() const -> ext::string_view
 {
+    // The 'city' getter returns the equivalent 'city' attribute value that is stored in the private class.
     ACCESS_PIMPL(const contact_address);
     return d->city;
 }
@@ -19,6 +20,7 @@ auto contact_picker::contact_address::get_city() const -> ext::string_view
 
 auto contact_picker::contact_address::get_country() const -> ext::string_view
 {
+    // The 'country' getter returns the equivalent 'country' attribute value that is stored in the private class.
     ACCESS_PIMPL(const contact_address);
     return d->country;
 }
@@ -26,6 +28,8 @@ auto contact_picker::contact_address::get_country() const -> ext::string_view
 
 auto contact_picker::contact_address::get_dependant_locality() const -> ext::string_view
 {
+    // The 'dependant_locality' getter returns the equivalent 'dependant_locality' attribute value that is stored in the
+    // private class.
     ACCESS_PIMPL(const contact_address);
     return d->dependent_locality;
 }
@@ -33,6 +37,8 @@ auto contact_picker::contact_address::get_dependant_locality() const -> ext::str
 
 auto contact_picker::contact_address::get_organization() const -> ext::string_view
 {
+    // The 'organization' getter returns the equivalent 'organization' attribute value that is stored in the private
+    // class.
     ACCESS_PIMPL(const contact_address);
     return d->organization;
 }
@@ -40,6 +46,7 @@ auto contact_picker::contact_address::get_organization() const -> ext::string_vi
 
 auto contact_picker::contact_address::get_phone() const -> ext::string_view
 {
+    // The 'phone' getter returns the equivalent 'phone' attribute value that is stored in the private class.
     ACCESS_PIMPL(const contact_address);
     return d->phone_number;
 }
@@ -47,6 +54,8 @@ auto contact_picker::contact_address::get_phone() const -> ext::string_view
 
 auto contact_picker::contact_address::get_postal_code() const -> ext::string_view
 {
+    // The 'postal_code' getter returns the equivalent 'postal_code' attribute value that is stored in the private
+    // class.
     ACCESS_PIMPL(const contact_address);
     return d->postal_code;
 }
@@ -54,6 +63,7 @@ auto contact_picker::contact_address::get_postal_code() const -> ext::string_vie
 
 auto contact_picker::contact_address::get_recipient() const -> ext::string_view
 {
+    // The 'recipient' getter returns the equivalent 'recipient' attribute value that is stored in the private class.
     ACCESS_PIMPL(const contact_address);
     return d->recipient;
 }
@@ -61,6 +71,7 @@ auto contact_picker::contact_address::get_recipient() const -> ext::string_view
 
 auto contact_picker::contact_address::get_region() const -> ext::string_view
 {
+    // The 'region' getter returns the equivalent 'region' attribute value that is stored in the private class.
     ACCESS_PIMPL(const contact_address);
     return d->region;
 }
@@ -68,6 +79,8 @@ auto contact_picker::contact_address::get_region() const -> ext::string_view
 
 auto contact_picker::contact_address::get_sorting_code() const -> ext::string_view
 {
+    // The 'sorting_code' getter returns the equivalent 'sorting_code' attribute value that is stored in the private
+    // class.
     ACCESS_PIMPL(const contact_address);
     return d->sorting_code;
 }
@@ -75,6 +88,8 @@ auto contact_picker::contact_address::get_sorting_code() const -> ext::string_vi
 
 auto contact_picker::contact_address::get_address_line() const -> ext::vector<ext::string>
 {
+    // The 'address_line' getter returns the equivalent 'address_line' attribute value that is stored in the private
+    // class.
     ACCESS_PIMPL(const contact_address);
     return d->address_line;
 }

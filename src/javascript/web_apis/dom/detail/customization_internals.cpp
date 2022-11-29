@@ -19,10 +19,10 @@
 
 auto dom::detail::create_an_element(
         nodes::document* document,
-        const ext::string& local_name,
-        const ext::string& namespace_,
-        const ext::string& prefix,
-        const ext::string& is,
+        ext::string&& local_name,
+        ext::string&& namespace_,
+        ext::string&& prefix,
+        ext::string&& is,
         ext::boolean  synchronous_custom_elements_flag)
         -> std::unique_ptr<nodes::element>
 {
@@ -36,7 +36,7 @@ auto dom::detail::create_an_element(
 
     // case for when there is a valid definition for the parameters, and the definition's name is the same as the
     // definition's local name (JavaScript: ... extends ...)
-    if (definition.has_value() && definition->name == definition->local_name)
+    if (definition.has_value() && (*definition)->name == (*definition)->local_name)
     {
         // try to upgrade the element to the correct interface stored in the definition (ie a HTMLElement is created in
         // place of the Element class - pointer casting allows this) synchronously
@@ -46,11 +46,11 @@ auto dom::detail::create_an_element(
             result = element_interface(local_name, namespace_);
             result->d_func()->node_document = document;
             result->d_func()->namespace_ = HTML;
-            result->d_func()->namespace_prefix = prefix;
-            result->d_func()->local_name = local_name;
+            result->d_func()->namespace_prefix = std::move(prefix);
+            result->d_func()->local_name = std::move(local_name);
             result->d_func()->custom_element_state = custom_element_state_t::UNDEFINED;
             result->d_func()->custom_element_definition = nullptr;
-            result->d_func()->is = is;
+            result->d_func()->is = std::move(is);
 
             upgrade_element(*definition, result);
 
