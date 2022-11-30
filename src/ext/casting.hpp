@@ -13,17 +13,33 @@ _EXT_BEGIN
 auto cast_functor_ranges = []<typename T>(auto* value) {return dynamic_cast<T>(value);};
 
 
-template <is_pointer_or_reference ...Ts>
-auto multi_cast(auto pointer) -> bool
+// Special const cast can convert a 'const ptr* const' to a 'ptr*' type
+template <_EXT is_pointer_or_reference T>
+struct remove_const_to_const
+{using type = std::remove_cv_t<T>;};
+
+template <_EXT is_pointer_or_reference T>
+struct remove_const_to_const<const T>
+{using type = std::remove_cv_t<T>;};
+
+template <_EXT is_pointer_or_reference T>
+using remove_const_to_const_t = typename remove_const_to_const<T>::type;
+
+
+template <_EXT is_pointer_or_reference ...Ts, _EXT is_pointer T>
+auto multi_cast(T pointer) -> bool
 {
-    // check if the pointer can be cast into any of the types in Ts parameter pack - the function returns a boolean
+    // Check if the pointer can be cast into any of the types in Ts parameter pack - the function returns a boolean
     // rather than a cast pointer, because it could return a cast into any successful type, so it is more used for yes/
-    // no the pointer is this type, as opposed to using the functionality of a dynamically cast type
-    return (dynamic_cast<Ts>(pointer) || ...);
+    // no the pointer is this type, as opposed to using the functionality of a dynamically cast type. Becuase the cast
+    // isn't actually ever used from this function call (not returned), const-correctess doesn't matter, so allow for
+    // example a 'const node*' to be tested as an 'element*,' not just a 'const element*' (shortens code).
+    decltype(auto) non_const_pointer = const_cast<remove_const_to_const_t<T>>(pointer);
+    return (dynamic_cast<remove_const_to_const_t<Ts>>(non_const_pointer) || ...);
 }
 
 
-template <is_pointer_or_reference T>
+template <_EXT is_pointer_or_reference T>
 auto cross_cast(auto pointer) -> T
 {
     // syntactic sugar for a dynamic cast from one superclass to a sibling-level superclass of an object - for example,
