@@ -252,7 +252,7 @@ auto fetch::detail::is_cors_safelisted_request_header(fetch::detail::header_t&& 
                     | ranges::views::remove_if(ext::bind_front(ranges::contains, ranges::views::closed_iota(0x30, 0x39)))
                     | ranges::views::remove_if(ext::bind_front(ranges::contains, ranges::views::closed_iota(0x41, 0x5a)))
                     | ranges::views::remove_if(ext::bind_front(ranges::contains, ranges::views::closed_iota(0x61, 0x7a)))
-                    | ranges::views::remove_if(ext::bind_front(ranges::contains, std::initializer_list<char>{0x20, 0x2a, 0x2c, 0x2d, 0x2e, 0x3b, 0x3d}));
+                    | ranges::views::remove_if(ext::bind_front(ranges::contains, ext::initializer_list<char8_t>{0x20, 0x2a, 0x2c, 0x2d, 0x2e, 0x3b, 0x3d}));
 
             return_if (!stripped_header_value.empty()) false;
 
@@ -261,7 +261,7 @@ auto fetch::detail::is_cors_safelisted_request_header(fetch::detail::header_t&& 
             return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
             auto mime_type = mime_sniffing::mime_type_internals::parse(header.second);
             return_if(mime_type.empty()) false;
-            return_if(!ranges::contains(std::initializer_list<ext::string>{u"application/x-www-form-urlencoded", u"multipart/form-data", u"text/plain"}, mime_type.essence)) false;
+            return_if(!ranges::contains(ext::initializer_list<ext::string>{u"application/x-www-form-urlencoded", u"multipart/form-data", u"text/plain"}, mime_type.essence)) false;
         }
 
         string_case(u"range");

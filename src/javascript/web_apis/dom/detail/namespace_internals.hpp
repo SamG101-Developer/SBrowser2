@@ -31,7 +31,7 @@ namespace dom::detail
 
     auto validate_and_extract(
             ext::string_view namespace_,
-            const ext::string& qualified_name)
+            ext::string_view qualified_name)
             -> ext::tuple<ext::string, ext::string>;
 
     auto html_adjust_string(

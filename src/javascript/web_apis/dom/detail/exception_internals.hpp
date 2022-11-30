@@ -10,8 +10,8 @@
 namespace dom::other {class dom_exception;}
 namespace js::env {class env;}
 
-#define NO_CONDITION [] -> bool {return true;}
-#define P(key, val) tuplet::pair{key, val}
+// #define NO_CONDITION [] -> bool {return true;}
+// #define P(key, val) tuplet::pair{key, val}
 
 
 namespace dom::detail
