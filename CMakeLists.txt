@@ -40,6 +40,10 @@ FetchContent_Declare(HashMapSetReplacement
         GIT_REPOSITORY https://github.com/martinus/unordered_dense.git
         GIT_TAG main)
 
+FetchContent_Declare(InitializerListReplacement ${FETCH_CONTENT_BASE_DIR}/initializerlistreplacement-src/better_braces
+        GIT_REPOSITORY https://github.com/HolyBlackCat/better_braces.git
+        GIT_TAG master)
+
 FetchContent_Declare(JsonReplacement
         GIT_REPOSITORY https://github.com/wqking/jsonpp.git
         GIT_TAG master)
@@ -122,9 +126,9 @@ FetchContent_Declare(V8PP
 
 FetchContent_MakeAvailable(
         AssertReplacement ExpectedReplacement FileSystemReplacement FunctionReplacement HashMapSetReplacement
-        JsonReplacement OptionalReplacement QueueReplacement RandomReplacement RangeReplacement RegexReplacement
-        StackReplacement StreamsReplacement TupleReplacement VariantReplacement VectorReplacement HardwareInfo BigInt
-        Crypto DateTime MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        InitializerListReplacement JsonReplacement OptionalReplacement QueueReplacement RandomReplacement
+        RangeReplacement RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement
+        VectorReplacement HardwareInfo BigInt Crypto DateTime MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -135,6 +139,9 @@ file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8-v143-x64.10.0.139.9" DESTINATION "
 file(COPY "${CMAKE_SOURCE_DIR}/third_party/v8.redist-v143-x64.10.0.139.9" DESTINATION "${FETCH_CONTENT_BASE_DIR}/v8pp-build")
 file(GLOB cryptopp_src ${FETCH_CONTENT_BASE_DIR}/crypto-src/cryptopp/*.cpp)
 
+
+add_library(better_braces INTERFACE)
+target_include_directories(better_braces INTERFACE ${FETCH_CONTENT_BASE_DIR}/initializerlistreplacement-src/include)
 
 add_library(plf_stack INTERFACE)
 target_include_directories(plf_stack INTERFACE ${FETCH_CONTENT_BASE_DIR}/stackreplacement-src)
@@ -155,9 +162,9 @@ add_library(hwinfo INTERFACE)
 target_include_directories(hwinfo INTERFACE ${FETCH_CONTENT_BASE_DIR}/hardwareinfo-src/include)
 
 target_link_libraries(${PROJECT_NAME}
-        assert expected cppfs function2::function2 unordered_dense::unordered_dense jsonpp optional effolkronium_random
-        range-v3::range-v3 re2::re2 plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque hwinfo bigint crypto
-        asap magic_enum::magic_enum self_macro stduuid v8pp)
+        assert expected cppfs function2::function2 unordered_dense::unordered_dense better_braces jsonpp optional
+        effolkronium_random range-v3::range-v3 re2::re2 plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
+        hwinfo bigint crypto asap magic_enum::magic_enum self_macro stduuid v8pp)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
     target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 endforeach ()
