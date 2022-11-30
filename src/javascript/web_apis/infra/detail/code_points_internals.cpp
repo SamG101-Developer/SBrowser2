@@ -28,7 +28,7 @@ auto infra::detail::is_non_character(T code_point) -> ext::boolean // TODO : for
 {
     // a non character code point is a unicode code point that doesn't have amy way to be displayed on a screen and is
     // therefore not useful for string literals of information
-    return ranges::contains(ranges::views::closed_iota(0xfdd0, 0xfdef), code_point) || ranges::contains(std::initializer_list<T>{
+    return ranges::contains(ranges::views::closed_iota(0xfdd0, 0xfdef), code_point) || ranges::contains(ext::initializer_list<T>{
         0xfffe, 0xffff, 0x1fffe, 0x1ffff, 0x2fffe, 0x2ffff, 0x3fffe, 0x3ffff, 0x4fffe, 0x4ffff, 0x5fffe, 0x5ffff,
         0x6fffe, 0x6ffff, 0x7fffe, 0x7ffff, 0x8fffe, 0x8ffff, 0x9fffe, 0x9ffff, 0xafffe, 0xaffff, 0xbfffe, 0xbffff,
         0xcfffe, 0xcffff, 0xdfffe, 0xdffff, 0xefffe, 0xeffff, 0xffffe, 0xfffff, 0x10fffe, 0x10ffff}, code_point);
@@ -56,7 +56,7 @@ auto infra::detail::is_ascii_newline(T code_point) -> ext::boolean
 {
     // an ascii tab or newline is a code point that is a TAB, LF or CR character (tab, line feed or carriage return), as
     // these all produce tabb-looking characters
-    return ranges::contains(std::initializer_list<T>{0x000A, 0x000D}, code_point);
+    return ranges::contains(ext::initializer_list<T>{0x000A, 0x000D}, code_point);
 }
 
 
@@ -65,7 +65,7 @@ auto infra::detail::is_ascii_whitespace(T code_point) -> ext::boolean
 {
     // an ascii whitespace code point is a code point that is a TAB, LF, FF, CR or SPACE (tab, line feed, form feed,
     // carriage return or normal space), as these all produce space-looking characters
-    return ranges::contains(std::initializer_list<T>{0x0009, 0x000a, 0x000c, 0x000d, 0x0020}, code_point);
+    return ranges::contains(ext::initializer_list<T>{0x0009, 0x000a, 0x000c, 0x000d, 0x0020}, code_point);
 }
 
 

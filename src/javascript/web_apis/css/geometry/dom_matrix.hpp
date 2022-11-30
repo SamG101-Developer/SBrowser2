@@ -23,8 +23,8 @@ public constructors:
 
 public js_methods:
     static auto from_matrix(detail::dom_matrix_init_t&& other = {}) -> dom_matrix;
-    static auto from_float32_array(std::initializer_list<ext::number<float>> array32) -> dom_matrix;
-    static auto from_float64_array(std::initializer_list<ext::number<double>> array64) -> dom_matrix;
+    static auto from_float32_array(ext::initializer_list<ext::number<float>> array32) -> dom_matrix;
+    static auto from_float64_array(ext::initializer_list<ext::number<double>> array64) -> dom_matrix;
 
     auto multiply_self(detail::dom_matrix_init_t&& other = {}) -> dom_matrix;
     auto pre_multiply_self(detail::dom_matrix_init_t&& other = {}) -> dom_matrix;

@@ -186,7 +186,7 @@ auto html::detail::directionality(
         // get the first AL / R / L character in the 'text_nodes_data' string
         char32_t character = ranges::first_where(
                 text_nodes_data,
-                [](char32_t character) {return ranges::contains(std::initializer_list<char32_t>{AL, L, R}, character);});
+                [](char32_t character) {return ranges::contains(ext::initializer_list<char32_t>{AL, L, R}, character);});
 
         // if the first directionality-defining character is L, thn return LTR, otherwise return RTL (the character has
         // to be AL / R otherwise)
@@ -247,7 +247,7 @@ auto html::detail::directionality_of_attribute(
         // get the first AL / R / L character in the 'text_nodes_data' string
         char32_t character = ranges::first_where(
                 attribute_value,
-                [](char32_t character) {return ranges::contains(std::initializer_list<char32_t>{AL, L, R}, character);});
+                [](char32_t character) {return ranges::contains(ext::initializer_list<char32_t>{AL, L, R}, character);});
 
         // if the first directionality-defining character is L, thn return LTR, otherwise return RTL (the character has
         // to be AL / R otherwise)

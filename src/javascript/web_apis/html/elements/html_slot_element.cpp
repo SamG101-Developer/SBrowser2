@@ -47,7 +47,7 @@ auto html::elements::html_slot_element::assign(
     d->manually_assigned_nodes
             | ranges::views::for_each([](dom::mixins::slottable* slottable) {slottable->d_func()->manual_slot_assignment.reset();});
 
-    auto nodes_set = std::initializer_list<dom::mixins::slottable*>{nodes...};
+    auto nodes_set = ext::initializer_list<dom::mixins::slottable*>{nodes...};
 
     for (decltype(auto) node: nodes_set)
     {
