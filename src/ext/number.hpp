@@ -240,8 +240,8 @@ auto is_numeric_string(const string& string) -> boolean
 }
 
 
-template <typename T>
-auto to_string(number<T> number) -> ext::string
+template <typename S = ext::string, typename T>
+auto to_string(number<T> number) -> S
 {
     // TODO
 }

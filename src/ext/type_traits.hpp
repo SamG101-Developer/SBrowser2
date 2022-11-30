@@ -60,6 +60,13 @@ auto three_way_compare(T&& lhs, T&& rhs, F&& lt_predicate = std::less<T>{}) -> e
     return lt_predicate(std::forward<T>(lhs), std::forward<T>(rhs)) ? -1 : 1;
 }
 
+
+template <typename S = ext::string>
+auto to_string(void* pointer) -> S
+{
+    return S{std::bit_cast<std::ptrdiff_t>(pointer)};
+}
+
 _EXT_END
 
 
