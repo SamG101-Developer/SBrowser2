@@ -27,6 +27,7 @@
 #include "dom/ranges/range_private.hpp"
 
 #include <range/v3/view/filter.hpp>
+// TODO : comment
 
 
 auto dom::detail::is_range_collapsed(
@@ -43,7 +44,7 @@ auto dom::detail::contains(
         const node_ranges::range* const range)
         -> ext::boolean
 {
-    // get the current length of the new container that is being checked if it is contained in the range
+    // Get the current length of the new container that is being checked if it is contained in the range
     const auto l = length(new_container);
 
     return root(range) == root(new_container)
