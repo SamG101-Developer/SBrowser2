@@ -23,6 +23,3 @@ _EXT_BEGIN
     export struct float64_array : array_buffer_view {using v8_constructor = v8::Float64Array;};
     export using buffer_source = _EXT variant<array_buffer, array_buffer_view>;
 _EXT_END
-
-
-#endif //SBROWSER2_SRC_EXT_ARRAY_BUFFER_HPP
