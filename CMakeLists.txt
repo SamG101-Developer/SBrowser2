@@ -4,7 +4,7 @@ project(SBrowser2)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0") #-std=c++latest -Wno-dev -DCRYPTOPP_DISABLE_ASM")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0 /experimental:module") #-std=c++latest -Wno-dev -DCRYPTOPP_DISABLE_ASM")
 
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 

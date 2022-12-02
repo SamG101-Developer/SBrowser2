@@ -5,7 +5,7 @@
 namespace dom::node_ranges {class range;}
 namespace dom::node_ranges {class range_private;}
 
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 namespace dom::nodes {class document_fragment;}
 
 

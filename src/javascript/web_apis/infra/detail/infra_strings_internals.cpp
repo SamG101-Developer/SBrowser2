@@ -1,9 +1,9 @@
 #include "infra_strings_internals.hpp"
 
-#include "ext/functional.hpp"
-#include "ext/pair.hpp"
+#include "ext/functional.ixx"
+#include "ext/pair.ixx"
 #include "ext/ranges.hpp"
-#include "ext/regex.hpp"
+#include "ext/regex.ixx"
 
 #include "infra/detail/code_points_internals.hpp"
 

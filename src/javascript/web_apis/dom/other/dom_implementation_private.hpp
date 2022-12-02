@@ -4,7 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace dom::nodes {class document;}
 
 

@@ -1,6 +1,6 @@
 #include "processing_internals.hpp"
 
-#include "ext/expected.hpp"
+#include "ext/expected.ixx"
 #include "environment/environment_settings.hpp"
 
 #include "javascript/environment/environment_settings.hpp"

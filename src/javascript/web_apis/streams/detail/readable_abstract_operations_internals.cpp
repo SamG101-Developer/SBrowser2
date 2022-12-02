@@ -1,13 +1,13 @@
 #include "readable_abstract_operations_internals.hpp"
 
 #include "ext/assertion.hpp"
-#include "ext/casting.hpp"
-#include "ext/hashing.hpp"
+#include "ext/casting.ixx"
+#include "ext/hashing.ixx"
 
 #include "dom/abort/abort_signal.hpp"
 #include "dom/abort/abort_signal_private.hpp"
 
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 #include "streams/_typedefs.hpp"
 #include "streams/detail/miscellaneous_internals.hpp"
 #include "streams/detail/writable_abstract_operations.hpp"

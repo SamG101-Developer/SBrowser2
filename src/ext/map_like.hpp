@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "ext/keywords.hpp"
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/pimpl.hpp"
 
 #include "dom_object_private.hpp"

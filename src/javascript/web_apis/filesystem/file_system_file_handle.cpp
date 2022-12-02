@@ -1,7 +1,7 @@
 #include "file_system_file_handle.hpp"
 #include "file_system_file_handle_private.hpp"
 
-#include "ext/filesystem.hpp"
+#include "ext/filesystem.ixx"
 
 #include "dom/_typedefs.hpp"
 #include "dom/other/dom_exception.hpp"

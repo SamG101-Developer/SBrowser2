@@ -5,9 +5,9 @@
 namespace intersection_observer {class intersection_observer;}
 namespace intersection_observer {class intersection_observer_private;}
 
-#include "ext/array.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/array.ixx"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/span.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"

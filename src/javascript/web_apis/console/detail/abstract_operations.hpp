@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_DETAIL_ABSTRACT_OPERATIONS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_DETAIL_ABSTRACT_OPERATIONS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(console)
 

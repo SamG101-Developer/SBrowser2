@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_METHOD_MANIFEST__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_METHOD_MANIFEST__TYPEDEFS_HPP
 
-#include "ext/expected.hpp"
-#include "ext/map.hpp"
+#include "ext/expected.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(url)
 #include INCLUDE_INNER_TYPES(html)

@@ -7,8 +7,8 @@
 namespace url {class url_search_params;}
 namespace url {class url_search_params_private;}
 
-#include "ext/pair.hpp"
-#include "ext/map.hpp"
+#include "ext/pair.ixx"
+#include "ext/map.ixx"
 #include "ext/vector.hpp"
 namespace url {class url;}
 

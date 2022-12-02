@@ -1,6 +1,6 @@
 #include "payment_internals.hpp"
 
-#include "ext/regex.hpp"
+#include "ext/regex.ixx"
 
 #include "javascript/environment/realms.hpp"
 

@@ -2,7 +2,7 @@
 #include "gamepad_private.hpp"
 
 #include "ext/pimpl.hpp"
-#include "ext/uuid.hpp"
+#include "ext/uuid.ixx"
 
 #include "dom/nodes/window.hpp"
 #include "dom/nodes/window_private.hpp"

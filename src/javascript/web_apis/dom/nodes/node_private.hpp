@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include "ext/vector.hpp"
 namespace dom::nodes {class document;}
 

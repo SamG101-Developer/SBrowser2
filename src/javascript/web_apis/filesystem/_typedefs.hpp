@@ -4,9 +4,9 @@
 
 #include "ext/any.hpp"
 #include "ext/array_buffer.hpp"
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 
 namespace file_api {class blob;}
 

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_METHOD_ID_DETAIL_IDENTIFIER_INTERNALS_HPP
 
 #include "ext/string.hpp"
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 
 #include INCLUDE_INNER_TYPES(url)
 #include INCLUDE_INNER_TYPES(payment_method_id)

@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_SERVICE_WORKER_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_SERVICE_WORKER_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/queue.hpp"
+#include "ext/boolean.ixx"
+#include "ext/queue.ixx"
 #include "ext/set.hpp"
 
 #include "ext/promise.hpp"

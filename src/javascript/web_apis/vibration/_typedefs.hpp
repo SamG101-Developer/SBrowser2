@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIBRATION__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIBRATION__TYPEDEFS_HPP
 
-#include "ext/type_traits.hpp"
-#include "ext/number.hpp"
-#include "ext/variant.hpp"
+#include "ext/type_traits.ixx"
+#include "ext/number.ixx"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 
 namespace vibration::detail

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_ATTRIBUTE_INTERNALS_HPP
 #define SBROWSER2_ATTRIBUTE_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 namespace dom::nodes {class attr;}

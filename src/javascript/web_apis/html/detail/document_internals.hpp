@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_DOCUMENT_INTERNALS_HPP
 #define SBROWSER2_DOCUMENT_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(hr_time)
 

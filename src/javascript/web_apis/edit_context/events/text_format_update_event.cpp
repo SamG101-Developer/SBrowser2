@@ -1,7 +1,7 @@
 #include "text_format_update_event.hpp"
 #include "text_format_update_event_private.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 
 
 edit_context::events::text_format_update_event::text_format_update_event(

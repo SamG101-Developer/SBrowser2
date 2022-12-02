@@ -7,12 +7,12 @@ namespace dom::nodes {class event_target;}
 namespace dom::nodes {class event_target_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
 #include "ext/keywords.hpp"
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include "ext/vector.hpp"
 namespace dom::events {class event;}
 

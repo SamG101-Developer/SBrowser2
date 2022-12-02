@@ -7,7 +7,7 @@ namespace dom::node_iterators {class node_filter;}
 namespace dom::node_iterators {class node_filter_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 
 
 class dom::node_iterators::node_filter

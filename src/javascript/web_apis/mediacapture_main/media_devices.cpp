@@ -1,8 +1,8 @@
 #include "media_devices.hpp"
 
 #include "dom/_typedefs.hpp"
-#include "ext/boolean.hpp"
-#include "ext/threading.hpp"
+#include "ext/boolean.ixx"
+#include "ext/threading.ixx"
 
 #include "javascript/environment/realms.hpp"
 

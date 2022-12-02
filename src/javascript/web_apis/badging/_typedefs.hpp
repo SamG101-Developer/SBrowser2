@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BADGING__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BADGING__TYPEDEFS_HPP
 
-#include "ext/number.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/variant.hpp"
+#include "ext/number.ixx"
+#include "ext/type_traits.ixx"
+#include "ext/variant.ixx"
 
 
 namespace badging::detail

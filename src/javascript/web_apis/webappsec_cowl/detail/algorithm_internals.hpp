@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
 namespace webappsec::cowl {class label;}

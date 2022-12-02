@@ -2,9 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ORIENTATION_SENSOR__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 
 #include INCLUDE_INNER_TYPES(javascript)

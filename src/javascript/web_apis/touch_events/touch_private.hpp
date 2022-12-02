@@ -5,8 +5,8 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/memory.hpp"
-#include "ext/number.hpp"
+#include "ext/memory.ixx"
+#include "ext/number.ixx"
 #include INCLUDE_INNER_TYPES(touch_events)
 namespace dom::nodes {class event_target;}
 

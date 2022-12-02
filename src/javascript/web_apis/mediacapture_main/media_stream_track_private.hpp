@@ -8,7 +8,7 @@
 
 #include INCLUDE_INNER_TYPES(mediacapture_handle)
 #include INCLUDE_INNER_TYPES(mediacapture_main)
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 
 
 DEFINE_PRIVATE_CLASS(mediacapture::main, media_stream_track)

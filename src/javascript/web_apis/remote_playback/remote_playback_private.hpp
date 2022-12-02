@@ -6,9 +6,9 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(remote_playback)
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/set.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 
 
 DEFINE_PRIVATE_CLASS(remote_playback, remote_playback) : dom::nodes::event_target_private

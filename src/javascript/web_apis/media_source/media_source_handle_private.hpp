@@ -5,8 +5,8 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/memory.hpp"
+#include "ext/boolean.ixx"
+#include "ext/memory.ixx"
 namespace media::source {class media_source;}
 
 

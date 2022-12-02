@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MERCHANT_VALIDATION_DETAIL_VALIDATION_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/promise.hpp"
 #include "ext/string.hpp"
 

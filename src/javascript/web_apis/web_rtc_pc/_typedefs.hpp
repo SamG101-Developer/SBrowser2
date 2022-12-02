@@ -2,8 +2,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_RTC_PC__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 
 

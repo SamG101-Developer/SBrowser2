@@ -5,9 +5,9 @@
 #include "dom_object.hpp"
 namespace selection {class selection;}
 
-#include "ext/boolean.hpp"
-#include "ext/number.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/boolean.ixx"
+#include "ext/number.ixx"
+#include "ext/type_traits.ixx"
 namespace dom::nodes {class node;}
 namespace dom::node_ranges {class range;}
 

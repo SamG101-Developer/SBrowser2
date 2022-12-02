@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_HOST_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_HOST_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(url)

@@ -1,9 +1,9 @@
 #include "storage_internals.hpp"
 
-#include "ext/expected.hpp"
-#include "ext/functional.hpp"
-#include "ext/hashing.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/expected.ixx"
+#include "ext/functional.ixx"
+#include "ext/hashing.ixx"
+#include "ext/type_traits.ixx"
 
 #include "javascript/environment/realms.hpp"
 

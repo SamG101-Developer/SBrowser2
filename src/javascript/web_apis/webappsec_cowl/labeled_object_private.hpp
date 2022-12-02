@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 namespace webappsec::cowl {class labeled_object;}
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace webappsec::cowl {class label;}
 
 

@@ -1,10 +1,10 @@
 #include "database_internals.hpp"
 
 #include "ext/assertion.hpp"
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/variant.hpp"
+#include "ext/type_traits.ixx"
+#include "ext/variant.ixx"
 "
 #include "infra/detail/infra_strings_internals.hpp"
 

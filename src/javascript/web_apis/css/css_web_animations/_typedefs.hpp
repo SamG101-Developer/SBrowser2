@@ -2,9 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
-#include "ext/stack.hpp"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
+#include "ext/stack.ixx"
 #include "ext/string.hpp"
 
 namespace css::detail

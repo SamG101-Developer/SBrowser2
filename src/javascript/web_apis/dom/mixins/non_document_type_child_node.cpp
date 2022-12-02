@@ -1,7 +1,7 @@
 #include "non_document_type_child_node.hpp"
 #include "non_document_type_child_node_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/nodes/element.hpp"

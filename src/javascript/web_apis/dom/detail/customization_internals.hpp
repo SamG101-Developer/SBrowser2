@@ -1,13 +1,13 @@
 #ifndef SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/expected.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/expected.ixx"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/optional.hpp"
-#include "ext/queue.hpp"
-#include "ext/stack.hpp"
+#include "ext/queue.ixx"
+#include "ext/stack.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)

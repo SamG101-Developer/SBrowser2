@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_ECMA_262_7_1_HPP
 
 #include "ext/assertion.hpp"
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 #include "ext/string.hpp"
 #include <v8-forward.h>
 

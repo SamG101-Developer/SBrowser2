@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_EXTENSION_INTERNALS_HPP
 #define SBROWSER2_EXTENSION_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 #include <v8-object.h>
 

@@ -2,7 +2,7 @@
 #include "environment/realms.hpp"
 #include "media_capabilities_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "dom/_typedefs.hpp"
 #include "dom/other/dom_exception.hpp"

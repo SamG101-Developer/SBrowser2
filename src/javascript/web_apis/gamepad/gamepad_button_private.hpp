@@ -4,8 +4,8 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/number.ixx"
 
 
 DEFINE_PRIVATE_CLASS(gamepad, gamepad_button): virtual dom_object_private

@@ -3,8 +3,8 @@
 #define SBROWSER2_POINTER_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 namespace dom::nodes {class event_target;}
 

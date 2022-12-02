@@ -1,7 +1,7 @@
 #include "performance_resource_timing.hpp"
 #include "performance_resource_timing_private.hpp"
 
-#include "ext/expected.hpp"
+#include "ext/expected.ixx"
 
 #include "javascript/environment/realms.hpp"
 

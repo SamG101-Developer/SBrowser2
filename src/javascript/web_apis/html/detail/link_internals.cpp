@@ -1,6 +1,6 @@
 #include "link_internals.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "content_security_policy/detail/csp_internals.hpp"
 

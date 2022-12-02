@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TASK_INTERNALS_HPP
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include <thread>
 #include INCLUDE_INNER_TYPES(html)
 

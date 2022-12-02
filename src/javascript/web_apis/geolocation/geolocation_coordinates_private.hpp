@@ -4,7 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 
 
 DEFINE_PRIVATE_CLASS(geolocation, geolocation_coordinates) : virtual dom_object_private

@@ -1,12 +1,12 @@
 #include "devices_internals.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/set.hpp"
 #include "ext/ranges.hpp"
 #include "ext/string.hpp"
-#include "ext/threading.hpp"
+#include "ext/threading.ixx"
 #include "ext/vector.hpp"
 
 #include "javascript/environment/realms_2.hpp"

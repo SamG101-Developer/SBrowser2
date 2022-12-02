@@ -1,7 +1,7 @@
 #include "html_element_internals.hpp"
 
-#include "ext/casting.hpp"
-#include "ext/functional.hpp"
+#include "ext/casting.ixx"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "environment/reflection.hpp"

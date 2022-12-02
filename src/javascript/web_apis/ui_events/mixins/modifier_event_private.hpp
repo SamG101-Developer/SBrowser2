@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "ui_events/ui_event_private.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 
 
 DEFINE_PRIVATE_CLASS(ui_events::mixins, modifier_event) : ui_events::ui_event_private

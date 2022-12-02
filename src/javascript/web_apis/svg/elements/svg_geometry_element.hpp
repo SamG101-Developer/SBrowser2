@@ -6,7 +6,7 @@ namespace svg::elements {class svg_geometry_element;}
 namespace svg::elements {class svg_geometry_element_private;}
 
 #include INCLUDE_INNER_TYPES(css/geometry)
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 namespace css::geometry {class dom_point;}
 namespace svg::types {class svg_animated_number;}
 

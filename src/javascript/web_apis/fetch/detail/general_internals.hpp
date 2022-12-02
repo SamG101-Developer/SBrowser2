@@ -1,9 +1,9 @@
 #pragma once
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_DETAIL_GENERAL_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_DETAIL_GENERAL_INTERNALS_HPP
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>

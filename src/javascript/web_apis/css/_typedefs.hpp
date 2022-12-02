@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS__TYPEDEFS_HPP
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
 

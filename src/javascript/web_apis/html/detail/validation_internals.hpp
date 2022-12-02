@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_VALIDATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_VALIDATION_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/tuple.hpp"
+#include "ext/boolean.ixx"
+#include "ext/tuple.ixx"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(html)
 namespace html::elements {class html_element;};

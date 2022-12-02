@@ -1,6 +1,6 @@
 #include "constrain_internals.hpp"
 
-#include "ext/threading.hpp"
+#include "ext/threading.ixx"
 
 #include "dom/detail/observer_internals.hpp"
 #include "mediacapture_main/mixins/constrainable.hpp"

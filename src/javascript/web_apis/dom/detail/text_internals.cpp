@@ -1,6 +1,6 @@
 #include "text_internals.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "javascript/environment/global_slots.hpp"
 
 #include "dom/_typedefs.hpp"

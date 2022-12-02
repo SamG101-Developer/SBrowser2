@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_DETAIL_POSITION_INTERNALS_HPP
 
 #include "ext/optional.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include INCLUDE_INNER_TYPES(geolocation)
 
 namespace geolocation {class geolocation;}

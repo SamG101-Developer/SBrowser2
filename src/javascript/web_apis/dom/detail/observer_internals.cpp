@@ -1,6 +1,6 @@
 #include "observer_internals.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/optional.hpp"
 #include "ext/ranges.hpp"
 

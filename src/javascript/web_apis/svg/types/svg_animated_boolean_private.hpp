@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "svg/types/svg_abstract_animatable_private.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 
 
 DEFINE_PRIVATE_CLASS(svg::types, svg_animated_boolean) : svg::types::svg_abstract_animatable_private<ext::boolean> {};

@@ -2,8 +2,8 @@
 #define SBROWSER2_BLOB_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 

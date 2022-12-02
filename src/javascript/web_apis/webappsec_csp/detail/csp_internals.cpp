@@ -1,6 +1,6 @@
 #include "csp_internals.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "fetch/detail/header_internals.hpp"

@@ -1,7 +1,7 @@
 #include "html_element.hpp"
 #include "html_element_private.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/_typedefs.hpp"

@@ -6,10 +6,10 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(streams)
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
 #include "ext/promise.hpp"
-#include "ext/queue.hpp"
+#include "ext/queue.ixx"
 namespace streams::readable {class readable_stream;}
 
 

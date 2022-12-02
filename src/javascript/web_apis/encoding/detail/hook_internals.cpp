@@ -1,6 +1,6 @@
 #include "hook_internals.hpp"
 
-#include "ext/expected.hpp"
+#include "ext/expected.ixx"
 
 #include "encoding/_typedefs.hpp"
 #include "encoding/detail/encoding_internals.hpp"

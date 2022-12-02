@@ -1,11 +1,11 @@
 #ifndef SBROWSER2_TREE_INTERNALS_HPP
 #define SBROWSER2_TREE_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/number.ixx"
 #include "ext/ranges.hpp"
 #include "ext/string.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class document;}

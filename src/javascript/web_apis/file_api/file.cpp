@@ -1,7 +1,7 @@
 #include "file.hpp"
 #include "file_private.hpp"
 
-#include "ext/date.hpp"
+#include "ext/date.ixx"
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
 

@@ -2,11 +2,11 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
-#include "ext/queue.hpp"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
+#include "ext/queue.ixx"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 
 namespace encoding::detail
 {

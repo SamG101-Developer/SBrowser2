@@ -5,12 +5,12 @@ class dom_object_private;
 
 #include "ext/any.hpp"
 #include "ext/custom_operator.hpp"
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/keywords.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/property.hpp"
 #include "ext/string.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include <memory>
 
 #include "javascript/interop/expose_macros.hpp"

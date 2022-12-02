@@ -1,10 +1,10 @@
 #include "range.hpp"
 #include "range_private.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/casting.hpp"
-#include "ext/functional.hpp"
-#include "ext/tuple.hpp"
+#include "ext/boolean.ixx"
+#include "ext/casting.ixx"
+#include "ext/functional.ixx"
+#include "ext/tuple.ixx"
 #include "ext/ranges.hpp"
 
 #include "javascript/environment/realms.hpp"

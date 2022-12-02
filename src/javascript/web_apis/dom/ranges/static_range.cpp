@@ -1,7 +1,7 @@
 #include "static_range.hpp"
 #include "static_range_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"

@@ -8,9 +8,9 @@
 #include INCLUDE_INNER_TYPES(console)
 #include INCLUDE_INNER_TYPES(hr_time)
 #include "ext/any.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
-#include "ext/stack.hpp"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
+#include "ext/stack.ixx"
 #include "ext/string.hpp"
 
 

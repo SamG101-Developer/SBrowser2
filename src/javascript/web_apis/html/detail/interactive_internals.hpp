@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_INTERACTIVE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_INTERACTIVE_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 namespace html::elements {class html_element;}
 namespace html::elements {class html_details_element;}
 

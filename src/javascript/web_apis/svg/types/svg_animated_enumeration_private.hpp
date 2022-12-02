@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "svg/types/svg_abstract_animatable_private.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 
 
 DEFINE_PRIVATE_CLASS(svg::types, svg_animated_enumeration) : svg::types::svg_abstract_animatable_private<ext::number<ushort>> {};

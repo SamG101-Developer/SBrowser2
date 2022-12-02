@@ -1,6 +1,6 @@
 #include "dom_point_readonly.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 
 #include "css/geometry/dom_matrix.hpp"
 #include "css/geometry/dom_point.hpp"

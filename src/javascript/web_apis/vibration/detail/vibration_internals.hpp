@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIBRATION_DETAIL_VIBRATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIBRATION_DETAIL_VIBRATION_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(vibration)
 

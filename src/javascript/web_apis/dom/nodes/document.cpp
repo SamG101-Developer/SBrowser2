@@ -1,8 +1,8 @@
 #include "document.hpp"
 #include "document_private.hpp"
 
-#include "ext/casting.hpp"
-#include "ext/enums.hpp"
+#include "ext/casting.ixx"
+#include "ext/enums.ixx"
 #include "ext/ranges.hpp"
 
 #include "javascript/environment/realms.hpp"

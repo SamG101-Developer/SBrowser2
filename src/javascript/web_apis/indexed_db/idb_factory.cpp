@@ -1,6 +1,6 @@
 #include "idb_factory.hpp"
 
-#include "ext/threading.hpp"
+#include "ext/threading.ixx"
 
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/exception_internals.hpp"

@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace bluetooth {class bluetooth;}
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(bluetooth)

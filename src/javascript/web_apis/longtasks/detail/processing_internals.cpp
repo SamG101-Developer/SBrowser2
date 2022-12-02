@@ -1,6 +1,6 @@
 #include "processing_internals.hpp"
 
-#include "ext/hashing.hpp"
+#include "ext/hashing.ixx"
 
 #include "javascript/environment/environment_settings.hpp"
 #include "javascript/environment/realms.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_DETAIL_HOOK_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_DETAIL_HOOK_INTERNALS_HPP
 
-#include "ext/expected.hpp"
+#include "ext/expected.ixx"
 #include "ext/keywords.hpp"
 #include INCLUDE_INNER_TYPES(encoding)
 

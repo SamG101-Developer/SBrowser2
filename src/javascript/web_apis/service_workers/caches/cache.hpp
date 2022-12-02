@@ -6,7 +6,7 @@
 namespace service_workers::caches {class cache;}
 namespace service_workers::caches {class cache_private;}
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
 #include "ext/span.hpp"

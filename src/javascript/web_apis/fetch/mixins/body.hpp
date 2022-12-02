@@ -6,7 +6,7 @@ namespace fetch::mixins {class body;}
 namespace fetch::mixins {class body_private;}
 
 #include INCLUDE_INNER_TYPES(fetch)
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/promise.hpp"
 #include <v8-forward.h>
 namespace file_api {class blob;}

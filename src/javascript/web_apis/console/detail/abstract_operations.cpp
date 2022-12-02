@@ -1,10 +1,10 @@
 #include "abstract_operations.hpp"
 
-#include "ext/hashing.hpp"
-#include "ext/regex.hpp"
-#include "ext/tuple.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/variadic.hpp"
+#include "ext/hashing.ixx"
+#include "ext/regex.ixx"
+#include "ext/tuple.ixx"
+#include "ext/type_traits.ixx"
+#include "ext/variadic.ixx"
 
 #include "javascript/environment/realms.hpp"
 

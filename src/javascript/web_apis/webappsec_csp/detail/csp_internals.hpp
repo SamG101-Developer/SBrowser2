@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_CSP_INTERNALS_HPP
 #define SBROWSER2_CSP_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/pair.hpp"
+#include "ext/boolean.ixx"
+#include "ext/pair.ixx"
 #include "ext/set.hpp"
 #include "ext/span.hpp"
 #include "ext/string.hpp"

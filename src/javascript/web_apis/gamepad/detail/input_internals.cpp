@@ -1,7 +1,7 @@
 #include "input_internals.hpp"
 
-#include "ext/hashing.hpp"
-#include "ext/functional.hpp"
+#include "ext/hashing.ixx"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "javascript/environment/realms.hpp"

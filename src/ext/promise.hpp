@@ -1,11 +1,10 @@
-#ifndef SBROWSER2_SRC_EXT_PROMISE_HPP
-#define SBROWSER2_SRC_EXT_PROMISE_HPP
+export module ext.promise;
 
 #include "ext/keywords.hpp"
 
 
 _EXT_BEGIN
-    template <typename T>
+    export template <typename T>
     struct promise {private: promise() = default;};
 _EXT_END
 

@@ -1,7 +1,7 @@
 #include "window_proxy.hpp"
 #include "window_proxy_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "ecma/spec_262/10_ordinary_and_exotic_objects_behaviours/10_4_builtin_methods_and_slots.hpp"
 

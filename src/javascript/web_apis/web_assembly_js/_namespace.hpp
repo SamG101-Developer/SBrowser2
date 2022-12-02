@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS__NAMESPACE_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/promise.hpp"
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(web_assembly_js)

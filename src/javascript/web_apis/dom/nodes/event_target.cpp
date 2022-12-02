@@ -2,11 +2,11 @@
 #include "event_target_private.hpp"
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
 #include "ext/pimpl.hpp"
 #include "ext/ranges.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 
 #include "dom/_typedefs.hpp"
 #include "dom/abort/abort_signal.hpp"

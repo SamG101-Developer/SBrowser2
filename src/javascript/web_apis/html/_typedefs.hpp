@@ -2,17 +2,17 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/pair.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
+#include "ext/pair.ixx"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
-#include "ext/queue.hpp"
+#include "ext/queue.ixx"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/variant.hpp"
+#include "ext/tuple.ixx"
+#include "ext/type_traits.ixx"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 #include <QtGui/QTransform>
 #include INCLUDE_INNER_TYPES(fetch)

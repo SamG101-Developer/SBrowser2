@@ -3,9 +3,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_DETAIL_RFC6455_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/expected.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/expected.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>

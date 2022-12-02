@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_DETAIL_CONSTRUCTION_INTERNALS_HPP
 
 #include <memory>
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(gamepad)
 

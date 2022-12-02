@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_EVENT_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::events {class extendable_event;}

@@ -5,8 +5,8 @@
 #include "dom_object_private.hpp"
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class event_target;}

@@ -2,8 +2,8 @@
 
 #include "javascript/environment/realms.hpp"
 
-#include "ext/casting.hpp"
-#include "ext/enums.hpp"
+#include "ext/casting.ixx"
+#include "ext/enums.ixx"
 
 #include "dom/abort/abort_signal.hpp"
 #include "dom/nodes/window.hpp"

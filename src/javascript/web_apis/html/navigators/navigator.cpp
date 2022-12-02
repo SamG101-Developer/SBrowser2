@@ -1,7 +1,7 @@
 #include "navigator.hpp"
 #include "navigator_private.hpp"
 
-#include "ext/threading.hpp"
+#include "ext/threading.ixx"
 
 #include "interop/automatic_object_conversions/expose_macros.hpp"
 

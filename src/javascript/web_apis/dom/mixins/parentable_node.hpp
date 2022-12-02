@@ -6,7 +6,7 @@ namespace dom::mixins {class parentable_node;}
 namespace dom::mixins {class parentable_node_private;}
 
 #include "ext/ranges.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>
 namespace dom::nodes {class element;}

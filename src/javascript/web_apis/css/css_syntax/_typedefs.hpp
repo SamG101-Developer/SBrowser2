@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_SYNTAX__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_SYNTAX__TYPEDEFS_HPP
 
-#include "ext/expected.hpp"
-#include "ext/number.hpp"
+#include "ext/expected.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 #include "ext/vector.hpp"
 
 

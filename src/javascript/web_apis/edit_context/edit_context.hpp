@@ -6,9 +6,9 @@
 namespace edit_context {class edit_context;}
 namespace edit_context {class edit_context_private;}
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/span.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include INCLUDE_INNER_TYPES(edit_context)
 namespace dom::nodes {class element;}
 namespace css::geometry {class dom_rect;}

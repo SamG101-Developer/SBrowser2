@@ -2,8 +2,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 
 

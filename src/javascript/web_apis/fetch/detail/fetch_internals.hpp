@@ -2,9 +2,9 @@
 #define SBROWSER2_FETCH_INTERNALS_HPP
 
 
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 
 #include "connection_internals.hpp"

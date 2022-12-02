@@ -2,8 +2,8 @@
 #include "mixins/body.hpp"
 #include "request_private.hpp"
 
-#include "ext/casting.hpp"
-#include "ext/variant.hpp"
+#include "ext/casting.ixx"
+#include "ext/variant.ixx"
 
 #include "dom/_typedefs.hpp"
 #include "dom/abort/abort_signal.hpp"

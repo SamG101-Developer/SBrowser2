@@ -6,7 +6,7 @@
 namespace encoding::mixins {class text_decoder_common;}
 namespace encoding::mixins {class text_decoder_common_private;}
 
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include INCLUDE_INNER_TYPES(encoding)
 namespace encoding {class encoding;}
 

@@ -1,8 +1,8 @@
 #include "processing_internals.hpp"
 
 #include "environment/realms.hpp"
-#include "ext/hashing.hpp"
-#include "ext/number.hpp"
+#include "ext/hashing.ixx"
+#include "ext/number.ixx"
 
 #include "css/geometry/dom_rect_readonly.hpp"
 

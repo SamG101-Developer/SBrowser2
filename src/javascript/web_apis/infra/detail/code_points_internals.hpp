@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CODE_POINTS_INTERNALS_HPP
 #define SBROWSER2_CODE_POINTS_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/string.hpp"
 
 #define DIGITS '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'

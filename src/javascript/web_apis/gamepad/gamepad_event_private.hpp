@@ -4,7 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom/events/event_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace gamepad {class gamepad;}
 
 

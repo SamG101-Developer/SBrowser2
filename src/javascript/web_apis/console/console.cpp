@@ -3,12 +3,12 @@
 
 #include "dom_object.hpp"
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/hashing.hpp"
+#include "ext/functional.ixx"
+#include "ext/hashing.ixx"
 #include "ext/ranges.hpp"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/tuple.ixx"
+#include "ext/type_traits.ixx"
 
 #include "javascript/environment/realms.hpp"
 

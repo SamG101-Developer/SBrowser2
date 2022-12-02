@@ -1,7 +1,7 @@
 #include "crypto.hpp"
 
 #include "ext/bit.hpp"
-#include "ext/random.hpp"
+#include "ext/random.ixx"
 
 #include INCLUDE_INNER_TYPES(dom)
 

@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "html/elements/html_element_private.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 
 
 DEFINE_PRIVATE_CLASS(html::elements, html_li_element) : html::elements::html_element_private

@@ -1,7 +1,7 @@
 #include "lock_internals.hpp"
 
 #include "dom/_typedefs.hpp"
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 #include "javascript/environment/realms.hpp"
 

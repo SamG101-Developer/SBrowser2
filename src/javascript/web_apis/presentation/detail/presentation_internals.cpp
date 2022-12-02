@@ -1,7 +1,7 @@
 #include "presentation_internals.hpp"
 #include "presentation/presentation_request.hpp"
 
-#include "ext/enums.hpp"
+#include "ext/enums.ixx"
 #include "ext/optional.hpp"
 
 #include "javascript/environment/realms.hpp"

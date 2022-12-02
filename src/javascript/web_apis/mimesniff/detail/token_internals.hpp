@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_TOKEN_INTERNALS_HPP
 
 #include <bit>
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 
 namespace mimesniff::detail
 {

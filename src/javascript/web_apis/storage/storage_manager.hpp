@@ -8,9 +8,9 @@ namespace storage {class storage_manager_private;}
 
 #include "ext/promise.hpp"
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(storage)
 

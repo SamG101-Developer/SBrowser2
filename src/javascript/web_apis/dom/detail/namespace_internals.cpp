@@ -1,6 +1,6 @@
 #include "namespace_internals.hpp"
 
-#include "ext/initializer_list.hpp"
+#include "ext/initializer_list.ixx"
 #include "ext/ranges.hpp"
 
 #include "javascript/environment/realms.hpp"

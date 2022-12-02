@@ -4,7 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 
 

@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(encoding)
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 
 
 DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common)

@@ -1,15 +1,10 @@
-#pragma once
-#ifndef SBROWSER2_OPTIONAL_HPP
-#define SBROWSER2_OPTIONAL_HPP
+export module ext.optional;
 
 #include "ext/keywords.hpp"
 #include <tl/optional.hpp>
 
 
 _EXT_BEGIN
-    using tl::optional;
-    using tl::nullopt;
+    export using tl::optional;
+    export using tl::nullopt;
 _EXT_END
-
-
-#endif //SBROWSER2_OPTIONAL_HPP

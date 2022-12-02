@@ -2,9 +2,9 @@
 #ifndef SBROWSER2_BODY_INTERNALS_HPP
 #define SBROWSER2_BODY_INTERNALS_HPP
 
-#include "ext/functional.hpp"
-#include "ext/number.hpp"
-#include "ext/pair.hpp"
+#include "ext/functional.ixx"
+#include "ext/number.ixx"
+#include "ext/pair.ixx"
 #include "ext/promise.hpp"
 #include "ext/string.hpp"
 

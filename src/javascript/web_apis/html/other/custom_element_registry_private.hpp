@@ -6,8 +6,8 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/boolean.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/map.ixx"
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
 

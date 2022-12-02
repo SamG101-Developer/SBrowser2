@@ -7,8 +7,8 @@
 namespace fetch {class request;}
 namespace fetch {class request_private;}
 
-#include "ext/map.hpp"
-#include "ext/variant.hpp"
+#include "ext/map.ixx"
+#include "ext/variant.ixx"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(referrer_policy)
 namespace dom::abort {class abort_signal;}

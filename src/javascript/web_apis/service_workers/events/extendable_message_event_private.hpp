@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "service_workers/events/extendable_event_private.hpp"
 
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 namespace service_workers::clients {class client;}
 namespace service_workers::workers {class service_worker;}

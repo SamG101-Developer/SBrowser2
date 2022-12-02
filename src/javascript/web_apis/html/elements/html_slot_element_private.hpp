@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "html/elements/html_element_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace dom::mixins {class slottable;}
 
 

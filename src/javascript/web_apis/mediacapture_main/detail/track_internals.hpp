@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_TRACK_INTERNALS_HPP
 #define SBROWSER2_TRACK_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/string.hpp"
 namespace mediacapture::main {class media_stream_track;}
 

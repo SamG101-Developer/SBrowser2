@@ -5,8 +5,8 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(intersection_observer)
-#include "ext/array.hpp"
-#include "ext/memory.hpp"
+#include "ext/array.ixx"
+#include "ext/memory.ixx"
 #include "ext/vector.hpp"
 
 namespace css::geometry {class dom_rect_readonly;}

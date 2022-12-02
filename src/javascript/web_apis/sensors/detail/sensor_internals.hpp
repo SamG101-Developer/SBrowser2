@@ -2,12 +2,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_DETAIL_SENSOR_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_DETAIL_SENSOR_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include INCLUDE_INNER_TYPES(permissions)
 #include INCLUDE_INNER_TYPES(permissions_policy)
 #include INCLUDE_INNER_TYPES(sensors)

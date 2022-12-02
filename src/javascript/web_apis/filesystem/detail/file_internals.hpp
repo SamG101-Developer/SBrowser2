@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM_DETAIL_FILE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM_DETAIL_FILE_INTERNALS_HPP
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"

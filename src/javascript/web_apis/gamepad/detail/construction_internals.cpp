@@ -1,7 +1,7 @@
 #include "construction_internals.hpp"
 
-#include "ext/functional.hpp"
-#include "ext/initializer_list.hpp"
+#include "ext/functional.ixx"
+#include "ext/initializer_list.ixx"
 #include "ext/ranges.hpp"
 #include "javascript/environment/realms.hpp"
 

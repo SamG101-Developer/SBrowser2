@@ -4,7 +4,7 @@
 
 #include "dom_object.hpp"
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 
 #include "base_exception_private.hpp"
 

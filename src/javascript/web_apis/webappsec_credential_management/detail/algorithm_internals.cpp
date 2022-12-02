@@ -1,6 +1,6 @@
 #include "algorithm_internals.hpp"
 
-#include "ext/enums.hpp"
+#include "ext/enums.ixx"
 #include "javascript/environment/realms.hpp"
 #include "javascript/environment/environment_settings.hpp"
 

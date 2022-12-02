@@ -3,13 +3,13 @@
 #define SBROWSER2_EVENT_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/concepts.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/concepts.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include "ext/span.hpp"
 #include <range/v3/view/any_view.hpp>
 #include INCLUDE_INNER_TYPES(dom)

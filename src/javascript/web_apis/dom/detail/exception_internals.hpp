@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_EXCEPTION_INTERNALS_HPP
 #define SBROWSER2_EXCEPTION_INTERNALS_HPP
 
-#include "ext/casting.hpp"
-#include "ext/functional.hpp"
+#include "ext/casting.ixx"
+#include "ext/functional.ixx"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::other {class dom_exception;}

@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_IMAGE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_IMAGE_INTERNALS_HPP
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(fetch)

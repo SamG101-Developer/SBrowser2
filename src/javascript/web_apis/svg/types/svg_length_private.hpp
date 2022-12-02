@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 
 
 DEFINE_PRIVATE_CLASS(svg::types, svg_length) : virtual dom_object_private

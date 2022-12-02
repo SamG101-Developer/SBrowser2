@@ -1,8 +1,8 @@
 #include "index_internals.hpp"
 
-#include "ext/filesystem.hpp"
-#include "ext/functional.hpp"
-#include "ext/pair.hpp"
+#include "ext/filesystem.ixx"
+#include "ext/functional.ixx"
+#include "ext/pair.ixx"
 #include "ext/ranges.hpp"
 
 

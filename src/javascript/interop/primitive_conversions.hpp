@@ -7,9 +7,9 @@
 #include "ext/array_buffer.hpp"
 #include "ext/any.hpp"
 #include "ext/optional.hpp"
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/span.hpp"
-#include "ext/symbol.hpp"
+#include "ext/symbol.ixx"
 
 #include "javascript/ecma/262/7/1.hpp"
 #include "javascript/ecma/262/7/2.hpp"

@@ -10,9 +10,9 @@
 #include "dom/mixins/slottable_private.hpp"
 #include "aria/mixins/aria_mixin_private.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/memory.hpp"
-#include "ext/queue.hpp"
+#include "ext/boolean.ixx"
+#include "ext/memory.ixx"
+#include "ext/queue.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)

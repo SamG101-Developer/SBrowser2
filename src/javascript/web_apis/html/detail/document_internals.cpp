@@ -1,6 +1,6 @@
 #include "document_internals.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/ranges.hpp"
 #include "javascript/environment/reflection.hpp"
 

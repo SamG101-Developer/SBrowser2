@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(fetch)
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/string.hpp"
 
 

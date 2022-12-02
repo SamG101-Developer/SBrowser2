@@ -14,8 +14,8 @@ namespace dom::nodes {class element_private;}
 
 
 #include "ext/optional.hpp"
-#include "ext/queue.hpp"
-#include "ext/map.hpp"
+#include "ext/queue.ixx"
+#include "ext/map.ixx"
 #include "ext/promise.hpp"
 #include "ext/span.hpp"
 #include "ext/vector.hpp"

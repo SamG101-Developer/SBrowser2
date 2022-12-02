@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_HTTP_INTERNALS_HPP
 #define SBROWSER2_HTTP_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(url)
 

@@ -6,7 +6,7 @@
 namespace service_workers::clients {class clients;}
 namespace service_workers::clients {class clients_private;}
 
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)

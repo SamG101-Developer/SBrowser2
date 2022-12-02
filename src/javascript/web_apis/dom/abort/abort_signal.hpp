@@ -7,9 +7,9 @@ namespace dom::abort {class abort_signal;}
 namespace dom::abort {class abort_signal_private;}
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/optional.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 namespace dom::nodes {class event_target;}
 
 

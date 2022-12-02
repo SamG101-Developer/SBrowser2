@@ -1,7 +1,7 @@
 #include "label.hpp"
 #include "label_private.hpp"
 
-#include "ext/hashing.hpp"
+#include "ext/hashing.ixx"
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"

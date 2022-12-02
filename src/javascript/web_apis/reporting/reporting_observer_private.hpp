@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(reporting)
-#include "ext/queue.hpp"
+#include "ext/queue.ixx"
 namespace reporting {class report;}
 
 

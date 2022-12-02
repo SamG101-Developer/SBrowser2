@@ -1,8 +1,8 @@
 #include "integration_internals.hpp"
 #include "directive_internals.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "fetch/detail/request_internals.hpp"

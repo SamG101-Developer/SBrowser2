@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(mediasession)
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include "ext/string.hpp"
 namespace mediasession {class media_session;}
 

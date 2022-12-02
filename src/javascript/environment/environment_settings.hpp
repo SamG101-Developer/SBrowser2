@@ -8,7 +8,7 @@ namespace js::env {struct settings_t;}
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(storage)
 #include INCLUDE_INNER_TYPES(url)
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include <v8pp/class.hpp>
 #include <v8pp/convert.hpp>
 namespace service_workers::workers {class service_worker_private;}

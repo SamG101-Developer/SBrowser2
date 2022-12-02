@@ -1,8 +1,8 @@
 #include "non_element_parent_node.hpp"
 #include "non_element_parent_node_private.hpp"
 
-#include "ext/casting.hpp"
-#include "ext/functional.hpp"
+#include "ext/casting.ixx"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/nodes/element.hpp"

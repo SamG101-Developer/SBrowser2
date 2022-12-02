@@ -6,7 +6,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(streams)
 namespace dom::abort {class abort_signal;}

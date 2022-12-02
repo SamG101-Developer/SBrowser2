@@ -2,9 +2,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 #include "ext/optional.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include INCLUDE_INNER_TYPES(media_source)
 namespace dom::nodes {class window;}
 namespace html::workers {class dedicated_worker_global_scope;}

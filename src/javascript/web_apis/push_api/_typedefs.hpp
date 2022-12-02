@@ -2,9 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PUSH_API__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 
 #include <v8-forward.h>
 

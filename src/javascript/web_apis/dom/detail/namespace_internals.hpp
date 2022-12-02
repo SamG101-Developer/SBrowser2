@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_NAMESPACE_INTERNALS_HPP
 #define SBROWSER2_NAMESPACE_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/string.hpp"
-#include "ext/tuple.hpp"
+#include "ext/tuple.ixx"
 
 namespace dom::detail
 { // TODO : namespace these further ?

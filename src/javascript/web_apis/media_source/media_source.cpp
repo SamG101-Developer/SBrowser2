@@ -1,7 +1,7 @@
 #include "media_source.hpp"
 #include "media_source_private.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/_typedefs.hpp"

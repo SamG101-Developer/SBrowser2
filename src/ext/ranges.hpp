@@ -4,14 +4,14 @@
 // TODO : add constraints to range views / actions / algorithms, like in range-v3 library.
 // TODO : comment MACROS
 
-#include "ext/boolean.hpp"
-#include "ext/casting.hpp"
-#include "ext/concepts.hpp"
-#include "ext/functional.hpp"
-#include "ext/pair.hpp"
+#include "ext/boolean.ixx"
+#include "ext/casting.ixx"
+#include "ext/concepts.ixx"
+#include "ext/functional.ixx"
+#include "ext/pair.ixx"
 #include "ext/string.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/variadic.hpp"
+#include "ext/type_traits.ixx"
+#include "ext/variadic.ixx"
 
 #include <range/v3/range/conversion.hpp>
 

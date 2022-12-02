@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_OBJECT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_OBJECT_PRIVATE_HPP
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class element;}
 namespace dom::nodes {class node;}

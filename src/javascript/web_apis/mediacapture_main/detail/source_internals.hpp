@@ -2,9 +2,9 @@
 #ifndef SBROWSER2_SOURCE_INTERNALS_HPP
 #define SBROWSER2_SOURCE_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/concepts.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/concepts.ixx"
+#include "ext/functional.ixx"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 

@@ -1,6 +1,6 @@
 #include "canvas_rect.hpp"
 
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "html/detail/canvas_internals.hpp"
 
 #include INCLUDE_INNER_TYPES(html)

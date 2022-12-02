@@ -1,7 +1,7 @@
 #include "dom_implementation.hpp"
 #include "dom_implementation_private.hpp"
 
-#include "ext/hashing.hpp"
+#include "ext/hashing.ixx"
 
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"

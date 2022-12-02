@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace dom::xpath {class xpath_result;}
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
 
 

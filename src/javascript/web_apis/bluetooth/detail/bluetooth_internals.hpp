@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BLUETOOTH_DETAIL_BLUETOOTH_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BLUETOOTH_DETAIL_BLUETOOTH_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/set.hpp"
 #include INCLUDE_INNER_TYPES(bluetooth)
 

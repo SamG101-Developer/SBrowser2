@@ -3,9 +3,9 @@
 
 #include <memory>
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
-#include "ext/map.hpp"
-#include "ext/queue.hpp"
+#include "ext/boolean.ixx"
+#include "ext/map.ixx"
+#include "ext/queue.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}

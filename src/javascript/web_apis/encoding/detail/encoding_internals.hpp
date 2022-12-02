@@ -2,10 +2,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_DETAIL_ENCODING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_DETAIL_ENCODING_INTERNALS_HPP
 
-#include "ext/expected.hpp"
-#include "ext/map.hpp"
+#include "ext/expected.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(encoding)
 

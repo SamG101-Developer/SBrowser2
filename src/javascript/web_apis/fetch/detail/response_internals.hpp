@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "ext/boolean.hpp"
-#include "ext/expected.hpp"
+#include "ext/boolean.ixx"
+#include "ext/expected.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 

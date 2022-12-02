@@ -1,7 +1,7 @@
 #include "child_node.hpp"
 #include "child_node_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "dom/detail/customization_internals.hpp"
 #include "dom/detail/mutation_internals.hpp"

@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_INTEROP_EXPOSE_MACROS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_INTEROP_EXPOSE_MACROS_HPP
 
-#include "ext/enums.hpp"
-#include "ext/number.hpp"
-#include "ext/tuple.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/enums.ixx"
+#include "ext/number.ixx"
+#include "ext/tuple.ixx"
+#include "ext/type_traits.ixx"
 #include "javascript/environment/environment_module.hpp"
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>

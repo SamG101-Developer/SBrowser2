@@ -6,7 +6,7 @@
 namespace edit_context {class text_format;}
 namespace edit_context {class text_format_private;}
 
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include INCLUDE_INNER_TYPES(edit_context)
 
 

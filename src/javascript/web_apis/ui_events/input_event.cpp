@@ -1,6 +1,6 @@
 #include "input_event.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 
 #include "html/dnd/data_transfer.hpp"
 

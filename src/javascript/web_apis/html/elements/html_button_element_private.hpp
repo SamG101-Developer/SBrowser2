@@ -7,7 +7,7 @@
 #include "html/mixins/validatable_private.hpp"
 
 #include INCLUDE_INNER_TYPES(html)
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace html::elements {class html_form_element;}
 
 

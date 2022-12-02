@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_EFFECT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_EFFECT_PRIVATE_HPP
 
-#include "ext/map.hpp"
-#include "ext/number.hpp"
-#include "ext/pair.hpp"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
+#include "ext/pair.ixx"
 #include "ext/pimpl.hpp"
 
 #include INCLUDE_INNER_TYPES(css)

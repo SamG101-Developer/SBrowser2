@@ -6,7 +6,7 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(mediacapture_record)
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace mediacapture::main {class media_stream;}
 
 

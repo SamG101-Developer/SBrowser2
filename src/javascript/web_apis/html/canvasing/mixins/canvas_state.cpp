@@ -1,6 +1,6 @@
 #include "canvas_state.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "html/detail/canvas_internals.hpp"
 #include "html/elements/html_canvas_element.hpp"

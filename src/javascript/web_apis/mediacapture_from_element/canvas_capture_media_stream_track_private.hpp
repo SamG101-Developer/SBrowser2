@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "mediacapture_main/media_stream_track_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 
 
 DEFINE_PRIVATE_CLASS(mediacapture::from_element, canvas_capture_media_stream_track) : mediacapture::media_stream_track_private

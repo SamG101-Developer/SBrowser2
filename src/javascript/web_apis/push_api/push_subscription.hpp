@@ -11,7 +11,7 @@ namespace push_api {class push_subscription_private;}
 #include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(push_api)
 #include "ext/any.hpp"
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/promise.hpp"
 #include "ext/span.hpp"
 #include <v8-forward.h>

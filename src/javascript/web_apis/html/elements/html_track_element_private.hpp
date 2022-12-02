@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "html/elements/html_element_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include INCLUDE_INNER_TYPES(html)
 namespace html::basic_media {class text_track;}
 

@@ -2,9 +2,9 @@
 #ifndef SBROWSER2_STRINGS_HPP
 #define SBROWSER2_INFRA_STRINGS_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/concepts.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/concepts.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 
 

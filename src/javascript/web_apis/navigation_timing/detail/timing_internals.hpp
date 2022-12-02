@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_DETAIL_TIMING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_DETAIL_TIMING_INTERNALS_HPP
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(resource_timing)

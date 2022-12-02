@@ -3,7 +3,7 @@
 
 #include "ext/promise.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/string.hpp"
 namespace file_api {class blob;}
 namespace file_api {class file;}

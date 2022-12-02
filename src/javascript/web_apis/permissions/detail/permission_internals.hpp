@@ -3,11 +3,11 @@
 #define SBROWSER2_PERMISSION_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/optional.hpp"
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 
 #include INCLUDE_INNER_TYPES(permissions)
 #include INCLUDE_INNER_TYPES(permissions_policy)

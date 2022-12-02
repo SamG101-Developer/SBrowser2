@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 
 
 DEFINE_PRIVATE_CLASS(html::mixins, lazy_loadable) : virtual dom_object_private

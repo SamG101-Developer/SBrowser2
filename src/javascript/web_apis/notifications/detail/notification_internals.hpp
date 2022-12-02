@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NOTIFICATIONS_DETAIL_NOTIFICATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NOTIFICATIONS_DETAIL_NOTIFICATION_INTERNALS_HPP
 
-#include "ext/pair.hpp"
+#include "ext/pair.ixx"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 

@@ -6,7 +6,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/boolean.hpp"
+#include "ext/boolean.ixx"
 #include "ext/optional.hpp"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(virtual_keyboard)

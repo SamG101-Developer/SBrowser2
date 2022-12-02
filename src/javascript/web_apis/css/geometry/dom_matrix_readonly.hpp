@@ -8,7 +8,7 @@ namespace css::geometry {class dom_matrix_readonly;}
 namespace css::geometry {class dom_matrix_readonly_private;}
 
 #include INCLUDE_INNER_TYPES(css/geometry)
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 #include "ext/span.hpp"
 #include <qmatrix4x4.h>
 #include <qpointer.h>

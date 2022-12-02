@@ -4,7 +4,7 @@
 
 // Inheritance Includes & This Class
 #include "dom_object.hpp"
-#include "ext/singleton.hpp"
+#include "ext/singleton.ixx"
 namespace webappsec::cowl {class cowl;}
 namespace webappsec::cowl {class cowl_private;}
 

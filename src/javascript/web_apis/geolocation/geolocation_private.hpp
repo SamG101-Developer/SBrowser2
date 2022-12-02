@@ -5,7 +5,7 @@
 #include "dom_object_private.hpp"
 
 #include "ext/vector.hpp"
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 namespace geolocation {class geolocation_position;}
 
 

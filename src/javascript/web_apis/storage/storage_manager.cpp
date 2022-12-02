@@ -1,7 +1,7 @@
 #include "storage_manager.hpp"
 
-#include "ext/casting.hpp"
-#include "ext/threading.hpp"
+#include "ext/casting.ixx"
+#include "ext/threading.ixx"
 
 #include "javascript/environment/realms.hpp"
 #include "javascript/interop/error_macros.hpp"

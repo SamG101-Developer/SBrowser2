@@ -1,7 +1,7 @@
 #include "media_stream_track.hpp"
 #include "media_stream_track_private.hpp"
 
-#include "ext/uuid.hpp"
+#include "ext/uuid.ixx"
 
 #include "dom/detail/event_internals.hpp"
 #include "mediacapture_main/detail/source_internals.hpp"

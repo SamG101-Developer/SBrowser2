@@ -6,7 +6,7 @@
 namespace ui_events {class ui_event;}
 namespace ui_events {class ui_event_private;}
 
-#include "ext/number.hpp"
+#include "ext/number.ixx"
 namespace dom::nodes {class window;}
 
 

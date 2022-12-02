@@ -1,7 +1,7 @@
 #include "slottable.hpp"
 #include "slottable_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 #include "dom/nodes/node.hpp"
 #include "dom/detail/shadow_internals.hpp"
 #include "html/elements/html_slot_element.hpp"

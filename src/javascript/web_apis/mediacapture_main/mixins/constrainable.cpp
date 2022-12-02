@@ -1,7 +1,7 @@
 #include "constrainable.hpp"
 #include "constrainable_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "mediacapture_main/_typedefs.hpp"
 #include "mediacapture_main/media_stream_track.hpp"

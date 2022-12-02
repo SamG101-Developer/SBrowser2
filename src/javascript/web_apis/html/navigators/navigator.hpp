@@ -16,7 +16,7 @@
 namespace html::navigators {class navigator;}
 namespace html::navigators {class navigator_private;}
 
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
 #include "ext/span.hpp"

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing {class canvas_gradient;}
 
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include <QtGui/QLinearGradient>
 #include <QtGui/QRadialGradient>
 #include <QtGui/QConicalGradient>

@@ -1,7 +1,7 @@
 #include "contacts_manager.hpp"
 #include "contacts_manager_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "javascript/environment/realms.hpp"
 

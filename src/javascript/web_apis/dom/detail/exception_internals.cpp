@@ -1,6 +1,6 @@
 #include "exception_internals.hpp"
 
-#include "ext/pair.hpp"
+#include "ext/pair.ixx"
 #include "javascript/environment/realms.hpp"
 
 #include "dom/_typedefs.hpp"

@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace notifications {class notification;}
 
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(notifications)
 

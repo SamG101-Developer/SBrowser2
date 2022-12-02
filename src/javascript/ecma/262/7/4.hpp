@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_ECMA_262_7_4_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_ECMA_262_7_4_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
 #include "ext/optional.hpp"
 #include "javascript/ecma/262/7/3.hpp"
 #include <v8-forward.h>

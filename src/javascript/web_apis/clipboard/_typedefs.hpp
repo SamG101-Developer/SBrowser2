@@ -6,7 +6,7 @@
 #include "ext/any.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include INCLUDE_INNER_TYPES(mimesniff)
 namespace file_api {class blob;}
 

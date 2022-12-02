@@ -4,7 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 #include "ext/ranges.hpp"
 #include <memory>
 #include <range/v3/view/transform.hpp>

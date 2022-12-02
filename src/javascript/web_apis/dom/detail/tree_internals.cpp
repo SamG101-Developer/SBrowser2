@@ -1,6 +1,6 @@
 #include "tree_internals.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/nodes/attr.hpp"

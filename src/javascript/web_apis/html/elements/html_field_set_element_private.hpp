@@ -6,7 +6,7 @@
 #include "html/elements/html_element_private.hpp"
 #include "html/mixins/validatable_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace html::elements {class html_form_element;}
 
 

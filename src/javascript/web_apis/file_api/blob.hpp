@@ -5,9 +5,9 @@
 namespace file_api {class blob;}
 namespace file_api {class blob_private;}
 
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/optional.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 #include "ext/promise.hpp"
 #include <v8-forward.h>

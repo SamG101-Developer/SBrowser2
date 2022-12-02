@@ -1,7 +1,7 @@
 #include "orientation_sensor.hpp"
 #include "orientation_sensor_private.hpp"
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 #include "ext/keywords.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)

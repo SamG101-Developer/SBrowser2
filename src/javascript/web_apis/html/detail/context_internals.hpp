@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_CONTEXT_INTERNALS_HPP
 #define SBROWSER2_CONTEXT_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/memory.hpp"
-#include "ext/pair.hpp"
+#include "ext/boolean.ixx"
+#include "ext/memory.ixx"
+#include "ext/pair.ixx"
 #include "ext/span.hpp"
 #include "ext/vector.hpp"
 

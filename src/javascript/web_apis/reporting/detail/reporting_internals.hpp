@@ -3,8 +3,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_REPORTING_DETAIL_REPORTING_INTERNALS_HPP
 
 #include "ext/any.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
 #include "ext/span.hpp"
 #include "ext/string.hpp"

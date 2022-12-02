@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "dom/events/event_private.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace mediacapture::main {class media_stream_track;}
 
 

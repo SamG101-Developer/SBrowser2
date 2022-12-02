@@ -4,8 +4,8 @@
 #include "ext/pimpl.hpp"
 #include "dom/nodes/event_target_private.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/number.ixx"
 
 #include <hwinfo/battery.h>
 

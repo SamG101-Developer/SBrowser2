@@ -1,9 +1,9 @@
 #include "event_internals.hpp"
 
 #include "ext/assertion.hpp"
-#include "ext/concepts.hpp"
-#include "ext/functional.hpp"
-#include "ext/hashing.hpp"
+#include "ext/concepts.ixx"
+#include "ext/functional.ixx"
+#include "ext/hashing.ixx"
 #include "ext/keywords.hpp"
 #include "ext/ranges.hpp"
 

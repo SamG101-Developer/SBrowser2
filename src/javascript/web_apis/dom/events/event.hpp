@@ -6,9 +6,9 @@ namespace dom::events {class event;}
 namespace dom::events {class event_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/type_traits.hpp"
+#include "ext/type_traits.ixx"
 #include "ext/vector.hpp"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class event_target;}

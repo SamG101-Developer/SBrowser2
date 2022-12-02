@@ -2,9 +2,9 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIASESSION__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
 #include "ext/string.hpp"
 
 

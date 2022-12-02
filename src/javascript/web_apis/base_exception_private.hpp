@@ -4,7 +4,7 @@
 #include "ext/pimpl.hpp"
 #include "dom_object_private.hpp"
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 #include "ext/string.hpp"
 
 

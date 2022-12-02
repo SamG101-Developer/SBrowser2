@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_LOCKS_DETAIL_LOCK_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_LOCKS_DETAIL_LOCK_INTERNALS_HPP
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 #include "ext/promise.hpp"
 #include "ext/set.hpp"
 #include <v8-forward.h>

@@ -7,10 +7,10 @@ namespace streams::readable {class readable_stream_default_controller;}
 namespace streams::readable {class readable_stream_default_controller_private;}
 
 #include INCLUDE_INNER_TYPES(streams)
-#include "ext/boolean.hpp"
-#include "ext/functional.hpp"
-#include "ext/number.hpp"
-#include "ext/queue.hpp"
+#include "ext/boolean.ixx"
+#include "ext/functional.ixx"
+#include "ext/number.ixx"
+#include "ext/queue.ixx"
 
 
 class streams::readable::readable_stream_default_controller

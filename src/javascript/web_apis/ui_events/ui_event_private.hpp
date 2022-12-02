@@ -5,7 +5,7 @@
 #include "ext/pimpl.hpp"
 #include "dom/events/event.hpp"
 
-#include "ext/memory.hpp"
+#include "ext/memory.ixx"
 namespace dom::nodes {class window;}
 
 

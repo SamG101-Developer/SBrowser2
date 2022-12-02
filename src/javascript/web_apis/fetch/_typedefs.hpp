@@ -2,11 +2,11 @@
 #define SBROWSER2_FETCH_TYPEDEFS_HPP
 
 
-#include "ext/map.hpp"
-#include "ext/pair.hpp"
-#include "ext/tuple.hpp"
-#include "ext/type_traits.hpp"
-#include "ext/variant.hpp"
+#include "ext/map.ixx"
+#include "ext/pair.ixx"
+#include "ext/tuple.ixx"
+#include "ext/type_traits.ixx"
+#include "ext/variant.ixx"
 
 #include <v8-forward.h>
 namespace fetch {class request;}

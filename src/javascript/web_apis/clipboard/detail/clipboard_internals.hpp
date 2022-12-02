@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_DETAIL_CLIPBOARD_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_DETAIL_CLIPBOARD_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/map.hpp"
+#include "ext/boolean.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(clipboard)
 

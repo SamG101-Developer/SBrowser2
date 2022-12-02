@@ -1,7 +1,7 @@
 #include "file_system_directory_handle.hpp"
 #include "file_system_directory_handle_private.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/_typedefs.hpp"

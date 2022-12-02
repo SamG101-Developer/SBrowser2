@@ -1,10 +1,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/array.hpp"
-#include "ext/boolean.hpp"
-#include "ext/expected.hpp"
-#include "ext/map.hpp"
+#include "ext/array.ixx"
+#include "ext/boolean.ixx"
+#include "ext/expected.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(intersection_observer)
 #include INCLUDE_INNER_TYPES(hr_time)

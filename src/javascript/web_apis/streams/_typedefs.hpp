@@ -2,12 +2,12 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"
 #include "ext/string.hpp"
-#include "ext/variant.hpp"
+#include "ext/variant.ixx"
 #include "ext/vector.hpp"
 
 namespace streams::readable {class abstract_readable_stream_reader;}

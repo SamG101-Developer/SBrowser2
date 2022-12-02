@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_EXT_PIMPL_HPP
 #define SBROWSER2_SRC_EXT_PIMPL_HPP
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 #include <memory>
 #include <self_macro.h>
 

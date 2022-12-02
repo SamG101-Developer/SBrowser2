@@ -1,6 +1,6 @@
 #include "permissions_policy.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 #include "dom/nodes/document.hpp"
 
 #include "html/elements/html_iframe_element.hpp"

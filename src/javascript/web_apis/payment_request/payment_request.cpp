@@ -1,7 +1,7 @@
 #include "payment_request.hpp"
 #include "payment_request_private.hpp"
 
-#include "ext/uuid.hpp"
+#include "ext/uuid.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(payment_method_id)

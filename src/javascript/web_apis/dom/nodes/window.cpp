@@ -1,9 +1,9 @@
 #include "window.hpp"
 #include "window_private.hpp"
 
-#include "ext/functional.hpp"
+#include "ext/functional.ixx"
 #include "ext/ranges.hpp"
-#include "ext/threading.hpp"
+#include "ext/threading.ixx"
 
 #include "background_tasks/detail/processing_internals.hpp"
 

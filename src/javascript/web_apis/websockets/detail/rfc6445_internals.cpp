@@ -1,6 +1,6 @@
 #include "rfc6455_internals.hpp"
 
-#include "ext/enums.hpp"
+#include "ext/enums.ixx"
 
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/fetch_internals.hpp"

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace permissions {class permission;}
 
-#include "ext/map.hpp"
+#include "ext/map.ixx"
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(permissions)
 namespace permissions {class permission_status;}

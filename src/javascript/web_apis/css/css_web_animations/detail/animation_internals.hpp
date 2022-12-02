@@ -5,16 +5,16 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_DETAIL_ANIMATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_DETAIL_ANIMATION_INTERNALS_HPP
 
-#include "ext/boolean.hpp"
-#include "ext/concepts.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
-#include "ext/number.hpp"
+#include "ext/boolean.ixx"
+#include "ext/concepts.ixx"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
+#include "ext/number.ixx"
 #include "ext/optional.hpp"
 #include "ext/pimpl.hpp"
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
-#include "ext/stack.hpp"
+#include "ext/stack.ixx"
 #include INCLUDE_INNER_TYPES(css)
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
 #include INCLUDE_INNER_TYPES(hr_time)

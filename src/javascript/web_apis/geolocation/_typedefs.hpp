@@ -2,8 +2,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION__TYPEDEFS_HPP
 
 #include "ext/any.hpp"
-#include "ext/functional.hpp"
-#include "ext/map.hpp"
+#include "ext/functional.ixx"
+#include "ext/map.ixx"
 #include "ext/string.hpp"
 
 namespace geolocation {class geolocation_position;}

@@ -4,8 +4,8 @@
 #include "dom_object_private"
 #include "ext/pimpl.hpp"
 
-#include "ext/boolean.hpp"
-#include "ext/memory.hpp"
+#include "ext/boolean.ixx"
+#include "ext/memory.ixx"
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}
 

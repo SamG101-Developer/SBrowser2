@@ -5,7 +5,7 @@
 namespace dom::mixins {class child_node;}
 namespace dom::mixins {class child_node_private;}
 
-#include "ext/concepts.hpp"
+#include "ext/concepts.ixx"
 namespace dom::nodes {class node;}
 
 

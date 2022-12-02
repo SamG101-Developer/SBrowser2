@@ -1,7 +1,7 @@
 #include "validatable.hpp"
 #include "validatable_private.hpp"
 
-#include "ext/casting.hpp"
+#include "ext/casting.ixx"
 
 #include "dom/detail/event_internals.hpp"
 #include "html/elements/html_element.hpp"
