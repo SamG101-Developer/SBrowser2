@@ -1,8 +1,8 @@
 #include "mutation_observer.hpp"
 #include "mutation_observer_private.hpp"
 
-#include "ext/functional.ixx"
-#include "ext/ranges.hpp"
+
+
 
 #include "javascript/environment/global_slots.hpp"
 #include "javascript/environment/realms.hpp"

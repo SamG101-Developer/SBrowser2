@@ -1,4 +1,9 @@
 module;
+#include "ext/macros/namespaces.hpp"
+#include <cryptopp/secblock.h>
+#include <range/v3/algorithm/fold.hpp>
+#include <range/v3/to_container.hpp>
+
 #define string_switch(_String) switch(ext::hash{}(_String))
 #define string_case(_String) case(ext::hash{}(_String))
 #define string_default default
@@ -9,11 +14,6 @@ import ext.allocator;
 import ext.concepts;
 import ext.functional;
 import std.core;
-import ext.macros.namespaces;
-
-#include <cryptopp/secblock.h>
-#include <range/v3/algorithm/fold.hpp>
-#include <range/v3/to_container.hpp>
 
 
 _EXT_BEGIN
@@ -76,7 +76,7 @@ _EXT_BEGIN
     export template <string_like T>
     using view_of_t = typename view_of<std::remove_cvref_t<T>>::type;
 
-    template <_EXT string_like_t S>
+    export template <_EXT string_like S>
     constexpr auto snake_to_camel(S&& string) noexcept -> S;
 _EXT_END
 
@@ -105,7 +105,7 @@ _EXT_LITERALS_BEGIN
 _EXT_LITERALS_END
 
 
-template <_EXT string_like_t S>
+template <_EXT string_like S>
 constexpr auto ext::snake_to_camel(S&& string) noexcept -> S
 {
     bool tail = false;

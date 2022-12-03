@@ -1,6 +1,6 @@
 #include "code_points_internals.hpp"
 
-#include <initializer_list>
+
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/iota.hpp>
 

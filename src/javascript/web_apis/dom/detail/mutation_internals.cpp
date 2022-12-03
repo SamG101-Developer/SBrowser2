@@ -3,8 +3,8 @@
 #include "environment/global_slots.hpp"
 
 #include "ext/casting.ixx"
-#include "ext/functional.ixx"
-#include "ext/ranges.hpp"
+
+
 #include "ext/type_traits.ixx"
 
 #include "css/cssom/detail/miscellaneous_query_internals.hpp"

@@ -2,7 +2,6 @@
 
 #include <limits>
 
-#include "ext/initializer_list.ixx"
 
 #include <v8-exception.h>
 #include <v8-internal.h>

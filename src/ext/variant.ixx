@@ -1,15 +1,15 @@
-export module ext.variant;
-
-import ext.tuple;
-import ext.vector;
-
+module;
 #include <swl/variant.hpp>
-
 
 _EXT_BEGIN
     using namespace swl;
     using variant_monostate_t = swl::monostate;
 _EXT_END
+
+
+export module ext.variant;
+import ext.tuple;
+import ext.vector;
 
 
 _EXT_BEGIN

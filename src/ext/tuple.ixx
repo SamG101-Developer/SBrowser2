@@ -1,18 +1,18 @@
-export module ext.tuple;
-import ext.functional;
-import std.core;
-
+module;
 #include <tuplet/tuple.hpp>
 
-
 _EXT_BEGIN
-    export using namespace tuplet;
+    using namespace tuplet;
 _EXT_END
 
 _EXT_LITERALS_BEGIN
-    export using namespace tuplet::literals;
+    using namespace tuplet::literals;
 _EXT_LITERALS_END
 
+
+export module ext.tuple;
+import ext.functional;
+import std.core;
 
 _EXT_DETAIL_BEGIN
     export template <class T, class Tuple, size_t... Indices>
@@ -27,7 +27,7 @@ _EXT_DETAIL_END
 
 _EXT_BEGIN
     export template <class T, class Tuple>
-    _EXT_NODISCARD constexpr auto make_from_tuple(Tuple&& tuple) -> T
+    constexpr auto make_from_tuple(Tuple&& tuple) -> T
     {
         return detail::make_from_tuple<T>(
                 std::forward<Tuple>(tuple),
@@ -61,6 +61,3 @@ _EXT_END
  * https://stackoverflow.com/users/2756719/t-c
  * 15/11/2022 16:00
  */
-
-
-#endif //SBROWSER2_SRC_EXT_TUPLE_HPP

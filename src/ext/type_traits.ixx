@@ -1,6 +1,8 @@
+module;
+#include "ext/macros/namespaces.hpp"
+
 export module ext.type_traits;
 
-import ext.any;
 import ext.boolean;
 import ext.concepts;
 import ext.functional;
@@ -9,8 +11,6 @@ import ext.number;
 import ext.variant;
 import std.core;
 import std.memory;
-
-#include "ext/keywords.ixx"
 
 
 // TODO : Don't even remember what these macros do
@@ -34,7 +34,7 @@ _EXT_BEGIN
     {using type = void;};
 
     export template <typename ...OldTypes, typename ...NewTypes>
-    struct extend_variant<variant<OldTypes...>, NewTypes...>
+    struct extend_variant<_EXT variant<OldTypes...>, NewTypes...>
     {using type = variant<OldTypes..., NewTypes...>;};
 
     export template <typename OldVariant, typename ...NewTypes>
@@ -60,6 +60,3 @@ _EXT_BEGIN
     {return S{std::bit_cast<std::ptrdiff_t>(pointer)};}
 
 _EXT_END
-
-
-#endif //SBROWSER2_TYPE_TRAITS_HPP

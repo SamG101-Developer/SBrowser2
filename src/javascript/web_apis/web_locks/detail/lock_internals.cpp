@@ -1,8 +1,8 @@
 #include "lock_internals.hpp"
 
 #include "dom/_typedefs.hpp"
-#include "ext/functional.ixx"
-#include "ext/ranges.hpp"
+
+
 #include "javascript/environment/realms.hpp"
 
 #include "dom/detail/observer_internals.hpp"

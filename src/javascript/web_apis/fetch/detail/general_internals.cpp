@@ -1,6 +1,6 @@
 #include "general_internals.hpp"
 
-#include "ext/ranges.hpp"
+
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/observer_internals.hpp"
@@ -9,7 +9,7 @@
 #include "fetch/detail/request_internals.hpp"
 #include "html/detail/task_internals.hpp"
 
-#include <initializer_list>
+
 #include <range/v3/algorithm/contains.hpp>
 
 

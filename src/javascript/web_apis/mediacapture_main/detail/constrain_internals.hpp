@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_CONSTRAIN_INTERNALS_HPP
 #define SBROWSER2_CONSTRAIN_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/map.ixx"
 #include "ext/set.hpp"
 #include "ext/string.hpp"

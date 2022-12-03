@@ -6,7 +6,7 @@
 namespace service_workers::events {class extendable_message_event;}
 namespace service_workers::events {class extendable_message_event_private;}
 
-#include "ext/ranges.hpp"
+
 #include "ext/span.hpp"
 namespace html::messaging {class message_port;}
 namespace service_workers::clients {class client;}

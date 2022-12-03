@@ -2,8 +2,8 @@
 #include "custom_element_registry_private.hpp"
 
 #include "dom/detail/shadow_internals.hpp"
-#include "ext/functional.ixx"
-#include "ext/ranges.hpp"
+
+
 
 #include "javascript/interop/manual_primitive_conversions/convert_string.hpp"
 

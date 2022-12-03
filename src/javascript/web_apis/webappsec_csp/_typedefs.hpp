@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTENT_SECURITY_POLICY__TYPEDEFS_HPP
 
 #include "ext/number.ixx"
-#include "ext/pair.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-forward.h>

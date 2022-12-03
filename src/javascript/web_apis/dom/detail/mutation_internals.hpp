@@ -2,7 +2,7 @@
 #define SBROWSER2_MUTATION_INTERNALS_HPP
 
 #include <memory>
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/map.ixx"
 #include "ext/queue.ixx"

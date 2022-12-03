@@ -5,7 +5,7 @@
 namespace html::other {class custom_element_registry;}
 namespace html::other {class custom_element_registry_private;}
 
-#include "ext/functional.ixx"
+
 #include "ext/map.ixx"
 #include "ext/optional.hpp"
 #include "ext/promise.hpp"

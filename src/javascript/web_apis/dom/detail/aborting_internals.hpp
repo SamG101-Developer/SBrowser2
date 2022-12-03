@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_ABORTING_INTERNALS_HPP
 #define SBROWSER2_ABORTING_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::abort {class abort_signal;}
 

@@ -3,7 +3,7 @@
 
 #include "ext/boolean.ixx"
 #include "ext/expected.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/map.ixx"
 #include "ext/optional.hpp"
 #include "ext/queue.ixx"

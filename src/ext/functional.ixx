@@ -1,20 +1,25 @@
-export module ext.functional;
-import ext.concepts;
-
-#include <compare>
+module;
+#include "ext/macros/namespaces.hpp"
 #include <function2/function2.hpp>
+
+_EXT_BEGIN
+    using namespace fu2;
+_EXT_END
+
+
+export module ext.functional;
+import ext.boolean;
+import ext.concepts;
+import std.core;
 
 
 _EXT_BEGIN
-
-    export using namespace fu2;
-
     // Simple functors for parameters (mainly used as range projections)
     export auto identity = []<typename T>(T&& object) {return std::forward<T>(object);};
 
     export auto negate = []<typename T>(T&& object) {return !std::forward<T>(object);};
 
-    export auto invoke = [](callable auto&& object) {return object();};
+    export auto invoke = [](_EXT callable auto&& object) {return object();};
 
     export auto deref = [](auto* object) {return *object;};
 
@@ -31,7 +36,7 @@ _EXT_BEGIN
     overloaded(Ts...) -> overloaded<Ts...>;
 
 
-    namespace cmp
+    export namespace cmp
     {
         auto eq = overloaded
                 {
@@ -89,7 +94,7 @@ _EXT_BEGIN
     }
 
 
-    namespace ops
+    export namespace ops
     {
         auto add =
                 []<typename T, typename U>(T&& left, U&& right)
@@ -117,7 +122,7 @@ _EXT_END
 
 
 export template <typename R, typename ...Types>
-export auto operator==(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> ext::boolean;
+auto operator==(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> ext::boolean;
 
 export template <typename R, typename ...Types>
-export auto operator<=>(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> std::strong_ordering;
+auto operator<=>(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> std::strong_ordering;

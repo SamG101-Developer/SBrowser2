@@ -1,6 +1,6 @@
 #include "aborting_internals.hpp"
 
-#include "ext/any.hpp"
+
 #include "dom/abort/abort_signal.hpp"
 #include "dom/abort/abort_signal_private.hpp"
 #include "dom/detail/event_internals.hpp"

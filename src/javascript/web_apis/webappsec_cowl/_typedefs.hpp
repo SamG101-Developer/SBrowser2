@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL__TYPEDEFS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/set.hpp"
 #include "ext/map.ixx"
 #include "ext/string.hpp"

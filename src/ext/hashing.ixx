@@ -1,3 +1,6 @@
+module;
+#include "ext/macros/namespaces.hpp"
+
 export module ext.hash;
 
 import ext.any;

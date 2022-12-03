@@ -7,7 +7,7 @@
 
 #include INCLUDE_INNER_TYPES(streams)
 #include "ext/boolean.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/promise.hpp"
 #include "ext/queue.ixx"
 namespace streams::readable {class readable_stream;}

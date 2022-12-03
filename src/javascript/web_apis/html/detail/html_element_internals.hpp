@@ -5,7 +5,7 @@
 #include "ext/boolean.ixx"
 #include "ext/concepts.ixx"
 #include "ext/number.ixx"
-#include "ext/pair.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <range/v3/view/any_view.hpp>

@@ -1,10 +1,10 @@
-export module ext.queue;
+module;
+#include "ext/macros/namespaces.hpp"
+#include <plf/plf_queue.h>
 
+export module ext.queue;
 import ext.allocator;
 import ext.vector;
-
-#include "ext/keywords.ixx"
-#include <plf/plf_queue.h>
 
 
 _EXT_BEGIN

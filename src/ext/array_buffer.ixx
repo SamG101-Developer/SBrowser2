@@ -1,9 +1,9 @@
-export module ext.array_buffer;
-
-import ext.variant;
-
-#include "ext/keywords.ixx"
+module;
+#include "ext/macros/namespaces.hpp"
 #include <v8-forward.h>
+
+export module ext.array_buffer;
+import ext.variant;
 
 
 _EXT_BEGIN

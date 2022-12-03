@@ -53,6 +53,3 @@ private:
 };
 
 _STD_END
-
-
-#endif //SBROWSER2_SRC_EXT_MEMORY_HPP

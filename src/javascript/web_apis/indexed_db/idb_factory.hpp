@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace indexed_db {class idb_factory;}
 
-#include "ext/any.hpp"
+
 #include "ext/map.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"

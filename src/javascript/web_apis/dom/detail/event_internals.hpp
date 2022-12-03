@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_EVENT_INTERNALS_HPP
 #define SBROWSER2_EVENT_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/concepts.ixx"
 #include "ext/map.ixx"

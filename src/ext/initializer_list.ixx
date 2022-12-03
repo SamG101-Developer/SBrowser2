@@ -1,8 +1,9 @@
-export module ext.initializer_list;
-
-import ext.variadic;
-
+module;
+#include <ext/macros/namespaces.hpp>
 #include <better_braces.hpp>
+
+export module ext.initializer_list;
+import ext.variadic;
 
 
 _EXT_BEGIN

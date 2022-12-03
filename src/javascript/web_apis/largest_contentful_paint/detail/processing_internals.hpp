@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LARGEST_CONTENTFUL_PAINT_DETAIL_PROCESSING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LARGEST_CONTENTFUL_PAINT_DETAIL_PROCESSING_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/map.ixx"
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class document; class element;}

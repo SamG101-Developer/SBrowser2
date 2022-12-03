@@ -1,9 +1,10 @@
-export module ext.stack;
-
-import ext.allocator;
-
-#include "ext/keywords.ixx"
+module;
+#include "ext/macros/namespaces.hpp"
 #include <plf/plf_stack.h>
+
+
+export module ext.stack;
+import ext.allocator;
 
 
 _EXT_BEGIN

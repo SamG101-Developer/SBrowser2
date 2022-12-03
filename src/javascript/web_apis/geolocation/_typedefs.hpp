@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION__TYPEDEFS_HPP
 
-#include "ext/any.hpp"
-#include "ext/functional.ixx"
+
+
 #include "ext/map.ixx"
 #include "ext/string.hpp"
 

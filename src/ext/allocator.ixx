@@ -1,8 +1,8 @@
 module;
+#include "ext/macros/namespaces.hpp"
 #include <cryptopp/secblock.h>
 
 export module ext.allocator;
-import ext.macros.namespaces;
 import std.memory;
 
 

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_DETAIL_SENSOR_INTERNALS_HPP
 
 #include "ext/boolean.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/optional.hpp"
 #include "ext/set.hpp"
 #include "ext/string.hpp"

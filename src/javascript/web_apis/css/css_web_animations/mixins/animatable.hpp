@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace css::css_web_animations::mixins {class animatable;}
 
-#include "ext/any.hpp"
+
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
 namespace css::css_web_animations {class animation;}
 

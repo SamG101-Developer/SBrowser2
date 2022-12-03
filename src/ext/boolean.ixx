@@ -1,7 +1,9 @@
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/namespaces.hpp"
+
 export module ext.boolean;
 import std.core;
-
-#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN

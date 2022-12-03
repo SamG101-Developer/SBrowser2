@@ -1,5 +1,12 @@
-export module ext.span;
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/namespaces.hpp"
+#include <range/v3/range_fwd.hpp>
+#include <range/v3/iterator/operations.hpp>
+#include <range/v3/iterator/reverse_iterator.hpp>
 
+
+export module ext.span;
 import ext.array;
 import ext.casting;
 import ext.concepts;
@@ -10,18 +17,13 @@ import ext.stack;
 import ext.vector;
 import std.core;
 
-#include "ext/keywords.ixx"
-#include <range/v3/range_fwd.hpp>
-#include <range/v3/iterator/operations.hpp>
-#include <range/v3/iterator/reverse_iterator.hpp>
-
 
 _EXT_BEGIN
 
 export template <typename T, typename BeginIter, typename EndIter>
 class span final
 {
-public aliases:
+public typedefs:
     using element_type = T;
     using value_type = std::remove_cv_t<element_type>;
 

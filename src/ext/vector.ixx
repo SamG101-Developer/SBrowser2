@@ -1,8 +1,10 @@
+module;
+#include "ext/macros/namespaces.hpp"
+#include <veque.hpp>
+
+
 export module ext.vector;
 import ext.allocator;
-
-#include "ext/keywords.ixx"
-#include <veque.hpp>
 
 
 _EXT_BEGIN

@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 namespace streams::transformable {class transform_stream_default_controller;}
 
-#include "ext/functional.ixx"
+
 #include "ext/promise.hpp"
 namespace streams::transformable {class transform_stream;}
 

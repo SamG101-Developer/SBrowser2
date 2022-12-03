@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM__TYPEDEFS_HPP
 
 
-#include "ext/any.hpp"
+
 #include "ext/array_buffer.hpp"
 #include "ext/map.ixx"
 #include "ext/string.hpp"

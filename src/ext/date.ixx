@@ -1,6 +1,7 @@
-export module ext.date;
+module;
+#include "ext/macros/namespaces.hpp"
 
-#include "ext/keywords.ixx"
+export module ext.date;
 #include <asap.h>
 
 

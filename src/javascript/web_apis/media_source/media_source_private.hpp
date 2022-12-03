@@ -6,7 +6,7 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(media_source)
-#include "ext/ranges.hpp"
+
 namespace media::source {class source_buffer;}
 namespace media::source {class media_source_handle;}
 

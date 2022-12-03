@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(streams)
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/memory.ixx"
 

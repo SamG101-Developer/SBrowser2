@@ -1,7 +1,10 @@
-export module ext.set;
-
-#include "ext/vector.hpp"
+module;
+#include "ext/macros/namespaces.hpp"
 #include <ankerl/unordered_dense.h>
+
+
+export module ext.set;
+import ext.vector;
 
 
 _EXT_BEGIN

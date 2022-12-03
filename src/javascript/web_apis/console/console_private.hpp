@@ -7,7 +7,7 @@
 
 #include INCLUDE_INNER_TYPES(console)
 #include INCLUDE_INNER_TYPES(hr_time)
-#include "ext/any.hpp"
+
 #include "ext/map.ixx"
 #include "ext/number.ixx"
 #include "ext/stack.ixx"

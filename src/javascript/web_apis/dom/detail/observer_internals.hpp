@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_OBSERVER_INTERNALS_HPP
 #define SBROWSER2_OBSERVER_INTERNALS_HPP
 
-#include "ext/any.hpp"
-#include "ext/functional.ixx"
+
+
 #include "ext/map.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"

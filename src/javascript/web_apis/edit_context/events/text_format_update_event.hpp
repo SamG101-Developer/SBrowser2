@@ -7,7 +7,7 @@
 namespace edit_context {class text_format;}
 namespace edit_context::events {class text_format_update_event;}
 
-#include "ext/ranges.hpp"
+
 
 
 class edit_context::events::text_format_update_event

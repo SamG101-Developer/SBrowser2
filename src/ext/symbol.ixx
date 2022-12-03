@@ -1,6 +1,6 @@
 export module ext.symbol;
-
 import ext.string;
+import std.core;
 
 
 _EXT_BEGIN
@@ -17,6 +17,3 @@ _EXT_BEGIN
         ext::string m_key;
     };
 _EXT_END
-
-
-#endif //SBROWSER2_SRC_EXT_SYMBOL_HPP

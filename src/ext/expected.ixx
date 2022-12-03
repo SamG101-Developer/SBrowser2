@@ -1,7 +1,8 @@
-export module ext.expected;
-
-#include "ext/keywords.ixx"
+module;
+#include "ext/macros/namespaces.hpp"
 #include <tl/expected.hpp>
+
+export module ext.expected;
 
 
 _EXT_BEGIN

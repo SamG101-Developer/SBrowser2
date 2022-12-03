@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_REPORTING_DETAIL_REPORTING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_REPORTING_DETAIL_REPORTING_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/map.ixx"
 #include "ext/number.ixx"
 #include "ext/optional.hpp"

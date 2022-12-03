@@ -1,17 +1,7 @@
-#ifndef SBROWSER2_RANGES_HPP
-#define SBROWSER2_RANGES_HPP
+module;
 
 // TODO : add constraints to range views / actions / algorithms, like in range-v3 library.
 // TODO : comment MACROS
-
-#include "ext/boolean.ixx"
-#include "ext/casting.ixx"
-#include "ext/concepts.ixx"
-#include "ext/functional.ixx"
-#include "ext/pair.ixx"
-#include "ext/string.hpp"
-#include "ext/type_traits.ixx"
-#include "ext/variadic.ixx"
 
 #include <range/v3/range/conversion.hpp>
 
@@ -39,30 +29,39 @@
 #include <range/v3/view/view.hpp>
 
 
+export module ext.ranges;
+import ext.boolean;
+import ext.casting;
+import ext.concepts;
+import ext.string;
+import ext.type_traits;
+import ext.variadic;
+
+
 #define RANGE_VIEW_STRUCT(name, code) \
-    struct name##_fn {code};          \
+    export struct name##_fn {code};          \
     RANGES_INLINE_VARIABLE(name##_fn, name)
 
 #define RANGE_VIEW_STRUCT_T(name, code) \
-    struct name##_fn {code};
+    export struct name##_fn {code};
 
 #define RANGE_ACTION_STRUCT(name, code) \
-    struct name##_fn {code};            \
+    export struct name##_fn {code};            \
     RANGES_INLINE_VARIABLE(name##_fn, name)
 
 #define RANGE_VIEW_CLOSURE_STRUCT(name, code) \
-    struct name##_fn {code};                  \
+    export struct name##_fn {code};                  \
     RANGES_INLINE_VARIABLE(view_closure<name##_fn>, name)
 
 #define RANGE_VIEW_CLOSURE_STRUCT_T(name, code) \
-    struct name##_fn {code};
+    export struct name##_fn {code};
 
 #define RANGE_ACTION_CLOSURE_STRUCT(name, code) \
-    struct name##_fn {code};                    \
+    export struct name##_fn {code};                    \
     RANGES_INLINE_VARIABLE(action_closure<name##_fn>, name)
 
 #define RANGE_ACTION_CLOSURE_STRUCT_T(name, code) \
-    struct name##_fn {code};
+    export struct name##_fn {code};
 
 #define RANGE_ALGORITHM_STRUCT(name, code) \
     RANGES_FUNC_BEGIN(name)                \
@@ -70,32 +69,35 @@
     RANGES_FUNC_END(name)
 
 
-namespace ranges {enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};}
+namespace ranges
+{
+    export enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};
+}
 
 
 /* TRAITS */
 namespace ranges
 {
-    template <typename Rng>
+    export template <typename Rng>
     struct range_traits
     {
         using iterator_type = decltype(ranges::any_view(std::declval<Rng>()).begin());
         using value_type = typename iterator_type::value_type;
     };
 
-    template <typename Rng>
+    export template <typename Rng>
     using lowercase_view = transform_view<Rng, decltype(_EXT to_lower)>;
 
-    template <typename Rng>
+    export template <typename Rng>
     using uppercase_view = transform_view<Rng, decltype(_EXT to_upper)>;
 
-    template <typename Rng, typename T>
+    export template <typename Rng, typename T>
     using cast_view = transform_view<Rng, _EXT function<T(typename range_traits<Rng>::value_type)>>;
 
-    template <typename Rng>
+    export template <typename Rng>
     using underlying_view = transform_view<Rng, _EXT function<typename range_traits<Rng>::value_type::pointer()>>;
 
-    template <typename Rng>
+    export template <typename Rng>
     using transpose_view = transform_view<Rng, decltype(_EXT identity)>;
 }
 
@@ -444,6 +446,3 @@ namespace ranges
     template <category C = category::none, typename ...Args>
     auto make_any_helpful_view(Args&&... args) -> any_helpful_view<_EXT nth_variadic_type_t<0, Args...>, C>;
 }
-
-
-#endif //SBROWSER2_RANGES_HPP

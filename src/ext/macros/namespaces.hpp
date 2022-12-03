@@ -1,4 +1,9 @@
-module;
+#ifndef SRC_EXT_MACROS_NAMESPACES_HPP
+#define SRC_EXT_MACROS_NAMESPACES_HPP
+
+#define _STD ::std::
+#define _STD_BEGIN namespace std {
+#define _STD_END }
 
 #define _EXT ::ext::
 #define _EXT_BEGIN namespace ext {
@@ -19,4 +24,4 @@ module;
 #define RFC_DEFINITION_BEGIN namespace rfc {
 #define RFC_DEFINITION_END }
 
-export module ext.macros.namespaces;
+#endif //SRC_EXT_MACROS_NAMESPACES_HPP

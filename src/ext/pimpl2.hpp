@@ -2,9 +2,11 @@
 #define SBROWSER2_SRC_EXT_PIMPL2_HPP
 
 #include <self_macro.h>
-#include <utility>
 
 
+// This macro makes a class a PIMPL public class -- this is done by defining alias types for the type of this class and
+// its corresponding private class (used in class methods). Define 2 methods to access the PIMPL pointer in their class,
+// and friend the private class.
 #define MAKE_PIMPL_2(type)                                                                                   \
 public:                                                                                                      \
     using this_t = type;                                                                                     \
@@ -23,6 +25,9 @@ public:
     auto* const d = d_func();
 
 
+// This macro makes a class a PIMPL private class -- this is done by defining alias types fo the type of this class and
+// its corresponding pulbic class (used in class emrthod). Define 2 method to acess toeh qIMPL pointer in thair class,
+// and friend the public class.
 #define MAKE_QIMPL_2(type)                                                                                  \
 public:                                                                                                     \
     using this_t = type ## _private;                                                                        \

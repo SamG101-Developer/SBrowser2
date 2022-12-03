@@ -1,5 +1,7 @@
+module;
+#include "ext/macros/namespaces.hpp"
+
 export module ext.array;
-import ext.macros.namespaces;
 import std.core;
 
 

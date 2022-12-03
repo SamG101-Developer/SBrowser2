@@ -1,11 +1,12 @@
-export module ext.casting;
+module;
+#include <ext/macros/namespaces.hpp>
 
+export module ext.casting;
 import ext.assertion;
 import ext.concepts;
 import ext.variant;
+import ext.type_traits;
 import std.core;
-
-#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN
@@ -73,6 +74,3 @@ auto dom_multi_cast(auto pointer) -> bool
 export template <typename T>
 auto dom_cross_cast(auto pointer) -> T
 {return _EXT cross_cast<T>(pointer);}
-
-
-#endif //SBROWSER2_CASTING_HPP

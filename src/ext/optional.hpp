@@ -1,10 +1,12 @@
-export module ext.optional;
-
-#include "ext/keywords.ixx"
+module;
+#include "ext/macros/namespaces.hpp"
 #include <tl/optional.hpp>
 
 
 _EXT_BEGIN
-    export using tl::optional;
-    export using tl::nullopt;
+    using tl::optional;
+    using tl::nullopt;
 _EXT_END
+
+
+export module ext.optional;

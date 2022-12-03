@@ -4,7 +4,7 @@
 
 #include "ext/boolean.ixx"
 #include "ext/concepts.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 

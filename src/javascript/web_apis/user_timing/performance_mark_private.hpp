@@ -5,7 +5,7 @@
 #include "ext/pimpl.ixx"
 #include "performance_timeline/performance_entry_private.hpp"
 
-#include "ext/any.hpp"
+
 #include INCLUDE_INNER_TYPES(hr_time)
 
 

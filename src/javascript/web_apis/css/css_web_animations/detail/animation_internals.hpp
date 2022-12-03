@@ -7,7 +7,7 @@
 
 #include "ext/boolean.ixx"
 #include "ext/concepts.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/map.ixx"
 #include "ext/number.ixx"
 #include "ext/optional.hpp"

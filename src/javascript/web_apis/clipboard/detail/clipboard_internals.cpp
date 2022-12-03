@@ -1,6 +1,6 @@
 #include "clipboard_internals.hpp"
 
-#include "ext/pair.ixx"
+
 #include "javascript/environment/realms_2.hpp"
 
 #include "clipboard/clipboard_item.hpp"

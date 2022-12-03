@@ -1,8 +1,8 @@
 #include "database_internals.hpp"
 
 #include "ext/assertion.hpp"
-#include "ext/functional.ixx"
-#include "ext/ranges.hpp"
+
+
 #include "ext/type_traits.ixx"
 #include "ext/variant.ixx"
 "

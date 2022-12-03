@@ -1,10 +1,12 @@
-export module ext.any;
+module;
+#include <ext/macros/annotations.hpp>
+#include <ext/macros/namespaces.hpp>
 
-import ext.macros.annotations;
-import ext.macros.namespaces;
+export module ext.any;
 import ext.boolean;
 import ext.concepts;
 import ext.number;
+import ext.type_traits;
 import std.core;
 
 
@@ -104,7 +106,7 @@ auto ext::any::to() const -> T
 {return std::any_cast<T>(m_any);}
 
 
-template <is_rvalue_reference T>
+template <_EXT is_rvalue_reference T>
 auto ext::any::to() const -> T
 {return std::move(std::any_cast<T&&>(m_any));}
 

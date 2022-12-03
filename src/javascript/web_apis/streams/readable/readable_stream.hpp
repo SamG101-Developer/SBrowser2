@@ -9,7 +9,7 @@ namespace streams::readable {class readable_stream_private;}
 
 #include INCLUDE_INNER_TYPES(streams)
 #include INCLUDE_INNER_TYPES(html)
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/map.ixx"
 #include "ext/variant.ixx"

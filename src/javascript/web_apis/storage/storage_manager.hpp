@@ -7,7 +7,7 @@ namespace storage {class storage_manager;}
 namespace storage {class storage_manager_private;}
 
 #include "ext/promise.hpp"
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/map.ixx"
 #include "ext/number.ixx"

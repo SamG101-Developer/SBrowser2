@@ -1,26 +1,27 @@
-export module ext.time;
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/namespaces.hpp"
 
+export module ext.time;
 import ext.number;
 import std.core;
-
-#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN
 
 export class time final
 {
-public cpp_static_methods:
+public:
     template <typename F>
-    static auto time_method(F&& predicate, number<size_t> limit = 1) -> number<long long>;
+    static auto time_method(F&& predicate, _EXT number<size_t> limit = 1) -> _EXT number<long long>;
 };
 
 
 export template <typename F>
 auto time::time_method(
         F&& predicate,
-        number<size_t> limit)
-        -> number<long long>
+        _EXT number<size_t> limit)
+        -> _EXT number<long long>
 {
     // get the time before and after execution of a method - there is the option to loop the method
     auto start = std::chrono::high_resolution_clock::now();
@@ -33,6 +34,3 @@ auto time::time_method(
 }
 
 _EXT_END
-
-
-#endif //SBROWSER2_TIME_HPP

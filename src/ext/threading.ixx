@@ -1,16 +1,15 @@
+module;
+#include "ext/macros/namespaces.hpp"
+
+
 export module ext.threading;
-
+import std.core;
 import std.threading;
-
-#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN
-    using std::thread;
-    using std::jthread;
-    using std::mutex;
-    using std::condition_variable;
+    export using std::thread;
+    export using std::jthread;
+    export using std::mutex;
+    export using std::condition_variable;
 _EXT_END
-
-
-#endif //SBROWSER2_THREADING_HPP

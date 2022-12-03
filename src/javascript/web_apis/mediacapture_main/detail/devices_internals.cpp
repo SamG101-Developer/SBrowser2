@@ -1,10 +1,10 @@
 #include "devices_internals.hpp"
 
 #include "ext/boolean.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/map.ixx"
 #include "ext/set.hpp"
-#include "ext/ranges.hpp"
+
 #include "ext/string.hpp"
 #include "ext/threading.ixx"
 #include "ext/vector.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS__NAMESPACE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS__NAMESPACE_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/promise.hpp"
 #include <v8-forward.h>

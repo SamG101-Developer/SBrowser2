@@ -1,7 +1,9 @@
-export module ext.pair;
-import ext.tuple;
+module;
+#include "ext/macros/namespaces.hpp"
 
-#include "ext/keywords.ixx"
+export module ext.pair;
+import ext.boolean;
+import ext.tuple;
 
 
 _EXT_BEGIN

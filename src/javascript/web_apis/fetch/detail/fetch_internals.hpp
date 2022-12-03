@@ -3,7 +3,7 @@
 
 
 #include "ext/boolean.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/number.ixx"
 #include "ext/string.hpp"
 

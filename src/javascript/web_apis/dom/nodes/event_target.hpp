@@ -8,7 +8,7 @@ namespace dom::nodes {class event_target_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
 #include "ext/boolean.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/keywords.ixx"
 #include "ext/map.ixx"
 #include "ext/string.hpp"

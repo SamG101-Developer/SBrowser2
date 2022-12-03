@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_APPLICATION_INTERNALS_HPP
 
 #include "ext/map.ixx"
-#include "ext/pair.ixx"
+
 #include "ext/span.hpp"
 #include "ext/string.hpp"
 

@@ -1,8 +1,9 @@
-export module ext.uuid;
-
-#include "ext/keywords.ixx"
+module;
+#include "ext/macros/namespaces.hpp"
 #include <uuid.h>
 
+
+export module ext.uuid;
 
 _EXT_BEGIN
     export namespace uuid = uuids;

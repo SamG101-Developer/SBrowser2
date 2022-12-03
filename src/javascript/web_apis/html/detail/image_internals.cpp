@@ -1,6 +1,6 @@
 #include "image_internals.hpp"
 
-#include "ext/ranges.hpp"
+
 #include "javascript/environment/reflection.hpp"
 
 #include "dom/detail/event_internals.hpp"

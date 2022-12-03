@@ -34,6 +34,3 @@ _EXT_BEGIN
     export template <size_t Index, typename ...Types>
     using nth_variadic_type_t = typename nth_variadic_type<Index, Types...>::type;
 _EXT_END
-
-
-#endif //SBROWSER2_SRC_EXT_VARIADIC_HPP

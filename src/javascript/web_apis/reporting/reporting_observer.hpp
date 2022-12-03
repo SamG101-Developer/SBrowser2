@@ -6,7 +6,7 @@
 namespace reporting {class reporting_observer;}
 namespace reporting {class reporting_observer_private;}
 
-#include "ext/functional.ixx"
+
 #include "ext/map.ixx"
 #include "ext/queue.ixx"
 #include "ext/vector.hpp"

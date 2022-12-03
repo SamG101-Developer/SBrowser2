@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_DETAIL_OPERATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_DETAIL_OPERATION_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/number.ixx"
 #include "ext/optional.hpp"

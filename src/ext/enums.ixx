@@ -1,3 +1,6 @@
+module;
+#include "ext/macros/namespaces.hpp"
+
 export module ext.enums;
 import ext.concepts;
 import std.core;

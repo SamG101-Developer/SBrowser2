@@ -1,8 +1,9 @@
+module;
+#include "ext/macros/namespaces.hpp"
+#include <range/v3/range/concepts.hpp>
+
 export module ext.concepts;
 import std.core;
-
-#include "ext/keywords.ixx"
-#include <range/v3/range/concepts.hpp>
 
 
 _EXT_BEGIN
@@ -63,7 +64,7 @@ _EXT_BEGIN
     concept type_is = (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
 
     export template <typename TypeToCheck, template <typename> typename ...TemplatedTypesToCheckAgainst>
-    concept type_is_any_specialization = (inherit_template<TemplatedTypesToCheckAgainst, TypeToCheck> || ...);
+    concept type_is_any_specialization = (_EXT inherit_template<TemplatedTypesToCheckAgainst, TypeToCheck> || ...);
 
     export template <typename TypeTpCheck, typename ...TypesToCheckAgainst>
     concept type_is_not = (!std::same_as<std::remove_cvref<TypeTpCheck>, TypesToCheckAgainst> && ...);

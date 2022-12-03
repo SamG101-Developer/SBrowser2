@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_ENCODING_INTERNALS_HPP
 
 #include "ext/boolean.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 #include <bit>

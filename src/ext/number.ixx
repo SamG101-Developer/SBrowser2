@@ -1,17 +1,20 @@
+module;
+#include <ext/macros/namespaces.ixx>
+
+using longlong   = long long;
+using uchar      = unsigned char;
+using ushort     = unsigned short;
+using uint       = unsigned int;
+using ulong      = unsigned long;
+using ulonglong  = unsigned long long;
+using longdouble = long double;
+
 export module ext.number;
 import ext.boolean;
 import ext.concepts;
 import ext.random;
 import ext.string;
 import std.core;
-
-export using longlong   = long long;
-export using uchar      = unsigned char;
-export using ushort     = unsigned short;
-export using uint       = unsigned int;
-export using ulong      = unsigned long;
-export using ulonglong  = unsigned long long;
-export using longdouble = long double;
 
 
 #define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                     \

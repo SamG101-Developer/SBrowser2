@@ -1,7 +1,7 @@
 #include "configuration_internals.hpp"
 
 #include "ext/hashing.ixx"
-#include "ext/any.hpp"
+
 
 #include INCLUDE_INNER_TYPES(media_capabilities)
 

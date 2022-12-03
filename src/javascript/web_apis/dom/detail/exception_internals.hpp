@@ -2,7 +2,7 @@
 #define SBROWSER2_EXCEPTION_INTERNALS_HPP
 
 #include "ext/casting.ixx"
-#include "ext/functional.ixx"
+
 #include "ext/string.hpp"
 #include "ext/tuple.ixx"
 #include "ext/vector.hpp"

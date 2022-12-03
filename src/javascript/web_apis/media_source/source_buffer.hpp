@@ -8,7 +8,7 @@ namespace media::source {class source_buffer_private;}
 
 #include INCLUDE_INNER_TYPES(media_source)
 #include INCLUDE_INNER_TYPES(web_idl)
-#include "ext/ranges.hpp"
+
 namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class audio_track;}
 namespace html::basic_media {class video_track;}

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_DETAIL_RFC6455_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_DETAIL_RFC6455_INTERNALS_HPP
 
-#include "ext/any.hpp"
+
 #include "ext/boolean.ixx"
 #include "ext/expected.ixx"
 #include "ext/number.ixx"

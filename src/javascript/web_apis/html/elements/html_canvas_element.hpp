@@ -6,7 +6,7 @@
 namespace html::elements {class html_canvas_element;}
 namespace html::elements {class html_canvas_element_private;}
 
-#include "ext/any.hpp"
+
 #include INCLUDE_INNER_TYPES(html)
 namespace html::canvasing {class offscreen_canvas;}
 namespace mediacapture::main {class media_stream;}

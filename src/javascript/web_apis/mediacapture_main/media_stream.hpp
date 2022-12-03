@@ -8,7 +8,7 @@ namespace mediacapture::main {class media_stream_private;}
 
 #include "ext/set.hpp"
 #include "ext/vector.hpp"
-#include "ext/ranges.hpp"
+
 namespace mediacapture::main {class media_stream_track;}
 
 
