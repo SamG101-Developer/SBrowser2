@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_WEB_SOCKET_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_WEB_SOCKET_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "dom/nodes/event_target_private.hpp"
 namespace websockets {class web_socket;}
 

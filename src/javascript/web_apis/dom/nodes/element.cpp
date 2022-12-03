@@ -1,7 +1,7 @@
 #include "element.hpp"
 #include "element_private.hpp"
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/_typedefs.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAINT_TIMING_PERFORMANCE_PAINT_TIMING_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAINT_TIMING_PERFORMANCE_PAINT_TIMING_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "performance_timeline/performance_entry_private.hpp"
 
 

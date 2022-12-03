@@ -1,6 +1,6 @@
 export module ext.json;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <jsonpp/dumper.h>
 #include <jsonpp/parser.h>
 

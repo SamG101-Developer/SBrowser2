@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_DOCUMENT_TIMELINE_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_DOCUMENT_TIMELINE_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "css/css_web_animations/animation_timeline_private.hpp"
 
 

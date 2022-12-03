@@ -4,9 +4,9 @@
 
 #include <memory>
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include "ext/map.ixx"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 
 #include "dom_object_private.hpp"
 #include "dom_object.hpp"

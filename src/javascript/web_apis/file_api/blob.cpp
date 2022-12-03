@@ -1,7 +1,7 @@
 #include "blob.hpp"
 #include "blob_private.hpp"
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/ranges.hpp"
 
 #include "file_api/_typedefs.hpp"

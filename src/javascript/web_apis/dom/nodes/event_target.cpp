@@ -4,7 +4,7 @@
 #include "ext/any.hpp"
 #include "ext/boolean.ixx"
 #include "ext/functional.ixx"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/ranges.hpp"
 #include "ext/variant.ixx"
 

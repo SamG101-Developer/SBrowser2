@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_DRAG_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_DRAG_EVENT_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "dom/events/event_private.hpp"
 
 #include "html/dnd/data_transfer.hpp"

@@ -1,12 +1,11 @@
 export module ext.concepts;
 import std.core;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <range/v3/range/concepts.hpp>
 
 
 _EXT_BEGIN
-
     // check if a templated class is a base of another class (don't need template type to check)
     export template <template <typename> typename BaseMixin, typename Derived>
     concept inherit_template = requires(Derived object)
@@ -95,5 +94,4 @@ _EXT_BEGIN
 
     export template <typename T>
     concept is_unique = _EXT type_is_any_specialization<T, std::unique_ptr>;
-
 _EXT_END

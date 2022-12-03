@@ -1,6 +1,6 @@
 export module ext.random;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <effolkronium/random.hpp>
 
 

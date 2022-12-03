@@ -1,11 +1,16 @@
+module;
+#define string_switch(_String) switch(ext::hash{}(_String))
+#define string_case(_String) case(ext::hash{}(_String))
+#define string_default default
+
 export module ext.string;
 
 import ext.allocator;
 import ext.concepts;
 import ext.functional;
 import std.core;
+import ext.macros.namespaces;
 
-#include "ext/keywords.hpp"
 #include <cryptopp/secblock.h>
 #include <range/v3/algorithm/fold.hpp>
 #include <range/v3/to_container.hpp>

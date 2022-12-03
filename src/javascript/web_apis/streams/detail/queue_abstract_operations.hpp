@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_QUEUE_ABSTRACT_OPERATIONS_HPP
 
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include INCLUDE_INNER_TYPES(streams)
 
 namespace streams::detail

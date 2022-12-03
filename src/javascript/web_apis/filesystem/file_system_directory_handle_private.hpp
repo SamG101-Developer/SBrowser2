@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM_FILE_SYSTEM_DIRECTORY_HANDLE_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM_FILE_SYSTEM_DIRECTORY_HANDLE_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "filesystem/file_system_handle_private.hpp"
 #include "ext/map_like.hpp"
 

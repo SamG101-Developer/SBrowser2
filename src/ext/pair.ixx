@@ -1,7 +1,7 @@
 export module ext.pair;
 import ext.tuple;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN

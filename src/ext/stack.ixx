@@ -2,7 +2,7 @@ export module ext.stack;
 
 import ext.allocator;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <plf/plf_stack.h>
 
 

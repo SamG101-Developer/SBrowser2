@@ -1,6 +1,6 @@
 export module ext.assertion;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <assert.hpp>
 
 

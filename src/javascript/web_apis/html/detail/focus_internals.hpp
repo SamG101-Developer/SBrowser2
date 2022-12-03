@@ -4,7 +4,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FOCUS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FOCUS_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include USE_CONCEPTS(html)
 #include INCLUDE_INNER_TYPES(html)
 

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_PERFORMANCE_NAVIGATION_TIMING_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_PERFORMANCE_NAVIGATION_TIMING_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "resource_timing/performance_resource_timing_private.hpp"
 
 #include INCLUDE_INNER_TYPES(html)

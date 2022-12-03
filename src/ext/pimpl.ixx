@@ -1,16 +1,5 @@
-#ifndef SBROWSER2_SRC_EXT_PIMPL_HPP
-#define SBROWSER2_SRC_EXT_PIMPL_HPP
-
-#include "ext/concepts.ixx"
-#include <memory>
+module;
 #include <self_macro.h>
-
-
-_EXT_BEGIN
-    // Lambda that accesses the 'd_func()' method of a PIMPL-enabled class; this is defined for binding to ranges-v3
-    // views such as transformation, as it heavily deconvolutes code especially for classes in different namespaces.
-    auto get_pimpl = []<typename T>(T* object) {return object->d_func();};
-_EXT_END
 
 
 // Use this macro at the beginning of every class that will have a PIMPL private class attached to it. It exposes the
@@ -110,13 +99,20 @@ public:
     template <__VA_ARGS__> struct ns:: c ## _private
 
 
+export module ext.pimpl;
+import ext.concepts;
+import std.core;
+
+
 _EXT_BEGIN
-    template <typename T>
-    concept has_pimpl = requires
-    {
-        {T::d_func()};
-    };
+    // Lambda that accesses the 'd_func()' method of a PIMPL-enabled class; this is defined for binding to ranges-v3
+    // views such as transformation, as it heavily deconvolutes code especially for classes in different namespaces.
+    auto get_pimpl = []<typename T>(T* object) {return object->d_func();};
 _EXT_END
 
 
-#endif //SBROWSER2_SRC_EXT_PIMPL_HPP
+_EXT_BEGIN
+    export template <typename T>
+    concept has_pimpl = requires
+    {{T::d_func()};};
+_EXT_END

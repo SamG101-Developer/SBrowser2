@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CREDENTIAL_MANAGEMENT_PASSWORD_CREDENTIAL_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CREDENTIAL_MANAGEMENT_PASSWORD_CREDENTIAL_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "webappsec_credential_management/credential_private.hpp"
 #include "webappsec_credential_management/mixins/credential_user_data_private.hpp"
 namespace webappsec::credential_management {class password_credential;}

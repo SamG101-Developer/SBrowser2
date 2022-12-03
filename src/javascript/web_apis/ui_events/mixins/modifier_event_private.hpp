@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_UI_EVENTS_MIXINS_MODIFIER_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_UI_EVENTS_MIXINS_MODIFIER_EVENT_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ui_events/ui_event_private.hpp"
 
 #include "ext/boolean.ixx"

@@ -1,6 +1,6 @@
 export module ext.filesystem;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <cppfs/fs.h>
 #include <cppfs/FileHandle.h>
 #include <cppfs/FileWatcher.h>

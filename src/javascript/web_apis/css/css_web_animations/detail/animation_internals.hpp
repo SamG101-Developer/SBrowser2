@@ -11,7 +11,7 @@
 #include "ext/map.ixx"
 #include "ext/number.ixx"
 #include "ext/optional.hpp"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/promise.hpp"
 #include "ext/vector.hpp"
 #include "ext/stack.ixx"

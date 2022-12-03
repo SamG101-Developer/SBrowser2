@@ -3,7 +3,7 @@ export module ext.queue;
 import ext.allocator;
 import ext.vector;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <plf/plf_queue.h>
 
 

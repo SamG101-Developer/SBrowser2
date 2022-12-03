@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PUSH_API_DETAIL_PUSH_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PUSH_API_DETAIL_PUSH_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include INCLUDE_INNER_TYPES(push_api)
 #include INCLUDE_INNER_TYPES(web_idl)
 namespace push_api {class push_message_data;}

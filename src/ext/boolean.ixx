@@ -1,11 +1,11 @@
 export module ext.boolean;
-import std.core
+import std.core;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN
-    export class ext::boolean final
+    export class boolean final
     {
     public constructors:
         constexpr boolean() = default;
@@ -27,5 +27,5 @@ _EXT_END
 
 
 _EXT_SHORTHAND_BEGIN
-    using bv = const boolean&;
+    export using bv = _EXT boolean;
 _EXT_DETAIL_END

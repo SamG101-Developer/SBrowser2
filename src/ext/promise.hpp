@@ -1,6 +1,6 @@
 export module ext.promise;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN

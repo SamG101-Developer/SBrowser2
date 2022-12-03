@@ -2,9 +2,9 @@
 #ifndef SBROWSER2_VECTOR_LIKE_HPP
 #define SBROWSER2_VECTOR_LIKE_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include "ext/number.ixx"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/property.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"

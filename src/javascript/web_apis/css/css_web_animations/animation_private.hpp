@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_MIXINS_ANIMATION_PRIVATE_HPP
 
 #include "ext/optional.hpp"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/promise.hpp"
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
 

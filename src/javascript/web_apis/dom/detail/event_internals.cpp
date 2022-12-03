@@ -4,7 +4,7 @@
 #include "ext/concepts.ixx"
 #include "ext/functional.ixx"
 #include "ext/hashing.ixx"
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/abort/abort_signal.hpp"

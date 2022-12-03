@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_COMMAND_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_COMMAND_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include INCLUDE_INNER_TYPES(html)
 
 namespace html::elements {class html_element;}

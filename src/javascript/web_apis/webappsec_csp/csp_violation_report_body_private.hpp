@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CSP_CSP_VIOLATION_REPORT_BODY_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CSP_CSP_VIOLATION_REPORT_BODY_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "reporting/report_body_private.hpp"
 
 #include INCLUDE_INNER_TYPES(webappsec_csp)

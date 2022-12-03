@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MAGNETOMETER_UNCALIBRATED_MAGNETOMETER_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MAGNETOMETER_UNCALIBRATED_MAGNETOMETER_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "magnetometer/magnetometer_private.hpp"
 
 

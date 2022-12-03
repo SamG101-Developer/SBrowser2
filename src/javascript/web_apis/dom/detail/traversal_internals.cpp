@@ -1,6 +1,6 @@
 #include "traversal_internals.hpp"
 #include "dom/_typedefs.hpp"
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 #include "dom/detail/exception_internals.hpp"
 #include "dom/detail/tree_internals.hpp"

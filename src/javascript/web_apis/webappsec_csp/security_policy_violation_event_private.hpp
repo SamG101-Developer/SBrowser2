@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CSP_SECURITY_POLICY_VIOLATION_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CSP_SECURITY_POLICY_VIOLATION_EVENT_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "dom/events/event_private.hpp"
 #include "webappsec_csp/csp_violation_report_body_private.hpp"
 

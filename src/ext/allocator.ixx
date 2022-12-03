@@ -1,8 +1,9 @@
-export module ext.allocator;
-import std.memory;
-
-#include "ext/keywords.hpp"
+module;
 #include <cryptopp/secblock.h>
+
+export module ext.allocator;
+import ext.macros.namespaces;
+import std.memory;
 
 
 _EXT_BEGIN

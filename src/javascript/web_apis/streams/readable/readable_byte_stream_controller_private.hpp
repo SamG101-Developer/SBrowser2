@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_READABLE_READABLE_BYTE_STREAM_CONTROLLER_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_READABLE_READABLE_BYTE_STREAM_CONTROLLER_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "abstract_readable_stream_controller_private.hpp"
 
 namespace streams::readable {class readable_stream_byob_request;}

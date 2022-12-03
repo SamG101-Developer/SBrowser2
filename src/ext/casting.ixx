@@ -5,7 +5,7 @@ import ext.concepts;
 import ext.variant;
 import std.core;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN
@@ -44,7 +44,7 @@ _EXT_BEGIN
         // if a type C inherits A, B, and A* object = new C{}, the type can be cast from A* -> B*, ie the type has been
         // "cross" cast to a sibling level superclass. throws an error is the cast was unsuccessful
         decltype(auto) cross_cast_pointer = dynamic_cast<T>(pointer);
-        ASSERT(cross_cast_pointer, "Cross-casting must be successful", pointer);
+        ASSERT(cross_cast_pointer, "Cross-casting must be not result in a nullptr", pointer);
         return cross_cast_pointer;
     }
 

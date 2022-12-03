@@ -3,7 +3,7 @@ export module ext.time;
 import ext.number;
 import std.core;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 
 _EXT_BEGIN

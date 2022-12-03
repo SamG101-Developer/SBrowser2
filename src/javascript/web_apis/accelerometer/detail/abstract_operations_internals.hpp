@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_DETAIL_ABSTRACT_OPERATIONS_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include INCLUDE_INNER_TYPES(accelerometer)
 namespace accelerometer {class accelerometer;}
 

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_IMAGE_RESOURCE_DETAIL_PROCESSING_INTERNALS_HPP
 
 #include "ext/expected.ixx"
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include "ext/optional.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"

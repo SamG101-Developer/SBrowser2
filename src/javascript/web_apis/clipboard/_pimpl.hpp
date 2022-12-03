@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__PIMPL_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__PIMPL_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 
 
 namespace clipboard::pimpl

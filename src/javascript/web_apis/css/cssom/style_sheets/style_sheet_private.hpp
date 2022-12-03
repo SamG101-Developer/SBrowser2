@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_STYLE_SHEETS_STYLE_SHEET_PRIVATE_HPP
 
 #include "ext/boolean.ixx"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(url)

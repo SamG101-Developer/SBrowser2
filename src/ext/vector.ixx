@@ -1,7 +1,7 @@
 export module ext.vector;
 import ext.allocator;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <veque.hpp>
 
 

@@ -1,6 +1,6 @@
 export module ext.uuid;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <uuid.h>
 
 

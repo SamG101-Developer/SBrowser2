@@ -1,7 +1,6 @@
 export module ext.array;
+import ext.macros.namespaces;
 import std.core;
-
-#include "ext/keywords.hpp"
 
 
 _EXT_BEGIN

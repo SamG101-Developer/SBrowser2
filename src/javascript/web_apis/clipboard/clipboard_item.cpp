@@ -1,6 +1,6 @@
 #include "clipboard_item.hpp"
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "ext/ranges.hpp"
 
 #include "dom/detail/exception_internals.hpp"

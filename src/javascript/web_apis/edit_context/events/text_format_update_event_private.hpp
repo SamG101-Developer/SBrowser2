@@ -4,7 +4,7 @@
 #include "dom/events/event_private.hpp"
 #include "edit_context/text_format_private.hpp"
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 
 
 DEFINE_PRIVATE_CLASS(edit_context::events, text_format_update_event)

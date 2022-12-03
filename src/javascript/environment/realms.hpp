@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_REALMS_HPP
 
 #include "ext/concepts.ixx"
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include "javascript/environment/environment_settings.hpp"
 #include "javascript/environment/global_slots.hpp"
 

@@ -1,6 +1,6 @@
 export module ext.regex;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <re2/re2.h>
 #include <re2/stringpiece.h>
 

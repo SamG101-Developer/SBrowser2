@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIASESSION_DETAIL_MEDIA_SESSION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIASESSION_DETAIL_MEDIA_SESSION_INTERNALS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include INCLUDE_INNER_TYPES(mediasession)
 namespace mediasession {class media_metadata;}
 namespace mediasession {class media_session;}

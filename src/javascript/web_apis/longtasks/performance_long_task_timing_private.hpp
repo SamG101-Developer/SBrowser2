@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LONGTASKS_PERFORMANCE_LONG_TASK_TIMING_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LONGTASKS_PERFORMANCE_LONG_TASK_TIMING_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "performance_timeline/performance_entry_private.hpp"
 
 #include "ext/vector.hpp"

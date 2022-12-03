@@ -4,7 +4,7 @@
 #include "ext/map.ixx"
 #include "ext/number.ixx"
 #include "ext/pair.ixx"
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 
 #include INCLUDE_INNER_TYPES(css)
 #include INCLUDE_INNER_TYPES(css/css_web_animations)

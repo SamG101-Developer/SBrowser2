@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LARGEST_CONTENTFUL_PAINT_LARGEST_CONTENTFUL_PAINT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_LARGEST_CONTENTFUL_PAINT_LARGEST_CONTENTFUL_PAINT_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "performance_timeline/performance_entry_private.hpp"
 
 #include INCLUDE_INNER_TYPES(hr_time)

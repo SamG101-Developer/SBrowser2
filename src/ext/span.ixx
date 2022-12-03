@@ -10,7 +10,7 @@ import ext.stack;
 import ext.vector;
 import std.core;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <range/v3/range_fwd.hpp>
 #include <range/v3/iterator/operations.hpp>
 #include <range/v3/iterator/reverse_iterator.hpp>

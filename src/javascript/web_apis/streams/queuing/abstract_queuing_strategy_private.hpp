@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_QUEUING_ABSTRACT_QUEUING_STRATEGY_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_QUEUING_ABSTRACT_QUEUING_STRATEGY_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "dom_object_private.hpp"
 namespace streams::queuing {class abstract_queuing_strategy;}
 

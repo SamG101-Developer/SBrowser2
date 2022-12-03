@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_HANDLER_CAN_MAKE_PAYMENT_EVENT_PRIVATE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_HANDLER_CAN_MAKE_PAYMENT_EVENT_PRIVATE_HPP
 
-#include "ext/pimpl.hpp"
+#include "ext/pimpl.ixx"
 #include "service_workers/events/extendable_event_private.hpp"
 
 #include INCLUDE_INNER_TYPES(payment_handler)

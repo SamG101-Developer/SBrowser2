@@ -3,7 +3,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_WRITABLE_ABSTRACT_OPERATIONS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_WRITABLE_ABSTRACT_OPERATIONS_HPP
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include INCLUDE_INNER_TYPES(streams)
 namespace streams::writable {class writable_stream;}
 namespace streams::writable {class writable_stream_default_controller;}

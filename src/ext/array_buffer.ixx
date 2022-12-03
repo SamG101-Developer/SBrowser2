@@ -2,7 +2,7 @@ export module ext.array_buffer;
 
 import ext.variant;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <v8-forward.h>
 
 

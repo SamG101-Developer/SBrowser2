@@ -10,7 +10,7 @@ import ext.variant;
 import std.core;
 import std.memory;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 
 
 // TODO : Don't even remember what these macros do

@@ -1,6 +1,6 @@
 export module ext.optional;
 
-#include "ext/keywords.hpp"
+#include "ext/keywords.ixx"
 #include <tl/optional.hpp>
 
 
