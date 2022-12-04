@@ -1,12 +1,12 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD__TYPEDEFS_HPP
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include <QtGui/QClipboard>
 
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "ext/variant.ixx"
+
 #include INCLUDE_INNER_TYPES(mimesniff)
 namespace file_api {class blob;}
 

@@ -6,7 +6,7 @@
 #include "ext/array_buffer.hpp"
 #include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.ixx"
+
 
 namespace file_api {class blob;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DETAIL_CONTACT_INTERNALS_CONTACT_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DETAIL_CONTACT_INTERNALS_CONTACT_INTERNALS_HPP
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include "ext/span.hpp"

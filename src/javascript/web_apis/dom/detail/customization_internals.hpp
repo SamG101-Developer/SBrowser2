@@ -1,11 +1,11 @@
 #ifndef SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 #define SBROWSER2_CUSTOMIZATION_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/expected.ixx"
 
 #include "ext/map.ixx"
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/queue.ixx"
 #include "ext/stack.ixx"
 #include "ext/string.hpp"

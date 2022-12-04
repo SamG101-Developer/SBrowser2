@@ -7,7 +7,7 @@ namespace webappsec::credential_management {class credentials_container;}
 namespace webappsec::credential_management {class credentials_container_private;}
 
 #include INCLUDE_INNER_TYPES(webappsec_credential_management)
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace webappsec::credential_management {class credential;}
 
 

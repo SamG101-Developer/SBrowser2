@@ -17,16 +17,9 @@ private:                                                                        
     friend struct type ## _private;                                                                          \
 public:
 
-#define INIT_PIMPL_2                                  \
-    this->d_ptr = std::make_unique<this_private_t>(); \
-    d_func()->q_ptr = this;
-
-#define ACCESS_PIMPL_2 \
-    auto* const d = d_func();
-
 
 // This macro makes a class a PIMPL private class -- this is done by defining alias types fo the type of this class and
-// its corresponding pulbic class (used in class emrthod). Define 2 method to acess toeh qIMPL pointer in thair class,
+// its corresponding public class (used in class methods). Define 2 methods to access the QIMPL pointer in their class,
 // and friend the public class.
 #define MAKE_QIMPL_2(type)                                                                                  \
 public:                                                                                                     \
@@ -39,15 +32,35 @@ private:                                                                        
 public:
 
 
+// Initialize the private class of a public class by creating the unique pointer to the private type of this class
+// (defined by the MAKE_PIMPL(...) macro), and set the private class's public class pointer to this.
+#define INIT_PIMPL_2                                  \
+    this->d_ptr = std::make_unique<this_private_t>(); \
+    d_func()->q_ptr = this;
+
+
+// Get access to the d_ptr by casting it via the d_func() method -- make it a const pointer, and possibly a const
+// pointer const, depending on the context of the class.
+#define ACCESS_PIMPL_2 \
+    auto* const d = d_func();
+
+
+// Get access to the q_ptr by casting it via the q_func() method -- make it a const pointer, and possibly a const
+// pointer const, depending on the context of the class.
 #define ACCESS_QIMPL_2 \
     auto* const q = q_func();
 
 
+// Define a public class, defining the class and its corresponding private class in their respective namespaces, and
+// then beginning the definition of the class. Note: cannot be created in the global namespace.
 #define DEFINE_PUBLIC_CLASS_2(ns, c)     \
     namespace ns {class c;}              \
     namespace ns {struct c ## _private;} \
     class ns:: c
 
+
+// Define a private class, defining the class and its corresponding public class in their respective namespaces, and
+// then beginning the definition of the class. Note: cannot be created in the global namespace.
 #define DEFINE_PRIVATE_CLASS_2(ns, c)    \
     namespace ns {class c;}              \
     namespace ns {struct c ## _private;} \

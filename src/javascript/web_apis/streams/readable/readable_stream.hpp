@@ -10,9 +10,9 @@ namespace streams::readable {class readable_stream_private;}
 #include INCLUDE_INNER_TYPES(streams)
 #include INCLUDE_INNER_TYPES(html)
 
-#include "ext/boolean.ixx"
+
 #include "ext/map.ixx"
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
 namespace streams::readable {class readable_byte_stream_controller;}
 namespace streams::readable {class readable_stream_default_controller;}

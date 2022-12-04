@@ -2,6 +2,20 @@ module;
 #include "ext/macros/namespaces.hpp"
 #include <function2/function2.hpp>
 
+
+#define BIND_NO_ARGS(function)                     \
+    []<typename ..._Args>(_Args&&... args) mutable \
+    {return function(std::forward<_Args>(args)...);}
+
+#define BIND_FRONT(function, ...)                   \
+    [&]<typename ..._Args>(_Args&&... args) mutable \
+    {return function(__VA_ARGS__, std::forward<_Args>(args)...);}
+
+#define BIND_BACK(function, ...)                    \
+    [&]<typename ..._Args>(_Args&&... args) mutable \
+    {return function(std::forward<_Args>(args)..., __VA_ARGS__);}
+
+
 _EXT_BEGIN
     using namespace fu2;
 _EXT_END
@@ -16,17 +30,12 @@ import std.core;
 _EXT_BEGIN
     // Simple functors for parameters (mainly used as range projections)
     export auto identity = []<typename T>(T&& object) {return std::forward<T>(object);};
-
     export auto negate = []<typename T>(T&& object) {return !std::forward<T>(object);};
-
     export auto invoke = [](_EXT callable auto&& object) {return object();};
-
     export auto deref = [](auto* object) {return *object;};
-
     export auto underlying = [](auto&& object) {return object.get();};
-
     export auto pointer_not_null = [](auto* object) {return object != nullptr;};
-
+    export auto get_pimpl = []<_EXT has_pimpl T>(T* object) {return object->d_func();};
 
     export template <typename ...Ts>
     struct overloaded : Ts...
@@ -107,22 +116,8 @@ _EXT_BEGIN
 _EXT_END
 
 
-#define BIND_NO_ARGS(function)                     \
-    []<typename ..._Args>(_Args&&... args) mutable \
-    {return function(std::forward<_Args>(args)...);}
+export template <typename ...Ts>
+auto operator==(const _EXT function<Ts...>& lhs, const _EXT function<Ts...>& rhs) -> ext::boolean;
 
-#define BIND_FRONT(function, ...)                   \
-    [&]<typename ..._Args>(_Args&&... args) mutable \
-    {return function(__VA_ARGS__, std::forward<_Args>(args)...);}
-
-#define BIND_BACK(function, ...)                    \
-    [&]<typename ..._Args>(_Args&&... args) mutable \
-    {return function(std::forward<_Args>(args)..., __VA_ARGS__);}
-
-
-
-export template <typename R, typename ...Types>
-auto operator==(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> ext::boolean;
-
-export template <typename R, typename ...Types>
-auto operator<=>(const _EXT function<R(Types...)>& lhs, const _EXT function<R(Types...)>& rhs) -> std::strong_ordering;
+export template <typename R, typename ...Ts>
+auto operator<=>(const _EXT function<Ts...>& lhs, const _EXT function<Ts...>& rhs) -> std::strong_ordering;

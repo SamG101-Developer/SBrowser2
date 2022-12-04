@@ -5,7 +5,7 @@
 
 #include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
 
 namespace dom::nodes {class document;}

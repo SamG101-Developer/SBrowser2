@@ -9,7 +9,7 @@ namespace indexed_db {class idb_factory;}
 #include "ext/map.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace indexed_db {class idb_open_request;}
 
 class indexed_db::idb_factory

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_HEADER_INTERNALS_HPP
 #define SBROWSER2_HEADER_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/expected.ixx"
 #include "ext/span.hpp"
 #include "ext/string.hpp"

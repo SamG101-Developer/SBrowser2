@@ -8,7 +8,7 @@ namespace merchant_validation {class merchant_validation_event;}
 namespace merchant_validation {class merchant_validation_event_private;}
 
 // Other Includes & Forward Declarations
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
 
 class merchant_validation::merchant_validation_event

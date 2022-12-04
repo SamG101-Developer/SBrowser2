@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/namespaces.hpp"
 #include <tuplet/tuple.hpp>
 
 _EXT_BEGIN

@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CACHE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CACHE_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
-#include "ext/optional.hpp"
+
+#include "ext/optional.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(service_workers)

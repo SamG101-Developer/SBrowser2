@@ -8,7 +8,7 @@ namespace web_locks {class lock_manager;}
 namespace web_locks {class lock_manager_private;}
 
 // Other Includes & Forward Declarations
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(web_locks)
 
 

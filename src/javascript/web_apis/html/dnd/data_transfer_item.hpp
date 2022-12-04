@@ -6,7 +6,7 @@
 namespace html::dnd {class data_transfer_item;}
 namespace html::dnd {class data_transfer_item_private;}
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include INCLUDE_INNER_TYPES(html)
 namespace file_api {class file;}
 

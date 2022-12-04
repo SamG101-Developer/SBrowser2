@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_RENDER_BLOCKING_INTERNALS_HPP
 #define SBROWSER2_RENDER_BLOCKING_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 namespace dom::nodes {class document;}

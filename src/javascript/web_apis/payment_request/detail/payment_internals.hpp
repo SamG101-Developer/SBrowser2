@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_DETAIL_PAYMENT_INTERNALS_HPP
 
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(payment_request)
 

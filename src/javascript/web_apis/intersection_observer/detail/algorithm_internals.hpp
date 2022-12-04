@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_DETAIL_ALGORITHM_INTERNALS_HPP
 
 #include "ext/array.ixx"
-#include "ext/boolean.ixx"
+
 #include "ext/expected.ixx"
 #include "ext/map.ixx"
 #include "ext/string.hpp"

@@ -4,7 +4,7 @@
 #include "dom_object.hpp"
 namespace xhr {class form_data;}
 
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
 namespace file_api {class blob;}
 namespace file_api {class file;}

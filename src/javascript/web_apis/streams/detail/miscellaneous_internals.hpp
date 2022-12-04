@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_DETAIL_MISCELLANEOUS_INTERNALS_HPP
 
 #include <v8-forward.h>
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 
 

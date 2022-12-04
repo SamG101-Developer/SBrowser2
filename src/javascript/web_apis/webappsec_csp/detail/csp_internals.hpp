@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_CSP_INTERNALS_HPP
 #define SBROWSER2_CSP_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 
 #include "ext/set.hpp"
 #include "ext/span.hpp"

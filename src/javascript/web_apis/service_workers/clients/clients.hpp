@@ -6,9 +6,9 @@
 namespace service_workers::clients {class clients;}
 namespace service_workers::clients {class clients_private;}
 
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::clients {class client;}
 namespace service_workers::clients {class window_client;}

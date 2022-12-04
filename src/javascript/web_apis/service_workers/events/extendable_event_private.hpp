@@ -6,7 +6,7 @@
 #include "dom/events/event_private.hpp"
 
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 

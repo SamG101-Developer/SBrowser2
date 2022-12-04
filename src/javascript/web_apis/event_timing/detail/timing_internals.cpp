@@ -1,6 +1,6 @@
 #include "timing_internals.hpp"
 
-#include "ext/casting.ixx"
+
 #include "ext/hashing.ixx"
 #include "ext/assertion.hpp"
 #include "ext/string.hpp"

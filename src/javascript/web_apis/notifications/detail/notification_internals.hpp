@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NOTIFICATIONS_DETAIL_NOTIFICATION_INTERNALS_HPP
 
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/string.hpp"
 
 #include INCLUDE_INNER_TYPES(hr_time)

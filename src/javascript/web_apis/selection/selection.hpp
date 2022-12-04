@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace selection {class selection;}
 
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 #include "ext/type_traits.ixx"
 namespace dom::nodes {class node;}

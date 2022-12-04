@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CREDENTIAL_MANAGEMENT_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CREDENTIAL_MANAGEMENT_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
-#include "ext/promise.hpp"
+
+#include "ext/promise.ixx"
 #include "ext/set.hpp"
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(html)

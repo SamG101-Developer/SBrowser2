@@ -3,7 +3,7 @@
 
 #include "ext/type_traits.ixx"
 #include "ext/number.ixx"
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
 
 namespace vibration::detail

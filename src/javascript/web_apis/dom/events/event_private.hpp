@@ -4,7 +4,7 @@
 #include "ext/pimpl.ixx"
 #include "dom_object_private.hpp"
 
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(dom)

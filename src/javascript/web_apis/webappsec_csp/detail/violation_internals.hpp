@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_VIOLATION_INTERNALS_HPP
 #define SBROWSER2_VIOLATION_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/memory.ixx"
 #include "ext/number.ixx"
 #include "ext/string.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_DETAIL_DECLARATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_DETAIL_DECLARATION_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(css/cssom)

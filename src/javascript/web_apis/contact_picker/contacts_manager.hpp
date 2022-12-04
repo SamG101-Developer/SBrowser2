@@ -6,7 +6,7 @@
 namespace contact_picker {class contacts_manager;}
 namespace contact_picker {class contacts_manager_private;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(contact_picker)
 

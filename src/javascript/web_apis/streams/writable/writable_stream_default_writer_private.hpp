@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 namespace streams::writable {class writable_stream_default_writer;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace streams::writable {class writable_stream;}
 
 

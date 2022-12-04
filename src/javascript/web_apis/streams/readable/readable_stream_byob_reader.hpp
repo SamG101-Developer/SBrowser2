@@ -7,7 +7,7 @@ namespace streams::readable {class readable_stream_byob_reader;}
 namespace streams::readable {class readable_stream_byob_reader_private;}
 
 #include INCLUDE_INNER_TYPES(streams)
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace streams::readable {class readable_stream;}
 
 

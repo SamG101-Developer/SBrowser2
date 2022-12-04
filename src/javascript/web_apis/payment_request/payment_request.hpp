@@ -6,9 +6,9 @@
 namespace payment::request {class payment_request;}
 namespace payment::request {class payment_request_private;}
 
-#include "ext/promise.hpp"
-#include "ext/boolean.ixx"
-#include "ext/optional.hpp"
+#include "ext/promise.ixx"
+
+#include "ext/optional.ixx"
 #include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::request {class payment_response;}

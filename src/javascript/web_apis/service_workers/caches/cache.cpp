@@ -1,7 +1,7 @@
 #include "cache.hpp"
 #include "cache_private.hpp"
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
 
 #include "javascript/environment/realms.hpp"

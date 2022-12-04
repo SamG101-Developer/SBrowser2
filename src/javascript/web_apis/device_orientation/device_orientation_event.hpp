@@ -6,8 +6,8 @@
 namespace device_orientation {class device_orientation_event;}
 namespace device_orientation {class device_orientation_event_private;}
 
-#include "ext/promise.hpp"
-#include "ext/boolean.ixx"
+#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(device_orientation)
 
 

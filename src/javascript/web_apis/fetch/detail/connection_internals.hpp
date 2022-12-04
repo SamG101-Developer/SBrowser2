@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CONNECTION_INTERNALS_HPP
 #define SBROWSER2_CONNECTION_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/expected.ixx"
 
 #include "ext/map.ixx"

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERMISSIONS_POLICY_DETAIL_POLICY_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERMISSIONS_POLICY_DETAIL_POLICY_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include INCLUDE_INNER_TYPES(permissions_policy)
 namespace dom::nodes {class node;}
 namespace html::elements {class html_iframe_element;}

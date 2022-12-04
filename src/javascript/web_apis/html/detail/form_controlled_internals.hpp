@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_CONTROLLED_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_CONTROLLED_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 #include "ext/vector.hpp"
 

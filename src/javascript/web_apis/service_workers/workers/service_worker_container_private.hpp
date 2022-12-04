@@ -5,7 +5,7 @@
 #include "ext/pimpl.ixx"
 #include "dom/nodes/event_target_private.hpp"
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(html)
 namespace service_workers::clients {class client;}
 namespace service_workers::workers {class service_worker_registration;}

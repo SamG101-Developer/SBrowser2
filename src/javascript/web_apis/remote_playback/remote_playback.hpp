@@ -9,8 +9,8 @@ namespace remote_playback {class remote_playback_private;}
 
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(remote_playback)
-#include "ext/promise.hpp"
-#include "ext/optional.hpp"
+#include "ext/promise.ixx"
+#include "ext/optional.ixx"
 
 
 class remote_playback::remote_playback

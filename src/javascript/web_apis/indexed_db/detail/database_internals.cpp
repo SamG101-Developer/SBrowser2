@@ -4,7 +4,7 @@
 
 
 #include "ext/type_traits.ixx"
-#include "ext/variant.ixx"
+
 "
 #include "infra/detail/infra_strings_internals.hpp"
 

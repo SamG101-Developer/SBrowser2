@@ -5,7 +5,7 @@
 #include "css/cssom/style_sheets/style_sheet.hpp"
 namespace css::cssom::style_sheets {class css_style_sheet;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(css/cssom)
 namespace css::cssom::rules {class css_rule;}
 

@@ -7,7 +7,7 @@ namespace media::source {class media_source;}
 namespace media::source {class media_source_private;}
 
 #include INCLUDE_INNER_TYPES(media_source)
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/number.ixx"
 
 namespace html::basic_media {class time_ranges;}

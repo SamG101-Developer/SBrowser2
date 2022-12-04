@@ -4,7 +4,7 @@
 #include "ext/array_buffer.hpp"
 #include "ext/map.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.ixx"
+
 #include <v8-array-buffer.h>
 #include <v8-forward.h>
 

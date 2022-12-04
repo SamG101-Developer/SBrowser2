@@ -3,7 +3,7 @@
 
 #include "ext/number.ixx"
 #include "ext/type_traits.ixx"
-#include "ext/variant.ixx"
+
 
 
 namespace badging::detail

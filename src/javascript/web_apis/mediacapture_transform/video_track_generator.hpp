@@ -6,7 +6,7 @@
 namespace mediacapture::transform {class video_track_generator;}
 namespace mediacapture::transform {class video_track_generator_private;}
 
-#include "ext/boolean.ixx"
+
 namespace streams::writable {class writable_stream;}
 namespace mediacapture::main {class media_stream_track;}
 

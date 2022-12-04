@@ -7,7 +7,7 @@
 namespace streams::writable {class writable_stream;}
 
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace streams::writable {class writable_stream_default_controller;}
 namespace streams::writable {class writable_stream_default_writer;}
 

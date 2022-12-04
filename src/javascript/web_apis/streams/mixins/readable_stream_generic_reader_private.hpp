@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include "ext/memory.ixx"
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace streams::readable {class readable_stream;}
 
 

@@ -6,13 +6,13 @@
 
 #include "ext/map.ixx"
 #include "ext/number.ixx"
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/queue.ixx"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
 #include <QtGui/QTransform>
 #include INCLUDE_INNER_TYPES(fetch)

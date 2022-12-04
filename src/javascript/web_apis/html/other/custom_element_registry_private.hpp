@@ -6,9 +6,9 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)
-#include "ext/boolean.ixx"
+
 #include "ext/map.ixx"
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/set.hpp"
 
 

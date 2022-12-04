@@ -4,7 +4,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_DETAIL_GENERAL_INTERNALS_HPP
 
 #include "ext/number.ixx"
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/vector.hpp"
 #include <v8-forward.h>
 #include <range/v3/to_container.hpp>

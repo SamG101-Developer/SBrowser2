@@ -10,7 +10,7 @@ namespace filesystem {class file_system_handle_private;}
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(filesystem)
 #include INCLUDE_CONCEPTS(html)
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
 
 class filesystem::file_system_handle

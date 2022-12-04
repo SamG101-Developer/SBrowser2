@@ -8,7 +8,7 @@ namespace presentation {class presentation_receiver;}
 namespace presentation {class presentation_receiver_private;}
 
 // Other Includes & Forward Declarations
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/span.hpp"
 namespace presentation {class presentation_connection;}
 

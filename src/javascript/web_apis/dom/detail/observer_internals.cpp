@@ -1,7 +1,7 @@
 #include "observer_internals.hpp"
 
-#include "ext/boolean.ixx"
-#include "ext/optional.hpp"
+
+#include "ext/optional.ixx"
 
 
 #include "javascript/environment/realms.hpp"

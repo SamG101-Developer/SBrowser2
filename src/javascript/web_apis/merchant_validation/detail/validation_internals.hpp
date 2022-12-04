@@ -3,8 +3,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MERCHANT_VALIDATION_DETAIL_VALIDATION_INTERNALS_HPP
 
 
-#include "ext/boolean.ixx"
-#include "ext/promise.hpp"
+
+#include "ext/promise.ixx"
 #include "ext/string.hpp"
 
 namespace payment::request {class payment_request;}

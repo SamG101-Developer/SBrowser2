@@ -28,5 +28,3 @@ _EXT_SECURE_END
 
 // TODO : for unordered_map, create custom equality check to allow for duplicate key emplacing, but allow finding
 
-
-#endif //SBROWSER2_MAP_HPP

@@ -3,7 +3,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_DETAIL_PRESENTATION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_DETAIL_PRESENTATION_INTERNALS_HPP
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/span.hpp"
 #include "ext/string.hpp"
 

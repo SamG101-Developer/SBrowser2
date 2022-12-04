@@ -6,7 +6,7 @@
 
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
-#include "ext/variant.ixx"
+
 
 #include <v8-forward.h>
 namespace fetch {class request;}

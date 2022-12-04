@@ -1,8 +1,8 @@
 module;
 #include "ext/macros/namespaces.hpp"
 
-export module ext.bit;
 
+export module ext.bit;
 
 _EXT_BEGIN
     export enum class where_t {MOST_SIGNIFICANT, LEAST_SIGNIFICANT};

@@ -6,7 +6,7 @@
 namespace payment::handler {class payment_instruments;}
 namespace payment::handler {class payment_instruments_private;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(payment_handler)
 
 

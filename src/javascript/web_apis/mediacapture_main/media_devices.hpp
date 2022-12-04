@@ -15,7 +15,7 @@ namespace mediacapture::main {class media_devices;}
 #include "ext/map.ixx"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/span.hpp"
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_stream;}

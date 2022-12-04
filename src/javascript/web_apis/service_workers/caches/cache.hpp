@@ -6,9 +6,9 @@
 namespace service_workers::caches {class cache;}
 namespace service_workers::caches {class cache_private;}
 
-#include "ext/casting.ixx"
-#include "ext/optional.hpp"
-#include "ext/promise.hpp"
+
+#include "ext/optional.ixx"
+#include "ext/promise.ixx"
 #include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(service_workers)
 #include INCLUDE_INNER_TYPES(fetch)

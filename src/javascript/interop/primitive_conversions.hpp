@@ -6,7 +6,7 @@
 
 #include "ext/array_buffer.hpp"
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 
 #include "ext/span.hpp"
 #include "ext/symbol.ixx"

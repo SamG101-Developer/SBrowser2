@@ -3,8 +3,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/optional.hpp"
-#include "ext/variant.ixx"
+#include "ext/optional.ixx"
+
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(indexed_db)
 #include INCLUDE_INNER_TYPES(storage)

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace mediacapture::transform {class media_stream_track_processor;}
 
 namespace mediacapture::detail

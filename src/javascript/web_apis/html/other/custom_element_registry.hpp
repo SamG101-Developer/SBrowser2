@@ -7,8 +7,8 @@ namespace html::other {class custom_element_registry_private;}
 
 
 #include "ext/map.ixx"
-#include "ext/optional.hpp"
-#include "ext/promise.hpp"
+#include "ext/optional.ixx"
+#include "ext/promise.ixx"
 #include "ext/set.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)

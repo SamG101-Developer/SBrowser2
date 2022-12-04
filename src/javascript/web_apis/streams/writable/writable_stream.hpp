@@ -8,7 +8,7 @@ namespace streams::writable {class writable_stream;}
 namespace streams::writable {class writable_stream_private;}
 
 // Other Includes & Forward Declarations
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 namespace streams::writable {class writable_stream_default_writer;}
 
 

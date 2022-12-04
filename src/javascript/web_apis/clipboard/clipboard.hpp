@@ -5,7 +5,7 @@
 #include "dom/nodes/event_target.hpp"
 namespace clipboard {class clipboard;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/vector.hpp"
 namespace clipboard {class clipboard_item;}
 

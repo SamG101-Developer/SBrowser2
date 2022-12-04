@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_AUTOMATION_DETAIL_EXTENSION_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_AUTOMATION_DETAIL_EXTENSION_INTERNALS_HPP
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/set.hpp"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(mediacapture_automation)

@@ -5,7 +5,7 @@
 #include "ext/pimpl.ixx"
 #include "html/workers/worker_global_scope_private.hpp"
 
-#include "ext/boolean.ixx"
+
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::clients {class clients;}
 

@@ -5,7 +5,7 @@
 #include "ext/pimpl.ixx"
 #include "dom_object_private.hpp"
 
-#include "ext/boolean.ixx"
+
 namespace mediacapture::main {class media_stream_track;}
 namespace streams::writable {class writable_stream;}
 

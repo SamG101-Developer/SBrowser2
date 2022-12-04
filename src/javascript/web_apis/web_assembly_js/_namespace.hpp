@@ -3,8 +3,8 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS__NAMESPACE_HPP
 
 
-#include "ext/boolean.ixx"
-#include "ext/promise.hpp"
+
+#include "ext/promise.ixx"
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(web_assembly_js)
 namespace fetch {class response;}

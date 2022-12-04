@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_MATCHING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MIMESNIFF_DETAIL_MATCHING_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 #include "ext/set.hpp"
 #include INCLUDE_INNER_TYPES(mimesniff)

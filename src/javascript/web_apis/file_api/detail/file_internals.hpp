@@ -1,9 +1,9 @@
 #ifndef SBROWSER2_FILE_INTERNALS_HPP
 #define SBROWSER2_FILE_INTERNALS_HPP
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
-#include "ext/boolean.ixx"
+
 #include "ext/string.hpp"
 namespace file_api {class blob;}
 namespace file_api {class file;}

@@ -6,7 +6,7 @@
 namespace html::mixins {class content_editable;}
 namespace html::mixins {class content_editable_private;}
 
-#include "ext/boolean.ixx"
+
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(virtual_keyboard)
 

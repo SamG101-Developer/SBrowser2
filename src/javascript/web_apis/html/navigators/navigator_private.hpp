@@ -16,7 +16,7 @@
 #include "storage/mixins/navigator_storage_private.hpp"
 #include "web_locks/mixins/navigator_locks_private.hpp"
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/vector.hpp"
 namespace battery {class battery_manager;}
 namespace gamepad {class gamepad;}

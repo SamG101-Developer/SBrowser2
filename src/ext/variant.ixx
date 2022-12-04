@@ -1,10 +1,13 @@
 module;
+#include "ext/macros/namespaces.hpp"
 #include <swl/variant.hpp>
+
 
 _EXT_BEGIN
     using namespace swl;
     using variant_monostate_t = swl::monostate;
 _EXT_END
+
 
 
 export module ext.variant;

@@ -6,7 +6,7 @@
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::other {class navigation_preload_manager_private;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(service_workers)
 
 

@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NETWORK_ERROR_LOGGING_DETAIL_NEL_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NETWORK_ERROR_LOGGING_DETAIL_NEL_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
-#include "ext/optional.hpp"
+
+#include "ext/optional.ixx"
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(network_error_logging)

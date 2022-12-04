@@ -10,7 +10,7 @@
 #include "dom/mixins/slottable_private.hpp"
 #include "aria/mixins/aria_mixin_private.hpp"
 
-#include "ext/boolean.ixx"
+
 #include "ext/memory.ixx"
 #include "ext/queue.ixx"
 #include "ext/string.hpp"

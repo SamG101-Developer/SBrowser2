@@ -2,10 +2,10 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STORAGE_DETAIL_STORAGE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STORAGE_DETAIL_STORAGE_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/expected.ixx"
 #include "ext/number.ixx"
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/set.hpp"
 #include INCLUDE_INNER_TYPES(storage)
 #include INCLUDE_INNER_TYPES(streams)

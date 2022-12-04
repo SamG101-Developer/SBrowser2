@@ -2,6 +2,7 @@ module;
 #include <ext/macros/annotations.hpp>
 #include <ext/macros/namespaces.hpp>
 
+
 export module ext.any;
 import ext.boolean;
 import ext.concepts;
@@ -9,19 +10,18 @@ import ext.number;
 import ext.type_traits;
 import std.core;
 
-
 _EXT_BEGIN
+    export class any;
 
-export class any;
+    template <typename T>
+    concept not_any = !_EXT type_is<T, _EXT any>;
+_EXT_END
 
-template <typename T>
-concept not_any = !_EXT type_is<T, any>;
 
-
-export class any final
+class ext::any final
 {
 public friends:
-     friend struct std::hash<ext::any>;
+    friend struct std::hash<ext::any>;
 
 public constructors:
     any() = default;
@@ -32,12 +32,12 @@ public constructors:
     auto operator=(const any&) -> any& = default;
     auto operator=(any&&) noexcept -> any& = default;
 
-    template <not_any T> any(T&& value) noexcept;
-    template <not_any T> auto operator=(const T& value) -> any&;
-    template <not_any T> auto operator=(T&& value) noexcept -> any&;
+    template <_EXT not_any T> any(T&& value) noexcept;
+    template <_EXT not_any T> auto operator=(const T& value) -> any&;
+    template <_EXT not_any T> auto operator=(T&& value) noexcept -> any&;
 
     auto operator==(const any& other) const -> bool;
-    template <not_any T> auto operator==(T&& other) const -> bool;
+    template <_EXT not_any T> auto operator==(T&& other) const -> bool;
 
 public:
     [[nodiscard]] auto type() const -> const type_info&;
@@ -45,7 +45,7 @@ public:
     [[nodiscard]] auto is_empty() const -> boolean;
     [[nodiscard]] auto has_value() const -> boolean;
     template <typename T> auto to() const -> T;
-    template <is_rvalue_reference T> auto to() const -> T;
+    template <_EXT is_rvalue_reference T> auto to() const -> T;
     template <typename T> auto try_to() const -> _EXT boolean;
 
 private:
@@ -53,8 +53,6 @@ private:
     _EXT boolean m_is_arithmetic;
     _EXT number<size_t> m_hash = 0;
 };
-
-_EXT_END
 
 
 template <_EXT not_any T>

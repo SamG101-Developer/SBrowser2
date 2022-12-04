@@ -4,7 +4,7 @@
 #include "ext/pimpl.ixx"
 #include "dom/iterators/abstract_iterator_private.hpp"
 
-#include "ext/boolean.ixx"
+
 #include "ext/memory.ixx"
 #include "ext/vector.hpp"
 namespace dom::nodes {class node;}

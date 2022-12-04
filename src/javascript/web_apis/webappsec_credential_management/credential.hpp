@@ -6,7 +6,7 @@
 namespace webappsec::credential_management {class credential;}
 namespace webappsec::credential_management {class credential_private;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
 
 class webappsec::credential_management::credential

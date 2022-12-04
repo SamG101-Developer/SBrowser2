@@ -7,7 +7,7 @@ namespace html::workers {class worklet;}
 namespace html::workers {class worklet_private;}
 
 #include INCLUDE_INNER_TYPES(html)
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
 
 class html::workers::worklet

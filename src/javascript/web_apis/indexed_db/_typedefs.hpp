@@ -8,7 +8,7 @@
 #include "ext/date.ixx"
 #include "ext/number.ixx"
 #include "ext/string.hpp"
-#include "ext/variant.ixx"
+
 #include "ext/vector.hpp"
 
 #include "dom/nodes/node.hpp"

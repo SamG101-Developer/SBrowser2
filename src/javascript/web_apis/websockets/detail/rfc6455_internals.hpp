@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_DETAIL_RFC6455_INTERNALS_HPP
 
 
-#include "ext/boolean.ixx"
+
 #include "ext/expected.ixx"
 #include "ext/number.ixx"
 #include "ext/string.hpp"

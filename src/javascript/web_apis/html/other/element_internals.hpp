@@ -8,8 +8,8 @@
 namespace html::other {class element_internals;}
 namespace html::other {class element_internals_private;}
 
-#include "ext/optional.hpp"
-#include "ext/variant.ixx"
+#include "ext/optional.ixx"
+
 #include "ext/span.hpp"
 namespace dom::nodes {class node;}
 namespace dom::nodes {class shadow_root;}

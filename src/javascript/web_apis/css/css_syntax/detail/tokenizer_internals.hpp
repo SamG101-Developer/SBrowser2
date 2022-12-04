@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_SYNTAX_DETAIL_TOKENIZER_INTERNALS_HPP
 
 #include "ext/string.hpp"
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include INCLUDE_INNER_TYPES(css/css_syntax)
 
 

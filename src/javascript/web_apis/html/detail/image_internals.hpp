@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_IMAGE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_IMAGE_INTERNALS_HPP
 
-#include "ext/concepts.ixx"
-#include "ext/optional.hpp"
+
+#include "ext/optional.ixx"
 #include "ext/set.hpp"
 #include "ext/tuple.ixx"
 

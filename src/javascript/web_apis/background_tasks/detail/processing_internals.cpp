@@ -1,6 +1,6 @@
 #include "processing_internals.hpp"
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 
 #include "background_tasks/idle_deadline.hpp"
 #include "background_tasks/idle_deadline_private.hpp"

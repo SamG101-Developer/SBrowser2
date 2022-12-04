@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_TREE_INTERNALS_HPP
 #define SBROWSER2_TREE_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 
 #include "ext/string.hpp"

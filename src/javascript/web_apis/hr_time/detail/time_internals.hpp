@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_TIME_INTERNALS_HPP
 #define SBROWSER2_TIME_INTERNALS_HPP
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include <v8-local-handle.h>
 #include <v8-object.h>
 #include INCLUDE_INNER_TYPES(hr_time)

@@ -6,7 +6,7 @@
 namespace service_workers::clients {class window_client;}
 namespace service_workers::clients {class window_client_private;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(page_visibility)

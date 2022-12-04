@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_REGISTRY_HPP
 #define SBROWSER2_REGISTRY_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/string.hpp"
 
 

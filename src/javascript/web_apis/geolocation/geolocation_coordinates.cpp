@@ -1,7 +1,7 @@
 #include "geolocation_coordinates.hpp"
 #include "geolocation_coordinates_private.hpp"
 
-#include "ext/casting.ixx"
+
 
 
 geolocation::geolocation_coordinates::geolocation_coordinates()

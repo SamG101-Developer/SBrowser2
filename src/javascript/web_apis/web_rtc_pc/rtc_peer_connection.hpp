@@ -9,7 +9,7 @@ namespace web_rtc::pc {class rtc_peer_connection_private;}
 
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(web_rtc_pc)
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 
 
 class web_rtc::pc::rtc_peer_connection

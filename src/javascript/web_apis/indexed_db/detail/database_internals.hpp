@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_DATABASE_INTERNALS_HPP
 #define SBROWSER2_DATABASE_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
+
 #include "ext/number.ixx"
 #include "ext/queue.ixx"
 #include "ext/set.hpp"

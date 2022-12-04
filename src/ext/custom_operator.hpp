@@ -2,17 +2,6 @@
 #ifndef SBROWSER2_CUSTOM_OPERATOR_HPP
 #define SBROWSER2_CUSTOM_OPERATOR_HPP
 
-#include "javascript/environment/realms.hpp"
-#include "javascript/environment/global_slots.hpp"
-#include "javascript/interop/error_macros.hpp"
-
-#include <algorithm>
-#include <cmath>
-#include <queue>
-#include <stack>
-#include <thread>
-#include <stdexcept>
-
 
 #define custom_operator(name)                                  \
     const struct name ## _ {} name;                            \

@@ -6,7 +6,7 @@
 namespace dom::xpath {class xpath_result;}
 
 #include "ext/number.ixx"
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 
 
 class dom::xpath::xpath_result

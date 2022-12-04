@@ -2,9 +2,9 @@ module;
 #include "ext/macros/namespaces.hpp"
 #include <v8-forward.h>
 
+
 export module ext.array_buffer;
 import ext.variant;
-
 
 _EXT_BEGIN
     export struct array_buffer {using v8_constructor = v8::ArrayBuffer;};

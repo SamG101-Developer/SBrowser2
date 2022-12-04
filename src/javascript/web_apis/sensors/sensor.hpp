@@ -6,7 +6,7 @@
 namespace sensors {class sensor;}
 namespace sensors {class sensor_private;}
 
-#include "ext/boolean.ixx"
+
 #include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(sensors)
 

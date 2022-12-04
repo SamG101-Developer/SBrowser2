@@ -6,7 +6,7 @@
 namespace mediacapture::image {class image_capture;}
 namespace mediacapture::image {class image_capture_private;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(mediacapture_image)
 namespace file_api {class blob;}

@@ -8,7 +8,7 @@ namespace dom::abort {class abort_signal_private;}
 
 
 
-#include "ext/optional.hpp"
+#include "ext/optional.ixx"
 #include "ext/type_traits.ixx"
 namespace dom::nodes {class event_target;}
 

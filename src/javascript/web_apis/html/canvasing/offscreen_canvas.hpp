@@ -6,7 +6,7 @@
 #include "html/mixins/transferable.hpp"
 namespace html::canvasing {class offscreen_canvas;}
 
-#include "ext/promise.hpp"
+#include "ext/promise.ixx"
 #include INCLUDE_INNER_TYPES(html)
 
 

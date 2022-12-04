@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERMISSIONS_POLICY_DETAIL_ALGORITHM_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERMISSIONS_POLICY_DETAIL_ALGORITHM_INTERNALS_HPP
 
-#include "ext/boolean.ixx"
-#include "ext/concepts.ixx"
+
+
 #include "ext/property.hpp"
 #include <v8-object.h>
 #include INCLUDE_INNER_TYPES(fetch)
