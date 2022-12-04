@@ -1,5 +1,5 @@
-#ifndef SBROWSER2_SRC_EXT_PIMPL2_HPP
-#define SBROWSER2_SRC_EXT_PIMPL2_HPP
+#ifndef SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP
+#define SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP
 
 #include <self_macro.h>
 
@@ -67,4 +67,4 @@ public:
     struct ns:: c ## _private
 
 
-#endif //SBROWSER2_SRC_EXT_PIMPL2_HPP
+#endif //SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP

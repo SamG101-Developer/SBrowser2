@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_SYNTAX_DETAIL_PARSING_INTERNALS_HPP
 
 #include "ext/expected.ixx"
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(css/css_syntax)
 

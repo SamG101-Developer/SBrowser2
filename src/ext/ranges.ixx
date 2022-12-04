@@ -1,19 +1,22 @@
-module;
-
 // TODO : add constraints to range views / actions / algorithms, like in range-v3 library.
 // TODO : comment MACROS
 
-#include <range/v3/range/conversion.hpp>
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros/namespaces.hpp"
+#include "ext/macros/other.hpp"
 
+#include <function2/function2.hpp>
+#include <tuplet/tuple.hpp>
+
+#include <range/v3/range/conversion.hpp>
 #include <range/v3/action.hpp>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/action/transform.hpp>
-
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
-
 #include <range/v3/view/any_view.hpp>
 #include <range/v3/view/drop_while.hpp>
 #include <range/v3/view/enumerate.hpp>
@@ -33,17 +36,20 @@ export module ext.ranges;
 import ext.boolean;
 import ext.casting;
 import ext.concepts;
+import ext.functional;
+import ext.number;
+import ext.pair;
 import ext.string;
+import ext.tuple;
 import ext.type_traits;
 import ext.variadic;
-
 
 #define RANGE_VIEW_STRUCT(name, code) \
     export struct name##_fn {code};          \
     RANGES_INLINE_VARIABLE(name##_fn, name)
 
 #define RANGE_VIEW_STRUCT_T(name, code) \
-    export struct name##_fn {code};
+    struct name##_fn {code};
 
 #define RANGE_ACTION_STRUCT(name, code) \
     export struct name##_fn {code};            \
@@ -54,14 +60,14 @@ import ext.variadic;
     RANGES_INLINE_VARIABLE(view_closure<name##_fn>, name)
 
 #define RANGE_VIEW_CLOSURE_STRUCT_T(name, code) \
-    export struct name##_fn {code};
+    struct name##_fn {code};
 
 #define RANGE_ACTION_CLOSURE_STRUCT(name, code) \
     export struct name##_fn {code};                    \
     RANGES_INLINE_VARIABLE(action_closure<name##_fn>, name)
 
 #define RANGE_ACTION_CLOSURE_STRUCT_T(name, code) \
-    export struct name##_fn {code};
+    struct name##_fn {code};
 
 #define RANGE_ALGORITHM_STRUCT(name, code) \
     RANGES_FUNC_BEGIN(name)                \
@@ -137,7 +143,7 @@ namespace ranges::views
     RANGE_VIEW_STRUCT(take_until,
             template <_EXT callable F>
             constexpr auto operator()(F&& pred) const
-            {return ranges::views::take_while(_EXT negate_function{std::forward<F>(pred)});})
+            {return ranges::views::take_while(_EXT inverse_function{std::forward<F>(pred)});})
 
 
     // A drop_until adaptor works by dropping items from a range until a condition is met -- semantically the same as
@@ -146,7 +152,7 @@ namespace ranges::views
     RANGE_VIEW_STRUCT(drop_until,
             template <_EXT callable F>
             constexpr auto operator()(F&& pred) const
-            {return ranges::views::drop_while(_EXT negate_function{std::forward<F>(pred)});})
+            {return ranges::views::drop_while(_EXT inverse_function{std::forward<F>(pred)});})
 
 
     // Transform a container of objects into an attribute belonging to that object -- syntactic sugar for
@@ -208,7 +214,7 @@ namespace ranges::views
 
     // A cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
     // another type, and then removing all the instances of nullptr.
-    template <_EXT is_pointer T>
+    export template <_EXT is_pointer T>
     RANGE_VIEW_CLOSURE_STRUCT_T(cast,
             template <typename Rng>
             auto operator()(Rng&& rng) const -> cast_view<all_t<Rng> COMMA T>
@@ -227,7 +233,7 @@ namespace ranges::views
     // example, the first line is simplified into the second line (syntactic sugar)
     //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;};
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
-    template <filter_compare_t Comparison = filter_compare_t::EQ>
+    export template <filter_compare_t Comparison = filter_compare_t::EQ>
     RANGE_VIEW_STRUCT_T(filter_eq,
             template <typename Attr COMMA typename T COMMA typename F>
             constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity) const // TODO -> Attr to general typename (for any method), then specialiaze is_member_function for Attr
@@ -272,7 +278,7 @@ namespace ranges::views
             constexpr auto operator()(_EXT number<size_t> r_index) const
             {
         return ranges::views::enumerate
-                | ranges::views::remove_if(BIND_BACK(_EXT pair_key_matches, r_index))
+                | ranges::views::remove_if(_EXT bind_back(_EXT pair_key_matches, r_index))
                 | ranges::views::values;
             })
 
@@ -288,7 +294,7 @@ namespace ranges::views
     RANGE_VIEW_STRUCT(parse_csv,
             constexpr auto operator()() const
             {
-        return ranges::views::transform(BIND_BACK(ranges::views::split, ','))
+        return ranges::views::transform(_EXT bind_back(ranges::views::split, ','))
                 | ranges::views::transform([](auto&& pair) {return _EXT make_pair(std::move(pair.front()), std::move(pair.back()));});
             })
 }
@@ -329,16 +335,16 @@ namespace ranges::actions
             constexpr auto operator()(_EXT number<size_t> r_index) const
             {
         return ranges::views::enumerate
-                | ranges::actions::remove_if(BIND_FRONT(_EXT pair_key_matches, r_index))
+                | ranges::actions::remove_if(_EXT bind_front(_EXT pair_key_matches, r_index))
                 | ranges::views::values;
             })
 
     RANGE_ACTION_STRUCT(filter,
             template <_EXT callable F>
             constexpr auto operator()(F&& pred) const
-            {return ranges::actions::remove_if(_EXT negate_function{std::forward<F>(pred)});})
+            {return ranges::actions::remove_if(_EXT inverse_function{std::forward<F>(pred)});})
 
-    template <_EXT is_pointer T>
+    export template <_EXT is_pointer T>
     RANGE_ACTION_CLOSURE_STRUCT_T(cast,
             template <typename Rng>
             auto operator()(Rng&& rng) const -> Rng

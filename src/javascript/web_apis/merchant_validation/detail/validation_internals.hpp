@@ -5,7 +5,7 @@
 
 
 
-#include "ext/string.hpp"
+
 
 namespace payment::request {class payment_request;}
 

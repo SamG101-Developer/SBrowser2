@@ -11,7 +11,7 @@ namespace storage {class storage_manager_private;}
 
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(storage)
 
 

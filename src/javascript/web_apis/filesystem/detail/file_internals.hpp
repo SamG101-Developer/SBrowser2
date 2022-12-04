@@ -5,7 +5,7 @@
 #include "ext/memory.ixx"
 
 #include "ext/set.hpp"
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(filesystem)
 #include INCLUDE_INNER_TYPES(permissions)
 namespace js::env {class env;}

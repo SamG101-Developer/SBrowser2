@@ -5,7 +5,7 @@
 
 #include "ext/expected.ixx"
 #include "ext/span.hpp"
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 

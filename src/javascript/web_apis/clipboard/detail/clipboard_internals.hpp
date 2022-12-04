@@ -4,7 +4,7 @@
 
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(clipboard)
 
 #include <QtGui/QClipboard>

@@ -4,7 +4,7 @@
 
 
 
-#include "ext/string.hpp"
+
 namespace file_api {class blob;}
 namespace file_api {class file;}
 namespace file_api {class file_reader;}

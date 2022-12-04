@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_XHR_INTERNALS_HPP
 #define SBROWSER2_XHR_INTERNALS_HPP
 
-#include "ext/string.hpp"
+
 namespace xhr {class xml_http_request;}
 
 namespace xhr::detail::xhr_internals

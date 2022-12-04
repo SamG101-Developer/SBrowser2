@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_DETAIL_DECLARATION_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(css/cssom)
 namespace dom::nodes {class element;}

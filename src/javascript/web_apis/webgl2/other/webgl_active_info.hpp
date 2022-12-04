@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace webgl2::other {class webgl_active_info;}
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(webgl2)
 
 

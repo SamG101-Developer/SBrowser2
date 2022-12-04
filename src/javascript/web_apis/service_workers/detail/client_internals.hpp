@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CLIENT_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::clients {class client;}

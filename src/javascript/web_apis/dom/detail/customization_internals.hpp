@@ -8,7 +8,7 @@
 #include "ext/optional.ixx"
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class document;}

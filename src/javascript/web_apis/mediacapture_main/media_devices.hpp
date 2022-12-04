@@ -13,7 +13,7 @@ namespace mediacapture::main {class media_devices;}
 #include INCLUDE_INNER_TYPES(mediacapture_viewport)
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 
 #include "ext/span.hpp"

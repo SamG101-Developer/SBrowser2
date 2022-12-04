@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_DND_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_DND_INTERNALS_HPP
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class event_target;}
 

@@ -4,7 +4,7 @@
 
 
 #include "ext/optional.ixx"
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(network_error_logging)
 #include INCLUDE_INNER_TYPES(referrer_policy)

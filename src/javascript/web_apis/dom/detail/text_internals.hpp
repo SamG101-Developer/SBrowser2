@@ -2,7 +2,7 @@
 #define SBROWSER2_TEXT_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/type_traits.ixx"
 namespace dom::nodes {class character_data;}
 namespace dom::nodes {class text;}

@@ -1,17 +1,18 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <swl/variant.hpp>
-
-_EXT_BEGIN
-    using namespace swl;
-    using variant_monostate_t = swl::monostate;
-_EXT_END
+#include <tuplet/tuple.hpp>
 
 
 export module ext.variant;
 import ext.concepts;
 import ext.tuple;
 import ext.vector;
+
+_EXT_BEGIN
+    export using namespace ::swl;
+    export using variant_monostate_t = swl::monostate;
+_EXT_END
 
 _EXT_BEGIN
     template <typename ...Types>

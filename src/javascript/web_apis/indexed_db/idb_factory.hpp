@@ -7,7 +7,7 @@ namespace indexed_db {class idb_factory;}
 
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 
 namespace indexed_db {class idb_open_request;}

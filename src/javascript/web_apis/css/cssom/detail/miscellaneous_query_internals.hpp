@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_DETAIL_MISCELLANEOUS_QUERY_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(css/media_queries)
 
 namespace dom::nodes {class processing_instruction;}

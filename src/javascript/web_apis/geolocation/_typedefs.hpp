@@ -4,7 +4,7 @@
 
 
 
-#include "ext/string.hpp"
+
 
 namespace geolocation {class geolocation_position;}
 namespace geolocation {class geolocation_position_error;}

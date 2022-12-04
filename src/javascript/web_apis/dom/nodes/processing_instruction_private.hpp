@@ -4,7 +4,7 @@
 #include "ext/pimpl.ixx"
 #include "dom/nodes/character_data_private.hpp"
 
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, processing_instruction)

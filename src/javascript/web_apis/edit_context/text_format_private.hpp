@@ -5,7 +5,7 @@
 #include "dom_object_private.hpp"
 
 
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(edit_context, text_format)

@@ -4,7 +4,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATION_WORKLET_DETAIL_ANIMATION_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(css/css_animation_worklet)
 
 namespace css::css_animation_worklet {class animation_worklet_global_scope;}

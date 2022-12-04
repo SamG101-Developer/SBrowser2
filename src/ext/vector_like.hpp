@@ -6,7 +6,7 @@
 
 #include "ext/pimpl.ixx"
 #include "ext/property.hpp"
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 
 #include "dom_object_private.hpp"

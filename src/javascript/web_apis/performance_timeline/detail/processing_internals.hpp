@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERFORMANCE_TIMELINE_DETAIL_PROCESSING_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(performance_timeline)
 namespace performance_timeline {class performance_entry;}

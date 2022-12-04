@@ -2,7 +2,7 @@
 #define SBROWSER2_WEBSOCKET_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 
 #include INCLUDE_INNER_TYPES(fetch)

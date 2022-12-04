@@ -1,4 +1,5 @@
-module;
+#ifndef SBROWSER2_SRC_EXT_MACROS_CONSTRUCTORS_HPP
+#define SBROWSER2_SRC_EXT_MACROS_CONSTRUCTORS_HPP
 
 #define DISALLOW_COPY(type)     \
     type(const type&) = delete; \
@@ -13,4 +14,4 @@ module;
     auto operator=(type&&) noexcept -> type& = delete
 
 
-export module ext.macros.constructors;
+#endif //SBROWSER2_SRC_EXT_MACROS_CONSTRUCTORS_HPP

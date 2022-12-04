@@ -7,7 +7,7 @@ namespace dom::other {class dom_exception_private;}
 
 #include INCLUDE_INNER_TYPES(dom)
 
-#include "ext/string.hpp"
+
 namespace dom::abort {class abort_signal;}
 
 

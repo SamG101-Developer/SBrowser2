@@ -9,7 +9,7 @@ class dom_object_private;
 #include "ext/keywords.ixx"
 #include "ext/pimpl.ixx"
 #include "ext/property.hpp"
-#include "ext/string.hpp"
+
 #include "ext/type_traits.ixx"
 #include <memory>
 

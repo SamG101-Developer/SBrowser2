@@ -2,7 +2,7 @@
 #include "payment_request_private.hpp"
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(payment_method_id)
 

@@ -3,7 +3,7 @@
 
 
 #include "ext/optional.ixx"
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(service_workers)
 

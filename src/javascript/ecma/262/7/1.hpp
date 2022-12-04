@@ -3,7 +3,7 @@
 
 #include "ext/assertion.hpp"
 
-#include "ext/string.hpp"
+
 #include <v8-forward.h>
 
 

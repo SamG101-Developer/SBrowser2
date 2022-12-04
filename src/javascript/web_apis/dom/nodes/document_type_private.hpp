@@ -5,7 +5,7 @@
 #include "dom/nodes/node_private.hpp"
 #include "dom/mixins/child_node_private.hpp"
 
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(dom::nodes, document_type)

@@ -4,30 +4,36 @@ module;
 #include <utility>
 
 
-#define BIND_NO_ARGS(function)                     \
-    []<typename ..._Args>(_Args&&... args) mutable \
-    {return function(std::forward<_Args>(args)...);}
-
-#define BIND_FRONT(function, ...)                   \
-    [&]<typename ..._Args>(_Args&&... args) mutable \
-    {return function(__VA_ARGS__, std::forward<_Args>(args)...);}
-
-#define BIND_BACK(function, ...)                    \
-    [&]<typename ..._Args>(_Args&&... args) mutable \
-    {return function(std::forward<_Args>(args)..., __VA_ARGS__);}
-
-
-_EXT_BEGIN
-    using namespace fu2;
-_EXT_END
-
-
 export module ext.functional;
 import ext.boolean;
 import ext.concepts;
 
+_EXT_BEGIN
+    export using namespace ::fu2;
+_EXT_END
 
 _EXT_BEGIN
+    export template <_EXT callable F>
+    constexpr auto bind_no_args(F&& function)
+    {
+        return [function = std::forward<F>(function)]<typename ...Args>(Args&&... args) mutable
+        {return function(std::forward<Args>(args)...);};
+    }
+
+    export template <_EXT callable F, typename ...FArgs>
+    constexpr auto bind_front(F&& function, FArgs&&... f_args)
+    {
+        return [function = std::forward<F>(function), ...f_args = std::forward<FArgs>(f_args)]<typename ...BArgs>(BArgs&&... b_args) mutable
+        {return function(std::forward<FArgs>(f_args)..., std::forward<BArgs>(b_args)...);};
+    }
+
+    export template <_EXT callable F, typename ...BArgs>
+    constexpr auto bind_back(F&& function, BArgs&&... b_args)
+    {
+        return [function = std::forward<F>(function), ...b_args = std::forward<BArgs>(b_args)]<typename ...FArgs>(FArgs&&... f_args) mutable
+        {return function(std::forward<FArgs>(f_args)..., std::forward<BArgs>(b_args)...);};
+    }
+
     // Simple functors for parameters (mainly used as range projections)
     export auto identity = []<typename T>(T&& object) {return std::forward<T>(object);};
     export auto negate = []<typename T>(T&& object) {return !std::forward<T>(object);};
@@ -44,6 +50,8 @@ _EXT_BEGIN
     template <typename ...Ts>
     overloaded(Ts...) -> overloaded<Ts...>;
 
+    export template <_EXT callable F>
+    struct inverse_function;
 
     export namespace cmp
     {
@@ -114,6 +122,22 @@ _EXT_BEGIN
                 {return std::forward<T>(left) - std::forward<U>(right);};
     }
 _EXT_END
+
+
+export template <_EXT callable F>
+struct _EXT inverse_function final
+{
+public:
+    explicit inverse_function(F&& function)
+    {m_function = std::forward<F>(function);}
+
+    template <typename ...Args>
+    constexpr auto operator()(Args&&...args) const
+    {return !m_function(std::forward<Args>(args)...);}
+
+private:
+    F m_function;
+};
 
 
 export template <typename ...Ts>

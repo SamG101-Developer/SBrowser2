@@ -6,7 +6,7 @@
 #include "dom/events/event_private.hpp"
 
 #include INCLUDE_INNER_TYPES(presentation)
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(presentation, presentation_connection_close_event) : dom::events::event_private

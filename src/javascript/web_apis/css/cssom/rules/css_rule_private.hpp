@@ -3,7 +3,7 @@
 
 #include "ext/pimpl.ixx"
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 
 DECLARE_PRIVATE_CLASS(css::cssom, css_style_sheet)

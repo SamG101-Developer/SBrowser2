@@ -5,7 +5,7 @@
 
 #include "ext/expected.ixx"
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(intersection_observer)
 #include INCLUDE_INNER_TYPES(hr_time)
 

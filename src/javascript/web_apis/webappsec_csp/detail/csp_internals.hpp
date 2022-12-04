@@ -6,7 +6,7 @@
 
 #include "ext/set.hpp"
 #include "ext/span.hpp"
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)

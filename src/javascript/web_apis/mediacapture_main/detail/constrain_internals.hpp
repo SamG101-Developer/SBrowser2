@@ -5,7 +5,7 @@
 
 
 #include "ext/set.hpp"
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 
 #include INCLUDE_INNER_TYPES(mediacapture_main)

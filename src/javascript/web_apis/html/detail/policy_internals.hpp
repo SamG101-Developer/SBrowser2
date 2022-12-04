@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_POLICY_INTERNALS_HPP
 #define SBROWSER2_POLICY_INTERNALS_HPP
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(webappsec_csp)
 #include INCLUDE_INNER_TYPES(html)

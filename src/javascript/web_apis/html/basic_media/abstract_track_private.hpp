@@ -6,7 +6,7 @@
 #include "dom_object_private.hpp"
 
 #include INCLUDE_INNER_TYPES(html)
-#include "ext/string.hpp"
+
 namespace media::source {class source_buffer;}
 
 

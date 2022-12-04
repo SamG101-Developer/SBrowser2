@@ -2,7 +2,7 @@
 #define SBROWSER2_NAMESPACE_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/tuple.ixx"
 
 namespace dom::detail

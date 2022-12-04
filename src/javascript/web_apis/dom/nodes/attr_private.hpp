@@ -5,7 +5,7 @@
 #include "dom/nodes/node_private.hpp"
 
 #include "ext/memory.ixx"
-#include "ext/string.hpp"
+
 namespace dom::nodes {class element;}
 
 

@@ -6,7 +6,7 @@
 #include "reporting/report_body_private.hpp"
 
 #include INCLUDE_INNER_TYPES(webappsec_csp)
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(webappsec::csp, csp_violation_report_body) : reporting::report_body_private

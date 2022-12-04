@@ -13,7 +13,7 @@
 
 #include "ext/memory.ixx"
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
 

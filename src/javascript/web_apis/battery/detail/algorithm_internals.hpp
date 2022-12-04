@@ -5,7 +5,7 @@
 
 
 #include "ext/property.hpp"
-#include "ext/string.hpp"
+
 
 
 namespace battery::algorithm_internals

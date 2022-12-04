@@ -3,7 +3,7 @@
 
 #include "ext/optional.ixx"
 #include "ext/set.hpp"
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(mediacapture_automation)
 
 namespace mediacapture::detail

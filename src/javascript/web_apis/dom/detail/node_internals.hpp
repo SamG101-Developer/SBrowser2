@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_NODE_INTERNALS_HPP
 #define SBROWSER2_NODE_INTERNALS_HPP
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class document;}

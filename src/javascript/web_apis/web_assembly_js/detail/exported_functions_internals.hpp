@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_DETAIL_EXPORTED_FUNCTIONS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_DETAIL_EXPORTED_FUNCTIONS_INTERNALS_HPP
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include <v8-forward.h>
 #include <v8-platform.h>

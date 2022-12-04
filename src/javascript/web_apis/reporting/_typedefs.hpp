@@ -5,7 +5,7 @@
 
 
 #include "ext/span.hpp"
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 namespace reporting {class reporting_observer;}
 

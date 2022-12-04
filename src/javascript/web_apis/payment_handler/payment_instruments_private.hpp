@@ -5,7 +5,7 @@
 #include "ext/pimpl.ixx"
 #include "ext/map_like.ixx"
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(payment_handler)
 
 

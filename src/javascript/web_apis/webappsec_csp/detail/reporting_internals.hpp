@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_REPORTING_INTERNALS_HPP
 #define SBROWSER2_REPORTING_INTERNALS_HPP
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(webappsec_csp)
 #include INCLUDE_INNER_TYPES(url)
 

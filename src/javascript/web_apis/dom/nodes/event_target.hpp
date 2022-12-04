@@ -11,7 +11,7 @@ namespace dom::nodes {class event_target_private;}
 
 #include "ext/keywords.ixx"
 
-#include "ext/string.hpp"
+
 #include "ext/type_traits.ixx"
 #include "ext/vector.hpp"
 namespace dom::events {class event;}

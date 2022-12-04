@@ -7,7 +7,7 @@
 
 #include INCLUDE_INNER_TYPES(fetch)
 
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(fetch::mixins, body)

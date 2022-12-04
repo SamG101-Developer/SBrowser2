@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_MISCELLANEOUS_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)

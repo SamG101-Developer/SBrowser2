@@ -4,7 +4,7 @@
 
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include "ext/span.hpp"
 namespace performance_timeline {class performance_entry;}

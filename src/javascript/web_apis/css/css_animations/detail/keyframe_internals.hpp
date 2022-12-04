@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATIONS_DETAIL_KEYFRAME_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(css/css_animations)
 namespace dom::nodes {class element;}
 

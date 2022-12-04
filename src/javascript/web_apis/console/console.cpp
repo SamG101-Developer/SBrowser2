@@ -6,7 +6,7 @@
 
 #include "ext/hashing.ixx"
 
-#include "ext/string.hpp"
+
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
 

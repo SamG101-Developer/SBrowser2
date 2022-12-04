@@ -3,7 +3,7 @@
 #define SBROWSER2_TRACK_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 namespace mediacapture::main {class media_stream_track;}
 
 

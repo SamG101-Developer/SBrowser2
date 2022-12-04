@@ -6,7 +6,7 @@
 
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
 namespace dom::mutations {class mutation_observer;}

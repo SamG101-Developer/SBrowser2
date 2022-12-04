@@ -3,7 +3,7 @@
 #define SBROWSER2_RENDER_BLOCKING_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class document_fragment;}

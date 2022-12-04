@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAINT_TIMING_DETAIL_PROCESSING_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(hr_time)
 namespace dom::nodes {class document;}
 

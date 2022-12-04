@@ -1,4 +1,6 @@
-module;
+#ifndef SBROWSER2_SRC_EXT_MACROS_LANGUAGE_SHORTHAND
+#define SBROWSER2_SRC_EXT_MACROS_LANGUAGE_SHORTHAND
+
 
 #define return_if(condition) if (condition) return
 #define break_if(condition) if (condition) break
@@ -8,4 +10,4 @@ module;
 #define constexpr_return_if(condition) if constexpr (condition) return
 
 
-export module ext.macros.language_shorthand;
+#endif //SBROWSER2_SRC_EXT_MACROS_LANGUAGE_SHORTHAND

@@ -3,7 +3,7 @@
 #define SBROWSER2_HTTP_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include INCLUDE_INNER_TYPES(url)
 
 

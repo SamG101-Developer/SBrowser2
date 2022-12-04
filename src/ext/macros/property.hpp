@@ -1,6 +1,5 @@
-#pragma once
-#ifndef SBROWSER2_PROPERTY_HPP
-#define SBROWSER2_PROPERTY_HPP
+#ifndef SBROWSER2_SRC_EXT_MACROS_PROPERTY_HPP
+#define SBROWSER2_SRC_EXT_MACROS_PROPERTY_HPP
 
 
 // This macro forwards an assignment value of a class into a setter instead. It works slightly different than in web
@@ -31,4 +30,4 @@
     static auto set_ ## p(t new_ ## p) -> t
 
 
-#endif //SBROWSER2_PROPERTY_HPP
+#endif //#ifndef SBROWSER2_SRC_EXT_MACROS_PROPERTY_HPP

@@ -8,7 +8,7 @@
 #include "dom/mixins/non_element_parent_node_private.hpp"
 #include "dom/mixins/parentable_node_private.hpp"
 
-#include "ext/string.hpp"
+
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(permissions_policy)

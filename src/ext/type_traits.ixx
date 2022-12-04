@@ -2,6 +2,7 @@ module;
 #include "ext/macros/namespaces.hpp"
 #include <bit>
 #include <type_traits>
+#include <swl/variant.hpp>
 
 
 export module ext.type_traits;

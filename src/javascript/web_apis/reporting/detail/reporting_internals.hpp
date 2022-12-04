@@ -7,7 +7,7 @@
 
 #include "ext/optional.ixx"
 #include "ext/span.hpp"
-#include "ext/string.hpp"
+
 #include <v8-forward.h>
 
 #include INCLUDE_INNER_TYPES(fetch)

@@ -9,7 +9,7 @@
 #include "ext/optional.ixx"
 
 #include "ext/set.hpp"
-#include "ext/string.hpp"
+
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
 

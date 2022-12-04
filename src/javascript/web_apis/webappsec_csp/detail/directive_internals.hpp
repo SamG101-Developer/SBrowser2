@@ -3,7 +3,7 @@
 #define SBROWSER2_DIRECTIVE_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)

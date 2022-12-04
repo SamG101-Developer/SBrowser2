@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_WINDOW_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(html)

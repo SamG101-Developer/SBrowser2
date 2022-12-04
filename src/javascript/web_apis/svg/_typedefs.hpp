@@ -3,7 +3,7 @@
 
 
 
-#include "ext/string.hpp"
+
 
 namespace svg::detail
 {

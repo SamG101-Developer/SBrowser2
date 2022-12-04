@@ -7,7 +7,7 @@
 
 
 
-#include "ext/string.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(server_timing, performance_server_timing) : dom_object_private

@@ -2,7 +2,7 @@
 #define SBROWSER2_REGISTRY_HPP
 
 
-#include "ext/string.hpp"
+
 
 
 namespace gui::javascript_interop

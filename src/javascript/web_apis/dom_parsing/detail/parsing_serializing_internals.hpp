@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DETAIL_PARSING_SERIALIZING_INTERNALS_HPP
 
 
-#include "ext/string.hpp"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(dom_parsing)
 namespace dom::nodes {class document_fragment; class element; class node;}
