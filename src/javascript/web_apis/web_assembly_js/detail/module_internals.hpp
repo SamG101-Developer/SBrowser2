@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_DETAIL_MODULE_INTERNALS_HPP
 
 #include "ext/vector.hpp"
-#include "ext/promise.ixx"
+
 #include <v8-wasm.h>
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(web_assembly_js)

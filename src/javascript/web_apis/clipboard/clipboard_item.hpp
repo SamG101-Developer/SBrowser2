@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace clipboard {class clipboard_item;}
 
-#include "ext/promise.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(clipboard)

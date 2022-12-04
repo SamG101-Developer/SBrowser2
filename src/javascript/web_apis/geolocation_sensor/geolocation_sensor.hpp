@@ -6,7 +6,7 @@
 namespace geolocation_sensor {class geolocation_sensor;}
 namespace geolocation_sensor {class geolocation_sensor_private;}
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(geolocation_sensor)
 
 

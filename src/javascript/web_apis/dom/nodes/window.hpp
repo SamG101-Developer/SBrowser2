@@ -8,9 +8,9 @@ namespace dom::nodes {class window;}
 namespace dom::nodes {class window_private;}
 
 #include "ext/span.hpp"
-#include "ext/threading.ixx"
+
 #include "ext/type_traits.ixx"
-#include "ext/queue.ixx"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(background_tasks)
 #include INCLUDE_INNER_TYPES(dom)

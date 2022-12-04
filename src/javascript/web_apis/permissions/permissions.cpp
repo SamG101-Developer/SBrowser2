@@ -1,6 +1,6 @@
 #include "permissions.hpp"
 
-#include "ext/threading.ixx"
+
 
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/window.hpp"

@@ -5,7 +5,7 @@
 #include "ext/pimpl.ixx"
 #include "dom_object_private.hpp"
 
-#include "ext/promise.ixx"
+
 namespace streams::transformable {class transform_stream;}
 namespace streams::transformable {class transform_stream_default_controller;}
 namespace streams::readable {class readable_stream;}

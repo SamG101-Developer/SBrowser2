@@ -6,7 +6,7 @@
 namespace html::elements {class html_image_element;}
 namespace html::elements {class html_image_element_private;}
 
-#include "ext/promise.ixx"
+
 #include "ext/set.hpp"
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(referrer_policy)

@@ -3,7 +3,6 @@ module;
 
 export module ext.enums;
 import ext.concepts;
-import std.core;
 
 
 export template <ext::type_is_enum T>

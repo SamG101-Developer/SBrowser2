@@ -6,7 +6,7 @@
 namespace payment::handler {class payment_request_event;}
 namespace payment::handler {class payment_request_event_private;}
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(payment_handler)
 #include INCLUDE_INNER_TYPES(payment_request)
 namespace payment::handler {class window_client;}

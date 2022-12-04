@@ -10,7 +10,7 @@ namespace push_api {class push_manager_private;}
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(permissions)
 #include INCLUDE_INNER_TYPES(push_api)
-#include "ext/promise.ixx"
+
 #include "ext/span.hpp"
 namespace push_api {class push_subscription;}
 

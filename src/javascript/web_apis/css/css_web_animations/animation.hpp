@@ -6,7 +6,7 @@
 namespace css::css_web_animations {class animation;}
 
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
 namespace css::css_web_animations {class animation_effect;}
 namespace css::css_web_animations {class animation_timeline;}

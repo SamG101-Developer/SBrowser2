@@ -4,7 +4,7 @@
 
 #include "ext/pimpl.ixx"
 #include "filesystem/file_system_handle_private.hpp"
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 
 
 DEFINE_PRIVATE_CLASS(filesystem, file_system_directory_handle)

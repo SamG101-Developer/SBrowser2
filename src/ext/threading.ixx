@@ -1,11 +1,11 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 
 
 export module ext.threading;
-import std.core;
-import std.threading;
-
 
 _EXT_BEGIN
     export using std::thread;

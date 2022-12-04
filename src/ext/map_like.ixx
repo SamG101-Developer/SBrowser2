@@ -1,15 +1,9 @@
-#pragma once
-#ifndef SBROWSER2_MAP_LIKE_HPP
-#define SBROWSER2_MAP_LIKE_HPP
-
+module;
+#include "ext/macros/namespaces.hpp"
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 
-#include "ext/keywords.ixx"
-#include "ext/map.ixx"
-#include "ext/pimpl.ixx"
-
-#include "dom_object_private.hpp"
-#include "dom_object.hpp"
+export module ext.map_like;
 
 
 DEFINE_PRIVATE_CLASS_TEMPLATED(ext, map_like, typename K, typename V) : virtual dom_object_private

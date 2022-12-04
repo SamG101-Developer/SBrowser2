@@ -3,7 +3,7 @@
 
 
 #include "ext/expected.ixx"
-#include "ext/promise.ixx"
+
 #include "service_workers/clients/client.hpp"
 
 #include INCLUDE_INNER_TYPES(dom)

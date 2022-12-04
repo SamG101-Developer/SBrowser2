@@ -2,11 +2,11 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_HANDLER_PAYMENT_INSTRUMENTS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_HANDLER_PAYMENT_INSTRUMENTS_HPP
 
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 namespace payment::handler {class payment_instruments;}
 namespace payment::handler {class payment_instruments_private;}
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(payment_handler)
 
 

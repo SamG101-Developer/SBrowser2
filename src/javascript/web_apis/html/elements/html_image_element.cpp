@@ -3,7 +3,7 @@
 #include "html/_typedefs.hpp"
 #include "html_image_element_private.hpp"
 
-#include "ext/threading.ixx"
+
 
 #include "javascript/environment/reflection.hpp"
 

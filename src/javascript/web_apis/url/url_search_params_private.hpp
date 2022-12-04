@@ -4,9 +4,9 @@
 
 #include "ext/pimpl.ixx"
 #include "dom_object_private.hpp"
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 
-#include "ext/map.ixx"
+
 #include "ext/string.hpp"
 namespace url {class url;}
 

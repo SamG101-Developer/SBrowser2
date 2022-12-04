@@ -6,10 +6,10 @@
 namespace storage {class storage_manager;}
 namespace storage {class storage_manager_private;}
 
-#include "ext/promise.ixx"
 
 
-#include "ext/map.ixx"
+
+
 
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(storage)

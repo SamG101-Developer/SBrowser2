@@ -6,7 +6,7 @@
 namespace service_workers::workers {class service_worker_global_scope;}
 namespace service_workers::workers {class service_worker_global_scope_private;}
 
-#include "ext/promise.ixx"
+
 namespace service_workers::clients {class clients;}
 namespace service_workers::workers {class service_worker;}
 namespace service_workers::workers {class service_worker_registration;}

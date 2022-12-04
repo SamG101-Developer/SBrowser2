@@ -9,7 +9,7 @@
 #include "ext/optional.ixx"
 
 #include "ext/span.hpp"
-#include "ext/symbol.ixx"
+
 
 #include "javascript/ecma/262/7/1.hpp"
 #include "javascript/ecma/262/7/2.hpp"

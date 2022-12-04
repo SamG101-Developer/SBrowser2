@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_HEADERS_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 
 #include INCLUDE_INNER_TYPES(fetch)
 

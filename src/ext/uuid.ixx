@@ -4,6 +4,7 @@ module;
 
 
 export module ext.uuid;
+import ext.string;
 
 _EXT_BEGIN
     export namespace uuid = uuids;

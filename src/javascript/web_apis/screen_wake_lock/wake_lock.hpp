@@ -9,7 +9,7 @@ namespace screen_wake_lock {class wake_lock_private;}
 
 // Other Includes & Forward Declarations
 #include INCLUDE_INNER_TYPES(screen_wake_lock)
-#include "ext/promise.ixx"
+
 namespace screen_wake_lock {class wake_lock_sentinel;}
 
 

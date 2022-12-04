@@ -7,8 +7,8 @@ namespace reporting {class reporting_observer;}
 namespace reporting {class reporting_observer_private;}
 
 
-#include "ext/map.ixx"
-#include "ext/queue.ixx"
+
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(reporting)
 namespace reporting {class report;}

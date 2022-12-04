@@ -1,13 +1,15 @@
+module;
+#include "ext/macros/namespaces.hpp"
+#include <utility>
+
+
 export module ext.variadic;
-
 import ext.tuple;
-import std.core;
-
 
 _EXT_DETAIL_BEGIN
     export template <signed Adjust, std::size_t... I, typename... T>
     auto nth_variadic_values(std::index_sequence<I...>, T&&... t)
-    {return std::make_tuple(std::get<I + Adjust>(std::make_tuple(std::forward<T>(t)...))...);}
+    {return ext::make_tuple(ext::get<I + Adjust>(ext::make_tuple(std::forward<T>(t)...))...);}
 _EXT_DETAIL_END
 
 

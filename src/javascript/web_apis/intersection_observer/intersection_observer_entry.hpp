@@ -5,7 +5,7 @@
 namespace intersection_observer {class intersection_observer_entry;}
 namespace intersection_observer {class intersection_observer_entry_private;}
 
-#include "ext/map.ixx"
+
 #include INCLUDE_INNER_TYPES(hr_time)
 #include INCLUDE_INNER_TYPES(intersection_observer)
 namespace dom::nodes {class element;}

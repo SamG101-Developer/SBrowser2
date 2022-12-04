@@ -7,7 +7,7 @@ namespace payment::handler {class can_make_payment_event;}
 namespace payment::handler {class can_make_payment_event_private;}
 
 #include INCLUDE_INNER_TYPES(payment_request)
-#include "ext/promise.ixx"
+
 #include "ext/span.hpp"
 
 

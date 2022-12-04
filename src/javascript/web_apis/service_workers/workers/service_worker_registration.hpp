@@ -6,7 +6,7 @@
 namespace service_workers::workers {class service_worker_registration;}
 namespace service_workers::workers {class service_worker_registration_private;}
 
-#include "ext/promise.ixx"
+
 #include <memory>
 #include INCLUDE_INNER_TYPES(notifications)
 #include INCLUDE_INNER_TYPES(service_workers)

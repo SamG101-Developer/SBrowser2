@@ -101,7 +101,6 @@ public:
 
 export module ext.pimpl;
 import ext.concepts;
-import std.core;
 
 
 _EXT_BEGIN

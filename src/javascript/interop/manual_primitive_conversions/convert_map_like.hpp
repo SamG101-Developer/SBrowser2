@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CONVERT_MAP_LIKE_HPP
 #define SBROWSER2_CONVERT_MAP_LIKE_HPP
 
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 #include "ext/vector.hpp"
 #include "v8-value.h"
 

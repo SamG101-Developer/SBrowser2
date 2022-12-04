@@ -4,7 +4,6 @@ module;
 
 export module ext.time;
 import ext.number;
-import std.core;
 
 
 _EXT_BEGIN
@@ -13,7 +12,7 @@ export class time final
 {
 public:
     template <typename F>
-    static auto time_method(F&& predicate, _EXT number<size_t> limit = 1) -> _EXT number<long long>;
+    static auto time_method(F&& predicate, _EXT number<size_t> limit = 1uz) -> _EXT number<long long>;
 };
 
 

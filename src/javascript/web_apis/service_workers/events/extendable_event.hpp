@@ -6,7 +6,7 @@
 namespace service_workers::events {class extendable_event;}
 namespace service_workers::events {class extendable_event_private;}
 
-#include "ext/promise.ixx"
+
 
 
 class service_workers::events::extendable_event

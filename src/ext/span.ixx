@@ -15,13 +15,15 @@ import ext.queue;
 import ext.set;
 import ext.stack;
 import ext.vector;
-import std.core;
-
 
 _EXT_BEGIN
+    export template <typename T, typename BeginIter, typename EndIter>
+    class span;
+_EXT_END
+
 
 export template <typename T, typename BeginIter, typename EndIter>
-class span final
+class ext::span final
 {
 public typedefs:
     using element_type = T;
@@ -64,7 +66,7 @@ public constructors:
             , fixed_end{std::make_move_iterator(std::move(other.end()))}
             , fixed_size{std::move(other.size())}
     {}
-    
+
     template <typename Container>
     span(Container&& other)
             : fixed_begin{ranges::begin(other)}
@@ -79,7 +81,7 @@ public constructors:
 public:
     template <template <typename> typename Container>
     auto operator==(Container<T>&& other) const -> bool {return data() == other.data();}
-    
+
     template <template <typename> typename Container>
     auto operator<=>(Container<T>&& other) const {return data() <=> other.data();}
 
@@ -111,8 +113,6 @@ private:
     const end_iterator fixed_end = nullptr;
     const size_type fixed_size = 0;
 };
-
-_EXT_END
 
 
 _EXT_BEGIN

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EVENT_TIMING_EVENT_COUNTS_HPP
 
 #include "dom_object.hpp"
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 namespace event_timing {class event_counts;}
 namespace event_timing {class event_counts_private;}
 

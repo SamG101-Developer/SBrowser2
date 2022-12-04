@@ -7,7 +7,7 @@ namespace intersection_observer {class intersection_observer_private;}
 
 #include "ext/array.ixx"
 
-#include "ext/map.ixx"
+
 #include "ext/span.hpp"
 #include "ext/string.hpp"
 #include "ext/vector.hpp"

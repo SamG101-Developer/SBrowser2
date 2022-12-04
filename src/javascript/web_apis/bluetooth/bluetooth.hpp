@@ -6,7 +6,7 @@
 namespace bluetooth {class bluetooth;}
 
 
-#include "ext/promise.ixx"
+
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(bluetooth)
 namespace bluetooth {class bluetooth_device;}

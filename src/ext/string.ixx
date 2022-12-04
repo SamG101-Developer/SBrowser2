@@ -13,7 +13,6 @@ export module ext.string;
 import ext.allocator;
 import ext.concepts;
 import ext.functional;
-import std.core;
 
 
 _EXT_BEGIN

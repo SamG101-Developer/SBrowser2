@@ -3,7 +3,7 @@
 
 #include "ext/optional.ixx"
 #include "ext/pimpl.ixx"
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(css/css_web_animations)
 
 DECLARE_PRIVATE_CLASS(css::css_web_animations, animation_effect)

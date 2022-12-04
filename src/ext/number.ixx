@@ -1,6 +1,9 @@
 module;
 #include "ext/macros/extended_attributes.hpp"
 #include "ext/macros/namespaces.hpp"
+#include <cmath>
+#include <limits>
+#include <utility>
 
 using longlong   = long long;
 using uchar      = unsigned char;
@@ -10,13 +13,12 @@ using ulong      = unsigned long;
 using ulonglong  = unsigned long long;
 using longdouble = long double;
 
+
 export module ext.number;
 import ext.boolean;
 import ext.concepts;
 import ext.random;
 import ext.string;
-import std.core;
-
 
 #define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                     \
     template <ext::arithmetic T, ext::arithmetic U>                                           \
@@ -43,7 +45,6 @@ import std.core;
     constexpr auto operator op##=(T& lhs, _EXT number<U> rhs) -> T&                           \
     {lhs op##= *rhs; return lhs;}
 
-
 #define DEFINE_BINARY_NUMBER_COMPARISON(op)                                                   \
     template <ext::arithmetic T, ext::arithmetic U>                                           \
     constexpr auto operator op (const ext::number<T>& lhs, const ext::number<U>& rhs) -> bool \
@@ -57,13 +58,11 @@ import std.core;
     constexpr auto operator op (const T& lhs, const ext::number<U>& rhs) -> bool              \
     {return {lhs op *rhs};}
 
-
 _EXT_BEGIN
     // TODO : change boolean to enum (restrict, enforce range, clamp etc)
     export template <arithmetic T, bool unrestricted = false>
     class number;
 _EXT_END
-
 
 _STD_BEGIN
     export template <_EXT arithmetic T>
@@ -98,7 +97,6 @@ _STD_BEGIN
         {return std::numeric_limits<T>::signaling_NaN();}
     };
 _STD_END
-
 
 _EXT_BEGIN
     export template <bool IncludeLo, bool IncludeHi, typename T, typename U, typename V>
@@ -165,22 +163,13 @@ _EXT_BEGIN
     {return number * ((number > 0) - (number < 0));}
 _EXT_END
 
-
-_EXT_LITERALS_BEGIN
-    export auto operator""_n(char number) {return _EXT number<char>{number};}
-    export auto operator""_n(ulonglong number) {return _EXT number<ulonglong>{number};}
-    export auto operator""_n(longdouble number) {return _EXT number<longdouble>{number};}
-_EXT_LITERALS_END
-
-
 _EXT_SHORTHAND_BEGIN
     export template <typename T>
-    using nv = const number<T>&;
+    using nv = number<T>;
 _EXT_SHORTHAND_END
 
-
-template <_EXT arithmetic T, bool unrestricted = false>
-class number final
+template <_EXT arithmetic T, bool unrestricted>
+class ext::number final
 {
 public:
     template <_EXT arithmetic U, bool>
@@ -244,6 +233,11 @@ private:
     T n;
 };
 
+_EXT_LITERALS_BEGIN
+    export auto operator""_n(char number) {return _EXT number<char>{number};}
+    export auto operator""_n(ulonglong number) {return _EXT number<ulonglong>{number};}
+    export auto operator""_n(longdouble number) {return _EXT number<longdouble>{number};}
+_EXT_LITERALS_END
 
 DEFINE_BINARY_NUMBER_OPERATOR(+)
 DEFINE_BINARY_NUMBER_OPERATOR(-)

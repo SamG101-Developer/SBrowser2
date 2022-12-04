@@ -3,13 +3,13 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP
 
 #include "dom_object.hpp"
-#include "ext/singleton.ixx"
+
 namespace console {class console;}
 namespace console {class console_private;}
 
 #include INCLUDE_INNER_TYPES(console)
-#include "ext/map.ixx"
-#include "ext/stack.ixx"
+
+
 #include "ext/vector.hpp"
 
 class console::console

@@ -1,5 +1,8 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <bit>
+#include <type_traits>
+
 
 export module ext.type_traits;
 
@@ -8,12 +11,10 @@ import ext.concepts;
 import ext.functional;
 import ext.map;
 import ext.number;
+import ext.string;
 import ext.variant;
-import std.core;
-import std.memory;
 
 
-// TODO : Don't even remember what these macros do
 #define DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(_TemplateParameter_t, _Name, _DefaultType) \
     template <_TemplateParameter_t T>                                                                   \
     struct _Name {using type = _DefaultType;};                                                          \
@@ -27,7 +28,6 @@ import std.memory;
 
 
 _EXT_BEGIN
-
     // extend variant with a new types
     export template <typename OldType, typename ...NewTypes>
     struct extend_variant
@@ -35,7 +35,7 @@ _EXT_BEGIN
 
     export template <typename ...OldTypes, typename ...NewTypes>
     struct extend_variant<_EXT variant<OldTypes...>, NewTypes...>
-    {using type = variant<OldTypes..., NewTypes...>;};
+    {using type = _EXT variant<OldTypes..., NewTypes...>;};
 
     export template <typename OldVariant, typename ...NewTypes>
     using extend_variant_t = typename extend_variant<OldVariant, NewTypes...>::type;
@@ -58,5 +58,4 @@ _EXT_BEGIN
     export template <typename S = ext::string>
     auto to_string(void* pointer) -> S
     {return S{std::bit_cast<std::ptrdiff_t>(pointer)};}
-
 _EXT_END

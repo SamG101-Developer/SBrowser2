@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_3DS__TYPEDEFS_HPP
 
 
-#include "ext/map.ixx"
+
 #include "ext/string.hpp"
 
 namespace three_ds::detail

@@ -2,29 +2,28 @@ module;
 #include "ext/macros/namespaces.hpp"
 #include <tuplet/tuple.hpp>
 
+
+export module ext.tuple;
+import ext.concepts;
+import ext.functional;
+
 _EXT_BEGIN
-    using namespace tuplet;
+    export using namespace ::tuplet;
 _EXT_END
 
 _EXT_LITERALS_BEGIN
-    using namespace tuplet::literals;
+    export using namespace ::tuplet::literals;
 _EXT_LITERALS_END
-
-
-export module ext.tuple;
-import ext.functional;
-import std.core;
 
 _EXT_DETAIL_BEGIN
     export template <class T, class Tuple, size_t... Indices>
     constexpr auto make_from_tuple(Tuple&& tuple, std::index_sequence<Indices...>) -> T
     {return T{ext::get<Indices>(std::forward<Tuple>(tuple))...};}
 
-    export template <size_t... Is, typename T, typename F, typename Iterable>
+    export template <size_t... Is, typename T, typename F, _EXT iterable Iterable>
     constexpr auto tuple_foreach(std::index_sequence<Is...>, T&& tuple, F&& function, Iterable&& iterable) -> void
-    {(iterable.push_back(function(ext::get<Is>(std::forward<T>(tuple)))), ...);}
+    {(iterable.emplace_back(function(ext::get<Is>(std::forward<T>(tuple)))), ...);}
 _EXT_DETAIL_END
-
 
 _EXT_BEGIN
     export template <class T, class Tuple>
@@ -35,7 +34,7 @@ _EXT_BEGIN
                 std::make_index_sequence<std::tuple_size_v<std::remove_reference_t<Tuple>>>{});
     }
 
-    export template <typename T, typename F, typename Iterable>
+    export template <typename T, typename F, _EXT iterable Iterable>
     constexpr auto tuple_foreach(T&& tuple, F&& function, Iterable&& iterable = nullptr) -> void
     {
         detail::tuple_foreach(

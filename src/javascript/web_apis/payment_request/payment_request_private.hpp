@@ -6,8 +6,8 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(payment_request)
-#include "ext/uuid.ixx"
-#include "ext/promise.ixx"
+
+
 namespace payment::request {class payment_response;}
 
 

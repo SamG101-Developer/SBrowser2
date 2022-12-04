@@ -7,7 +7,7 @@ namespace mediacapture::main {class input_device_info;}
 namespace mediacapture::main {class input_device_info_private;}
 
 #include INCLUDE_INNER_TYPES(mediacapture_main)
-#include "ext/map.ixx"
+
 
 
 class mediacapture::main::input_device_info

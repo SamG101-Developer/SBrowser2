@@ -6,7 +6,7 @@
 namespace html::mixins {class window_or_worker_global_scope;}
 namespace html::mixins {class window_or_worker_global_scope_private;}
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(fetch)
 #include INCLUDE_INNER_TYPES(html)
 namespace fetch {class response;}

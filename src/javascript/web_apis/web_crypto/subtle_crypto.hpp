@@ -6,7 +6,7 @@
 namespace web_crypto {class subtle_crypto;}
 
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(web_crypto)
 #include INCLUDE_INNER_TYPES(web_idl)
 namespace web_crypto {class crypto_key;}

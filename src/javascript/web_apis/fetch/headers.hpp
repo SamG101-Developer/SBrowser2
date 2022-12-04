@@ -2,7 +2,7 @@
 #define SBROWSER2_HEADERS_HPP
 
 #include "dom_object.hpp"
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 namespace fetch {class headers;}
 namespace fetch {class headers_private;}
 

@@ -5,7 +5,7 @@
 #include "dom_object.hpp"
 namespace html::canvasing::mixins {class canvas_state;}
 
-#include "ext/stack.ixx"
+
 #include INCLUDE_INNER_TYPES(html)
 
 

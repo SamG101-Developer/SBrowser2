@@ -2,10 +2,10 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_SERVICE_WORKER_INTERNALS_HPP
 
 
-#include "ext/queue.ixx"
+
 #include "ext/set.hpp"
 
-#include "ext/promise.ixx"
+
 #include <v8-forward.h>
 
 #include INCLUDE_INNER_TYPES(fetch)

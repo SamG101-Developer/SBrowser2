@@ -8,7 +8,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(fetch)
 #include "ext/expected.ixx"
-#include "ext/map.ixx"
+
 #include "ext/memory.ixx"
 namespace fetch {class response;}
 namespace html::workers {class worklet_global_scope;}

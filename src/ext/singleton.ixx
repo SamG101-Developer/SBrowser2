@@ -1,7 +1,9 @@
-export module ext.singleton;
+module;
+#include "ext/macros/namespaces.hpp"
+#include <exception>
 
+export module ext.singleton;
 import ext.boolean;
-import std.core;
 
 
 _EXT_BEGIN
@@ -23,6 +25,3 @@ public:
 private:
     static inline ext::boolean instance_exists = false;
 };
-
-
-#endif //SBROWSER2_SRC_EXT_SINGLETON_HPP

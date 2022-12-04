@@ -6,7 +6,6 @@ module;
 export module ext.vector;
 import ext.allocator;
 
-
 _EXT_BEGIN
     export template <typename T>
     using vector = veque::veque<T, veque::fast_resize_traits, _EXT allocator<T>>;
@@ -14,7 +13,6 @@ _EXT_BEGIN
     export template <typename T>
     using frozen_vector = const vector<T>;
 _EXT_END
-
 
 _EXT_SECURE_BEGIN
     export template <typename T>

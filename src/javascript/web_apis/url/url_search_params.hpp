@@ -3,12 +3,12 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_URL_SEARCH_PARAMS_HPP
 
 #include "dom_object.hpp"
-#include "ext/map_like.hpp"
+#include "ext/map_like.ixx"
 namespace url {class url_search_params;}
 namespace url {class url_search_params_private;}
 
 
-#include "ext/map.ixx"
+
 #include "ext/vector.hpp"
 namespace url {class url;}
 

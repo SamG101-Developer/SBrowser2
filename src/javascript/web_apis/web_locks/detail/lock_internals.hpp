@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_LOCKS_DETAIL_LOCK_INTERNALS_HPP
 
 #include "ext/memory.ixx"
-#include "ext/promise.ixx"
+
 #include "ext/set.hpp"
 #include <v8-forward.h>
 #include INCLUDE_INNER_TYPES(web_locks)

@@ -7,7 +7,7 @@ namespace fetch::mixins {class body_private;}
 
 #include INCLUDE_INNER_TYPES(fetch)
 
-#include "ext/promise.ixx"
+
 #include <v8-forward.h>
 namespace file_api {class blob;}
 namespace streams::readable {class readable_stream;}

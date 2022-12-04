@@ -16,9 +16,9 @@
 namespace html::navigators {class navigator;}
 namespace html::navigators {class navigator_private;}
 
-#include "ext/map.ixx"
+
 #include "ext/optional.ixx"
-#include "ext/promise.ixx"
+
 #include "ext/span.hpp"
 #include INCLUDE_INNER_TYPES(autoplay)
 #include INCLUDE_INNER_TYPES(fetch)

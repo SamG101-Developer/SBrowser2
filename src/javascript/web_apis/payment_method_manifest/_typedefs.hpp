@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_METHOD_MANIFEST__TYPEDEFS_HPP
 
 #include "ext/expected.ixx"
-#include "ext/map.ixx"
+
 #include "ext/string.hpp"
 #include "ext/tuple.ixx"
 #include "ext/vector.hpp"

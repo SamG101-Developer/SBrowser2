@@ -3,7 +3,7 @@
 
 
 
-#include "ext/promise.ixx"
+
 #include INCLUDE_INNER_TYPES(service_workers)
 namespace service_workers::events {class extendable_event;}
 

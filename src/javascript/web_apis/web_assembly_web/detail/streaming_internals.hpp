@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_WEB_DETAIL_STREAMING_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_WEB_DETAIL_STREAMING_INTERNALS_HPP
 
-#include "ext/promise.ixx"
+
 namespace fetch {class response;}
 namespace web_assembly::js {class module;}
 
