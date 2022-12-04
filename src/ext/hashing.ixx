@@ -10,7 +10,6 @@ import ext.map;
 import ext.number;
 import ext.set;
 import ext.tuple;
-import std.core;
 
 
 _EXT_BEGIN

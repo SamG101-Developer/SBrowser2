@@ -2,7 +2,7 @@
 #define SBROWSER2_DATABASE_INTERNALS_HPP
 
 
-#include "ext/number.ixx"
+
 #include "ext/queue.ixx"
 #include "ext/set.hpp"
 #include "ext/type_traits.ixx"

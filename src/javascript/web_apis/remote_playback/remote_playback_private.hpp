@@ -6,7 +6,7 @@
 #include "dom/nodes/event_target_private.hpp"
 
 #include INCLUDE_INNER_TYPES(remote_playback)
-#include "ext/number.ixx"
+
 #include "ext/set.hpp"
 #include "ext/tuple.ixx"
 

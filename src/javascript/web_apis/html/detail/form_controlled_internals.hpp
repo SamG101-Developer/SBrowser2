@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FORM_CONTROLLED_INTERNALS_HPP
 
 
-#include "ext/number.ixx"
+
 #include "ext/vector.hpp"
 
 #include USE_CONCEPTS(html)

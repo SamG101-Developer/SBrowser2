@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_TEXT_INTERNALS_HPP
 #define SBROWSER2_TEXT_INTERNALS_HPP
 
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 #include "ext/type_traits.ixx"
 namespace dom::nodes {class character_data;}

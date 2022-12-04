@@ -1,5 +1,6 @@
 module;
-#include <ext/macros/namespaces.ixx>
+#include "ext/macros/extended_attributes.hpp"
+#include "ext/macros/namespaces.hpp"
 
 using longlong   = long long;
 using uchar      = unsigned char;
@@ -60,69 +61,7 @@ import std.core;
 _EXT_BEGIN
     // TODO : change boolean to enum (restrict, enforce range, clamp etc)
     export template <arithmetic T, bool unrestricted = false>
-    class number final
-    {
-    public:
-        template <arithmetic U, bool>
-        friend class _EXT number;
-
-        using value_t = T;
-
-        constexpr number(T val): n(val) {}
-        constexpr number() = default;
-        number(const number&) = default;
-        number(number&&) noexcept = default;
-        template <_EXT string_like_t> number(S&& string);
-        template <_EXT string_view_like_t> number(S&& string_view);
-        auto operator=(const number&) -> number& = default;
-        auto operator=(number&&) noexcept -> number& = default;
-
-        auto operator=(T val) -> number&
-        {n = val; return *this;}
-
-        auto operator++() -> number&
-        {++n; return *this;}
-
-        auto operator--() -> number&
-        {--n; return *this;}
-
-        auto operator-() -> number&
-        {n *= -1; return *this;}
-
-        template <arithmetic U>
-        auto operator=(const ext::number<U>& val)
-        {n = *val;}
-
-        template <arithmetic U>
-        operator number<U>() const
-        {return {static_cast<U>(n)};}
-
-        constexpr auto operator*() -> T& {return n;}
-        constexpr auto operator*() const -> const T& {return n;}
-        constexpr operator bool() const {return n != 0;}
-
-        template <arithmetic U>
-        auto as() const {return ext::number<U>{static_cast<U>(n)};}
-
-        static auto inf() -> number
-        {return std::numeric_limits<T>::infinity();}
-
-        static auto nan() -> number
-        {return std::numeric_limits<T>::quiet_NaN();}
-
-        static auto min() -> number
-        {return std::numeric_limits<T>::min();}
-
-        static auto max() -> number
-        {return std::numeric_limits<T>::max();}
-
-        template <typename U, typename V>
-        static auto random(U&& minimum = ext::number<T>::min(), V&& maximum = ext::number<T>::max()) -> number
-        {return ext::random::get(std::forward<U>(minimum), std::forward<V>(maximum));}
-
-    private:
-        T n;
-    };
+    class number;
 _EXT_END
 
 
@@ -161,25 +100,6 @@ _STD_BEGIN
 _STD_END
 
 
-DEFINE_BINARY_NUMBER_OPERATOR(+)
-DEFINE_BINARY_NUMBER_OPERATOR(-)
-DEFINE_BINARY_NUMBER_OPERATOR(*)
-DEFINE_BINARY_NUMBER_OPERATOR(/)
-DEFINE_BINARY_NUMBER_OPERATOR(%)
-DEFINE_BINARY_NUMBER_OPERATOR(&)
-DEFINE_BINARY_NUMBER_OPERATOR(|)
-DEFINE_BINARY_NUMBER_OPERATOR(^)
-DEFINE_BINARY_NUMBER_OPERATOR(<<)
-DEFINE_BINARY_NUMBER_OPERATOR(>>)
-
-DEFINE_BINARY_NUMBER_COMPARISON(<)
-DEFINE_BINARY_NUMBER_COMPARISON(<=)
-DEFINE_BINARY_NUMBER_COMPARISON(>)
-DEFINE_BINARY_NUMBER_COMPARISON(>=)
-DEFINE_BINARY_NUMBER_COMPARISON(==)
-DEFINE_BINARY_NUMBER_COMPARISON(!=)
-
-
 _EXT_BEGIN
     export template <bool IncludeLo, bool IncludeHi, typename T, typename U, typename V>
     auto is_between(T&& value, U&& lo, V&& hi) -> boolean
@@ -216,11 +136,11 @@ _EXT_BEGIN
     {return value < 0 ? -value : value;}
 
 
-    export template <_EXT string_like_view_t S>
+    export template <_EXT string_view_like S>
     auto is_numeric_string(S string) -> boolean;
 
 
-    export template <typename S = ext::string, typename T>
+    export template <_EXT string_like S = ext::string, typename T>
     auto to_string(number<T> number) -> S
     {/* TODO */}
 
@@ -247,9 +167,9 @@ _EXT_END
 
 
 _EXT_LITERALS_BEGIN
-    export auto operator""_n(char number) {return ext::number<char>{number};}
-    export auto operator""_n(ulonglong number) {return ext::number<ulonglong>{number};}
-    export auto operator""_n(longdouble number) {return ext::number<longdouble>{number};}
+    export auto operator""_n(char number) {return _EXT number<char>{number};}
+    export auto operator""_n(ulonglong number) {return _EXT number<ulonglong>{number};}
+    export auto operator""_n(longdouble number) {return _EXT number<longdouble>{number};}
 _EXT_LITERALS_END
 
 
@@ -257,3 +177,88 @@ _EXT_SHORTHAND_BEGIN
     export template <typename T>
     using nv = const number<T>&;
 _EXT_SHORTHAND_END
+
+
+template <_EXT arithmetic T, bool unrestricted = false>
+class number final
+{
+public:
+    template <_EXT arithmetic U, bool>
+    friend class _EXT number;
+
+    using value_t = T;
+
+    constexpr number(T val): n(val) {}
+    constexpr number() = default;
+    number(const number&) = default;
+    number(number&&) noexcept = default;
+    template <_EXT string_like S> number(S&& string);
+    template <_EXT string_view_like S> number(S&& string_view);
+    auto operator=(const number&) -> number& = default;
+    auto operator=(number&&) noexcept -> number& = default;
+
+    auto operator=(T val) -> number&
+    {n = val; return *this;}
+
+    auto operator++() -> number&
+    {++n; return *this;}
+
+    auto operator--() -> number&
+    {--n; return *this;}
+
+    auto operator-() -> number&
+    {n *= -1; return *this;}
+
+    template <_EXT arithmetic U>
+    auto operator=(const ext::number<U>& val)
+    {n = *val;}
+
+    template <_EXT arithmetic U>
+    operator number<U>() const
+    {return {static_cast<U>(n)};}
+
+    constexpr auto operator*() -> T& {return n;}
+    constexpr auto operator*() const -> const T& {return n;}
+    constexpr operator bool() const {return n != 0;}
+
+    template <_EXT arithmetic U>
+    auto as() const {return ext::number<U>{static_cast<U>(n)};}
+
+    static auto inf() -> number
+    {return std::numeric_limits<T>::infinity();}
+
+    static auto nan() -> number
+    {return std::numeric_limits<T>::quiet_NaN();}
+
+    static auto min() -> number
+    {return std::numeric_limits<T>::min();}
+
+    static auto max() -> number
+    {return std::numeric_limits<T>::max();}
+
+    template <typename U, typename V>
+    static auto random(U&& minimum = ext::number<T>::min(), V&& maximum = ext::number<T>::max()) -> number
+    {return ext::random::get(std::forward<U>(minimum), std::forward<V>(maximum));}
+
+private:
+    T n;
+};
+
+
+DEFINE_BINARY_NUMBER_OPERATOR(+)
+DEFINE_BINARY_NUMBER_OPERATOR(-)
+DEFINE_BINARY_NUMBER_OPERATOR(*)
+DEFINE_BINARY_NUMBER_OPERATOR(/)
+DEFINE_BINARY_NUMBER_OPERATOR(%)
+DEFINE_BINARY_NUMBER_OPERATOR(&)
+DEFINE_BINARY_NUMBER_OPERATOR(|)
+DEFINE_BINARY_NUMBER_OPERATOR(^)
+DEFINE_BINARY_NUMBER_OPERATOR(<<)
+DEFINE_BINARY_NUMBER_OPERATOR(>>)
+
+DEFINE_BINARY_NUMBER_COMPARISON(<)
+DEFINE_BINARY_NUMBER_COMPARISON(<=)
+DEFINE_BINARY_NUMBER_COMPARISON(>)
+DEFINE_BINARY_NUMBER_COMPARISON(>=)
+DEFINE_BINARY_NUMBER_COMPARISON(==)
+DEFINE_BINARY_NUMBER_COMPARISON(!=)

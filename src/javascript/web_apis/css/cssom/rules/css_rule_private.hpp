@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_RULES_CSS_RULE_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 

@@ -10,7 +10,7 @@ namespace storage {class storage_manager_private;}
 
 
 #include "ext/map.ixx"
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 #include INCLUDE_INNER_TYPES(storage)
 

@@ -7,7 +7,6 @@ import ext.assertion;
 import ext.concepts;
 import ext.variant;
 import ext.type_traits;
-import std.core;
 
 _EXT_BEGIN
     // Special const cast can convert a 'const ptr* const' to a 'ptr*' type
@@ -30,8 +29,8 @@ _EXT_BEGIN
     export template <_EXT is_pointer_or_reference T>
     auto cross_cast(auto pointer) -> T;
 
-    export template <typename T, typename U>
-    auto iterator_cast(U iterator) -> T;
+    export template <typename T>
+    auto iterator_cast(auto iterator) -> T;
 
     export template <is_pointer T>
     auto nullptr_cast();
@@ -72,8 +71,8 @@ auto ext::cross_cast(auto pointer) -> T
     return cross_cast_pointer;
 }
 
-export template <typename T, typename U>
-auto ext::iterator_cast(U iterator) -> T
+export template <typename T>
+auto ext::iterator_cast(auto iterator) -> T
 {return (T)iterator;}
 
 export template <_EXT is_pointer T>

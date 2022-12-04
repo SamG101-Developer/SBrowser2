@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_INTEROP_EXPOSE_MACROS_HPP
 
 #include "ext/enums.ixx"
-#include "ext/number.ixx"
+
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
 #include "javascript/environment/environment_module.hpp"

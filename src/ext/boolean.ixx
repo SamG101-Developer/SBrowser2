@@ -3,7 +3,6 @@ module;
 
 
 export module ext.boolean;
-import std.core;
 
 _EXT_BEGIN
     export class boolean;

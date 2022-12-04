@@ -1,6 +1,7 @@
 module;
-#include <ext/macros/annotations.hpp>
-#include <ext/macros/namespaces.hpp>
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/namespaces.hpp"
+#include <any>
 
 
 export module ext.any;
@@ -8,7 +9,6 @@ import ext.boolean;
 import ext.concepts;
 import ext.number;
 import ext.type_traits;
-import std.core;
 
 _EXT_BEGIN
     export class any;
@@ -51,7 +51,7 @@ public:
 private:
     std::any m_any;
     _EXT boolean m_is_arithmetic;
-    _EXT number<size_t> m_hash = 0;
+    _EXT number<size_t> m_hash;
 };
 
 
@@ -59,7 +59,7 @@ template <_EXT not_any T>
 ext::any::any(T&& value) noexcept
         : m_any{std::forward<T>(value)}
         , m_is_arithmetic{type_is_any_specialization<T, number>}
-        // TODO: , m_hash{std::hash<T>{}(std::forward<T>(value))}
+        , m_hash{std::hash<T>{}(std::forward<T>(value))}
 {}
 
 

@@ -7,7 +7,7 @@ namespace badging::mixins {class navigator_badge;}
 namespace badging::mixins {class navigator_badge_private;}
 
 #include "ext/promise.ixx"
-#include "ext/number.ixx"
+
 #include "ext/type_traits.ixx"
 
 

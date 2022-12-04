@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY__TYPEDEFS_HPP
 
 #include "ext/map.ixx"
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 
 

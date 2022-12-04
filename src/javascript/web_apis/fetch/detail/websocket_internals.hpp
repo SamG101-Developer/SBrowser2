@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_WEBSOCKET_INTERNALS_HPP
 #define SBROWSER2_WEBSOCKET_INTERNALS_HPP
 
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 

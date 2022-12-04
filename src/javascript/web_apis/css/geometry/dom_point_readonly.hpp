@@ -6,7 +6,7 @@
 #include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_point_readonly;}
 
-#include "ext/number.ixx"
+
 #include <qvectornd.h>
 #include INCLUDE_INNER_TYPES(css/geometry)
 namespace css::geometry {class dom_point;}

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_TRAVERSAL_INTERNALS_HPP
 #define SBROWSER2_TRAVERSAL_INTERNALS_HPP
 
-#include "ext/number.ixx"
+
 #include "ext/type_traits.ixx"
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}

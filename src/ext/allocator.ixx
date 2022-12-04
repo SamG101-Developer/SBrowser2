@@ -1,10 +1,10 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <xmemory>
 #include <cryptopp/secblock.h>
 
 
 export module ext.allocator;
-import std.memory;
 
 _EXT_BEGIN
     export template <typename T>

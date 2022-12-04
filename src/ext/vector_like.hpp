@@ -3,7 +3,7 @@
 #define SBROWSER2_VECTOR_LIKE_HPP
 
 #include "ext/keywords.ixx"
-#include "ext/number.ixx"
+
 #include "ext/pimpl.ixx"
 #include "ext/property.hpp"
 #include "ext/string.hpp"

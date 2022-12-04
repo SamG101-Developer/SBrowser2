@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2__TYPEDEFS_HPP
 
 #include "ext/type_traits.ixx"
-#include "ext/number.ixx"
+
 
 
 #include <QtOpenGL/QOpenGLFunctions_4_5_Core>

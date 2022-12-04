@@ -2,7 +2,7 @@
 #define SBROWSER2_RANGE_INTERNALS_HPP
 
 #include "ext/memory.ixx"
-#include "ext/number.ixx"
+
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
 #include "ext/vector.hpp"

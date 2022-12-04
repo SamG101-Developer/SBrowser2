@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TABLE_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_TABLE_INTERNALS_HPP
 
-#include "ext/number.ixx"
+
 
 namespace html::elements {class html_table_element;}
 namespace html::elements {class html_table_cell_element;}

@@ -1,10 +1,10 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <concepts>
 #include <range/v3/range/concepts.hpp>
 
 
 export module ext.concepts;
-import std.core;
 
 _EXT_BEGIN
     // Check if a class inherits any specialization of a mixin-type (templated) by making the concept call a lambda with

@@ -1,9 +1,9 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <array>
 
 
 export module ext.array;
-import std.core;
 
 _EXT_BEGIN
     export using std::array;

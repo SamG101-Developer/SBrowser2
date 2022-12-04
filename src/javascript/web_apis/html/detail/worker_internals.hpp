@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_WORKER_INTERNALS_HPP
 
 
-#include "ext/number.ixx"
+
 #include INCLUDE_INNER_TYPES(html)
 namespace html::mixins {class window_or_worker_global_scope;}
 

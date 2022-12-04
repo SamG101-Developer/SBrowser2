@@ -3,7 +3,7 @@
 #define SBROWSER2_BODY_INTERNALS_HPP
 
 
-#include "ext/number.ixx"
+
 
 #include "ext/promise.ixx"
 #include "ext/string.hpp"

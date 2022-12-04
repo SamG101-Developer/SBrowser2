@@ -1,6 +1,7 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <function2/function2.hpp>
+#include <utility>
 
 
 #define BIND_NO_ARGS(function)                     \
@@ -24,7 +25,6 @@ _EXT_END
 export module ext.functional;
 import ext.boolean;
 import ext.concepts;
-import std.core;
 
 
 _EXT_BEGIN

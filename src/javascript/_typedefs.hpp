@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_INTEROP__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_INTEROP__TYPEDEFS_HPP
 
-#include "ext/number.ixx"
+
 #include "ext/vector.hpp"
 
 namespace js::detail::js

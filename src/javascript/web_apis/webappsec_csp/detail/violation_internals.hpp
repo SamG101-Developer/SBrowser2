@@ -4,7 +4,7 @@
 
 
 #include "ext/memory.ixx"
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 #include "ext/vector.hpp"
 #include <v8-local-handle.h>

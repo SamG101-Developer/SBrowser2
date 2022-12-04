@@ -2,7 +2,7 @@
 #define SBROWSER2_EXTENSION_INTERNALS_HPP
 
 
-#include "ext/number.ixx"
+
 #include "ext/string.hpp"
 #include <v8-object.h>
 
