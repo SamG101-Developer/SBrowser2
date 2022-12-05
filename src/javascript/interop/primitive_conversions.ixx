@@ -1,21 +1,5 @@
-#pragma once
-#include "v8-exception.h"
-#include "v8-local-handle.h"
-#ifndef SBROWSER2_CONVERT_ANY_HPP
-#define SBROWSER2_CONVERT_ANY_HPP
-
-#include "ext/array_buffer.hpp"
-
-#include "ext/optional.ixx"
-
-#include "ext/span.hpp"
-
-
-#include "javascript/ecma/262/7/1.ixx"
-#include "javascript/ecma/262/7/2.ixx"
-#include "javascript/ecma/262/7/3.ixx"
-#include "javascript/ecma/262/7/4.ixx"
-
+module;
+#include <type_traits>
 #include <magic_enum.hpp>
 #include <v8-array-buffer.h>
 #include <v8-container.h>
@@ -29,8 +13,12 @@
 #include <v8-value.h>
 #include <v8pp/convert.hpp>
 
+export module js.interop.primitive_conversions;
+import ext.any;
+import ext.boolean;
 
-/* [3.2.1] - any */
+
+/* [3.2.1] - Any */
 template <>
 struct v8pp::convert<ext::any>
 {
@@ -45,7 +33,7 @@ struct v8pp::convert<ext::any>
 };
 
 
-/* [3.2.2] - undefined */
+/* [3.2.2] - Undefined */
 template <>
 struct v8pp::convert<void>
 {
@@ -60,7 +48,7 @@ struct v8pp::convert<void>
 };
 
 
-/* [3.2.3] - boolean */
+/* [3.2.3] - Boolean */
 template <>
 struct v8pp::convert<ext::boolean>
 {
@@ -78,11 +66,11 @@ struct v8pp::convert<ext::boolean>
 };
 
 
-/* [3.2.4] - integer types */
+/* [3.2.4] - Integer-like */
 template <std::integral T, bool unrestricted> requires unrestricted
 struct v8pp::convert<ext::number<T, unrestricted>>
 {
-    using from_type = ext::number<int8_t>;
+    using from_type = ext::number<T>;
     using to_type = v8::Local<v8::Number>;
 
     static auto is_valid(v8::Isolate* isolate, v8::Local<v8::Value> v8_value) -> ext::boolean

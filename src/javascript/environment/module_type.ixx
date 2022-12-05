@@ -4,7 +4,7 @@ import ext.number;
 
 namespace js::env
 {
-    enum module_t : ulonglong
+    export enum module_t : ulonglong
             {
         _                = 0b0000000000000000000000000000000000000000000000000000000000000000,
         WINDOW           = 0b0000000000000000000000000000000000000000000000000000000000000001,
@@ -16,6 +16,6 @@ namespace js::env
         ALL              = 0b0111111111111111111111111111111111111111111111111111111111111111,
         SECURE           = 0b1000000000000000000000000000000000000000000000000000000000000000,
 
-        MIXIN = ALL // Mixin is never exposed to the environment interface ie not "see-able", but exists in the backend
+        MIXIN = ALL
             };
 }

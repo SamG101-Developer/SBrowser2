@@ -12,8 +12,6 @@ set(QT_VER 6.4.1)
 set(QT_COMPONENTS Core Widgets Gui Multimedia MultimediaWidgets WebSockets)
 
 include_directories(src)
-include_directories(src/javascript)
-include_directories(src/javascript/web_apis)
 
 file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 

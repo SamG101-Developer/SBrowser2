@@ -1,7 +1,6 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP
 
-#include "javascript/environment/module_type.ixx"
 #include <tuplet/tuple.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
@@ -16,7 +15,7 @@
     auto context = isolate->GetCurrentContext();
 
 
-// A failed conversion into V8 (ie evironment mismatch etc) returns a tuple containing the creation flag set to false,
+// A failed conversion into V8 (ie environment mismatch etc) returns a tuple containing the creation flag set to false,
 // and an empty v8pp::class_ object which acts as a placeholder.
 #define V8_INTEROP_FAILED_CONVERSION ext::make_tuple(false, v8pp::class_<this_t>{nullptr})
 #define V8_INTEROP_SUCCESSFUL_CONVERSION ext::make_tuple(true, std::move(v8_conversion))
@@ -30,7 +29,7 @@
 
 
 // Extend an existing V8 conversion with more properties and methods etc, used when objects have certain extra members
-// based on their environment type / if the envuronment is secure (methods especially0.
+// based on their environment type / if the environment is secure (methods especially0.
 #define V8_INTEROP_EXTEND_JS_OBJECT(...) \
     if (~(E & __VA_ARGS__)) v8_conversion
 

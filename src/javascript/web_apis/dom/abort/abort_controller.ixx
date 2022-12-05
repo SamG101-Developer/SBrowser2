@@ -5,14 +5,15 @@ module;
 #include "javascript/macros/expose.hpp"
 
 
-export module apis.dom.abort_signal;
+export module apis.dom.abort_controller;
 import apis.dom_object;
 import ext.any;
+import js.env.module_type;
 
 namespace dom {class abort_signal;}
 
 DEFINE_PUBLIC_CLASS(dom, abort_controller)
-        : public virtual dom_object
+        : public virtual ::dom_object
 {
 public constructors:
     abort_controller();

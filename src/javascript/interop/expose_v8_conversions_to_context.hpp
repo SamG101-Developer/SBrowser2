@@ -7,8 +7,6 @@
 #include "javascript/environment/module_type.ixx"
 
 
-#include "javascript/interop/primitive_conversions.hpp"
-
 #include "accelerometer/accelerometer.hpp"
 #include "accelerometer/gravity_sensor.hpp"
 #include "accelerometer/linear_accelerometer.hpp"

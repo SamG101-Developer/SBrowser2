@@ -10,6 +10,7 @@ export module apis.dom_object;
 import ext.string;
 import ext.tuple;
 import ext.type_traits;
+import js.env.module_type;
 
 class dom_object_private;
 
