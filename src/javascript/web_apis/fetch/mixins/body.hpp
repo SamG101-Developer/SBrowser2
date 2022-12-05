@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_BODY_HPP
 #define SBROWSER2_BODY_HPP
 
-#include "dom_object.hpp"
+
 namespace fetch::mixins {class body;}
 namespace fetch::mixins {class body_private;}
 

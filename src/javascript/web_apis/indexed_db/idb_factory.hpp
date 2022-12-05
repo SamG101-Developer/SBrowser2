@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_IDB_FACTORY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_IDB_FACTORY_HPP
 
-#include "dom_object.hpp"
+
 namespace indexed_db {class idb_factory;}
 
 

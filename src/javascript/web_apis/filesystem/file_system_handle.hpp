@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM_FILE_SYSTEM_HANDLE_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace filesystem {class file_system_handle;}
 namespace filesystem {class file_system_handle_private;}
 

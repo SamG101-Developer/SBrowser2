@@ -1,5 +1,5 @@
 #include "html_or_svg_element.hpp"
-#include "dom_object.hpp"
+
 #include "html_or_svg_element_private.hpp"
 
 #include "dom/detail/customization_internals.hpp"

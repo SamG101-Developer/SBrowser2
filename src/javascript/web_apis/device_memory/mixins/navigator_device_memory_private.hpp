@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_MEMORY_MIXINS_NAVIGATOR_DEVICE_MEMORY_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom_object_private.hpp"
+
 
 #ifdef _WIN32
     #include <windows.h>

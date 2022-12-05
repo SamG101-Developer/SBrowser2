@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_TOUCH_EVENTS_TOUCH_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_TOUCH_EVENTS_TOUCH_HPP
 
-#include "dom_object.hpp"
+
 namespace touch_events {class touch;}
 namespace touch_events {class touch_private;}
 

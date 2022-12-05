@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_PRIVILEGE_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace webappsec::cowl {class privilege;}
 namespace webappsec::cowl {class privilege_private;}
 

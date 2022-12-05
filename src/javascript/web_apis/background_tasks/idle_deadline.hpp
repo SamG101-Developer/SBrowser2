@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_IDLE_DEADLINE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BACKGROUND_TASKS_IDLE_DEADLINE_HPP
 
-#include "dom_object.hpp"
+
 namespace background_tasks {class idle_deadline;}
 namespace background_tasks {class idle_deadline_private;}
 

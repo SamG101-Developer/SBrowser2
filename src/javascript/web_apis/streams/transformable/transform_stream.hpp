@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_TRANSFORMABLE_TRANSFORM_STREAM_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace streams::transformable {class transform_stream;}
 namespace streams::transformable {class transform_stream_private;}
 

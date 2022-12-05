@@ -1,8 +1,8 @@
-#include "1.hpp"
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include "javascript/macros/expose.hpp"
 
 #include <limits>
-
-
 #include <v8-exception.h>
 #include <v8-internal.h>
 #include <v8-isolate.h>
@@ -10,11 +10,13 @@
 #include <v8-local-handle.h>
 #include <v8-object.h>
 #include <v8-primitive.h>
-
 #include <v8pp/convert.hpp>
 
-#include "javascript/ecma/262/7/3.hpp"
-#include "javascript/environment/realms.hpp"
+
+module js.ecma._262._7._1;
+import ext.initializer_list;
+import ext.number;
+import ext.string;
 
 
 auto js::ecma::ToPrimitive(v8::Local<v8::Value> input, ConversionHint hint) -> v8::Local<v8::Value>
@@ -43,8 +45,8 @@ auto js::ecma::OrdinaryToPrimitive(v8::Local<v8::Object> O, ConversionHint hint)
 
     using namespace ext::literals;
     auto method_names = hint == kString
-            ? ext::initializer_list("toString", "valueOf")
-            : ext::initializer_list("valueOf", "toString");
+            ? ext::make_initializer_list(u8"toString"_es8, u8"valueOf"_es8)
+            : ext::make_initializer_list(u8"valueOf"_es8, u8"toString"_es8);
 
     for (auto&& name: method_names)
     {

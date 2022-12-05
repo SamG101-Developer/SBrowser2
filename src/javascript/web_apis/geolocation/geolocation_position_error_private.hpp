@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_POSITION_ERROR_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "base_exception.hpp"
+#include "base_exception.ixx"
 
 #include INCLUDE_INNER_TYPES(geolocation)
 

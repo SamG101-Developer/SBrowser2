@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_ARIA_MIXIN_HPP
 #define SBROWSER2_ARIA_MIXIN_HPP
 
-#include "dom_object.hpp"
+
 namespace aria::mixins {class aria_mixin;}
 namespace aria::mixins {class aria_mixin_private;}
 

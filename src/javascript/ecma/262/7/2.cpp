@@ -1,8 +1,8 @@
-#include "2.hpp"
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include "javascript/macros/errors.hpp"
 
-#include "javascript/interop/error_macros.hpp"
 #include <cassert>
-
 #include <v8-callbacks.h>
 #include <v8-exception.h>
 #include <v8-isolate.h>
@@ -10,6 +10,10 @@
 #include <v8-primitive.h>
 #include <v8-proxy.h>
 #include <v8-value.h>
+
+
+module js.ecma._262._7._2;
+import ext.boolean;
 
 
 auto js::ecma::IsArray(

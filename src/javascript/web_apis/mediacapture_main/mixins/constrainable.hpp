@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_CONSTRAINABLE_HPP
 #define SBROWSER2_CONSTRAINABLE_HPP
 
-#include "dom_object.hpp"
+
 namespace mediacapture::main::mixins {class constrainable;}
 namespace mediacapture::main::mixins {class constrainable_private;}
 

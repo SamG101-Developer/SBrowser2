@@ -2,8 +2,8 @@
 
 #include "ext/hashing.ixx"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include "dom/nodes/document.hpp"
 #include "html/detail/context_internals.hpp"

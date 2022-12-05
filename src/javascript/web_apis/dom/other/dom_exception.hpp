@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_DOM_EXCEPTION_HPP
 #define SBROWSER2_DOM_EXCEPTION_HPP
 
-#include "base_exception.hpp"
+#include "base_exception.ixx"
 namespace dom::other {class dom_exception;}
 namespace dom::other {class dom_exception_private;}
 

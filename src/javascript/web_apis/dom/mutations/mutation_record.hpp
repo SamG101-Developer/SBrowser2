@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_MUTATION_RECORD_HPP
 #define SBROWSER2_MUTATION_RECORD_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mutations {class mutation_record;}
 namespace dom::mutations {class mutation_record_private;}
 

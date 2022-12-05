@@ -1,7 +1,7 @@
 #include "fetch_internals.hpp"
 
 #include "header_internals.hpp"
-#include "javascript/environment/realms.hpp"
+
 
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/general_internals.hpp"

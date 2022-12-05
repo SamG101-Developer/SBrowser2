@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_URL_SEARCH_PARAMS_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom_object_private.hpp"
+
 #include "ext/map_like.ixx"
 
 

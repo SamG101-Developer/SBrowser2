@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_WRITABLE_WRITABLE_STREAM_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace streams::writable {class writable_stream;}
 namespace streams::writable {class writable_stream_private;}
 

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_MUTATION_OBSERVER_HPP
 #define SBROWSER2_MUTATION_OBSERVER_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mutations {class mutation_observer;}
 namespace dom::mutations {class mutation_observer_private;}
 

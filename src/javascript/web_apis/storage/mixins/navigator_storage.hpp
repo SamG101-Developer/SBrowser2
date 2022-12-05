@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STORAGE_NAVIGATOR_STORAGE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STORAGE_NAVIGATOR_STORAGE_HPP
 
-#include "dom_object.hpp"
+
 namespace storage::mixins {class navigator_storage;}
 namespace storage::mixins {class navigator_storage_private;}
 

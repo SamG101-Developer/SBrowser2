@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_VALIDATABLE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_VALIDATABLE_HPP
 
-#include "dom_object.hpp"
+
 namespace html::mixins {class validatable;}
 namespace html::mixins {class validatable_private;}
 

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_QUEUING_ABSTRACT_QUEUING_STRATEGY_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace streams::queuing {class abstract_queuing_strategy;}
 namespace streams::queuing {class abstract_queuing_strategy_private;}
 

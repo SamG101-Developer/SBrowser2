@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_MEDIA_ERROR_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "base_exception_private.hpp"
+#include "base_exception_private.ixx"
 
 #include INCLUDE_INNER_TYPES(html)
 

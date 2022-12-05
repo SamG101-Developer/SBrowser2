@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_HISTORY_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace html::other {class history;}
 namespace html::other {class history_private;}
 

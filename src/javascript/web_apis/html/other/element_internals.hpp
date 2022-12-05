@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_ELEMENT_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_ELEMENT_INTERNALS_HPP
 
-#include "dom_object.hpp"
+
 #include "html/mixins/validatable.hpp"
 #include "aria/mixins/aria_mixin.hpp"
 namespace html::other {class element_internals;}

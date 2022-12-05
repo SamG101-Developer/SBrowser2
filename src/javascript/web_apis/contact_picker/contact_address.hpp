@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_HPP
 
-#include "dom_object.hpp"
+
 namespace contact_picker {class contact_address;}
 namespace contact_picker {class contact_address_private;}
 

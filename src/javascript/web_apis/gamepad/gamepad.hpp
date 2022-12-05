@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_GAMEPAD_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_GAMEPAD_HPP
 
-#include "dom_object.hpp"
+
 namespace gamepad {class gamepad;}
 namespace gamepad {class gamepad_private;}
 

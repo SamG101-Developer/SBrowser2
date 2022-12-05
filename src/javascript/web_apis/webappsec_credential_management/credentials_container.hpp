@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CREDENTIAL_MANAGEMENT_CREDENTIALS_CONTAINER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_CREDENTIAL_MANAGEMENT_CREDENTIALS_CONTAINER_HPP
 
-#include "dom_object.hpp"
+
 namespace webappsec::credential_management {class credentials_container;}
 namespace webappsec::credential_management {class credentials_container_private;}
 

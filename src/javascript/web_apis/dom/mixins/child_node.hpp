@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CHILD_NODE_HPP
 #define SBROWSER2_CHILD_NODE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mixins {class child_node;}
 namespace dom::mixins {class child_node_private;}
 

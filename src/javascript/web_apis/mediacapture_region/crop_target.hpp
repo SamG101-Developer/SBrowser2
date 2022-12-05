@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_REGION_CROP_TARGET_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_REGION_CROP_TARGET_HPP
 
-#include "dom_object.hpp"
+
 namespace mediacapture::region {class crop_target;}
 namespace mediacapture::region {class crop_target_private;}
 

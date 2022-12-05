@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CLIENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_DETAIL_CLIENT_HPP
 
-#include "dom_object.hpp"
+
 namespace service_workers::clients {class client;}
 namespace service_workers::clients {class client_private;}
 

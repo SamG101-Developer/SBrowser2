@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_NON_ELEMENT_PARENT_NODE_HPP
 #define SBROWSER2_NON_ELEMENT_PARENT_NODE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mixins {class non_element_parent_node;}
 namespace dom::mixins {class non_element_parent_node_private;}
 

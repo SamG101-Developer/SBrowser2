@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS__NAMESPACE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS__NAMESPACE_HPP
 
-#include "dom_object.hpp"
+
 namespace css {class css;}
 
 namespace html::workers {class worklet;}

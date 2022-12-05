@@ -1,8 +1,8 @@
 #include "algorithm_internals.hpp"
 
 #include "ext/enums.ixx"
-#include "javascript/environment/realms.hpp"
-#include "javascript/environment/environment_settings.hpp"
+
+#include "javascript/environment/settings.ixx"
 
 #include "dom/abort/abort_signal.hpp"
 #include "dom/abort/abort_signal_private.hpp"

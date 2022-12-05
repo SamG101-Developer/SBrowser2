@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_PARENTABLE_NODE_HPP
 #define SBROWSER2_PARENTABLE_NODE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mixins {class parentable_node;}
 namespace dom::mixins {class parentable_node_private;}
 

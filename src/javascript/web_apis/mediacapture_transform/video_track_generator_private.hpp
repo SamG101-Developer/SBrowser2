@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_VIDEO_TRACK_GENERATOR_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom_object_private.hpp"
+
 
 
 namespace mediacapture::main {class media_stream_track;}

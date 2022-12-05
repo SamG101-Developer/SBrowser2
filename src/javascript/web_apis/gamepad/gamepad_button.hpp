@@ -2,8 +2,8 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_GAMEPAD_BUTTON_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GAMEPAD_GAMEPAD_BUTTON_HPP
 
-#include "dom_object.hpp"
-#include "dom_object_private.hpp"
+
+
 namespace gamepad {class gamepad_button;}
 
 

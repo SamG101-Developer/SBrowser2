@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_FILE_READER_SYNC_HPP
 #define SBROWSER2_FILE_READER_SYNC_HPP
 
-#include "dom_object.hpp"
+
 namespace file_api {class file_reader_sync;}
 namespace file_api {class file_reader_sync_private;}
 

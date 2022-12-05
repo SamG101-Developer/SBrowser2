@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OTHER_WEBGL_SHADER_PRECISION_FORMAT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OTHER_WEBGL_SHADER_PRECISION_FORMAT_HPP
 
-#include "dom_object.hpp"
+
 namespace webgl2::other {class webgl_shader_precision_format;}
 
 #include INCLUDE_INNER_TYPES(webgl2)

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_DOCUMENT_OR_SHADOW_ROOT_HPP
 #define SBROWSER2_DOCUMENT_OR_SHADOW_ROOT_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mixins {class document_or_shadow_root;}
 namespace dom::mixins {class document_or_shadow_root_private;}
 

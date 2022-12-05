@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PUSH_API_PUSH_MANAGER_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace push_api {class push_manager;}
 namespace push_api {class push_manager_private;}
 

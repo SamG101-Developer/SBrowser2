@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_CRYPTO_CRYPTO_KEY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_CRYPTO_CRYPTO_KEY_HPP
 
-#include "dom_object.hpp"
+
 #include "html/mixins/serializable.hpp"
 namespace web_crypto {class crypto_key;}
 

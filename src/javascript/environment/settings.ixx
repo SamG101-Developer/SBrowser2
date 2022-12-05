@@ -1,20 +1,14 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ENVIRONMENT_SETTINGS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ENVIRONMENT_SETTINGS_HPP
-
-namespace js::env {struct settings_t;}
-
-#include INCLUDE_INNER_TYPES(hr_time)
-#include INCLUDE_INNER_TYPES(fetch)
-#include INCLUDE_INNER_TYPES(html)
-#include INCLUDE_INNER_TYPES(storage)
-#include INCLUDE_INNER_TYPES(url)
-#include "ext/memory.ixx"
+module;
 #include <v8pp/class.hpp>
 #include <v8pp/convert.hpp>
+
+
+export module js.env.settings;
+namespace js::env {export struct settings_t;}
+
 namespace service_workers::workers {class service_worker_private;}
 namespace service_workers::workers {class service_worker;}
 namespace web_locks {class lock_manager;}
-
 
 struct js::env::settings_t
 {
@@ -58,6 +52,3 @@ struct js::env::settings_t
     static auto to_v8(v8::Isolate* isolate)
     {return v8pp::class_<settings_t>{isolate};}
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_ENVIRONMENT_SETTINGS_HPP

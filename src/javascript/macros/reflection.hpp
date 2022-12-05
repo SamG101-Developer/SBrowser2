@@ -1,8 +1,8 @@
-#ifndef SBROWSER2_REFLECTION_HPP
-#define SBROWSER2_REFLECTION_HPP
+#ifndef SBROWSER2_SRC_JAVASCRIPT_MACROS_REFLECTION_HPP
+#define SBROWSER2_SRC_JAVASCRIPT_MACROS_REFLECTION_HPP
 
+#include "javascript/macros/errors.hpp"
 
-#include "javascript/interop/error_macros.hpp"
 
 #define reflect_get_attribute_value(_object, _attribute, _attribute_t, _env_t)                            \
     [_env_t ## _agent, _env_t ## _realm](auto _cpp_object, auto _cpp_attribute)                           \
@@ -32,4 +32,4 @@
     }(_object, _attribute)
 
 
-#endif //SBROWSER2_REFLECTION_HPP
+#endif //SBROWSER2_SRC_JAVASCRIPT_MACROS_REFLECTION_HPP

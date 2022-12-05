@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_BOX_TREE_DEAD_FRAGMENT_INFORMATION_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_BOX_TREE_DEAD_FRAGMENT_INFORMATION_HPP
 
-#include "dom_object.hpp"
+
 namespace css::box_tree {class dead_fragment_information;}
 
 

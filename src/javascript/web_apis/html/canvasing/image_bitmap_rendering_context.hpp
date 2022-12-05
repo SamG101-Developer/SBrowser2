@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_IMAGE_BITMAP_RENDERING_CONTEXT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_IMAGE_BITMAP_RENDERING_CONTEXT_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing {class image_bitmap_rendering_context;}
 
 #include INCLUDE_INNER_TYPES(html)

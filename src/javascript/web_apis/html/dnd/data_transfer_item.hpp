@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DND_DATA_TRANSFER_ITEM_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DND_DATA_TRANSFER_ITEM_HPP
 
-#include "dom_object.hpp"
+
 namespace html::dnd {class data_transfer_item;}
 namespace html::dnd {class data_transfer_item_private;}
 

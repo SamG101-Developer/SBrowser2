@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OBJECTS_WEBGL_OBJECT_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom_object_private.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(webgl2::objects, webgl_object) : dom_object_private {};

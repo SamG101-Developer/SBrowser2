@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_CRYPTO_SUBTLE_CRYPTO_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_CRYPTO_SUBTLE_CRYPTO_HPP
 
-#include "dom_object.hpp"
+
 namespace web_crypto {class subtle_crypto;}
 
 

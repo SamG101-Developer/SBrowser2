@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_POSITION_ERROR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_POSITION_ERROR_HPP
 
-#include "base_exception.hpp"
+#include "base_exception.ixx"
 namespace geolocation {class geolocation_position_error;}
 namespace geolocation {class geolocation_position_error_private;}
 

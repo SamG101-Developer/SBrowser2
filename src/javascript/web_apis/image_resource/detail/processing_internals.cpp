@@ -1,10 +1,10 @@
 #include "processing_internals.hpp"
 
 #include "ext/expected.ixx"
-#include "environment/environment_settings.hpp"
+#include "environment/settings.ixx"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include INCLUDE_INNER_TYPES(image_resource)
 

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_EVENT_HPP
 #define SBROWSER2_EVENT_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::events {class event;}
 namespace dom::events {class event_private;}
 

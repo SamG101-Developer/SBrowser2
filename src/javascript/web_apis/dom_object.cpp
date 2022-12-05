@@ -1,5 +1,11 @@
-#include "dom_object.hpp"
-#include "dom_object_private.hpp"
+module;
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+
+module apis.dom_object;
+import apis.dom_object_private;
+import ext.tuple;
+import ext.string;
 
 
 dom_object::dom_object()

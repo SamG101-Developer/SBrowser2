@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_DOM_IMPLEMENTATION_HPP
 #define SBROWSER2_DOM_IMPLEMENTATION_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::other {class dom_implementation;}
 namespace dom::other {class dom_implementation_private;}
 

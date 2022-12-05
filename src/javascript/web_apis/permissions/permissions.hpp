@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_PERMISSIONS_HPP
 #define SBROWSER2_PERMISSIONS_HPP
 
-#include "dom_object.hpp"
+
 namespace permissions {class permission;}
 
 

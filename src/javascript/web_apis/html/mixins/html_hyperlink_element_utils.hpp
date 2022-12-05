@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_HTML_HYPERLINK_ELEMENT_UTILS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_MIXINS_HTML_HYPERLINK_ELEMENT_UTILS_HPP
 
-#include "dom_object.hpp"
+
 namespace html::mixins {class html_hyperlink_element_utils;}
 namespace html::mixins {class html_hyperlink_element_utils_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_MEDIA_ERROR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_MEDIA_ERROR_HPP
 
-#include "base_exception.hpp"
+#include "base_exception.ixx"
 namespace html::basic_media {class media_error;}
 namespace html::basic_media {class media_error_private;}
 

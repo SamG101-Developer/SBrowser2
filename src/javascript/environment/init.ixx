@@ -1,17 +1,13 @@
-#ifndef SBROWSER2_ENVIRONMENT_INITIALIZATION_HPP
-#define SBROWSER2_ENVIRONMENT_INITIALIZATION_HPP
-
-#include "javascript/environment/environment_module.hpp"
-#include "javascript/interop/automatic_object_conversions/expose_v8_conversions_to_context.hpp"
-
+module;
 #include <memory>
 #include <iostream>
-
 #include <v8-context.h>
 #include <v8-initialization.h>
 #include <v8-isolate.h>
 #include <v8-platform.h>
 #include <libplatform/libplatform.h>
+
+export module js.env.init;
 
 
 namespace js::env {
@@ -117,7 +113,7 @@ inline auto js::env::execute(v8::Isolate* isolate, const v8::Persistent<v8::Cont
 
 inline auto js::env::dispose_isolate(v8::Isolate* isolate) -> void
 {
-    // delete the array buffer allocator for the isolate and displose the isolate instance
+    // delete the array buffer allocator for the isolate and dispose the isolate instance
     delete isolate->GetArrayBufferAllocator();
     isolate->Dispose();
 }
@@ -130,6 +126,3 @@ auto js::env::dispose_v8_engine() -> int
     v8::V8::DisposePlatform();
     return 0;
 }
-
-
-#endif //SBROWSER2_ENVIRONMENT_INITIALIZATION_HPP

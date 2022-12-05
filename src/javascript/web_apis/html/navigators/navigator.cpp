@@ -5,8 +5,8 @@
 
 #include "interop/automatic_object_conversions/expose_macros.hpp"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include "badging/_typedefs.hpp"
 #include "battery/battery_manager.hpp"

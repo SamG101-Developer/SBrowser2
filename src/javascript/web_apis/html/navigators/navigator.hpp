@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_NAVIGATOR_HPP
 #define SBROWSER2_NAVIGATOR_HPP
 
-#include "dom_object.hpp"
+
 #include "html/navigators/mixins/navigator_id.hpp"
 #include "html/navigators/mixins/navigator_language.hpp"
 #include "html/navigators/mixins/navigator_on_line.hpp"

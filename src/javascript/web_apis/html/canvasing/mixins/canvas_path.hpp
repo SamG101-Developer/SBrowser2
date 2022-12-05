@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_MIXINS_CANVAS_PATH_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_MIXINS_CANVAS_PATH_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing::mixins {class canvas_path;}
 
 #include INCLUDE_INNER_TYPES(css/geometry)

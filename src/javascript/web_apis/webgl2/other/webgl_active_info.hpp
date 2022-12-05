@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OTHER_WEBGL_ACTIVE_INFO_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OTHER_WEBGL_ACTIVE_INFO_HPP
 
-#include "dom_object.hpp"
+
 namespace webgl2::other {class webgl_active_info;}
 
 

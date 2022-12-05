@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES_MEDIA_CAPABILITIES_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES_MEDIA_CAPABILITIES_HPP
 
-#include "dom_object.hpp"
+
 namespace media::capabilities {class media_capabilities;}
 namespace media::capabilities {class media_capabilities_private;}
 

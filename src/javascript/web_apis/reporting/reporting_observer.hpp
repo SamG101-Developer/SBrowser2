@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_REPORTING_OBSERVER_HPP
 #define SBROWSER2_REPORTING_OBSERVER_HPP
 
-#include "dom_object.hpp"
+
 namespace reporting {class reporting_observer;}
 namespace reporting {class reporting_observer_private;}
 

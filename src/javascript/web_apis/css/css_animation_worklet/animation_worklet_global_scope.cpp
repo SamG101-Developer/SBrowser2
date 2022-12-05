@@ -1,6 +1,6 @@
 #include "animation_worklet_global_scope.hpp"
 
-#include "javascript/environment/realms.hpp"
+
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"

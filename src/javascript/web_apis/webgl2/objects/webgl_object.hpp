@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OBJECTS_WEBGL_OBJECT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_OBJECTS_WEBGL_OBJECT_HPP
 
-#include "dom_object.hpp"
+
 namespace webgl2::objects {class webgl_object;}
 
 

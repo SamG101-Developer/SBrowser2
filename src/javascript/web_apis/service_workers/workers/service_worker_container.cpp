@@ -1,8 +1,8 @@
 #include "service_worker_container.hpp"
 #include "service_worker_container_private.hpp"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include "service_workers/clients/client.hpp"
 #include "service_workers/detail/job_internals.hpp"

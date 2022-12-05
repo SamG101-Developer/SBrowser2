@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_MEDIA_DEVICE_INFO_HPP
 #define SBROWSER2_MEDIA_DEVICE_INFO_HPP
 
-#include "dom_object.hpp"
+
 namespace mediacapture::main {class media_device_info;}
 namespace mediacapture::main {class media_device_info_private;}
 

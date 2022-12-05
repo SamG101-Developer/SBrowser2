@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_BLOB_HPP
 #define SBROWSER2_BLOB_HPP
 
-#include "dom_object.hpp"
+
 namespace file_api {class blob;}
 namespace file_api {class blob_private;}
 

@@ -1,8 +1,8 @@
 #include "window_or_worker_global_scope.hpp"
 #include "window_or_worker_global_scope_private.hpp"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_MIXINS_TEXT_ENCODER_COMMON_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_MIXINS_TEXT_ENCODER_COMMON_HPP
 
-#include "dom_object.hpp"
+
 namespace encoding::mixins {class text_encoder_common;}
 namespace encoding::mixins {class text_encoder_common_private;}
 

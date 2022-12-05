@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_OTHER_NAVIGATION_PRELOAD_MANAGER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_OTHER_NAVIGATION_PRELOAD_MANAGER_HPP
 
-#include "dom_object.hpp"
+
 namespace service_workers::other {class navigation_preload_manager;}
 namespace service_workers::other {class navigation_preload_manager_private;}
 

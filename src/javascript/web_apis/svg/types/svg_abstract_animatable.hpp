@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SVG_TYPES_SVG_ABSTRACT_ANIMATABLE_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace svg::types {template <typename T> class svg_abstract_animatable;}
 namespace svg::types {template <typename T> class svg_abstract_animatable_private;}
 

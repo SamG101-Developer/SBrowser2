@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_ABSTRACT_TRACK_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_ABSTRACT_TRACK_HPP
 
-#include "dom_object.hpp"
+
 namespace html::basic_media {class abstract_track;}
 namespace html::basic_media {class abstract_track_private;}
 

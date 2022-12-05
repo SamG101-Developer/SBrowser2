@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_PRIVILEGE_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom_object_private.hpp"
+
 namespace webappsec::cowl {class privilege;}
 
 namespace webappsec::cowl {class label;}

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATION_WORKLET_WORKLET_ANIMATION_EFFECT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATION_WORKLET_WORKLET_ANIMATION_EFFECT_HPP
 
-#include "dom_object.hpp"
+
 namespace css::css_animation_worklet {class worklet_animation_effect;}
 
 #include INCLUDE_INNER_TYPES(css/css_animation_worklet)

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_READABLE_READABLE_STREAM_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_READABLE_READABLE_STREAM_HPP
 
-#include "dom_object.hpp"
+
 namespace streams::readable {class readable_stream;}
 namespace streams::readable {class readable_stream_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_VIDEO_TRACK_GENERATOR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_VIDEO_TRACK_GENERATOR_HPP
 
-#include "dom_object.hpp"
+
 namespace mediacapture::transform {class video_track_generator;}
 namespace mediacapture::transform {class video_track_generator_private;}
 

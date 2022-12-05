@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_HPP
 
-#include "dom_object.hpp"
+
 namespace geolocation {class geolocation;}
 namespace geolocation {class geolocation_private;}
 

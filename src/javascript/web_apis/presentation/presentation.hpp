@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_PRESENTATION_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace presentation {class presentation;}
 namespace presentation {class presentation_private;}
 

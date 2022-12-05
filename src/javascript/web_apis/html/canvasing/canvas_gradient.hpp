@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_CANVAS_GRADIENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_CANVAS_GRADIENT_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing {class canvas_gradient;}
 
 

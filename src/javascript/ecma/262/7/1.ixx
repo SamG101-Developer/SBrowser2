@@ -1,13 +1,11 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_ECMA_262_7_1_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_ECMA_262_7_1_HPP
-
-#include "ext/assertion.hpp"
-
-
+module;
 #include <v8-forward.h>
 
 
-namespace js::ecma
+export module js.ecma._262._7._1;
+import ext.assertion;
+
+export namespace js::ecma
 {
     enum ConversionHint {kDefault, kString, kNumber, kNone};
     /* [7.1.01.00] */ auto ToPrimitive(v8::Local<v8::Value> input, ConversionHint hint = kNone) -> v8::Local<v8::Value>;
@@ -37,7 +35,3 @@ namespace js::ecma
     /* [7.1.21.00] */ auto ToCanonicalNumericIndexString(v8::Local<v8::Value> argument) -> v8::Local<v8::Value>;
     /* [7.1.22.00] */ auto ToIndex(v8::Local<v8::Value> argument) -> v8::Local<v8::Number>;
 }
-
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_ECMA_262_7_1_HPP

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_TEXT_METRICS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_TEXT_METRICS_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing {class text_metrics;}
 
 

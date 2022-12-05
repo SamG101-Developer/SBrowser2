@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_LOCKS_MIXINS_NAVIGATOR_LOCKS_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace web_locks::mixins {class navigator_locks;}
 namespace web_locks::mixins {class navigator_locks_private;}
 

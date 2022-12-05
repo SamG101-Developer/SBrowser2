@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STORAGE_STORAGE_MANAGER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STORAGE_STORAGE_MANAGER_HPP
 
-#include "dom_object.hpp"
+
 namespace storage {class storage_manager;}
 namespace storage {class storage_manager_private;}
 

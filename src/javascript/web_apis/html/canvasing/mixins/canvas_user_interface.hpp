@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_MIXINS_CANVAS_USER_INTERFACE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_MIXINS_CANVAS_USER_INTERFACE_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing::mixins {class canvas_user_interface;}
 
 namespace dom::nodes {class element;}

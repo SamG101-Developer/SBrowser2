@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_TEXT_DECODER_STREAM_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 #include "encoding/mixins/text_decoder_common.hpp"
 #include "streams/mixins/generic_transform_stream.hpp"
 namespace encoding {class text_decoder_stream;}

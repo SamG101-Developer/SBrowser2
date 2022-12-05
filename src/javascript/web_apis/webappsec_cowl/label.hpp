@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_LABEL_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBAPPSEC_COWL_LABEL_HPP
 
-#include "dom_object.hpp"
+
 namespace webappsec::cowl {class label;}
 namespace webappsec::cowl {class label_private;}
 

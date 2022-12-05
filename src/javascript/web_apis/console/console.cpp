@@ -1,7 +1,7 @@
 #include "console.hpp"
 #include "console_private.hpp"
 
-#include "dom_object.hpp"
+
 
 
 #include "ext/hashing.ixx"
@@ -10,7 +10,7 @@
 #include "ext/tuple.ixx"
 #include "ext/type_traits.ixx"
 
-#include "javascript/environment/realms.hpp"
+
 
 #include "console/detail/abstract_operations.hpp"
 #include "hr_time/detail/time_internals.hpp"

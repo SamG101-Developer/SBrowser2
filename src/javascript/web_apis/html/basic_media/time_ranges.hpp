@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_TIME_RANGES_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_TIME_RANGES_HPP
 
-#include "dom_object.hpp"
+
 #include "ext/vector_like.hpp"
 namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class time_ranges_private;}

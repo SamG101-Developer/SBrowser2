@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_MEDIA_STREAM_TRACK_PROCESSOR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_TRANSFORM_MEDIA_STREAM_TRACK_PROCESSOR_HPP
 
-#include "dom_object.hpp"
+
 namespace mediacapture::transform {class media_stream_track_processor;}
 
 

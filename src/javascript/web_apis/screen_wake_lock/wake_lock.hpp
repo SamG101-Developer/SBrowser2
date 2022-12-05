@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SCREEN_WAKE_LOCK_WAKE_LOCK_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace screen_wake_lock {class wake_lock;}
 namespace screen_wake_lock {class wake_lock_private;}
 

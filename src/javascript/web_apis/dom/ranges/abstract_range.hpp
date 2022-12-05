@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_ABSTRACT_RANGE_HPP
 #define SBROWSER2_ABSTRACT_RANGE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::node_ranges {class abstract_range;}
 namespace dom::node_ranges {class abstract_range_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_RULES_CSS_RULE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_RULES_CSS_RULE_HPP
 
-#include "dom_object.hpp"
+
 namespace css::cssom::rules {class css_rule;}
 
 #include "css/cssom/rules/css_rule_private.hpp"

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_DOCUMENT_OR_ELEMENT_NODE_HPP
 #define SBROWSER2_DOCUMENT_OR_ELEMENT_NODE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mixins {class document_or_element_node;}
 namespace dom::mixins {class document_or_element_node_private;}
 

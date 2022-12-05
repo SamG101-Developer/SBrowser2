@@ -1,10 +1,10 @@
 #include "node.hpp"
-#include "environment/global_slots.hpp"
+#include "environment/slots.ixx"
 #include "node_private.hpp"
 
 
 
-#include "javascript/environment/realms.hpp"
+
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/customization_internals.hpp"

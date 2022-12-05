@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_EVENT_TARGET_HPP
 #define SBROWSER2_EVENT_TARGET_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::nodes {class event_target;}
 namespace dom::nodes {class event_target_private;}
 

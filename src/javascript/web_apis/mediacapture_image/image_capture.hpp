@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_IMAGE_IMAGE_CAPTURE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_IMAGE_IMAGE_CAPTURE_HPP
 
-#include "dom_object.hpp"
+
 namespace mediacapture::image {class image_capture;}
 namespace mediacapture::image {class image_capture_private;}
 

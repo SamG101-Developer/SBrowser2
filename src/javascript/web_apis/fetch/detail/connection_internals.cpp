@@ -4,8 +4,8 @@
 
 #include "ext/tuple.ixx"
 
-#include "javascript/environment/global_slots.hpp"
-#include "javascript/environment/realms.hpp"
+
+
 
 #include "html/_typedefs.hpp"
 #include "html/detail/origin_internals.hpp"

@@ -1,6 +1,6 @@
 #pragma once
 #include "dom/nodes/event_target.hpp"
-#include "dom_object.hpp"
+
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FOCUS_INTERNALS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_FOCUS_INTERNALS_HPP
 

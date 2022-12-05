@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_NAVIGATORS_PLUGIN_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 #include "ext/vector_like.hpp"
 namespace html::navigators {class plugin;}
 namespace html::navigators {class plugin_private;}

@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_RTC_PC_RTC_CERTIFICATE_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace web_rtc::pc {class rtc_certificate;}
 namespace web_rtc::pc {class rtc_certificate_private;}
 

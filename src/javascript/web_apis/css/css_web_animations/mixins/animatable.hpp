@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_MIXINS_ANIMATABLE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_MIXINS_ANIMATABLE_HPP
 
-#include "dom_object.hpp"
+
 namespace css::css_web_animations::mixins {class animatable;}
 
 

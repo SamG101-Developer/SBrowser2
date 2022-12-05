@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_LOCATION_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace html::workers {class worker_location;}
 namespace html::workers {class worker_location_private;}
 

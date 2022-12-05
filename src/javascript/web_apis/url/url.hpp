@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_URL_HPP
 #define SBROWSER2_URL_HPP
 
-#include "dom_object.hpp"
+
 namespace url {class url;}
 namespace url {class url_private;}
 

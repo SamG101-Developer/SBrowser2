@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_HTML_OR_SVG_ELEMENT_HPP
 #define SBROWSER2_HTML_OR_SVG_ELEMENT_HPP
 
-#include "dom_object.hpp"
+
 namespace html::mixins {class html_or_svg_element;}
 namespace html::mixins {class html_or_svg_element_private;}
 

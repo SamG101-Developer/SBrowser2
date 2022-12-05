@@ -1,8 +1,8 @@
 #include "rtc_peer_connection.hpp"
 #include "rtc_peer_connection_private.hpp"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"

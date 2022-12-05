@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SVG_TYPES_SVG_NUMBER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SVG_TYPES_SVG_NUMBER_HPP
 
-#include "dom_object.hpp"
+
 namespace svg::types {class svg_number;}
 namespace svg::types {class svg_number_private;}
 

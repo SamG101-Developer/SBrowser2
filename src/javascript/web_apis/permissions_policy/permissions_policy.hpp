@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_PERMISSIONS_POLICY_HPP
 #define SBROWSER2_PERMISSIONS_POLICY_HPP
 
-#include "dom_object.hpp"
+
 namespace permissions_policy {class permissions_policy_object;}
 
 #include "ext/vector.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_MIXINS_ELEMENT_CSS_INLINE_STYLE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_MIXINS_ELEMENT_CSS_INLINE_STYLE_HPP
 
-#include "dom_object.hpp"
+
 namespace css::cssom::mixins {class element_css_inline_style;}
 namespace css::cssom::mixins {class element_css_inline_style_private;}
 

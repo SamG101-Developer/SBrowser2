@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERFORMANCE_TIMELINE_PERFORMANCE_OBSERVER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERFORMANCE_TIMELINE_PERFORMANCE_OBSERVER_HPP
 
-#include "dom_object.hpp"
+
 namespace performance_timeline {class performance_observer;}
 namespace performance_timeline {class performance_observer_private;}
 

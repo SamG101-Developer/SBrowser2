@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_REPORT_BODY_HPP
 #define SBROWSER2_REPORT_BODY_HPP
 
-#include "dom_object.hpp"
+
 namespace reporting {class report_body;}
 namespace reporting {class report_body_private;}
 

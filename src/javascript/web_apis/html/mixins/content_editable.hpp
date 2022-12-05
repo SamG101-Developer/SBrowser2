@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_CONTENT_EDITABLE_HPP
 #define SBROWSER2_CONTENT_EDITABLE_HPP
 
-#include "dom_object.hpp"
+
 namespace html::mixins {class content_editable;}
 namespace html::mixins {class content_editable_private;}
 

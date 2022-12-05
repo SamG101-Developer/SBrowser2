@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_FORM_DATA_HPP
 #define SBROWSER2_FORM_DATA_HPP
 
-#include "dom_object.hpp"
+
 namespace xhr {class form_data;}
 
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_MEMORY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_MEMORY_HPP
 
-#include "dom_object.hpp"
+
 namespace web_assembly::js {class memory;}
 
 #include INCLUDE_INNER_TYPES(web_assembly_js)

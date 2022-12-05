@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_NAVIGATORS_MIXINS_NAVIGATOR_ID_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace html::navigators::mixins {class navigator_id;}
 namespace html::navigators::mixins {class navigator_id_private;}
 

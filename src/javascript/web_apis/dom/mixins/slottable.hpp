@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SLOTTABLE_HPP
 #define SBROWSER2_SLOTTABLE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::mixins {class slottable;}
 namespace dom::mixins {class slottable_private;}
 

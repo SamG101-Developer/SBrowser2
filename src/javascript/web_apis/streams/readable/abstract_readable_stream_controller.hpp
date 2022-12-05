@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_READABLE_ABSTRACT_READABLE_STREAM_CONTROLLER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_READABLE_ABSTRACT_READABLE_STREAM_CONTROLLER_HPP
 
-#include "dom_object.hpp"
+
 namespace streams::readable {class abstract_readable_stream_controller;}
 namespace streams::readable {class abstract_readable_stream_controller_private;}
 

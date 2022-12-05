@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "dom/nodes/document.hpp"
-#include "javascript/environment/environment_module.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/module_type.ixx"
+
 
 #include "javascript/interop/primitive_conversions.hpp"
 
@@ -26,7 +26,7 @@
 
 #include "device_posture/device_posture.hpp"
 
-#include "dom/abort/abort_controller.hpp"
+
 #include "dom/abort/abort_signal.hpp"
 #include "dom/events/custom_event.hpp"
 #include "dom/events/event.hpp"

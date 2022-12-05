@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DOM_PARSER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DOM_PARSER_HPP
 
-#include "dom_object.hpp"
+
 namespace dom_parsing {class dom_parser;}
 
 #include INCLUDE_INNER_TYPES(dom_parsing)

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_ABSTRACT_ITERATOR_HPP
 #define SBROWSER2_ABSTRACT_ITERATOR_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::node_iterators {class abstract_iterator;}
 namespace dom::node_iterators {class abstract_iterator_private;}
 

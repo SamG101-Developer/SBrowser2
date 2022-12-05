@@ -9,7 +9,7 @@
 
 #include "ext/vector.hpp"
 
-#include "dom_object_private.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS_TEMPLATED(ext, vector_like, typename T) : virtual dom_object_private {};

@@ -1,5 +1,5 @@
-#ifndef SBROWSER2_ENVIRONMENT_MODULE_HPP
-#define SBROWSER2_ENVIRONMENT_MODULE_HPP
+export module js.env.module_type;
+import ext.number;
 
 
 namespace js::env
@@ -19,5 +19,3 @@ namespace js::env
         MIXIN = ALL // Mixin is never exposed to the environment interface ie not "see-able", but exists in the backend
             };
 }
-
-#endif //SBROWSER2_ENVIRONMENT_MODULE_HPP

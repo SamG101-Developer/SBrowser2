@@ -1,11 +1,11 @@
-#ifndef SBROWSER2_7_2_TESTING_AND_COMPARISON_OPERATIONS_HPP
-#define SBROWSER2_7_2_TESTING_AND_COMPARISON_OPERATIONS_HPP
-
-
+module;
 #include <v8-forward.h>
 
 
-namespace js::ecma
+export module js.ecma._262._7._2;
+import ext.boolean;
+
+export namespace js::ecma
 {
     /* 7.2.02 */ auto IsArray(v8::Local<v8::Value> value) -> ext::boolean;
     /* 7.2.03 */ auto IsCallable(v8::Local<v8::Value> value) -> ext::boolean;
@@ -22,6 +22,3 @@ namespace js::ecma
     /* 7.2.14 */ auto IsLooselyEqual(v8::Local<v8::Value> value) -> ext::boolean;
     /* 7.2.15 */ auto IsStrictlyEqual(v8::Local<v8::Value> value) -> ext::boolean;
 }
-
-
-#endif //SBROWSER2_7_2_TESTING_AND_COMPARISON_OPERATIONS_HPP

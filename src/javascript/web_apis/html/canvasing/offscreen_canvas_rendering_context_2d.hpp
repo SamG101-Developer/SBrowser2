@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_OFFSCREEN_CANVAS_RENDERING_CONTEXT_2D_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_OFFSCREEN_CANVAS_RENDERING_CONTEXT_2D_HPP
 
-#include "dom_object.hpp"
+
 #include "html/canvasing/mixins/canvas_state.hpp"
 #include "html/canvasing/mixins/canvas_transform.hpp"
 #include "html/canvasing/mixins/canvas_compositing.hpp"

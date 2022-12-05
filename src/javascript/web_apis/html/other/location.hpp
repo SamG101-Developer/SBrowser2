@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_LOCATION_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_OTHER_LOCATION_HPP
 
-#include "dom_object.hpp"
+
 namespace html::other {class location;}
 namespace html::other {class location_private;}
 

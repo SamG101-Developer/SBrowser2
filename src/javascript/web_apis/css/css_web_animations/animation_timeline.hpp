@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_TIMELINE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_WEB_ANIMATIONS_ANIMATION_TIMELINE_HPP
 
-#include "dom_object.hpp"
+
 namespace css::css_web_animations {class animation_timeline;}
 
 #include "css/css_web_animations/animation_timeline_private.hpp"

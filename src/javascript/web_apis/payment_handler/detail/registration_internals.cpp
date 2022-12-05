@@ -2,8 +2,8 @@
 
 #include "ext/assertion.hpp"
 
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/realms.hpp"
+#include "javascript/environment/settings.ixx"
+
 
 #include "mimesniff/detail/mimetype_internals.hpp"
 #include "url/detail/url_internals.hpp"

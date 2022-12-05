@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_REQUEST_HPP
 #define SBROWSER2_REQUEST_HPP
 
-#include "dom_object.hpp"
+
 #include "mixins/body.hpp"
 namespace fetch {class request;}
 namespace fetch {class request_private;}

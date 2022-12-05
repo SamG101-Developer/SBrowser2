@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_MIXINS_LINK_STYLE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_MIXINS_LINK_STYLE_HPP
 
-#include "dom_object.hpp"
+
 namespace css::cssom::mixins {class link_style;}
 
 namespace css::cssom::style_sheets {class css_style_sheet;}

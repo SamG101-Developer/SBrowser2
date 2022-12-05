@@ -1,6 +1,6 @@
 #include "image_bitmap.hpp"
 
-#include "dom_object.hpp"
+
 
 #include INCLUDE_INNER_TYPES(dom)
 

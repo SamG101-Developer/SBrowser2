@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_NAVIGATORS_MIME_TYPE_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace html::navigators {class mime_type;}
 namespace html::navigators {class mime_type_private;}
 

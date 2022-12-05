@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVER_TIMING_PERFORMANCE_SERVER_TIMING_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace server_timing {class performance_server_timing;}
 namespace server_timing {class performance_server_timing_private;}
 

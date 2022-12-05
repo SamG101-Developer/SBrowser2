@@ -1,6 +1,6 @@
 #include "mutation_internals.hpp"
 
-#include "environment/global_slots.hpp"
+#include "environment/slots.ixx"
 
 
 

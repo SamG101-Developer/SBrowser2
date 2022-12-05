@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_XPATH_RESULT_HPP
 #define SBROWSER2_XPATH_RESULT_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::xpath {class xpath_result;}
 
 

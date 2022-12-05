@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_GLOBAL_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_ASSEMBLY_JS_GLOBAL_HPP
 
-#include "dom_object.hpp"
+
 namespace web_assembly::js {class global;}
 
 #include INCLUDE_INNER_TYPES(web_assembly_js)

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_RECT_READONLY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_RECT_READONLY_HPP
 
-#include "dom_object.hpp"
+
 namespace css::geometry {class dom_rect_readonly;}
 namespace css::geometry {class dom_rect_readonly_private;}
 

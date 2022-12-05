@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_OTHER_DOM_EXCEPTION_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "base_exception_private.hpp"
+#include "base_exception_private.ixx"
 
 #include INCLUDE_INNER_TYPES(dom)
 

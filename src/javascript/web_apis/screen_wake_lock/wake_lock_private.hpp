@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SCREEN_WAKE_LOCK_WAKE_LOCK_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom_object_private.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(screen_wake_lock, wake_lock) : dom_object_private {};

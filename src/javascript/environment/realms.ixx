@@ -1,27 +1,18 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_REALMS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_REALMS_HPP
-
-
-#include "ext/keywords.ixx"
-#include "javascript/environment/environment_settings.hpp"
-#include "javascript/environment/global_slots.hpp"
-
-#include <v8-context.h>
-#include <v8-isolate.h>
-#include <v8-maybe.h>
-#include <v8-object.h>
-#include <v8-persistent-handle.h>
+module;
+#include "ext/macros/extended_attributes.hpp"
+#include <functional>
+#include <v8-forward.h>
 #include <v8pp/convert.hpp>
 
-#define ISOLATE_AND_CONTEXT                             \
-    decltype(auto) isolate = v8::Isolate::GetCurrent(); \
-    auto context = isolate->GetCurrentContext();
 
+export module js.env.realms;
+import ext.concepts;
 
 namespace js::env
 {
-    struct env;
-    _EXT_NODISCARD auto get_settings(v8::Local<v8::Object> object) -> settings_t*;
+    struct settings_t;
+    export struct env;
+    export _EXT_NODISCARD auto get_settings(v8::Local<v8::Object> object) -> settings_t*;
 }
 
 
@@ -72,6 +63,3 @@ private:
     v8::Local<v8::Object> m_global;
     v8::Local<v8::Object> m_settings;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_ENVIRONMENT_REALMS_HPP

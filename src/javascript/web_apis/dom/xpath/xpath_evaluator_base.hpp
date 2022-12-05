@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_XPATH_EVALUATOR_BASE_HPP
 #define SBROWSER2_XPATH_EVALUATOR_BASE_HPP
 
-#include "dom_object.hpp"
+
 namespace dom::xpath {class xpath_evaluator_base;}
 
 namespace dom::xpath {class xpath_expression;}

@@ -1,5 +1,5 @@
 #include "file_system_handle.hpp"
-#include "dom_object.hpp"
+
 #include "file_system_handle_private.hpp"
 
 #include "dom/_typedefs.hpp"

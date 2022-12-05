@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP
 
-#include "dom_object.hpp"
+
 
 namespace console {class console;}
 namespace console {class console_private;}

@@ -1,7 +1,7 @@
 #include "text_internals.hpp"
 
 
-#include "javascript/environment/global_slots.hpp"
+
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"

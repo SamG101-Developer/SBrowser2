@@ -1,17 +1,22 @@
+module;
+#include "ext/macros/namespaces.hpp"
+
 export module ext.memory;
 
 import ext.boolean;
 import ext.concepts;
 
 // TODO : C++20 trailing return type formatting
-// TODO : Implement methods
-// TODO : Add more operators?
 
 
 _STD_BEGIN
+    export template <class T>
+    class observer_ptr;
+_STD_END
+
 
 template <class T>
-class observer_ptr final {
+class std::observer_ptr final {
 public:
     using value_type = T;
     using pointer = std::add_pointer_t<T>;
@@ -20,36 +25,33 @@ public:
     using const_reference = std::add_lvalue_reference_t<const T>;
 
 public:
-    constexpr observer_ptr() noexcept;
-    constexpr observer_ptr(nullptr_t) noexcept;
-    explicit observer_ptr(pointer) noexcept;
-    template <class U> explicit observer_ptr(U*) noexcept;
-    template <class U> observer_ptr(const observer_ptr<U>&) noexcept = delete; // Use .get()
-    template <class U> observer_ptr(observer_ptr<U>&&) noexcept = delete; // Use .get()
-    observer_ptr(const observer_ptr&) noexcept = delete; // Use .get()
-    observer_ptr(observer_ptr&&) noexcept = default; // Use .get()
+    constexpr observer_ptr() noexcept = default;
+    explicit observer_ptr(pointer ptr) noexcept {raw = ptr;}
+    template <class U> explicit observer_ptr(U* ptr) noexcept {raw = ptr;}
+    template <class U> observer_ptr(const observer_ptr<U>&) noexcept = delete;
+    template <class U> observer_ptr(observer_ptr<U>&&) noexcept = delete;
+    observer_ptr(const observer_ptr&) noexcept = delete;
+    observer_ptr(observer_ptr&&) noexcept = default;
 
-    observer_ptr& operator=(nullptr_t) noexcept;
-    template <class U> observer_ptr& operator=(U* other) noexcept;
-    template <class U> observer_ptr& operator=(const observer_ptr<U>&) noexcept = delete; // Use .get()
-    template <class U> observer_ptr& operator=(observer_ptr<U>&&) noexcept = delete; // Use .get()
-    observer_ptr& operator=(const observer_ptr&) noexcept = delete; // Use .get()
-    observer_ptr& operator=(observer_ptr&&) noexcept = default; // Use .get()
+    observer_ptr& operator=(pointer ptr) noexcept {raw = ptr; return *this;}
+    template <class U> observer_ptr& operator=(U* other) noexcept {raw = other; return *this;}
+    template <class U> observer_ptr& operator=(const observer_ptr<U>&) noexcept = delete;
+    template <class U> observer_ptr& operator=(observer_ptr<U>&&) noexcept = delete;
+    observer_ptr& operator=(const observer_ptr&) noexcept = delete;
+    observer_ptr& operator=(observer_ptr&&) noexcept = default;
 
-    pointer get() const noexcept;
-    reference operator*() const noexcept;
-    pointer operator->() const noexcept;
-    explicit operator bool() const noexcept;
+    pointer get() const noexcept {return raw;}
+    reference operator*() const noexcept {return *raw;}
+    pointer operator->() const noexcept {return raw;}
+    explicit operator bool() const noexcept {return raw != nullptr;}
 
-    explicit operator pointer() noexcept;
-    explicit operator const_pointer() const noexcept;
+    explicit operator pointer() noexcept {return raw;}
+    explicit operator const_pointer() const noexcept {return raw;}
 
-    pointer release() noexcept;
-    void reset(pointer t = nullptr) noexcept;
-    void swap(observer_ptr&) noexcept;
+    // pointer release() noexcept;
+    void reset(pointer t = nullptr) noexcept {std::swap(raw, t);}
+    // void swap(observer_ptr&) noexcept;
 
 private:
-    T* raw;
+    T* raw = nullptr;
 };
-
-_STD_END

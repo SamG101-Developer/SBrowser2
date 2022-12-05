@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_CANVAS_PATTERN_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_CANVAS_PATTERN_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing {class canvas_pattern;}
 
 #include INCLUDE_INNER_TYPES(css/geometry)

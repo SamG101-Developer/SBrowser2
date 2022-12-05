@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_FORMAT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_FORMAT_HPP
 
-#include "dom_object.hpp"
+
 namespace edit_context {class text_format;}
 namespace edit_context {class text_format_private;}
 

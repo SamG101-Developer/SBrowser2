@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_MIXINS_READABLE_STREAM_GENERIC_READER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_STREAMS_MIXINS_READABLE_STREAM_GENERIC_READER_HPP
 
-#include "dom_object.hpp"
+
 namespace streams::mixins {class readable_stream_generic_reader;}
 namespace streams::mixins {class readable_stream_generic_reader_private;}
 

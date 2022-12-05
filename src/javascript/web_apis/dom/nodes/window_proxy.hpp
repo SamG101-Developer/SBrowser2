@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PROXY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PROXY_HPP
 
-#include "dom_object.hpp"
+
 #include <v8-object.h>
 namespace dom::nodes {class window_proxy;}
 namespace dom::nodes {class window_proxy_private;}

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_INTERSECTION_OBSERVER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_INTERSECTION_OBSERVER_HPP
 
-#include "dom_object.hpp"
+
 namespace intersection_observer {class intersection_observer;}
 namespace intersection_observer {class intersection_observer_private;}
 

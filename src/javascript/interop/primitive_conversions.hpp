@@ -11,10 +11,10 @@
 #include "ext/span.hpp"
 
 
-#include "javascript/ecma/262/7/1.hpp"
-#include "javascript/ecma/262/7/2.hpp"
-#include "javascript/ecma/262/7/3.hpp"
-#include "javascript/ecma/262/7/4.hpp"
+#include "javascript/ecma/262/7/1.ixx"
+#include "javascript/ecma/262/7/2.ixx"
+#include "javascript/ecma/262/7/3.ixx"
+#include "javascript/ecma/262/7/4.ixx"
 
 #include <magic_enum.hpp>
 #include <v8-array-buffer.h>

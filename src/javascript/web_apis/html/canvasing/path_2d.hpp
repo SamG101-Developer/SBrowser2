@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_PATH_2D_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_PATH_2D_HPP
 
-#include "dom_object.hpp"
+
 #include "mixins/canvas_path.hpp"
 namespace html::canvasing {class path_2d;}
 

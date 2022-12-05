@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_QUAD_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_GEOMETRY_DOM_QUAD_HPP
 
-#include "dom_object.hpp"
+
 #include "html/mixins/serializable.hpp"
 namespace css::geometry {class dom_quad;}
 

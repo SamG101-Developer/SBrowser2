@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DETAIL_XML_SERIALIZER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DETAIL_XML_SERIALIZER_HPP
 
-#include "dom_object.hpp"
+
 namespace dom_parsing {class xml_serializer;}
 
 namespace dom::nodes {class node;}

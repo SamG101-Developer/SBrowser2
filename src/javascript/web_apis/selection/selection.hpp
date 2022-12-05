@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SELECTION_SELECTION_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SELECTION_SELECTION_HPP
 
-#include "dom_object.hpp"
+
 namespace selection {class selection;}
 
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_IMAGE_DATA_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_IMAGE_DATA_HPP
 
-#include "dom_object.hpp"
+
 #include "html/mixins/serializable.hpp"
 namespace html::canvasing {class image_data;}
 

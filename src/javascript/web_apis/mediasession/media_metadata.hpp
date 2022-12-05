@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIASESSION_MEDIA_METADATA_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace mediasession {class media_metadata;}
 namespace mediasession {class media_metadata_private;}
 

@@ -1,17 +1,14 @@
-#include "abort_controller.hpp"
-#include "abort_controller_private.hpp"
-
-#include "dom/abort/abort_signal.hpp"
-#include "dom/detail/aborting_internals.hpp"
+module apis.dom.abort_controller;
+import apis.dom.abort_controller_private;
 
 
-dom::abort::abort_controller::abort_controller()
+dom::abort_controller::abort_controller()
 {
     INIT_PIMPL(abort_controller);
 }
 
 
-auto dom::abort::abort_controller::abort(ext::any&& reason) const -> void
+auto dom::abort_controller::abort(ext::any&& reason) const -> void
 {
     // Abort the signal with the reason, by calling the detail 'signal_abort' method on the signal that this controller
     // stores in a unique_ptr in the private class. Move the reason into the method.
@@ -20,7 +17,7 @@ auto dom::abort::abort_controller::abort(ext::any&& reason) const -> void
 }
 
 
-auto dom::abort::abort_controller::get_signal() const -> abort_signal*
+auto dom::abort_controller::get_signal() const -> abort_signal*
 {
     // Get the signal being stored in the unique_ptr in the private class, by calling the .get() method to access the
     // raw pointer.
@@ -29,7 +26,7 @@ auto dom::abort::abort_controller::get_signal() const -> abort_signal*
 }
 
 
-auto dom::abort::abort_controller::_to_v8(
+auto dom::abort_controller::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

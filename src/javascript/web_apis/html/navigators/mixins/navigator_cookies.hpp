@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_NAVIGATORS_MIXINS_NAVIGATOR_COOKIES_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace html::navigators::mixins {class navigator_cookies;}
 namespace html::navigators::mixins {class navigator_cookies_private;}
 

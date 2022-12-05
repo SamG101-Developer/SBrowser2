@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_PLAYBACK_QUALITY_VIDEO_PLAYBACK_QUALITY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_PLAYBACK_QUALITY_VIDEO_PLAYBACK_QUALITY_HPP
 
-#include "dom_object.hpp"
+
 namespace media::playback_quality {class video_playback_quality;}
 namespace media::playback_quality {class video_playback_quality_private;}
 

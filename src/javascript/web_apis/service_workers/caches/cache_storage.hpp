@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_CACHES_CACHE_STORAGE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_CACHES_CACHE_STORAGE_HPP
 
-#include "dom_object.hpp"
+
 namespace service_workers::caches {class cache_storage;}
 namespace service_workers::caches {class cache_storage_private;}
 

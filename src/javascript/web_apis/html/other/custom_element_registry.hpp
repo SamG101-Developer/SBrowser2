@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CUSTOM_ELEMENT_REGISTRY_HPP
 #define SBROWSER2_CUSTOM_ELEMENT_REGISTRY_HPP
 
-#include "dom_object.hpp"
+
 namespace html::other {class custom_element_registry;}
 namespace html::other {class custom_element_registry_private;}
 

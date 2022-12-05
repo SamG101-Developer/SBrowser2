@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERFORMANCE_TIMELINE_PERFORMANCE_ENTRY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PERFORMANCE_TIMELINE_PERFORMANCE_ENTRY_HPP
 
-#include "dom_object.hpp"
+
 namespace performance_timeline {class performance_entry;}
 namespace performance_timeline {class performance_entry_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_MIXINS_CANVAS_SHADOW_STYLES_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_MIXINS_CANVAS_SHADOW_STYLES_HPP
 
-#include "dom_object.hpp"
+
 namespace html::canvasing::mixins {class canvas_shadow_styles;}
 
 

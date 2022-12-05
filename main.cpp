@@ -1,5 +1,5 @@
 #include <iostream>
-#include <javascript/environment/environment_initialization.hpp>
+#include <javascript/environment/init.ixx>
 
 
 int main(int argc, char** argv)

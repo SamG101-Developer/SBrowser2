@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_LOCKS_LOCK_MANAGER_HPP
 
 // Inheritance Includes & This Class
-#include "dom_object.hpp"
+
 namespace web_locks {class lock_manager;}
 namespace web_locks {class lock_manager_private;}
 

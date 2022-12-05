@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_RESPONSE_HPP
 #define SBROWSER2_RESPONSE_HPP
 
-#include "dom_object.hpp"
+
 #include "mixins/body.hpp"
 namespace fetch {class response;}
 namespace fetch {class response_private;}

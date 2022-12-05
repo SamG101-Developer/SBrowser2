@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_MIXINS_WEBGL_RENDERING_CONTEXT_BASE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBGL2_MIXINS_WEBGL_RENDERING_CONTEXT_BASE_HPP
 
-#include "dom_object.hpp"
+
 namespace webgl2::mixins {class webgl_rendering_context_base;}
 
 
