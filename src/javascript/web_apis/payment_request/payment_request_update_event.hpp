@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_PAYMENT_REQUEST_UPDATE_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_PAYMENT_REQUEST_UPDATE_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace payment::request {class payment_request_update_event;}
 namespace payment::request {class payment_request_update_event_private;}
 

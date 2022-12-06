@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_DRAG_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_DRAG_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace html::events {class drag_event;}
 namespace html::events {class drag_event_private;}
 

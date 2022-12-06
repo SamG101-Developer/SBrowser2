@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_MEDIA_STREAM_TRACK_EVENT_HPP
 #define SBROWSER2_MEDIA_STREAM_TRACK_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace mediacapture::main {class media_stream_track_event;}
 namespace mediacapture::main {class media_stream_track_event_private;}
 

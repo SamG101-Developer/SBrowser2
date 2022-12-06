@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_UI_EVENTS_UI_EVENT_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/events/event.hpp"
+
 
 #include "ext/memory.ixx"
 namespace dom::nodes {class window;}

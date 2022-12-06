@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_TRACK_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_TRACK_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace html::events {class track_event;}
 namespace html::events {class track_event_private;}
 

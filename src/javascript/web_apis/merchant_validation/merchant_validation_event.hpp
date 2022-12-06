@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MERCHANT_VALIDATION_MERCHANT_VALIDATION_EVENT_HPP
 
 // Inheritance Includes & This Class
-#include "dom/events/event.hpp"
+
 namespace merchant_validation {class merchant_validation_event;}
 namespace merchant_validation {class merchant_validation_event_private;}
 

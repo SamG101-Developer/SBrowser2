@@ -12,7 +12,7 @@
 #include "ext/vector.hpp"
 
 #include "dom/nodes/node.hpp"
-#include "dom/events/event.hpp"
+
 namespace indexed_db {class idb_object_store;}
 namespace indexed_db {class idb_index;}
 

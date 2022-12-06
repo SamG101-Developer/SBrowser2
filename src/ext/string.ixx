@@ -57,12 +57,12 @@ _EXT_BEGIN
 
     // Define concepts and struct for strings and string views
     export template <typename T>
-    concept string_like = requires
-    {_EXT type_is_any_specialization<T, std::basic_string>;};
+    concept string_like =
+            _EXT type_is_any_specialization<T, std::basic_string>;
 
     export template <typename T>
-    concept string_view_like = requires
-    {_EXT type_is_any_specialization<T, std::basic_string_view>;};
+    concept string_view_like =
+            _EXT type_is_any_specialization<T, std::basic_string_view>;
 
     export template <typename T>
     concept char_like = requires

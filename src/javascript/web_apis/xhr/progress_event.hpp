@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_PROGRESS_EVENT_HPP
 #define SBROWSER2_PROGRESS_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace xhr {class progress_event;}
 
 

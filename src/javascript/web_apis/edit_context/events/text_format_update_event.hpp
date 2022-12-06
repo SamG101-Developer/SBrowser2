@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EVENTS_TEXT_FORMAT_UPDATE_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EVENTS_TEXT_FORMAT_UPDATE_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 #include "edit_context/text_format.hpp"
 namespace edit_context {class text_format;}
 namespace edit_context::events {class text_format_update_event;}

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_RECORD_BLOB_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_RECORD_BLOB_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace mediacapture::record {class blob_event;}
 namespace mediacapture::record {class blob_event_private;}
 

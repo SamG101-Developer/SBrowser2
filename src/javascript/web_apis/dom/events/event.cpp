@@ -1,20 +1,30 @@
-#include "event.hpp"
-#include "event_private.hpp"
-
-#include "dom/detail/event_internals.hpp"
-#include "hr_time/detail/time_internals.hpp"
-
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 #include <range/v3/range/operations.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
+
+module apis.dom.event;
+import apis.dom.event_private;
+import apis.dom.types;
+import ext.string;
+import ext.vector;
+import ext.number;
+import ext.tuple;
+import js.env.module_type;
+import js.env.realms;
 
 
-dom::events::event::event(
+
+dom::event::event(
         ext::string&& event_type,
-        ext::map<ext::string, ext::any>&& event_init)
+        event_init_t&& event_init)
 {
-    INIT_PIMPL(event);
+    INIT_PIMPL;
     auto e = js::env::env::relevant(this);
 
-    ACCESS_PIMPL(event);
+    ACCESS_PIMPL;
     d->type = std::move(event_type);
     d->bubbles = event_init[u"bubbles"].to<decltype(d->bubbles)>();
     d->cancelable = event_init[u"cancelable"].to<decltype(d->cancelable)>();
@@ -30,51 +40,51 @@ dom::events::event::event(
 }
 
 
-auto dom::events::event::stop_propagation() -> void
+auto dom::event::stop_propagation() -> void
 {
     // Set the 'stop_propagation_flag' stored in the private class - this stops the event propagating to the next target
-    // after all of the listeners of the 'current_target' have been executed.
-    ACCESS_PIMPL(event);
+    // after all the listeners of the 'current_target' have been executed.
+    ACCESS_PIMPL;
     d->stop_propagation_flag = true;
 }
 
 
-auto dom::events::event::stop_immediate_propagation() -> void
+auto dom::event::stop_immediate_propagation() -> void
 {
     // Set the 'stop_immediate_propagation_flag' - this stops the event propagating to the next listener in the
     // 'current_target' ie not all of the listeners will execute in 'current_target'
-    ACCESS_PIMPL(event);
+    ACCESS_PIMPL;
     d->stop_immediate_propagation_flag = true;
 }
 
 
-auto dom::events::event::prevent_default() -> void
+auto dom::event::prevent_default() -> void
 {
     // Set the cancelled flag, as long as the the event is cancelable and isn't in a passive listener - non-cancelable
     // events obviously can't be cancelled, and the 'in_passive_listener_flag' guarantees that an event won't ever be
     // cancelled, even if it is 'cancelable', TODO for performance reasons.
-    ACCESS_PIMPL(event);
+    ACCESS_PIMPL;
     d->canceled_flag = d->cancelable && !d->in_passive_listener_flag;
 }
 
 
-auto dom::events::event::composed_path() const -> ext::vector<nodes::event_target*>
+auto dom::event::composed_path() const -> ext::vector<event_target*>
 {
-    ACCESS_PIMPL(const event);
-    using composed_path_t = ext::vector<nodes::event_target*>;
+    ACCESS_PIMPL;
+    using composed_path_t = ext::vector<event_target*>;
 
     // Create the vectors for the 'composed_path[_vector]' and the 'path[_vector]. If the 'path_vector' is empty, then
     // the 'composed_path_vector' will have to be empty, as there can't be targets in the 'composed_path_vector' that
     // aren't in the 'path_vector' - the 'composed_path_vector' is a subset of the 'path_vector'.
     auto composed_path_vector = composed_path_t{};
-    auto path_vector = detail::path_t{};
+    auto path_vector = path_t{};
     if (path_vector.empty())
         return composed_path_vector;
 
     // Push the current target into 'composed_path_vector'. Note that this will act as the middle of the vector
     // (elements will be pushed behind and infront of the 'current_target', as the event has to traverse down the tree
     // to the 'current_target', and bubble back up (if the 'bubbles' attribute is set).
-    composed_path_vector.push_back(d->current_target);
+    composed_path_vector.push_back(d->current_target.get());
 
     // Create the default indexing variables for node identification in the tree, concerning the shadow tree levels of
     // nodes. 'current_target_hidden_subtree_level' tracks how many layers of "hidden trees" the target resides in; the
@@ -99,7 +109,7 @@ auto dom::events::event::composed_path() const -> ext::vector<nodes::event_targe
     {
         decltype(auto) path_struct = *iterator;
         if (path_struct->root_of_closed_tree) ++current_target_hidden_subtree_level;
-        if (path_struct->invocation_target == d->current_target) {current_target_index = iterator; break;}
+        if (path_struct->invocation_target == d->current_target.get()) {current_target_index = iterator; break;}
         if (path_struct->slot_in_closed_tree) --current_target_hidden_subtree_level;
         ranges::advance(iterator, -1);
     }
@@ -161,14 +171,14 @@ auto dom::events::event::composed_path() const -> ext::vector<nodes::event_targe
 }
 
 
-auto dom::events::event::_to_v8(
+auto dom::event::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
-        .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
+        .ctor<ext::string&&, event_init_t&&>()
         .static_("NONE", event::NONE, true)
         .static_("CAPTURING_PHASE", event::CAPTURING_PHASE, true)
         .static_("AT_TARGET", event::AT_TARGET, true)

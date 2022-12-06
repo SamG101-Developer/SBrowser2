@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_HANDLE_CAPTURE_ACTION_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_HANDLE_CAPTURE_ACTION_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace mediacapture::handle {class capture_action_event;}
 namespace mediacapture::handle {class capture_action_event_private;}
 

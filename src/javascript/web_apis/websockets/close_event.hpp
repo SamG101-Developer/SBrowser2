@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_CLOSE_EVENT_HPP
 
 // Inheritance Includes & This Class
-#include "dom/events/event.hpp"
+
 namespace websockets {class close_event;}
 namespace websockets {class close_event_private;}
 

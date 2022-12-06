@@ -180,10 +180,14 @@ public:
     constexpr number() = default;
     number(const number&) = default;
     number(number&&) noexcept = default;
-    template <_EXT string_like S> number(S&& string);
-    template <_EXT string_view_like S> number(S&& string_view);
     auto operator=(const number&) -> number& = default;
     auto operator=(number&&) noexcept -> number& = default;
+
+    template <_EXT string_like S>
+    static auto from_string(S&& string) -> number;
+
+    template <_EXT string_view_like S>
+    static auto from_string(S&& string_view) -> number;
 
     auto operator=(T val) -> number&
     {n = val; return *this;}

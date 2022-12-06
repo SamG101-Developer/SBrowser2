@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_EVENTS_EXTENDABLE_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_EVENTS_EXTENDABLE_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace service_workers::events {class extendable_event;}
 namespace service_workers::events {class extendable_event_private;}
 

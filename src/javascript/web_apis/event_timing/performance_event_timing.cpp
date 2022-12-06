@@ -4,8 +4,8 @@
 
 
 #include "dom/detail/shadow_internals.hpp"
-#include "dom/events/event.hpp"
-#include "dom/events/event_private.hpp"
+
+
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/shadow_root.hpp"
 

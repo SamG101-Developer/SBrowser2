@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_PRESENTATION_CONNECTION_AVAILABLE_EVENT_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/events/event_private.hpp"
+
 
 namespace presentation {class presentation_connection;}
 

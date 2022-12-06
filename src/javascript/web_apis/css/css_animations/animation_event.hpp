@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATIONS_ANIMATION_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSS_ANIMATIONS_ANIMATION_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace css::css_animations {class animation_event;}
 
 

@@ -16,8 +16,8 @@
 #include "dom/detail/node_internals.hpp"
 #include "dom/detail/range_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
-#include "dom/events/event.hpp"
-#include "dom/events/event_private.hpp"
+
+
 #include "dom/nodes/attr.hpp"
 #include "dom/nodes/attr_private.hpp"
 #include "dom/nodes/cdata_section.hpp"

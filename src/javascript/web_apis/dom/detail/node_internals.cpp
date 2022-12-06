@@ -1,6 +1,6 @@
 #include "node_internals.hpp"
 
-#include "dom/events/event.hpp"
+
 #include "dom/nodes/node.hpp"
 #include "dom/detail/tree_internals.hpp"
 

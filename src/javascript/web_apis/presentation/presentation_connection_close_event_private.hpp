@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_PRESENTATION_CONNECTION_CLOSE_EVENT_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/events/event_private.hpp"
+
 
 #include INCLUDE_INNER_TYPES(presentation)
 

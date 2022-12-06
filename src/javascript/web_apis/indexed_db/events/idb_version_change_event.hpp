@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_EVENTS_IDB_VERSION_CHANGE_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_EVENTS_IDB_VERSION_CHANGE_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace indexed_db::events {class idb_version_change_event;}
 
 class indexed_db::events::idb_version_change_event

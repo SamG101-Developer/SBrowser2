@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_UPDATE_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_UPDATE_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace edit_context::events {class text_update_event;}
 
 #include "edit_context/events/text_update_event_private.hpp"

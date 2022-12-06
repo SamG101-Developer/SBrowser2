@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_MAIN_MEDIA_STREAM_TRACK_EVENT_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/events/event_private.hpp"
+
 
 #include "ext/memory.ixx"
 namespace mediacapture::main {class media_stream_track;}

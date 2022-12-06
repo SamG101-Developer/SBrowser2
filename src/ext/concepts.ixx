@@ -11,7 +11,7 @@ _EXT_BEGIN
     // a templated parameter of the mixin-type; if the mixin is inherited then there won't by a static error.
     export template <template <typename> typename BaseMixin, typename Derived>
     concept inherit_template = requires(Derived object)
-    {[]<typename T>(BaseMixin<T>*){}(object);};
+    {[]<typename ...Ts>(BaseMixin<Ts...>*){}(object);};
 
     // Check if a class inherits another class-type, by using the built-in std concept that checks if a class-type
     // derives from another class type.

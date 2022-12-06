@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_SUBMIT_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_EVENTS_SUBMIT_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace html::events {class submit_event;}
 namespace html::events {class submit_event_private;}
 

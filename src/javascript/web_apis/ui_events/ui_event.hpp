@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_UI_EVENT_HPP
 #define SBROWSER2_UI_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace ui_events {class ui_event;}
 namespace ui_events {class ui_event_private;}
 

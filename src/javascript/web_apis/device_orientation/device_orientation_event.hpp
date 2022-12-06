@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_ORIENTATION_DEVICE_ORIENTATION_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_ORIENTATION_DEVICE_ORIENTATION_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace device_orientation {class device_orientation_event;}
 namespace device_orientation {class device_orientation_event_private;}
 

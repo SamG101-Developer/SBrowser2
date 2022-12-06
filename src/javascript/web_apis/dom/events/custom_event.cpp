@@ -1,26 +1,37 @@
-#include "custom_event.hpp"
-#include "custom_event_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
-dom::events::custom_event::custom_event(
+module apis.dom.custom_event;
+import apis.dom.custom_event_private;
+import ext.string;
+import ext.tuple;
+import js.env.module_type;
+
+
+dom::custom_event::custom_event(
         ext::string&& event_type,
-        ext::map<ext::string, ext::any>&& event_init)
+        custom_event_init_t&& event_init)
         : event(std::move(event_type), std::move(event_init))
 {
-    INIT_PIMPL(custom_event);
-    ACCESS_PIMPL(custom_event);
+    INIT_PIMPL;
+
+    ACCESS_PIMPL;
     d->detail = 0;
 }
 
 
-auto dom::events::custom_event::_to_v8(
+auto dom::custom_event::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<event>()
-        .ctor<ext::string&&, ext::map<ext::string, ext::any>&&>()
+        .ctor<ext::string&&, custom_event_init_t&&>()
         .property("detail", &custom_event::get_detail)
         .auto_wrap_objects();
 

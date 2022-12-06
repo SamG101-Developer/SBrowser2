@@ -64,8 +64,6 @@ export namespace dom::detail
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
     using mutation_callback_t = ext::function<void(const ext::vector<mutation_record*>&, mutation_observer*)>;
     using static_range_init_t = ext::map<ext::string, ext::any>;
-    using touch_targets_t = ext::vector<event_target*>;
-    using path_t = ext::vector<std::unique_ptr<detail::event_path_struct_t>>;
     using accept_callback_t = ext::function<ext::number<ushort>(const node*)>;
     // using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::html_script_element>, std::unique_ptr<svg::svg_script_element>>;
@@ -81,3 +79,19 @@ export enum class v8_primitive_error_t
     V8_WASM_RUNTIME_ERROR,
     V8_DATA_ERROR /* TODO <-- These don't have a v8 type yet */
 };
+
+
+struct dom::detail::event_path_struct_t
+{
+    event_target* invocation_target      = nullptr;
+    event_target* shadow_adjusted_target = nullptr;
+    event_target* related_target         = nullptr;
+
+    ext::vector<event_target*> touch_targets;
+    ext::boolean invocation_target_in_shadow_tree;
+    ext::boolean root_of_closed_tree;
+    ext::boolean slot_in_closed_tree;
+
+    auto operator==(const event_path_struct_t&) const -> bool = default;
+};
+

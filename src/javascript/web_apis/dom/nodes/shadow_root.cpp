@@ -1,8 +1,8 @@
 #include "shadow_root.hpp"
 #include "shadow_root_private.hpp"
 
-#include "dom/events/event.hpp"
-#include "dom/events/event_private.hpp"
+
+
 #include "dom/detail/event_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/nodes/element.hpp"

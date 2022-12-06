@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_CLIPBOARD_EVENT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_CLIPBOARD_EVENT_HPP
 
-#include "dom/events/event.hpp"
+
 namespace clipboard {class clipboard_event;}
 
 namespace html::dnd {class data_transfer;}
