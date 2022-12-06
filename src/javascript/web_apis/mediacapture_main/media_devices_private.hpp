@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_MAIN_MEDIA_DEVICES_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
+
 
 namespace mediacapture::main {class media_device_info;}
 

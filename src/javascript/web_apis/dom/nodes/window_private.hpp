@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
+
 
 #include INCLUDE_INNER_TYPES(html)
 namespace dom::nodes {class document;}

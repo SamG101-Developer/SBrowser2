@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_POSTURE_DEVICE_POSTURE_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
+
 
 #include INCLUDE_INNER_TYPES(device_posture)
 

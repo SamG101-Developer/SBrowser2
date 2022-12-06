@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_REMOTE_PLAYBACK_REMOTE_PLAYBACK_HPP
 
 // Inheritance Includes & This Class
-#include "dom/nodes/event_target.hpp"
+
 namespace remote_playback {class remote_playback;}
 namespace remote_playback {class remote_playback_private;}
 

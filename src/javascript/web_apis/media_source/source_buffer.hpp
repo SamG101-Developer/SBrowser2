@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace media::source {class source_buffer;}
 namespace media::source {class source_buffer_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_GLOBAL_SCOPE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_WORKERS_WORKER_GLOBAL_SCOPE_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 #include "html/mixins/window_or_worker_global_scope.hpp"
 namespace html::workers {class worker_global_scope;}
 namespace html::workers {class worker_global_scope_private;}

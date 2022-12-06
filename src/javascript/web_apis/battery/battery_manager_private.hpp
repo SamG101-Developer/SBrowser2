@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BATTERY_BATTERY_MANAGER_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
+
 
 
 

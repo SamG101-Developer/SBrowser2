@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PRESENTATION_PRESENTATION_REQUEST_HPP
 
 // Inheritance Includes & This Class
-#include "dom/nodes/event_target.hpp"
+
 namespace presentation {class presentation_request;}
 namespace presentation {class presentation_request_private;}
 

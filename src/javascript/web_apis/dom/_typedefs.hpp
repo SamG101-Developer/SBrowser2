@@ -1,25 +1,31 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP
+module;
+#include <memory>
+#include <function2/function2.hpp>
+#include <swl/variant.hpp>
 
 
+export module apis.dom.types;
+import ext.any;
+import ext.boolean;
+import ext.functional;
+import ext.map;
+import ext.number;
+import ext.string;
+import ext.tuple;
+import ext.variant;
+import ext.vector;
+
+namespace dom {class event;}
+namespace dom {class mutation_observer;}
+namespace dom {class mutation_record;}
+namespace dom {class element;}
+namespace dom {class event_target;}
+namespace dom {class node;}
+namespace html {class html_script_element;}
+namespace svg {class svg_script_element;}
 
 
-
-
-#include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(html)
-#include INCLUDE_INNER_TYPES(url)
-namespace dom::events {class event;}
-namespace dom::mutations {class mutation_observer;}
-namespace dom::mutations {class mutation_record;}
-namespace dom::nodes {class element;}
-namespace dom::nodes {class event_target;}
-namespace dom::nodes {class node;}
-namespace html::elements {class html_script_element;}
-namespace svg::elements {class svg_script_element;}
-
-
-namespace dom::detail
+export namespace dom::detail
 {
     struct custom_element_reactions_stack_t;
     struct custom_element_definition_t;
@@ -31,7 +37,6 @@ namespace dom::detail
     struct transient_registered_observer_t;
     struct boundary_point_t;
     struct xpath_ns_resolver_t;
-    template <html::detail::local_name_t T> struct element_interface;
 
     enum class custom_element_state_t {CUSTOM, UNCUSTOMIZED, PRECUSTOMIZED, UNDEFINED, FAILED, NONE};
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
@@ -55,27 +60,24 @@ namespace dom::detail
     using event_listener_options_t = ext::map<ext::string, ext::any>;
     using add_event_listener_options_t = ext::map<ext::string, ext::any>;
     using exception_condiditional_t = ext::function<bool()>;
-    using event_listener_callback_t = ext::function<void(ext::string, events::event*), void()>;
+    using event_listener_callback_t = ext::function<void(ext::string, event*), void()>;
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
-    using mutation_callback_t = ext::function<void(const ext::vector<mutations::mutation_record*>&, mutations::mutation_observer*)>;
+    using mutation_callback_t = ext::function<void(const ext::vector<mutation_record*>&, mutation_observer*)>;
     using static_range_init_t = ext::map<ext::string, ext::any>;
-    using touch_targets_t = ext::vector<nodes::event_target*>;
+    using touch_targets_t = ext::vector<event_target*>;
     using path_t = ext::vector<std::unique_ptr<detail::event_path_struct_t>>;
-    using accept_callback_t = ext::function<ext::number<ushort>(const nodes::node*)>;
-    using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
-    using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::elements::html_script_element>, std::unique_ptr<svg::elements::svg_script_element>>;
+    using accept_callback_t = ext::function<ext::number<ushort>(const node*)>;
+    // using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
+    using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::html_script_element>, std::unique_ptr<svg::svg_script_element>>;
     using mutation_observer_init_t = ext::map<ext::string, ext::any>;
     using lifecycle_callback_t = ext::function<void()>;
-    using html_element_constructor_t = ext::function<nodes::element*()>;
+    using html_element_constructor_t = ext::function<element*()>;
 }
 
 
-enum class v8_primitive_error_t
+export enum class v8_primitive_error_t
 {
     V8_TYPE_ERROR, V8_RANGE_ERROR, V8_REFERENCE_ERROR, V8_SYNTAX_ERROR, V8_WASM_COMPILE_ERROR, V8_WASM_LINK_ERROR,
     V8_WASM_RUNTIME_ERROR,
     V8_DATA_ERROR /* TODO <-- These don't have a v8 type yet */
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM__TYPEDEFS_HPP

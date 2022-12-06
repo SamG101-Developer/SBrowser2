@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NOTIFICATIONS_NOTIFICATION_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NOTIFICATIONS_NOTIFICATION_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace notifications {class notification;}
 
 #include "ext/type_traits.ixx"

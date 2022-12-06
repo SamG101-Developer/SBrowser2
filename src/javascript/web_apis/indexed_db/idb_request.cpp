@@ -1,7 +1,7 @@
 #include "idb_request.hpp"
 
 #include "dom/detail/exception_internals.hpp"
-#include "dom/nodes/event_target.hpp"
+
 #include "dom/other/dom_exception.hpp"
 
 

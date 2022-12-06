@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BLUETOOTH_BLUETOOTH_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BLUETOOTH_BLUETOOTH_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace bluetooth {class bluetooth;}
 
 

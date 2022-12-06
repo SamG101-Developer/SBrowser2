@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_RECORD_MEDIA_RECORDER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_RECORD_MEDIA_RECORDER_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace mediacapture::record {class media_recorder;}
 namespace mediacapture::record {class media_recorder_private;}
 

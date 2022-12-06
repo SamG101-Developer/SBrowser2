@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEBSOCKETS_WEB_SOCKET_HPP
 
 // Inheritance Includes & This Class
-#include "dom/nodes/event_target.hpp"
+
 namespace websockets {class web_socket;}
 namespace websockets {class web_socket_private;}
 

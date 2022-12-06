@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_IDB_REQUEST_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INDEXED_DB_IDB_REQUEST_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace indexed_db {class idb_request;}
 
 #include "dom/other/dom_exception.hpp"

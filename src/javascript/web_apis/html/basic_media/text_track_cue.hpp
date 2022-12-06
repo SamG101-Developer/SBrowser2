@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_TEXT_TRACK_CUE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_TEXT_TRACK_CUE_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace html::basic_media {class text_track_cue;}
 namespace html::basic_media {class text_track_cue_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_PAYMENT_RESPONSE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PAYMENT_REQUEST_PAYMENT_RESPONSE_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace payment::request {class payment_response;};
 namespace payment::request {class payment_response_private;};
 

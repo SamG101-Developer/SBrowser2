@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_PERMISSION_STATUS_HPP
 #define SBROWSER2_PERMISSION_STATUS_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace permissions {class permission_status;}
 
 #include INCLUDE_INNER_TYPES(permissions)

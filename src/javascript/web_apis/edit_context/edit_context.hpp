@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace edit_context {class edit_context;}
 namespace edit_context {class edit_context_private;}
 

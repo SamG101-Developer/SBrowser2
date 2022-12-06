@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_ABORT_SIGNAL_HPP
 #define SBROWSER2_ABORT_SIGNAL_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace dom::abort {class abort_signal;}
 namespace dom::abort {class abort_signal_private;}
 

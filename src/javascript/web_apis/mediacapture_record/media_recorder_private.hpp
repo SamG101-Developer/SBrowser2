@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_RECORD_MEDIA_RECORDER_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
+
 
 #include INCLUDE_INNER_TYPES(mediacapture_record)
 #include "ext/memory.ixx"

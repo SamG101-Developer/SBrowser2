@@ -1,5 +1,5 @@
 #include "abort_signal.hpp"
-#include "abort_signal_private.hpp"
+#include "abort_signal_private.ixx"
 
 #include "javascript/environment/realms_2.hpp"
 

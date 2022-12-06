@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_POSTURE_DEVICE_POSTURE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DEVICE_POSTURE_DEVICE_POSTURE_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace device_posture {class device_posture;}
 namespace device_posture {class device_posture_private;}
 

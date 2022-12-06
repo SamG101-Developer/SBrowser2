@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_MEDIA_DEVICES_HPP
 #define SBROWSER2_MEDIA_DEVICES_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace mediacapture::main {class media_devices;}
 
 #include INCLUDE_INNER_TYPES(mediacapture_extensions)

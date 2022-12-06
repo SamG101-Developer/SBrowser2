@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_SENSOR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SENSORS_SENSOR_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace sensors {class sensor;}
 namespace sensors {class sensor_private;}
 

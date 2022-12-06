@@ -41,7 +41,7 @@
 #include "dom/nodes/document_fragment.hpp"
 #include "dom/nodes/document_type.hpp"
 #include "dom/nodes/element.hpp"
-#include "dom/nodes/event_target.hpp"
+
 #include "dom/nodes/node.hpp"
 #include "dom/nodes/processing_instruction.hpp"
 #include "dom/nodes/shadow_root.hpp"

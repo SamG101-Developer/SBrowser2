@@ -3,8 +3,8 @@
 
 #include "dom/_typedefs.hpp"
 #include "dom/detail/exception_internals.hpp"
-#include "dom/nodes/event_target.hpp"
-#include "dom/nodes/event_target_private.hpp"
+
+
 
 #include "payment_method_id/detail/identifier_internals.hpp"
 #include "payment_request/payment_request.hpp"

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_CLIPBOARD_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CLIPBOARD_CLIPBOARD_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace clipboard {class clipboard;}
 
 

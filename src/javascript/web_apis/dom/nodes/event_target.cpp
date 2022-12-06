@@ -1,41 +1,30 @@
-#include "event_target.hpp"
-#include "event_target_private.hpp"
-
-
-
-
-#include "ext/pimpl.ixx"
-
-
-
-#include "dom/_typedefs.hpp"
-#include "dom/abort/abort_signal.hpp"
-#include "dom/abort/abort_signal_private.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/event_internals.hpp"
-#include "dom/events/event.hpp"
-#include "dom/events/event_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/remove_if.hpp>
 #include <utility>
 
-#include "dom/detail/node_internals.hpp"
+
+module apis.dom.event_target;
+import apis.dom._types;
+import ext.string;
+import ext.variant;
 
 
-dom::nodes::event_target::event_target()
+dom::event_target::event_target()
 {
-    INIT_PIMPL(event_target);
+    INIT_PIMPL;
 }
 
 
-auto dom::nodes::event_target::add_event_listener(
+auto dom::event_target::add_event_listener(
         ext::string&& type,
         detail::event_listener_callback_t&& callback,
         ext::variant<detail::add_event_listener_options_t, ext::boolean>&& options)
         -> void
 {
-    ACCESS_PIMPL(event_target);
+    ACCESS_PIMPL;
 
     // Create an event listener that is the flattened options, and insert the callback and type.
     auto event_listener = detail::flatten_more(std::move(options));
@@ -62,7 +51,7 @@ auto dom::nodes::event_target::add_event_listener(
 }
 
 
-auto dom::nodes::event_target::remove_event_listener(
+auto dom::event_target::remove_event_listener(
         ext::string&& type,
         detail::event_listener_callback_t&& callback,
         ext::variant<detail::event_listener_options_t, ext::boolean>&& options)
@@ -93,7 +82,7 @@ auto dom::nodes::event_target::remove_event_listener(
 }
 
 
-auto dom::nodes::event_target::dispatch_event(
+auto dom::event_target::dispatch_event(
         events::event* event)
         -> ext::boolean
 {
@@ -111,7 +100,7 @@ auto dom::nodes::event_target::dispatch_event(
 }
 
 
-auto dom::nodes::event_target::_to_v8(
+auto dom::event_target::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

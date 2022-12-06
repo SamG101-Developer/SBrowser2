@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIRTUAL_KEYBOARD_VIRTUAL_KEYBOARD_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
+
 namespace css::geometry {class dom_rect;}
 
 

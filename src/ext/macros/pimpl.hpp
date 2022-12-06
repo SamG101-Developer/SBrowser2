@@ -34,7 +34,7 @@ public:                                                                         
     using this_t = type;                                                                                     \
 private:                                                                                                     \
     inline auto d_func() noexcept -> this_private_t* {return reinterpret_cast<this_private_t*>(this->d_ptr.get());}             \
-    inline auto d_func() const noexcept -> this_private_t* {return reinterpret_cast<const this_private_t*>(this->d_ptr.get());} \
+    inline auto d_func() const noexcept -> const this_private_t* {return reinterpret_cast<const this_private_t*>(this->d_ptr.get());} \
 public:
 
 
@@ -45,7 +45,7 @@ public:                                                                         
     using this_public_t = type;                                                                             \
 private:                                                                                                    \
     inline auto q_func() noexcept -> this_public_t* {return reinterpret_cast<this_public_t*>(this->q_ptr.get());}             \
-    inline auto q_func() const noexcept -> this_public_t* {return reinterpret_cast<const this_public_t*>(this->q_ptr.get());} \
+    inline auto q_func() const noexcept -> const this_public_t* {return reinterpret_cast<const this_public_t*>(this->q_ptr.get());} \
 public:
 
 
@@ -73,7 +73,7 @@ public:
 #define DEFINE_PUBLIC_CLASS(ns, c)     \
     namespace ns {export class c;}              \
     namespace ns {struct c ## _private;} \
-    class ns:: c
+    export class ns:: c
 
 
 // Define a private class, defining the class and its corresponding public class in their respective namespaces, and
@@ -81,7 +81,7 @@ public:
 #define DEFINE_PRIVATE_CLASS(ns, c)    \
     namespace ns {class c;}              \
     namespace ns {export struct c ## _private;} \
-    struct ns:: c ## _private
+    export struct ns:: c ## _private
 
 
 #endif //SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP

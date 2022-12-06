@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIRTUAL_KEYBOARD_VIRTUAL_KEYBOARD_HPP
 
 // Inheritance Includes & This Class
-#include "dom/nodes/event_target.hpp"
+
 namespace virtual_keyboard {class virtual_keyboard;}
 namespace virtual_keyboard {class virtual_keyboard_private;}
 

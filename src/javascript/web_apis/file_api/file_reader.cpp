@@ -3,7 +3,7 @@
 
 #include INCLUDE_INNER_TYPES(file_api)
 
-#include "dom/nodes/event_target.hpp"
+
 #include "html/detail/task_internals.hpp"
 #include "file_api/detail/file_internals.hpp"
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_NODE_HPP
 #define SBROWSER2_NODE_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace dom::nodes {class node;}
 namespace dom::nodes {class node_private;}
 

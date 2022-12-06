@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_MEDIA_STREAM_HPP
 #define SBROWSER2_MEDIA_STREAM_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace mediacapture::main {class media_stream;}
 namespace mediacapture::main {class media_stream_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_OFFSCREEN_CANVAS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_CANVASING_OFFSCREEN_CANVAS_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 #include "html/mixins/transferable.hpp"
 namespace html::canvasing {class offscreen_canvas;}
 

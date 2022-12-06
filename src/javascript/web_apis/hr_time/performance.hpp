@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_PERFORMANCE_HPP
 #define SBROWSER2_PERFORMANCE_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace hr_time {class performance;}
 namespace hr_time {class performance_private;}
 

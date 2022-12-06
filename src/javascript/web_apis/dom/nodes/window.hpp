@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_WINDOW_HPP
 #define SBROWSER2_WINDOW_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 #include "ext/vector_like.hpp"
 #include "html/mixins/window_or_worker_global_scope.hpp"
 namespace dom::nodes {class window;}

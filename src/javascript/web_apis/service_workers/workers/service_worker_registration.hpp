@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_WORKERS_SERVICE_WORKER_REGISTRATION_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_SERVICE_WORKERS_WORKERS_SERVICE_WORKER_REGISTRATION_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace service_workers::workers {class service_worker_registration;}
 namespace service_workers::workers {class service_worker_registration_private;}
 

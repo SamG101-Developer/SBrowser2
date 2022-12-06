@@ -1,11 +1,8 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ABORT_ABORT_SIGNAL_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ABORT_ABORT_SIGNAL_PRIVATE_HPP
+export module dom.abort_signal_private;
 
-#include "ext/pimpl.ixx"
-#include "dom/nodes/event_target_private.hpp"
-
-#include INCLUDE_INNER_TYPES(dom)
-
+import dom.event_target;
+import ext.any;
+import ext.boolean;
 
 
 DEFINE_PRIVATE_CLASS(dom::abort, abort_signal)
@@ -21,4 +18,4 @@ DEFINE_PRIVATE_CLASS(dom::abort, abort_signal)
 };
 
 
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ABORT_ABORT_SIGNAL_PRIVATE_HPP
+#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_ABORT_ABORT_SIGNAL_PRIVATE_IXX

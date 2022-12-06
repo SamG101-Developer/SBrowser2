@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_WEB_RTC_PC_RTC_PEER_CONNECTION_HPP
 
 // Inheritance Includes & This Class
-#include "dom/nodes/event_target.hpp"
+
 namespace web_rtc::pc {class rtc_peer_connection;}
 namespace web_rtc::pc {class rtc_peer_connection_private;}
 

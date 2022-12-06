@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_MEDIA_STREAM_TRACK_HPP
 #define SBROWSER2_MEDIA_STREAM_TRACK_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 #include "mediacapture_main/mixins/constrainable.hpp"
 namespace mediacapture::main {class media_stream_track;}
 namespace mediacapture::main {class media_stream_track_private;}

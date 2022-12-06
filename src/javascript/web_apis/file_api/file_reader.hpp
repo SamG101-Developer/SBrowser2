@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_FILE_READER_HPP
 #define SBROWSER2_FILE_READER_HPP
 
-#include "dom/nodes/event_target.hpp"
+
 namespace file_api {class file_reader;}
 namespace file_api {class file_reader_private;}
 
