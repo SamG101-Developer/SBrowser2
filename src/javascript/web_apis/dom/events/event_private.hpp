@@ -1,18 +1,17 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+export module apis.dom.event_private;
+import ext.boolean;
+import ext.string;
+import ext.number;
+import ext.memory;
+
+namespace dom {class event_target;}
 
 
-
-#include INCLUDE_INNER_TYPES(dom)
-
-namespace dom::nodes {class event_target;}
-
-
-DEFINE_PRIVATE_CLASS(dom::events, event)
+DEFINE_PRIVATE_CLASS(dom, event)
         : virtual dom_object_private
 {
     MAKE_QIMPL(event);
@@ -40,6 +39,3 @@ DEFINE_PRIVATE_CLASS(dom::events, event)
     ext::boolean initialized_flag = true;
     ext::boolean dispatch_flag = false;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_EVENTS_EVENT_PRIVATE_HPP

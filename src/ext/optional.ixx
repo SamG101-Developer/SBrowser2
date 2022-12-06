@@ -2,11 +2,9 @@ module;
 #include "ext/macros/namespaces.hpp"
 #include <tl/optional.hpp>
 
+export module ext.optional;
 
 _EXT_BEGIN
-    using tl::optional;
-    using tl::nullopt;
+    export using namespace ::tl;
 _EXT_END
 
-
-export module ext.optional;

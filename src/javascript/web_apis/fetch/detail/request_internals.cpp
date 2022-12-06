@@ -5,7 +5,7 @@
 
 #include "ext/enums.ixx"
 
-#include "dom/abort/abort_signal.hpp"
+
 #include "dom/nodes/window.hpp"
 #include "dom/nodes/window_private.hpp"
 

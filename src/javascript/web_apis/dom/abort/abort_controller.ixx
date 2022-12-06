@@ -13,6 +13,7 @@ import js.env.module_type;
 
 namespace dom {class abort_signal;}
 
+
 DEFINE_PUBLIC_CLASS(dom, abort_controller)
         : public virtual ::dom_object
 {

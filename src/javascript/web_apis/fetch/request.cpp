@@ -6,8 +6,8 @@
 
 
 #include "dom/_typedefs.hpp"
-#include "dom/abort/abort_signal.hpp"
-#include "dom/abort/abort_signal_private.hpp"
+
+
 #include "dom/detail/aborting_internals.hpp"
 #include "dom/detail/exception_internals.hpp"
 

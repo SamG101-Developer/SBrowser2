@@ -3,7 +3,7 @@
 #include "ext/assertion.hpp"
 
 #include "dom/_typedefs.hpp"
-#include "dom/abort/abort_signal.hpp"
+
 #include "dom/detail/exception_internals.hpp"
 
 #include "streams/_typedefs.hpp"

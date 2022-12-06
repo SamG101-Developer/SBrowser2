@@ -3,7 +3,6 @@ module;
 #include "ext/macros/constructors.hpp"
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <swl/variant.hpp>
 
 
 export module apis.dom.event_target;
@@ -12,7 +11,6 @@ import apis.dom.types;
 import ext.boolean;
 import ext.string;
 import ext.tuple;
-import ext.variant;
 import js.env.module_type;
 
 namespace dom {class event;}

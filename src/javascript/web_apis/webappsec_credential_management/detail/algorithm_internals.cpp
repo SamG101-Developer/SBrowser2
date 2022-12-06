@@ -4,8 +4,8 @@
 
 #include "javascript/environment/settings.ixx"
 
-#include "dom/abort/abort_signal.hpp"
-#include "dom/abort/abort_signal_private.hpp"
+
+
 #include "dom/detail/observer_internals.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/document_private.hpp"

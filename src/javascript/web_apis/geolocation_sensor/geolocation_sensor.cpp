@@ -2,8 +2,8 @@
 #include "dom/detail/aborting_internals.hpp"
 #include "geolocation_sensor_private.hpp"
 
-#include "dom/abort/abort_signal.hpp"
-#include "dom/abort/abort_signal_private.hpp"
+
+
 #include "dom/other/dom_exception.hpp"
 
 #include "geolocation_sensor/detail/abstract_operations_internals.hpp"

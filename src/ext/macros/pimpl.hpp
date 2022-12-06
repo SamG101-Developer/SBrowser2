@@ -59,13 +59,13 @@ public:
 // Get access to the d_ptr by casting it via the d_func() method -- make it a const pointer, and possibly a const
 // pointer const, depending on the context of the class.
 #define ACCESS_PIMPL \
-    this_private_t* const d = d_func()
+    auto* const d = d_func()
 
 
 // Get access to the q_ptr by casting it via the q_func() method -- make it a const pointer, and possibly a const
 // pointer const, depending on the context of the class.
 #define ACCESS_QIMPL \
-    this_pubic_t* const q = q_func()
+    auto* const q = q_func()
 
 
 // Define a public class, defining the class and its corresponding private class in their respective namespaces, and

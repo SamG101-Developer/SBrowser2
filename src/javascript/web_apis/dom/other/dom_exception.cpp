@@ -1,10 +1,19 @@
-#include "dom_exception.hpp"
-#include "dom_exception_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
-#include INCLUDE_INNER_TYPES(dom)
+
+module apis.dom.dom_exception;
+import apis.dom.types;
+import apis._.base_exception;
+import ext.string;
+import ext.tuple;
+import js.env.module_type;
 
 
-dom::other::dom_exception::dom_exception(
+dom::dom_exception::dom_exception(
         ext::u8string&& message,
         base_exception<dom::detail::dom_exception_error_t>::exception_t type)
         : base_exception{std::move(message), std::move(type)}
@@ -13,10 +22,10 @@ dom::other::dom_exception::dom_exception(
 }
 
 
-auto dom::other::dom_exception::_to_v8(
+auto dom::dom_exception::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     using enum detail::dom_exception_error_t;
 

@@ -7,7 +7,7 @@
 #include "ext/keywords.ixx"
 
 
-#include "dom/abort/abort_signal.hpp"
+
 #include "dom/detail/shadow_internals.hpp"
 #include "dom/detail/tree_internals.hpp"
 #include "dom/events/event.hpp"

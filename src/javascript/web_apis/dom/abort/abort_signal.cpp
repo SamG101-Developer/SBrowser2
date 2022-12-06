@@ -1,39 +1,48 @@
-#include "abort_signal.hpp"
-#include "abort_signal_private.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
-#include "javascript/environment/realms_2.hpp"
-
-#include "dom/detail/aborting_internals.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/observer_internals.hpp"
-#include "dom/other/dom_exception.hpp"
-#include "dom/other/dom_exception_private.hpp"
-
-#include "html/detail/task_internals.hpp"
+#include <memory>
+#include <tl/optional.hpp>
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
-dom::abort::abort_signal::abort_signal()
+module apis.dom.abort_signal;
+import apis.dom.abort_signal_private;
+import apis.dom.dom_exception;
+import apis.dom.detail;
+import apis.dom.types;
+import ext.any;
+import ext.boolean;
+import ext.number;
+import ext.optional;
+import ext.tuple;
+import js.env.module_type;
+import js.env.realms;
+
+
+dom::abort_signal::abort_signal()
 {
-    INIT_PIMPL(abort_signal);
+    INIT_PIMPL;
 }
 
 
-auto dom::abort::abort_signal::abort(
-        ext::optional<ext::any>&& reason)
-        -> abort_signal
+auto dom::abort_signal::abort(ext::optional<ext::any>&& reason) -> std::unique_ptr<abort_signal>
 {
     using enum dom::detail::dom_exception_error_t;
 
     // Create a new AbortSignal (on the stack - not a node-like object), and mark it as aborted by giving it a 'reason';
     // this reason is either the 'reason' parameter, or a ABORT_ERR DomException object. Return the newly created signal
     // that is pre-aborted.
-    auto signal = abort_signal{};
-    signal.d_func()->abort_reason = std::move(reason).value_or(other::dom_exception{u8"", ABORT_ERR});
-    return signal;
+    auto signal = std::make_unique<abort_signal>();
+    signal->d_func()->abort_reason = std::move(reason).value_or(dom_exception{u8"", ABORT_ERR});
+    return std::move(signal);
 }
 
 
-auto dom::abort::abort_signal::timeout(ext::number<ulonglong> milliseconds) -> std::unique_ptr<abort_signal>
+auto dom::abort_signal::timeout(ext::number<ulonglong> milliseconds) -> std::unique_ptr<abort_signal>
 {
     using enum dom::detail::dom_exception_error_t;
 
@@ -59,9 +68,9 @@ auto dom::abort::abort_signal::timeout(ext::number<ulonglong> milliseconds) -> s
 }
 
 
-auto dom::abort::abort_signal::throw_if_aborted() -> void
+auto dom::abort_signal::throw_if_aborted() -> void
 {
-    ACCESS_PIMPL(abort_signal);
+    ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
 
     // If the 'reason' attribute has been set, throw a ABORT_ERR DomException, whose message is the DomException message
@@ -69,31 +78,31 @@ auto dom::abort::abort_signal::throw_if_aborted() -> void
     // created and thrown at the correct time.
     detail::throw_v8_exception<ABORT_ERR>(
             [d] {return d->aborted();},
-            d->abort_reason.to<dom::other::dom_exception>().d_func()->message);
+            d->abort_reason.to<dom_exception>().d_func()->message);
 }
 
 
-auto dom::abort::abort_signal::get_aborted() const -> ext::boolean
+auto dom::abort_signal::get_aborted() const -> ext::boolean
 {
     // The 'aborted' getter returns 'true' if the signal has aborted - this is checked by chekcing if the 'reason'
     // attribute is empty (=> not-aborted) or not (=> aborted).
-    ACCESS_PIMPL(const abort_signal);
+    ACCESS_PIMPL;
     return d->aborted();
 }
 
 
-auto dom::abort::abort_signal::get_reason() const -> ext::any
+auto dom::abort_signal::get_reason() const -> ext::any
 {
     // The 'reason' getter returns the equivalent 'reason' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abort_signal);
+    ACCESS_PIMPL;
     return d->abort_reason;
 }
 
 
-auto dom::abort::abort_signal::_to_v8(
+auto dom::abort_signal::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<event_target>()
