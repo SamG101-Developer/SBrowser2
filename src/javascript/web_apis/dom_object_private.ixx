@@ -2,7 +2,8 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include <function2/function2.hpp>
 
-export module apis.dom_object_private;
+
+export module apis._.dom_object_private;
 import ext.boolean;
 import ext.functional;
 import ext.memory;

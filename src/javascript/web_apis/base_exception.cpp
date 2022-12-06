@@ -1,68 +1,83 @@
-#include "base_exception.ixx"
-
-
-
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <memory>
+#include <utility>
 #include <magic_enum.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
-template <type_is_enum T>
+module apis._.base_exception;
+import apis._.base_exception_private;
+import ext.concepts;
+import ext.number;
+import ext.string;
+import ext.tuple;
+import js.env.module_type;
+
+
+template <ext::type_is_enum T>
 base_exception<T>::base_exception()
 {
-    INIT_PIMPL_TEMPLATED(base_exception, T);
+    INIT_PIMPL;
 }
 
 
-template <type_is_enum T>
+template <ext::type_is_enum T>
 base_exception<T>::base_exception(
-        ext::string&& message,
+        ext::u8string&& message,
         T&& code)
 {
-    INIT_PIMPL_TEMPLATED(base_exception, T);
-    ACCESS_PIMPL_TEMPLATED(base_exception, T);
+    INIT_PIMPL;
 
+    // Set the "message" and "code" attributes to their respective parameter values - use move / forward<T> as
+    // necessary.
+    ACCESS_PIMPL;
     d->message = std::move(message);
     d->code = std::forward<T>(code);
 }
 
 
-template <type_is_enum T>
+template <ext::type_is_enum T>
 auto base_exception<T>::get_message() const -> ext::string
 {
-    ACCESS_PIMPL_TEMPLATED(base_exception, T);
+    // Reflect the "message" attribute from the private class.
+    ACCESS_PIMPL;
     return d->message;
 }
 
 
-template <type_is_enum T>
+template <ext::type_is_enum T>
 auto base_exception<T>::get_code() const -> ext::number<size_t>
 {
-    ACCESS_PIMPL_TEMPLATED(base_exception, T);
+    // Take the "code" attribute from the private class, and return the enum-integer associated with it.
+    ACCESS_PIMPL;
     return magic_enum::enum_integer(d->code);
 }
 
 
-template <type_is_enum T>
+template <ext::type_is_enum T>
 auto base_exception<T>::get_name() const -> ext::string_view
 {
-    ACCESS_PIMPL_TEMPLATED(base_exception, T);
-    return magic_enum::enum_name(d->code) + u8"or"; // ERR -> err -> error
+    // Take the "name" attribute from the private class, and return the enum-name associated with it.
+    ACCESS_PIMPL;
+    return magic_enum::enum_name(d->code);
 }
 
 
-template <type_is_enum T>
-auto base_exception<T>::to_v8(
+template <ext::type_is_enum T>
+auto base_exception<T>::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<base_exception<T>>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .template inherit<dom_object>()
         .property("message", &base_exception<T>::get_message)
         .property("code", &base_exception<T>::get_code)
         .property("name", &base_exception<T>::get_name)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
-
-
-// TODO : define explicit enum types (DomException, MediaError, GeolocationPositionError corresponding error types)

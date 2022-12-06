@@ -5,8 +5,8 @@ module;
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
-module apis.dom_object;
-import apis.dom_object_private;
+module apis._.dom_object;
+import apis._.dom_object_private;
 import ext.tuple;
 import ext.string;
 import js.env.module_type;
@@ -14,7 +14,7 @@ import js.env.module_type;
 
 dom_object::dom_object()
 {
-    INIT_PIMPL(dom_object);
+    INIT_PIMPL;
 }
 
 

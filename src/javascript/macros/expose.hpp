@@ -1,10 +1,13 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP
 
+#include "ext/macros/language_shorthand.hpp"
+
 #include <tuplet/tuple.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 #include <v8pp/convert.hpp>
+
 
 
 // Shorthand macro to get the current isolate and current and save them into local variables, to avoid having to make
@@ -25,7 +28,7 @@
 // v8pp::class_ object, with its properties, methods, constructors etc all added.
 #define V8_INTEROP_CREATE_JS_OBJECT                                           \
     return_if (~(E & _allowed_v8_environments)) V8_INTEROP_FAILED_CONVERSION; \
-    decltype(auto) v8_conversion = v8pp::class_<self_t>{isolate}
+    decltype(auto) v8_conversion = v8pp::class_<this_t>{isolate}
 
 
 // Extend an existing V8 conversion with more properties and methods etc, used when objects have certain extra members

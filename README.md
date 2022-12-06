@@ -29,7 +29,7 @@ Currently undergoing Major Refactor 4.0
     - Convert all #include -> imports (remove transitives)
     - Move methods into PIMPL .cpp file of the class they mainly revolve around (ie trees -> dom::event_target_private)
 
-- *
+- All
     - Convert all .hpp -> .ixx modules (c++ modernization)
     - Convert all #include -> imports (remove transitives)
     - Convert all inherited classes into FQN (consistent for other-spec inheritance)

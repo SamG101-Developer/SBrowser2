@@ -53,11 +53,11 @@ _EXT_BEGIN
     auto make_repeat_tuple()
     {return make_repeat_tuple<T>(std::make_index_sequence<N>{});}
 _EXT_END
-
-
-/*
- * https://stackoverflow.com/questions/37093920/function-to-generate-a-tuple-given-a-size-n-and-a-type-t
- * https://stackoverflow.com/a/37094024/10862918
- * https://stackoverflow.com/users/2756719/t-c
- * 15/11/2022 16:00
- */
+//
+//
+// /*
+//  * https://stackoverflow.com/questions/37093920/function-to-generate-a-tuple-given-a-size-n-and-a-type-t
+//  * https://stackoverflow.com/a/37094024/10862918
+//  * https://stackoverflow.com/users/2756719/t-c
+//  * 15/11/2022 16:00
+//  */
