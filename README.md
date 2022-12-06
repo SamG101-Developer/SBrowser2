@@ -12,7 +12,7 @@ rendering.
 
 
 ## Note
-Currently undergoing Major Refactor 4.0
+Major Refactor 4 Plan
 
 - Public .hpp/.cpp
     - Remove intermediate namespaces (dom::nodes::node -> dom::node)
@@ -28,6 +28,7 @@ Currently undergoing Major Refactor 4.0
 - Detail .hpp/.cpp
     - Convert all #include -> imports (remove transitives)
     - Move methods into PIMPL .cpp file of the class they mainly revolve around (ie trees -> dom::event_target_private)
+    - Raw pointer -> observer_ptr
 
 - All
     - Convert all .hpp -> .ixx modules (c++ modernization)
@@ -38,4 +39,4 @@ Currently undergoing Major Refactor 4.0
     - Make all ext::any, ext::variant, ext::optional, ext::expected parameters to r-value-references&& and use std::move
     - Const correctness
     - Auto correctness
-
+    - Mark classes as final

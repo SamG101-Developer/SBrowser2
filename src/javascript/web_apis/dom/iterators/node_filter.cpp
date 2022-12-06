@@ -1,38 +1,48 @@
-#include "node_filter.hpp"
-#include "node_filter_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <memory>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
+
+module apis.dom.node_filter;
+import apis.dom.node_filter_private;
+import ext.tuple;
+import ext.type_traits;
+import js.env.module_type;
 
 
-dom::node_iterators::node_filter::node_filter()
+dom::node_filter::node_filter()
 {
-    INIT_PIMPL(node_filter)
+    INIT_PIMPL;
 
-    ACCESS_PIMPL(node_filter);
-    d->accept_node_callback = [](const nodes::node*) {return FILTER_ACCEPT;};
+    ACCESS_PIMPL;
+    d->accept_node_callback = [](node*) {return FILTER_ACCEPT;};
 }
 
 
-auto dom::node_iterators::node_filter::get_accept_node() const -> detail::accept_callback_t
+auto dom::node_filter::get_accept_node() const -> ext::view_of_t<accept_callback_t>
 {
     // The 'accept_node' getter returns the equivalent 'accept_node' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const node_filter);
+    ACCESS_PIMPL;
     return d->accept_node_callback;
 }
 
 
-auto dom::node_iterators::node_filter::set_accept_node(detail::accept_callback_t new_accept_node) -> detail::accept_callback_t
+auto dom::node_filter::set_accept_node(accept_callback_t&& new_accept_node) -> ext::view_of_t<accept_callback_t&&>
 {
     // The 'accept_node' setter returns the equivalent 'accept_node' attribute value that is stored in the private
     // class, after being set to the 'new_accept_node' value.
-    ACCESS_PIMPL(node_filter);
+    ACCESS_PIMPL;
     d->accept_node_callback = std::move(new_accept_node);
 }
 
 
-auto dom::node_iterators::node_filter::_to_v8(
+auto dom::node_filter::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .static_("FILTER_ACCEPT", node_filter::FILTER_ACCEPT, true)

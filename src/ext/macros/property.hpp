@@ -1,6 +1,8 @@
 #ifndef SBROWSER2_SRC_EXT_MACROS_PROPERTY_HPP
 #define SBROWSER2_SRC_EXT_MACROS_PROPERTY_HPP
 
+#include "ext/macros/namespaces.hpp"
+
 
 // This macro forwards an assignment value of a class into a setter instead. It works slightly different than in web
 // specs: the actual code operation is the same, but how and where the macro is defined is different.
@@ -12,12 +14,12 @@
 
 // Define a getter for a property and its type
 #define DEFINE_GETTER(p, t) \
-    auto get_ ## p() const -> t
+    auto get_ ## p() const -> ext::view_of_t<t>
 
 
 // Define a setter for a property and its type
 #define DEFINE_SETTER(p, t) \
-    auto set_ ## p(t new_ ## p) -> t
+    auto set_ ## p(t new_ ## p) -> ext::view_of_t<t>
 
 
 // Define a static getter for a property and its type

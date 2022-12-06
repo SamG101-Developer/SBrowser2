@@ -65,15 +65,8 @@ _EXT_BEGIN
             _EXT type_is_any_specialization<T, std::basic_string_view>;
 
     export template <typename T>
-    concept char_like = requires
-    {_EXT type_is<T, char8_t, char16_t, char32_t>;};
-
-    export template <string_like T>
-    struct view_of
-    {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
-
-    export template <string_like T>
-    using view_of_t = typename view_of<std::remove_cvref_t<T>>::type;
+    concept char_like =
+            _EXT type_is<T, char8_t, char16_t, char32_t>;
 
     export template <_EXT string_like S>
     constexpr auto snake_to_camel(S&& string) noexcept -> S;

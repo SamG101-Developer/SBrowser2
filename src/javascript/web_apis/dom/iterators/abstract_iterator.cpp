@@ -1,17 +1,19 @@
-#include "abstract_iterator.hpp"
-#include "abstract_iterator_private.hpp"
-
-#include "dom/detail/traversal_internals.hpp"
-#include "dom/iterators/node_filter.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/other/dom_implementation.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
-dom::node_iterators::abstract_iterator::abstract_iterator()
+module apis.dom.abstract_iterator;
+import ext.number;
+import ext.tuple;
+import js.env.module_type;
+
+
+dom::abstract_iterator::abstract_iterator()
 {
-    INIT_PIMPL(abstract_iterator);
-    ACCESS_PIMPL(abstract_iterator);
+    INIT_PIMPL;
+    ACCESS_PIMPL;
 
     d->filter = nullptr;
     d->root = nullptr;
@@ -19,35 +21,35 @@ dom::node_iterators::abstract_iterator::abstract_iterator()
 }
 
 
-auto dom::node_iterators::abstract_iterator::get_filter() const -> node_filter*
+auto dom::abstract_iterator::get_filter() const -> node_filter*
 {
     // The 'filter' getter returns the equivalent 'filter' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abstract_iterator);
+    ACCESS_PIMPL;
     return d->filter.get();
 }
 
 
-auto dom::node_iterators::abstract_iterator::get_root() const -> nodes::node*
+auto dom::abstract_iterator::get_root() const -> nodes::node*
 {
     // The 'root' getter returns the equivalent 'root' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abstract_iterator);
+    ACCESS_PIMPL;
     return d->root.get();
 }
 
 
-auto dom::node_iterators::abstract_iterator::get_what_to_show() const -> ext::number<ulong>
+auto dom::abstract_iterator::get_what_to_show() const -> ext::number<ulong>
 {
     // The 'what_to_show' getter returns the equivalent 'what_to_show' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const abstract_iterator);
+    ACCESS_PIMPL;
     return d->what_to_show;
 }
 
 
-auto dom::node_iterators::abstract_iterator::_to_v8(
+auto dom::abstract_iterator::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

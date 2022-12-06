@@ -136,11 +136,4 @@ _EXT_BEGIN
 
     export template <typename T>
     using vector_span = _EXT same_iterator_span<T, typename _EXT vector<T>::const_iterator>;
-
-    export template <typename T>
-    struct span_of
-    {using type = _EXT span<typename T::value_type, decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;};
-
-    export template <typename T>
-    using span_of_t = typename span_of<std::remove_cvref_t<T>>::type;
 _EXT_END

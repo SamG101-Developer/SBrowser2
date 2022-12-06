@@ -1,11 +1,11 @@
-#include "node_iterator.hpp"
-#include "node_iterator_private.hpp"
+#include "node_iterator.ixx"
+#include "node_iterator_private.ixx"
 
 #include "dom/detail/traversal_internals.hpp"
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/document.hpp"
 #include "dom/other/dom_implementation.hpp"
-#include "dom/iterators/node_filter.hpp"
+
 
 
 dom::node_iterators::node_iterator::node_iterator()

@@ -1,12 +1,12 @@
-#include "tree_walker.hpp"
-#include "tree_walker_private.hpp"
+#include "tree_walker.ixx"
+#include "tree_walker_private.ixx"
 
 
 
 
 #include "dom/detail/tree_internals.hpp"
 #include "dom/detail/traversal_internals.hpp"
-#include "dom/iterators/node_filter.hpp"
+
 #include "dom/nodes/document.hpp"
 #include "dom/nodes/element.hpp"
 #include "dom/nodes/node.hpp"
