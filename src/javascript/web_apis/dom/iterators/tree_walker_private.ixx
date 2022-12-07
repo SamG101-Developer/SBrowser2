@@ -9,7 +9,6 @@ import ext.memory;
 namespace dom {class node;}
 
 
-
 DEFINE_PRIVATE_CLASS(dom, tree_walker)
         : dom::abstract_iterator_private
 {

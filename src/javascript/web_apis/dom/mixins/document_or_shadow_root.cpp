@@ -1,5 +1,5 @@
-#include "document_or_shadow_root.hpp"
-#include "document_or_shadow_root_private.hpp"
+#include "document_or_shadow_root.ixx"
+#include "document_or_shadow_root_private.ixx"
 
 
 auto dom::mixins::document_or_shadow_root::_to_v8(

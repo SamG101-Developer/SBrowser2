@@ -13,7 +13,8 @@ import ext.tuple;
 import ext.type_traits;
 import js.env.module_type;
 
-namespace dom {class node; class node_filter;}
+namespace dom {class node;}
+namespace dom {class node_filter;}
 
 
 DEFINE_PUBLIC_CLASS(dom, abstract_iterator)

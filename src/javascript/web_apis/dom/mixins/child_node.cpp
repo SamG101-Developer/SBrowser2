@@ -1,21 +1,15 @@
-#include "child_node.ixx"
-#include "child_node_private.ixx"
-
-
-
-#include "dom/detail/customization_internals.hpp"
-#include "dom/detail/mutation_internals.hpp"
-#include "dom/detail/node_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
-
+module;
+#include "ext/macros/language_shorthand.hpp
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/set_algorithm.hpp>
 
 
+module apis.dom.mixins.child_node;
+import ext.casting;
+
+
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::mixins::child_node::before(T&&... nodes) -> nodes::node*
+auto dom::child_node::before(T&&... nodes) -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -44,7 +38,7 @@ auto dom::mixins::child_node::before(T&&... nodes) -> nodes::node*
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::mixins::child_node::after(T&&... nodes) -> nodes::node*
+auto dom::child_node::after(T&&... nodes) -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -72,7 +66,7 @@ auto dom::mixins::child_node::after(T&&... nodes) -> nodes::node*
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::mixins::child_node::replace_with(T&& ...nodes) -> nodes::node*
+auto dom::child_node::replace_with(T&& ...nodes) -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -103,7 +97,7 @@ auto dom::mixins::child_node::replace_with(T&& ...nodes) -> nodes::node*
 }
 
 
-auto dom::mixins::child_node::remove() -> nodes::node*
+auto dom::child_node::remove() -> nodes::node*
 {
     CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -120,7 +114,7 @@ auto dom::mixins::child_node::remove() -> nodes::node*
 }
 
 
-auto dom::mixins::child_node::_to_v8(
+auto dom::child_node::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

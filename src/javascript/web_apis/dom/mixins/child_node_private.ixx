@@ -2,7 +2,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-export module apis.dom.mixins.child_node;
+export module apis.dom.mixins.child_node_private;
 import apis._.dom_object_private;
 
 

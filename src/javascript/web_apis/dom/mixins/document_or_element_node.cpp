@@ -1,29 +1,19 @@
-#include "document_or_element_node.hpp"
-#include "document_or_element_node_private.hpp"
-
-
-
-
-
-#include "dom/detail/node_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/document_private.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/element_private.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
-
+module;
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/algorithm/all_of.hpp>
 
+module apis.dom.mixins.document_or_element_node;
+import ext.casting;
+import ext.ranges;
+import ext.string;
 
-auto dom::mixins::document_or_element_node::get_elements_by_class_name(
+
+auto dom::document_or_element_node::get_elements_by_class_name(
         const ext::string_view class_names)
-        const -> ranges::any_view<nodes::element*>
+        const -> ranges::any_helpful_view<element*>
 {
-    decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
+    decltype(auto) base = ext::cross_cast<const node*>(this);
 
     // Split the class names of a Node by spaces, and determine 'lower', which causes everything to be compared in
     // lowercase; if 'lower' is true, then convert the 'class_names' list into lowercase strings.
@@ -50,7 +40,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_class_name(
 }
 
 
-auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
+auto dom::document_or_element_node::get_elements_by_tag_name(
         ext::string_view qualified_name)
         const -> ranges::any_view<nodes::element*>
 {
@@ -83,7 +73,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
 }
 
 
-auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
+auto dom::document_or_element_node::get_elements_by_tag_name_ns(
         const ext::string_view namespace_,
         const ext::string_view local_name)
         const -> ranges::any_view<nodes::element*>
@@ -112,7 +102,7 @@ auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
 }
 
 
-auto dom::mixins::document_or_element_node::_to_v8(
+auto dom::document_or_element_node::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>
