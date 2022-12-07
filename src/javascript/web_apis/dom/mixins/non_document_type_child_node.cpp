@@ -1,16 +1,9 @@
-#include "non_document_type_child_node.hpp"
-#include "non_document_type_child_node_private.hpp"
-
-
-
-
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
-
+module;
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/view/slice.hpp>
 #include <range/v3/view/subrange.hpp>
+
+module apis.dom.mixins.non_document_type_child_node;
 
 
 auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const -> nodes::element*

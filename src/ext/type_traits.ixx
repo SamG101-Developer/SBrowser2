@@ -19,15 +19,15 @@ import ext.span;
 import ext.variant;
 
 
-#define DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(_TemplateParameter_t, _Name, _DefaultType) \
-    template <_TemplateParameter_t T>                                                                   \
-    struct _Name {using type = _DefaultType;};                                                          \
-                                                                                                        \
-    template <_TemplateParameter_t T>                                                                   \
+#define _DEFINE_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPES(_TemplateParameter_t, _Name, _DefaultType) \
+    template <_TemplateParameter_t T>                                                                    \
+    struct _Name {using type = _DefaultType;};                                                           \
+                                                                                                         \
+    template <_TemplateParameter_t T>                                                                    \
     using _Name##_t = typename _Name<T>::type
 
-#define ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(_Name, _Specialization, _Ret_t) \
-    template<>                                                                           \
+#define _ADD_TEMPLATE_FUNCTION_SPECIALIZATION_RETURN_TYPE(_Name, _Specialization, _Ret_t) \
+    template<>                                                                            \
     struct _Name<_Specialization> {using type = _Ret_t;}
 
 
@@ -54,7 +54,7 @@ _EXT_BEGIN
     struct view_of<T>
     {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
 
-    export template <_EXT iterable T>
+    export template <_EXT pure_iterable T>
     struct view_of<T>
     {using type = _EXT span<typename T::value_type, decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;};
 

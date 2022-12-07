@@ -117,7 +117,7 @@ auto dom::event::composed_path() const -> ext::vector<event_target*>
     // Set the 'current_hidden_level' and 'max_hidden_level' level to the 'current_target_hidden_subtree_level', and the
     // iterator to the target - 1 (start on node before target). This is because this part of the method takes the nodes
     // FROM the 'current_target' TO the beginning of the event's 'path', so the information has to start matching the
-    // 'currnent_target'.
+    // 'current_target'.
     current_hidden_level = current_target_hidden_subtree_level;
     max_hidden_level     = current_target_hidden_subtree_level;
     iterator             = current_target_index - 1;
@@ -143,7 +143,7 @@ auto dom::event::composed_path() const -> ext::vector<event_target*>
     // Set the 'current_hidden_level' and 'max_hidden_level' level to the 'current_target_hidden_subtree_level', and the
     // iterator to the target + 1 (start on node before target). This is because this part of the method takes the nodes
     // FROM the 'current_target' TO the end of the event's 'path', so the information has to start matching the
-    // 'currnent_target'.
+    // 'current_target'.
     current_hidden_level = current_target_hidden_subtree_level;
     max_hidden_level     = current_target_hidden_subtree_level;
     iterator             = current_target_index + 1;

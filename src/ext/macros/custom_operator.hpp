@@ -1,6 +1,9 @@
-#pragma once
-#ifndef SBROWSER2_CUSTOM_OPERATOR_HPP
-#define SBROWSER2_CUSTOM_OPERATOR_HPP
+#ifndef SBROWSER2_SRC_EXT_MACROS_CUSTOM_OPERATOR_HPP
+#define SBROWSER2_SRC_EXT_MACROS_CUSTOM_OPERATOR_HPP
+
+#include <thread>
+#include <stdexcept>
+#include <algorithm>
 
 
 #define custom_operator(name)                                  \
@@ -39,7 +42,7 @@ custom_operator(try_or)
     catch (...) {return b;}
 }
 
-#define try_or <try_or>
+#define _TRY_OR <try_or>
 
 
 // prefix unary operators
@@ -48,7 +51,7 @@ custom_operator(clamp)
     auto r = std::clamp(b.min(), b.max(), b);
     static_cast<void>(r);
 }
-#define js_clamp 0 <clamp>
+#define _JS_CLAMP 0 <clamp>
 
 
 custom_operator(enforce_range)
@@ -56,26 +59,26 @@ custom_operator(enforce_range)
     if (b < b.min() || b > b.max())
         throw std::out_of_range{"Number out of range"};
 }
-#define js_enforce_range 0 <enforce_range>
+#define _JS_ENFORCE_RANGE 0 <enforce_range>
 
 
 custom_operator(go)
 {
     std::jthread _thread{b};
 }
-#define GO 0 <go>
+#define _GO 0 <go>
 
 
 // postfix unary operators
 
 
 
-#define CE_REACTIONS_METHOD_DEF \
+#define _CE_REACTIONS_METHOD_DEF \
     auto _ce_method = [&]{
 
 
 // TODO : if the function '_ce_method(...)' doesn't have a return value then branch and complete with no return
-#define CE_REACTIONS_METHOD_EXE                                                                      \
+#define _CE_REACTIONS_METHOD_EXE                                                                      \
     };                                                                                               \
     {                                                                                                \
         using _stack_t = dom::detail::custom_element_reactions_stack_t;                              \
@@ -95,9 +98,9 @@ custom_operator(go)
     }
 
 
-#define HTML_CONSTRUCTOR     \
+#define _HTML_CONSTRUCTOR     \
     {                        \
         JS_REALM_GET_CURRENT \
     }
 
-#endif //SBROWSER2_CUSTOM_OPERATOR_HPP
+#endif //SBROWSER2_SRC_EXT_MACROS_CUSTOM_OPERATOR_HPP

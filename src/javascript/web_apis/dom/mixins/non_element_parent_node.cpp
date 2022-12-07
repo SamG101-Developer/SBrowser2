@@ -1,15 +1,8 @@
-#include "non_element_parent_node.hpp"
-#include "non_element_parent_node_private.hpp"
-
-
-
-
-
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/element_private.hpp"
-#include "dom/detail/tree_internals.hpp"
-
+module;
 #include <range/v3/view/filter.hpp>
+
+
+module apis.dom.mixins.non_element_parent_node;
 
 
 auto dom::mixins::non_element_parent_node::get_element_by_id(const ext::string_view id) -> nodes::element*

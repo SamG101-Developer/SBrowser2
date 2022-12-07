@@ -26,6 +26,16 @@ _EXT_BEGIN
     concept iterable = requires (T object)
     {object.begin(); object.end();};
 
+    // Check if an iterable is a range-v3 view -- if the begin() and end() methods are different types then the end()
+    // type is a sentinel.
+    export template <typename T>
+    concept range_iterable =
+            iterable<T> && !std::is_same_v<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;
+
+    export template <typename T>
+    concept pure_iterable =
+            iterable<T> && std::is_same_v<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;
+
     // Check if a type is a smart pointer -- to be a smart pointer it's get() method that access the underlying object
     // much return the same pointer as the address of the dereference operator (which returns the reference to the
     // object underlying the smart pointer).
