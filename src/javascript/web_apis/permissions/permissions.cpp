@@ -2,8 +2,8 @@
 
 
 
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/window.hpp"
+
+
 
 #include "permissions/detail/permission_internals.hpp"
 #include "permissions/permission_status.hpp"

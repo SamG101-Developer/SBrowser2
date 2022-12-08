@@ -1,7 +1,7 @@
 #include "html_table_col_element.hpp"
 #include "html_table_col_element_private.hpp"
 
-#include "dom/detail/customization_internals.hpp"
+
 
 
 auto html::elements::html_table_col_element::get_span() const -> ext::number<ulong>

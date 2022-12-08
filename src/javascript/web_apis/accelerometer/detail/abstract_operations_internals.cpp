@@ -4,8 +4,8 @@
 #include "accelerometer/accelerometer.hpp"
 #include "accelerometer/accelerometer_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "sensors/_typedefs.hpp"
 #include "sensors/detail/sensor_internals.hpp"

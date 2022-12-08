@@ -4,7 +4,7 @@
 
 #include INCLUDE_INNER_TYPES(dom)
 
-#include "dom/detail/exception_internals.hpp"
+
 
 #include "payment_request/payment_method_change_event.hpp"
 #include "payment_request/payment_method_change_event_private.hpp"

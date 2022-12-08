@@ -7,7 +7,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 
 #include "css/geometry/dom_matrix.hpp"
-#include "dom/detail/exception_internals.hpp"
+
 #include "sensors/detail/sensor_internals.hpp"
 
 #include <qmatrix4x4.h>

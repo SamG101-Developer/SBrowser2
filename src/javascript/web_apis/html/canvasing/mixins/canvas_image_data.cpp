@@ -3,7 +3,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
 
-#include "dom/detail/exception_internals.hpp"
+
 
 #include "html/canvasing/canvas_rendering_context_2d.hpp"
 #include "html/canvasing/image_bitmap.hpp"

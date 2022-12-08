@@ -1,12 +1,12 @@
 #ifndef SBROWSER2_DOCUMENT_HPP
 #define SBROWSER2_DOCUMENT_HPP
 
-#include "dom/nodes/node.hpp"
-#include "dom/mixins/document_or_element_node.hpp"
-#include "dom/mixins/document_or_shadow_root.hpp"
-#include "dom/mixins/non_element_parent_node.hpp"
-#include "dom/mixins/parentable_node.hpp"
-#include "dom/xpath/xpath_evaluator_base.hpp"
+
+
+
+
+
+
 #include "ext/map_like.ixx"
 namespace dom::nodes {class document;}
 namespace dom::nodes {class document_private;}

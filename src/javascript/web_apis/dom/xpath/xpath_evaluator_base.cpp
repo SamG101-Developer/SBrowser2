@@ -1,8 +1,8 @@
 #include "xpath_evaluator_base.hpp"
 
-#include "dom/xpath/xpath_expression.hpp"
-#include "dom/xpath/xpath_ns_resolver.hpp"
-#include "dom/xpath/xpath_result.hpp"
+
+
+
 
 
 auto dom::xpath::xpath_evaluator_base::to_v8(

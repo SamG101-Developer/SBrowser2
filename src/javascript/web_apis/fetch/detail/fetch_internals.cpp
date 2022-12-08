@@ -17,7 +17,7 @@
 #include "webappsec_cowl/detail/algorithm_internals.hpp"
 #include "webappsec_csp/detail/integration_internals.hpp"
 #include "webappsec_mixed_content/detail/algorithm_internals.hpp"
-#include "dom/nodes/window.hpp"
+
 #include "hr_time/detail/time_internals.hpp"
 #include "url/detail/url_internals.hpp"
 

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_COMMENT_HPP
 #define SBROWSER2_COMMENT_HPP
 
-#include "dom/nodes/character_data.hpp"
+
 namespace dom::nodes {class comment;}
 namespace dom::nodes {class comment_private;}
 

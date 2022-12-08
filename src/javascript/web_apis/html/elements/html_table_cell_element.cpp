@@ -1,7 +1,7 @@
 #include "html_table_cell_element.hpp"
 #include "html_table_cell_element_private.hpp"
 
-#include "dom/detail/customization_internals.hpp"
+
 #include "html/elements/html_table_row_element.hpp"
 #include "html/elements/html_table_row_element_private.hpp"
 

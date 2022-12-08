@@ -3,8 +3,8 @@
 
 
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "mediacapture_main/detail/track_internals.hpp"
 #include "mediacapture_main/media_stream.hpp"

@@ -4,8 +4,8 @@
 
 
 
-#include "dom/_typedefs.hpp"
-#include "dom/other/dom_exception.hpp"
+
+
 
 #include "html/workers/worker_global_scope.hpp"
 #include "media_capabilities/detail/configuration_internals.hpp"

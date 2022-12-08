@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_OVERCONSTRAINED_ERROR_HPP
 #define SBROWSER2_OVERCONSTRAINED_ERROR_HPP
 
-#include "dom/other/dom_exception.hpp"
+
 namespace mediacapture::main::other {class overconstrained_error;}
 namespace mediacapture::main::other {class overconstrained_error_private;}
 

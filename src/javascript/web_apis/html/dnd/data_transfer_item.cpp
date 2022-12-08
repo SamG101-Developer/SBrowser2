@@ -1,7 +1,7 @@
 #include "data_transfer_item.hpp"
 #include "data_transfer_item_private.hpp"
 
-#include "dom/detail/observer_internals.hpp"
+
 #include "file_api/file.hpp"
 
 #include "html/_typedefs.hpp"

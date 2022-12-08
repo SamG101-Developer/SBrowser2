@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIACAPTURE_MAIN_OTHER_OVERCONSTRAINED_ERROR_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/other/dom_exception.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(mediacapture::main::other, overconstrained_error) : dom::other::dom_exception

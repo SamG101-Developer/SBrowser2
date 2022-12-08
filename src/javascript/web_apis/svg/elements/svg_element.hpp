@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SVG_ELEMENT_HPP
 #define SBROWSER2_SVG_ELEMENT_HPP
 
-#include "dom/nodes/element.hpp"
+
 //#include "svg/mixins/svg_element_instance.hpp"
 #include "html/mixins/html_or_svg_element.hpp"
 #include "css/cssom/mixins/element_css_inline_style.hpp"

@@ -5,9 +5,9 @@
 
 #include "ext/assertion.hpp"
 
-#include "dom/detail/exception_internals.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/element.hpp"
+
+
+
 #include "intersection_observer/detail/algorithm_internals.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>

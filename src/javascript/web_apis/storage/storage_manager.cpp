@@ -6,7 +6,7 @@
 
 #include "javascript/interop/error_macros.hpp"
 
-#include "dom/detail/observer_internals.hpp"
+
 #include "html/detail/task_internals.hpp"
 #include "permissions/_typedefs.hpp"
 #include "permissions/detail/permission_internals.hpp"

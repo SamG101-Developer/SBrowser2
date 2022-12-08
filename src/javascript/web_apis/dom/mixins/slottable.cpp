@@ -1,25 +1,29 @@
-#include "slottable.hpp"
-#include "slottable_private.hpp"
+module;
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
+#include "javascript/macros/expose.hpp"
 
 
-#include "dom/nodes/node.hpp"
-#include "dom/detail/shadow_internals.hpp"
-#include "html/elements/html_slot_element.hpp"
+module apis.dom.mixins.slottable;
+import ext.casting;
+import ext.type_traits;
+import ext.tuple;
+import js.env.module_type;
 
 
-auto dom::mixins::slottable::get_assigned_slot() const -> html::elements::html_slot_element*
+auto dom::slottable::get_assigned_slot() const -> ext::view_of_t<html::html_slot_element*>
 {
     // Find a slot for this class, cast as a Node object. Return the found slot.
-    decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
+    decltype(auto) base = ext::cross_cast<const node*>(this);
     decltype(auto) slot = detail::find_slot(base, true);
     return slot;
 }
 
 
-auto dom::mixins::slottable::_to_v8(
+auto dom::slottable::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

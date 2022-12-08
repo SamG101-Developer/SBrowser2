@@ -1,8 +1,8 @@
 #include "web_socket.hpp"
 #include "web_socket_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "encoding/detail/encoding_internals.hpp"
 #include "file_api/detail/blob_internals.hpp"

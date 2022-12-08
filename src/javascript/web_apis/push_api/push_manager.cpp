@@ -8,8 +8,8 @@
 #include INCLUDE_INNER_TYPES(permissions)
 #include INCLUDE_INNER_TYPES(push_api)
 
-#include "dom/detail/observer_internals.hpp"
-#include "dom/other/dom_exception.hpp"
+
+
 
 #include "html/detail/task_internals.hpp"
 #include "permissions/detail/permission_internals.hpp"

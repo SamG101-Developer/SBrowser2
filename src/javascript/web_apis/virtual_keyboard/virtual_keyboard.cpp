@@ -3,9 +3,9 @@
 
 #include "css/geometry/dom_rect.hpp"
 
-#include "dom/detail/event_internals.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
+
 
 #include "virtual_keyboard/detail/virtual_keyboard_internals.hpp"
 

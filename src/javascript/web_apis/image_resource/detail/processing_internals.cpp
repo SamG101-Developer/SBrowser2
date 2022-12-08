@@ -8,8 +8,8 @@
 
 #include INCLUDE_INNER_TYPES(image_resource)
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/body_internals.hpp"

@@ -7,8 +7,8 @@
 #include "service_workers/clients/client.hpp"
 #include "service_workers/detail/job_internals.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/observer_internals.hpp"
+
+
 
 #include "html/_typedefs.hpp"
 #include "html/detail/task_internals.hpp"

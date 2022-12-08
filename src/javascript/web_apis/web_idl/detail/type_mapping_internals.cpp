@@ -1,6 +1,6 @@
 #include "type_mapping_internals.hpp"
 
-#include "dom/detail/observer_internals.hpp"
+
 #include "ext/array_buffer.hpp"
 #include "v8-forward.h"
 #include "v8-promise.h"

@@ -2,10 +2,10 @@
 
 
 
-#include "dom/detail/event_internals.hpp"
-#include "dom/detail/observer_internals.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
+
+
 
 #include "html/detail/task_internals.hpp"
 #include "html/navigators/navigator.hpp"

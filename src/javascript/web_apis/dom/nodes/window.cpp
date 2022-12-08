@@ -7,9 +7,9 @@
 
 #include "background_tasks/detail/processing_internals.hpp"
 
-#include "dom/detail/observer_internals.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/document_private.hpp"
+
+
+
 
 #include "html/detail/context_internals.hpp"
 #include "html/detail/task_internals.hpp"

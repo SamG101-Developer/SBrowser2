@@ -5,7 +5,7 @@
 
 namespace indexed_db {class idb_request;}
 
-#include "dom/other/dom_exception.hpp"
+
 namespace indexed_db {class idb_cursor;}
 namespace indexed_db {class idb_index;}
 namespace indexed_db {class idb_object_store;}

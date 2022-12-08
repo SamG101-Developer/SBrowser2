@@ -62,11 +62,9 @@ export namespace dom::detail
     using exception_condiditional_t = ext::function<bool()>;
     using event_listener_callback_t = ext::function<void(ext::string, event*), void()>;
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
-    using mutation_callback_t = ext::function<void(const ext::vector<mutation_record*>&, mutation_observer*)>;
     using static_range_init_t = ext::map<ext::string, ext::any>;
     // using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::html_script_element>, std::unique_ptr<svg::svg_script_element>>;
-    using mutation_observer_init_t = ext::map<ext::string, ext::any>;
     using lifecycle_callback_t = ext::function<void()>;
     using html_element_constructor_t = ext::function<element*()>;
 }

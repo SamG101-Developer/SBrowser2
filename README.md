@@ -40,3 +40,6 @@ Major Refactor 4 Plan
     - Const correctness
     - Auto correctness
     - Mark classes as final
+    
+Notes
+    - For types specific to classes: store in private class and switch DEFINE_PUBLIC_CLASS macro to import not forward-declare private class?

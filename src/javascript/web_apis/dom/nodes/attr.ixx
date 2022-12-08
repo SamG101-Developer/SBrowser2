@@ -1,20 +1,27 @@
-#ifndef SBROWSER2_ATTR_HPP
-#define SBROWSER2_ATTR_HPP
-
-#include "dom/nodes/node.hpp"
-namespace dom::nodes {class attr;}
-namespace dom::nodes {class attr_private;}
-
-namespace dom::nodes {class element;}
-namespace dom::nodes {class node;}
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-class dom::nodes::attr final
+export module apis.dom.attr;
+import apis.dom.node;
+import ext.number;
+import ext.string;
+import ext.tuple;
+import ext.type_traits;
+import js.env.module_type;
+
+namespace dom {class element;}
+
+
+DEFINE_PUBLIC_CLASS(dom, attr) final
         : public node
 {
 public friends:
-    friend class dom::nodes::element;
-    friend class dom::nodes::node;
+    friend class dom::element;
+    friend class dom::node;
 
 public constructors:
     attr();
@@ -39,6 +46,3 @@ private js_properties:
 
     DEFINE_SETTER(value, ext::string);
 };
-
-
-#endif //SBROWSER2_ATTR_HPP

@@ -1,8 +1,8 @@
 #include "crop_target.hpp"
 #include "crop_target_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 
 mediacapture::region::crop_target::crop_target()

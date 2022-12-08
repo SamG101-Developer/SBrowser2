@@ -2,10 +2,10 @@
 
 
 
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/document_private.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
+
+
 
 #include "geolocation/_typedefs.hpp"
 #include "geolocation/geolocation.hpp"

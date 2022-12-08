@@ -1,8 +1,8 @@
 #include "readable_stream_byob_reader.hpp"
 #include "readable_stream_byob_reader_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "streams/detail/readable_abstract_operations_internals.hpp"
 #include "web_idl/detail/type_mapping_internals.hpp"

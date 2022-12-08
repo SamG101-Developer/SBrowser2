@@ -1,8 +1,8 @@
 #include "file_system_sync_access_handle.hpp"
 #include "file_system_sync_access_handle_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "filesystem/detail/file_internals.hpp"
 #include "web_idl/detail/type_mapping_internals.hpp"

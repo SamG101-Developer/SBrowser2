@@ -1,22 +1,22 @@
 #include "custom_element_registry.hpp"
 #include "custom_element_registry_private.hpp"
 
-#include "dom/detail/shadow_internals.hpp"
+
 
 
 
 #include "javascript/interop/manual_primitive_conversions/convert_string.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/customization_internals.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/namespace_internals.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/element_private.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
+
+
+
+
+
+
+
+
 
 
 auto html::other::custom_element_registry::define(

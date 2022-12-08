@@ -1,5 +1,5 @@
 #include "html_image_element.hpp"
-#include "dom/_typedefs.hpp"
+
 #include "html/_typedefs.hpp"
 #include "html_image_element_private.hpp"
 
@@ -7,11 +7,11 @@
 
 #include "javascript/environment/reflection.hpp"
 
-#include "dom/detail/customization_internals.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/node_internals.hpp"
-#include "dom/detail/observer_internals.hpp"
-#include "dom/other/dom_exception.hpp"
+
+
+
+
+
 
 #include "html/detail/image_internals.hpp"
 #include "html/detail/miscellaneous_internals.hpp"

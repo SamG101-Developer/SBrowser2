@@ -3,10 +3,10 @@
 
 #include "javascript/environment/feature_support.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/observer_internals.hpp"
-#include "dom/nodes/document.hpp"
+
+
+
+
 
 #include "file_api/file.hpp"
 #include "file_api/file_private.hpp"

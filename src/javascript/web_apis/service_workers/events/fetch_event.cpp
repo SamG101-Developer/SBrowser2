@@ -1,8 +1,8 @@
 #include "fetch_event.hpp"
 #include "fetch_event_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "service_workers/detail/event_internals.hpp"
 #include "web_idl/detail/type_mapping_internals.hpp"

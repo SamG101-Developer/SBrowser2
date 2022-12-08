@@ -4,7 +4,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(service_workers)
 
-#include "dom/other/dom_exception.hpp"
+
 #include "service_workers/detail/job_internals.hpp"
 #include "service_workers/detail/service_worker_internals.hpp"
 #include "service_workers/workers/service_worker.hpp"

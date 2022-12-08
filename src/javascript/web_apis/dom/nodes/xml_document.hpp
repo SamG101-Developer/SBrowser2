@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_XML_DOCUMENT_HPP
 #define SBROWSER2_XML_DOCUMENT_HPP
 
-#include "dom/nodes/document.hpp"
+
 namespace dom::nodes {class xml_document;}
 namespace dom::nodes {class xml_document_private;}
 

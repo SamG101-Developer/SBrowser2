@@ -1,7 +1,7 @@
 #include "html_progress_element.hpp"
 #include "html_progress_element_private.hpp"
 
-#include "dom/detail/customization_internals.hpp"
+
 
 
 auto html::elements::html_progress_element::get_value() const -> ext::number<double>

@@ -1,9 +1,9 @@
 #include "window_client.hpp"
 #include "window_client_private.hpp"
 
-#include "dom/detail/observer_internals.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/window.hpp"
+
+
+
 
 #include "html/detail/context_internals.hpp"
 #include "html/detail/document_internals.hpp"

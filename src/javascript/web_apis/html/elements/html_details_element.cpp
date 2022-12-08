@@ -1,7 +1,7 @@
 #include "html_details_element.hpp"
 #include "html_details_element_private.hpp"
 
-#include "dom/detail/customization_internals.hpp"
+
 
 
 html::elements::html_details_element::html_details_element()

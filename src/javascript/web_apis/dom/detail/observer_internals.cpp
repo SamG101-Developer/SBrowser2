@@ -10,22 +10,22 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(html)
 
-#include "dom/detail/event_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-#include "dom/mutations/mutation_observer.hpp"
-#include "dom/mutations/mutation_observer_private.hpp"
-#include "dom/mutations/mutation_record.hpp"
-#include "dom/mutations/mutation_record_private.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/element_private.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/document_private.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
-#include "dom/other/dom_implementation.hpp"
-#include "dom/other/dom_implementation_private.hpp"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "html/elements/html_slot_element.hpp"
 #include "html/elements/html_slot_element_private.hpp"

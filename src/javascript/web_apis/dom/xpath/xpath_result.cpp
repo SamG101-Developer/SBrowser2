@@ -1,6 +1,6 @@
 #include "xpath_result.hpp"
 
-#include "dom/nodes/node.hpp"
+
 
 
 auto dom::xpath::xpath_result::to_v8(

@@ -2,8 +2,8 @@
 
 #include INCLUDE_INNER_TYPES(geolocation_sensor)
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "geolocation_sensor/geolocation_sensor.hpp"
 #include "geolocation_sensor/geolocation_sensor_private.hpp"

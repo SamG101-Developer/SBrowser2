@@ -1,6 +1,6 @@
 #include "timing_internals.hpp"
 
-#include "dom/nodes/document.hpp"
+
 
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/body_internals.hpp"

@@ -6,7 +6,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(web_crypto)
 
-#include "dom/detail/exception_internals.hpp"
+
 
 #include "web_crypto/crypto_key.hpp"
 

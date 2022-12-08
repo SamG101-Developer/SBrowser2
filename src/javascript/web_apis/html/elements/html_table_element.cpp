@@ -1,11 +1,11 @@
 #include "html_table_element.hpp"
-#include "dom/_typedefs.hpp"
+
 #include "html_table_element_private.hpp"
 
 
 
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/mutation_internals.hpp"
+
+
 
 #include "html/detail/html_element_internals.hpp"
 #include "html/elements/html_table_caption_element.hpp"

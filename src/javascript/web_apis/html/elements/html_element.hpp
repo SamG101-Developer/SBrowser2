@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_HTML_ELEMENT_HPP
 #define SBROWSER2_HTML_ELEMENT_HPP
 
-#include "dom/nodes/element.hpp"
+
 #include "html/mixins/content_editable.hpp"
 #include "html/mixins/html_or_svg_element.hpp"
 #include "css/cssom/mixins/element_css_inline_style.hpp"

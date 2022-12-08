@@ -5,9 +5,9 @@
 #include "background_tasks/idle_deadline.hpp"
 #include "background_tasks/idle_deadline_private.hpp"
 
-#include "dom/detail/observer_internals.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
+
 
 #include "hr_time/detail/time_internals.hpp"
 #include "html/detail/task_internals.hpp"

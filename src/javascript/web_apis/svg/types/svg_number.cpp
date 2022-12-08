@@ -1,8 +1,8 @@
 #include "svg_number.hpp"
 #include "svg_number_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 
 auto svg::types::svg_number::get_value() const -> ext::number<float>

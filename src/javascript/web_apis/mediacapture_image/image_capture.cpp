@@ -1,8 +1,8 @@
 #include "image_capture.hpp"
 #include "image_capture_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "mediacapture_main/media_stream_track.hpp"
 #include "mediacapture_main/media_stream_track_private.hpp"

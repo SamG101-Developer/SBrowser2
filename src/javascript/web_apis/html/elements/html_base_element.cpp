@@ -1,8 +1,8 @@
 #include "html_base_element.hpp"
 #include "html_base_element_private.hpp"
 
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/document_private.hpp"
+
+
 #include "html/detail/document_internals.hpp"
 #include "url/detail/url_internals.hpp"
 

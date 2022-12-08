@@ -8,7 +8,7 @@
 
 #include INCLUDE_INNER_TYPES(fetch)
 
-#include "dom/detail/observer_internals.hpp"
+
 #include "fetch/request.hpp"
 #include "fetch/response.hpp"
 #include "fetch/detail/extension_internals.hpp"

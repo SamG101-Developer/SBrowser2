@@ -2,13 +2,6 @@
 #define SBROWSER2_NODE_INTERNALS_HPP
 
 
-#include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(dom)
-namespace dom::nodes {class document;}
-namespace dom::nodes {class element;}
-namespace dom::nodes {class node;}
-namespace dom::nodes {class event_target;}
-
 
 namespace dom::detail
 {
@@ -32,32 +25,15 @@ namespace dom::detail
             -> ext::string;
 
     auto locate_a_namespace(
-            const nodes::node* node,
+            const nodes::element* node,
             ext::string_view prefix)
             -> ext::string;
 
     // list elements with certain features
-    auto list_of_elements_with_qualified_name(
-            const nodes::node* descendant_element,
-            ext::string_view qualified_name)
-            -> ext::vector<nodes::element*>;
 
-    auto list_of_elements_with_namespace_and_local_name(
-            const nodes::node* node,
-            ext::string_view namespace_,
-            ext::string_view local_name)
-            -> ext::vector<nodes::element*>;
-
-    auto list_of_elements_with_class_names(
-            const nodes::node* node,
-            ext::string_view class_names)
-            -> ext::vector<nodes::element*>;
 
     // other
-    auto string_replace_all(
-            ext::string_view string,
-            nodes::node* parent)
-            -> ext::string; // TODO : return string (modified)
+
 
     auto is_document_available_to_user(
             nodes::document* document,

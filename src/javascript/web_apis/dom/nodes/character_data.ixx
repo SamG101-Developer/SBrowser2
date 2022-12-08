@@ -1,17 +1,26 @@
-#ifndef SBROWSER2_CHARACTER_DATA_HPP
-#define SBROWSER2_CHARACTER_DATA_HPP
-
-#include "dom/nodes/node.hpp"
-#include "dom/mixins/child_node.hpp"
-#include "dom/mixins/non_document_type_child_node.hpp"
-namespace dom::nodes {class character_data;}
-namespace dom::nodes {class character_data_private;}
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/extended_attributes.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-class dom::nodes::character_data
-        : public node
-        , public mixins::child_node
-        , public mixins::non_document_type_child_node
+export module apis.dom.character_data;
+import apis.dom.node;
+import apis.dom.mixins.child_node;
+import apis.dom.mixins.non_document_type_child_node;
+import ext.number;
+import ext.string;
+import ext.tuple;
+import ext.type_traits;
+import js.env.module_type;
+
+
+DEFINE_PUBLIC_CLASS(dom, character_data)
+        : public dom::node
+        , public dom::mixins::child_node
+        , public dom::mixins::non_document_type_child_node
 {
 public constructors:
     character_data();
@@ -19,14 +28,14 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
-    [[nodiscard]] auto substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string;
+    _EXT_NODISCARD auto substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string;
     auto append_data(ext::string&& new_data) -> ext::string;
     auto insert_data(ext::number<ulong> offset, ext::string&& new_data) -> ext::string;
     auto delete_data(ext::number<ulong> offset, ext::number<ulong> count) -> ext::string;
     auto replace_data(ext::number<ulong> offset, ext::number<ulong> count, ext::string&& new_data) -> ext::string;
 
 private js_properties:
-    DEFINE_GETTER(node_name, ext::string) override {return "";};
+    DEFINE_GETTER(node_name, ext::string) override {return u"";};
     DEFINE_GETTER(node_value, ext::string) override;
     DEFINE_GETTER(text_content, ext::string) override;
 
@@ -39,6 +48,3 @@ private js_properties:
 
     DEFINE_SETTER(data, ext::string);
 };
-
-
-#endif //SBROWSER2_CHARACTER_DATA_HPP

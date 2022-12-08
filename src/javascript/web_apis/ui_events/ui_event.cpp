@@ -1,7 +1,7 @@
 #include "ui_event.hpp"
 #include "ui_event_private.hpp"
 
-#include "dom/nodes/window.hpp"
+
 
 
 ui_events::ui_event::ui_event(

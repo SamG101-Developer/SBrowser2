@@ -1,7 +1,7 @@
 #include "media_metadata.hpp"
 #include "media_metadata_private.hpp"
 
-#include "dom/detail/observer_internals.hpp"
+
 #include "html/detail/task_internals.hpp"
 #include "mediasession/detail/media_session_internals.hpp"
 

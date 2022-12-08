@@ -2,7 +2,7 @@
 
 #include INCLUDE_INNER_TYPES(dom)
 
-#include "dom/detail/exception_internals.hpp"
+
 #include "html/canvasing/canvas_gradient.hpp"
 #include "html/canvasing/canvas_pattern.hpp"
 #include "html/detail/canvas_internals.hpp"

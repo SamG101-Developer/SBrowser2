@@ -3,8 +3,8 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(web_codecs)
 
-#include "dom/detail/exception_internals.hpp"
-#include "dom/other/dom_exception.hpp"
+
+
 
 #include "web_codecs/abstract/abstract_decoder.hpp"
 #include "web_codecs/detail/algorithm_internals.hpp"

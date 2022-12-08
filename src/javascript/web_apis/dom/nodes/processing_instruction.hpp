@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_PROCESSING_INSTRUCTION_HPP
 #define SBROWSER2_PROCESSING_INSTRUCTION_HPP
 
-#include "dom/nodes/character_data.hpp"
+
 #include "css/cssom/mixins/link_style.hpp"
 namespace dom::nodes {class processing_instruction;}
 namespace dom::nodes {class processing_instruction_private;}

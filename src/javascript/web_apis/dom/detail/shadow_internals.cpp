@@ -1,11 +1,11 @@
 #include "shadow_internals.hpp"
 
-#include "dom/detail/tree_internals.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/element_private.hpp"
-#include "dom/nodes/shadow_root.hpp"
-#include "dom/nodes/shadow_root_private.hpp"
+
+
+
+
+
+
 
 #include <range/v3/algorithm/contains.hpp>
 

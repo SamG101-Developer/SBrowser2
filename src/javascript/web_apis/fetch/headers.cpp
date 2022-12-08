@@ -1,8 +1,8 @@
 #include "headers.hpp"
 #include "headers_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/header_internals.hpp"

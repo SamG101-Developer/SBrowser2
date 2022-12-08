@@ -6,7 +6,7 @@
 #include INCLUDE_INNER_TYPES(dom)
 #include INCLUDE_INNER_TYPES(performance_timeline)
 
-#include "dom/detail/exception_internals.hpp"
+
 
 #include <range/v3/algorithm/remove_if.hpp>
 

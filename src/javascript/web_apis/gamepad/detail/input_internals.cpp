@@ -6,11 +6,11 @@
 
 
 
-#include "dom/detail/event_internals.hpp"
-#include "dom/detail/node_internals.hpp"
-#include "dom/detail/observer_internals.hpp"
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
+
+
+
 
 #include "gamepad/gamepad.hpp"
 #include "gamepad/gamepad_private.hpp"

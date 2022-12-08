@@ -1,8 +1,8 @@
 #include "idb_request.hpp"
 
-#include "dom/detail/exception_internals.hpp"
 
-#include "dom/other/dom_exception.hpp"
+
+
 
 
 indexed_db::idb_request::idb_request()

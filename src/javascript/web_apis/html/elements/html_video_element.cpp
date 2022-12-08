@@ -1,7 +1,7 @@
 #include "html_video_element.hpp"
 #include "html_video_element_private.hpp"
 
-#include "dom/detail/customization_internals.hpp"
+
 #include "hr_time/detail/time_internals.hpp"
 
 #include "media_playback_quality/video_playback_quality.hpp"

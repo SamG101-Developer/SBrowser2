@@ -1,7 +1,7 @@
 #include "abstract_operations_internals.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "ambient_light/ambient_light_sensor.hpp"
 #include "ambient_light/ambient_light_sensor_private.hpp"

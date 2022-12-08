@@ -1,12 +1,9 @@
-#include "cdata_section.hpp"
-#include "cdata_section_private.hpp"
-
-#include "dom/detail/customization_internals.hpp"
+module apis.dom.cdata_section_private;
 
 
 dom::nodes::character_data::character_data()
 {
-    INIT_PIMPL(character_data);
+    INIT_PIMPL;
 }
 
 

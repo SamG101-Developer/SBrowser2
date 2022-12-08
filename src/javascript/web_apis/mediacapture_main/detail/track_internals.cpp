@@ -1,7 +1,7 @@
 #include "track_internals.hpp"
 
-#include "dom/detail/event_internals.hpp"
-#include "dom/detail/observer_internals.hpp"
+
+
 
 #include "mediacapture_main/media_stream_track.hpp"
 

@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_ELEMENTS_HTML_ELEMENT_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "dom/nodes/element_private.hpp"
+
 #include "html/mixins/content_editable_private.hpp"
 #include "html/mixins/html_or_svg_element_private.hpp"
 // #include "css/cssom/mixins/element_css_inline_style_private.hpp"

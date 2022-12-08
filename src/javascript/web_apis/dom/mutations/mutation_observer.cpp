@@ -1,24 +1,12 @@
-#include "mutation_observer.hpp"
-#include "mutation_observer_private.hpp"
-
-
-
-
-
-
-
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/mutation_internals.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
-#include "dom/nodes/window.hpp"
-
+module;
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
 #include <range/v3/view/transform.hpp>
+
+
+module apis.dom.mutation_record;
 
 
 dom::mutations::mutation_observer::mutation_observer(detail::mutation_callback_t&& callback)

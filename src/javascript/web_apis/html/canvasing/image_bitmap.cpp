@@ -4,7 +4,7 @@
 
 #include INCLUDE_INNER_TYPES(dom)
 
-#include "dom/detail/exception_internals.hpp"
+
 
 #include <v8pp/class.hpp>
 #include <QtCore/QIODevice>

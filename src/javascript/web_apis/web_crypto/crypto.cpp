@@ -5,7 +5,7 @@
 
 #include INCLUDE_INNER_TYPES(dom)
 
-#include "dom/detail/exception_internals.hpp"
+
 
 #include <v8-array-buffer.h>
 #include <v8-context.h>

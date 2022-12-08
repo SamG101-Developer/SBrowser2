@@ -4,7 +4,6 @@
 
 #define friends
 #define typedefs
-#define enum_classes
 #define constructors
 
 #define js_static_constants

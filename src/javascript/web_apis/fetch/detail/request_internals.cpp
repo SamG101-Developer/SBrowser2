@@ -6,8 +6,8 @@
 #include "ext/enums.ixx"
 
 
-#include "dom/nodes/window.hpp"
-#include "dom/nodes/window_private.hpp"
+
+
 
 #include "fetch/_typedefs.hpp"
 #include "fetch/detail/body_internals.hpp"

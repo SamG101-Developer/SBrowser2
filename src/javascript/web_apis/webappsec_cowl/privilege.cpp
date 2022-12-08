@@ -1,8 +1,8 @@
 #include "privilege.hpp"
 #include "privilege_private.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "webappsec_cowl/detail/cowl_internals.hpp"
 #include "webappsec_cowl/label.hpp"

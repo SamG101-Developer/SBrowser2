@@ -3,10 +3,10 @@
 
 
 
-#include "dom/detail/event_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-#include "dom/nodes/element.hpp"
-#include "node.hpp"
+
+
+
+#include "node.ixx"
 
 
 dom::nodes::shadow_root::shadow_root()

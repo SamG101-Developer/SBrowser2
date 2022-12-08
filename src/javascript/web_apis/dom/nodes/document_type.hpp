@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_DOCUMENT_TYPE_HPP
 #define SBROWSER2_DOCUMENT_TYPE_HPP
 
-#include "dom/nodes/node.hpp"
-#include "dom/mixins/child_node.hpp"
+
+
 namespace dom::nodes {class document_type;}
 namespace dom::nodes {class document_type_private;}
 

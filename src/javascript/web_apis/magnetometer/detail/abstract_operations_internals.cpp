@@ -1,7 +1,7 @@
 #include "abstract_operations_internals.hpp"
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "magnetometer/magnetometer.hpp"
 #include "magnetometer/magnetometer_private.hpp"

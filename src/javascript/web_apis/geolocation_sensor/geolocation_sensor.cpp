@@ -1,10 +1,10 @@
 #include "geolocation_sensor.hpp"
-#include "dom/detail/aborting_internals.hpp"
+
 #include "geolocation_sensor_private.hpp"
 
 
 
-#include "dom/other/dom_exception.hpp"
+
 
 #include "geolocation_sensor/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"

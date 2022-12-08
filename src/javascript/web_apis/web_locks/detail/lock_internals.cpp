@@ -1,14 +1,14 @@
 #include "lock_internals.hpp"
 
-#include "dom/_typedefs.hpp"
 
 
 
 
-#include "dom/detail/observer_internals.hpp"
 
 
-#include "dom/other/dom_exception.hpp"
+
+
+
 
 #include "html/detail/task_internals.hpp"
 

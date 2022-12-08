@@ -3,11 +3,11 @@
 
 
 
-#include "dom/detail/shadow_internals.hpp"
 
 
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/shadow_root.hpp"
+
+
+
 
 #include "pointer_events/pointer_event.hpp"
 #include "pointer_events/pointer_event_private.hpp"

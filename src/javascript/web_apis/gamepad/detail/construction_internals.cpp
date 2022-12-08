@@ -7,7 +7,7 @@
 #include "gamepad/gamepad.hpp"
 #include "gamepad/gamepad_private.hpp"
 
-#include "dom/nodes/window.hpp"
+
 #include "html/navigators/navigator.hpp"
 
 

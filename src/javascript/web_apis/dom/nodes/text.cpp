@@ -1,15 +1,4 @@
-#include "text.hpp"
-#include "text_private.hpp"
-
-#include "dom/nodes/character_data.hpp"
-#include "dom/detail/customization_internals.hpp"
-#include "dom/detail/text_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-
-#include <range/v3/view/transform.hpp>
-#include <range/v3/to_container.hpp>
-
-#include <QtWidgets/QVBoxLayout>
+module apis.dom.text;
 
 
 dom::nodes::text::text(

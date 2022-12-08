@@ -1,17 +1,17 @@
 #include "traversal_internals.hpp"
-#include "dom/_typedefs.hpp"
+
 #include "ext/keywords.ixx"
 
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-#include "dom/iterators/node_iterator.hpp"
-#include "dom/iterators/node_iterator_private.hpp"
-#include "dom/iterators/node_filter.hpp"
-#include "dom/iterators/node_filter_private.hpp"
-#include "dom/iterators/tree_walker.hpp"
-#include "dom/iterators/tree_walker_private.hpp"
-#include "dom/nodes/node.hpp"
-#include "dom/nodes/node_private.hpp"
+
+
+
+
+
+
+
+
+
+
 
 
 auto dom::detail::filter(

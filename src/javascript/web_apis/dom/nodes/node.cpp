@@ -1,64 +1,24 @@
-#include "node.hpp"
-#include "environment/slots.ixx"
-#include "node_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+module apis.dom.node;
+import apis.dom.node_private;
+import apis.dom.event;
+import apis.dom.mixins.slottable_private;
+import ext.ranges;
 
 
-
-#include "dom/_typedefs.hpp"
-#include "dom/detail/customization_internals.hpp"
-#include "dom/detail/exception_internals.hpp"
-#include "dom/detail/node_internals.hpp"
-#include "dom/detail/mutation_internals.hpp"
-#include "dom/detail/range_internals.hpp"
-#include "dom/detail/shadow_internals.hpp"
-#include "dom/detail/text_internals.hpp"
-#include "dom/detail/tree_internals.hpp"
-#include "dom/mixins/slottable_private.hpp"
-#include "dom/nodes/attr.hpp"
-#include "dom/nodes/attr_private.hpp"
-#include "dom/nodes/character_data.hpp"
-#include "dom/nodes/document.hpp"
-#include "dom/nodes/document_private.hpp"
-#include "dom/nodes/document_fragment.hpp"
-#include "dom/nodes/document_type.hpp"
-#include "dom/nodes/element.hpp"
-#include "dom/nodes/element_private.hpp"
-#include "dom/nodes/text.hpp"
-#include "dom/nodes/text_private.hpp"
-#include "dom/ranges/range.hpp"
-#include "dom/ranges/range_private.hpp"
-
-#include "file_api/detail/blob_internals.hpp"
-#include "fullscreen/detail/fullscreen_internals.hpp"
-#include "html/detail/document_internals.hpp"
-#include "url/detail/url_internals.hpp"
-
-#include <range/v3/to_container.hpp>
-#include <range/v3/algorithm/all_of.hpp>
-#include <range/v3/algorithm/find.hpp>
-#include <range/v3/algorithm/for_each.hpp>
-#include <range/v3/view/filter.hpp>
-#include <range/v3/view/for_each.hpp>
-#include <range/v3/view/remove.hpp>
-#include <range/v3/view/transform.hpp>
-#include <range/v3/view/zip.hpp>
-
-namespace dom::nodes {class window;}
-
-
-dom::nodes::node::node()
+dom::node::node()
 {
-    INIT_PIMPL(node);
-    ACCESS_PIMPL(node);
+    INIT_PIMPL; ACCESS_PIMPL;
 
     d->get_the_parent =
-            [this, d](events::event* event)
-            {return detail::is_assigned(this) ? dom_cross_cast<mixins::slottable*>(this)->d_func()->assigned_slot : d->parent_node;};
+            [this, d](event* event)
+            {return d->is_assigned() ? dom_cross_cast<slottable_private*>(d)->assigned_slot : d->parent_node.get();};
 
     /* [FULLSCREEN] */
-    d->remove_steps = [this, d](dom::nodes::node*)
+    d->remove_steps = [this, d](dom::node*)
     {
         using enum ranges::filter_compare_t;
 
@@ -81,7 +41,7 @@ dom::nodes::node::node()
 }
 
 
-auto dom::nodes::node::compare_document_position(node* other) -> ext::number<ushort>
+auto dom::node::compare_document_position(node* other) -> ext::number<ushort>
 {
     // If the nodes are the same then return 0 ie there is no comparison to be done.
     if (this == other) return 0;
@@ -131,7 +91,7 @@ auto dom::nodes::node::compare_document_position(node* other) -> ext::number<ush
 }
 
 
-auto dom::nodes::node::get_root_node(ext::map<ext::string, ext::any>&& options) -> node*
+auto dom::node::get_root_node(ext::map<ext::string, ext::any>&& options) -> node*
 {
     // Get the shadow including root node if the 'composed' option is set, otherwise get the regular root of the node.
     return options[u8"composed"].to<ext::boolean>()
@@ -140,14 +100,14 @@ auto dom::nodes::node::get_root_node(ext::map<ext::string, ext::any>&& options) 
 }
 
 
-auto dom::nodes::node::contains(node* other) -> ext::boolean
+auto dom::node::contains(node* other) -> ext::boolean
 {
     // This node contains 'other' if 'other' is a descendant of this node.
     return detail::is_descendant(other, this);
 }
 
 
-auto dom::nodes::node::has_child_nodes() -> ext::boolean
+auto dom::node::has_child_nodes() -> ext::boolean
 {
     // This node has child nodes if the 'child_nodes' list is not empty.
     ACCESS_PIMPL(node);
@@ -155,7 +115,7 @@ auto dom::nodes::node::has_child_nodes() -> ext::boolean
 }
 
 
-auto dom::nodes::node::normalize() -> node*
+auto dom::node::normalize() -> node*
 {
     CE_REACTIONS_METHOD_DEF
         for (nodes::text* text_node: detail::descendant_text_nodes(this))
@@ -227,7 +187,7 @@ auto dom::nodes::node::normalize() -> node*
 }
 
 
-auto dom::nodes::node::clone_node(ext::boolean deep) -> std::unique_ptr<node>
+auto dom::node::clone_node(ext::boolean deep) -> std::unique_ptr<node>
 {
     ACCESS_PIMPL(node);
     using enum detail::dom_exception_error_t;
@@ -244,7 +204,7 @@ auto dom::nodes::node::clone_node(ext::boolean deep) -> std::unique_ptr<node>
 }
 
 
-auto dom::nodes::node::is_equal_node(node* other) -> ext::boolean
+auto dom::node::is_equal_node(node* other) -> ext::boolean
 {
     // The nodes aren't equal if the other node is null, there are a different amount of child nodes belonging to each
     // node, or the children aren't equal, (child node length check has to be done so that the zip view matches the
@@ -259,14 +219,14 @@ auto dom::nodes::node::is_equal_node(node* other) -> ext::boolean
 }
 
 
-auto dom::nodes::node::is_default_namespace(ext::string_view namespace_) -> ext::boolean
+auto dom::node::is_default_namespace(ext::string_view namespace_) -> ext::boolean
 {
     // The namespace is the default namespace if it matches locating an empty namespace for this node.
     return namespace_ == detail::locate_a_namespace(this, u"");
 }
 
 
-auto dom::nodes::node::lookup_prefix(ext::string_view namespace_) -> ext::string
+auto dom::node::lookup_prefix(ext::string_view namespace_) -> ext::string
 {
     ACCESS_PIMPL(node);
 
@@ -297,14 +257,14 @@ auto dom::nodes::node::lookup_prefix(ext::string_view namespace_) -> ext::string
 }
 
 
-auto dom::nodes::node::lookup_namespace_uri(ext::string_view prefix) -> ext::string
+auto dom::node::lookup_namespace_uri(ext::string_view prefix) -> ext::string
 {
     // Lookup the namespace with the prefix.
     return detail::locate_a_namespace(this, prefix);
 }
 
 
-auto dom::nodes::node::insert_before(std::unique_ptr<node>&& new_node, node* child) -> node*
+auto dom::node::insert_before(std::unique_ptr<node>&& new_node, node* child) -> node*
 {
     // Insert 'new_node' into 'this->child_nodes', directly before 'child' node.
     CE_REACTIONS_METHOD_DEF
@@ -313,7 +273,7 @@ auto dom::nodes::node::insert_before(std::unique_ptr<node>&& new_node, node* chi
 }
 
 
-auto dom::nodes::node::append_child(std::unique_ptr<node>&& new_node) -> node*
+auto dom::node::append_child(std::unique_ptr<node>&& new_node) -> node*
 {
     // Append 'new_node' to 'this->child_nodes', at the end.
     CE_REACTIONS_METHOD_DEF
@@ -322,7 +282,7 @@ auto dom::nodes::node::append_child(std::unique_ptr<node>&& new_node) -> node*
 }
 
 
-auto dom::nodes::node::replace_child(node* old_node, std::unique_ptr<node>&& new_node) -> node*
+auto dom::node::replace_child(node* old_node, std::unique_ptr<node>&& new_node) -> node*
 {
     // Replace 'old_node' with 'new_node' in 'this->child_nodes'.
     CE_REACTIONS_METHOD_DEF
@@ -331,7 +291,7 @@ auto dom::nodes::node::replace_child(node* old_node, std::unique_ptr<node>&& new
 }
 
 
-auto dom::nodes::node::remove_child(node* old_node) -> node*
+auto dom::node::remove_child(node* old_node) -> node*
 {
     // Remove 'old_node' from 'this->child_nodes'.
     CE_REACTIONS_METHOD_DEF
@@ -340,72 +300,72 @@ auto dom::nodes::node::remove_child(node* old_node) -> node*
 }
 
 
-auto dom::nodes::node::get_base_uri() const -> ext::string
+auto dom::node::get_base_uri() const -> ext::string
 {
     ACCESS_PIMPL(const node);
     return url::detail::url_serializer(html::detail::document_base_url(d->node_document.get()));
 }
 
 
-auto dom::nodes::node::get_is_connected() const -> ext::boolean
+auto dom::node::get_is_connected() const -> ext::boolean
 {
     return detail::is_connected(this);
 }
 
 
-auto dom::nodes::node::get_child_nodes() const -> ranges::any_view<node*>
+auto dom::node::get_child_nodes() const -> ranges::any_view<node*>
 {
     ACCESS_PIMPL(const node);
     return d->child_nodes | ranges::views::transform([](auto&& child) {return child.get();});
 }
 
 
-auto dom::nodes::node::get_parent_node() const -> node*
+auto dom::node::get_parent_node() const -> node*
 {
     ACCESS_PIMPL(const node);
     return d->parent_node.get();
 }
 
 
-auto dom::nodes::node::get_parent_element() const -> element*
+auto dom::node::get_parent_element() const -> element*
 {
     ACCESS_PIMPL(const node);
     return dom_cast<element*>(d->parent_node.get());
 }
 
 
-auto dom::nodes::node::get_owner_document() const -> document*
+auto dom::node::get_owner_document() const -> document*
 {
     ACCESS_PIMPL(const node);
     return d->node_document.get();
 }
 
 
-auto dom::nodes::node::get_first_child() const -> node*
+auto dom::node::get_first_child() const -> node*
 {
     return detail::first_child(this);
 }
 
 
-auto dom::nodes::node::get_last_child() const -> node*
+auto dom::node::get_last_child() const -> node*
 {
     return detail::last_child(this);
 }
 
 
-auto dom::nodes::node::get_previous_sibling() const -> node*
+auto dom::node::get_previous_sibling() const -> node*
 {
     return detail::previous_sibling(this);
 }
 
 
-auto dom::nodes::node::get_next_sibling() const -> node*
+auto dom::node::get_next_sibling() const -> node*
 {
     return detail::next_sibling(this);
 }
 
 
-auto dom::nodes::node::_to_v8(
+auto dom::node::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

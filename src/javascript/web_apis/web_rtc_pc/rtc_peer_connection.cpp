@@ -4,8 +4,8 @@
 #include "javascript/environment/settings.ixx"
 
 
-#include "dom/_typedefs.hpp"
-#include "dom/detail/exception_internals.hpp"
+
+
 
 #include "hr_time/detail/time_internals.hpp"
 
