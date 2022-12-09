@@ -1,20 +1,8 @@
-#include "dom_implementation.hpp"
-#include "dom_implementation_private.hpp"
-
-#include "ext/hashing.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
-
-
-
-
-
-
-
-
-
-
-
+export module apis.dom.dom_implementation;
 
 
 

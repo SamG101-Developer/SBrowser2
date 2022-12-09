@@ -56,8 +56,9 @@ public:
 
 // Initialize the private class of a public class by creating the unique pointer to the private type of this class
 // (defined by the MAKE_PIMPL(...) macro), and set the private class's public class pointer to this.
-#define INIT_PIMPL                                    \
-    this->d_ptr = std::make_unique<this_private_t>(); \
+#define INIT_PIMPL                                                             \
+    static_assert(std::is_final_v<this_t> == std::is_final_v<this_private_t>); \
+    this->d_ptr = std::make_unique<this_private_t>();                          \
     d_func()->q_ptr = this
 
 

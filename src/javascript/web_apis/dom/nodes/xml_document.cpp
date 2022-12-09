@@ -1,5 +1,8 @@
-#include "xml_document.hpp"
-#include "xml_document_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+
+
+module apis.dom.xml_document;
 
 
 dom::nodes::xml_document::xml_document()

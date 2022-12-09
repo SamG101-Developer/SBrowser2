@@ -1,21 +1,8 @@
-#include "window.hpp"
-#include "window_private.hpp"
-
-
-
-
-
-#include "background_tasks/detail/processing_internals.hpp"
-
-
-
-
-
-#include "html/detail/context_internals.hpp"
-#include "html/detail/task_internals.hpp"
-
+module;
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/action/remove.hpp>
+
+module apis.dom.window;
 
 
 auto dom::nodes::window::request_idle_callback(

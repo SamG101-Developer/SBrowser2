@@ -1,48 +1,60 @@
-#include "abstract_range.hpp"
-#include "abstract_range_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
+module apis.dom.abstract_range;
+import apis.dom.abstract_range_private;
+
+import apis.dom.node;
+
+import ext.boolean;
+import ext.number;
+import ext.tuple;
+
+import js.env.module_type;
 
 
-auto dom::node_ranges::abstract_range::get_start_container() const -> nodes::node*
+auto dom::abstract_range::get_start_container() const -> node*
 {
     // The 'start_container' getter returns the node of the 'start' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abstract_range);
+    ACCESS_PIMPL;
     return d->start->node.get();
 }
 
 
-auto dom::node_ranges::abstract_range::get_start_offset() const -> ext::number<ulong>
+auto dom::abstract_range::get_start_offset() const -> ext::number<ulong>
 {
     // The 'start_offset' getter returns the offset of the 'start' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abstract_range);
+    ACCESS_PIMPL;
     return d->start->offset;
 }
 
 
-auto dom::node_ranges::abstract_range::get_end_container() const ->  nodes::node*
+auto dom::abstract_range::get_end_container() const -> node*
 {
     // The 'end_container' getter returns the node of the 'end' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abstract_range);
+    ACCESS_PIMPL;
     return d->end->node.get();
 }
 
 
-auto dom::node_ranges::abstract_range::get_end_offset() const -> ext::number<ulong>
+auto dom::abstract_range::get_end_offset() const -> ext::number<ulong>
 {
     // The 'end_offset' getter returns the offset of the 'end' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const abstract_range);
+    ACCESS_PIMPL;
     return d->end->offset;
 }
 
 
-auto dom::node_ranges::abstract_range::get_collapsed() const -> ext::boolean
+auto dom::abstract_range::get_collapsed() const -> ext::boolean
 {
     return detail::is_range_collapsed(this);
 }
 
 
-auto dom::node_ranges::abstract_range::_to_v8(
+auto dom::abstract_range::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
 {

@@ -1,26 +1,29 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
-#include INCLUDE_INNER_TYPES(html)
-namespace dom::nodes {class document;}
-namespace html::other {class custom_element_registry;}
-namespace html::other {class location;}
-namespace html::navigators {class navigator;}
+export module apis.dom.window_private;
+import apis.dom.event_target_private;
+
+import ext.boolean;
+import ext.map;
+import ext.number;
+
+namespace dom {class document;}
+namespace html {class custom_element_registry;}
+namespace html {class location;}
+namespace html {class navigator;}
 
 
-DEFINE_PRIVATE_CLASS(dom::nodes, window)
-        : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(dom, window)
+        : dom::event_target_private
 {
     MAKE_QIMPL(window);
 
     /* [HTML] */
     ext::boolean has_dispatched_scroll_event = false;
-    std::unique_ptr<dom::detail::custom_element_reactions_stack_t> custom_element_reaction_stack;
-    ext::queue<dom::nodes::element*> current_element_queue;
+    std::unique_ptr<detail::custom_element_reactions_stack_t> custom_element_reaction_stack;
+    ext::queue<element*> current_element_queue;
     hr_time::dom_high_res_time_stamp last_activation_timestamp;
     html::detail::cross_origin_property_descriptor_map_t cross_origin_property_descriptor_map;
 
