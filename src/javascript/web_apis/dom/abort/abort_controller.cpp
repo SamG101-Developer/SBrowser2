@@ -6,9 +6,12 @@ module;
 
 module apis.dom.abort_controller;
 import apis.dom.abort_controller_private;
+
 import apis.dom.abort_signal;
+
 import ext.any;
 import ext.tuple;
+
 import js.env.module_type;
 
 
@@ -23,7 +26,7 @@ auto dom::abort_controller::abort(ext::any&& reason) const -> void
     // Abort the signal with the reason, by calling the detail 'signal_abort' method on the signal that this controller
     // stores in a unique_ptr in the private class. Move the reason into the method.
     ACCESS_PIMPL;
-    detail::signal_abort(d->signal.get(), std::move(reason));
+    d->signal->abort(std::move(reason));
 }
 
 

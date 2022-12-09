@@ -19,20 +19,28 @@ import ext.vector;
 
 DEFINE_PRIVATE_CLASS(dom, element)
         : dom::node_private
-        , mixins::child_node_private
-        , mixins::document_or_element_node_private
-        , mixins::non_document_type_child_node_private
-        , mixins::parentable_node_private
-        , mixins::slottable_private
+        , dom::child_node_private
+        , dom::document_or_element_node_private
+        , dom::non_document_type_child_node_private
+        , dom::parentable_node_private
+        , dom::slottable_private
         , aria::mixins::aria_mixin_private
 //        , css::css_web_animations::mixins::animatable_private
 {
     MAKE_QIMPL(element);
 
+    auto locate_a_namespace_prefix(ext::string_view namespace_) const -> ext::string;
+    auto locate_a_namespace(ext::string_view prefix) const -> ext::string;
+
+    auto is_html() const -> ext::boolean;
+    auto qualified_name() const -> ext::string;
+    auto html_uppercase_qualified_name() const -> ext::string;
+    auto html_lowercase_qualified_name() const -> ext::string;
+
     ext::string namespace_;
     ext::string namespace_prefix;
     ext::string local_name;
-    detail::custom_element_definition_t* custom_element_definition;
+    std::observer_ptr<detail::custom_element_definition_t> custom_element_definition;
     detail::custom_element_state_t custom_element_state;
     ext::string is;
 
