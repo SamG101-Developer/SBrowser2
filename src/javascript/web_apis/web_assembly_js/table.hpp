@@ -5,7 +5,7 @@
 
 namespace web_assembly::js {class table;}
 
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 #include INCLUDE_INNER_TYPES(web_assembly_js)
 
 

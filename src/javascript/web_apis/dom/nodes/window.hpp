@@ -2,14 +2,14 @@
 #define SBROWSER2_WINDOW_HPP
 
 
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 #include "html/mixins/window_or_worker_global_scope.hpp"
 namespace dom::nodes {class window;}
 namespace dom::nodes {class window_private;}
 
 #include "ext/span.hpp"
 
-#include "ext/type_traits.ixx"
+
 
 #include "ext/vector.hpp"
 #include INCLUDE_INNER_TYPES(background_tasks)

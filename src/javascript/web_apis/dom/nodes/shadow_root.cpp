@@ -1,12 +1,5 @@
-#include "shadow_root.hpp"
-#include "shadow_root_private.hpp"
-
-
-
-
-
-
-#include "node.ixx"
+module;
+module apis.dom.shadow_root;
 
 
 dom::nodes::shadow_root::shadow_root()

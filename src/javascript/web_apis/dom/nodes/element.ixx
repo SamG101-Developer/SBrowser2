@@ -1,53 +1,40 @@
-#ifndef SBROWSER2_ELEMENT_HPP
-#define SBROWSER2_ELEMENT_HPP
+module;
+#include "ext/macros/constructors.hpp"
+#include "ext/macros/extended_attributes.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-
-
-
-
-
-#include "aria/mixins/aria_mixin.hpp"
-#include "css/css_web_animations/mixins/animatable.hpp"
-namespace dom::nodes {class element;}
-namespace dom::nodes {class element_private;}
-
-
-#include "ext/optional.ixx"
-
-
-
-#include "ext/span.hpp"
-#include "ext/vector.hpp"
-#include <range/v3/view/any_view.hpp>
-
-#include INCLUDE_INNER_TYPES(css/box_tree)
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(html)
-#include INCLUDE_INNER_TYPES(intersection_observer)
-#include INCLUDE_INNER_TYPES(fullscreen)
+export module apis.dom.element;
+import apis.dom.node;
+import apis.dom.mixins.child_node;
+import apis.dom.mixins.document_or_element_node;
+import apis.dom.mixins.non_document_type_child_node;
+import apis.dom.mixins.parentable_node;
+import apis.dom.mixins.slottable;
+import apis.aria.mixins.aria_mixin;
+import css.css_web_animations.mixins.animatable;
 
 namespace css::box_tree {class dead_fragment_information;}
-namespace dom::nodes {class attr;}
-namespace dom::nodes {class node;}
-namespace dom::nodes {class shadow_root;}
-namespace dom::mixins {class document_or_element_node;}
+namespace dom {class attr;}
+namespace dom {class shadow_root;}
+namespace dom {class document_or_element_node;}
 namespace edit_context {class edit_context;}
 
 
-class dom::nodes::element
-        : public node
-        , public mixins::child_node
-        , public mixins::document_or_element_node
-        , public mixins::non_document_type_child_node
-        , public mixins::parentable_node
-        , public mixins::slottable
+DEFINE_PUBLIC_CLASS(dom, element)
+        : public dom::node
+        , public dom::child_node
+        , public dom::document_or_element_node
+        , public dom::non_document_type_child_node
+        , public dom::parentable_node
+        , public dom::slottable
         , public aria::mixins::aria_mixin
         , public css::css_web_animations::mixins::animatable
 {
 public friends:
-    friend class dom::mixins::document_or_element_node;
-    friend class dom::nodes::node;
+    friend class dom::document_or_element_node;
+    friend class dom::node;
 
 public constructors:
     DOM_CTORS(element);
@@ -56,18 +43,18 @@ public constructors:
 
 public js_methods:
     /* [DOM] */
-    [[nodiscard]] auto has_attributes() const -> ext::boolean;
-    [[nodiscard]] auto get_attribute_names() const -> ranges::any_view<ext::string>;
+    _EXT_NODISCARD auto has_attributes() const -> ext::boolean;
+    _EXT_NODISCARD auto get_attribute_names() const -> ranges::any_view<ext::string>;
 
-    [[nodiscard]] auto has_attribute(ext::string_view name) const -> ext::boolean;
-    [[nodiscard]] auto has_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::boolean;
-    [[nodiscard]] auto has_attribute_node(attr* attribute) const -> ext::boolean;
-    [[nodiscard]] auto has_attribute_node_ns(attr* attribute) const -> ext::boolean;
+    _EXT_NODISCARD auto has_attribute(ext::string_view name) const -> ext::boolean;
+    _EXT_NODISCARD auto has_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::boolean;
+    _EXT_NODISCARD auto has_attribute_node(attr* attribute) const -> ext::boolean;
+    _EXT_NODISCARD auto has_attribute_node_ns(attr* attribute) const -> ext::boolean;
 
-    [[nodiscard]] auto get_attribute(ext::string_view qualified_name) const -> ext::string;
-    [[nodiscard]] auto get_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::string;
-    [[nodiscard]] auto get_attribute_node(ext::string_view qualified_name) const -> attr*;
-    [[nodiscard]] auto get_attribute_node_ns(ext::string_view namespace_, ext::string_view local_name) const -> attr*;
+    _EXT_NODISCARD auto get_attribute(ext::string_view qualified_name) const -> ext::string;
+    _EXT_NODISCARD auto get_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::string;
+    _EXT_NODISCARD auto get_attribute_node(ext::string_view qualified_name) const -> attr*;
+    _EXT_NODISCARD auto get_attribute_node_ns(ext::string_view namespace_, ext::string_view local_name) const -> attr*;
 
     auto set_attribute(ext::string_view qualified_name, ext::string_view value) -> attr*;
     auto set_attribute_ns(ext::string_view namespace_, ext::string_view qualified_name, ext::string_view value) -> attr*;
@@ -129,6 +116,3 @@ private js_properties:
     /* [EDIT-CONTENT] */
     DEFINE_GETTER(edit_context, edit_context::edit_context*);
 };
-
-
-#endif //SBROWSER2_ELEMENT_HPP

@@ -4,7 +4,7 @@
 
 #include "html/elements/html_element.hpp"
 #include "html/mixins/validatable.hpp"
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 namespace html::elements {class html_form_element;}
 namespace html::elements {class html_form_element_private;}
 

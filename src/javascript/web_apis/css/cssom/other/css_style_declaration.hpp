@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CSS_CSSOM_OTHER_CSS_STYLE_DECLARATION_HPP
 
 
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 namespace css::cssom::other {class css_style_declaration;}
 
 

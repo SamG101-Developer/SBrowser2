@@ -1,7 +1,8 @@
-#include "processing_instruction.hpp"
-#include "processing_instruction_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
-#include "css/cssom/detail/miscellaneous_query_internals.hpp"
+
+module apis.dom.processing_instruction;
 
 
 dom::nodes::processing_instruction::processing_instruction()

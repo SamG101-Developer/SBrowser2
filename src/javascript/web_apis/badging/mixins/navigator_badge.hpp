@@ -8,7 +8,7 @@ namespace badging::mixins {class navigator_badge_private;}
 
 
 
-#include "ext/type_traits.ixx"
+
 
 
 class badging::mixins::navigator_badge

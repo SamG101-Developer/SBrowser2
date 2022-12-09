@@ -1,25 +1,24 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+export module apis.dom.element_private;
+import apis.dom.node_private;
+import apis.dom.mixins.child_node_private;
+import apis.dom.mixins.document_or_element_node_private;
+import apis.dom.mixins.non_document_type_child_node_private;
+import apis.dom.mixins.parentable_node_private;
+import apis.dom.mixins.slottable_private;
+import apis.aria.mixins.aria_mixin_private;
+
+import ext.boolean;
+import ext.queue;
+import ext.string;
+import ext.vector;
 
 
-
-
-#include "aria/mixins/aria_mixin_private.hpp"
-
-
-#include "ext/memory.ixx"
-
-
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(html)
-
-
-DEFINE_PRIVATE_CLASS(dom::nodes, element)
-        : node_private
+DEFINE_PRIVATE_CLASS(dom, element)
+        : dom::node_private
         , mixins::child_node_private
         , mixins::document_or_element_node_private
         , mixins::non_document_type_child_node_private
@@ -56,6 +55,3 @@ DEFINE_PRIVATE_CLASS(dom::nodes, element)
     /* [INTERSECTION-OBSERVERS] */
     ext::vector<std::unique_ptr<intersection_observer::detail::intersection_observer_registration_t>> registration_intersection_observers;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_ELEMENT_PRIVATE_HPP

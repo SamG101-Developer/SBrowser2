@@ -4,7 +4,7 @@
 
 // Inheritance Includes & This Class
 
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 namespace html::navigators {class plugin;}
 namespace html::navigators {class plugin_private;}
 

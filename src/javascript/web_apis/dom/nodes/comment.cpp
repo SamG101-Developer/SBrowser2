@@ -1,19 +1,18 @@
-#include "comment.hpp"
-#include "comment_private.hpp"
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
 
 
-
-
-
-
+module apis.dom.comment;
+export apis.dom.comment_private;
+import ext.string;
 
 
 dom::nodes::comment::comment(ext::string&& new_data)
 {
-    INIT_PIMPL(comment);
+    INIT_PIMPL; ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
 
-    ACCESS_PIMPL(comment);
     d->node_document = e.cpp.global<dom::nodes::window*>()->d_func()->document.get();
     d->data = std::move(new_data);
 }
@@ -22,9 +21,9 @@ dom::nodes::comment::comment(ext::string&& new_data)
 auto dom::nodes::comment::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the fixed string "#comment". Apply custom element reactions to this getter.
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         return u"#comment";
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 

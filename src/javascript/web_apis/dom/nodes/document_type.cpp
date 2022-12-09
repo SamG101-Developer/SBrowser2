@@ -1,46 +1,49 @@
-#include "document_type.hpp"
-#include "document_type_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
-dom::nodes::document_type::document_type()
+module apis.dom.document_type;
+
+
+dom::document_type::document_type()
 {
-    INIT_PIMPL(document_type);
+    INIT_PIMPL;
 }
 
 
-auto dom::nodes::document_type::get_node_name() const -> ext::string
+auto dom::document_type::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the equivalent 'node_name' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const document_type);
+    ACCESS_PIMPL;
     return d->name;
 }
 
 
-auto dom::nodes::document_type::get_name() const -> ext::string_view
+auto dom::document_type::get_name() const -> ext::string_view
 {
     // The 'name' getter returns the equivalent 'name' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const document_type);
+    ACCESS_PIMPL;
     return d->name;
 }
 
 
-auto dom::nodes::document_type::get_public_id() const -> ext::string_view
+auto dom::document_type::get_public_id() const -> ext::string_view
 {
     // The 'public_id' getter returns the equivalent 'public_id' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const document_type);
+    ACCESS_PIMPL;
     return d->public_id;
 }
 
 
-auto dom::nodes::document_type::get_system_id() const -> ext::string_view
+auto dom::document_type::get_system_id() const -> ext::string_view
 {
     // The 'system_id' getter returns the equivalent 'system_id' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const document_type);
+    ACCESS_PIMPL;
     return d->system_id;
 }
 
 
-auto dom::nodes::document_type::_to_v8(
+auto dom::document_type::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

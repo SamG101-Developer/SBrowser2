@@ -1,48 +1,39 @@
-#include "tree_walker.ixx"
-#include "tree_walker_private.ixx"
-
-
-
-
-
-
-
-
-
-
-
-
-
+module;
+#include "ext/macros/pimpl.hpp"
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/take_while.hpp>
 
 
-dom::node_iterators::tree_walker::tree_walker()
-{
-    INIT_PIMPL(tree_walker);
+module apis.dom.tree_walker;
+import apis.dom.tree_walker_private;
+import ext.ranges;
+import ext.functional;
 
-    ACCESS_PIMPL(tree_walker);
+
+dom::tree_walker::tree_walker()
+{
+    INIT_PIMPL; ACCESS_PIMPL;
     d->current = nullptr;
 }
 
 
-auto dom::node_iterators::tree_walker::parent_node() -> nodes::node*
+auto dom::tree_walker::parent_node() -> node*
 {
-    ACCESS_PIMPL(tree_walker);
+    ACCESS_PIMPL;
 
     // The parent node of a TreeWalker is the furthest away ancestor (highest in the tree), that passes the 'filter',
     // and isn't equal to
-    decltype(auto) current_node_ancestors = detail::ancestors(d->current.get());
+    decltype(auto) current_node_ancestors = d->current->d_func()->ancestors();
     decltype(auto) filtered_ancestors = current_node_ancestors
-            | ranges::views::filter_fn_eq(BIND_BACK(detail::filter, this), node_filter::FILTER_ACCEPT)
-            | ranges::views::take_while(BIND_BACK(ext::cmp::eq, d->root.get()));
+            | ranges::views::filter_fn_eq(ext::bind_back(detail::filter, this), node_filter::FILTER_ACCEPT)
+            | ranges::views::take_while(ext::bind_back(ext::cmp::eq, d->root.get()));
 
     return filtered_ancestors.front();
 }
 
 
-auto dom::node_iterators::tree_walker::first_child() -> nodes::node*
+auto dom::tree_walker::first_child() -> node*
 {
     // The first child of a TreeWalker is obtained by the traversing children detail method, with the FIRST_CHILD
     // configuration.
@@ -52,7 +43,7 @@ auto dom::node_iterators::tree_walker::first_child() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::last_child() -> nodes::node*
+auto dom::tree_walker::last_child() -> node*
 {
     // The last child of a TreeWalker is obtained by the traversing children detail method, with the LAST_CHILD
     // configuration.
@@ -62,7 +53,7 @@ auto dom::node_iterators::tree_walker::last_child() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::prev_sibling() -> nodes::node*
+auto dom::tree_walker::prev_sibling() -> node*
 {
     // The prev sibling of a TreeWalker is obtained by the traversing children detail method, with the PREVIOUS_SIBLING
     // configuration.
@@ -72,7 +63,7 @@ auto dom::node_iterators::tree_walker::prev_sibling() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::next_sibling() -> nodes::node*
+auto dom::tree_walker::next_sibling() -> node*
 {
     // The next sibling of a TreeWalker is obtained by the traversing children detail method, with the NEXT_SIBLING
     // configuration.
@@ -82,7 +73,7 @@ auto dom::node_iterators::tree_walker::next_sibling() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::prev_node() -> nodes::node*
+auto dom::tree_walker::prev_node() -> node*
 {
     ACCESS_PIMPL(tree_walker);
 
@@ -122,7 +113,7 @@ auto dom::node_iterators::tree_walker::prev_node() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::next_node() -> nodes::node*
+auto dom::tree_walker::next_node() -> node*
 {
     ACCESS_PIMPL(tree_walker);
 
@@ -163,7 +154,7 @@ auto dom::node_iterators::tree_walker::next_node() -> nodes::node*
 }
 
 
-auto dom::node_iterators::tree_walker::_to_v8(
+auto dom::tree_walker::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

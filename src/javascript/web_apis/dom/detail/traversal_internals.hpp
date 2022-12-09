@@ -3,7 +3,7 @@
 #define SBROWSER2_TRAVERSAL_INTERNALS_HPP
 
 
-#include "ext/type_traits.ixx"
+
 #include INCLUDE_INNER_TYPES(dom)
 namespace dom::nodes {class node;}
 namespace dom::node_iterators {class abstract_iterator;}

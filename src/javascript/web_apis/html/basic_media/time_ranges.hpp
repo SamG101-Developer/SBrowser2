@@ -3,7 +3,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_BASIC_MEDIA_TIME_RANGES_HPP
 
 
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 namespace html::basic_media {class time_ranges;}
 namespace html::basic_media {class time_ranges_private;}
 

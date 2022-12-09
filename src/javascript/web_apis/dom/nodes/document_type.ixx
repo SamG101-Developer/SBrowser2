@@ -1,17 +1,19 @@
-#ifndef SBROWSER2_DOCUMENT_TYPE_HPP
-#define SBROWSER2_DOCUMENT_TYPE_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/constructors.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-
-namespace dom::nodes {class document_type;}
-namespace dom::nodes {class document_type_private;}
-
-namespace dom::other {class dom_implementation;}
+export module apis.dom.document_type;
+import apis.dom.node;
+import apis.dom.mixins.child_node;
 
 
-class dom::nodes::document_type final
-        : public node
-        , public mixins::child_node
+DEFINE_PUBLIC_CLASS(dom, document_type) final
+        : public dom::node
+        , public dom::child_node
 {
 public friends:
     friend class dom::other::dom_implementation;
@@ -34,6 +36,3 @@ private js_properties:
     DEFINE_GETTER(public_id, ext::string_view);
     DEFINE_GETTER(system_id, ext::string_view);
 };
-
-
-#endif //SBROWSER2_DOCUMENT_TYPE_HPP

@@ -14,7 +14,7 @@ import js.env.module_type;
 namespace dom {class element;}
 
 
-DEFINE_PUBLIC_CLASS(dom, document_or_shadow_root) final
+DEFINE_PUBLIC_CLASS(dom, document_or_shadow_root)
         : public virtual dom_object
 {
 public constructors:

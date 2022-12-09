@@ -1,52 +1,55 @@
-#include "document_fragment.hpp"
-#include "document_fragment_private.hpp"
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
 
 
+module apis.dom.document_fragment;
+import ext.string;
 
 
-
-
-dom::nodes::document_fragment::document_fragment()
+dom::document_fragment::document_fragment()
 {
-    INIT_PIMPL(document_fragment);
+    INIT_PIMPL;
 }
 
 
-auto dom::nodes::document_fragment::get_node_name() const -> ext::string
+auto dom::document_fragment::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the fixed string "#document-origin". Apply custom element reactions to this
     // getter.
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         return u"#document-fragment";
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::nodes::document_fragment::get_node_value() const -> ext::string
+auto dom::document_fragment::get_node_value() const -> ext::string
 {
     // The 'node_vaue' getter returns the fixed string "". Apply custom element reactions to this getter.
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         return u"";
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::nodes::document_fragment::get_text_content() const -> ext::string
+auto dom::document_fragment::get_text_content() const -> ext::string
 {
     // The 'text_content' getter returns the 'descendant_text_content' of this node
-    return detail::descendant_text_content(this);
+    ACCESS_PIMPL;
+    return d->descendant_text_content();
 }
 
 
-auto dom::nodes::document_fragment::set_text_content(ext::string new_text_content) -> ext::string
+auto dom::document_fragment::set_text_content(ext::string new_text_content) -> ext::view_of_t<ext::string>
 {
     // The 'text_content' setter runs a 'string_replace_all' detail method that replaces all the textual content of
     // nodes under this node in the tree (descendants of this DocumentFragment only)
-    detail::string_replace_all(new_text_content, this);
+    d->string_replace_all(new_text_content);
+    return new_text_content;
 }
 
 
-auto dom::nodes::document_fragment::_to_v8(
+auto dom::document_fragment::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BADGING__TYPEDEFS_HPP
 
 
-#include "ext/type_traits.ixx"
+
 
 
 

@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIBRATION__TYPEDEFS_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_VIBRATION__TYPEDEFS_HPP
 
-#include "ext/type_traits.ixx"
+
 
 
 #include "ext/vector.hpp"

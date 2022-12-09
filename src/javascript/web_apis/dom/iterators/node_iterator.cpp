@@ -1,25 +1,22 @@
-#include "node_iterator.ixx"
-#include "node_iterator_private.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+module apis.dom.node_iterator;
+import apis.dom.node_iterator_private;
+import ext.boolean;
 
 
-
-
-
-
-dom::node_iterators::node_iterator::node_iterator()
+dom::node_iterator::node_iterator()
 {
-    INIT_PIMPL(node_iterator)
+    INIT_PIMPL; ACCESS_PIMPL;
 
-    ACCESS_PIMPL(node_iterator);
     d->reference = nullptr;
     d->pointer_before_reference = false;
 }
 
 
-auto dom::node_iterators::node_iterator::next_node()
-        -> nodes::node*
+auto dom::node_iterator::next_node() -> node*
 {
     // Visit the next node that this NodeIterator is configured to find (with the NodeFilter interface), by calling the
     // detail traversal method, with the NEXT configuration.
@@ -28,8 +25,7 @@ auto dom::node_iterators::node_iterator::next_node()
 }
 
 
-auto dom::node_iterators::node_iterator::prev_node()
-        -> nodes::node*
+auto dom::node_iterator::prev_node() -> node*
 {
     // Visit the previous node that this NodeIterator is configured to find (with the NodeFilter interface), by calling
     // the detail traversal method, with the PREVIOUS configuration.
@@ -38,25 +34,25 @@ auto dom::node_iterators::node_iterator::prev_node()
 }
 
 
-auto dom::node_iterators::node_iterator::get_reference_node() const -> nodes::node*
+auto dom::node_iterator::get_reference_node() const -> node*
 {
     // The 'reference_node' getter returns the equivalent 'reference_node' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const node_iterator);
+    ACCESS_PIMPL;
     return d->reference.get();
 }
 
 
-auto dom::node_iterators::node_iterator::get_pointer_before_reference_node() const -> ext::boolean
+auto dom::node_iterator::get_pointer_before_reference_node() const -> ext::boolean
 {
     // The 'pointer_before_reference_node' getter returns the equivalent 'pointer_before_reference_node' attribute value
     // that is stored in the private class.
-    ACCESS_PIMPL(const node_iterator);
+    ACCESS_PIMPL;
     return d->pointer_before_reference;
 }
 
 
-auto dom::node_iterators::node_iterator::_to_v8(
+auto dom::node_iterator::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

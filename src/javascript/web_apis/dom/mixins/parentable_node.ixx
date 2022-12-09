@@ -5,7 +5,7 @@ module;
 #include "javascript/macros/expose.hpp"
 
 
-export module apis.dom.mixins.parenable_node;
+export module apis.dom.mixins.parentable_node;
 import apis._.dom_object;
 import ext.concepts;
 import ext.number;

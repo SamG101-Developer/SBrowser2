@@ -14,7 +14,7 @@ namespace html {class html_slot_element;}
 
 
 DEFINE_PRIVATE_CLASS(dom, node)
-        : event_target_private
+        : dom::event_target_private
 {
     MAKE_QIMPL(node);
 

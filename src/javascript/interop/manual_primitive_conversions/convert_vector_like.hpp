@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_CONVERT_VECTOR_LIKE_HPP
 #define SBROWSER2_CONVERT_VECTOR_LIKE_HPP
 
-#include "ext/vector_like.hpp"
+#include "ext/vector_like.ixx"
 #include <range/v3/to_container.hpp>
 #include <range/v3/view/enumerate.hpp>
 #include <range/v3/view/filter.hpp>

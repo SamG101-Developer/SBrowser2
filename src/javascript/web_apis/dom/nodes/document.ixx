@@ -1,84 +1,71 @@
-#ifndef SBROWSER2_DOCUMENT_HPP
-#define SBROWSER2_DOCUMENT_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/constructors.hpp"
+#include "ext/macros/extended_attributes.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
+export module apis.dom.document;
+import apis.dom.node;
+import apis.dom.mixins.document_or_element_node;
+import apis.dom.mixins.document_or_shadow_root;
+import apis.dom.mixins.non_element_parent_node;
+import apis.dom.mixins.parentable_node;
+import ext.map_like;
 
+import ext.ranges;
+import ext.string;
 
+namespace dom {class document_or_element_node;}
+namespace dom {class attr;}
+namespace dom {class cdata_section;}
+namespace dom {class comment;}
+namespace dom {class document_fragment;}
+namespace dom {class document_type;}
+namespace dom {class processing_instruction;}
+namespace dom {class text;}
+namespace dom {class window_proxy;}
+namespace dom {class dom_implementation;}
 
+namespace dom {class range;}
+namespace dom {class node_filter;}
+namespace dom {class node_iterator;}
+namespace dom {class tree_walker;}
+namespace dom {class dom_implementation;}
 
-
-
-#include "ext/map_like.ixx"
-namespace dom::nodes {class document;}
-namespace dom::nodes {class document_private;}
-
-
-
-
-
-#include "ext/set.hpp"
-#include "ext/tuple.ixx"
-
-#include "ext/vector.hpp"
-#include <range/v3/view/any_view.hpp>
-
-#include INCLUDE_INNER_TYPES(css/css_animation_worklet)
-#include INCLUDE_INNER_TYPES(css/css_layout)
-#include INCLUDE_INNER_TYPES(css/css_web_animations)
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(html)
-#include INCLUDE_INNER_TYPES(permissions_policy)
-#include INCLUDE_INNER_TYPES(page_visibility)
-#include INCLUDE_INNER_TYPES(url)
-
-namespace dom::mixins {class document_or_element_node;}
-namespace dom::nodes {class attr;}
-namespace dom::nodes {class cdata_section;}
-namespace dom::nodes {class comment;}
-namespace dom::nodes {class document_fragment;}
-namespace dom::nodes {class document_type;}
-namespace dom::nodes {class processing_instruction;}
-namespace dom::nodes {class text;}
-namespace dom::nodes {class window_proxy;}
-namespace dom::other {class dom_implementation;}
-
-namespace dom::node_ranges {class range;}
-namespace dom::node_iterators {class node_filter;}
-namespace dom::node_iterators {class node_iterator;}
-namespace dom::node_iterators {class tree_walker;}
-namespace dom::other {class dom_implementation;}
-
-namespace html::elements {class html_body_element;}
-namespace html::elements {class html_head_element;}
-namespace html::elements {class html_html_element;}
-namespace html::elements {class html_image_element;}
-namespace html::elements {class html_link_element;}
-namespace html::elements {class html_form_element;}
-namespace html::elements {class html_script_element;}
-namespace html::elements {class html_title_element;}
-namespace html::elements {class html_element;}
-namespace html::other {class location;}
+namespace html {class html_body_element;}
+namespace html {class html_head_element;}
+namespace html {class html_html_element;}
+namespace html {class html_image_element;}
+namespace html {class html_link_element;}
+namespace html {class html_form_element;}
+namespace html {class html_script_element;}
+namespace html {class html_title_element;}
+namespace html {class html_element;}
+namespace html {class location;}
 
 namespace css::css_web_animation {class document_timeline;}
 namespace encoding {class encoding;}
 namespace intersection_observer {class intersection_observer;}
 namespace permissions_policy {class permissions_policy_object;}
 namespace selection {class selection;}
-namespace svg::elements {class svg_script_element;}
+namespace svg {class svg_script_element;}
 
 
-class dom::nodes::document
-        : public node
-        , public mixins::document_or_element_node
-        , public mixins::document_or_shadow_root
-        , public mixins::non_element_parent_node
-        , public mixins::parentable_node
-        , public xpath::xpath_evaluator_base
-        , public ext::map_like<ext::string, ranges::any_view<element*>>
+DEFINE_PUBLIC_CLASS(dom, document)
+        : public dom::node
+        , public dom::document_or_element_node
+        , public dom::document_or_shadow_root
+        , public dom::non_element_parent_node
+        , public dom::parentable_node
+        , public dom::xpath_evaluator_base
+        , public ext::map_like<ext::string, ranges::any_helpful_view<element*>>
 {
 public friends:
-    friend class dom::mixins::document_or_element_node;
-    friend class dom::nodes::node;
-    friend class dom::other::dom_implementation;
+    friend class dom::document_or_element_node;
+    friend class dom::node;
+    friend class dom::dom_implementation;
 
 public constructors:
     DOM_CTORS(document);

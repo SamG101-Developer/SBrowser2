@@ -1,71 +1,4 @@
-#include "document.hpp"
-#include "document_private.hpp"
-
-
-#include "ext/enums.ixx"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include "html/_typedefs.hpp"
-#include "html/detail/document_internals.hpp"
-#include "html/detail/origin_internals.hpp"
-#include "html/elements/html_area_element.hpp"
-#include "html/elements/html_area_element_private.hpp"
-#include "html/elements/html_body_element.hpp"
-#include "html/elements/html_body_element_private.hpp"
-#include "html/elements/html_head_element.hpp"
-#include "html/elements/html_head_element_private.hpp"
-#include "html/elements/html_html_element.hpp"
-#include "html/elements/html_html_element_private.hpp"
-#include "html/elements/html_link_element.hpp"
-#include "html/elements/html_link_element_private.hpp"
-#include "html/elements/html_script_element.hpp"
-#include "html/elements/html_script_element_private.hpp"
-#include "html/elements/html_title_element.hpp"
-#include "html/elements/html_title_element_private.hpp"
-#include "html/other/location.hpp"
-
-#include "encoding/detail/encoding_internals.hpp"
-#include "file_api/detail/blob_internals.hpp"
-#include "hr_time/detail/time_internals.hpp"
-#include "infra/detail/infra_strings_internals.hpp"
-#include "permissions_policy/permissions_policy.hpp"
-#include "screen_wake_lock/_typedefs.hpp"
-#include "svg/elements/svg_title_element.hpp"
-#include "url/detail/url_internals.hpp"
-
+module;
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -75,6 +8,8 @@
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
+
+export module apis.dom.document;
 
 
 dom::nodes::document::document()

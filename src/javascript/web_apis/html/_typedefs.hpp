@@ -11,7 +11,7 @@
 #include "ext/set.hpp"
 
 #include "ext/tuple.ixx"
-#include "ext/type_traits.ixx"
+
 
 #include "ext/vector.hpp"
 #include <QtGui/QTransform>

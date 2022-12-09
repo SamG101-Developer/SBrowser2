@@ -68,6 +68,6 @@ public js_properties:
     DEFINE_GETTER(time_stamp, ext::number<double>);
     DEFINE_GETTER(is_trusted, ext::boolean);
 
-    DEFINE_GETTER(touch_targets, touch_targets_t);
-    DEFINE_GETTER(path, path_t);
+    DEFINE_GETTER(touch_targets, ranges::any_helpful_view<touch_targets_t::value_t::pointer>);
+    DEFINE_GETTER(path, ranges::any_helpful_view<path_t::value_t::pointer>);
 };

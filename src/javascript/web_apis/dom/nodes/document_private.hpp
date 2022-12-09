@@ -1,35 +1,27 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
-
+module;
+#include "ext/macros/pimpl.hpp"
+#include <memory>
 
 
+export module apis.dom.document_private;
+import apis.dom.node_private;
+import apis.dom.mixins.document_or_element_node_private;
+import apis.dom.mixins.document_or_shadow_root_private;
+import apis.dom.mixins.non_element_parent_node_private;
+import apis.dom.mixins.parentable_node_private;
+import ext.boolean;
+import ext.string;
+import ext.memory;
+import ext.set;
 
 
-
-
-
-#include INCLUDE_INNER_TYPES(html)
-#include INCLUDE_INNER_TYPES(permissions_policy)
-#include INCLUDE_INNER_TYPES(url)
-#include INCLUDE_INNER_TYPES(screen_wake_lock)
-
-namespace dom::nodes {class element;}
-namespace encoding {class encoding;}
-namespace html::elements {class html_script_element;}
-namespace html::other {class history;}
-namespace intersection_observer {class intersection_observer;}
-namespace screen_wake_lock {class wake_lock_sentinel;}
-
-
-DEFINE_PRIVATE_CLASS(dom::nodes, document)
-        : node_private
-        , mixins::document_or_element_node_private
-        , mixins::document_or_shadow_root_private
-        , mixins::non_element_parent_node_private
-        , mixins::parentable_node_private
-        , xpath::xpath_evaluator_base_private
+DEFINE_PRIVATE_CLASS(dom, document)
+        : dom::node_private
+        , dom::document_or_element_node_private
+        , dom::document_or_shadow_root_private
+        , dom::non_element_parent_node_private
+        , dom::parentable_node_private
+        , dom::xpath::xpath_evaluator_base_private
 {
     MAKE_QIMPL(document);
 

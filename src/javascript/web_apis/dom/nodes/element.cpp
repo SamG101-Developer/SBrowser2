@@ -1,29 +1,8 @@
-#include "element.hpp"
-#include "element_private.hpp"
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-#include "html/detail/context_internals.hpp"
-#include "file_api/detail/blob_internals.hpp"
-#include "url/detail/url_internals.hpp"
-
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/algorithm/for_each.hpp>
-#include <range/v3/view/transform.hpp>
-
+module apis.dom.element;
 
 dom::nodes::element::element()
 {
