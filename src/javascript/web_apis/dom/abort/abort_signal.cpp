@@ -1,8 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-
-#include <memory>
 #include <tl/optional.hpp>
 #include <tuplet/tuple.hpp>
 #include <v8-isolate.h>
