@@ -19,9 +19,10 @@ import ext.tuple;
 import ext.type_traits;
 import js.env.module_type;
 
+namespace dom {class abstract_iterator_private;}
 namespace dom {class document;}
 namespace dom {class element;}
-namespace dom {class abstract_iterator_private;}
+namespace dom {class mutation_observer;}
 namespace dom {class range;}
 
 
@@ -35,6 +36,7 @@ public friends:
     friend class dom::parentable_node;
     friend class dom::mutation_observer;
     friend class dom::abstract_iterator_private;
+    friend class dom::mutation_observer;
     friend class dom::range;
     friend class html::html_option_element;
 

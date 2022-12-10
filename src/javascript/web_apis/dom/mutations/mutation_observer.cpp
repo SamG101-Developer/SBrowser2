@@ -11,8 +11,12 @@ module apis.dom.mutation_observer;
 import apis.dom.mutation_observer_private;
 import apis.dom.node;
 import apis.dom.node_private;
+import apis.dom.detail;
+import apis.dom.types;
 
 import ext.hashing;
+import ext.functional;
+import ext.ranges;
 
 import js.env.realms;
 import js.env.slots;
@@ -47,14 +51,15 @@ auto dom::mutation_observer::observe(node* target, mutation_observer_init_t&& op
         options.insert_or_assign(u"characterData", true);
 
     detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [&options] {!options.contains(u"childList") && !options.contains(u"attributes") && !options.contains(u"characterData");},
+            [&options] {return !options.contains(u"childList") && !options.contains(u"attributes") && !options.contains(u"characterData");},
             u8"Either the childList, attributes of characterData must be observed");
 
 
-    auto node_removal = [](registered_observer_t& registered, node* node)
+    auto node_removal = [](detail::registered_observer_t* registered, node* node)
             {
-                node->d_func()->registered_observer_list
-                        |= ranges::actions::remove_if([registered](auto* check) {return dynamic_cast<detail::transient_registered_observer_t*>(check)->source == registered;});
+                node->d_func()->registered_observer_list |= ranges::actions::remove_if(
+                        [registered](auto* check)
+                        {return dynamic_cast<const detail::transient_registered_observer_t*>(check) && dynamic_cast<const detail::transient_registered_observer_t*>(check)->source == registered;});
             };
 
     using enum ranges::filter_compare_t;

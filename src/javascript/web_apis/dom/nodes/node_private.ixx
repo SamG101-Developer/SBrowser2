@@ -10,6 +10,7 @@ import ext.vector;
 import ext.memory;
 
 namespace dom {class document;}
+namespace dom {class mutation_observer;}
 namespace html {class html_slot_element;}
 
 
@@ -17,6 +18,7 @@ DEFINE_PRIVATE_CLASS(dom, node)
         : dom::event_target_private
 {
     MAKE_QIMPL(node);
+    friend class dom::mutation_observer;
 
     ext::vector<std::unique_ptr<detail::registered_observer_t>> registered_observer_list;
     std::observer_ptr<document> node_document;
