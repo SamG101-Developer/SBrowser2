@@ -3,6 +3,7 @@ module;
 #include <v8pp/convert.hpp>
 
 module apis.dom.event_private;
+import apis.dom.window;
 import apis.dom.event_target;
 import apis.dom.types;
 import ext.any;
@@ -17,17 +18,18 @@ auto dom::event_private::dispatch(
         event_target* target)
         -> ext::boolean
 {
+    ACCESS_QIMPL;
     dispatch_flag = true;
 
     /* ↓ [LARGEST-CONTENTFUL-PAINT] ↓ */
     auto e = js::env::env::relevant(target);
-    if (auto* window = e.cpp.global<window*>(); window != nullptr && event->d_func()->type() == u"scroll" && event->d_func()->is_trusted())
+    if (auto* window = e.cpp.global<window*>(); window != nullptr && type == u"scroll" && is_trusted)
         window->d_func()->has_dispatched_scroll_event = true;
     /* ↑ [LARGEST-CONTENTFUL-PAINT] ↑ */
 
     /* ↓ [EVENT-TIMING] ↓ */
-    auto interaction_id = event_timing::detail::compute_interaction_id(event);
-    auto entry_timing = event_timing::detail::initialize_event_timing(event, hr_time::detail::current_hr_time(e.js.global()), std::move(interaction_id));
+    auto interaction_id = event_timing::detail::compute_interaction_id(q);
+    auto entry_timing = event_timing::detail::initialize_event_timing(q, hr_time::detail::current_hr_time(e.js.global()), std::move(interaction_id));
     /* ↑ [EVENT-TIMING] ↑ */
 
     decltype(auto) is_activation_event = type == u"click" && dom_cast<ui_events::events::mouse_event*>(event)

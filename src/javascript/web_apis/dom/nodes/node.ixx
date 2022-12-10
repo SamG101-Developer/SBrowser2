@@ -21,6 +21,8 @@ import js.env.module_type;
 
 namespace dom {class document;}
 namespace dom {class element;}
+namespace dom {class abstract_iterator_private;}
+namespace dom {class range;}
 
 
 DEFINE_PUBLIC_CLASS(dom, node)
@@ -32,6 +34,7 @@ public friends:
     friend class dom::non_document_type_child_node;
     friend class dom::parentable_node;
     friend class dom::mutation_observer;
+    friend class dom::abstract_iterator_private;
     friend class dom::range;
     friend class html::html_option_element;
 

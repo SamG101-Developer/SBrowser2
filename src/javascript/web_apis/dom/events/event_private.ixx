@@ -5,6 +5,7 @@ module;
 export module apis.dom.event_private;
 import apis._.dom_object_private;
 import apis.dom.types;
+import ext.any;
 import ext.boolean;
 import ext.string;
 import ext.number;

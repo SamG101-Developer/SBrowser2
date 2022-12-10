@@ -22,5 +22,7 @@ DEFINE_PRIVATE_CLASS(dom, abstract_iterator)
 
     std::observer_ptr<node> root;
     ext::number<ulong> what_to_show;
-    std::unique_ptr<node_filter> filter;
+    std::unique_ptr<node_filter> node_filter;
+
+    auto filter(const node* node) -> ext::number<ushort>;
 };

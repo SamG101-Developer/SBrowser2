@@ -1,7 +1,8 @@
 module;
 #include "ext/macros/pimpl.hpp"
 
-module apis.dom.node_filter_private;
+
+export module apis.dom.node_filter_private;
 import apis._.dom_object_private;
 
 

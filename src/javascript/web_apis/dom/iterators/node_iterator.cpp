@@ -1,10 +1,16 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
 module apis.dom.node_iterator;
 import apis.dom.node_iterator_private;
+
 import ext.boolean;
+import ext.tuple;
+import js.env.module_type;
 
 
 dom::node_iterator::node_iterator()
@@ -20,8 +26,9 @@ auto dom::node_iterator::next_node() -> node*
 {
     // Visit the next node that this NodeIterator is configured to find (with the NodeFilter interface), by calling the
     // detail traversal method, with the NEXT configuration.
-    using detail::traversal_direction_t;
-    return detail::traverse(this, traversal_direction_t::NEXT);
+    ACCESS_PIMPL;
+    using enum node_iterator_private::traversal_direction_t;
+    return d->traverse(NEXT);
 }
 
 
@@ -29,8 +36,9 @@ auto dom::node_iterator::prev_node() -> node*
 {
     // Visit the previous node that this NodeIterator is configured to find (with the NodeFilter interface), by calling
     // the detail traversal method, with the PREVIOUS configuration.
-    using detail::traversal_direction_t;
-    return detail::traverse(this, traversal_direction_t::PREVIOUS);
+    ACCESS_PIMPL;
+    using enum node_iterator_private::traversal_direction_t;
+    return d->traverse(PREVIOUS);
 }
 
 
@@ -55,7 +63,7 @@ auto dom::node_iterator::get_pointer_before_reference_node() const -> ext::boole
 auto dom::node_iterator::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<abstract_iterator>()

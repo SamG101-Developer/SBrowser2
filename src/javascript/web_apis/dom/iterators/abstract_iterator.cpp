@@ -1,10 +1,13 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <tuplet/tuple.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
 
 module apis.dom.abstract_iterator;
+import apis.dom.abstract_iterator_private;
 import ext.number;
 import ext.tuple;
 import js.env.module_type;
@@ -12,8 +15,7 @@ import js.env.module_type;
 
 dom::abstract_iterator::abstract_iterator()
 {
-    INIT_PIMPL;
-    ACCESS_PIMPL;
+    INIT_PIMPL; ACCESS_PIMPL;
 
     d->filter = nullptr;
     d->root = nullptr;
@@ -29,7 +31,7 @@ auto dom::abstract_iterator::get_filter() const -> node_filter*
 }
 
 
-auto dom::abstract_iterator::get_root() const -> nodes::node*
+auto dom::abstract_iterator::get_root() const -> node*
 {
     // The 'root' getter returns the equivalent 'root' attribute value that is stored in the private class.
     ACCESS_PIMPL;
