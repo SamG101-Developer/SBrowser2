@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/filter.hpp>
@@ -6,25 +7,31 @@ module;
 #include <range/v3/view/transform.hpp>
 
 
-module apis.dom.mutation_record;
+module apis.dom.mutation_observer;
+import apis.dom.mutation_observer_private;
+import apis.dom.node;
+import apis.dom.node_private;
+
+import ext.hashing;
+
+import js.env.realms;
+import js.env.slots;
 
 
-dom::mutations::mutation_observer::mutation_observer(detail::mutation_callback_t&& callback)
+dom::mutation_observer::mutation_observer(mutation_callback_t&& callback)
 {
     auto e = js::env::env::relevant(this);
-    decltype(auto) v8_mutation_observers = e.js.global()->GetInternalField(js::global_slots::mutation_observers);
-    decltype(auto) mutation_observers = v8pp::from_v8<ext::vector<mutation_observer*>>(e.js.agent(), v8_mutation_observers); // TODO : T
+    decltype(auto) mutation_observers = js::env::get_slot(e, js::env::slots::MUTATION_OBSERVERS);
     mutation_observers.emplace_back(this);
 
-    INIT_PIMPL(mutation_observer);
-    ACCESS_PIMPL(mutation_observer);
+    INIT_PIMPL; ACCESS_PIMPL;
     d->callback = std::move(callback);
 }
 
 
-auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mutation_observer_init_t&& options) -> void
+auto dom::mutation_observer::observe(node* target, mutation_observer_init_t&& options) -> void
 {
-    ACCESS_PIMPL(mutation_observer);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
 
     // If there is an old attribute value and an attribute filter, then set the "attributes" option to true, as it is
@@ -39,12 +46,12 @@ auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mut
     if (options.contains(u"characterOldDataValue") && !options.contains(u"characterData"))
         options.insert_or_assign(u"characterData", true);
 
-    dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
+    detail::throw_v8_exception<V8_TYPE_ERROR>(
             [&options] {!options.contains(u"childList") && !options.contains(u"attributes") && !options.contains(u"characterData");},
             u8"Either the childList, attributes of characterData must be observed");
 
 
-    auto node_removal = [](detail::registered_observer_t* registered, nodes::node* node)
+    auto node_removal = [](registered_observer_t& registered, node* node)
             {
                 node->d_func()->registered_observer_list
                         |= ranges::actions::remove_if([registered](auto* check) {return dynamic_cast<detail::transient_registered_observer_t*>(check)->source == registered;});
@@ -64,7 +71,7 @@ auto dom::mutations::mutation_observer::observe(nodes::node* target, detail::mut
 }
 
 
-auto dom::mutations::mutation_observer::disconnect() -> void
+auto dom::mutation_observer::disconnect() -> void
 {
     ACCESS_PIMPL(mutation_observer);
 //    d->node_list
@@ -81,7 +88,7 @@ auto dom::mutations::mutation_observer::disconnect() -> void
 }
 
 
-auto dom::mutations::mutation_observer::take_records() -> ext::vector<mutation_record*>
+auto dom::mutation_observer::take_records() -> ext::vector<mutation_record*>
 {
     ACCESS_PIMPL(mutation_observer); // TODO -> unique_ptr
     decltype(auto) current_records = std::move(d->record_queue);
@@ -90,7 +97,7 @@ auto dom::mutations::mutation_observer::take_records() -> ext::vector<mutation_r
 }
 
 
-auto dom::mutations::mutation_observer::_to_v8(
+auto dom::mutation_observer::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

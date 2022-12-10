@@ -1,7 +1,10 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <function2/function2.hpp>
+#include <tuplet/tuple.hpp>
+#include <type_traits>
 
-export module ext.hash;
+export module ext.hashing;
 
 import ext.any;
 import ext.boolean;

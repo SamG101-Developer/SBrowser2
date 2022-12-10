@@ -1,46 +1,50 @@
 module;
+#include "ext/macros/custom_operator.hpp"
 #include "ext/macros/language_shorthand.hpp"
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/set_algorithm.hpp>
 
 
 module apis.dom.mixins.child_node;
+import apis.dom.node;
+import apis.dom.node_private;
 import ext.casting;
+import ext.concepts;
 
 
-template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::child_node::before(T&&... nodes) -> nodes::node*
+template <ext::type_is<dom::nodes::node*, ext::string> ...Args>
+auto dom::child_node::before(Args&&... nodes) -> nodes::node*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to insert nodes into a nullptr parent.
-        decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
+        decltype(auto) base = ext::cross_cast<const node*>(this);
         decltype(auto) parent = base->d_func()->parent_node.get();
         return_if(!parent) ext::nullptr_cast<nodes::node*>();
 
         // The 'viable_previous_siblings' are all the preceding siblings of 'node' that aren't in 'nodes' - this is the
         // set difference. convert the 'nodes' into a single Node.
         decltype(auto) viable_previous_siblings = detail::all_preceding_siblings(base)
-                | ranges::views::set_difference(std::forward<T>(nodes)...);
+                | ranges::views::set_difference(std::forward<Args>(nodes)...);
 
         decltype(auto) viable_previous_sibling = viable_previous_siblings.front();
-        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<T>(nodes)...);
+        decltype(auto) node = detail::convert_nodes_into_node(base->d_func()->node_document, std::forward<Args>(nodes)...);
 
         // If 'viable_previous_sibling' is nullptr, adjust it to be the 'parent''s first child, so that the 'node' be
         // inserted as the first child for the 'parent'; otherwise set it to its next sibling, so 'node' is inserted
         // into the correct place.
-        viable_previous_sibling = !viable_previous_sibling ? detail::first_child(parent) : viable_previous_sibling->next_sibling();
+        viable_previous_sibling = !viable_previous_sibling ? parent->d_func()->first_child() : viable_previous_sibling->d_func()->next_sibling();
         detail::pre_insert(node, parent, viable_previous_sibling);
 
         return node;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::child_node::after(T&&... nodes) -> nodes::node*
+template <ext::type_is<dom::nodes::node*, ext::string> ...Args>
+auto dom::child_node::after(Args&&... nodes) -> nodes::node*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to insert nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
@@ -61,14 +65,14 @@ auto dom::child_node::after(T&&... nodes) -> nodes::node*
         detail::pre_insert(node, parent, viable_next_sibling);
 
         return node;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-template <ext::type_is<dom::nodes::node*, ext::string> ...T>
-auto dom::child_node::replace_with(T&& ...nodes) -> nodes::node*
+template <ext::type_is<dom::nodes::node*, ext::string> ...Args>
+auto dom::child_node::replace_with(Args&& ...nodes) -> nodes::node*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to replace nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
@@ -93,13 +97,13 @@ auto dom::child_node::replace_with(T&& ...nodes) -> nodes::node*
         }
 
         return node;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::child_node::remove() -> nodes::node*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
         // not possible to remove nodes into a nullptr parent.
         decltype(auto) base = ext::cross_cast<const nodes::node*>(this);
@@ -110,7 +114,7 @@ auto dom::child_node::remove() -> nodes::node*
         detail::remove(base);
 
         return ext::nullptr_cast<nodes::node*>();
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 

@@ -4,6 +4,7 @@ module;
 
 export module apis.dom.mutation_record_private;
 import apis._.dom_object_private;
+import ext.memory;
 import ext.string;
 import ext.vector;
 
@@ -21,9 +22,9 @@ DEFINE_PRIVATE_CLASS(dom, mutation_record)
     ext::string attribute_namespace;
     ext::string old_value;
 
-    nodes::node* target;
-    nodes::node* previous_sibling;
-    nodes::node* next_sibling;
+    std::observer_ptr<node> target;
+    std::observer_ptr<node> previous_sibling;
+    std::observer_ptr<node> next_sibling;
 
     ext::vector<node*> added_nodes;
     ext::vector<node*> removed_nodes;

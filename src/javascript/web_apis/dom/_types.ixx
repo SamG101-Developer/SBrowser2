@@ -42,9 +42,6 @@ export namespace dom::detail
     enum class mutation_type_t {ATTRIBUTES, CHARACTER_DATA, CHILD_LIST};
     enum boundary_point_comparison_position_t : short {EQUALS = -1, BEFORE = 0, AFTER = 1};
     enum append_action_t {EXTRACT, CLONE};
-
-    enum class traversal_child_t {FIRST_CHILD, LAST_CHILD};
-    enum class traversal_sibling_t {NEXT_SIBLING, PREVIOUS_SIBLING};
     enum class shadow_root_mode_t {OPEN, CLOSED};
     enum class slot_assignment_mode_t {MANUAL, NAMED};
     enum class dom_exception_error_t {INDEX_SIZE_ERR, DOMSTRING_SIZE_ERR, HIERARCHY_REQUEST_ERR, WRONG_DOCUMENT_ERR,

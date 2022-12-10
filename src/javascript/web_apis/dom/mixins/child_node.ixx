@@ -6,6 +6,7 @@ module;
 
 export module apis.dom.mixins.child_node;
 import apis._.dom_object;
+import ext.concepts;
 import ext.type_traits;
 import ext.tuple;
 import js.env.module_type;
@@ -22,8 +23,8 @@ public constructors:
     MAKE_V8_AVAILABLE(MIXIN);
 
 public js_methods:
-    template <ext::type_is<node*, ext::string> ...T> auto before(T&&... nodes) -> node*;
-    template <ext::type_is<node*, ext::string> ...T> auto after(T&&... nodes) -> node*;
-    template <ext::type_is<node*, ext::string> ...T> auto replace_with(T&&... nodes) -> node*;
+    template <ext::type_is<node*, ext::string> ...Args> auto before(Args&&... nodes) -> node*;
+    template <ext::type_is<node*, ext::string> ...Args> auto after(Args&&... nodes) -> node*;
+    template <ext::type_is<node*, ext::string> ...Args> auto replace_with(Args&&... nodes) -> node*;
     auto remove() -> nodes::node*;
 };

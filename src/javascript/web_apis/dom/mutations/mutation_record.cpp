@@ -1,71 +1,78 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
 module apis.dom.mutation_record;
+import apis.dom.mutation_record_private;
+
 import ext.span;
 import ext.string;
+import ext.tuple;
+import js.env.module_type;
 
 
 auto dom::mutation_record::get_type() const -> ext::string_view
 {
-    ACCESS_PIMPL(const mutation_record);
+    ACCESS_PIMPL;
     return d->type;
 }
 
 
 auto dom::mutation_record::get_attribute_name() const -> ext::string_view
 {
-    ACCESS_PIMPL(const mutation_record);
+    ACCESS_PIMPL;
     return d->attribute_name;
 }
 
 
 auto dom::mutation_record::get_attribute_namespace() const -> ext::string_view
 {
-    ACCESS_PIMPL(const mutation_record);
+    ACCESS_PIMPL;
     return d->attribute_namespace;
 }
 
 
 auto dom::mutation_record::get_old_value() const -> ext::string_view
 {
-    ACCESS_PIMPL(const mutation_record);
+    ACCESS_PIMPL;
     return d->old_value;
 }
 
 
-auto dom::mutation_record::get_target() const -> nodes::node*
+auto dom::mutation_record::get_target() const -> node*
 {
-    ACCESS_PIMPL(const mutation_record);
-    return d->target;
+    ACCESS_PIMPL;
+    return d->target.get();
 }
 
 
-auto dom::mutation_record::get_previous_sibling() const -> nodes::node*
+auto dom::mutation_record::get_previous_sibling() const -> node*
 {
-    ACCESS_PIMPL(const mutation_record);
-    return d->previous_sibling;
+    ACCESS_PIMPL;
+    return d->previous_sibling.get();
 }
 
 
-auto dom::mutation_record::get_next_sibling() const -> nodes::node*
+auto dom::mutation_record::get_next_sibling() const -> node*
 {
-    ACCESS_PIMPL(const mutation_record);
-    return d->next_sibling;
+    ACCESS_PIMPL;
+    return d->next_sibling.get();
 }
 
 
-auto dom::mutation_record::get_added_nodes() const -> ext::vector_span<nodes::node*>
+auto dom::mutation_record::get_added_nodes() const -> ext::vector_span<node*>
 {
-    ACCESS_PIMPL(const mutation_record);
+    ACCESS_PIMPL;
     return d->added_nodes;
 }
 
 
-auto dom::mutation_record::get_removed_nodes() const -> ext::vector_span<nodes::node*>
+auto dom::mutation_record::get_removed_nodes() const -> ext::vector_span<node*>
 {
-    ACCESS_PIMPL(const mutation_record);
+    ACCESS_PIMPL;
     return d->removed_nodes;
 }
 
@@ -73,7 +80,7 @@ auto dom::mutation_record::get_removed_nodes() const -> ext::vector_span<nodes::
 auto dom::mutation_record::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
