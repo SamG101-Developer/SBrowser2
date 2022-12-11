@@ -17,6 +17,7 @@ import js.env.module_type;
 
 namespace dom {class document_fragment;}
 namespace dom {class node;}
+namespace dom {class character_data_private;}
 
 
 DEFINE_PUBLIC_CLASS(dom, range) final
@@ -24,6 +25,7 @@ DEFINE_PUBLIC_CLASS(dom, range) final
 {
 public friends:
     friend class dom::node;
+    friend class dom::character_data_private;
 
 public constructors:
     range();

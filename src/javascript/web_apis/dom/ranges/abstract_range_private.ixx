@@ -4,7 +4,6 @@ module;
 
 export module apis.dom.abstract_range_private;
 import apis._.dom_object_private;
-
 import apis.dom.types;
 
 

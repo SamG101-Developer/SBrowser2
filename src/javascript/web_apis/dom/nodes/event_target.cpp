@@ -8,6 +8,7 @@ module;
 
 
 module apis.dom.event_target;
+import apis.dom.abort_signal;
 import apis.dom.detail;
 import apis.dom.types;
 import ext.boolean;
@@ -55,16 +56,17 @@ auto dom::event_target::add_event_listener(
 }
 
 
+template <ext::type_is<detail::event_listener_options_t, ext::boolean> T>
 auto dom::event_target::remove_event_listener(
         ext::string&& type,
         detail::event_listener_callback_t&& callback,
-        ext::variant<detail::event_listener_options_t, ext::boolean>&& options)
+        T&& options)
         -> void
 {
     ACCESS_PIMPL(event_target);
 
     // Create a dummy event listener that is the flattened options, and insert the callback and type
-    auto event_listener = detail::flatten_more(std::move(options));
+    auto event_listener = detail::flatten_more(std::forward<T>(options));
     event_listener.insert_or_assign(u"callback", std::move(callback));
     event_listener.insert_or_assign(u"type", std::move(type));
 
@@ -87,7 +89,7 @@ auto dom::event_target::remove_event_listener(
 
 
 auto dom::event_target::dispatch_event(
-        events::event* event)
+        event* event)
         -> ext::boolean
 {
     ACCESS_PIMPL(event_target);

@@ -15,7 +15,7 @@ namespace js
         ext::number<int> id;
         using value_t = T;
 
-        constexpr slot() {id = (counter += 1);}
+        slot() {id = (counter += 1);}
     };
 }
 
@@ -27,13 +27,13 @@ namespace js::env
     export namespace slots
     {
         /* [HTML] */
-        constexpr auto MUTATION_OBSERVERS = slot{};
-        constexpr auto MUTATION_OBSERVERS_MICROTASK_QUEUED = slot<ext::boolean>{};
-        constexpr auto notify_observers = slot{};
-        constexpr auto signal_slots = slot{};
-        constexpr auto settings = slot<settings_t*>{};
-        constexpr auto live_ranges = slot<ext::vector<dom::range*>>{};
-        constexpr auto ce_reactions = slot{};
+        const auto MUTATION_OBSERVERS = slot{};
+        const auto MUTATION_OBSERVERS_MICROTASK_QUEUED = slot<ext::boolean>{};
+        const auto NOTIFY_OBSERVERS = slot{};
+        const auto SIGNAL_SLOTS = slot{};
+        const auto SETTINGS = slot<settings_t*>{};
+        const auto LIVE_RANGES = slot<ext::vector<dom::range*>*>{};
+        const auto CE_REACTIONS = slot{};
 
         /* [MEDIACAPTURE-MAIN] */
         // constexpr auto

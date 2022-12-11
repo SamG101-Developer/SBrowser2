@@ -1,5 +1,12 @@
 module apis.dom.event_target_private;
 
+import apis.dom.event;
+import ext.any;
+import ext.boolean;
+import ext.concepts;
+import ext.map;
+import ext.string;
+
 
 auto dom::event_target_private::remove_all_event_listeners() -> void
 {
@@ -13,7 +20,7 @@ auto dom::event_target_private::remove_all_event_listeners() -> void
 }
 
 
-template <ext::inherit<dom::events::event> T>
+template <ext::inherit<dom::event> T>
 auto dom::event_target_private::fire_event(ext::string&& e, ext::map<ext::string, ext::any>&& init) -> ext::boolean
 {
     using namespace std::string_literals;

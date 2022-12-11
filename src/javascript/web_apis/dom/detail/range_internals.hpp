@@ -88,10 +88,4 @@ namespace dom::detail
 }
 
 
-struct dom::detail::boundary_point_t
-{
-    std::observer_ptr<dom::nodes::node> node;
-    ext::number<ulong> offset;
-};
-
 #endif //SBROWSER2_RANGE_INTERNALS_HPP

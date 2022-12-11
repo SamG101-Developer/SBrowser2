@@ -78,23 +78,23 @@ custom_operator(go)
 
 
 // TODO : if the function '_ce_method(...)' doesn't have a return value then branch and complete with no return
-#define _CE_REACTIONS_METHOD_EXE                                                                      \
-    };                                                                                               \
-    {                                                                                                \
-        using _stack_t = dom::detail::custom_element_reactions_stack_t;                              \
-        auto _e = js::env::env::relevant(this);                                                      \
-        auto _ce_reactions_stack = js::env::get_slot<_stack_t*>(_e, js::global_slots::ce_reactions); \
-        _ce_reactions_stack->queues.emplace();                                                       \
-                                                                                                     \
-        JS_EXCEPTION_HANDLER;                                                                        \
-        auto _value = _ce_method();                                                                  \
-        auto _queue = _ce_reactions_stack->queues.top();                                             \
-        _ce_reactions_stack->queues.pop();                                                           \
-                                                                                                     \
-        if (JS_EXCEPTION_HAS_THROWN)                                                                 \
-            JS_EXCEPTION_RETHROW;                                                                    \
-                                                                                                     \
-        return _value;                                                                               \
+#define _CE_REACTIONS_METHOD_EXE                                                                   \
+    };                                                                                             \
+    {                                                                                              \
+        using _stack_t = dom::detail::custom_element_reactions_stack_t;                            \
+        auto _e = js::env::env::relevant(this);                                                    \
+        auto _ce_reactions_stack = js::env::get_slot<_stack_t*>(_e, js::env::slots::CE_REACTIONS); \
+        _ce_reactions_stack->queues.emplace();                                                     \
+                                                                                                   \
+        JS_EXCEPTION_HANDLER;                                                                      \
+        auto _value = _ce_method();                                                                \
+        auto _queue = _ce_reactions_stack->queues.top();                                           \
+        _ce_reactions_stack->queues.pop();                                                         \
+                                                                                                   \
+        if (JS_EXCEPTION_HAS_THROWN)                                                               \
+            JS_EXCEPTION_RETHROW;                                                                  \
+                                                                                                   \
+        return _value;                                                                             \
     }
 
 

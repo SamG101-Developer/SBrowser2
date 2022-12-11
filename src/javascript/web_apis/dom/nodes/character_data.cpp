@@ -1,5 +1,25 @@
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/errors.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8pp/class.hpp>
+#include <v8-isolate.h>
+
 module apis.dom.character_data;
 import apis.dom.character_data_private;
+import apis.dom.types;
+import apis.dom.mixins.child_node;
+import apis.dom.mixins.non_document_type_child_node;
+
+import ext.number;
+import ext.string;
+import ext.tuple;
+import ext.type_traits;
+
+import js.env.module_type;
+import js.env.realms;
+import js.env.slots;
 
 
 dom::character_data::character_data()
@@ -57,7 +77,7 @@ auto dom::character_data::delete_data(
     // private class). This is semantically the same as deleting data, but uses a common detail procedure to multiple
     // other class methods to reduce code duplication. Return the 'data'.
     ACCESS_PIMPL;
-    s->replace_data(this, offset, count, u"");
+    d->replace_data(this, offset, count, u"");
     return d->data;
 }
 
@@ -84,7 +104,7 @@ auto dom::character_data::get_node_value() const -> ext::string
     _CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL;
         return d->data;
-    _CE_REACTIONS_METHOD_EXE;
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -95,11 +115,11 @@ auto dom::character_data::get_text_content() const -> ext::string
     _CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL;
         return d->data;
-    _CE_REACTIONS_METHOD_EXE;
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::character_data::set_node_value(ext::string new_node_value) -> ext::string
+auto dom::character_data::set_node_value(ext::string new_node_value) -> ext::view_of_t<ext::string>
 {
     // The 'node_value' setter sets the equivalent 'data' attribute value that is stored in the private class to the
     // result of applying the 'replace_data(...)' method with the 'new_node_value', to handle bounds checks and live
@@ -107,19 +127,19 @@ auto dom::character_data::set_node_value(ext::string new_node_value) -> ext::str
     _CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL;
         return d->replace_data(0, d->data.length(), std::move(new_node_value));
-    _CE_REACTIONS_METHOD_EXE;
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::character_data::set_text_content(ext::string new_text_content) -> ext::string
+auto dom::character_data::set_text_content(ext::string new_text_content) -> ext::view_of_t<ext::string>
 {
     // The 'text_content' setter sets the equivalent 'data' attribute value that is stored in the private class to the
     // result of applying the 'replace_data(...)' method with the 'new_node_value', to handle bounds checks and live
     // Range updates. Apply custom element reactions to this setter.
     _CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(character_data);
+        ACCESS_PIMPL;
         return d->replace_data(0, d->data.length(), std::move(new_text_content));
-    _CE_REACTIONS_METHOD_EXE;
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -141,7 +161,7 @@ auto dom::character_data::get_length() const -> ext::number<ulong>
 }
 
 
-auto dom::character_data::set_data(ext::string new_data) -> ext::string
+auto dom::character_data::set_data(ext::string new_data) -> ext::view_of_t <ext::string>
 {
     // The 'data' setter sets the equivalent 'data' attribute value that is stored in the private class to the result
     // of applying the 'replace_data(...)' method with the 'new_data', to handle bounds checks and live Range updates.
@@ -154,12 +174,12 @@ auto dom::character_data::set_data(ext::string new_data) -> ext::string
 auto dom::character_data::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
-        .inherit<dom::mixins::child_node>()
-        .inherit<dom::mixins::non_document_type_child_node>()
+        .inherit<dom::child_node>()
+        .inherit<dom::non_document_type_child_node>()
         .function("substringData", &character_data::substring_data)
         .function("appendData", &character_data::append_data)
         .function("insertData", &character_data::insert_data)
@@ -171,4 +191,3 @@ auto dom::character_data::_to_v8(
 
     return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
-

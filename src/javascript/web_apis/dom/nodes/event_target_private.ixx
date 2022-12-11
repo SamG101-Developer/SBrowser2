@@ -11,7 +11,6 @@ import ext.map;
 import ext.string;
 import ext.vector;
 
-namespace dom {class event_target;}
 namespace dom {class event;}
 
 

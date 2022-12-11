@@ -1,11 +1,25 @@
 module;
 #include "ext/macros/custom_operator.hpp"
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/errors.hpp"
+#include "javascript/macros/expose.hpp"
+#include <tuplet/tuple.hpp>
+#include <v8-exception.h>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
 module apis.dom.attr;
 import apis.dom.attr_private;
+import apis.dom.types;
+
 import ext.string;
+import ext.tuple;
+import ext.type_traits;
+
+import js.env.module_type;
+import js.env.realms;
+import js.env.slots;
 
 
 dom::attr::attr()
@@ -37,7 +51,7 @@ auto dom::attr::get_text_content() const -> ext::string
 }
 
 
-auto dom::attr::set_node_value(ext::string new_node_value) -> ext::string
+auto dom::attr::set_node_value(ext::string new_node_value) -> ext::view_of_t<ext::string>
 {
     // The 'node_value' setter sets the equivalent 'value' attribute value that is stored in the private class to the
     // 'new_node_value'. Apply custom element reactions to this setter.
@@ -48,7 +62,7 @@ auto dom::attr::set_node_value(ext::string new_node_value) -> ext::string
 }
 
 
-auto dom::attr::set_text_content(ext::string new_text_content) -> ext::string
+auto dom::attr::set_text_content(ext::string new_text_content) -> ext::view_of_t<ext::string>
 {
     // The 'text_content' setter sets the equivalent 'value' attribute value that is stored in the private class to the
     // 'new_text_content'. Apply custom element reactions to this getter.
@@ -107,11 +121,11 @@ auto dom::attr::get_owner_element() const -> element*
 {
     // The 'element' getter returns the equivalent 'element' attribute value that is stored in the private class.
     ACCESS_PIMPL;
-    return d->element;
+    return d->element.get();
 }
 
 
-auto dom::attr::set_value(ext::string new_value) -> ext::string
+auto dom::attr::set_value(ext::string new_value) -> ext::view_of_t<ext::string>
 {
     // The 'value' setter sets the equivalent 'value' attribute value that is stored in the private class to the
     // 'new_value'. Apply custom element reactions to this setter.
@@ -126,7 +140,7 @@ auto dom::attr::set_value(ext::string new_value) -> ext::string
 auto dom::attr::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()

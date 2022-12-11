@@ -8,6 +8,7 @@ module;
 export module apis.dom.event_target;
 import apis._.dom_object;
 import apis.dom.types;
+import ext.concepts;
 import ext.boolean;
 import ext.string;
 import ext.tuple;

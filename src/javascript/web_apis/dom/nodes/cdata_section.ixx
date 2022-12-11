@@ -2,7 +2,7 @@ module;
 #include "ext/macros/annotations.hpp"
 #include "ext/macros/pimpl.hpp"
 #include "ext/macros/property.hpp"
-#inlcude "javascript/macros/expose.hpp"
+#include "javascript/macros/expose.hpp"
 
 
 export module apis.dom.cdata_section;

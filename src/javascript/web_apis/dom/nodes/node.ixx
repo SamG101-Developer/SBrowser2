@@ -25,6 +25,13 @@ namespace dom {class element;}
 namespace dom {class mutation_observer;}
 namespace dom {class range;}
 
+namespace dom {class child_node;}
+namespace dom {class document_or_element_node;}
+namespace dom {class non_document_type_child_node;}
+namespace dom {class parentable_node;}
+
+namespace html {class html_option_element;}
+
 
 DEFINE_PUBLIC_CLASS(dom, node)
         : public event_target

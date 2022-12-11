@@ -13,6 +13,7 @@ import ext.number;
 import ext.string;
 import ext.tuple;
 import ext.variant;
+import ext.memory;
 import ext.vector;
 
 namespace dom {class event;}
@@ -87,3 +88,9 @@ struct dom::detail::event_path_struct_t
     auto operator==(const event_path_struct_t&) const -> bool = default;
 };
 
+
+export struct dom::detail::boundary_point_t
+{
+    std::observer_ptr<node> node;
+    ext::number<ulong> offset;
+};
