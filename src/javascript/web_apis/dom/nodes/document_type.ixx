@@ -10,13 +10,21 @@ export module apis.dom.document_type;
 import apis.dom.node;
 import apis.dom.mixins.child_node;
 
+import ext.number;
+import ext.string;
+import ext.tuple;
+import ext.type_traits;
+import js.env.module_type;
+
+namespace dom {class dom_implementation;}
+
 
 DEFINE_PUBLIC_CLASS(dom, document_type) final
         : public dom::node
         , public dom::child_node
 {
 public friends:
-    friend class dom::other::dom_implementation;
+    friend class dom::dom_implementation;
 
 public constructors:
     DOM_CTORS(document_type);

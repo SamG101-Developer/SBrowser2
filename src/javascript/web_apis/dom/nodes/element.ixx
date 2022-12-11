@@ -1,7 +1,9 @@
 module;
+#include "ext/macros/annotations.hpp"
 #include "ext/macros/constructors.hpp"
 #include "ext/macros/extended_attributes.hpp"
 #include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
 #include "javascript/macros/expose.hpp"
 
 
@@ -15,10 +17,22 @@ import apis.dom.mixins.slottable;
 import apis.aria.mixins.aria_mixin;
 import css.css_web_animations.mixins.animatable;
 
+import ext.any;
+import ext.boolean;
+import ext.map;
+import ext.number;
+import ext.optional;
+import ext.promise;
+import ext.ranges;
+import ext.string;
+import ext.tuple;
+import ext.type_traits;
+import ext.vector;
+import js.env.module_type;
+
 namespace css::box_tree {class dead_fragment_information;}
 namespace dom {class attr;}
 namespace dom {class shadow_root;}
-namespace dom {class document_or_element_node;}
 namespace edit_context {class edit_context;}
 
 
@@ -44,7 +58,7 @@ public constructors:
 public js_methods:
     /* [DOM] */
     _EXT_NODISCARD auto has_attributes() const -> ext::boolean;
-    _EXT_NODISCARD auto get_attribute_names() const -> ranges::any_view<ext::string>;
+    _EXT_NODISCARD auto get_attribute_names() const -> ranges::any_helpful_view<ext::string>;
 
     _EXT_NODISCARD auto has_attribute(ext::string_view name) const -> ext::boolean;
     _EXT_NODISCARD auto has_attribute_ns(ext::string_view namespace_, ext::string_view local_name) const -> ext::boolean;
@@ -110,7 +124,7 @@ private js_properties:
     DEFINE_GETTER(class_name, ext::string);
     DEFINE_GETTER(slot, ext::string);
     DEFINE_GETTER(id, ext::string);
-    DEFINE_GETTER(shadow_root, nodes::shadow_root*);
+    DEFINE_GETTER(shadow_root, shadow_root*);
     DEFINE_GETTER(attributes, ranges::any_helpful_view<attr*>);
 
     /* [EDIT-CONTENT] */

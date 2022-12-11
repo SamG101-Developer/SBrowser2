@@ -20,4 +20,6 @@ DEFINE_PRIVATE_CLASS(dom, attr)
     ext::string local_name;
     ext::string value;
     std::observer_ptr<element> element;
+
+    auto qualified_name() const -> ext::string;
 };

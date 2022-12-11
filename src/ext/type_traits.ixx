@@ -32,7 +32,7 @@ import ext.variant;
 
 
 _EXT_BEGIN
-    // extend variant with a new types
+    // Extend variant with a new types
     export template <typename OldType, typename ...NewTypes>
     struct extend_variant
     {using type = void;};
@@ -45,28 +45,37 @@ _EXT_BEGIN
     using extend_variant_t = typename extend_variant<OldVariant, NewTypes...>::type;
 
 
-    // get the view of an object
+    // Get the view of an object -- general (non-specialized) type returns the same type.
     export template <typename T>
     struct view_of
     {using type = T;};
 
+    // Convert a 'string_like<T>' object to a 'string_view<...>' object of the same char-traits.
     export template <_EXT string_like T>
     struct view_of<T>
     {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
 
+    // Convert a pure-iterable container (same iterator type for begin() amd end()) to its corresponding 'span<...>' type.
     export template <_EXT pure_iterable T>
     struct view_of<T>
     {using type = _EXT span<typename T::value_type, decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;};
 
-    // export template <_EXT type_is_any_specialization<_EXT function_base> T>
-    // struct view_of<T>
-    // {using type = _EXT function_view<>;};
+    // Convert a 'function<Ts...>' to a 'function_view<Ts...>'.
+    export template <typename ...Ts>
+    struct view_of<_EXT function<Ts...>>
+    {using type = _EXT function_view<Ts...>;};
 
+    // Convert a 'unique_function<Ts...>' to a 'function_view<Ts...>'.
+    export template <typename ...Ts>
+    struct view_of<_EXT unique_function<Ts...>>
+    {using type = _EXT function_view<Ts...>;};
+
+    // Typedef the type value of the 'view_of' struct.
     export template <typename T>
     using view_of_t = typename view_of<std::remove_cvref_t<T>>::type;
 
 
-    // other
+    // Other
     template <typename T, typename F = std::less<T>>
     auto three_way_compare(T&& lhs, T&& rhs, F&& lt_predicate = std::less<T>{}) -> ext::boolean
     {return (lhs == rhs) ? 0 : lt_predicate(std::forward<T>(lhs), std::forward<T>(rhs)) ? -1 : 1;}

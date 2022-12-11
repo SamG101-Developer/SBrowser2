@@ -231,11 +231,3 @@ auto dom::detail::set_existing_attribute_value(
 }
 
 
-auto dom::detail::qualified_name(
-        const nodes::attr* attribute)
-        -> ext::string
-{
-    // The qualified name of an attribute is the 'attribute's prefix followed by a ":", followed by the 'attribute's
-    // local name.
-    return attribute->d_func()->namespace_prefix + u":" + attribute->d_func()->local_name;
-}

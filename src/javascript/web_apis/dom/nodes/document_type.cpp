@@ -1,8 +1,20 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
 module apis.dom.document_type;
+import apis.dom.document_type_private;
+import apis.dom.node;
+import apis.dom.mixins.child_node;
+
+import ext.string;
+import ext.tuple;
+
+import js.env.module_type;
 
 
 dom::document_type::document_type()
@@ -46,11 +58,11 @@ auto dom::document_type::get_system_id() const -> ext::string_view
 auto dom::document_type::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
-        .inherit<mixins::child_node>()
+        .inherit<child_node>()
         .property("name", &document_type::get_name)
         .property("publicId", &document_type::get_public_id)
         .property("systemId", &document_type::get_system_id)

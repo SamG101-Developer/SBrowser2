@@ -9,10 +9,10 @@ module;
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
 
-export module apis.dom.document;
+module apis.dom.document;
 
 
-dom::nodes::document::document()
+dom::document::document()
 {
     INIT_PIMPL(document);
     ACCESS_PIMPL(document);
@@ -36,7 +36,7 @@ dom::nodes::document::document()
 }
 
 
-auto dom::nodes::document::create_element(
+auto dom::document::create_element(
         ext::string&& local_name,
         ext::map<ext::string, ext::any>&& options)
         -> std::unique_ptr<element>
@@ -56,7 +56,7 @@ auto dom::nodes::document::create_element(
 }
 
 
-auto dom::nodes::document::create_element_ns(
+auto dom::document::create_element_ns(
         ext::string&& namespace_,
         ext::string&& qualified_name,
         ext::map<ext::string, ext::any>&& options)
@@ -74,7 +74,7 @@ auto dom::nodes::document::create_element_ns(
 }
 
 
-auto dom::nodes::document::create_document_fragment() -> std::unique_ptr<document_fragment>
+auto dom::document::create_document_fragment() -> std::unique_ptr<document_fragment>
 {
     // create a DocumentFragment node, and set its owner document to this document
     auto node = std::make_unique<document_fragment>();
@@ -83,7 +83,7 @@ auto dom::nodes::document::create_document_fragment() -> std::unique_ptr<documen
 }
 
 
-auto dom::nodes::document::create_text_node(ext::string&& data) -> std::unique_ptr<text>
+auto dom::document::create_text_node(ext::string&& data) -> std::unique_ptr<text>
 {
     // create a Text node, and set its data and owner document to the 'data' parameter and this document
     auto node = std::make_unique<text>();
@@ -93,7 +93,7 @@ auto dom::nodes::document::create_text_node(ext::string&& data) -> std::unique_p
 }
 
 
-auto dom::nodes::document::create_cdata_section_node(ext::string&& data) -> std::unique_ptr<cdata_section>
+auto dom::document::create_cdata_section_node(ext::string&& data) -> std::unique_ptr<cdata_section>
 {
     ACCESS_PIMPL(const document);
     using enum detail::dom_exception_error_t;
@@ -113,7 +113,7 @@ auto dom::nodes::document::create_cdata_section_node(ext::string&& data) -> std:
 }
 
 
-auto dom::nodes::document::create_comment(ext::string&& data) -> std::unique_ptr<comment>
+auto dom::document::create_comment(ext::string&& data) -> std::unique_ptr<comment>
 {
     auto node = std::make_unique<comment>();
     node.d_func()->data = std::move(data);
@@ -122,7 +122,7 @@ auto dom::nodes::document::create_comment(ext::string&& data) -> std::unique_ptr
 }
 
 
-auto dom::nodes::document::create_processing_instruction(ext::string&& target, ext::string&& data) -> std::unique_ptr<processing_instruction>
+auto dom::document::create_processing_instruction(ext::string&& target, ext::string&& data) -> std::unique_ptr<processing_instruction>
 {
     using enum detail::dom_exception_error_t;
 
@@ -138,7 +138,7 @@ auto dom::nodes::document::create_processing_instruction(ext::string&& target, e
 }
 
 
-auto dom::nodes::document::create_attribute(ext::string&& local_name) -> std::unique_ptr<attr>
+auto dom::document::create_attribute(ext::string&& local_name) -> std::unique_ptr<attr>
 {
     ACCESS_PIMPL(const document);
     auto html_adjusted_local_name = d->type == u"html"
@@ -152,7 +152,7 @@ auto dom::nodes::document::create_attribute(ext::string&& local_name) -> std::un
 }
 
 
-auto dom::nodes::document::create_attribute_ns(ext::string&& namespace_, ext::string&& qualified_name) -> std::unique_ptr<attr>
+auto dom::document::create_attribute_ns(ext::string&& namespace_, ext::string&& qualified_name) -> std::unique_ptr<attr>
 {
     auto [prefix, local_name] = detail::validate_and_extract(std::move(namespace_), std::move(qualified_name));
 
@@ -165,7 +165,7 @@ auto dom::nodes::document::create_attribute_ns(ext::string&& namespace_, ext::st
 }
 
 
-auto dom::nodes::document::create_range() -> std::unique_ptr<node_ranges::range>
+auto dom::document::create_range() -> std::unique_ptr<node_ranges::range>
 {
     auto live_range = std::unique_ptr<node_ranges::range>();
 
@@ -175,7 +175,7 @@ auto dom::nodes::document::create_range() -> std::unique_ptr<node_ranges::range>
 }
 
 
-auto dom::nodes::document::import_node(node* new_node, ext::boolean deep) -> node*
+auto dom::document::import_node(node* new_node, ext::boolean deep) -> node*
 {
     using enum detail::dom_exception_error_t;
 
@@ -191,7 +191,7 @@ auto dom::nodes::document::import_node(node* new_node, ext::boolean deep) -> nod
 }
 
 
-auto dom::nodes::document::adopt_node(node* new_node) -> node*
+auto dom::document::adopt_node(node* new_node) -> node*
 {
     using enum detail::dom_exception_error_t;
 
@@ -211,16 +211,16 @@ auto dom::nodes::document::adopt_node(node* new_node) -> node*
 }
 
 
-auto dom::nodes::document::get_location() const -> html::other::location*
+auto dom::document::get_location() const -> html::other::location*
 {
     auto e = js::env::env::relevant(this);
     return detail::is_document_fully_active(this)
-            ? e.cpp.global<dom::nodes::window*>()->d_func()->location.get()
+            ? e.cpp.global<dom::window*>()->d_func()->location.get()
             : nullptr;
 }
 
 
-auto dom::nodes::document::get_domain() const -> ext::string
+auto dom::document::get_domain() const -> ext::string
 {
     ACCESS_PIMPL(const document);
     decltype(auto) effective_domain = html::detail::effective_domain(*d->origin);
@@ -228,7 +228,7 @@ auto dom::nodes::document::get_domain() const -> ext::string
 }
 
 
-auto dom::nodes::document::set_domain(ext::string new_domain) -> ext::string
+auto dom::document::set_domain(ext::string new_domain) -> ext::string
 {
     ACCESS_PIMPL(document);
     using enum dom::detail::dom_exception_error_t;
@@ -261,14 +261,14 @@ auto dom::nodes::document::set_domain(ext::string new_domain) -> ext::string
 }
 
 
-auto dom::nodes::document::get_referrer() const -> ext::string_view
+auto dom::document::get_referrer() const -> ext::string_view
 {
     ACCESS_PIMPL(const document);
     return d->referrer;
 }
 
 
-auto dom::nodes::document::get_cookie() const -> ext::string
+auto dom::document::get_cookie() const -> ext::string
 {
     ACCESS_PIMPL(const document);
     using enum dom::detail::dom_exception_error_t;
@@ -288,7 +288,7 @@ auto dom::nodes::document::get_cookie() const -> ext::string
 }
 
 
-auto dom::nodes::document::get_last_modified() const -> ext::string
+auto dom::document::get_last_modified() const -> ext::string
 {
     ACCESS_PIMPL(const document);
 
@@ -301,7 +301,7 @@ auto dom::nodes::document::get_last_modified() const -> ext::string
 }
 
 
-auto dom::nodes::document::get_ready_state() const -> html::detail::document_readiness_state_t
+auto dom::document::get_ready_state() const -> html::detail::document_readiness_state_t
 {
     ACCESS_PIMPL(const document);
     return d->current_readiness_state;
@@ -309,17 +309,17 @@ auto dom::nodes::document::get_ready_state() const -> html::detail::document_rea
 
 
 
-auto dom::nodes::document::get_title() const -> ext::string
+auto dom::document::get_title() const -> ext::string
 {
     // the title element is either the first SVGTitleElement of the document element, if the document element is an
     // SvgElement. otherwise it is the first HTMLTitleElement of this document
     decltype(auto) title_element = dynamic_cast<svg::elements::svg_element*>(detail::document_element(this))
             ? ranges::front(detail::document_element(this)->d_func()->child_nodes
-                    | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
+                    | ranges::views::transform(&std::unique_ptr<dom::node>::get)
                     | ranges::views::cast<svg::elements::svg_title_element*>)
 
             : ranges::front(detail::document_element(this)->d_func()->child_nodes
-                    | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
+                    | ranges::views::transform(&std::unique_ptr<dom::node>::get)
                     | ranges::views::cast<html::detail::html_title_element*>);
 
     // the value of the xxxTitleElement is the child text content of it, with the ascii whitespace stripped and
@@ -329,7 +329,7 @@ auto dom::nodes::document::get_title() const -> ext::string
 }
 
 
-auto dom::nodes::document::get_dir() const -> html::detail::directionality_t
+auto dom::document::get_dir() const -> html::detail::directionality_t
 {
     ACCESS_PIMPL(const document);
 
@@ -340,31 +340,31 @@ auto dom::nodes::document::get_dir() const -> html::detail::directionality_t
 }
 
 
-auto dom::nodes::document::get_body() const -> html::elements::html_body_element*
+auto dom::document::get_body() const -> html::elements::html_body_element*
 {
     ACCESS_PIMPL(const document);
 
     // the body element is the first child of the HTMLHtmlElement that is a HTMLBodyElement; if there are no body
     // elements, then return nullptr - this is handled by returning a deference of the begin pointer
     return ranges::front(d->html_element->d_func()->child_nodes
-            | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
+            | ranges::views::transform(&std::unique_ptr<dom::node>::get)
             | ranges::views::cast<html::elements::html_body_element*>);
 }
 
 
-auto dom::nodes::document::get_head() const -> html::elements::html_head_element*
+auto dom::document::get_head() const -> html::elements::html_head_element*
 {
     ACCESS_PIMPL(const document);
 
     // the head element is  the first child of the HTMLHtmlElement that is a HTMLHeadElement; if there are no head
     // elements, then return nullptr - this is handled by returning a deference of the begin pointer
     return ranges::front(d->html_element->d_func()->child_nodes
-            | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
+            | ranges::views::transform(&std::unique_ptr<dom::node>::get)
             | ranges::views::cast<html::elements::html_head_element*>);
 }
 
 
-auto dom::nodes::document::get_images() const -> ranges::any_helpful_view<html::elements::html_image_element*>
+auto dom::document::get_images() const -> ranges::any_helpful_view<html::elements::html_image_element*>
 {
     // the HTMLImageElements in this Document are all the HTMLImageElements that are descendants of this Document (live
     // collection)
@@ -372,7 +372,7 @@ auto dom::nodes::document::get_images() const -> ranges::any_helpful_view<html::
 }
 
 
-auto dom::nodes::document::get_links() const -> ranges::any_helpful_view<html::elements::html_element*>
+auto dom::document::get_links() const -> ranges::any_helpful_view<html::elements::html_element*>
 {
     using enum ranges::filter_compare_t;
 
@@ -390,7 +390,7 @@ auto dom::nodes::document::get_links() const -> ranges::any_helpful_view<html::e
 }
 
 
-auto dom::nodes::document::get_forms() const -> ranges::any_helpful_view<html::elements::html_form_element*>
+auto dom::document::get_forms() const -> ranges::any_helpful_view<html::elements::html_form_element*>
 {
     // the HTMLFormElements in this Document are all the HTMLFormElements that are descendants of this Document (live
     // collection)
@@ -398,7 +398,7 @@ auto dom::nodes::document::get_forms() const -> ranges::any_helpful_view<html::e
 }
 
 
-auto dom::nodes::document::get_scripts() const -> ranges::any_helpful_view<html::elements::html_script_element*>
+auto dom::document::get_scripts() const -> ranges::any_helpful_view<html::elements::html_script_element*>
 {
     // the HTMLScriptElements in this Document are all the HTMLScriptElements that are descendants of this Document
     // (live collection)
@@ -406,14 +406,14 @@ auto dom::nodes::document::get_scripts() const -> ranges::any_helpful_view<html:
 }
 
 
-auto dom::nodes::document::get_current_script() const -> html::detail::html_or_svg_image_element_t
+auto dom::document::get_current_script() const -> html::detail::html_or_svg_image_element_t
 {
     ACCESS_PIMPL(const document);
     return d->current_script;
 }
 
 
-auto dom::nodes::document::get_default_view() const -> window_proxy*
+auto dom::document::get_default_view() const -> window_proxy*
 {
     ACCESS_PIMPL(const document);
     return_if (!d->browsing_context.get()) nullptr;
@@ -421,14 +421,14 @@ auto dom::nodes::document::get_default_view() const -> window_proxy*
 }
 
 
-auto dom::nodes::document::get_design_mode() const -> ext::boolean
+auto dom::document::get_design_mode() const -> ext::boolean
 {
     ACCESS_PIMPL(const document);
     return d->design_mode_enabled;
 }
 
 
-auto dom::nodes::document::set_cookie(ext::string new_cookie) -> ext::string
+auto dom::document::set_cookie(ext::string new_cookie) -> ext::string
 {
     ACCESS_PIMPL(document);
     using enum dom::detail::dom_exception_error_t;
@@ -448,7 +448,7 @@ auto dom::nodes::document::set_cookie(ext::string new_cookie) -> ext::string
 }
 
 
-// auto dom::nodes::document::set_ready_state(
+// auto dom::document::set_ready_state(
 //         const ext::string& val)
 //         -> void
 // {
@@ -470,7 +470,7 @@ auto dom::nodes::document::set_cookie(ext::string new_cookie) -> ext::string
 // }
 
 
-auto dom::nodes::document::set_title(ext::string new_title) -> ext::string
+auto dom::document::set_title(ext::string new_title) -> ext::string
 {
     ACCESS_PIMPL(document);
     decltype(auto) document_element = detail::document_element(this);
@@ -483,7 +483,7 @@ auto dom::nodes::document::set_title(ext::string new_title) -> ext::string
         // 'document_element' (call insert not pre_insert, because the newly created 'title_element' can't be the first
         // child when it has just been created)
         decltype(auto) title_element = ranges::front(document_element->d_func()->child_nodes
-                | ranges::views::transform(&std::unique_ptr<dom::nodes::node>::get)
+                | ranges::views::transform(&std::unique_ptr<dom::node>::get)
                 | ranges::views::cast<svg::elements::svg_title_element*>);
 
         if (!title_element)
@@ -518,7 +518,7 @@ auto dom::nodes::document::set_title(ext::string new_title) -> ext::string
 }
 
 
-auto dom::nodes::document::set_dir(html::detail::directionality_t new_dir) -> html::detail::directionality_t
+auto dom::document::set_dir(html::detail::directionality_t new_dir) -> html::detail::directionality_t
 {
     ACCESS_PIMPL(document);
 
@@ -527,7 +527,7 @@ auto dom::nodes::document::set_dir(html::detail::directionality_t new_dir) -> ht
 }
 
 
-auto dom::nodes::document::set_body(html::elements::html_body_element* new_body) -> html::elements::html_body_element*
+auto dom::document::set_body(html::elements::html_body_element* new_body) -> html::elements::html_body_element*
 {
     ACCESS_PIMPL(document);
     using enum dom::detail::dom_exception_error_t;
@@ -552,7 +552,7 @@ auto dom::nodes::document::set_body(html::elements::html_body_element* new_body)
 }
 
 
-auto dom::nodes::document::set_design_mode(ext::boolean new_design_mode) -> ext::boolean
+auto dom::document::set_design_mode(ext::boolean new_design_mode) -> ext::boolean
 {
     ACCESS_PIMPL(document);
 
@@ -568,7 +568,7 @@ auto dom::nodes::document::set_design_mode(ext::boolean new_design_mode) -> ext:
 }
 
 
-auto dom::nodes::document::set_visibility_state(page_visibility::detail::visibility_state_t new_visibility_state) -> page_visibility::detail::visibility_state_t
+auto dom::document::set_visibility_state(page_visibility::detail::visibility_state_t new_visibility_state) -> page_visibility::detail::visibility_state_t
 {
     ACCESS_PIMPL(document);
 
@@ -578,7 +578,7 @@ auto dom::nodes::document::set_visibility_state(page_visibility::detail::visibil
 }
 
 
-auto dom::nodes::document::operator[](
+auto dom::document::operator[](
         const ext::string& name)
         -> ranges::any_view<element*>&
 {
@@ -589,7 +589,7 @@ auto dom::nodes::document::operator[](
 }
 
 
-auto dom::nodes::document::_to_v8(
+auto dom::document::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

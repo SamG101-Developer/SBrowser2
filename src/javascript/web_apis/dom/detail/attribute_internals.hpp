@@ -72,9 +72,7 @@ namespace dom::detail
             -> void;
 
     // other
-    auto qualified_name(
-            const nodes::attr* attribute)
-            -> ext::string;
+
 }
 
 

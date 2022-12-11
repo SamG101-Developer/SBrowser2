@@ -1,32 +1,38 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include <range/v3/view/transform.hpp>
 
 
 module apis.dom.element;
+import apis.dom.element_private;
 
-dom::nodes::element::element()
+import ext.boolean;
+import ext.ranges;
+import ext.string;
+
+
+dom::element::element()
 {
-    INIT_PIMPL(element);
-    ACCESS_PIMPL(element);
+    INIT_PIMPL; ACCESS_PIMPL;
     d->shadow_root = nullptr;
 }
 
 
-auto dom::nodes::element::has_attributes() const -> ext::boolean
+auto dom::element::has_attributes() const -> ext::boolean
 {
     // Return true if the 'attributes' list of this Element is not empty; ie it must contain 1+ Attr node. Used as
     // syntactic sugar around accessing the attributes list, and also allows it to be bound to as a parameter to another
     // function.
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return !d->attribute_list.empty();
 }
 
 
-auto dom::nodes::element::get_attribute_names() const -> ranges::any_view<ext::string>
+auto dom::element::get_attribute_names() const -> ranges::any_helpful_view<ext::string>
 {
     // Transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. Return as an
     // `any_helpful_view` object for type erasure (no need to know the internal range-type workings).
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
     decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(&detail::qualified_name);
     return attribute_names;
@@ -36,7 +42,7 @@ auto dom::nodes::element::get_attribute_names() const -> ranges::any_view<ext::s
 /* HAS ATTRIBUTE */
 
 
-auto dom::nodes::element::has_attribute(
+auto dom::element::has_attribute(
         ext::string_view name)
         const -> ext::boolean
 {
@@ -48,7 +54,7 @@ auto dom::nodes::element::has_attribute(
 }
 
 
-auto dom::nodes::element::has_attribute_ns(
+auto dom::element::has_attribute_ns(
         ext::string_view namespace_,
         ext::string_view local_name)
         const -> ext::boolean
@@ -64,7 +70,7 @@ auto dom::nodes::element::has_attribute_ns(
 }
 
 
-auto dom::nodes::element::has_attribute_node(
+auto dom::element::has_attribute_node(
         attr* attribute)
         const -> ext::boolean
 {
@@ -75,7 +81,7 @@ auto dom::nodes::element::has_attribute_node(
 }
 
 
-auto dom::nodes::element::has_attribute_node_ns(
+auto dom::element::has_attribute_node_ns(
         attr* attribute)
         const -> ext::boolean
 {
@@ -88,7 +94,7 @@ auto dom::nodes::element::has_attribute_node_ns(
 /* GET ATTRIBUTE */
 
 
-auto dom::nodes::element::get_attribute(
+auto dom::element::get_attribute(
         ext::string_view qualified_name)
         const -> ext::string
 {
@@ -100,7 +106,7 @@ auto dom::nodes::element::get_attribute(
 }
 
 
-auto dom::nodes::element::get_attribute_ns(
+auto dom::element::get_attribute_ns(
         ext::string_view namespace_,
         ext::string_view local_name)
         const -> ext::string
@@ -112,7 +118,7 @@ auto dom::nodes::element::get_attribute_ns(
 }
 
 
-auto dom::nodes::element::get_attribute_node(
+auto dom::element::get_attribute_node(
         ext::string_view qualified_name)
         const -> attr*
 {
@@ -127,7 +133,7 @@ auto dom::nodes::element::get_attribute_node(
 }
 
 
-auto dom::nodes::element::get_attribute_node_ns(
+auto dom::element::get_attribute_node_ns(
         ext::string_view namespace_,
         ext::string_view local_name)
         const -> attr*
@@ -145,7 +151,7 @@ auto dom::nodes::element::get_attribute_node_ns(
 /* SET ATTRIBUTE */
 
 
-auto dom::nodes::element::set_attribute(
+auto dom::element::set_attribute(
         ext::string_view qualified_name,
         ext::string_view value)
         -> attr*
@@ -161,7 +167,7 @@ auto dom::nodes::element::set_attribute(
 }
 
 
-auto dom::nodes::element::set_attribute_ns(
+auto dom::element::set_attribute_ns(
         ext::string_view namespace_,
         ext::string_view qualified_name,
         ext::string_view value)
@@ -179,7 +185,7 @@ auto dom::nodes::element::set_attribute_ns(
 }
 
 
-auto dom::nodes::element::set_attribute_node(
+auto dom::element::set_attribute_node(
         std::unique_ptr<attr>&& attribute)
         -> attr*
 {
@@ -192,7 +198,7 @@ auto dom::nodes::element::set_attribute_node(
 }
 
 
-auto dom::nodes::element::set_attribute_node_ns(
+auto dom::element::set_attribute_node_ns(
         std::unique_ptr<attr>&& attribute)
         -> attr*
 {
@@ -208,7 +214,7 @@ auto dom::nodes::element::set_attribute_node_ns(
 /* REMOVE ATTRIBUTE */
 
 
-auto dom::nodes::element::remove_attribute(
+auto dom::element::remove_attribute(
         ext::string_view qualified_name)
         -> attr*
 {
@@ -221,7 +227,7 @@ auto dom::nodes::element::remove_attribute(
 }
 
 
-auto dom::nodes::element::remove_attribute_ns(
+auto dom::element::remove_attribute_ns(
         ext::string_view namespace_,
         ext::string_view local_name)
         -> attr*
@@ -235,7 +241,7 @@ auto dom::nodes::element::remove_attribute_ns(
 }
 
 
-auto dom::nodes::element::remove_attribute_node(
+auto dom::element::remove_attribute_node(
         attr* attribute)
         -> attr*
 {
@@ -247,7 +253,7 @@ auto dom::nodes::element::remove_attribute_node(
 }
 
 
-auto dom::nodes::element::remove_attribute_node_ns(
+auto dom::element::remove_attribute_node_ns(
         attr* attribute)
         -> attr*
 {
@@ -262,7 +268,7 @@ auto dom::nodes::element::remove_attribute_node_ns(
 /* TOGGLE ATTRIBUTE */
 
 
-auto dom::nodes::element::toggle_attribute(
+auto dom::element::toggle_attribute(
         ext::string_view qualified_name,
         ext::optional<ext::boolean>&& force)
         -> ext::boolean
@@ -274,7 +280,7 @@ auto dom::nodes::element::toggle_attribute(
 }
 
 
-auto dom::nodes::element::toggle_attribute_ns(
+auto dom::element::toggle_attribute_ns(
         ext::string_view namespace_,
         ext::string_view local_name,
         ext::optional<ext::boolean>&& force)
@@ -287,7 +293,7 @@ auto dom::nodes::element::toggle_attribute_ns(
 }
 
 
-auto dom::nodes::element::toggle_attribute_node(
+auto dom::element::toggle_attribute_node(
         attr* attribute,
         ext::optional<ext::boolean>&& force)
         -> attr*
@@ -299,7 +305,7 @@ auto dom::nodes::element::toggle_attribute_node(
 }
 
 
-auto dom::nodes::element::toggle_attribute_node_ns(
+auto dom::element::toggle_attribute_node_ns(
         attr* attribute,
         ext::optional<ext::boolean>&& force)
         -> attr*
@@ -314,7 +320,7 @@ auto dom::nodes::element::toggle_attribute_node_ns(
 /* OTHER */
 
 
-auto dom::nodes::element::attach_shadow(
+auto dom::element::attach_shadow(
         ext::map<ext::string, ext::any>&& options)
         -> std::unique_ptr<shadow_root>
 {
@@ -355,41 +361,41 @@ auto dom::nodes::element::attach_shadow(
 /* ACCESSORS */
 
 
-auto dom::nodes::element::get_namespace_uri() const -> ext::string
+auto dom::element::get_namespace_uri() const -> ext::string
 {
     ACCESS_PIMPL(const element);
     return d->namespace_;
 }
 
 
-auto dom::nodes::element::get_prefix() const -> ext::string
+auto dom::element::get_prefix() const -> ext::string
 {
     ACCESS_PIMPL(const element);
     return d->namespace_prefix;
 }
 
 
-auto dom::nodes::element::get_local_name() const -> ext::string
+auto dom::element::get_local_name() const -> ext::string
 {
     ACCESS_PIMPL(const element);
     return d->local_name;
 }
 
 
-auto dom::nodes::element::get_tag_name() const -> ext::string
+auto dom::element::get_tag_name() const -> ext::string
 {
     return detail::html_uppercase_qualified_name(this);
 }
 
 
-auto dom::nodes::element::get_class_list() const -> ext::vector<ext::string>
+auto dom::element::get_class_list() const -> ext::vector<ext::string>
 {
     ACCESS_PIMPL(const element);
     return d->class_ | ranges::views::split_string(',') | ranges::to<ext::vector<ext::string>>; // TODO : live?
 }
 
 
-auto dom::nodes::element::get_class_name() const -> ext::string
+auto dom::element::get_class_name() const -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const element);
@@ -398,7 +404,7 @@ auto dom::nodes::element::get_class_name() const -> ext::string
 }
 
 
-auto dom::nodes::element::get_slot() const -> ext::string
+auto dom::element::get_slot() const -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const element);
@@ -407,7 +413,7 @@ auto dom::nodes::element::get_slot() const -> ext::string
 }
 
 
-auto dom::nodes::element::get_id() const -> ext::string
+auto dom::element::get_id() const -> ext::string
 {
     CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const element);
@@ -416,21 +422,21 @@ auto dom::nodes::element::get_id() const -> ext::string
 }
 
 
-auto dom::nodes::element::get_shadow_root() const -> nodes::shadow_root*
+auto dom::element::get_shadow_root() const -> nodes::shadow_root*
 {
     ACCESS_PIMPL(const element);
     return d->shadow_root.get();
 }
 
 
-auto dom::nodes::element::get_attributes() const -> ranges::any_helpful_view<attr*>
+auto dom::element::get_attributes() const -> ranges::any_helpful_view<attr*>
 {
     ACCESS_PIMPL(const element);
     return d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
 }
 
 
-auto dom::nodes::element::_to_v8(
+auto dom::element::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>
