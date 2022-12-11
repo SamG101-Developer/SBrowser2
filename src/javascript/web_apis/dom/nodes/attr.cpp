@@ -10,8 +10,7 @@ import ext.string;
 
 dom::attr::attr()
 {
-    INIT_PIMPL;
-    ACCESS_PIMPL;
+    INIT_PIMPL; ACCESS_PIMPL;
     d->element = nullptr;
 }
 

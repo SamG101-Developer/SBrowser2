@@ -3,11 +3,14 @@ module;
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/remove_if.hpp>
+#include <swl/variant.hpp>
 #include <utility>
 
 
 module apis.dom.event_target;
-import apis.dom._types;
+import apis.dom.detail;
+import apis.dom.types;
+import ext.boolean;
 import ext.string;
 import ext.variant;
 
@@ -18,26 +21,27 @@ dom::event_target::event_target()
 }
 
 
+template <ext::type_is<detail::add_event_listener_options_t, ext::boolean T>
 auto dom::event_target::add_event_listener(
         ext::string&& type,
         detail::event_listener_callback_t&& callback,
-        ext::variant<detail::add_event_listener_options_t, ext::boolean>&& options)
+        T&& options)
         -> void
 {
     ACCESS_PIMPL;
 
     // Create an event listener that is the flattened options, and insert the callback and type.
-    auto event_listener = detail::flatten_more(std::move(options));
+    auto event_listener = detail::flatten_more(std::forward<T>(options));
     event_listener.insert_or_assign(u"callback", std::move(callback));
     event_listener.insert_or_assign(u"type", std::move(type));
 
     // Get the abort signal from the event listener, and default the object to nullptr if it doesn't exist in the map.
     decltype(auto) signal = event_listener[u"signal"].to<abort::abort_signal*>();
 
-    // Return if any of the following conditions are true
-    //  - There is no callback - invoking the event listener would have no effect and would waste cycles;
-    //  - There is a signal that has already aborted - no need for the event listener to exist;
-    //  - The event listener is already stored in the event listeners list - no duplicates allowed;
+    // Return if any of the following conditions are true:
+    //  - There is no callback -- invoking the event listener would have no effect and would waste cycles;
+    //  - There is a signal that has already aborted -- no need for the event listener to exist;
+    //  - The event listener is already stored in the event listeners list -- no duplicates allowed;
     if (!event_listener.contains(u"callback")
             || signal && signal->d_func()->aborted()
             || ranges::contains(d->event_listeners, event_listener))
@@ -45,7 +49,7 @@ auto dom::event_target::add_event_listener(
 
     // Append the event listener to the event listeners list and if there is an abort signal, add an abort algorithm
     // that removes the event_listener from the event_target->d_func()->event_listeners list.
-    d->event_listeners.push_back(event_listener);
+    d->event_listeners.emplace_back(std::move(event_listener));
     if (signal)
         signal->d_func()->abort_algorithms.emplace_back(BIND_FRONT(event_target::remove_event_listener, this, event_listener));
 }

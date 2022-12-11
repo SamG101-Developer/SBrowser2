@@ -4,12 +4,19 @@ module;
 
 export module apis.dom.node_private;
 import apis.dom.event_target_private;
+import apis.dom.types;
 import ext.boolean;
-import ext.number;
-import ext.vector;
 import ext.memory;
+import ext.number;
+import ext.ranges;
+import ext.string;
+import ext.vector;
 
 namespace dom {class document;}
+namespace dom {class element;}
+namespace dom {class node;}
+namespace dom {class shadow_root;}
+namespace dom {class text;}
 namespace dom {class mutation_observer;}
 namespace html {class html_slot_element;}
 
@@ -17,15 +24,18 @@ namespace html {class html_slot_element;}
 DEFINE_PRIVATE_CLASS(dom, node)
         : dom::event_target_private
 {
+public:
     MAKE_QIMPL(node);
     friend class dom::mutation_observer;
 
+public:
     ext::vector<std::unique_ptr<detail::registered_observer_t>> registered_observer_list;
     std::observer_ptr<document> node_document;
 
     ext::vector<std::unique_ptr<node>> child_nodes;
     std::observer_ptr<node> parent_node;
-    
+
+public:
     auto root() const -> node*;
     auto ancestors() const -> ranges::any_helpful_view<node*>;
     auto descendants() -> ranges::any_helpful_view<node*>;
@@ -63,7 +73,7 @@ DEFINE_PRIVATE_CLASS(dom, node)
     auto descendant_text_content() const -> ext::string;
     auto child_text_content() const -> ext::string;
 
-    auto common_ancestor(const nodes::node* other) const -> node*;
+    auto common_ancestor(const node* other) const -> node*;
     auto is_document_element() const -> ext::boolean;
 
     auto is_connected() const -> ext::boolean;
@@ -71,18 +81,18 @@ DEFINE_PRIVATE_CLASS(dom, node)
     auto is_slottable() const -> ext::boolean;
     auto is_assigned() const -> ext::boolean;
 
-    auto is_root_shadow_root() const -> nodes::shadow_root*;
+    auto is_root_shadow_root() const -> shadow_root*;
     auto is_shadow_root() const -> ext::boolean;
     auto is_shadow_host() const -> ext::boolean;
 
     auto shadow_including_descendants() const -> ranges::any_helpful_view<node*>;
-    auto is_shadow_including_descendant(const nodes::node* other) const -> ext::boolean;
-    auto is_shadow_including_ancestor(const nodes::node* other) const -> ext::boolean;
-    auto is_host_including_ancestor(const nodes::node* other) -> ext::boolean;
-    auto is_closed_shadow_hidden(const nodes::node* other) const -> ext::boolean;
+    auto is_shadow_including_descendant(const node* other) const -> ext::boolean;
+    auto is_shadow_including_ancestor(const node* other) const -> ext::boolean;
+    auto is_host_including_ancestor(const node* other) -> ext::boolean;
+    auto is_closed_shadow_hidden(const node* other) const -> ext::boolean;
 
     auto signal_slot_change() const -> void;
-    auto shadow_including_root() const -> nodes::node*;
+    auto shadow_including_root() const -> node*;
     auto shadow_root() const -> shadow_root*;
 
     auto assign_slot() const -> void;

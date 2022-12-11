@@ -2,9 +2,12 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-module apis.dom.attr_private;
+export module apis.dom.attr_private;
 import apis.dom.node_private;
+import ext.memory;
 import ext.string;
+
+namespace dom {class element;}
 
 
 DEFINE_PRIVATE_CLASS(dom, attr)
@@ -16,5 +19,5 @@ DEFINE_PRIVATE_CLASS(dom, attr)
     ext::string namespace_prefix;
     ext::string local_name;
     ext::string value;
-    std::observer_ptr<dom::nodes::element> element;
+    std::observer_ptr<element> element;
 };
