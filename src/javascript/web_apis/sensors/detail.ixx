@@ -1,3 +1,7 @@
+module;
+#include <tl/optional.hpp>
+
+
 export module apis.sensors.detail;
 import apis.sensors.types;
 
@@ -6,6 +10,7 @@ import ext.number;
 import ext.optional;
 import ext.string;
 
+namespace dom {class dom_exception;}
 namespace sensors {class sensor;}
 
 
@@ -31,4 +36,4 @@ export namespace sensors::detail
     /* [9.2.2] */ auto get_mock_sensor() -> void;
     /* [9.2.3] */ auto update_mock_sensor_reading() -> void;
     /* [9.2.4] */ auto delete_mock_sensor() -> void;
-};
+}

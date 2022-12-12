@@ -114,12 +114,24 @@ _EXT_BEGIN
     export namespace ops
     {
         auto add =
-                []<typename T, typename U>(T&& left, U&& right)
-                {return std::forward<T>(left) + std::forward<U>(right);};
+                []<typename T, typename U>(T&& lhs, U&& rhs)
+                {return std::forward<T>(lhs) + std::forward<U>(rhs);};
 
-        auto minus =
-                []<typename T, typename U>(T&& left, U&& right)
-                {return std::forward<T>(left) - std::forward<U>(right);};
+        auto sub =
+                []<typename T, typename U>(T&& lhs, U&& rhs)
+                {return std::forward<T>(lhs) - std::forward<U>(rhs);};
+
+        auto mul =
+                []<typename T, typename U>(T&& lhs, U&& rhs)
+                {return std::forward<T>(lhs) * std::forward<U>(lhs);};
+
+        auto div =
+                []<typename T, typename U>(T&& lhs, U&& rhs)
+                {return std::forward<T>(lhs) / std::forward<U>(rhs)};
+
+        auto and_ =
+                []<typename T, typename U>(T&& lhs, U&& rhs)
+                {return std::forward<T>(lhs) && std::forward<U>(rhs);};
     }
 _EXT_END
 

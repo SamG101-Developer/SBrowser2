@@ -11,6 +11,7 @@ import ext.functional;
 import ext.map;
 import ext.string;
 import ext.tuple;
+import ext.type_traits;
 import ext.vector;
 
 namespace dom {class dom_exception;}
@@ -55,6 +56,18 @@ export namespace dom::detail
     auto flatten(event_listener_options_t&& options) -> ext::boolean;
 
     // Nodes
-    template <ext::inherit<nodes::node> T>
-    auto clone(T* node, nodes::document* document = nullptr, ext::boolean deep = false) -> std::unique_ptr<T>;
+    template <ext::inherit<node> T>
+    auto clone(T* node, document* document = nullptr, ext::boolean deep = false) -> std::unique_ptr<T>;
+
+    // Queuing tasks
+    auto notify_mutation_observers() -> void;
+    
+    auto queue_mutation_record(mutation_type_t type, node* target, ext::string_view name, ext::string_view namespace_, ext::string_view old_value, ext::vector_span<node*> added_nodes, ext::vector_span<node*> removed_nodes, node* previous_sibling, node* next_sibling) -> void;
+    auto queue_tree_mutation_record(node* target, ext::vector_span<node*> added_nodes, ext::vector_span<node*> removed_nodes, node* previous_sibling, node* next_sibling) -> void;
+    auto queue_mutation_observer_microtask() -> void;
+    template <typename F> auto queue_microtask(F&& steps, v8::Isolate* event_loop = nullptr, document* document = nullptr) -> void;
+    template <ext::callable F> auto queue_task(html::detail::task_queue_t& task_source, F&& steps, v8::Isolate* event_loop = nullptr, document* document = nullptr) -> void;
+    template <ext::callable F> auto queue_global_task(html::detail::task_queue_t& task_source, v8::Local<v8::Object> global_object, F&& steps) -> void;
+    template <ext::callable F> auto queue_element_task(html::detail::task_queue_t& task_source, html::html_element* element, F&& steps) -> void;
+    template <ext::callable F> auto queue_media_element_task(html::html_media_element* element, F&& steps) -> void;
 }

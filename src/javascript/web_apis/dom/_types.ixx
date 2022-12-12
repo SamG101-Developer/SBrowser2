@@ -21,6 +21,7 @@ namespace dom {class mutation_observer;}
 namespace dom {class mutation_record;}
 namespace dom {class element;}
 namespace dom {class event_target;}
+namespace dom {class mutation_observer;}
 namespace dom {class node;}
 namespace html {class html_script_element;}
 namespace svg {class svg_script_element;}
@@ -94,3 +95,17 @@ export struct dom::detail::boundary_point_t
     std::observer_ptr<node> node;
     ext::number<ulong> offset;
 };
+
+
+struct dom::detail::registered_observer_t
+{
+    std::unique_ptr<mutation_observer> observer;
+    ext::map<ext::string, ext::any> options;
+};
+
+
+struct dom::detail::transient_registered_observer_t : public registered_observer_t
+{
+    std::unique_ptr<registered_observer_t> source;
+};
+
