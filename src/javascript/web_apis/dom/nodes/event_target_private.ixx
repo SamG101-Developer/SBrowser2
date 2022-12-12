@@ -32,3 +32,10 @@ public:
     auto remove_all_event_listeners() -> void;
     auto retarget(const event_target* other) const -> event_target*;
 };
+
+
+export class AAA
+{
+public:
+    AAA();
+};

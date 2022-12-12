@@ -1,5 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include <tl/optional.hpp>
 
 
 export module apis.dom.element_private;
@@ -12,9 +13,14 @@ import apis.dom.mixins.slottable_private;
 import apis.aria.mixins.aria_mixin_private;
 
 import ext.boolean;
+import ext.memory;
+import ext.optional;
 import ext.queue;
 import ext.string;
 import ext.vector;
+
+namespace dom {class attr;}
+namespace dom {class shadow_root;}
 
 
 DEFINE_PRIVATE_CLASS(dom, element)
@@ -36,6 +42,10 @@ DEFINE_PRIVATE_CLASS(dom, element)
     auto qualified_name() const -> ext::string;
     auto html_uppercase_qualified_name() const -> ext::string;
     auto html_lowercase_qualified_name() const -> ext::string;
+
+    auto set_attribute(std::unique_ptr<attr> attribute) -> attr*;
+    auto remove_attribute(attr* attribute) -> attr*;
+    auto toggle_attribute(attr* attribute, ext::optional<ext::boolean> force, ext::string_view qualified_name = u"", ext::string_view namespace_ = u"") -> attr*;
 
     ext::string namespace_;
     ext::string namespace_prefix;

@@ -1,14 +1,36 @@
 module;
+#include "ext/macros/custom_operator.hpp"
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/errors.hpp"
+#include "javascript/macros/expose.hpp"
+#include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/transform.hpp>
+#include <tl/optional.hpp>
+#include <tuplet/tuple.hpp>
 
 
 module apis.dom.element;
 import apis.dom.element_private;
+import apis.dom.attr;
+import apis.dom.attr_private;
+import apis.dom.shadow_root;
+import apis.dom.shadow_root_private;
+import apis.dom.detail;
+import apis.dom.types;
 
+import ext.any;
 import ext.boolean;
+import ext.casting;
+import ext.functional;
+import ext.map;
+import ext.optional;
 import ext.ranges;
 import ext.string;
+import ext.tuple;
+
+import js.env.module_type;
+import js.env.realms;
+import js.env.slots;
 
 
 dom::element::element()
@@ -34,7 +56,7 @@ auto dom::element::get_attribute_names() const -> ranges::any_helpful_view<ext::
     // `any_helpful_view` object for type erasure (no need to know the internal range-type workings).
     ACCESS_PIMPL;
     decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
-    decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(&detail::qualified_name);
+    decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(std::mem_fn(&attr_private::qualified_name));
     return attribute_names;
 }
 
@@ -48,8 +70,8 @@ auto dom::element::has_attribute(
 {
     // Transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. Return if the
     // transformed range contains the 'name' parameter.
-    ACCESS_PIMPL(const element);
-    decltype(auto) attribute_names = d->attribute_list | ranges::views::transform(&detail::qualified_name);
+    ACCESS_PIMPL;
+    decltype(auto) attribute_names = d->attribute_list | ranges::views::transform(std::mem_fn(&attr_private::qualified_name));
     return ranges::contains(attribute_names, name);
 }
 
@@ -61,9 +83,9 @@ auto dom::element::has_attribute_ns(
 {
     // Transform each Attr node in the 'attribute' list to its local name and namespace, using a range-transform view
     // adapter. Return if the transformed range contains the 'local_name' and 'namespace_' parameters.
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     decltype(auto) attribute_namespaces = d->attribute_list
-            | ranges::views::transform(&std::unique_ptr<attr>::get)
+            | ranges::views::transform(&ext::underlying)
             | ranges::views::transform_to_attr(&attr_private::local_name, &attr_private::namespace_, ext::get_pimpl);
 
     return ranges::contains(attribute_namespaces, ext::make_tuple(namespace_, local_name));
@@ -75,7 +97,7 @@ auto dom::element::has_attribute_node(
         const -> ext::boolean
 {
     // return if the 'attribute' list contains the attribute, using a range-contains algorithm
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
     return ranges::contains(attribute_nodes, attribute);
 }
@@ -100,7 +122,7 @@ auto dom::element::get_attribute(
 {
     // get the Attr node by the 'qualified_name, and return the value of the node; syntactic sugar for
     // 'get_attribute_node(...).value'
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     decltype(auto) match_attribute = get_attribute_node(qualified_name);
     return match_attribute ? match_attribute->d_func()->value : u"";
 }
@@ -122,13 +144,13 @@ auto dom::element::get_attribute_node(
         ext::string_view qualified_name)
         const -> attr*
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
 
     // get the Attr node by matching each Attr (in the 'attributes' list) 's qualified name against the 'qualified_name'
     // parameter; nullptr is returned if there is no matching Attr node. the qualified name has to be html adjusted
-    decltype(auto) html_adjusted_qualified_name = detail::html_adjust_string(detail::qualified_name(this), detail::is_html(this));
-    decltype(auto) match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return detail::qualified_name(attribute) == html_adjusted_qualified_name;};
-    decltype(auto) match_attribute = *ranges::first_where(d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get), std::move(match_algorithm));
+    decltype(auto) html_adjusted_qualified_name = detail::html_adjust_string(d->qualified_name(), d->is_html());
+    decltype(auto) match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return attribute->d_func()->qualified_name() == html_adjusted_qualified_name;};
+    decltype(auto) match_attribute = *ranges::first_where(d->attribute_list | ranges::views::transform(ext::underlying), std::move(match_algorithm));
     return match_attribute;
 }
 
@@ -138,7 +160,7 @@ auto dom::element::get_attribute_node_ns(
         ext::string_view local_name)
         const -> attr*
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
 
     // get the Attr node by matching each Attr (in the 'attributes' list) 's local name and namespace_uri against the
     // 'local_name' and 'namespace_' parameters; nullptr is returned if there is no matching Attr node
@@ -156,14 +178,14 @@ auto dom::element::set_attribute(
         ext::string_view value)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
 
         // set the new Attr node by creating a new attribute with the 'qualified_name' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
         decltype(auto) new_attribute = detail::create(qualified_name, u"", value, u"", d->node_document);
-        return detail::set_attribute(this, &new_attribute);
-    CE_REACTIONS_METHOD_EXE
+        return d->set_attribute(std::move(new_attribute));
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -173,15 +195,15 @@ auto dom::element::set_attribute_ns(
         ext::string_view value)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
 
         // set the new Attr node by creating a new attribute with the 'local_name', 'prefix' and 'value', and set it to this
         // element; the internal method will handle replacing an existing attribute etc
         auto&& [prefix, local_name] = detail::validate_and_extract(namespace_, qualified_name);
         decltype(auto) new_attribute = detail::create(local_name, namespace_, value, prefix, d->node_document);
-        return detail::set_attribute(this, &new_attribute);
-    CE_REACTIONS_METHOD_EXE
+        return d->set_attribute(std::move(new_attribute));
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -189,12 +211,14 @@ auto dom::element::set_attribute_node(
         std::unique_ptr<attr>&& attribute)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+
         // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
         // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
         // changing the Attr value
-        return detail::set_attribute(this, std::move(attribute));
-    CE_REACTIONS_METHOD_EXE
+        return d->set_attribute(this, std::move(attribute));
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -202,12 +226,14 @@ auto dom::element::set_attribute_node_ns(
         std::unique_ptr<attr>&& attribute)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+
         // set the new Attr node by calling the internal method to append this new attribute, or replace an existing
         // attribute - this handles replacing an existing attribute / appending the Attr to the 'attributes' list, and
         // changing the Attr value
-        return detail::set_attribute(this, std::move(attribute));
-    CE_REACTIONS_METHOD_EXE
+        return d->set_attribute(std::move(attribute));
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -218,12 +244,14 @@ auto dom::element::remove_attribute(
         ext::string_view qualified_name)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+
         // find the Attr node in this 'attributes' list by the 'qualified_name' that is going to be removed (can be nullptr
         // if the Attr doesn't exist in this Element), and remove it by calling the internal method
         decltype(auto) existing_attribute = get_attribute_node(qualified_name);
-        return detail::remove_attribute(this, existing_attribute);
-    CE_REACTIONS_METHOD_EXE
+        return d->remove_attribute(existing_attribute);
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -232,12 +260,14 @@ auto dom::element::remove_attribute_ns(
         ext::string_view local_name)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+
         // find the Attr node in this 'attributes' list by the 'local_name' and 'namespace_' that is going to be removed
         // (can be nullptr if the Attr doesn't exist in this Element), and remove it by calling the internal method
         decltype(auto) existing_attribute = get_attribute_node_ns(namespace_, local_name);
-        return detail::remove_attribute(this, existing_attribute);
-    CE_REACTIONS_METHOD_EXE
+        return d->remove_attribute(existing_attribute);
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -245,11 +275,13 @@ auto dom::element::remove_attribute_node(
         attr* attribute)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+
         // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
         // deletion, and removal from this 'attributes' list
-        return detail::remove_attribute(this, attribute);
-    CE_REACTIONS_METHOD_EXE
+        return d->remove_attribute(attribute);
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -257,11 +289,13 @@ auto dom::element::remove_attribute_node_ns(
         attr* attribute)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+
         // remove the Attr node by calling the internal method to remove this Attr node - this handles the Attr value reset,
         // deletion, and removal from this 'attributes' list
-        return detail::remove_attribute(this, attribute);
-    CE_REACTIONS_METHOD_EXE
+        return d->remove_attribute(attribute);
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -273,10 +307,11 @@ auto dom::element::toggle_attribute(
         ext::optional<ext::boolean>&& force)
         -> ext::boolean
 {
-    CE_REACTIONS_METHOD_DEF
-        decltype(auto) existing_attribute = get_attribute_node(qualified_name);
-        return detail::toggle_attribute(this, existing_attribute, std::move(force), qualified_name);
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+        decltype(auto) attribute = get_attribute_node(qualified_name);
+        return d->toggle_attribute(attribute, std::move(force), qualified_name);
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -286,10 +321,11 @@ auto dom::element::toggle_attribute_ns(
         ext::optional<ext::boolean>&& force)
         -> ext::boolean
 {
-    CE_REACTIONS_METHOD_DEF
-        decltype(auto) existing_attribute = get_attribute_node_ns(namespace_, local_name);
-        return detail::toggle_attribute(this, existing_attribute, std::move(force), local_name, namespace_);
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
+        decltype(auto) attribute = get_attribute_node_ns(namespace_, local_name);
+        return d->toggle_attribute(attribute, std::move(force), local_name, namespace_);
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -298,10 +334,11 @@ auto dom::element::toggle_attribute_node(
         ext::optional<ext::boolean>&& force)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return_if (!attribute) ext::nullptr_cast<attr*>();
-        return detail::toggle_attribute(this, attribute, std::move(force));
-    CE_REACTIONS_METHOD_EXE
+        return d->toggle_attribute(attribute, std::move(force));
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -310,10 +347,11 @@ auto dom::element::toggle_attribute_node_ns(
         ext::optional<ext::boolean>&& force)
         -> attr*
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return_if(!attribute) static_cast<attr*>(nullptr);
-        return detail::toggle_attribute(this, attribute, std::move(force));
-    CE_REACTIONS_METHOD_EXE
+        return d->toggle_attribute(attribute, std::move(force));
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
@@ -324,7 +362,7 @@ auto dom::element::attach_shadow(
         ext::map<ext::string, ext::any>&& options)
         -> std::unique_ptr<shadow_root>
 {
-    ACCESS_PIMPL(element);
+    ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
 
     auto shadow_attachable_local_names = {
@@ -336,16 +374,20 @@ auto dom::element::attach_shadow(
     auto definition = detail::lookup_custom_element_definition(d->node_document.get(), d->namespace_, d->local_name, d->is);
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [d] {return d->namespace_ != detail::HTML;});
+            [d] {return d->namespace_ != detail::HTML;},
+            u8"");
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [valid_local, valid_custom] {return !valid_local && !valid_custom;});
+            [valid_local, valid_custom] {return !valid_local && !valid_custom;},
+            u8"");
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [valid_custom, definition] {return valid_custom && definition && definition->disable_shadow;});
+            [valid_custom, definition] {return valid_custom && definition && definition->disable_shadow;},
+            u8"");
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [this] {return detail::is_shadow_host(this);});
+            [this] {return detail::is_shadow_host(this);},
+            u8"");
 
     auto shadow = std::make_unique<shadow_root>();
     shadow->d_func()->node_document = d->node_document.get();
@@ -363,21 +405,21 @@ auto dom::element::attach_shadow(
 
 auto dom::element::get_namespace_uri() const -> ext::string
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return d->namespace_;
 }
 
 
 auto dom::element::get_prefix() const -> ext::string
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return d->namespace_prefix;
 }
 
 
 auto dom::element::get_local_name() const -> ext::string
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return d->local_name;
 }
 
@@ -390,48 +432,48 @@ auto dom::element::get_tag_name() const -> ext::string
 
 auto dom::element::get_class_list() const -> ext::vector<ext::string>
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return d->class_ | ranges::views::split_string(',') | ranges::to<ext::vector<ext::string>>; // TODO : live?
 }
 
 
 auto dom::element::get_class_name() const -> ext::string
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->class_;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::element::get_slot() const -> ext::string
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->slot;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
 auto dom::element::get_id() const -> ext::string
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->id;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto dom::element::get_shadow_root() const -> nodes::shadow_root*
+auto dom::element::get_shadow_root() const -> shadow_root*
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return d->shadow_root.get();
 }
 
 
 auto dom::element::get_attributes() const -> ranges::any_helpful_view<attr*>
 {
-    ACCESS_PIMPL(const element);
+    ACCESS_PIMPL;
     return d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
 }
 
@@ -439,17 +481,17 @@ auto dom::element::get_attributes() const -> ranges::any_helpful_view<attr*>
 auto dom::element::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<node>()
-        .inherit<mixins::child_node>()
-        .inherit<mixins::document_or_element_node>()
-        .inherit<mixins::non_document_type_child_node>()
-        .inherit<mixins::parentable_node>()
-        .inherit<mixins::slottable>()
-        .inherit<aria::mixins::aria_mixin>()
-        .inherit<css::css_web_animations::mixins::animatable>()
+        .inherit<child_node>()
+        .inherit<document_or_element_node>()
+        .inherit<non_document_type_child_node>()
+        .inherit<parentable_node>()
+        .inherit<slottable>()
+        .inherit<aria::aria_mixin>()
+        .inherit<css::css_web_animations::animatable>()
         .function("hasAttributes", &element::has_attributes)
         .function("getAttributeNames", &element::get_attribute_names)
         .function("hasAttribute", &element::has_attribute)

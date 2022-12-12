@@ -47,23 +47,7 @@ namespace dom::detail
             nodes::document* owner_document = nullptr)
             -> std::unique_ptr<nodes::attr>;
 
-    auto set_attribute(
-            nodes::element* new_owner_element,
-            std::unique_ptr<nodes::attr> attribute)
-            -> nodes::attr*;
 
-    auto remove_attribute(
-            const nodes::element* owner_element,
-            nodes::attr* attribute)
-            -> nodes::attr*;
-
-    auto toggle_attribute(
-            nodes::element* owner_element,
-            nodes::attr* attribute,
-            ext::optional<ext::boolean> force,
-            ext::string_view qualified_name = u"",
-            ext::string_view namespace_ = u"")
-            -> nodes::attr*;
 
     // setter helpers
     auto set_existing_attribute_value(
