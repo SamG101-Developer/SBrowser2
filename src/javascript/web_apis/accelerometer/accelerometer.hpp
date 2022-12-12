@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_ACCELEROMETER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ACCELEROMETER_ACCELEROMETER_HPP
 
-#include "sensors/sensor.hpp"
+
 namespace accelerometer {class accelerometer;}
 namespace accelerometer {class accelerometer_private;}
 

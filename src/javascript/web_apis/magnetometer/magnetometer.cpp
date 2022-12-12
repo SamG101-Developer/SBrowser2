@@ -3,7 +3,7 @@
 
 #include "magnetometer/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"
-#include "sensors/sensor.hpp"
+
 
 
 magnetometer::magnetometer::magnetometer(

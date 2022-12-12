@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_PROXIMITY_PROXIMITY_HPP
 
-#include "sensors/sensor.hpp"
+
 namespace proximity {class proximity;}
 namespace proximity {class proximity_private;}
 

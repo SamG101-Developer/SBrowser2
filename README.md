@@ -29,6 +29,7 @@ Major Refactor 4 Plan
     - Convert all #include -> imports (remove transitives)
     - Move methods into PIMPL .cpp file of the class they mainly revolve around (ie trees -> dom::event_target_private)
     - Raw pointer -> observer_ptr
+    - Number abstract operations ie /* [8.03] */ etc (All AO methods remain in detail file)
 
 - All
     - Convert all .hpp -> .ixx modules (c++ modernization)

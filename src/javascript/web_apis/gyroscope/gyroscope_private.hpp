@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GYROSCOPE_GYROSCOPE_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "sensors/sensor_private.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(gyroscope, gyroscope) : sensors::sensor_private {};

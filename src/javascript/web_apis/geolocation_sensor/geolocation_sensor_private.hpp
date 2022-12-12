@@ -2,7 +2,7 @@
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_SENSOR_GEOLOCATION_SENSOR_PRIVATE_HPP
 
 #include "ext/pimpl.ixx"
-#include "sensors/sensor_private.hpp"
+
 
 
 DEFINE_PRIVATE_CLASS(geolocation_sensor, geolocation_sensor) : sensors::sensor_private {};

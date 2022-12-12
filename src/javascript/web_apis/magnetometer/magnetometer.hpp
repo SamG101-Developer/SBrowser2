@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MAGNETOMETER_MAGNETOMETER_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MAGNETOMETER_MAGNETOMETER_HPP
 
-#include "sensors/sensor.hpp"
+
 namespace magnetometer {class magnetometer;}
 namespace magnetometer {class magnetometer_private;}
 

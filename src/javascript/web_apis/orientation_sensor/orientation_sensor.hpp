@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ORIENTATION_SENSOR_ORIENTATION_SENSOR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ORIENTATION_SENSOR_ORIENTATION_SENSOR_HPP
 
-#include "sensors/sensor.hpp"
+
 namespace orientation_sensor {class orientation_sensor;}
 namespace orientation_sensor {class orientation_sensor_private;}
 

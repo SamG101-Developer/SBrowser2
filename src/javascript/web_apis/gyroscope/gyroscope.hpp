@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GYROSCOPE_GYROSCOPE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GYROSCOPE_GYROSCOPE_HPP
 
-#include "sensors/sensor.hpp"
+
 namespace gyroscope {class gyroscope;}
 namespace gyroscope {class gyroscope_private;}
 

@@ -2,7 +2,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_SENSOR_GEOLOCATION_SENSOR_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_SENSOR_GEOLOCATION_SENSOR_HPP
 
-#include "sensors/sensor.hpp"
+
 namespace geolocation_sensor {class geolocation_sensor;}
 namespace geolocation_sensor {class geolocation_sensor_private;}
 

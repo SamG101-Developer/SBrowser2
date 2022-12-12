@@ -3,7 +3,7 @@
 
 #include "accelerometer/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"
-#include "sensors/sensor.hpp"
+
 
 
 accelerometer::accelerometer::accelerometer(detail::accelerometer_sensor_options_t&& options)

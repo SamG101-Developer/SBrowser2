@@ -3,7 +3,7 @@
 
 #include "gyroscope/detail/abstract_operations_internals.hpp"
 #include "sensors/detail/sensor_internals.hpp"
-#include "sensors/sensor.hpp"
+
 
 
 gyroscope::gyroscope::gyroscope(
