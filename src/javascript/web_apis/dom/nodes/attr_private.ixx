@@ -22,4 +22,6 @@ DEFINE_PRIVATE_CLASS(dom, attr)
     std::observer_ptr<element> element;
 
     auto qualified_name() const -> ext::string;
+    auto handle_attributes_changes(attr* attribute, class element* owner_element, ext::string_view old_value, ext::string_view new_value) -> void;
+    auto set_existing_attribute_value(ext::string&& value) -> void;
 };

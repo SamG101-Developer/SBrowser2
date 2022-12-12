@@ -89,7 +89,7 @@ dom::detail::flatten_more(ext::boolean options) -> ext::map<ext::string, ext::an
 {
     // Return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
     // object. This just acts as a normalizer to get the "capture" value in map form.
-    return ext::map<ext::string, ext::any>{{u"capture", options}};
+    return {u"capture", options};
 }
 
 

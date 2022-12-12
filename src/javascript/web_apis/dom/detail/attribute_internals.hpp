@@ -12,12 +12,7 @@ namespace dom::nodes {class document;}
 namespace dom::detail
 {
     // handle changes
-    auto handle_attributes_changes(
-            const nodes::attr* attribute,
-            nodes::element* owner_element,
-            ext::string_view old_value,
-            ext::string_view new_value)
-            -> void;
+
 
     // general mutations to attributes
     auto change(
@@ -46,17 +41,6 @@ namespace dom::detail
             ext::string&& prefix = u"",
             nodes::document* owner_document = nullptr)
             -> std::unique_ptr<nodes::attr>;
-
-
-
-    // setter helpers
-    auto set_existing_attribute_value(
-            nodes::attr* attribute,
-            ext::string&& value)
-            -> void;
-
-    // other
-
 }
 
 
