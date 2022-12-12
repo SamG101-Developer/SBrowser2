@@ -2,7 +2,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-export module apis.dom.static_range;
+export module apis.dom.static_range_private;
 import apis.dom.abstract_range_private;
 
 

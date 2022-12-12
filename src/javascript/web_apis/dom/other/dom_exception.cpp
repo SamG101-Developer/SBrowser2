@@ -1,5 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 #include <tuplet/tuple.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
@@ -18,7 +19,7 @@ dom::dom_exception::dom_exception(
         base_exception<dom::detail::dom_exception_error_t>::exception_t type)
         : base_exception{std::move(message), std::move(type)}
 {
-    INIT_PIMPL(dom_exception);
+    INIT_PIMPL;
 }
 
 

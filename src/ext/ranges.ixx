@@ -32,7 +32,7 @@ module;
 #include <range/v3/view/view.hpp>
 
 
-export module ext.ranges;
+module ext.ranges;
 import ext.boolean;
 import ext.casting;
 import ext.concepts;
@@ -44,30 +44,38 @@ import ext.tuple;
 import ext.type_traits;
 import ext.variadic;
 
+
 #define RANGE_VIEW_STRUCT(name, code) \
-    export struct name##_fn {code};          \
+    struct name##_fn {code};          \
     RANGES_INLINE_VARIABLE(name##_fn, name)
+
 
 #define RANGE_VIEW_STRUCT_T(name, code) \
     struct name##_fn {code};
 
+
 #define RANGE_ACTION_STRUCT(name, code) \
-    export struct name##_fn {code};            \
+    struct name##_fn {code};            \
     RANGES_INLINE_VARIABLE(name##_fn, name)
 
+
 #define RANGE_VIEW_CLOSURE_STRUCT(name, code) \
-    export struct name##_fn {code};                  \
+    struct name##_fn {code};                  \
     RANGES_INLINE_VARIABLE(view_closure<name##_fn>, name)
+
 
 #define RANGE_VIEW_CLOSURE_STRUCT_T(name, code) \
     struct name##_fn {code};
 
+
 #define RANGE_ACTION_CLOSURE_STRUCT(name, code) \
-    export struct name##_fn {code};                    \
+    struct name##_fn {code};                    \
     RANGES_INLINE_VARIABLE(action_closure<name##_fn>, name)
+
 
 #define RANGE_ACTION_CLOSURE_STRUCT_T(name, code) \
     struct name##_fn {code};
+
 
 #define RANGE_ALGORITHM_STRUCT(name, code) \
     RANGES_FUNC_BEGIN(name)                \
@@ -75,41 +83,41 @@ import ext.variadic;
     RANGES_FUNC_END(name)
 
 
-namespace ranges
+export namespace ranges
 {
-    export enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};
+    enum class filter_compare_t {EQ, NE, LT, LE, GT, GE};
 }
 
 
 /* TRAITS */
-namespace ranges
+export namespace ranges
 {
-    export template <typename Rng>
+    template <typename Rng>
     struct range_traits
     {
         using iterator_type = decltype(ranges::any_view(std::declval<Rng>()).begin());
         using value_type = typename iterator_type::value_type;
     };
 
-    export template <typename Rng>
+    template <typename Rng>
     using lowercase_view = transform_view<Rng, decltype(_EXT to_lower)>;
 
-    export template <typename Rng>
+    template <typename Rng>
     using uppercase_view = transform_view<Rng, decltype(_EXT to_upper)>;
 
-    export template <typename Rng, typename T>
+    template <typename Rng, typename T>
     using cast_view = transform_view<Rng, _EXT function<T(typename range_traits<Rng>::value_type)>>;
 
-    export template <typename Rng>
+    template <typename Rng>
     using underlying_view = transform_view<Rng, _EXT function<typename range_traits<Rng>::value_type::pointer()>>;
 
-    export template <typename Rng>
+    template <typename Rng>
     using transpose_view = transform_view<Rng, decltype(_EXT identity)>;
 }
 
 
 /* VIEWS */
-namespace ranges::views
+export namespace ranges::views
 {
     // A lowercase conversion works by returning a transform adaptor that takes each item as a char type, converts
     // it to a lowercase char, and returns the character back.
@@ -214,7 +222,7 @@ namespace ranges::views
 
     // A cast_to_all adaptor works by taking a type, and dynamically casting all the elements in the range to
     // another type, and then removing all the instances of nullptr.
-    export template <_EXT is_pointer T>
+    template <_EXT is_pointer T>
     RANGE_VIEW_CLOSURE_STRUCT_T(cast,
             template <typename Rng>
             auto operator()(Rng&& rng) const -> cast_view<all_t<Rng> COMMA T>
@@ -233,7 +241,7 @@ namespace ranges::views
     // example, the first line is simplified into the second line (syntactic sugar)
     //      elements = node->children() | ranges::views::filter([](node* child) {return child->node_type == node::ELEMENT_NODE;};
     //      elements = node->children() | ranges::views::filter<EQ>(&node::node_type, node::ELEMENT_NODE);
-    export template <filter_compare_t Comparison = filter_compare_t::EQ>
+    template <filter_compare_t Comparison = filter_compare_t::EQ>
     RANGE_VIEW_STRUCT_T(filter_eq,
             template <typename Attr COMMA typename T COMMA typename F>
             constexpr auto operator()(Attr&& attribute, T&& value, F&& proj = _EXT identity) const // TODO -> Attr to general typename (for any method), then specialiaze is_member_function for Attr
@@ -301,7 +309,7 @@ namespace ranges::views
 
 
 /* ACTIONS */
-namespace ranges::actions
+export namespace ranges::actions
 {
     RANGE_ACTION_CLOSURE_STRUCT(lowercase,
             template <typename Rng>
@@ -344,7 +352,7 @@ namespace ranges::actions
             constexpr auto operator()(F&& pred) const
             {return ranges::actions::remove_if(_EXT inverse_function{std::forward<F>(pred)});})
 
-    export template <_EXT is_pointer T>
+    template <_EXT is_pointer T>
     RANGE_ACTION_CLOSURE_STRUCT_T(cast,
             template <typename Rng>
             auto operator()(Rng&& rng) const -> Rng
@@ -390,7 +398,7 @@ namespace ranges::actions
 
 
 /* ALGORITHMS */
-namespace ranges
+export namespace ranges
 {
     RANGE_ALGORITHM_STRUCT(contains_any,
             template <typename R0 COMMA typename R1>
@@ -441,14 +449,14 @@ namespace ranges
 
 
 /* OTHER */
-namespace ranges
+export namespace ranges
 {
-    export template <category C = category::none, typename ...Args>
+    template <category C = category::none, typename ...Args>
     auto make_any_view(Args&&... args) -> any_view<_EXT nth_variadic_type_t<0, Args...>, C>;
 
-    export template <typename Ref, ranges::category C = ranges::category::none>
+    template <typename Ref, ranges::category C = ranges::category::none>
     using any_helpful_view = ranges::any_view<Ref, ranges::category::forward | ranges::category::sized | C>;
 
-    export template <category C = category::none, typename ...Args>
+    template <category C = category::none, typename ...Args>
     auto make_any_helpful_view(Args&&... args) -> any_helpful_view<_EXT nth_variadic_type_t<0, Args...>, C>;
 }

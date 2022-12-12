@@ -13,4 +13,6 @@ DEFINE_PRIVATE_CLASS(dom, abstract_range)
     MAKE_QIMPL(abstract_range);
     std::unique_ptr<detail::boundary_point_t> start;
     std::unique_ptr<detail::boundary_point_t> end;
+
+    auto is_range_collapsed() const -> ext::boolean;
 };

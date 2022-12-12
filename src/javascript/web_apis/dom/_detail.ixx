@@ -6,6 +6,7 @@ export module apis.dom.detail;
 import apis.dom.types;
 import ext.any;
 import ext.boolean;
+import ext.concepts;
 import ext.functional;
 import ext.map;
 import ext.string;
@@ -49,7 +50,11 @@ export namespace dom::detail
     auto throw_v8_exception(dom::dom_exception&& exception) -> void;
 
     // Map intrinsics
-    auto flatten_more(const ext::map<ext::string, ext::any>& options) -> ext::map<ext::string, ext::any>;
+    auto flatten_more(ext::map<ext::string, ext::any>&& options) -> ext::map<ext::string, ext::any>;
     auto flatten_more(ext::boolean options) -> ext::map<ext::string, ext::any>;
     auto flatten(event_listener_options_t&& options) -> ext::boolean;
+
+    // Nodes
+    template <ext::inherit<nodes::node> T>
+    auto clone(T* node, nodes::document* document = nullptr, ext::boolean deep = false) -> std::unique_ptr<T>;
 }

@@ -1,12 +1,12 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
 
 module apis.dom.abstract_range;
 import apis.dom.abstract_range_private;
-
 import apis.dom.node;
 
 import ext.boolean;
@@ -50,13 +50,15 @@ auto dom::abstract_range::get_end_offset() const -> ext::number<ulong>
 
 auto dom::abstract_range::get_collapsed() const -> ext::boolean
 {
-    return detail::is_range_collapsed(this);
+    ACCESS_PIMPL;
+    return d->is_range_collapsed(this);
 }
 
 
 auto dom::abstract_range::_to_v8(
         js::env::module_t E,
-        v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
