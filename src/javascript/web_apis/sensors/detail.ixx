@@ -16,11 +16,11 @@ namespace sensors {class sensor;}
 
 export namespace sensors::detail
 {
-    /* [8.01] */ auto initialize_sensor_object(sensors::sensor* sensor_instance, sensor_options_t&& options) -> void;
+    /* [8.01] */ auto initialize_sensor_object(sensor* sensor_instance, sensor_options_t&& options) -> void;
     /* [8.02] */ auto check_sensor_policy_controlled_features(const sensor_type_t& sensor_type) -> ext::boolean;
-    /* [8.03] */ auto connect_to_sensor() -> ext::boolean;
-    /* [8.04] */ auto activate_sensor_object() -> ext::boolean;
-    /* [8.05] */ auto deactivate_sensor_object() -> void;
+    /* [8.03] */ auto connect_to_sensor(sensor* sensor_instance) -> ext::boolean;
+    /* [8.04] */ auto activate_sensor_object(sensor* sensor_instance) -> ext::boolean;
+    /* [8.05] */ auto deactivate_sensor_object(sensor* sensor_instance) -> void;
     /* [8.06] */ auto revoke_sensor_permissions(const platform_sensor_t& sensor) -> void;
     /* [8.07] */ auto set_sensor_settings(const platform_sensor_t& sensor) -> void;
     /* [8.08] */ auto update_sensor_reading(const platform_sensor_t& sensor, const sensor_reading_t& reading) -> void;

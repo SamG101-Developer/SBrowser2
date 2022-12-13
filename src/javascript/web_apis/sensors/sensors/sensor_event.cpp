@@ -1,2 +1,1 @@
-#include "sensor_event.hpp"
-#include "sensor_event_private.hpp"
+module apis.sensor.sensor_event;

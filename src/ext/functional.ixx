@@ -127,11 +127,15 @@ _EXT_BEGIN
 
         auto div =
                 []<typename T, typename U>(T&& lhs, U&& rhs)
-                {return std::forward<T>(lhs) / std::forward<U>(rhs)};
+                {return std::forward<T>(lhs) / std::forward<U>(rhs);};
 
         auto and_ =
                 []<typename T, typename U>(T&& lhs, U&& rhs)
                 {return std::forward<T>(lhs) && std::forward<U>(rhs);};
+
+        auto or_ =
+                []<typename T, typename U>(T&& lhs, U&& rhs)
+                {return std::forward<T>(lhs) || std::forward<U>(rhs);};
     }
 _EXT_END
 
