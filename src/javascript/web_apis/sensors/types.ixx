@@ -10,6 +10,7 @@ import ext.any;
 import ext.boolean;
 import ext.functional;
 import ext.map;
+import ext.memory;
 import ext.set;
 import ext.string;
 
@@ -42,6 +43,12 @@ struct sensors::detail::platform_sensor_t
     ext::map<ext::string, ext::any> latest_reasing_map;
     std::observer_ptr<sensor_type_t> sensor_type;
     std::unique_ptr<QSensor> qt_sensor;
+
+    auto set_requested_sampling_frequency(int frequency) -> void;
+    auto requested_sampling_frequency() const -> int;
+    auto sampling_frequency() const -> int;
+    auto reporting_frequency() const -> int;
+    auto optimal_sampling_frequency() const -> int;
 };
 
 

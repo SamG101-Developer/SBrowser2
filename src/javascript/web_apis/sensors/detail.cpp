@@ -10,6 +10,8 @@ import apis.sensors.sensor;
 import apis.sensors.sensor_private;
 
 import apis.dom.detail;
+import apis.dom.types;
+import apis.dom.dom_exception;
 
 import ext.boolean;
 import ext.functional;
@@ -77,5 +79,26 @@ auto sensors::detail::deactivate_sensor_object(sensor* sensor_instance) -> void
         set_sensor_settings(platform_sensor);
         sensor_instance->d_func()->pending_reading_notification = false;
         sensor_instance->d_func()->last_event_fired_at = 0;
+    }
+}
+
+
+auto sensors::detail::revoke_sensor_permissions(const platform_sensor_t& platform_sensor) -> void
+{
+    using enum dom::detail::dom_exception_error_t;
+    for (decltype(auto) sensor_instance: platform_sensor.activated_sensor_objects)
+    {
+        deactivate_sensor_object(sensor_instance);
+        auto e = dom::dom_exception{"Permission revoked", NOT_ALLOWED_ERR};
+        dom::detail::queue_task(&notify_error, sensor_instance, std::move(e));
+    }
+}
+
+
+auto sensors::detail::set_sensor_settings(platform_sensor_t& platform_sensor) -> void
+{
+    if (platform_sensor.activated_sensor_objects.empty())
+    {
+        platform_sensor.set
     }
 }
