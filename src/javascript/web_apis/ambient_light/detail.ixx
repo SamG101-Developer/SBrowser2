@@ -14,7 +14,7 @@ import ext.string;
 namespace ambient_light {class ambient_light_sensor;}
 
 
-namespace ambient_light::detail
+export namespace ambient_light::detail
 {
     ext::number<int> illuminance_rounding_multiple = 1;
     ext::number<int> illuminance_threshold_value = 1;

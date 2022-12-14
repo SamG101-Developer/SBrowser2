@@ -30,7 +30,7 @@ auto ambient_light::detail::construct_ambient_light_sensor_object(
     // If the sensor isn't allowed by a policy, then throw a SecurityError, letting the user know that using this sensor
     // isn't permitted.
     dom::detail::throw_v8_exception<SECURITY_ERR>(
-            [sensor] {return !sensors::detail::check_sensor_policy_controlled_features(*sensor->d_func()->sensor);},
+            [sensor] {return !sensors::detail::check_sensor_policy_controlled_features(*sensor->d_func()->sensor_type);},
             u8"AmbientLightSensor cannot be created due to a failed check in the sensor policy controlled features");
 
     // Initialize the sensor object, and set the coordinate system of the sensor

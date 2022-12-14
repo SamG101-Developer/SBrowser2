@@ -2,7 +2,7 @@ module;
 #include "ext/macros/custom_operator.hpp"
 #include "ext/macros/language_shorthand.hpp"
 #include <range/v3/algorithm/fold.hpp>
-#include <range/v3/action/remove.hpp>
+#include <range/v3/algorithm/remove.hpp>
 #include <range/v3/view/for_each.hpp>
 #include <tl/optional.hpp>
 #include <QtSensors/QSensor>
@@ -81,7 +81,7 @@ auto sensors::detail::activate_sensor_object(sensor* sensor_instance) -> ext::bo
 auto sensors::detail::deactivate_sensor_object(sensor* sensor_instance) -> void
 {
     // TODO : sensor queue
-    decltype(auto) platform_sensor = *sensor_instance->d_func()->sensor->platform_sensor;
+    decltype(auto) platform_sensor = *sensor_instance->d_func()->platform_sensor;
     if (platform_sensor.activated_sensor_objects.contains(sensor_instance))
     {
         platform_sensor.activated_sensor_objects |= ranges::algorithms::remove(platform_sensor);
@@ -109,7 +109,7 @@ auto sensors::detail::set_sensor_settings(platform_sensor_t& platform_sensor) ->
     if (platform_sensor.activated_sensor_objects.empty())
     {
         platform_sensor.set_requested_sampling_frequency(0);
-        platform_sensor.latest_reasing_map | ranges::views::for_each([](auto&& p) {p.second = nullptr;});
+        platform_sensor.latest_reading_map | ranges::views::for_each([](auto&& p) {p.second = nullptr;});
         // TODO
         return;
     }
@@ -160,7 +160,7 @@ auto sensors::detail::report_latest_reading_updated(sensor* sensor_instance) -> 
         return dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
 
     auto reporting_interval = 1 / reporting_frequency;
-    auto timestamp_delta = sensor_instance->d_func()->sensor->platform_sensor->latest_reading_map[u"timestamp"].to<int>();
+    auto timestamp_delta = sensor_instance->d_func()->platform_sensor->latest_reading_map[u"timestamp"].to<int>();
     if (timestamp_delta > reporting_interval)
         return dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
 
@@ -184,7 +184,7 @@ auto sensors::detail::notify_activated_state(sensor* sensor_instance) -> void
 {
     sensor_instance->d_func()->state = ACTIVATED;
     sensor_instance->d_func()->fire_event(u"activate");
-    if (sensor_instance->d_func()->sensor->platform_sensor->latest_reading_map[u"timestamp"].to<int>())
+    if (sensor_instance->d_func()->platform_sensor->latest_reading_map[u"timestamp"].to<int>())
         dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
 }
 
@@ -196,7 +196,7 @@ auto sensors::detail::notify_error(sensor* sensor_instance, dom::dom_exception* 
 }
 
 
-auto sensors::detail::get_value_from_latest_reading(sensor* sensor_instance, ext::string&& name) -> ext::optional<sensor_reading_t>
+auto sensors::detail::get_value_from_latest_reading(const sensor* sensor_instance, ext::string&& name) -> ext::optional<sensor_reading_t>
 {
     return_if (!sensor_instance->d_func()->state == ACTIVATED) ext::nullopt;
 

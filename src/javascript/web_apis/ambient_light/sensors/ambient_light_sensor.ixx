@@ -20,7 +20,7 @@ import ext.tuple;
 import js.env.module_type;
 
 
-DEFINE_PUBLIC_CLASS(ambient_light_sensor, ambient_light_sensor) final
+DEFINE_PUBLIC_CLASS(ambient_light, ambient_light_sensor) final
         : public sensors::sensor
 {
 public constructors:

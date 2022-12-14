@@ -9,6 +9,7 @@ module apis.ambient_light.ambient_light_sensor;
 import apis.ambient_light.ambient_light_sensor_private;
 import apis.ambient_light.detail;
 
+import apis.sensors.sensor;
 import apis.sensors.detail;
 import apis.sensors.types;
 
@@ -21,7 +22,7 @@ import ext.tuple;
 import js.env.module_type;
 
 
-ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(ext::map<ext::string, ext::any>&& options)
+ambient_light::ambient_light_sensor::ambient_light_sensor(ext::map<ext::string, ext::any>&& options)
 {
     INIT_PIMPL;
 
@@ -31,7 +32,7 @@ ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(ext::map<ext::s
 }
 
 
-auto ambient_light_sensor::ambient_light_sensor::get_illuminance() const -> ext::number<double>
+auto ambient_light::ambient_light_sensor::get_illuminance() const -> ext::number<double>
 {
     // Get the latest reading for the "illuminance" value, default it to 0..0 if it doesn't exist, and then convert it
     // from the ext::any type to a double. Return the double.
@@ -42,7 +43,7 @@ auto ambient_light_sensor::ambient_light_sensor::get_illuminance() const -> ext:
 }
 
 
-auto ambient_light_sensor::ambient_light_sensor::_to_v8(
+auto ambient_light::ambient_light_sensor::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<this_t>>
