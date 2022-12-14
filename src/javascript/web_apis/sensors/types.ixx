@@ -40,7 +40,7 @@ export namespace sensors::detail
 struct sensors::detail::platform_sensor_t
 {
     ext::set<sensor*> activated_sensor_objects;
-    ext::map<ext::string, ext::any> latest_reasing_map;
+    ext::map<ext::string, ext::any> latest_reading_map;
     std::observer_ptr<sensor_type_t> sensor_type;
     std::unique_ptr<QSensor> qt_sensor;
 

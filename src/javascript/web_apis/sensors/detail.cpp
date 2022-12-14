@@ -1,5 +1,9 @@
 module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/language_shorthand.hpp"
 #include <range/v3/algorithm/fold.hpp>
+#include <range/v3/action/remove.hpp>
+#include <range/v3/view/for_each.hpp>
 #include <QtSensors/QSensor>
 #include <QtCore/QString>
 
@@ -62,6 +66,8 @@ auto sensors::detail::connect_to_sensor(sensor* sensor_instance) -> ext::boolean
 
 auto sensors::detail::activate_sensor_object(sensor* sensor_instance) -> ext::boolean
 {
+    // Get the platform sensor, and add the 'sensor_instance' to the activated sensors set. Set the sensor settings of
+    // the platform sensor, and queue a task to 'notify_activated_state(...)' with the sensor instance.
     decltype(auto) platform_sensor = *sensor_instance->d_func()->sensor->platform_sensor;
     platform_sensor.activated_sensor_objects.emplace(sensor_instance);
     set_sensor_settings(platform_sensor);
@@ -99,6 +105,76 @@ auto sensors::detail::set_sensor_settings(platform_sensor_t& platform_sensor) ->
 {
     if (platform_sensor.activated_sensor_objects.empty())
     {
-        platform_sensor.set
+        platform_sensor.set_requested_sampling_frequency(0);
+        platform_sensor.latest_reasing_map | ranges::views::for_each([](auto&& p) {p.second = nullptr;});
+        // TODO
+        return;
     }
+
+    platform_sensor.set_requested_sampling_frequency(platform_sensor.optimal_sampling_frequency());
 }
+
+
+auto sensors::detail::update_latest_reading(const platform_sensor_t& platform_sensor, const sensor_reading_t& reading) -> void
+{
+    decltype(auto) type = *platform_sensor.sensor_type;
+    if (!type.threshold_check_algorithm.empty())
+    {
+        auto result = type.threshold_check_algorithm(reading, platform_sensor.latest_reading_map);
+        return_if (!result);
+    }
+
+    platform_sensor.latest_reading_map | ranges::view::for_each(
+            [&platform_sensor, &reading](auto&& pair) mutable
+            {platform_sensor.latest_reading_map[pair.first] = reading[pair.first];});
+
+    _GO [&platform_sensor]
+    {
+        platform_sensor.activated_sensor_objects | ranges::views::for_each(ext::bind_front(report_latest_reading_updated, s));
+    };
+}
+
+
+auto sensors::detail::find_reporting_frequency_of_sensor_object(sensor* sensor_instance) -> ext::number<double>
+{
+    auto f = sensor_instance->d_func()->frequency;
+    // TODO : cap f
+    return f;
+}
+
+
+auto sensors::detail::report_latest_reading_updated(sensor* sensor_instance) -> void
+{
+    return_if (sensor_instance->d_func()->pending_reading_notification);
+    sensor_instance->d_func()->pending_reading_notification = true;
+
+    auto last_reported_timestamp = sensor_instance->d_func()->last_event_fired_at;
+    if (!last_reported_timestamp)
+        return dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
+
+    auto reporting_frequency = find_reporting_frequency_of_sensor_object(sensor_instance);
+    if (!reporting_frequency)
+        return dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
+
+    auto reporting_interval = 1 / reporting_frequency;
+    auto timestamp_delta = sensor_instance->d_func()->sensor->platform_sensor->latest_reading_map[u"timestamp"].to<int>();
+    if (timestamp_delta > reporting_interval)
+        return dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
+
+    auto defer_update_time = reporting_interval - timestamp_delta;
+    html::detail::spin_event_loop(defer_event_time);
+
+    if (sensor_instance->d_func()->pending_reading_notification)
+        return dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
+}
+
+
+auto sensors::detail::notify_new_reading(sensor* sensor_instance) -> void
+{
+    sensor_instance->d_func()->pending_reading_notification = false;
+    sensor_instance->d_func()->last_event_fired_at = sensor_instance->d_func()->sensor->platform_sensor->lastest_reading_map[u"timestamp"].to<int>();
+    sensor_instance->d_func()->fire_event(u"reading");
+}
+
+
+sensors::detail::notify

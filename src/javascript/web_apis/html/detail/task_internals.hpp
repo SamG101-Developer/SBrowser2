@@ -66,6 +66,9 @@ namespace html::detail
 
     /* [WEB-LOCKS] */
     task_queue_t web_locks_task_source;
+
+    /* [SENSORS] */
+    task_queue_t sensors_task_source;
 }
 
 
