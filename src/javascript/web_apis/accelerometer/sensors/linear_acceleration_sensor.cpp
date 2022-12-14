@@ -1,13 +1,21 @@
-#include "linear_acceleration_sensor.hpp"
-#include "linear_acceleration_sensor_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
-#include "sensors/detail/sensor_internals.hpp"
+module apis.accelerometer.linear_acceleration_sensor;
+import apis.accelerometer.linear_acceleration_sensor_private;
+import apis.accelerometer.detail;
+
+import ext.tuple;
+import js.env.module_type;
 
 
 accelerometer::linear_acceleration_sensor::linear_acceleration_sensor(detail::accelerometer_sensor_options_t&& options)
 {
-    INIT_PIMPL(linear_accelerometer);
+    INIT_PIMPL;
 
     // Construct a LinearAccelerometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -18,7 +26,7 @@ accelerometer::linear_acceleration_sensor::linear_acceleration_sensor(detail::ac
 auto accelerometer::linear_acceleration_sensor::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<accelerometer>()

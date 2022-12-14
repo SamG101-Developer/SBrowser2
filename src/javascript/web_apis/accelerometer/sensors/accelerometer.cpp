@@ -1,10 +1,17 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
 module apis.accelerometer.accelerometer;
+import apis.accelerometer.accelerometer_private;
+import apis.accelerometer.detail;
 
 import ext.number;
+import ext.tuple;
+import js.env.module_type;
 
 
 accelerometer::accelerometer::accelerometer(accelerometer_sensor_options_t&& options)
@@ -53,7 +60,7 @@ auto accelerometer::accelerometer::get_z() const -> ext::number<double>
 auto accelerometer::accelerometer::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<sensors::sensor>()
