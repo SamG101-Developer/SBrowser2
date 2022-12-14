@@ -9,4 +9,5 @@ export namespace web_audio::detail
     enum class channel_count_mode_t {MAX, CLAMPED_MAX, EXPLICIT};
     enum class chennel_interpretation_t {SPEAKERS, DISCRETE};
     enum class automation_rate_t {A_RATE, K_RATE};
+    enum class biquad_filter_type_t {LOWPASS, HIGHPASS, BANDPASS, LOWSHELF, HIGHSHELF, PEAKING, BOTH, ALLPASS};
 }
