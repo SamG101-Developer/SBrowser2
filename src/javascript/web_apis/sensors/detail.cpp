@@ -4,6 +4,7 @@ module;
 #include <range/v3/algorithm/fold.hpp>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/view/for_each.hpp>
+#include <tl/optional.hpp>
 #include <QtSensors/QSensor>
 #include <QtCore/QString>
 
@@ -20,6 +21,8 @@ import apis.dom.dom_exception;
 import ext.boolean;
 import ext.functional;
 import ext.number;
+import ext.string;
+import ext.optional;
 
 
 auto sensors::detail::initialize_sensor_object(sensor* sensor_instance, sensor_options_t&& options) -> void
@@ -177,4 +180,32 @@ auto sensors::detail::notify_new_reading(sensor* sensor_instance) -> void
 }
 
 
-sensors::detail::notify
+auto sensors::detail::notify_activated_state(sensor* sensor_instance) -> void
+{
+    sensor_instance->d_func()->state = ACTIVATED;
+    sensor_instance->d_func()->fire_event(u"activate");
+    if (sensor_instance->d_func()->sensor->platform_sensor->latest_reading_map[u"timestamp"].to<int>())
+        dom::detail::queue_task(html::detail::task_sources::sensors, &notify_new_reading, sensor_instance);
+}
+
+
+auto sensors::detail::notify_error(sensor* sensor_instance, dom::dom_exception* error) -> void
+{
+    sensor_instance->d_func()->state = IDLE;
+    sensor_instance->d_func()->fire_event<sensor_error_event>(u"error", {{"error", error}});
+}
+
+
+auto sensors::detail::get_value_from_latest_reading(sensor* sensor_instance, ext::string&& name) -> ext::optional<sensor_reading_t>
+{
+    return_if (!sensor_instance->d_func()->state == ACTIVATED) ext::nullopt;
+
+    decltype(auto) readings = sensor_instance->d_func()->platform_sensor->latest_reading_map;
+    decltype(auto) type = *sensor_instance->d_func()->platform_sensor->sensor_type;
+    if (!type.reading_quantization_algorithm.empty())
+        readings = type.reading_quantization_algorithm(std::move(readings));
+
+    // TODO : coordinate system
+    return readings[std::move(name)];
+}
+

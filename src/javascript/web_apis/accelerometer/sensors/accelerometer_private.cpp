@@ -1,0 +1,1 @@
+module apis.accelerometer.accelerometer_private;

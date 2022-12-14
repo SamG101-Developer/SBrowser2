@@ -1,0 +1,1 @@
+module apis.accelerometer.linear_acceleration_sensor_private;

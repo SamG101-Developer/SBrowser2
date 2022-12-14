@@ -1,8 +1,8 @@
 #include "abstract_operations_internals.hpp"
 
-#include "accelerometer/_typedefs.hpp"
-#include "accelerometer/accelerometer.hpp"
-#include "accelerometer/accelerometer_private.hpp"
+
+
+
 
 
 

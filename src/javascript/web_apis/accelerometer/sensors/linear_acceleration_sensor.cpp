@@ -1,21 +1,21 @@
-#include "gravity_sensor.hpp"
-#include "gravity_sensor_private.hpp"
+#include "linear_acceleration_sensor.hpp"
+#include "linear_acceleration_sensor_private.hpp"
 
-#include "accelerometer/detail/abstract_operations_internals.hpp"
+
 #include "sensors/detail/sensor_internals.hpp"
 
 
-accelerometer::gravity_sensor::gravity_sensor(detail::accelerometer_sensor_options_t&& options)
+accelerometer::linear_acceleration_sensor::linear_acceleration_sensor(detail::accelerometer_sensor_options_t&& options)
 {
-    INIT_PIMPL(gravity_sensor);
+    INIT_PIMPL(linear_accelerometer);
 
-    // Construct aa GravitySensor instance using a detail algorithm, that runs certain checks for multiple similar
+    // Construct a LinearAccelerometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
     detail::construct_accelerometer_object(this, std::move(options));
 }
 
 
-auto accelerometer::gravity_sensor::_to_v8(
+auto accelerometer::linear_acceleration_sensor::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

@@ -27,9 +27,9 @@ export namespace sensors::detail
     /* [8.09] */ auto find_reporting_frequency_of_sensor_object(sensor* sensor_instance) -> ext::number<double>;
     /* [8.10] */ auto report_latest_reading_updated(sensor* sensor_instance) -> void;
     /* [8.11] */ auto notify_new_reading(sensor* sensor_instance) -> void;
-    /* [8.12] */ auto notify_activated_state() -> void;
-    /* [8.13] */ auto notify_error(dom::dom_exception* error) -> void;
-    /* [8.14] */ auto get_value_from_latest_reading(ext::string&& name) -> ext::optional<sensor_reading_t>;
+    /* [8.12] */ auto notify_activated_state(sensor* sensor_instance) -> void;
+    /* [8.13] */ auto notify_error(sensor* sensor_instance, dom::dom_exception* error) -> void;
+    /* [8.14] */ auto get_value_from_latest_reading(sensor* sensor_instance, ext::string&& name) -> ext::optional<sensor_reading_t>;
     /* [8.15] */ auto request_sensor_access() -> permissions::detail::permission_state_t;
 
     /* [9.2.1] */ auto create_mock_sensor() -> void;

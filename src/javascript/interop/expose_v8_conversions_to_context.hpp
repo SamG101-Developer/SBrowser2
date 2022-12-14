@@ -7,9 +7,9 @@
 #include "javascript/environment/module_type.ixx"
 
 
-#include "accelerometer/accelerometer.hpp"
-#include "accelerometer/gravity_sensor.hpp"
-#include "accelerometer/linear_accelerometer.hpp"
+
+
+
 
 #include "ambient_light/ambient_light_sensor.hpp"
 #include "background_tasks/idle_deadline.hpp"

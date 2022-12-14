@@ -1,14 +1,15 @@
-#include "accelerometer.hpp"
-#include "accelerometer_private.hpp"
-
-#include "accelerometer/detail/abstract_operations_internals.hpp"
-#include "sensors/detail/sensor_internals.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+module apis.accelerometer.accelerometer;
 
-accelerometer::accelerometer::accelerometer(detail::accelerometer_sensor_options_t&& options)
+import ext.number;
+
+
+accelerometer::accelerometer::accelerometer(accelerometer_sensor_options_t&& options)
 {
-    INIT_PIMPL(accelerometer);
+    INIT_PIMPL;
 
     // Construct an Accelerometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
