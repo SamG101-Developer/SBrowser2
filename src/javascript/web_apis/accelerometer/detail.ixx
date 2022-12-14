@@ -11,8 +11,5 @@ namespace accelerometer {class accelerometer;}
 
 namespace accelerometer::detail
 {
-    auto construct_accelerometer_object(
-            accelerometer* sensor,
-            ext::map<ext::string, ext::any>&& options)
-            -> void;
+    /* [7.1] */ auto construct_accelerometer_object(accelerometer* sensor, ext::map<ext::string, ext::any>&& options) -> void;
 }

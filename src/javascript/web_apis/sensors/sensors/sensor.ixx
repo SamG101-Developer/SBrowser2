@@ -9,14 +9,20 @@ module;
 export module apis.sensors.sensor;
 import apis.dom.event_target;
 
+import ext.any;
 import ext.boolean;
+import ext.map;
 import ext.tuple;
+import ext.string;
 import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(sensors, sensor)
         : public dom::event_target
 {
+public typedefs:
+    using sensor_options_t = ext::map<ext::string, ext::any>;
+
 public constructors:
     DOM_CTORS(sensor);
     MAKE_PIMPL(sensor);

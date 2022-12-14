@@ -30,7 +30,6 @@ export namespace sensors::detail
     enum class coordinate_system_t {DEVICE_COORDINATE_SYSTEM, SCREEN_COORDINATE_SYSTEM};
 
     using sensor_reading_t = ext::map<ext::string, ext::any>;
-    using sensor_options_t = ext::map<ext::string, ext::any>;
     using mock_sensor_t = ext::map<ext::string, ext::any>;
     using mock_sensor_configuration_t = ext::map<ext::string, ext::any>;
     using mock_sensor_reading_values_t = ext::map<ext::string, ext::any>;

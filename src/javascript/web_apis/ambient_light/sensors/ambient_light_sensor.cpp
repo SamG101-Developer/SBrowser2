@@ -1,13 +1,16 @@
-#include "ambient_light_sensor.hpp"
-#include "ambient_light_sensor_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
-#include "ambient_light/detail/abstract_operations_internals.hpp"
-#include "sensors/detail/sensor_internals.hpp"
+
+module apis.ambient_light.ambient_light_sensor;
+import apis.ambient_light.ambient_light_sensor_private;
+
+import apis.sensors.types;
 
 
 ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(sensors::detail::sensor_options_t&& options)
 {
-    INIT_PIMPL(ambient_light_sensor);
+    INIT_PIMPL;
 
     // Construct an AmbientLight instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
