@@ -1,14 +1,27 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
 module apis.ambient_light.ambient_light_sensor;
 import apis.ambient_light.ambient_light_sensor_private;
+import apis.ambient_light.detail;
 
+import apis.sensors.detail;
 import apis.sensors.types;
 
+import ext.any;
+import ext.hashing;
+import ext.map;
+import ext.number;
+import ext.string;
+import ext.tuple;
+import js.env.module_type;
 
-ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(sensors::detail::sensor_options_t&& options)
+
+ambient_light_sensor::ambient_light_sensor::ambient_light_sensor(ext::map<ext::string, ext::any>&& options)
 {
     INIT_PIMPL;
 
@@ -32,11 +45,11 @@ auto ambient_light_sensor::ambient_light_sensor::get_illuminance() const -> ext:
 auto ambient_light_sensor::ambient_light_sensor::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<sensors::sensor>()
-        .ctor<sensors::detail::sensor_options_t&&>()
+        .ctor<ext::map<ext::string, ext::any>&&>()
         .property("illuminance", &ambient_light_sensor::get_illuminance)
         .auto_wrap_objects();
 
