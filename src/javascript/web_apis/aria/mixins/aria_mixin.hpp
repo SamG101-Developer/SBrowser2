@@ -1,20 +1,25 @@
-#ifndef SBROWSER2_ARIA_MIXIN_HPP
-#define SBROWSER2_ARIA_MIXIN_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-namespace aria::mixins {class aria_mixin;}
-namespace aria::mixins {class aria_mixin_private;}
+export module apis.aria.mixins.aria_mixin;
+import apis._.dom_object;
 
-#include "ext/vector.hpp"
-#include "ext/span.hpp"
-namespace dom::nodes {class element;}
+import ext.span;
+import ext.string;
+import ext.tuple;
+import js.env.module_type;
+
+namespace dom {class element;}
 
 
-class aria::mixins::aria_mixin
+DEFINE_PUBLIC_CLASS(aria, aria_mixin)
         : public virtual dom_object
 {
 public constructors:
-    DOM_CTORS(aria_mixin);
     MAKE_PIMPL(aria_mixin);
     MAKE_V8_AVAILABLE(ALL);
 
@@ -62,16 +67,13 @@ private js_properties:
     DEFINE_GETTER(aria_value_now, ext::string);
     DEFINE_GETTER(aria_value_text, ext::string);
 
-    DEFINE_GETTER(aria_controls_elements, ext::vector_span<dom::nodes::element*>);
-    DEFINE_GETTER(aria_described_by_elements, ext::vector_span<dom::nodes::element*>);
-    DEFINE_GETTER(aria_details_elements, ext::vector_span<dom::nodes::element*>);
-    DEFINE_GETTER(aria_flow_to_elements, ext::vector_span<dom::nodes::element*>);
-    DEFINE_GETTER(aria_labelled_by_elements, ext::vector_span<dom::nodes::element*>);
-    DEFINE_GETTER(aria_owns_elements, ext::vector_span<dom::nodes::element*>);
+    DEFINE_GETTER(aria_controls_elements, ext::vector_span<dom::element*>);
+    DEFINE_GETTER(aria_described_by_elements, ext::vector_span<dom::element*>);
+    DEFINE_GETTER(aria_details_elements, ext::vector_span<dom::element*>);
+    DEFINE_GETTER(aria_flow_to_elements, ext::vector_span<dom::element*>);
+    DEFINE_GETTER(aria_labelled_by_elements, ext::vector_span<dom::element*>);
+    DEFINE_GETTER(aria_owns_elements, ext::vector_span<dom::element*>);
 
-    DEFINE_GETTER(aria_active_descendant_element, dom::nodes::element*);
-    DEFINE_GETTER(aria_error_message_element, dom::nodes::element*);
+    DEFINE_GETTER(aria_active_descendant_element, dom::element*);
+    DEFINE_GETTER(aria_error_message_element, dom::element*);
 };
-
-
-#endif //SBROWSER2_ARIA_MIXIN_HPP
