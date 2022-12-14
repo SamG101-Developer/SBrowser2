@@ -13,9 +13,11 @@ import apis.dom.event_target;
 import apis.web_audio.types;
 
 import ext.any;
+import ext.array_buffer;
 import ext.functional;
 import ext.map;
 import ext.number;
+import ext.promise;
 import ext.string;
 import ext.tuple;
 import ext.vector;
@@ -41,6 +43,9 @@ namespace web_audio {class iir_filter_node;}
 namespace web_audio {class oscillator_node;}
 namespace web_audio {class panner_node;}
 namespace web_audio {class periodic_wave;}
+namespace web_audio {class script_processor_node;}
+namespace web_audio {class stereo_panner_node;}
+namespace web_audio {class wave_shaper_node;}
 
 
 DEFINE_PUBLIC_CLASS(web_audio, base_audio_context)
@@ -76,7 +81,7 @@ public js_methods:
     auto create_stereo_panner() -> std::unique_ptr<stereo_panner_node>;
     auto create_wave_shaper() -> std::unique_ptr<wave_shaper_node>;
 
-    auto decode_audio_data(array_buffer* data, decode_success_callback_t&& success_callback, decode_error_callback_t&& error_callback) -> ext::promise<std::unique_ptr<audio_buffer>>;
+    auto decode_audio_data(ext::array_buffer* data, decode_success_callback_t&& success_callback, decode_error_callback_t&& error_callback) -> ext::promise<std::unique_ptr<audio_buffer>>;
 
 public js_properties:
     DEFINE_GETTER(destination, audio_destination_node*);

@@ -11,4 +11,4 @@ DEFINE_PRIVATE_CLASS(web_audio, base_audio_context)
 {
 public:
     MAKE_QIMPL(base_audio_context);
-}
+};
