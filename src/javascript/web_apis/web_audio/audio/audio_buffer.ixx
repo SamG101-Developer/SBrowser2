@@ -8,8 +8,11 @@ module;
 export module apis.web_audio.audio_buffer;
 import apis._.dom_object;
 
+import ext.any;
 import ext.array_buffer;
+import ext.map;
 import ext.number;
+import ext.string;
 import ext.tuple;
 
 import js.env.module_type;

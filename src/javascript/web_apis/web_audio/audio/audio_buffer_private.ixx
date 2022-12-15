@@ -16,6 +16,9 @@ public:
     MAKE_QIMPL(audio_buffer);
 
 public:
+    auto acquire_contents() -> ext::string;
+
+public:
     ext::number<ulong> number_of_channels;
     ext::number<ulong> length;
     ext::number<float> sample_rate;

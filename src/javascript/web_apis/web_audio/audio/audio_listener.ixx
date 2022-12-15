@@ -24,10 +24,6 @@ public constructors:
     MAKE_PIMPL(audio_listener);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
-    auto set_position(ext::number<float> x, ext::number<float> y, ext::number<float> z) -> void;
-    auto set_orientation(ext::number<float> x, ext::number<float> y, ext::number<float> z, ext::number<float> up_x, ext::number<float> up_y, ext::number<float> up_z) -> void;
-
 public js_properties:
     DEFINE_GETTER(position_x, audio_param*);
     DEFINE_GETTER(position_y, audio_param*);
