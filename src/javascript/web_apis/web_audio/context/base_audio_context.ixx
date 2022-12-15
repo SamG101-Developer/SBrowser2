@@ -62,26 +62,26 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
-    auto create_analyser() -> std::unique_ptr<analyser_node>;
-    auto create_biquad_filter() -> std::unique_ptr<biquad_filter_node>;
-    auto create_audio_buffer(ext::number<ulong> number_of_channels, ext::number<ulong> length, ext::number<float> sample_rate) -> std::unique_ptr<audio_buffer>;
-    auto create_buffer_source() -> std::unique_ptr<audio_buffer_source_node>;
-    auto create_channel_merger(ext::number<ulong> number_of_outputs = 6) -> std::unique_ptr<channel_merger_node>;
-    auto create_channel_splitter(ext::number<ulong> number_of_outputs = 6) -> std::unique_ptr<channel_splitter_node>;
-    auto create_constant_source() -> std::unique_ptr<constant_source_node>;
-    auto create_convolver() -> std::unique_ptr<convolver_node>;
-    auto create_delay_node(ext::number<double> delay_time = 1.0) -> std::unique_ptr<delay_node>;
-    auto create_dynamic_compressor() -> std::unique_ptr<dynamic_compressor_node>;
-    auto create_gain() -> std::unique_ptr<gain_node>;
-    auto create_iir_filter_node(ext::vector<ext::number<double>>&& feed_forward, ext::vector<ext::number<double>>&& feedback) -> std::unique_ptr<iir_filter_node>;
-    auto create_oscillator() -> std::unique_ptr<oscillator_node>;
-    auto create_panner() -> std::unique_ptr<panner_node>;
-    auto create_periodic_wave(ext::vector<ext::number<float>> real, ext::vector<ext::number<float>> imag, periodic_wave_constaints_t&& constraints = {}) -> std::unique_ptr<periodic_wave>;
-    auto create_script_processor_node(ext::number<ulong> buffer_size = 0, ext::number<ulong> number_of_input_channels = 2, ext::number<ulong> number_of_output_channels = 2) -> std::unique_ptr<script_processor_node>;
-    auto create_stereo_panner() -> std::unique_ptr<stereo_panner_node>;
-    auto create_wave_shaper() -> std::unique_ptr<wave_shaper_node>;
+    auto create_analyser() const -> std::unique_ptr<analyser_node>;
+    auto create_biquad_filter() const -> std::unique_ptr<biquad_filter_node>;
+    auto create_buffer(ext::number<ulong> number_of_channels, ext::number<ulong> length, ext::number<float> sample_rate) const -> std::unique_ptr<audio_buffer>;
+    auto create_buffer_source() const -> std::unique_ptr<audio_buffer_source_node>;
+    auto create_channel_merger(ext::number<ulong> number_of_outputs = 6) const -> std::unique_ptr<channel_merger_node>;
+    auto create_channel_splitter(ext::number<ulong> number_of_outputs = 6) const -> std::unique_ptr<channel_splitter_node>;
+    auto create_constant_source() const -> std::unique_ptr<constant_source_node>;
+    auto create_convolver() const -> std::unique_ptr<convolver_node>;
+    auto create_delay_node(ext::number<double> delay_time = 1.0) const -> std::unique_ptr<delay_node>;
+    auto create_dynamic_compressor() const -> std::unique_ptr<dynamic_compressor_node>;
+    auto create_gain() const -> std::unique_ptr<gain_node>;
+    auto create_iir_filter_node(ext::vector<ext::number<double>>&& feed_forward, ext::vector<ext::number<double>>&& feedback) const -> std::unique_ptr<iir_filter_node>;
+    auto create_oscillator() const -> std::unique_ptr<oscillator_node>;
+    auto create_panner() const -> std::unique_ptr<panner_node>;
+    auto create_periodic_wave(ext::vector<ext::number<float>> real, ext::vector<ext::number<float>> imag, periodic_wave_constaints_t&& constraints = {}) const -> std::unique_ptr<periodic_wave>;
+    auto create_script_processor_node(ext::number<ulong> buffer_size = 0, ext::number<ulong> number_of_input_channels = 2, ext::number<ulong> number_of_output_channels = 2) const -> std::unique_ptr<script_processor_node>;
+    auto create_stereo_panner() const -> std::unique_ptr<stereo_panner_node>;
+    auto create_wave_shaper() const -> std::unique_ptr<wave_shaper_node>;
 
-    auto decode_audio_data(ext::array_buffer* data, decode_success_callback_t&& success_callback, decode_error_callback_t&& error_callback) -> ext::promise<std::unique_ptr<audio_buffer>>;
+    auto decode_audio_data(ext::array_buffer* data, decode_success_callback_t&& success_callback, decode_error_callback_t&& error_callback) const -> ext::promise<std::unique_ptr<audio_buffer>>;
 
 public js_properties:
     DEFINE_GETTER(destination, audio_destination_node*);
