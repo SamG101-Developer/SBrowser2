@@ -4,6 +4,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "ext/macros/property.hpp"
 #include "javascript/macros/expose.hpp"
+#include <swl/variant.hpp>
 
 
 export module apis.web_audio.audio_context;
@@ -53,7 +54,7 @@ public js_methods:
     auto set_sink_id(audio_sink_options_t&& sink_id) -> ext::promise<void>;
 
     auto create_media_element_source(html::html_media_element* media_element) -> std::unique_ptr<media_element_audio_source_node>;
-    auto create_media_stream_source(mediacapture::media_stream* media_stream) -> std::unique_ptr<media_stream_audio_source_node>;
+    auto create_media_stream_source(media_capture::media_stream* media_stream) -> std::unique_ptr<media_stream_audio_source_node>;
     auto create_media_stream_track_source(media_capture::media_stream* media_stream_track) -> std::unique_ptr<media_stream_track_audio_source_node>;
     auto create_media_stream_destination() -> std::unique_ptr<media_stream_audio_destination_node>;
 

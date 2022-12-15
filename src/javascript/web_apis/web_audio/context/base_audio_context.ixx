@@ -70,14 +70,14 @@ public js_methods:
     auto create_channel_splitter(ext::number<ulong> number_of_outputs = 6) const -> std::unique_ptr<channel_splitter_node>;
     auto create_constant_source() const -> std::unique_ptr<constant_source_node>;
     auto create_convolver() const -> std::unique_ptr<convolver_node>;
-    auto create_delay_node(ext::number<double> delay_time = 1.0) const -> std::unique_ptr<delay_node>;
+    auto create_delay(ext::number<double> delay_time = 1.0) const -> std::unique_ptr<delay_node>;
     auto create_dynamic_compressor() const -> std::unique_ptr<dynamic_compressor_node>;
     auto create_gain() const -> std::unique_ptr<gain_node>;
-    auto create_iir_filter_node(ext::vector<ext::number<double>>&& feed_forward, ext::vector<ext::number<double>>&& feedback) const -> std::unique_ptr<iir_filter_node>;
+    auto create_iir_filter(ext::vector<ext::number<double>>&& feed_forward, ext::vector<ext::number<double>>&& feedback) const -> std::unique_ptr<iir_filter_node>;
     auto create_oscillator() const -> std::unique_ptr<oscillator_node>;
     auto create_panner() const -> std::unique_ptr<panner_node>;
     auto create_periodic_wave(ext::vector<ext::number<float>> real, ext::vector<ext::number<float>> imag, periodic_wave_constaints_t&& constraints = {}) const -> std::unique_ptr<periodic_wave>;
-    auto create_script_processor_node(ext::number<ulong> buffer_size = 0, ext::number<ulong> number_of_input_channels = 2, ext::number<ulong> number_of_output_channels = 2) const -> std::unique_ptr<script_processor_node>;
+    auto create_script_processor(ext::number<ulong> buffer_size = 0, ext::number<ulong> number_of_input_channels = 2, ext::number<ulong> number_of_output_channels = 2) const -> std::unique_ptr<script_processor_node>;
     auto create_stereo_panner() const -> std::unique_ptr<stereo_panner_node>;
     auto create_wave_shaper() const -> std::unique_ptr<wave_shaper_node>;
 
