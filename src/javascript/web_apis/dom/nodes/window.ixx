@@ -10,6 +10,7 @@ export module apis.dom.window;
 import apis.dom.event_target;
 import apis.html.mixins.window_or_worker_global_scope;
 import ext.vector_like;
+import apis.background_tasks.types;
 
 import ext.boolean;
 import ext.any;
@@ -42,6 +43,7 @@ DEFINE_PUBLIC_CLASS(dom, window) final
 {
 public typedefs:
     using window_post_message_options_t = ext::map<ext::string, ext::any>;
+    using idle_request_options_t = ext::map<ext::string, ext::any>;
 
 public constructors:
     DOM_CTORS(window);
@@ -66,7 +68,7 @@ public js_methods:
     auto post_message(ext::any&& message, window_post_message_options_t&& options = {}) -> void;
 
     /* [BACKGROUND-TASKS] */
-    auto request_idle_callback(background_tasks::detail::idle_request_callback_t&& callback, background_tasks::detail::idle_request_options_t&& options) -> ext::number<ulong>;
+    auto request_idle_callback(background_tasks::detail::idle_request_callback_t&& callback, idle_request_options_t&& options) -> ext::number<ulong>;
     auto cancel_idle_task(ext::number<ulong> handle) -> void;
 
     /* [SELECTION] */

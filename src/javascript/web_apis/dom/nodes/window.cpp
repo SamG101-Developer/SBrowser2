@@ -1,24 +1,30 @@
 module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/action/remove.hpp>
 
 module apis.dom.window;
 
+import ext.number;
 
-auto dom::nodes::window::request_idle_callback(
+
+auto dom::window::request_idle_callback(
         background_tasks::detail::idle_request_callback_t&& callback,
-        background_tasks::detail::idle_request_options_t&& options)
+        idle_request_options_t&& options)
         -> ext::number<ulong>
 {
+    ACCESS_PIMPL;
+
     // Increase the callback identifier number, and add the callback into the class's list of callbacks. Get the current
     // handle as a variable.
-    m_idle_callback_identifier += 1;
-    m_idle_request_callbacks.emplace_back(std::move(callback));
+    d->idle_callback_identifier += 1;
+    d->idle_request_callbacks.emplace_back(std::move(callback));
     decltype(auto) handle = m_idle_callback_identifier;
 
     // Run the rest of the method in another thread (which is saved into a class list, so doesn't go out of scope), and
     // return the handle in the background
-    GO [this, options = std::move(options), &handle]
+    _GO [this, options = std::move(options), &handle]
     {
         // Save the current thread into the list of threads in the class to keep it in scope once the method
         // ends.
@@ -51,7 +57,7 @@ auto dom::nodes::window::request_idle_callback(
 }
 
 
-auto dom::nodes::window::cancel_idle_task(
+auto dom::window::cancel_idle_task(
         ext::number<ulong> handle)
         -> void
 {
@@ -63,56 +69,56 @@ auto dom::nodes::window::cancel_idle_task(
 }
 
 
-auto dom::nodes::window::get_window() const -> window_proxy*
+auto dom::window::get_window() const -> window_proxy*
 {
     auto e = js::env::env::relevant(this);
     return v8pp::from_v8<window_proxy*>(e.js.agent(), e.js.realm()->Global()->GetPrototype()); // TODO
 }
 
 
-auto dom::nodes::window::get_document() const -> document*
+auto dom::window::get_document() const -> document*
 {
     ACCESS_PIMPL(const window);
     return d->document.get();
 }
 
 
-auto dom::nodes::window::get_name() const -> ext::string_view
+auto dom::window::get_name() const -> ext::string_view
 {
     ACCESS_PIMPL(const window);
     return d->navigable ? d->navigable->target_name() : u"";
 }
 
 
-auto dom::nodes::window::get_location() const -> html::other::location*
+auto dom::window::get_location() const -> html::other::location*
 {
     ACCESS_PIMPL(const window);
     return d->location.get();
 }
 
 
-auto dom::nodes::window::get_history() const -> html::other::history*
+auto dom::window::get_history() const -> html::other::history*
 {
     ACCESS_PIMPL(const window);
     return d->document->d_func()->history.get();
 }
 
 
-auto dom::nodes::window::get_custom_elements() const -> html::other::custom_element_registry*
+auto dom::window::get_custom_elements() const -> html::other::custom_element_registry*
 {
     ACCESS_PIMPL(const window);
     return d->custom_elements.get();
 }
 
 
-auto dom::nodes::window::get_closed() const -> ext::boolean
+auto dom::window::get_closed() const -> ext::boolean
 {
     ACCESS_PIMPL(const window);
     return !d->document->d_func()->browsing_context || d->navigable->is_closing;
 }
 
 
-auto dom::nodes::window::get_top() const -> window_proxy*
+auto dom::window::get_top() const -> window_proxy*
 {
     ACCESS_PIMPL(const window);
     return d->navigable
@@ -121,7 +127,7 @@ auto dom::nodes::window::get_top() const -> window_proxy*
 }
 
 
-auto dom::nodes::window::get_parent() const -> window_proxy*
+auto dom::window::get_parent() const -> window_proxy*
 {
     ACCESS_PIMPL(const window);
     return d->navigable
@@ -130,7 +136,7 @@ auto dom::nodes::window::get_parent() const -> window_proxy*
 }
 
 
-auto dom::nodes::window::set_name(ext::string new_name) -> ext::string
+auto dom::window::set_name(ext::string new_name) -> ext::string
 {
     ACCESS_PIMPL(window);
     return_if (!d->navigable) u"";

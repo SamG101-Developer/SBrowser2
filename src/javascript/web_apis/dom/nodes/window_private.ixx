@@ -4,10 +4,15 @@ module;
 
 export module apis.dom.window_private;
 import apis.dom.event_target_private;
+import apis.background_tasks.types;
 
 import ext.boolean;
+import ext.concepts;
 import ext.map;
 import ext.number;
+import ext.queue;
+import ext.set;
+import ext.vector;
 
 namespace dom {class document;}
 namespace html {class custom_element_registry;}
@@ -38,6 +43,10 @@ DEFINE_PRIVATE_CLASS(dom, window)
     ext::vector<background_tasks::detail::idle_request_callback_t> runnable_idle_callbacks;
     ext::number<ulong> idle_callback_identifier;
 
+    template <ext::callable F> auto start_idle_period(F&& get_deadline) -> hr_time::dom_high_res_time_stamp;
+    template <ext::callable F> auto invoke_idle_callbacks(F&& get_deadline) -> hr_time::dom_high_res_time_stamp;
+    auto invoke_idle_callback_timeout() -> void;
+
     /* [EVENT-TIMING] */
     ext::vector<event_timing::performance_event_timing*> entries_to_be_queued;
     std::unique_ptr<event_timing::performance_event_timing> pending_first_pointer_down;
@@ -50,6 +59,3 @@ DEFINE_PRIVATE_CLASS(dom, window)
     std::unique_ptr<event_timing::event_counts> event_counts;
     std::unique_ptr<event_timing::interaction_counts> interaction_counts;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_WINDOW_PRIVATE_HPP

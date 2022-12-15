@@ -1,20 +1,30 @@
-#include "idle_deadline.hpp"
-#include "idle_deadline_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
+module apis.background_tasks.idle_deadline;
+import apis.background_tasks.idle_deadline_private;
+import apis.hr_time.types;
 
-#include "hr_time/detail/time_internals.hpp"
+import ext.boolean;
+import ext.number;
+import ext.tuple;
+
+import js.env.module_type;
 
 
 background_tasks::idle_deadline::idle_deadline()
 {
-    INIT_PIMPL(idle_deadline);
+    INIT_PIMPL;
 }
 
 
 auto background_tasks::idle_deadline::time_remaining() -> hr_time::dom_high_res_time_stamp
 {
-    ACCESS_PIMPL(idle_deadline);
+    ACCESS_PIMPL;
     auto e = js::env::env::current();
 
     // Return the difference between the deadline and current time (the time until the deadline is met). If the
@@ -25,7 +35,17 @@ auto background_tasks::idle_deadline::time_remaining() -> hr_time::dom_high_res_
 }
 
 
-auto background_tasks::idle_deadline::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto background_tasks::idle_deadline::get_did_timeout() const -> ext::boolean
+{
+    ACCESS_PIMPL;
+    return d->timeout;
+}
+
+
+auto background_tasks::idle_deadline::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     decltype(auto) conversion = v8pp::class_<idle_deadline>{isolate}
         .inherit<dom_object>()
