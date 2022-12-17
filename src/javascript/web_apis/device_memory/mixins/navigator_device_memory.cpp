@@ -1,5 +1,14 @@
-#include "navigator_device_memory.hpp"
-#include "navigator_device_memory_private.hpp"
+module;
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
+
+
+module apis.device_memory.navigator_device_memory;
+
+import ext.number;
+import ext.tuple;
+import js.env.module_type;
 
 
 auto device_memory::mixins::navigator_device_memory::get_device_memory() const -> ext::number<double>
@@ -16,7 +25,7 @@ auto device_memory::mixins::navigator_device_memory::get_device_memory() const -
 auto device_memory::mixins::navigator_device_memory::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
