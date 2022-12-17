@@ -1,18 +1,23 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
 
+export module apis.console.console;
+import apis._.dom_object;
+import ext.singleton;
 
-namespace console {class console;}
-namespace console {class console_private;}
+import ext.any;
+import ext.boolean;
+import ext.tuple;
+import ext.string;
+import ext.vector;
 
-#include INCLUDE_INNER_TYPES(console)
+import js.env.module_type;
 
 
-#include "ext/vector.hpp"
-
-class console::console
+DEFINE_PUBLIC_CLASS(console, console) final
         : virtual public dom_object
         , public ext::singleton<console>
 {
@@ -77,6 +82,3 @@ public js_methods:
 
     auto time_end(ext::string&& label = u"default") -> void;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE_CONSOLE_HPP

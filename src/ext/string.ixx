@@ -4,9 +4,6 @@ module;
 #include <range/v3/algorithm/fold.hpp>
 #include <range/v3/to_container.hpp>
 
-#define string_switch(_String) switch(ext::hash{}(_String))
-#define string_case(_String) case(ext::hash{}(_String))
-#define string_default default
 
 export module ext.string;
 

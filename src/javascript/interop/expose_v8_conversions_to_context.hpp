@@ -18,8 +18,6 @@
 #include "contact_picker/contact_address.hpp"
 #include "contact_picker/contacts_manager.hpp"
 
-#include "console/console.hpp"
-
 #include "device_orientation/device_orientation_event.hpp"
 
 #include "device_posture/device_posture.hpp"

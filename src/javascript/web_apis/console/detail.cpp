@@ -1,14 +1,21 @@
-#include "abstract_operations.hpp"
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include <re2/re2.h>
+#include <re2/stringpiece.h>
+#include <utility>
 
-#include "ext/hashing.ixx"
 
+module apis.console.detail;
 
+import ext.concepts;
+import ext.functional;
+import ext.hashing;
+import ext.regex;
+import ext.string;
+import ext.tuple;
+import ext.variadic;
 
-#include <range/v3/view/take.hpp>
-#include <range/v3/view/drop.hpp>
-
-#include <v8-isolate.h>
-#include <v8-object.h>
+import js.env.realms;
 
 
 template <ext::type_is_enum E, typename ...Args>
@@ -68,5 +75,5 @@ auto console::detail::formatter(Args&& ...args) -> ext::string
         target |= ranges::views::replace(format_specifier.data(), std::move(converted));
 
     auto result = ext::nth_variadic_values<3>(std::forward<Args>(args)...);
-    ext::apply(BIND_FRONT(formatter, std::move(target)), std::move(result));
+    ext::apply(ext::bind_front(formatter, std::move(target)), std::move(result));
 }

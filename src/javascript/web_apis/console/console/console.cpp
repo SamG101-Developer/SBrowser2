@@ -1,30 +1,36 @@
-#include "console.hpp"
-#include "console_private.hpp"
-
-
-
-
-#include "ext/hashing.ixx"
-
-
-#include "ext/tuple.ixx"
-
-
-
-
-#include "console/detail/abstract_operations.hpp"
-#include "hr_time/detail/time_internals.hpp"
-
-#include <ostream>
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
 #include <fmt/ostream.h>
 #include <range/v3/action/remove.hpp>
 #include <range/v3/view/filter.hpp>
+#include <range/v3/view/join.hpp>
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/algorithm/max_element.hpp>
-#include <v8-debug.h>
-#include <v8pp/convert.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
+
+
+module apis.console.console;
+import apis.console.console_private;
+import apis.console.detail;
+import apis.console.types;
+
+import ext.any;
+import ext.boolean;
+import ext.concepts;
+import ext.functional;
+import ext.number;
+import ext.ranges;
+import ext.string;
+import ext.tuple;
+import ext.vector;
+
+import js.env.realms;
+import js.env.module_type;
 
 
 template <typename ...Args>
@@ -55,17 +61,16 @@ auto console::console::assert_(ext::boolean condition, Args&& ...data) -> void
 
     // Apply the 'data_tuple' to the 'detail::logger(...)' method, with the log level set to ASSERT.
     ext::apply(
-            BIND_FRONT(detail::logger, detail::log_level_t::ASSERT_),
+            ext::bind_front(detail::logger, detail::log_level_t::ASSERT_),
             std::move(data_tuple));
 }
 
 
 auto console::console::clear() -> void
 {
-    ACCESS_PIMPL(console);
-
     // Clear the associated group stack (in the GUI, this will remove all the outputted lines on the graphical console,
     // like 'cls' in the command prompt.
+    ACCESS_PIMPL;
     d->group_stack.clear();
 }
 
@@ -146,7 +151,7 @@ auto console::console::table(
                     | ranges::views::transform(fmt::formatter<U>::format)
                     | ranges::views::transform(BIND_BACK(pad_string, max_lengths | ranges::views::take(0)));}) // TODO : remove 0th element from max_lengths
             | ranges::views::transpose
-            | ranges::views::transform(BIND_BACK(ranges::views::join, '|'))
+            | ranges::views::transform(ext::bind_back(ranges::views::join, '|'))
             | ranges::views::join('\n');
 
     // Log this table row by row.
@@ -170,7 +175,7 @@ auto console::console::trace(Args&& ...data) -> void
     // and apply the tuple into the internal printer, with the print level set to TRACE.
     auto formatted_data = detail::formatter(std::forward<Args>(data)...);
     trace.template emplace_front(formatted_data);
-    ext::apply(BIND_FRONT(detail::printer, detail::print_type_t::TRACE), ext::make_tuple(std::move(trace)));
+    ext::apply(ext::bind_front(detail::printer, detail::print_type_t::TRACE), ext::make_tuple(std::move(trace)));
 }
 
 
@@ -186,7 +191,7 @@ auto console::console::count(ext::string&& label) -> void
 {
     // Increment the label's count by 1 (if it doesn't already exist in the map, then it is auto initialized to 0, due
     // to the try_emplace(...) methiod bing called internally.
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
     auto new_count = d->count_map[label] += 1;
 
     // Call the internal logger with the log level set to the COUNT level method to log a formatted version of the
@@ -199,7 +204,7 @@ auto console::console::count(ext::string&& label) -> void
 auto console::console::count_reset(ext::string&& label) -> void
 {
     // Set the count of the label to 0, whether the label exists or not.
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
     d->count_map.insert_or_assign(std::move(label), 0);
 }
 
@@ -207,7 +212,7 @@ auto console::console::count_reset(ext::string&& label) -> void
 template <typename ...Args>
 auto console::console::group(Args&& ...data) -> void
 {
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
 
     // Create a new group, and set the label to the value from calling the internal formatter, forwarding the data into
     // the method. Call the internal print method with the print label set to GROUP, and print the created group. Push
@@ -222,7 +227,7 @@ auto console::console::group(Args&& ...data) -> void
 template <typename ...Args>
 auto console::console::group_collapsed(Args&& ...data) -> void
 {
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
 
     // Create a new group, and set the label to the value from calling the internal formatter, forwarding the data into
     // the method. Call the internal print method with the print label set to GROUP_COLLAPSED, and print the created
@@ -236,14 +241,14 @@ auto console::console::group_collapsed(Args&& ...data) -> void
 
 auto console::console::group_end()
 {
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
     d->group_stack.pop();
 }
 
 
 auto console::console::time(ext::string&& label) -> void
 {
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
 
     return_if (d->timer_table.contains(label));
@@ -254,7 +259,7 @@ auto console::console::time(ext::string&& label) -> void
 template <typename ...Args>
 auto console::console::time_log(ext::string&& label, Args&& ...data) -> void
 {
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
 
     auto start_time = d->timer_table[label];
@@ -266,7 +271,7 @@ auto console::console::time_log(ext::string&& label, Args&& ...data) -> void
 
 auto console::console::time_end(ext::string&& label) -> void
 {
-    ACCESS_PIMPL(console);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
 
     auto start_time = d->timer_table |= ranges::actions::remove_key(std::move(label), ext::identity);
@@ -279,7 +284,7 @@ auto console::console::time_end(ext::string&& label) -> void
 auto console::console::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

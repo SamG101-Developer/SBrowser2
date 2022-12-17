@@ -1,13 +1,22 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-namespace contact_picker {class contact_address;}
-namespace contact_picker {class contact_address_private;}
+export module apis.contact_picker.contact_address;
+import apis._.dom_object;
+
+import ext.string;
+import ext.vector;
+import ext.tuple;
+import ext.span;
+
+import js.env.module_type;
 
 
-class contact_picker::contact_address
+DEFINE_PUBLIC_CLASS(contact_picker, contact_address) final
         : public virtual dom_object
 {
 public constructors:
@@ -25,8 +34,5 @@ private js_properties:
     DEFINE_GETTER(recipient, ext::string_view);
     DEFINE_GETTER(region, ext::string_view);
     DEFINE_GETTER(sorting_code, ext::string_view);
-    DEFINE_GETTER(address_line, ext::vector<ext::string>);
+    DEFINE_GETTER(address_line, ext::vector_span<ext::string>);
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONTACT_PICKER_CONTACT_ADDRESS_HPP

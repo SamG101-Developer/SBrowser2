@@ -1,7 +1,8 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE__TYPEDEFS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE__TYPEDEFS_HPP
+export module apis.console.types;
+import ext.string;
 
-namespace console::detail
+
+export namespace console::detail
 {
     enum class log_level_t {ASSERT_, DEBUG, ERROR, INFO, LOG, WARN};
     enum class print_type_t {TRACE, DIR};
@@ -12,4 +13,8 @@ namespace console::detail
     struct group_t;
 }
 
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_CONSOLE__TYPEDEFS_HPP
+
+struct console::detail::group_t
+{
+    ext::string label;
+};

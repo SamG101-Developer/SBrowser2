@@ -1,28 +1,40 @@
-#include "contact_address.hpp"
-#include "contact_address_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
-#include "contact_picker/detail/contact_internals.hpp"
+
+module apis.contact_picker.contact_address;
+import apis.contact_picker.contact_address_private;
+
+import ext.string;
+import ext.tuple;
+import ext.span;
+
+import js.env.module_type;
 
 
 contact_picker::contact_address::contact_address()
 {
-    INIT_PIMPL(contact_address);
+    INIT_PIMPL;
 }
 
 
 auto contact_picker::contact_address::get_city() const -> ext::string_view
 {
     // The 'city' getter returns the equivalent 'city' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const contact_address);
-    return d->city;
+    ACCESS_PIMPL;
+    return d->address->city;
 }
 
 
 auto contact_picker::contact_address::get_country() const -> ext::string_view
 {
     // The 'country' getter returns the equivalent 'country' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const contact_address);
-    return d->country;
+    ACCESS_PIMPL;
+    return d->address->country;
 }
 
 
@@ -30,8 +42,8 @@ auto contact_picker::contact_address::get_dependant_locality() const -> ext::str
 {
     // The 'dependant_locality' getter returns the equivalent 'dependant_locality' attribute value that is stored in the
     // private class.
-    ACCESS_PIMPL(const contact_address);
-    return d->dependent_locality;
+    ACCESS_PIMPL;
+    return d->address->dependent_locality;
 }
 
 
@@ -39,16 +51,16 @@ auto contact_picker::contact_address::get_organization() const -> ext::string_vi
 {
     // The 'organization' getter returns the equivalent 'organization' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const contact_address);
-    return d->organization;
+    ACCESS_PIMPL;
+    return d->address->organization;
 }
 
 
 auto contact_picker::contact_address::get_phone() const -> ext::string_view
 {
     // The 'phone' getter returns the equivalent 'phone' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const contact_address);
-    return d->phone_number;
+    ACCESS_PIMPL;
+    return d->address->phone_number;
 }
 
 
@@ -56,24 +68,24 @@ auto contact_picker::contact_address::get_postal_code() const -> ext::string_vie
 {
     // The 'postal_code' getter returns the equivalent 'postal_code' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const contact_address);
-    return d->postal_code;
+    ACCESS_PIMPL;
+    return d->address->postal_code;
 }
 
 
 auto contact_picker::contact_address::get_recipient() const -> ext::string_view
 {
     // The 'recipient' getter returns the equivalent 'recipient' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const contact_address);
-    return d->recipient;
+    ACCESS_PIMPL;
+    return d->address->recipient;
 }
 
 
 auto contact_picker::contact_address::get_region() const -> ext::string_view
 {
     // The 'region' getter returns the equivalent 'region' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const contact_address);
-    return d->region;
+    ACCESS_PIMPL;
+    return d->address->region;
 }
 
 
@@ -81,24 +93,24 @@ auto contact_picker::contact_address::get_sorting_code() const -> ext::string_vi
 {
     // The 'sorting_code' getter returns the equivalent 'sorting_code' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const contact_address);
-    return d->sorting_code;
+    ACCESS_PIMPL;
+    return d->address->sorting_code;
 }
 
 
-auto contact_picker::contact_address::get_address_line() const -> ext::vector<ext::string>
+auto contact_picker::contact_address::get_address_line() const -> ext::vector_span<ext::string>
 {
     // The 'address_line' getter returns the equivalent 'address_line' attribute value that is stored in the private
     // class.
-    ACCESS_PIMPL(const contact_address);
-    return d->address_line;
+    ACCESS_PIMPL;
+    return d->address->address_line;
 }
 
 
 auto contact_picker::contact_address::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

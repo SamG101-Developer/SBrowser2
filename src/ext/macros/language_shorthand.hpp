@@ -9,5 +9,9 @@
 
 #define constexpr_return_if(condition) if constexpr (condition) return
 
+#define string_switch(_String) switch(ext::hash{}(_String))
+#define string_case(_String) case(ext::hash{}(_String))
+#define string_default default
+
 
 #endif //SBROWSER2_SRC_EXT_MACROS_LANGUAGE_SHORTHAND
