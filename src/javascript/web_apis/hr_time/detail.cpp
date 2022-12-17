@@ -1,7 +1,19 @@
-#include "time_internals.hpp"
-
-
+module;
 #include <chrono>
+#include <tl/optional.hpp>
+#include <v8-local-handle.h>
+#include <v8-object.h>
+
+
+module apis.hr_time.detail;
+import apis.hr_time.types;
+
+import ext.boolean;
+import ext.number;
+import ext.optional;
+
+import js.env.realms;
+import js.env.settings;
 
 
 auto hr_time::detail::get_time_origin_timestamp(
@@ -20,7 +32,7 @@ auto hr_time::detail::get_time_origin_timestamp(
 
 
 auto hr_time::detail::coarsen_time(
-        const dom_high_res_time_stamp& time_stamp,
+        dom_high_res_time_stamp time_stamp,
         ext::boolean cross_origin_isolated_capability)
         -> dom_high_res_time_stamp
 {
@@ -35,7 +47,7 @@ auto hr_time::detail::coarsen_time(
 
 
 auto hr_time::detail::relative_hr_time(
-        const dom_high_res_time_stamp& time_stamp,
+        dom_high_res_time_stamp time_stamp,
         v8::Local<v8::Object> global_object)
         -> dom_high_res_time_stamp
 {
@@ -48,7 +60,7 @@ auto hr_time::detail::relative_hr_time(
 
 
 auto hr_time::detail::relative_high_resolution_coarse_time(
-        const dom_high_res_time_stamp& coarse_time,
+        dom_high_res_time_stamp coarse_time,
         v8::Local<v8::Object> global_object)
         -> dom_high_res_time_stamp
 {
@@ -87,7 +99,7 @@ auto hr_time::detail::unsafe_shared_current_time()
 
 
 auto hr_time::detail::epoch_relative_time_stamp(
-        const ext::optional<epoch_time_stamp>& time_stamp)
+        ext::optional<epoch_time_stamp>&& time_stamp)
         -> epoch_time_stamp
 {
     auto time_stamp_corrected = time_stamp.value_or(unsafe_shared_current_time());

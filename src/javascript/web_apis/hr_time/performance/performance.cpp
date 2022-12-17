@@ -1,18 +1,28 @@
-#include "performance.hpp"
-#include "performance_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
+module apis.hr_time.performance;
+import apis.hr_time.detail;
+import apis.hr_time.types;
 
+import apis.dom.event_target;
+import apis.dom.window;
+import apis.dom.window_private;
 
+import ext.tuple;
 
-
-#include "hr_time/_typedefs.hpp"
-#include "hr_time/detail/time_internals.hpp"
+import js.env.module_type;
+import js.env.realms;
 
 
 hr_time::performance::performance()
 {
-    INIT_PIMPL(performance);
+    INIT_PIMPL;
 }
 
 
@@ -37,26 +47,29 @@ auto hr_time::performance::get_time_origin() const -> dom_high_res_time_stamp
 auto hr_time::performance::get_event_counts() const -> const event_timing::event_counts*
 {
     auto e = js::env::env::relevant(this);
-    return v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->event_counts.get();
+    return e.cpp.global<dom::window*>()->d_func()->event_counts.get();
 }
 
 
 auto hr_time::performance::get_interaction_counts() const -> const event_timing::interaction_counts*
 {
     auto e = js::env::env::relevant(this);
-    return v8pp::from_v8<dom::nodes::window*>(e.js.agent(), e.js.global())->d_func()->interaction_counts.get();
+    return e.cpp.global<dom::window*>()->d_func()->interaction_counts.get();
 }
 
 
-auto hr_time::performance::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto hr_time::performance::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversions = v8pp::class_<performance>{isolate}
-        .inherit<dom::nodes::event_target>()
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom::event_target>()
         .function("now", &performance::now)
         .property("timeOrigin", &performance::get_time_origin)
         .property("eventCounts", &performance::get_event_counts)
         .property("interactionCounts", &performance::get_interaction_counts)
         .auto_wrap_objects();
 
-    return std::move(conversions);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

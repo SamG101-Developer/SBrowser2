@@ -1,13 +1,21 @@
-#pragma once
-#ifndef SBROWSER2_PERFORMANCE_HPP
-#define SBROWSER2_PERFORMANCE_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-namespace hr_time {class performance;}
-namespace hr_time {class performance_private;}
+export module apis.hr_time.performance;
+import apis.dom.event_target;
+import apis.hr_time.types;
 
-#include INCLUDE_INNER_TYPES(hr_time)
-#include INCLUDE_INNER_TYPES(user_timing)
+import ext.number;
+import ext.string;
+import ext.tuple;
+import ext.vector;
+
+import js.env.module_type;
+
 namespace performance_timeline {class performance_entry;}
 namespace event_timing {class event_counts;}
 namespace event_timing {class interaction_counts;}
@@ -15,13 +23,13 @@ namespace user_timing {class performance_mark;}
 namespace user_timing {class performance_measure;}
 
 
-class hr_time::performance
-        : public dom::nodes::event_target
+DEFINE_PUBLIC_CLASS(hr_time, performance)
+        : public dom::event_target
 {
 public constructors:
     performance();
     MAKE_PIMPL(performance);
-    MAKE_V8_AVAILABLE(WINDOW); // TODO <- placeholder (WINDOW)
+    MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
     /* [HR-TIME] */
@@ -55,5 +63,3 @@ private js_properties:
 
 // TODO : `ext::property<Performance> performance` in `WindowOrWorkerGlobalScope`
 
-
-#endif //SBROWSER2_PERFORMANCE_HPP
