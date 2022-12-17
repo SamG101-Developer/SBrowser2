@@ -20,8 +20,6 @@ export namespace contact_picker::detail
 
     enum class contact_property_t {ADDRESS, EMAIL, ICON, NAME, TEL};
 
-    using contact_info_t = ext::map<ext::string, ext::any>;
-    using contacts_select_options_t = ext::map<ext::string, ext::any>;
 }
 
 

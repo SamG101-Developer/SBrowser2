@@ -1,45 +1,40 @@
-#include "contacts_manager.hpp"
-#include "contacts_manager_private.hpp"
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
 
 
+module apis.contact_picker.contacts_manager;
+import apis.contact_picker.contacts_manager_private;
+import apis.contact_picker.types;
 
+import apis.dom.types;
+import apis.dom.window;
+import apis.dom.window_private;
+import apis.dom.dom_exception;
 
+import ext.promise;
+import ext.vector;
+import ext.span;
 
-#include "contact_picker/detail/contact_internals.hpp"
-
-
-
-
-
-
-
-
-
-
-#include "html/detail/context_internals.hpp"
-#include "html/detail/task_internals.hpp"
-
-#include "v8-exception.h"
-#include "web_idl/detail/type_mapping_internals.hpp"
-
-#include <range/v3/view/set_algorithm.hpp>
+import js.env.module_type;
+import js.env.realms;
 
 
 contact_picker::contacts_manager::contacts_manager()
 {
-    INIT_PIMPL(contacts_manager);
+    INIT_PIMPL;
 }
 
 
 auto contact_picker::contacts_manager::get_properties() -> ext::promise<ext::vector<detail::contact_property_t>>
 {
-    ACCESS_PIMPL(contacts_manager);
+    ACCESS_PIMPL;
 
     // Create a promise, and in parallel, set the value of it to the supported properties of the contact source
     // belonging to this ContactsManager object. Return the promise (value may have not been set when the promise is
     // returned)
-    ext::promise<ext::vector<detail::contact_property_t>> promise;
-    GO [properties = d->supported_properties, e = js::env::env::relevant(this), &promise] mutable
+    auto promise = ext::promise<ext::vector<detail::contact_property_t>>{};
+    _GO [properties = d->supported_properties, e = js::env::env::relevant(this), &promise] mutable
     {web_idl::detail::resolve_promise(promise, e.js.realm(), std::move(properties));};
 
     return promise;
@@ -47,37 +42,37 @@ auto contact_picker::contacts_manager::get_properties() -> ext::promise<ext::vec
 
 
 auto contact_picker::contacts_manager::select(
-        ext::vector<detail::contact_property_t*>& properties,
-        detail::contacts_select_options_t&& options)
-        -> ext::promise<ext::vector<detail::contact_info_t>>
+        ext::vector_span<detail::contact_property_t*> properties,
+        contacts_select_options_t&& options)
+        -> ext::promise<ext::vector<contact_info_t>>
 {
-    ACCESS_PIMPL(contacts_manager);
+    ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
 
     // Get the relevant browsing context from the relevant JavaScript realm. Create an empty promise for returning
     // either rejected or resolved.
     auto e = js::env::env::relevant(this);
-    decltype(auto) relevant_browsing_context = *e.cpp.global<dom::nodes::window*>()->d_func()->document->d_func()->browsing_context;
-    auto promise = ext::promise<ext::vector<detail::contact_info_t>>{};
+    decltype(auto) relevant_browsing_context = *e.cpp.global<dom::window*>()->d_func()->document->d_func()->browsing_context;
+    auto promise = ext::promise<ext::vector<contact_info_t>>{};
 
     // If the relevant browsing context is not top level, then the ContactsManager is in an invalid state to select a
     // contact information (incorrect context).
     if (!html::detail::is_top_level_browsing_context(relevant_browsing_context))
         return web_idl::detail::reject_promise(
                 promise, e.js.realm(),
-                dom::other::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
+                dom::dom_exception{u8"Browsing context is not top level", INVALID_STATE_ERR});
 
     if (/* TODO : SECURITY_ERR check here */)
         return web_idl::detail::reject_promise(
                 promise, e.js.realm(),
-                dom::other::dom_exception{u8"TODO", SECURITY_ERR});
+                dom::dom_exception{u8"TODO", SECURITY_ERR});
 
     // If the contact picker is already showing in the relevant browsing context, then the ContactsManager is in an
     // invalid state, because this method is already running (close previous picker and open again)
     if (relevant_browsing_context.m_contact_picker_is_showing)
         return web_idl::detail::reject_promise(
                 promise, e.js.realm(),
-                dom::other::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
+                dom::dom_exception{u8"Browsing context can not have a contact picker showing", INVALID_STATE_ERR});
 
     // If there are no properties, then there is nothing to choose from; this is a JavaScript TypeError, because the
     // properties is of an incorrect length.
@@ -100,7 +95,7 @@ auto contact_picker::contacts_manager::select(
 
     // In another thread (so GUI is non-blocking), begin the selection process to select a contact from the contacts
     // picker.
-    GO [options, &e, &promise, &relevant_browsing_context, &properties]
+    _GO [options, &e, &promise, &relevant_browsing_context, &properties]
     {
         // Launch the contacts picker with the 'multiple' boolean option from the 'options', with the resulting selected
         // contact being 'selected_contacts' -- this is potentially thread blocking, because of the gUI, which is why
@@ -113,7 +108,7 @@ auto contact_picker::contacts_manager::select(
         // TODO: is selecting no contact an error?
         if (JS_EXCEPTION_HAS_THROWN || !selected_contacts.has_value())
         {
-            web_idl::detail::reject_promise(promise, e.js.realm(), dom::other::dom_exception{u8"Error launching options and properties", INVALID_STATE_ERR});
+            web_idl::detail::reject_promise(promise, e.js.realm(), dom::dom_exception{u8"Error launching options and properties", INVALID_STATE_ERR});
             return;
         }
 
