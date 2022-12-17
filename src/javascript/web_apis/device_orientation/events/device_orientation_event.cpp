@@ -1,20 +1,36 @@
-#include "device_orientation_event.ixx"
-#include "device_orientation_event_private.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
+#include <javascript/macros/expose.hpp>
+#include <utility>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
+module apis.device_orientation.device_orientation_event;
+import apis.device_orientation.device_orientation_event_private;
+
+import apis.dom.event;
+
+import ext.boolean;
+import ext.number;
+import ext.promise;
+import ext.string;
+import ext.tuple;
+
+import js.env.module_type;
 
 
 device_orientation::device_orientation_event::device_orientation_event(
         ext::string&& event_type,
-        ext::map<ext::string, ext::any>&& event_init)
-        : dom::events::event{std::move(event_type), std::move(event_init)}
+        device_orientation_event_init_t&& event_init)
+        : dom::event{std::move(event_type), std::move(event_init)}
 {
-    INIT_PIMPL(device_orientation_event);
-    ACCESS_PIMPL(device_orientation_event);
+    INIT_PIMPL;
+    ACCESS_PIMPL;
 
-    d->alpha = event_init[u"alpha"].to<decltype(d->alpha)>();
-    d->beta  = event_init[u"beta" ].to<decltype(d->beta )>();
-    d->gamma = event_init[u"gamma"].to<decltype(d->gamma)>();
+    d->alpha = event_init[u"alpha"].to<double>();
+    d->beta  = event_init[u"beta" ].to<double>();
+    d->gamma = event_init[u"gamma"].to<double>();
 }
 
 
@@ -28,7 +44,7 @@ auto device_orientation::device_orientation_event::request_permission() -> ext::
 auto device_orientation::device_orientation_event::get_alpha() const -> ext::number<double>
 {
     // The 'alpha' getter returns the equivalent 'alpha' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const device_orientation_event);
+    ACCESS_PIMPL;
     return d->alpha;
 }
 
@@ -36,7 +52,7 @@ auto device_orientation::device_orientation_event::get_alpha() const -> ext::num
 auto device_orientation::device_orientation_event::get_beta() const -> ext::number<double>
 {
     // The 'beta' getter returns the equivalent 'beta' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const device_orientation_event);
+    ACCESS_PIMPL;
     return d->beta;
 }
 
@@ -44,7 +60,7 @@ auto device_orientation::device_orientation_event::get_beta() const -> ext::numb
 auto device_orientation::device_orientation_event::get_gamma() const -> ext::number<double>
 {
     // The 'gamma' getter returns the equivalent 'gamma' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const device_orientation_event);
+    ACCESS_PIMPL;
     return d->gamma;
 }
 
@@ -52,7 +68,7 @@ auto device_orientation::device_orientation_event::get_gamma() const -> ext::num
 auto device_orientation::device_orientation_event::get_absolute() const -> ext::boolean
 {
     // The 'absolute' getter returns the equivalent 'absolute' attribute value that is stored in the private class.
-    ACCESS_PIMPL(const device_orientation_event);
+    ACCESS_PIMPL;
     return d->absolute;
 }
 
@@ -60,11 +76,11 @@ auto device_orientation::device_orientation_event::get_absolute() const -> ext::
 auto device_orientation::device_orientation_event::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
-        .ctor<ext::string, ext::map<ext::string, ext::any>>()
-        .inherit<dom::events::event>()
+        .ctor<ext::string&&, device_orientation_event_init_t&&>()
+        .inherit<dom::event>()
         .property("alpha", &device_orientation_event::get_alpha)
         .property("beta", &device_orientation_event::get_beta)
         .property("gamma", &device_orientation_event::get_gamma)

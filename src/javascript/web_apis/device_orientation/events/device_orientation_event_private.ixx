@@ -9,10 +9,10 @@ import ext.boolean;
 import ext.number;
 
 
-DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event)
+DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event) final
         : virtual dom::event_private
 {
-    MAKE_QIMPL(device_orientation);
+    MAKE_QIMPL(device_orientation_event);
 
     ext::number<double> alpha;
     ext::number<double> beta;
