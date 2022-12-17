@@ -1,5 +1,5 @@
-#include "device_orientation_event.hpp"
-#include "device_orientation_event_private.hpp"
+#include "device_orientation_event.ixx"
+#include "device_orientation_event_private.ixx"
 
 
 
