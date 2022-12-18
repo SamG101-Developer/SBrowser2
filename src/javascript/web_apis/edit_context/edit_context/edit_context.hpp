@@ -1,21 +1,27 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/constructors.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-namespace edit_context {class edit_context;}
-namespace edit_context {class edit_context_private;}
+export module apis.edit_context.edit_context;
+import apis.dom.event_target;
 
+import ext.number;
+import ext.span;
+import ext.string;
+import ext.tuple;
+import ext.vector;
 
-#include "ext/span.hpp"
+import js.env.module_type;
 
-#include INCLUDE_INNER_TYPES(edit_context)
-namespace dom::nodes {class element;}
 namespace css::geometry {class dom_rect;}
 
 
-class edit_context::edit_context
-        : public dom::nodes::event_target
+DEFINE_PUBLIC_CLASS(edit_context, edit_context) final
+        : public dom::event_target
 {
 public constructors:
     edit_context(detail::edit_context_init_t&& options = {});
@@ -29,7 +35,7 @@ public js_methods:
     auto update_control_bound(std::unique_ptr<css::geometry::dom_rect> new_control_bound) -> void;
     auto update_selection_bound(std::unique_ptr<css::geometry::dom_rect> new_selection_bound) -> void;
     auto update_character_bounds(ext::number<ulong> range_start, ext::vector<std::unique_ptr<css::geometry::dom_rect>>&& character_bounds) -> void;
-    auto attached_elements() -> ext::vector<dom::nodes::element*>;
+    auto attached_elements() -> ext::vector<dom::element*>;
     auto character_bounds() -> ext::vector_span<css::geometry::dom_rect*>;
 
 private js_properties:
@@ -43,6 +49,3 @@ private js_properties:
     DEFINE_GETTER(control_bound, css::geometry::dom_rect*);
     DEFINE_GETTER(selection_bound, css::geometry::dom_rect*);
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_HPP

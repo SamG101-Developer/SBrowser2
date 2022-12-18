@@ -1,15 +1,19 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_PRIVATE_HPP
+module;
+#include "ext/macros/pimpl.hpp"
+#include <utility>
 
-#include "ext/pimpl.ixx"
 
+export module apis.edit_context.edit_context_private;
+import apis.dom.event_target_private;
 
-#include <memory>
-namespace css::geometry {class dom_rect;}
+import ext.boolean;
+import ext.number;
+import ext.string;
+import ext.vector;
 
 
 DEFINE_PRIVATE_CLASS(edit_context, edit_context)
-        : dom::nodes::event_target_private
+        : dom::event_target_private
 {
     MAKE_QIMPL(edit_context);
 
@@ -26,6 +30,3 @@ DEFINE_PRIVATE_CLASS(edit_context, edit_context)
     ext::boolean activated;
     ext::vector<std::unique_ptr<css::geometry::dom_rect>> cached_character_bounds;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_EDIT_CONTEXT_PRIVATE_HPP

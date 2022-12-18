@@ -1,5 +1,5 @@
 #include "edit_context.hpp"
-#include "edit_context_private.hpp"
+#include "edit_context_private.ixx"
 
 #include "css/geometry/dom_rect.hpp"
 
