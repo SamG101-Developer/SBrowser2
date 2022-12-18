@@ -6,9 +6,10 @@ module;
 export module ext.stack;
 import ext.allocator;
 
+
 _EXT_BEGIN
-    export template <typename T, typename Allocator = _EXT allocator<T>>
-    using stack = plf::stack<T, Allocator>;
+    export template <typename T>
+    using stack = plf::stack<T, _EXT allocator<T>>;
 _EXT_END
 
 _EXT_SECURE_BEGIN

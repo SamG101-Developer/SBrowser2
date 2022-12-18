@@ -6,6 +6,7 @@ module;
 export module ext.vector;
 import ext.allocator;
 
+
 _EXT_BEGIN
     export template <typename T>
     using vector = veque::veque<T, veque::fast_resize_traits, _EXT allocator<T>>;
