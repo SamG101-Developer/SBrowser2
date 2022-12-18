@@ -1,5 +1,5 @@
 #include "performance_observer.hpp"
-#include "performance_observer_private.hpp"
+#include "performance_observer_private.ixx"
 
 
 

@@ -1,5 +1,5 @@
 #include "performance_event_timing.hpp"
-#include "performance_event_timing_private.hpp"
+#include "performance_event_timing_private.ixx"
 
 
 

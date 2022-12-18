@@ -1,6 +1,8 @@
 export module js.env.slots;
 import ext.boolean;
+import ext.map;
 import ext.number;
+import ext.string;
 import ext.vector;
 
 namespace dom {class range;}
@@ -34,6 +36,11 @@ namespace js::env
         const auto SETTINGS = slot<settings_t*>{};
         const auto LIVE_RANGES = slot<ext::vector<dom::range*>*>{};
         const auto CE_REACTIONS = slot{};
+
+        /* [PERFORMANCE-TIMELINE] */
+        const auto PERFORMANCE_OBSERVER_MICROTASK = slot<ext::boolean>{};
+        const auto LIST_OF_REGISTERED_PERFORMANCE_OBSERVERS = slot<ext::vector<performance_timeline::performance_obsevrer*>*>{};
+        const auto PERFORMANCE_ENTRY_BUFFER_MAP = slot<ext::map<ext::string, performance_timeline::detail::performance_entry_buffer_value_t*>*>{};
 
         /* [MEDIACAPTURE-MAIN] */
         // constexpr auto
