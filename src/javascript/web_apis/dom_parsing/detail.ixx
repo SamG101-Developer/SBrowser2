@@ -1,34 +1,34 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DETAIL_PARSING_SERIALIZING_INTERNALS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DETAIL_PARSING_SERIALIZING_INTERNALS_HPP
+export module apis.dom_parser.detail;
 
+import ext.string;
+import ext.vector;
 
-
-#include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(dom_parsing)
-namespace dom::nodes {class document_fragment; class element; class node;}
+namespace dom {class document_fragment;}
+namespace dom {class element;}
+namespace dom {class node;}
 
 
 namespace dom_parsing::detail
 {
     auto fragment_parsing_algorithm(
             ext::string&& markup_string,
-            dom::nodes::element* context_element)
-            -> dom::nodes::document_fragment;
+            dom::element* context_element)
+            -> dom::document_fragment;
 
     auto fragment_serializing_algorithm(
-            dom::nodes::node* node)
+            dom::node* node)
             -> ext::string;
 
     auto html_serialization(
-            dom::nodes::node* node)
+            dom::node* node)
             -> ext::string;
 
     auto xml_serialization(
-            dom::nodes::node* node)
+            dom::node* node)
             -> ext::string;
 
     auto xml_serialization_algorithm(
-            dom::nodes::node* node,
+            dom::node* node,
             ext::string_view namespace_uri,
             namespace_prefix_map_t&& prefix_map,
             generated_namespace_prefix_index_t&& prefix_index,
@@ -36,12 +36,12 @@ namespace dom_parsing::detail
             -> ext::string;
 
     auto produce_document_type_serialization(
-            dom::nodes::node* node,
+            dom::node* node,
             ext::boolean require_wel_formed_flag)
             -> ext::string;
 
     auto record_namespace_information(
-            dom::nodes::element* element,
+            dom::element* element,
             namespace_prefix_map_t&& prefix_map,
             ext::vector<ext::string>&& element_prefixes_list,
             ext::string_view duplicate_prefix_definition)
@@ -54,7 +54,7 @@ namespace dom_parsing::detail
             -> ext::string;
 
     auto xml_serialization_of_attributes(
-            dom::nodes::element* elemebt,
+            dom::element* elemebt,
             namespace_prefix_map_t&& prefix_map,
             generated_namespace_prefix_index_t&& prefix_index,
             ext::boolean ignore_namespace_definition_attribute,
@@ -67,5 +67,3 @@ namespace dom_parsing::detail
             ext::boolean required_well_formed)
             -> ext::string;
 }
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING_DETAIL_PARSING_SERIALIZING_INTERNALS_HPP

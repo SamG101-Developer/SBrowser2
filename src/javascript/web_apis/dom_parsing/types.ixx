@@ -1,10 +1,4 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING__TYPEDEFS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING__TYPEDEFS_HPP
-
-
-
-
-
+export apis.dom_parser.types;
 
 
 namespace dom_parsing::detail
@@ -16,5 +10,3 @@ namespace dom_parsing::detail
     using namespace_prefix_map_t = ext::map<ext::string, ext::string>;
     using generated_namespace_prefix_index_t = ext::number<int>;
 }
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_PARSING__TYPEDEFS_HPP
