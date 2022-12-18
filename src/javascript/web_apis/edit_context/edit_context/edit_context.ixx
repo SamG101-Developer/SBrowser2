@@ -9,6 +9,9 @@ module;
 export module apis.edit_context.edit_context;
 import apis.dom.event_target;
 
+import ext.any;
+import ext.boolean;
+import ext.map;
 import ext.number;
 import ext.span;
 import ext.string;
@@ -18,13 +21,17 @@ import ext.vector;
 import js.env.module_type;
 
 namespace css::geometry {class dom_rect;}
+namespace dom {class element;}
 
 
 DEFINE_PUBLIC_CLASS(edit_context, edit_context) final
         : public dom::event_target
 {
+public typedefs:
+    using edit_context_init_t = ext::map<ext::string, ext::any>;
+
 public constructors:
-    edit_context(detail::edit_context_init_t&& options = {});
+    edit_context(edit_context_init_t&& options = {});
     DOM_CTORS(edit_context);
     MAKE_PIMPL(edit_context);
     MAKE_V8_AVAILABLE(WINDOW);

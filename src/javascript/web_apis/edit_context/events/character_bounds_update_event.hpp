@@ -5,7 +5,7 @@
 
 namespace edit_context::events {class character_bounds_update_event;}
 
-#include "edit_context/events/character_bounds_update_event_private.hpp"
+
 
 
 class edit_context::events::character_bounds_update_event

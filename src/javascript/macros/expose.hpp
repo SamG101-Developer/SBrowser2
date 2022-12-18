@@ -9,7 +9,6 @@
 #include <v8pp/convert.hpp>
 
 
-
 // Shorthand macro to get the current isolate and current and save them into local variables, to avoid having to make
 // multiple calls to the same two methods. Also avoid having to use Google-style code in non-Google-style code in the
 // rest of the code base.

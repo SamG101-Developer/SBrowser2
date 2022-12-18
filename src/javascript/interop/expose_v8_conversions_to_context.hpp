@@ -57,11 +57,11 @@
 #include "dom/xpath/xpath_evaluator.hpp"
 #include "dom/xslt/xslt_processor.hpp"
 
-#include "edit_context/edit_context.hpp"
-#include "edit_context/text_format.hpp"
-#include "edit_context/events/character_bounds_update_event.hpp"
-#include "edit_context/events/text_format_update_event.hpp"
-#include "edit_context/events/text_update_event.hpp"
+
+
+
+
+
 
 #include "encoding/text_decoder.hpp"
 #include "encoding/text_decoder_stream.hpp"

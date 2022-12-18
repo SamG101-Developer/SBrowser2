@@ -8,7 +8,7 @@
 
 namespace edit_context::detail
 {
-    using edit_context_init_t = ext::map<ext::string, ext::any>;
+
     using touch_format_init_t = ext::map<ext::string, ext::any>;
 }
 

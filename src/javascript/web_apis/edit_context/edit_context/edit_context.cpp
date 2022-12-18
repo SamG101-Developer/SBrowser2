@@ -1,10 +1,26 @@
-#include "edit_context.hpp"
-#include "edit_context_private.ixx"
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript./macros/expose.hpp"
+#include <tuplet/tuple.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
-#include "css/geometry/dom_rect.hpp"
 
+module apis.edit_context.edit_context;
+import apis.edit_context.edit_context_private;
 
-#include <range/v3/view/transform.hpp>
+import apis.css.geometry.dom_rect;
+import apis.dom.event_target;
+
+import ext.number;
+import ext.ranges;
+import ext.span;
+import ext.string;
+import ext.tuple;
+import ext.vector;
+
+import js.env.module_type;
 
 
 auto edit_context::edit_context::update_text(
@@ -13,7 +29,7 @@ auto edit_context::edit_context::update_text(
         ext::string&& new_text)
         -> void
 {
-    ACCESS_PIMPL(edit_context);
+    ACCESS_PIMPL;
     return_if (!d->activated);
     d->text.replace(*range_start, *range_end - range_start, std::move(new_text));
 }
@@ -27,7 +43,7 @@ auto edit_context::edit_context::update_selection(
     // To update a selection with a new 'start' and 'end', set the private 'selection_start' and 'selection_end'
     // attributes to the 'start' and 'end'. Only do this operation if the selection is active, and 'start' is less than
     // 'end'.
-    ACCESS_PIMPL(edit_context);
+    ACCESS_PIMPL;
     return_if (!d->activated || start > end);
     ext::tie(d->selection_start, d->selection_end) = ext::make_tuple(start, end);
 }
@@ -40,7 +56,7 @@ auto edit_context::edit_context::update_control_bound(
     // To update the control bound with a 'new_control_bound', set the private 'control_bound' to 'new_control_band'.
     // Only do this operation if the selection is active. This allows for a nullptr to be set as the
     // 'new_control_bound'.
-    ACCESS_PIMPL(edit_context);
+    ACCESS_PIMPL;
     return_if (!d->activated);
     d->control_bound = std::move(new_control_bound);
 }
@@ -53,7 +69,7 @@ auto edit_context::edit_context::update_selection_bound(
     // To update the selection bound with a 'new_selection_bound', set the private 'selection_bound' to
     // 'new_selection_band'. Only do this operation if the selection is active. This allows for a nullptr to be set as
     // the 'new_selection_bound'.
-    ACCESS_PIMPL(edit_context);
+    ACCESS_PIMPL;
     return_if (!d->activated);
     d->selection_bound = std::move(new_selection_bound);
 }
@@ -66,7 +82,7 @@ auto edit_context::edit_context::update_character_bounds(
 {
     // To update the character bounds with a new 'range_start' and 'character_bounds', set the private
     // 'character_bounds_range_start' and 'cached_character_bounds' to 'range_start' and 'character_bounds'.
-    ACCESS_PIMPL(edit_context);
+    ACCESS_PIMPL;
     return_if (!d->activated);
     d->character_bounds_range_start = range_start;
     d->cached_character_bounds = std::move(character_bounds);
@@ -78,7 +94,7 @@ auto edit_context::edit_context::character_bounds()
 {
     // To view the character_bounds, the private 'cached_character_bounds' are viewed to get their underlying pointers,
     // and returned as a view over a vector.
-    ACCESS_PIMPL(edit_context);
+    ACCESS_PIMPL;
     return_if (!d->activated) {};
     return {d->cached_character_bounds | ranges::views::underlying};
 }
@@ -87,11 +103,11 @@ auto edit_context::edit_context::character_bounds()
 auto edit_context::edit_context::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
-        .inherit<dom::nodes::event_target>()
-        .ctor<detail::edit_context_init_t&&>()
+        .inherit<dom::event_target>()
+        .ctor<edit_context_init_t&&>()
         .function("updateText", &edit_context::update_text)
         .function("updateSelection", &edit_context::update_selection)
         .function("updateControlBound", &edit_context::update_control_bound)

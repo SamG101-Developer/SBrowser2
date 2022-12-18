@@ -1,22 +1,27 @@
-#include "text_update_event.hpp"
-#include "ext/property.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+
+
+module apis.exit_context.text_update_event;
+
+import ext.number;
+import ext.string;
 
 
 edit_context::events::text_update_event::text_update_event(
         ext::string&& event_type,
-        ext::map<ext::string, ext::any>&& event_init)
+        text_update_event_init_t&& event_init)
         : dom::events::event(std::move(event_type), std::move(event_init))
 {
-    INIT_PIMPL(text_update_event);
-
-    ACCESS_PIMPL(text_update_event);
-    d->update_range_start = event_init[u"updateRangeStart"].to<decltype(d->update_range_start)>();
-    d->update_range_end = event_init[u"updateRangeEnd"].to<decltype(d->update_range_end)>();
-    d->selection_start = event_init[u"selectionStart"].to<decltype(d->selection_start)>();
-    d->selection_end = event_init[u"selectionEnd"].to<decltype(d->selection_end)>();
-    d->composition_start = event_init[u"compositionStart"].to<decltype(d->composition_start)>();
-    d->composition_end = event_init[u"compositionEnd"].to<decltype(d->composition_end)>();
-    d->text = event_init[u"text"].to<decltype(d->text)>();
+    INIT_PIMPL; ACCESS_PIMPL;
+    
+    d->update_range_start = event_init[u"updateRangeStart"].to<ulonglong>();
+    d->update_range_end = event_init[u"updateRangeEnd"].to<ulonglong>();
+    d->selection_start = event_init[u"selectionStart"].to<ulonglong>();
+    d->selection_end = event_init[u"selectionEnd"].to<ulonglong>();
+    d->composition_start = event_init[u"compositionStart"].to<ulonglong>();
+    d->composition_end = event_init[u"compositionEnd"].to<ulonglong>();
+    d->text = event_init[u"text"].to<ext::string>();
 }
 
 
