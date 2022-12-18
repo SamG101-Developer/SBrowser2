@@ -5,6 +5,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "ext/macros/property.hpp"
 #include "javascript/macros/expose.hpp"
+#include <tl/optional.hpp>
 
 
 export module apis.dom.element;
@@ -15,7 +16,7 @@ import apis.dom.mixins.non_document_type_child_node;
 import apis.dom.mixins.parentable_node;
 import apis.dom.mixins.slottable;
 import apis.aria.mixins.aria_mixin;
-import css.css_web_animations.mixins.animatable;
+import apis.dom_parsing.mixins.inner_html;
 
 import ext.any;
 import ext.boolean;
@@ -43,8 +44,8 @@ DEFINE_PUBLIC_CLASS(dom, element)
         , public dom::non_document_type_child_node
         , public dom::parentable_node
         , public dom::slottable
-        , public aria::mixins::aria_mixin
-        , public css::css_web_animations::mixins::animatable
+        , public aria::aria_mixin
+        , public dom_parsing::inner_html
 {
 public friends:
     friend class dom::document_or_element_node;
@@ -100,8 +101,8 @@ public js_methods:
     /* FULLSCREEN */
     auto request_fullscreen(fullscreen::detail::fullscreen_options_t&& options = {}) -> ext::promise<void>;
 
-    /* DOM_PARSING */
-    auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void;
+    /* [DOM_PARSING] */
+    auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void; // TODO : CE_REACTIONS
 
     /* CSS_BOX_TREE */
     // auto get_fragment_information(css::detail::fragment_filter_t filter) -> ext::promise<css::box_tree::dead_fragent_information*>;
@@ -126,6 +127,9 @@ private js_properties:
     DEFINE_GETTER(id, ext::string);
     DEFINE_GETTER(shadow_root, shadow_root*);
     DEFINE_GETTER(attributes, ranges::any_helpful_view<attr*>);
+
+    /* [DOM_PARSING] */
+    virtual DEFINE_GETTER(outer_html, ext::string);
 
     /* [EDIT-CONTENT] */
     DEFINE_GETTER(edit_context, edit_context::edit_context*);

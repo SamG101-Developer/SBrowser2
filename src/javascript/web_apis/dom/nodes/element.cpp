@@ -478,6 +478,41 @@ auto dom::element::get_attributes() const -> ranges::any_helpful_view<attr*>
 }
 
 
+/* [DOM_PARSING] */
+auto dom::element::get_outer_html() const -> ext::string
+{
+    _CE_REACTIONS_DEF
+        return dom_parsing::detail::fragment_serialize(this);
+    _CE_REACTIONS_EXE
+}
+
+
+dom::element::set_outer_html(ext::string&& new_outer_html) -> ext::view_of_t<ext::string&&>
+{
+    _CE_REACTIONS_DEF
+        ACCESS_PIMPL;
+        decltype(auto) parent = d->parent_node.get();
+
+        return_if (!parent);
+        detail::throw_exception<NO_MODIFICATION_ALLOWED_ERR>(
+                [parent] {return dom_cast<document*>(parent)},
+                u8"Cannot set the outer HTML of a Document-parented Node");
+
+        if (dom_cast<document_fragment*>(parent))
+        {
+            parent = std::make_unique<element>();
+            parent->d_func()->body = local_name;
+            parent->d_func()->namespace_uri = detail::namespaces::HTML;
+            parent->d_func()->node_document = d->node_document;
+        }
+
+        auto fragment = dom_parser::detail::fragment_parse(std::move(new_outer_html), parent);
+        return detail::replace(this, std::move(fragment), parent);
+    _CE_REACTIONS_EXE
+}
+/* [DOM_PARSING] */
+
+
 auto dom::element::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)

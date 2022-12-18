@@ -8,6 +8,7 @@ module;
 export module apis.dom.shadow_root;
 import apis.dom.document_fragment;
 import apis.dom.mixins.document_or_shadow_root;
+import apis.dom_parsing.mixins.inner_html;
 
 import apis.dom.types;
 import ext.boolean;
@@ -20,6 +21,7 @@ namespace dom {class element;}
 DEFINE_PUBLIC_CLASS(dom, shadow_root) final
         : public dom::document_fragment
         , public dom::document_or_shadow_root
+        , public dom_parsing::inner_html
 {
 public friends:
     friend class dom::element;

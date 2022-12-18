@@ -66,7 +66,7 @@ public js_methods:
     auto clone_range() const -> std::unique_ptr<range>;
 
     /* [DOM-PARSING] */
-    auto create_contextual_fragmnt(ext::string&& fragment) -> document_fragment;
+    auto create_contextual_fragmnt(ext::string&& fragment) -> std::unique_ptr<document_fragment>;
 
 private js_properties:
     DEFINE_GETTER(common_ancestor_container, node*);

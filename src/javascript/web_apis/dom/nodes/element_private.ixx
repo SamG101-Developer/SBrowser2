@@ -11,6 +11,7 @@ import apis.dom.mixins.non_document_type_child_node_private;
 import apis.dom.mixins.parentable_node_private;
 import apis.dom.mixins.slottable_private;
 import apis.aria.mixins.aria_mixin_private;
+import apis.dom_parsing.mixins.inner_html_private;
 
 import ext.boolean;
 import ext.memory;
@@ -30,8 +31,8 @@ DEFINE_PRIVATE_CLASS(dom, element)
         , dom::non_document_type_child_node_private
         , dom::parentable_node_private
         , dom::slottable_private
-        , aria::mixins::aria_mixin_private
-        // , css::css_web_animations::mixins::animatable_private
+        , aria::aria_mixin_private
+        , dom_parsing::inner_html_private
 {
     MAKE_QIMPL(element);
 
