@@ -1,10 +1,12 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_FORMAT_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_FORMAT_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+export module apis.edit_context.text_format_private;
+import apis._.dom_object_private;
 
+import ext.number;
+import ext.string;
 
 
 
@@ -23,6 +25,3 @@ DEFINE_PRIVATE_CLASS(edit_context, text_format)
     ext::string underline_thickness;
     ext::string underline_color;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_EDIT_CONTEXT_TEXT_FORMAT_PRIVATE_HPP
