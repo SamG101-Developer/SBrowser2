@@ -21,10 +21,10 @@ DEFINE_PUBLIC_CLASS(edit_context, text_update_event) final
         : public dom::event
 {
 public typedefs:
-    using text_update_init_t = ext::map<ext::string, ext::any>;
+    using text_update_event_init_t = ext::map<ext::string, ext::any>;
 
 public constructors:
-    text_update_event(ext::string&& event_type, text_update_init_t&& event_init = {});
+    text_update_event(ext::string&& event_type, text_update_event_init_t&& event_init = {});
     MAKE_PIMPL(text_update_event);
     MAKE_V8_AVAILABLE(WINDOW);
 
