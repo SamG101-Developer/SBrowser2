@@ -7,13 +7,17 @@ module;
 
 export module apis.performance_timeline.performance_observer;
 import apis._.dom_object;
-
 import apis.performance_timeline.types;
 
 import ext.enums;
 import ext.string;
 import ext.tuple;
+import ext.span;
 import ext.vector;
+
+import js.env.module_type;
+
+namespace performance_timeline {class performance_entry;}
 
 
 DEFINE_PUBLIC_CLASS(performance_timeline, performance_observer) final
@@ -30,5 +34,5 @@ public js_methods:
     auto take_records() -> ext::vector<performance_entry*>;
 
 public js_properties:
-    DEFINE_STATIC_GETTER(supported_entry_types, ext::vector<ext::string>);
+    DEFINE_STATIC_GETTER(supported_entry_types, ext::vector_span<ext::string>);
 };

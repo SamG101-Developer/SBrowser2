@@ -1,4 +1,7 @@
 export module js.env.slots;
+
+import apis.performance_timeline.types;
+
 import ext.boolean;
 import ext.map;
 import ext.number;
@@ -39,8 +42,9 @@ namespace js::env
 
         /* [PERFORMANCE-TIMELINE] */
         const auto PERFORMANCE_OBSERVER_MICROTASK = slot<ext::boolean>{};
-        const auto LIST_OF_REGISTERED_PERFORMANCE_OBSERVERS = slot<ext::vector<performance_timeline::performance_obsevrer*>*>{};
-        const auto PERFORMANCE_ENTRY_BUFFER_MAP = slot<ext::map<ext::string, performance_timeline::detail::performance_entry_buffer_value_t*>*>{};
+        const auto LIST_OF_REGISTERED_PERFORMANCE_OBSERVERS = slot<ext::vector<performance_timeline::detail::registered_performance_observer_t*>*>{};
+        const auto PERFORMANCE_ENTRY_BUFFER_MAP = slot<ext::map<ext::string, performance_timeline::detail::performance_entry_buffer_map_tuple_t*>*>{};
+        const auto FROZEN_ARRAY_SUPPORTED_ENTRY_TYPES = slot<ext::vector<ext::string>>{};
 
         /* [MEDIACAPTURE-MAIN] */
         // constexpr auto

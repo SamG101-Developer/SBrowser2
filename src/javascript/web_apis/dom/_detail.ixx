@@ -9,34 +9,39 @@ import ext.boolean;
 import ext.concepts;
 import ext.functional;
 import ext.map;
+import ext.span;
 import ext.string;
 import ext.tuple;
 import ext.type_traits;
 import ext.vector;
 
 namespace dom {class dom_exception;}
+namespace dom {class node;}
 namespace js::env {class env;}
 
 
 export namespace dom::detail
 {
-    /* [DOM] */
-    inline constexpr const ext::string::value_type* HTML   = u"http://www.w3.org/1999/xhtml";
-    inline constexpr const ext::string::value_type* MATHML = u"http://www.w3.org/1998/Math/MathML";
-    inline constexpr const ext::string::value_type* SVG    = u"http://www.w3.org/2000/svg";
-    inline constexpr const ext::string::value_type* XLINK  = u"http://www.w3.org/1999/xlink";
-    inline constexpr const ext::string::value_type* XML    = u"http://www.w3.org/XML/1998/namespace";
-    inline constexpr const ext::string::value_type* XMLNS  = u"http://www.w3.org/2000/xmlns/";
-    inline constexpr const ext::string::value_type* NONE   = u"";
+    namespace namespaces
+    {
+        /* [DOM] */
+        inline constexpr const ext::string::value_type* HTML = u"http://www.w3.org/1999/xhtml";
+        inline constexpr const ext::string::value_type* MATHML = u"http://www.w3.org/1998/Math/MathML";
+        inline constexpr const ext::string::value_type* SVG = u"http://www.w3.org/2000/svg";
+        inline constexpr const ext::string::value_type* XLINK = u"http://www.w3.org/1999/xlink";
+        inline constexpr const ext::string::value_type* XML = u"http://www.w3.org/XML/1998/namespace";
+        inline constexpr const ext::string::value_type* XMLNS = u"http://www.w3.org/2000/xmlns/";
+        inline constexpr const ext::string::value_type* NONE = u"";
 
-    /* [N3] */
-    inline constexpr const ext::string::value_type* DC   = u"http://purl.org/dc/elements/1.1/";
-    inline constexpr const ext::string::value_type* FOAF = u"http://xmlns.com/foaf/0.1/";
-    inline constexpr const ext::string::value_type* EX   = u"http://www.example.org/#";
-    inline constexpr const ext::string::value_type* I18N = u"https://www.w3.org/ns/i18n#";
-    inline constexpr const ext::string::value_type* RDF  = u"http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-    inline constexpr const ext::string::value_type* RDFS = u"http://www.w3.org/2000/01/rdf-schema#";
-    inline constexpr const ext::string::value_type* XSD  = u"http://www.w3.org/2001/XMLSchema#";
+        /* [N3] */
+        inline constexpr const ext::string::value_type* DC = u"http://purl.org/dc/elements/1.1/";
+        inline constexpr const ext::string::value_type* FOAF = u"http://xmlns.com/foaf/0.1/";
+        inline constexpr const ext::string::value_type* EX = u"http://www.example.org/#";
+        inline constexpr const ext::string::value_type* I18N = u"https://www.w3.org/ns/i18n#";
+        inline constexpr const ext::string::value_type* RDF = u"http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+        inline constexpr const ext::string::value_type* RDFS = u"http://www.w3.org/2000/01/rdf-schema#";
+        inline constexpr const ext::string::value_type* XSD = u"http://www.w3.org/2001/XMLSchema#";
+    }
 
     // Validation checks
     auto validate(ext::string_view qualified_name) -> void;

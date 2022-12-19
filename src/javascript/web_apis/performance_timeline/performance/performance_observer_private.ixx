@@ -2,7 +2,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-export module apis.performance_timeline.performance_observer;
+export module apis.performance_timeline.performance_observer_private;
 import apis._.dom_object_private;
 import apis.performance_timeline.types;
 

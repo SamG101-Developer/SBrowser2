@@ -32,7 +32,7 @@ module;
 #include <range/v3/view/view.hpp>
 
 
-module ext.ranges;
+export module ext.ranges;
 import ext.boolean;
 import ext.casting;
 import ext.concepts;
