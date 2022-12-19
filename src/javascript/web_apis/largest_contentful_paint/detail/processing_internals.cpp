@@ -1,4 +1,4 @@
-#include "processing_internals.hpp"
+#include "detail.hpp"
 
 #include "environment/realms.ixx"
 #include "ext/hashing.ixx"

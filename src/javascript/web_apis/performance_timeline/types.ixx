@@ -1,4 +1,5 @@
 module;
+#include <memory>
 #include <function2/function2.hpp>
 
 
@@ -34,7 +35,7 @@ export namespace performance_timeline::detail
 
 struct performance_timeline::detail::performance_entry_buffer_map_tuple_t
 {
-    ext::vector<performance_entry*> performance_entry_buffer;
+    ext::vector<std::shared_ptr<performance_entry>> performance_entry_buffer;
     ext::number<int> max_buffer_size;
     ext::number<int> dropped_entries_count = 0;
     ext::boolean available_from_timeline;

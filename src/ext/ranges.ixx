@@ -9,6 +9,7 @@ module;
 #include <function2/function2.hpp>
 #include <tuplet/tuple.hpp>
 
+#include <range/v3/to_container.hpp>
 #include <range/v3/range/conversion.hpp>
 #include <range/v3/action.hpp>
 #include <range/v3/action/remove.hpp>
@@ -37,11 +38,16 @@ import ext.boolean;
 import ext.casting;
 import ext.concepts;
 import ext.functional;
+import ext.map;
 import ext.number;
 import ext.pair;
+import ext.queue;
+import ext.set;
+import ext.stack;
 import ext.string;
 import ext.tuple;
 import ext.type_traits;
+import ext.vector;
 import ext.variadic;
 
 
@@ -448,6 +454,13 @@ export namespace ranges
 }
 
 
+#define MAKE_CONVERTIBLE_PIPEABLE(s)                                     \
+    struct to_##s##_t{} to_##s;                                          \
+    template <typename T>                                                \
+    auto operator|(ranges::any_helpful_view<T>&& rng, const to_##s##_t&) \
+    {return ranges::to<_EXT s<T>>;}
+
+
 /* OTHER */
 export namespace ranges
 {
@@ -459,4 +472,10 @@ export namespace ranges
 
     template <category C = category::none, typename ...Args>
     auto make_any_helpful_view(Args&&... args) -> any_helpful_view<_EXT nth_variadic_type_t<0, Args...>, C>;
+
+    MAKE_CONVERTIBLE_PIPEABLE(vector)
+    MAKE_CONVERTIBLE_PIPEABLE(map) // TODO : separate implementation? or specialization on cvonersion of T for pair<U, V>
+    MAKE_CONVERTIBLE_PIPEABLE(set)
+    MAKE_CONVERTIBLE_PIPEABLE(stack)
+    MAKE_CONVERTIBLE_PIPEABLE(queue)
 }

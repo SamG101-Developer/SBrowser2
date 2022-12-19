@@ -6,7 +6,7 @@ module;
 #include "javascript/macros/expose.hpp"
 
 
-export module apis.performane_timeline.performance_entry;
+export module apis.performance_timeline.performance_entry;
 import apis._.dom_object;
 import apis.hr_time.types;
 
