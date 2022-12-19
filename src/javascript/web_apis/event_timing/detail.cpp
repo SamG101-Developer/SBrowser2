@@ -1,36 +1,14 @@
-#include "timing_internals.hpp"
-
-
-#include "ext/hashing.ixx"
-#include "ext/assertion.hpp"
-
-
-
-
-
-
-
-
-
-
-
-#include "event_timing/event_counts.hpp"
-#include "event_timing/event_counts_private.hpp"
-#include "event_timing/performance_event_timing.hpp"
-#include "event_timing/performance_event_timing_private.hpp"
-
-#include "hr_time/performance.hpp"
-#include "performance_timeline/detail/processing_internals.hpp"
-#include "pointer_events/pointer_event.hpp"
-#include "pointer_events/pointer_event_private.hpp"
-
-#include "ui_events/input_event.hpp"
-#include "ui_events/keyboard_event.hpp"
+module;
+#include "ext/macros/language_shorthand.hpp"
 
 #include <range/v3/action/remove.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/for_each.hpp>
-#include <v8pp/convert.hpp>
+
+
+export module apis.event_timing.detail;
+
+import apis.dom.event;
 
 
 auto event_timing::detail::should_event_be_considered_for_event_timing(

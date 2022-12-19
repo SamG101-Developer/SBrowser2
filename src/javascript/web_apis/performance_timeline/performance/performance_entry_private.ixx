@@ -2,7 +2,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-export module apis.perforance_timeline.performance_entry;
+export module apis.perforance_timeline.performance_entry_private;
 import apis._.dom_object_private;
 import apis.hr_time.types;
 

@@ -1,4 +1,6 @@
 module;
+#include "ext/macros/language_shorthand.hpp"
+
 #include <memory>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
@@ -15,6 +17,7 @@ import apis.performance_timeline.performance_observer_private;
 
 import apis.timing_entry.detail;
 
+import ext.boolean;
 import ext.functional;
 import ext.ranges;
 import ext.set;
@@ -60,6 +63,17 @@ auto performance_timeline::detail::queue_performance_entry(
         tuple.performance_entry_buffer.emplace_back(new_entry);
 
     // [10] Queue an performance observer task for the relevant global object.
-    queue_perfomance_observer_task(relevant_environment.js.global());
+    queue_performance_observer_task(relevant_environment.js.global());
+}
+
+
+auto performance_timeline::detail::queue_performance_observer_task(
+        js::env::env& relevant_environment)
+        -> void
+{
+    return_if(js::env::get_slot(relevant_environment, js::env::slots::PERFORMANCE_OBSERVER_TASK_QUEUED_FLAG));
+    js::env::set_slot(relevant_environment, js::env::slots::PERFORMANCE_OBSERVER_TASK_QUEUED_FLAG, ext::boolean::TRUE_());
+
+    // TODO : HTML detail needed
 }
 

@@ -1,4 +1,4 @@
-#include "timing_internals.hpp"
+#include "detail.hpp"
 
 
 

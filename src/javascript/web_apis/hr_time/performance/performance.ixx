@@ -55,9 +55,9 @@ private js_properties:
     /* [HR-TIME] */
     DEFINE_GETTER(time_origin, ext::number<double>);
 
-    /* [EVENT-TIMING] */ // TODO : WINDOW only
-    DEFINE_GETTER(event_counts, const event_timing::event_counts*);
-    DEFINE_GETTER(interaction_counts, const event_timing::interaction_counts*);
+    /* [EVENT-TIMING] */
+    DEFINE_GETTER(event_counts, event_timing::event_counts*);
+    DEFINE_GETTER(interaction_counts, event_timing::interaction_counts*);
 };
 
 
