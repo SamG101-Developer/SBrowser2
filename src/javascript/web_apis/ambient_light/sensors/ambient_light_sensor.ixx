@@ -10,13 +10,7 @@ export module apis.ambient_light.ambient_light_sensor;
 import apis.sensors.sensor;
 
 import apis.sensors.types;
-import ext.any;
-import ext.enums;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

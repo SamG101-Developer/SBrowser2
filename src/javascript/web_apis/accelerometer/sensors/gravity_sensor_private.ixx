@@ -9,5 +9,6 @@ import apis.accelerometer.accelerometer_private;
 DEFINE_PRIVATE_CLASS(accelerometer, gravity_sensor) final
         : accelerometer_private
 {
+public:
     MAKE_QIMPL(gravity_sensor);
 };

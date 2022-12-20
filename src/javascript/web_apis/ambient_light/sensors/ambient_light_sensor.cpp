@@ -1,8 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.ambient_light.ambient_light_sensor;
@@ -13,12 +11,7 @@ import apis.sensors.sensor;
 import apis.sensors.detail;
 import apis.sensors.types;
 
-import ext.any;
-import ext.hashing;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

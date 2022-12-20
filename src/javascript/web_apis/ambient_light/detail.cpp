@@ -13,11 +13,7 @@ import apis.dom.types;
 import apis.sensors.detail;
 import apis.sensors.types;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.number;
-import ext.string;
+import ext.core;
 
 
 auto ambient_light::detail::construct_ambient_light_sensor_object(

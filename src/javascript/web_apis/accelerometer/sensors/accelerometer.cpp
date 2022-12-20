@@ -1,16 +1,16 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.accelerometer.accelerometer;
 import apis.accelerometer.accelerometer_private;
 import apis.accelerometer.detail;
 
-import ext.number;
-import ext.tuple;
+import apis.sensors.sensor;
+import apis.sensors.detail;
+
+import ext.core;
 import js.env.module_type;
 
 

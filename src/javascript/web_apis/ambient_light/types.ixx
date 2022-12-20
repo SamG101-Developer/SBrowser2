@@ -3,10 +3,7 @@ module;
 
 
 export module apis.ambient_light.types;
-
-import ext.any;
-import ext.map;
-import ext.string;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(ambient_light_sensor)

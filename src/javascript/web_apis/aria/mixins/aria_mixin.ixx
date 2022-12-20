@@ -8,12 +8,9 @@ module;
 export module apis.aria.mixins.aria_mixin;
 import apis.dom_object;
 
-import ext.span;
-import ext.string;
-import ext.tuple;
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class element;}
 
 
 DEFINE_PUBLIC_CLASS(aria, aria_mixin)

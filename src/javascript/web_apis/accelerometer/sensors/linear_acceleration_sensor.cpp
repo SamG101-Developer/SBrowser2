@@ -1,8 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.accelerometer.linear_acceleration_sensor;

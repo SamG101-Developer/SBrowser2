@@ -14,9 +14,7 @@ import apis.dom.types;
 import apis.sensors.detail;
 import apis.sensors.types;
 
-import ext.any;
-import ext.map;
-import ext.string;
+import ext.core;
 
 
 auto accelerometer::detail::construct_accelerometer_object(

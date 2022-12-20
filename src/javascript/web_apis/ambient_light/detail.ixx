@@ -4,14 +4,9 @@ module;
 
 export module apis.ambient_light.detail;
 
+import apis.ambient_light.types;
 import apis.sensors.types;
-import ext.any;
-import ext.boolean;
-import ext.number;
-import ext.map;
-import ext.string;
-
-namespace ambient_light {class ambient_light_sensor;}
+import ext.core
 
 
 export namespace ambient_light::detail

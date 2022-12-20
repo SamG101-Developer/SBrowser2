@@ -2,9 +2,7 @@ export module apis.accelerometer.detail;
 
 
 import apis.accelerometer.types;
-import ext.any;
-import ext.map;
-import ext.string;
+import ext.core;
 
 namespace accelerometer {class accelerometer;}
 
