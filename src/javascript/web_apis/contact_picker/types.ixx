@@ -1,18 +1,18 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 
 
 export module apis.contact_picker.types;
+import apis.file_api.types;
 
 import ext.any;
 import ext.map;
 import ext.string;
 import ext.vector;
 
-namespace file_api {class blob;}
 
-
-export namespace contact_picker::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(contact_picker)
 {
     struct physical_address_t;
     struct user_contact_t;

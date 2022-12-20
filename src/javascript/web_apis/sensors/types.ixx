@@ -1,11 +1,11 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 #include <function2/function2.hpp>
 #include <QtSensors/QSensor>
 
 
 export module apis.sensors.types;
-
 import ext.any;
 import ext.boolean;
 import ext.functional;
@@ -14,10 +14,15 @@ import ext.memory;
 import ext.set;
 import ext.string;
 
-namespace sensors {class sensor;}
+
+DEFINE_FWD_DECL_NAMESPACE(sensors)
+{
+    class sensor;
+    class sensor_error_event;
+}
 
 
-export namespace sensors::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(sensors)
 {
     struct platform_sensor_t;
     struct device_sensor_t;

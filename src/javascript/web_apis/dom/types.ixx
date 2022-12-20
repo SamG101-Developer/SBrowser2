@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 #include <function2/function2.hpp>
 #include <swl/variant.hpp>
@@ -16,18 +17,53 @@ import ext.variant;
 import ext.memory;
 import ext.vector;
 
-namespace dom {class event;}
-namespace dom {class mutation_observer;}
-namespace dom {class mutation_record;}
-namespace dom {class element;}
-namespace dom {class event_target;}
-namespace dom {class mutation_observer;}
-namespace dom {class node;}
-namespace html {class html_script_element;}
-namespace svg {class svg_script_element;}
+
+DEFINE_FWD_DECL_NAMESPACE(dom)
+{
+    class abstract_iterator;
+
+    class child_node;
+    class document_or_element_node;
+    class document_or_shadow_root;
+    class non_document_type_child_node;
+    class non_element_parent_node;
+    class parentable_node;
+    class slottable;
+
+    class abstract_range;
+    class abort_controller;
+    class abort_signal;
+    class attr;
+    class cdata_section;
+    class character_data;
+    class custom_event;
+    class comment;
+    class document;
+    class document_fragment;
+    class document_type;
+    class dom_exception;
+    class dom_implementation;
+    class element;
+    class event_target;
+    class event;
+    class mutation_observer;
+    class mutation_record;
+    class node;
+    class node_filter;
+    class node_iterator;
+    class processing_instruction;
+    class range;
+    class shadow_root;
+    class static_range;
+    class text;
+    class tree_walker;
+    class window;
+    class window_proxy;
+    class xml_document;
+}
 
 
-export namespace dom::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(dom)
 {
     struct custom_element_reactions_stack_t;
     struct custom_element_definition_t;

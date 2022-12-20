@@ -1,3 +1,7 @@
+module;
+#include "ext/macros/pimpl.hpp"
+
+
 export module apis._3ds.types;
 
 import ext.any;
@@ -5,7 +9,7 @@ import ext.map;
 import ext.string;
 
 
-export namespace three_ds::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(three_ds)
 {
     enum class three_ds_challenge_ind {REQUESTED, MANDATED, NONE};
 

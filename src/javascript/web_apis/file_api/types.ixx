@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <swl/variant.hpp>
 #include <v8-forward.h>
 
@@ -11,11 +12,17 @@ import ext.map;
 import ext.string;
 import ext.variant;
 
-namespace file_api {class blob;}
-namespace media::source {class media_source;}
+
+DEFINE_FWD_DECL_NAMESPACE(file_api)
+{
+    class blob;
+    class file;
+    class file_reader;
+    class file_reader_sync;
+}
 
 
-export namespace file_api::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(file_api)
 {
     struct blob_url_entry_t;
 

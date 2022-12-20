@@ -1,7 +1,23 @@
-export apis.dom_parser.types;
+module;
+#include "ext/macros/pimpl.hpp"
 
 
-namespace dom_parsing::detail
+export module apis.dom_parser.types;
+import ext.any;
+import ext.map;
+import ext.number;
+import ext.string;
+
+
+DEFINE_FWD_DECL_NAMESPACE(dom_parsing)
+{
+    class inner_html;
+
+    class xml_serializer;
+}
+
+
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(dom_parsing)
 {
     enum class supported_type_t {
         TEXT_SLASH_HTML, TEXT_SLASH_XML, APPLICATION_SLASH_XML, APPLICATION_SLASH_XHTML_PLUS_XML,

@@ -102,4 +102,11 @@ public:
     export template <__VA_ARGS__> struct ns:: c ## _private
 
 
+#define DEFINE_FWD_DECL_NAMESPACE(ns) \
+    export namespace ns
+
+#define DEFINE_FWD_DECL_NAMESPACE_DETAIL(ns) \
+    export namespace ns::detail
+
+
 #endif //SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP

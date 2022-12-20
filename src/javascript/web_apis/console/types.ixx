@@ -1,8 +1,18 @@
+module;
+#include "ext/macros/pimpl.hpp"
+
+
 export module apis.console.types;
 import ext.string;
 
 
-export namespace console::detail
+DEFINE_FWD_DECL_NAMESPACE(console)
+{
+    class console;
+}
+
+
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(console)
 {
     enum class log_level_t {ASSERT_, DEBUG, ERROR, INFO, LOG, WARN};
     enum class print_type_t {TRACE, DIR};

@@ -1,10 +1,10 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 #include <function2/function2.hpp>
 
 
 export module apis.performance_timeline.types;
-
 import ext.any;
 import ext.boolean;
 import ext.functional;
@@ -15,11 +15,15 @@ import ext.span;
 import ext.string;
 import ext.vector;
 
-namespace performance_timeline {class performance_entry;}
-namespace performance_timeline {class performance_observer;}
+
+DEFINE_FWD_DECL_NAMESPACE(performance_timeline)
+{
+    class performance_entry;
+    class performance_observer;
+}
 
 
-export namespace performance_timeline::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(performance_timeline)
 {
     struct performance_entry_buffer_map_tuple_t;
     struct registered_performance_observer_t;
