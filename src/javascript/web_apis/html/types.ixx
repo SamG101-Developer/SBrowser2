@@ -1,49 +1,7 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
+export module apis.html.types;
 
 
-
-
-
-
-#include "ext/optional.ixx"
-
-#include "ext/set.hpp"
-
-#include "ext/tuple.ixx"
-
-
-#include "ext/vector.hpp"
-#include <QtGui/QTransform>
-#include INCLUDE_INNER_TYPES(fetch)
-#include INCLUDE_INNER_TYPES(url)
-
-namespace file_api {class blob;}
-namespace file_api {class file;}
-namespace html::elements {class html_element;}
-namespace html::elements {class html_canvas_element;}
-namespace html::elements {class html_image_element;}
-namespace html::elements {class html_option_element;}
-namespace html::elements {class html_opt_group_element;}
-namespace html::elements {class html_video_element;}
-namespace html::canvasing {class image_bitmap;}
-namespace html::canvasing {class image_data;}
-namespace html::canvasing {class offscreen_canvas;}
-namespace html::canvasing {class canvas_rendering_context_2d;}
-namespace html::canvasing {class image_bitmap_rendering_context;}
-namespace web_codecs::video {class video_frame;}
-namespace mediacapture::main {class media_stream;}
-namespace media::source {class media_source;}
-namespace svg::elements {class svg_image_element;}
-namespace webgl2::contexts {class webgl_rendering_context;}
-namespace webgl2::contexts {class webgl2_rendering_context;}
-namespace webgpu {class gpu_canvas_context;}
-
-
-
-
-
-namespace html::detail
+export namespace html::detail
 {
     enum class history_handling_behaviour_t {DEFAULT, /* TODO */};
     enum class directionality_t {LTR, RTL, AUTO, _};
@@ -193,5 +151,3 @@ namespace html::detail
     using image_bitmap_options_t = ext::map<ext::string, ext::any>;
     using worklet_options_t = ext::map<ext::string, ext::any>;
 }
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__TYPEDEFS_HPP
