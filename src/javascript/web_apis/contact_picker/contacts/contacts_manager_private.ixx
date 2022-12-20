@@ -3,7 +3,7 @@ module;
 
 
 export module apis.contact_picker.contacts_manager_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import ext.vector;
 

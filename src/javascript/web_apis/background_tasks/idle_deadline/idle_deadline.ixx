@@ -6,7 +6,7 @@ module;
 
 
 export module apis.background_tasks.idle_deadline;
-import apis._.dom_object;
+import apis.dom_object;
 import apis.hr_time.types;
 
 import ext.boolean;

@@ -3,17 +3,19 @@ module;
 
 
 export module apis.dom.mixins.parentable_node_private;
-import apis._.dom_object_private;
-import ext.casting;
-import ext.functional;
-import ext.ranges;
+import apis.dom_object_private;
 
-namespace dom {class element;}
+import apis.dom.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, parentable_node)
         : virtual dom_object_private
 {
+public:
+    MAKE_QIMPL(parentable_node);
     parentable_node();
+
+public:
     ranges::any_helpful_view<element*> children;
 };

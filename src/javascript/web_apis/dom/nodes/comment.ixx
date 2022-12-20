@@ -7,9 +7,8 @@ module;
 
 export module apis.dom.comment;
 import apis.dom.character_data;
-import ext.number;
-import ext.string;
-import ext.tuple;
+
+import ext.core;
 import js.env.module_type;
 
 

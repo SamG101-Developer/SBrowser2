@@ -3,11 +3,8 @@ module;
 #include <function2/function2.hpp>
 
 
-export module apis._.dom_object_private;
-import ext.boolean;
-import ext.functional;
-import ext.memory;
-import ext.string;
+export module apis.dom_object_private;
+import ext.core;
 
 class dom_object;
 namespace dom {class document;}

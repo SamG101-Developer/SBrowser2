@@ -5,13 +5,11 @@ module;
 #include "javascript/macros/expose.hpp"
 
 
-export module apis._.base_exception;
-import apis._.dom_object;
-import ext.concepts;
-import ext.number;
-import ext.string;
-import ext.tuple;
+export module apis.base_exception;
+import apis.dom_object;
+import ext.core;
 import js.env.module_type;
+
 
 template <ext::type_is_enum T>
 class base_exception_private;

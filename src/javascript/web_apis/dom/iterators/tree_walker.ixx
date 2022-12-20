@@ -7,11 +7,11 @@ module;
 
 export module apis.dom.tree_walker;
 import apis.dom.abstract_iterator;
-import ext.type_traits;
-import ext.tuple;
+
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
 
-namespace dom {class node;}
 
 
 DEFINE_PUBLIC_CLASS(dom, tree_walker)

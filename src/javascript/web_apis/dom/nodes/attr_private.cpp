@@ -7,7 +7,7 @@ import apis.dom.element;
 import apis.dom.element_private;
 import apis.dom.types;
 
-import ext.string;
+import ext.core;
 
 
 auto dom::attr_private::qualified_name() const -> ext::string

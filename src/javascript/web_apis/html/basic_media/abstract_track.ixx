@@ -6,7 +6,7 @@ module;
 
 
 export module apis.html.abstract_track;
-import apis._.dom_object;
+import apis.dom_object;
 import apis.html.types;
 
 import ext.tuple;

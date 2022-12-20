@@ -3,7 +3,7 @@ module;
 
 
 export module apis.device_orientation.device_motion_event_rotation_rate_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import ext.number;
 

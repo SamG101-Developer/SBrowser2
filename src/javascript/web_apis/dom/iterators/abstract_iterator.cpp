@@ -1,15 +1,11 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.dom.abstract_iterator;
 import apis.dom.abstract_iterator_private;
-import ext.number;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

@@ -2,13 +2,11 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
 #include <tl/optional.hpp>
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.dom.abort_signal;
 import apis.dom.abort_signal_private;
+import ext.core;
 
 
 dom::abort_signal::abort_signal()

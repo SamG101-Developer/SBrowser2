@@ -7,13 +7,10 @@ module;
 
 export module apis.dom.attr;
 import apis.dom.node;
-import ext.number;
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
-import js.env.module_type;
 
-namespace dom {class element;}
+import apis.dom.types;
+import ext.core;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, attr) final

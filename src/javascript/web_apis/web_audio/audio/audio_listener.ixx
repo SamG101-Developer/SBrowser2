@@ -6,7 +6,7 @@ module;
 
 
 export module apis.web_audio.audio_listener;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.number;
 import ext.tuple;

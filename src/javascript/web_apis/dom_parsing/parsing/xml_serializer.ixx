@@ -4,7 +4,7 @@ module;
 
 
 export module apis.dom_parsing.xml_serializer;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.string;
 

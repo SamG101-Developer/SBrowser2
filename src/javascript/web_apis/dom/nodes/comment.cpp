@@ -13,8 +13,7 @@ import apis.dom.window;
 import apis.dom.window_private;
 import apis.dom.types;
 
-import ext.string;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 import js.env.realms;

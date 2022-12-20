@@ -6,9 +6,8 @@ module;
 #include <memory>
 
 
-export module apis._.dom_object;
-import ext.string;
-import ext.tuple;
+export module apis.dom_object;
+import ext.core;
 import js.env.module_type;
 
 class dom_object_private;

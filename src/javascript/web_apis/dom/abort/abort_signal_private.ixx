@@ -6,8 +6,7 @@ export module apis.dom.abort_signal_private;
 import apis.dom.event_target_private;
 import apis.dom.event_target;
 import apis.dom.types;
-import ext.any;
-import ext.boolean;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, abort_signal)

@@ -3,7 +3,7 @@ module;
 
 
 export module apis.dom.dom_exception_private;
-import apis._.base_exception_private;
+import apis.base_exception_private;
 
 import apis.dom.types;
 

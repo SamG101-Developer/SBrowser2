@@ -6,7 +6,7 @@ module;
 
 
 export module apis.dom.mixins.slottable;
-import apis._.dom_object;
+import apis.dom_object;
 import ext.tuple;
 import ext.type_traits;
 import js.env.module_type;

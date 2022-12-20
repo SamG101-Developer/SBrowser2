@@ -5,10 +5,9 @@ module;
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
-module apis._.dom_object;
-import apis._.dom_object_private;
-import ext.tuple;
-import ext.string;
+module apis.dom_object;
+import apis.dom_object_private;
+import ext.core;
 import js.env.module_type;
 
 

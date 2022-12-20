@@ -6,16 +6,7 @@ module;
 
 
 export module apis.dom.types;
-import ext.any;
-import ext.boolean;
-import ext.functional;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.tuple;
-import ext.variant;
-import ext.memory;
-import ext.vector;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(dom)

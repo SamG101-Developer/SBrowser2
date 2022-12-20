@@ -1,6 +1,5 @@
 export module ext.core;
 
-
 export import :allocator;
 export import :array;
 export import :initializer_list;
@@ -41,4 +40,3 @@ export import :regex;
 export import :threading;
 export import :uuid;
 export import :variadic;
-

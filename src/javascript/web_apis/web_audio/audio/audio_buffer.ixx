@@ -6,7 +6,7 @@ module;
 
 
 export module apis.web_audio.audio_buffer;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.any;
 import ext.array_buffer;

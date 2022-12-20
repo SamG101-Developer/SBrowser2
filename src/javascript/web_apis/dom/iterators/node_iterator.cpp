@@ -1,15 +1,12 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.dom.node_iterator;
 import apis.dom.node_iterator_private;
 
-import ext.boolean;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

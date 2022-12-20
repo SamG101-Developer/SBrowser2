@@ -3,7 +3,7 @@ module;
 
 
 export module apis.performance_timeline.performance_observer_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 import apis.performance_timeline.types;
 
 import ext.boolean;

@@ -9,11 +9,7 @@ module;
 
 export module apis.dom.abort_signal;
 import apis.dom.event_target;
-import ext.any;
-import ext.boolean;
-import ext.number;
-import ext.optional;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

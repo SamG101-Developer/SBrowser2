@@ -8,8 +8,8 @@ module;
 module apis.dom.mixins.child_node;
 import apis.dom.node;
 import apis.dom.node_private;
-import ext.casting;
-import ext.concepts;
+
+import ext.core;
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...Args>

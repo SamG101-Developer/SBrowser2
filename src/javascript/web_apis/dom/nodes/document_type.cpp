@@ -1,9 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.dom.document_type;
@@ -11,8 +8,7 @@ import apis.dom.document_type_private;
 import apis.dom.node;
 import apis.dom.mixins.child_node;
 
-import ext.string;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 

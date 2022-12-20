@@ -3,7 +3,7 @@ module;
 
 
 export module apis.file_api.file_reader_sync_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 
 DEFINE_PRIVATE_CLASS(file_api, file_reader_sync)

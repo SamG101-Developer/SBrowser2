@@ -5,8 +5,7 @@ module;
 
 module apis.dom.abort_signal_private;
 import apis.dom.abort_signal;
-import ext.any;
-import ext.functional;
+import ext.core;
 
 
 auto dom::abort_signal_private::signal_abort(ext::any&& reason) -> void

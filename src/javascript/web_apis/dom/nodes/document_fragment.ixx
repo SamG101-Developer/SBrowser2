@@ -10,13 +10,10 @@ export module apis.dom.document_fragment;
 import apis.dom.node;
 import apis.dom.mixins.non_element_parent_node;
 import apis.dom.mixins.parentable_node;
-import ext.string;
-import ext.number;
-import ext.tuple;
-import ext.type_traits;
-import js.env.module_type;
 
-namespace dom {class range;}
+import apis.dom.types;
+import ext.core;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, document_fragment)

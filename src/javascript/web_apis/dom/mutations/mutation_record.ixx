@@ -6,14 +6,11 @@ module;
 
 
 export module apis.dom.mutation_record;
-import apis._.dom_object;
-import ext.span;
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
-import js.env.module_type;
+import apis.dom_object;
 
-namespace dom {class node;}
+import apis.dom.types;
+import ext.core;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, mutation_record) final

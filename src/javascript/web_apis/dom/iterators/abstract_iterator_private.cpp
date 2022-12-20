@@ -2,16 +2,15 @@ module;
 #include "ext/macros/language_shorthand.hpp"
 #include "javascript/macros/errors.hpp"
 
-module apis.dom.abstract_iterator_private;
 
+module apis.dom.abstract_iterator_private;
 import apis.dom.node;
 import apis.dom.node_private;
 import apis.dom.node_filter;
 import apis.dom.node_filter_private;
-
 import apis.dom.detail;
 import apis.dom.types;
-import ext.number;
+import ext.core;
 
 
 auto dom::abstract_iterator_private::filter(const node* node) -> ext::number<ushort>

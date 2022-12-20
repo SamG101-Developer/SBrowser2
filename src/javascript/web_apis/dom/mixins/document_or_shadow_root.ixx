@@ -6,9 +6,9 @@ module;
 
 
 export module apis.dom.mixins.document_or_shadow_root;
-import apis._.dom_object;
-import ext.tuple;
-import ext.type_traits;
+import apis.dom_object;
+
+import ext.core;
 import js.env.module_type;
 
 namespace dom {class element;}

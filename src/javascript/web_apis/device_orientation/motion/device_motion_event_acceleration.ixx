@@ -6,7 +6,7 @@ module;
 
 
 export module apis.device_orientation.device_motion_event_acceleration;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.enums;
 import ext.number;

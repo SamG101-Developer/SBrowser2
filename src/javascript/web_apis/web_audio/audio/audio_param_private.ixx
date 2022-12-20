@@ -3,7 +3,7 @@ module;
 
 
 export module apis.web_audio.audio_param_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 import apis.web_audio.types;
 
 import ext.number;

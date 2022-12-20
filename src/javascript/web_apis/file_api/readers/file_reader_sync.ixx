@@ -5,7 +5,7 @@ module;
 
 
 export module apis.file_api.file_reader_sync;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.array_buffer;
 import ext.enums;

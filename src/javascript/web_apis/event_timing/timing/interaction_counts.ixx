@@ -5,7 +5,7 @@ module;
 
 
 export module apis.event_timing.interaction_counts;
-import apis._.dom_object;
+import apis.dom_object;
 import ext.map_like;
 
 import ext.number;

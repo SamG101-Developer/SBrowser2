@@ -3,14 +3,12 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
 #include "javascript/macros/errors.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+
 
 module apis.dom.cdata_section;
 import apis.dom.types;
 
-import ext.string;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 import js.env.realms;

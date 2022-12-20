@@ -3,8 +3,8 @@ module;
 
 module apis.dom.parentable_node_private;
 import apis.dom.node_private;
-import ext.casting;
-import ext.ranges;
+
+import ext.core;
 
 
 dom::mixins::parentable_node_private::parentable_node_private()

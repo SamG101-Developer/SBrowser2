@@ -6,7 +6,8 @@ module apis.dom.node;
 import apis.dom.node_private;
 import apis.dom.event;
 import apis.dom.mixins.slottable_private;
-import ext.ranges;
+
+import ext.core;
 
 
 dom::node::node()

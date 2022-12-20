@@ -1,8 +1,8 @@
 #ifndef SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP
 #define SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP
 
-#include <utility>
 #include <memory>
+#include <utility>
 #include <self_macro.h>
 
 

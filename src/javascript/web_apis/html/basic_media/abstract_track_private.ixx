@@ -3,7 +3,7 @@ module;
 
 
 export module apis.html.abstract_track_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 import apis.html.types;
 
 import ext.string;

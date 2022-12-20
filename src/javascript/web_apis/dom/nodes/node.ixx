@@ -9,28 +9,11 @@ module;
 
 export module apis.dom.node;
 import apis.dom.event_target;
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.ranges;
-import ext.tuple;
-import ext.type_traits;
+
+import apis.dom.types;
+import apis.html.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class abstract_iterator_private;}
-namespace dom {class document;}
-namespace dom {class element;}
-namespace dom {class mutation_observer;}
-namespace dom {class range;}
-
-namespace dom {class child_node;}
-namespace dom {class document_or_element_node;}
-namespace dom {class non_document_type_child_node;}
-namespace dom {class parentable_node;}
-
-namespace html {class html_option_element;}
 
 
 DEFINE_PUBLIC_CLASS(dom, node)

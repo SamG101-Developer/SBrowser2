@@ -6,9 +6,8 @@ module;
 
 
 export module apis.dom.abort_controller;
-import apis._.dom_object;
-import ext.any;
-import ext.tuple;
+import apis.dom_object;
+import ext.core;
 import js.env.module_type;
 
 namespace dom {class abort_signal;}

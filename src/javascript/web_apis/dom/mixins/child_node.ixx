@@ -1,18 +1,15 @@
 module;
 #include "ext/macros/annotations.hpp"
 #include "ext/macros/pimpl.hpp"
-#include "javascript/macros/expose.hpp
+#include "javascript/macros/expose.hpp"
 
 
 export module apis.dom.mixins.child_node;
-import apis._.dom_object;
-import ext.concepts;
-import ext.type_traits;
-import ext.tuple;
+import apis.dom_object;
+
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class node;}
-
 
 DEFINE_PUBLIC_CLASS(dom, child_node)
         : public virtual dom_object

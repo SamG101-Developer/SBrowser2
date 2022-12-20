@@ -3,7 +3,7 @@ module;
 
 
 export module apis.dom.dom_implementation;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import ext.memory;
 

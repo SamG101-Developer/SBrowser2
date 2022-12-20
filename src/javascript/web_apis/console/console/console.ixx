@@ -5,7 +5,7 @@ module;
 
 
 export module apis.console.console;
-import apis._.dom_object;
+import apis.dom_object;
 import ext.singleton;
 
 import ext.any;

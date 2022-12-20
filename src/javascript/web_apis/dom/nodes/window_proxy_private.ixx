@@ -3,7 +3,7 @@ module;
 
 
 export module apis.dom.window_proxy_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import ext.memory;
 

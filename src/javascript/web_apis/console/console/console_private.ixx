@@ -3,7 +3,7 @@ module;
 
 
 export module apis.console.console_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 import apis.console.types;
 import apis.hr_time.types;
 

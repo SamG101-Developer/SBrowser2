@@ -3,7 +3,7 @@ module;
 
 
 export module apis.background_tasks.idle_deadline_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import ext.boolean;
 

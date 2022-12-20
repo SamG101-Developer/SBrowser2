@@ -6,7 +6,7 @@ module;
 
 
 export module apis.contact_picker.contact_address;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.string;
 import ext.vector;

@@ -4,18 +4,13 @@ module;
 #include "javascript/macros/expose.hpp"
 #include <function2/function2.hpp>
 
-export module apis.dom.mutation_observer;
-import apis._.dom_object;
-import ext.any;
-import ext.functional;
-import ext.map;
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
-import ext.vector;
-import js.env.module_type;
 
-namespace dom {class mutation_record; class node;}
+export module apis.dom.mutation_observer;
+import apis.dom_object;
+
+import apis.dom.types;
+import ext.core;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, mutation_observer) final

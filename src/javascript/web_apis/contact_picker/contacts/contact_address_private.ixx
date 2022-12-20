@@ -3,7 +3,7 @@ module;
 
 
 export module apis.contact_picker.contact_address_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import apis.contact_picker.types;
 

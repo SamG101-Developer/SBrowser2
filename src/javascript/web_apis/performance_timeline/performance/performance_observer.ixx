@@ -6,7 +6,7 @@ module;
 
 
 export module apis.performance_timeline.performance_observer;
-import apis._.dom_object;
+import apis.dom_object;
 import apis.performance_timeline.types;
 
 import ext.enums;

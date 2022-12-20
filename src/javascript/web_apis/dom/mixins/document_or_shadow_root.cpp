@@ -1,5 +1,4 @@
-#include "document_or_shadow_root.ixx"
-#include "document_or_shadow_root_private.ixx"
+module apis.dom.mixins.document_or_shadow_root;
 
 
 auto dom::mixins::document_or_shadow_root::_to_v8(

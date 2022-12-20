@@ -4,13 +4,10 @@ module;
 
 
 export module apis.dom.abstract_iterator_private;
-import apis._.dom_object_private;
-import ext.boolean;
-import ext.memory;
-import ext.number;
+import apis.dom_object_private;
 
-namespace dom {class node_filter;}
-namespace dom {class node;}
+import apis.dom.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, abstract_iterator)

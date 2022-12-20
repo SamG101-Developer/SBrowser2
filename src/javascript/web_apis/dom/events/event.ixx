@@ -7,20 +7,10 @@ module;
 
 
 export module apis.dom.event;
-import apis._.dom_object;
+import apis.dom_object;
 import apis.dom.types;
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.string;
-import ext.tuple;
-import ext.number;
-import ext.vector;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class document;}
-namespace dom {class event_target;}
-namespace dom {class shadow_root;}
 
 
 DEFINE_PUBLIC_CLASS(dom, event)

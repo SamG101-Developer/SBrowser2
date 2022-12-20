@@ -6,7 +6,7 @@ module;
 
 
 export module apis.dom_parsing.mixins.inner_html;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.string;
 import ext.tuple;

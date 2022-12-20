@@ -7,7 +7,7 @@ module;
 
 
 export module apis.clipboard.clipboard_item;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.any;
 import ext.enums;

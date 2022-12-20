@@ -9,5 +9,6 @@ import apis.dom.text_private;
 DEFINE_PRIVATE_CLASS(dom, cdata_section)
         : text_private
 {
+public:
     MAKE_QIMPL(cdata_section);
 };

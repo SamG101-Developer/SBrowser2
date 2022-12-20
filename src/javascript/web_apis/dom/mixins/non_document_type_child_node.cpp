@@ -6,7 +6,7 @@ module;
 module apis.dom.mixins.non_document_type_child_node;
 
 
-auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const -> nodes::element*
+auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() const -> element*
 {
     // Get all the child nodes from this object's parent node#. All the child nodes are stored as Node pointers, so cast
     // them all to Element pointers, and get all the nodes before this object (cast as a Node object). Return the back
@@ -18,7 +18,7 @@ auto dom::mixins::non_document_type_child_node::get_previous_element_sibling() c
 }
 
 
-auto dom::mixins::non_document_type_child_node::get_next_element_sibling() const -> nodes::element*
+auto dom::mixins::non_document_type_child_node::get_next_element_sibling() const -> element*
 {
     // Get all the child nodes from this object's parent node#. All the child nodes are stored as Node pointers, so cast
     // them all to Element pointers, and get all the nodes after this object (cast as a Node object). Return the front
@@ -33,7 +33,7 @@ auto dom::mixins::non_document_type_child_node::get_next_element_sibling() const
 auto dom::mixins::non_document_type_child_node::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

@@ -11,9 +11,7 @@ module apis.dom.event_target;
 import apis.dom.abort_signal;
 import apis.dom.detail;
 import apis.dom.types;
-import ext.boolean;
-import ext.string;
-import ext.variant;
+import ext.core;
 
 
 dom::event_target::event_target()

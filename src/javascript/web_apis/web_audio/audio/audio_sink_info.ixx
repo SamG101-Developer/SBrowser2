@@ -6,7 +6,7 @@ module;
 
 
 export module apis.web_audio.audio_sink_info;
-import apis._.dom_object;
+import apis.dom_object;
 
 import apis.web_audio.types;
 import ext.tuple;

@@ -1,5 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp>
 #include <range/v3/algorithm/for_each.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/filter.hpp>
@@ -14,9 +15,7 @@ import apis.dom.node_private;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.hashing;
-import ext.functional;
-import ext.ranges;
+import ext.core;
 
 import js.env.realms;
 import js.env.slots;

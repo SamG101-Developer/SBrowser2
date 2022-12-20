@@ -18,23 +18,13 @@ import apis.dom.mixins.slottable;
 import apis.aria.mixins.aria_mixin;
 import apis.dom_parsing.mixins.inner_html;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.number;
-import ext.optional;
-import ext.promise;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
-import ext.vector;
-import js.env.module_type;
+import apis.css.box_tree.types;
+import apis.dom.types;
+import apis.edit_context.types;
 
-namespace css::box_tree {class dead_fragment_information;}
-namespace dom {class attr;}
-namespace dom {class shadow_root;}
-namespace edit_context {class edit_context;}
+import ext.core;
+import ext.js;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, element)

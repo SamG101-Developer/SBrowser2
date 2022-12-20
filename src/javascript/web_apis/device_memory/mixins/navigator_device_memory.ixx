@@ -6,7 +6,7 @@ module;
 
 
 export module apis.device_memory.navigator_device_memory;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.enums;
 import ext.number;

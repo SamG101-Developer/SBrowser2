@@ -3,8 +3,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/errors.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8pp/class.hpp>
-#include <v8-isolate.h>
+
 
 module apis.dom.character_data;
 import apis.dom.character_data_private;
@@ -12,10 +11,7 @@ import apis.dom.types;
 import apis.dom.mixins.child_node;
 import apis.dom.mixins.non_document_type_child_node;
 
-import ext.number;
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
+import ext.core;
 
 import js.env.module_type;
 import js.env.realms;

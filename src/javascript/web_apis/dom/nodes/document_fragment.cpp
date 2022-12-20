@@ -3,18 +3,13 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/errors.hpp"
 #include "javascript/macros/expose.hpp"
-#include <tuplet/tpp.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.dom.document_fragment;
 import apis.dom.document_fragment_private;
 import apis.dom.types;
 
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
+import ext.core;
 
 import js.env.module_type;
 import js.env.realms;

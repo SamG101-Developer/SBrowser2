@@ -1,7 +1,6 @@
-export module apis._.base_exception_private;
-import apis._.dom_object_private;
-import ext.concepts;
-import ext.string;
+export module apis.base_exception_private;
+import apis.dom_object_private;
+import ext.core;
 
 
 export template <ext::type_is_enum T>

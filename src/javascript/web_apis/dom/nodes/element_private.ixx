@@ -13,15 +13,8 @@ import apis.dom.mixins.slottable_private;
 import apis.aria.mixins.aria_mixin_private;
 import apis.dom_parsing.mixins.inner_html_private;
 
-import ext.boolean;
-import ext.memory;
-import ext.optional;
-import ext.queue;
-import ext.string;
-import ext.vector;
-
-namespace dom {class attr;}
-namespace dom {class shadow_root;}
+import apis.dom.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, element)
@@ -34,8 +27,10 @@ DEFINE_PRIVATE_CLASS(dom, element)
         , aria::aria_mixin_private
         , dom_parsing::inner_html_private
 {
+public:
     MAKE_QIMPL(element);
 
+public:
     auto locate_a_namespace_prefix(ext::string_view namespace_) const -> ext::string;
     auto locate_a_namespace(ext::string_view prefix) const -> ext::string;
 
@@ -48,6 +43,7 @@ DEFINE_PRIVATE_CLASS(dom, element)
     auto remove_attribute(attr* attribute) -> attr*;
     auto toggle_attribute(attr* attribute, ext::optional<ext::boolean> force, ext::string_view qualified_name = u"", ext::string_view namespace_ = u"") -> attr*;
 
+public:
     ext::string namespace_;
     ext::string namespace_prefix;
     ext::string local_name;

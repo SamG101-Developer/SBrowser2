@@ -7,8 +7,8 @@ module;
 
 export module ext.mixins:map_like;
 import ext.core;
-import apis._.dom_object;
-import apis._.dom_object_private;
+import apis.dom_object;
+import apis.dom_object_private;
 import js.env.module_type;
 
 

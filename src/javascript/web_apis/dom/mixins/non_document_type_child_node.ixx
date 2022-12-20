@@ -6,12 +6,11 @@ module;
 
 
 export module apis.dom.mixins.non_document_type_child_node;
-import apis._.dom_object;
-import ext.tuple;
-import ext.type_traits;
-import js.env.module_type;
+import apis.dom_object;
 
-namespace dom {class element;}
+import apis.dom.types;
+import ext.core;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, non_document_type_child_node)

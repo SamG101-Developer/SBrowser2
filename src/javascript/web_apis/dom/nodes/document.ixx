@@ -14,43 +14,15 @@ import apis.dom.mixins.non_element_parent_node;
 import apis.dom.mixins.parentable_node;
 import ext.map_like;
 
-import ext.ranges;
-import ext.string;
-
-namespace dom {class document_or_element_node;}
-namespace dom {class attr;}
-namespace dom {class cdata_section;}
-namespace dom {class comment;}
-namespace dom {class document_fragment;}
-namespace dom {class document_type;}
-namespace dom {class processing_instruction;}
-namespace dom {class text;}
-namespace dom {class window_proxy;}
-namespace dom {class dom_implementation;}
-
-namespace dom {class range;}
-namespace dom {class node_filter;}
-namespace dom {class node_iterator;}
-namespace dom {class tree_walker;}
-namespace dom {class dom_implementation;}
-
-namespace html {class html_body_element;}
-namespace html {class html_head_element;}
-namespace html {class html_html_element;}
-namespace html {class html_image_element;}
-namespace html {class html_link_element;}
-namespace html {class html_form_element;}
-namespace html {class html_script_element;}
-namespace html {class html_title_element;}
-namespace html {class html_element;}
-namespace html {class location;}
-
-namespace css::css_web_animation {class document_timeline;}
-namespace encoding {class encoding;}
-namespace intersection_observer {class intersection_observer;}
-namespace permissions_policy {class permissions_policy_object;}
-namespace selection {class selection;}
-namespace svg {class svg_script_element;}
+import apis.dom.types;
+import apis.html.types;
+import apis.css.css_web_animation.types
+import apis.encoding.types;
+import apis.intersection_observer.types;
+import apis.permissions_policy.types;
+import apis.selection.types;
+import apis.svg.types;
+import ext.core;
 
 
 DEFINE_PUBLIC_CLASS(dom, document)

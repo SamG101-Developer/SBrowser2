@@ -6,7 +6,7 @@ module;
 
 
 export module apis.dom.dom_implementation;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.string;
 import ext.tuple;

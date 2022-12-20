@@ -7,14 +7,10 @@ module;
 
 
 export module apis.dom.node_filter;
-import apis._.dom_object;
-import ext.functional;
-import ext.number;
-import ext.tuple;
-import ext.type_traits;
+import apis.dom_object;
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class node;}
 
 
 DEFINE_PUBLIC_CLASS(dom, node_filter) final

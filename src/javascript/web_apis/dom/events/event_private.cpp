@@ -2,15 +2,12 @@ module;
 #include <range/v3/view/transform.hpp>
 #include <v8pp/convert.hpp>
 
+
 module apis.dom.event_private;
 import apis.dom.window;
 import apis.dom.event_target;
 import apis.dom.types;
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.string;
-import ext.vector;
+import ext.core;
 import js.env.realms;
 
 

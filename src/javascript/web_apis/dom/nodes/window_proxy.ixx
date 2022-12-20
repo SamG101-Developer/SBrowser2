@@ -5,7 +5,7 @@ module;
 
 
 export module apis.dom.window_proxy;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.tuple;
 import js.env.module_type;

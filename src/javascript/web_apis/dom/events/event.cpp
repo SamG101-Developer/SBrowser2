@@ -2,19 +2,13 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
 #include <range/v3/range/operations.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 module apis.dom.event;
 import apis.dom.event_private;
 import apis.dom.types;
-import ext.string;
-import ext.vector;
-import ext.number;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 import js.env.realms;
-
 
 
 dom::event::event(

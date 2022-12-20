@@ -8,11 +8,7 @@ import apis.dom.event_target;
 import apis.dom.event;
 import apis.dom.types;
 
-import ext.any;
-import ext.boolean;
-import ext.concepts;
-import ext.map;
-import ext.string;
+import ext.core;
 
 
 auto dom::event_target_private::remove_all_event_listeners() -> void

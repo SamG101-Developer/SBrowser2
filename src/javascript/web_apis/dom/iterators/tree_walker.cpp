@@ -5,8 +5,6 @@ module;
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/take_while.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.dom.tree_walker;
@@ -16,9 +14,7 @@ import apis.dom.node_private;
 import apis.dom.node_filter;
 import apis.dom.node_filter_private;
 
-import ext.ranges;
-import ext.tuple;
-import ext.functional;
+import ext.core;
 import js.env.module_type;
 
 

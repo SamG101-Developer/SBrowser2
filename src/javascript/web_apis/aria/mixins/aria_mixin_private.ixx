@@ -3,7 +3,7 @@ module;
 
 
 export module apis.aria.mixins.aria_mixin_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 
 DEFINE_PRIVATE_CLASS(aria, aria_mixin)

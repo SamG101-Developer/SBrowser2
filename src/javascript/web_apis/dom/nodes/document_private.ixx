@@ -10,10 +10,7 @@ import apis.dom.mixins.document_or_shadow_root_private;
 import apis.dom.mixins.non_element_parent_node_private;
 import apis.dom.mixins.parentable_node_private;
 
-import ext.boolean;
-import ext.string;
-import ext.memory;
-import ext.set;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, document)
@@ -118,6 +115,3 @@ DEFINE_PRIVATE_CLASS(dom, document)
     /* [SCREEN-WAKE-LOCK] */
     ext::map<screen_wake_lock::detail::wake_lock_type, ext::vector<screen_wake_lock::wake_lock_sentinel*>> acive_locks;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_DOM_NODES_DOCUMENT_PRIVATE_HPP

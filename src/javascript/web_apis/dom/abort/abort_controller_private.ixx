@@ -4,9 +4,8 @@ module;
 
 
 export module apis.dom.abort_controller_private;
-import apis._.dom_object_private;
-
-namespace dom {class abort_signal;}
+import apis.dom_object_private;
+import apis.dom.types;
 
 
 DEFINE_PRIVATE_CLASS(dom, abort_controller)

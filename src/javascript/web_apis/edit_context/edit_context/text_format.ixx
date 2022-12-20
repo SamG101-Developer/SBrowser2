@@ -6,7 +6,7 @@ module;
 
 
 export module apis.edit_context.text_format;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.any;
 import ext.map;

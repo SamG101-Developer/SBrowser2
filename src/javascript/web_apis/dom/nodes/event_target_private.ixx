@@ -3,15 +3,10 @@ module;
 
 
 export module apis.dom.event_target_private;
-import apis._.dom_object_private;
-import ext.any;
-import ext.boolean;
-import ext.concepts;
-import ext.map;
-import ext.string;
-import ext.vector;
+import apis.dom_object_private;
 
-namespace dom {class event;}
+import apis.dom.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, event_target)
@@ -31,11 +26,4 @@ public:
 
     auto remove_all_event_listeners() -> void;
     auto retarget(const event_target* other) const -> event_target*;
-};
-
-
-export class AAA
-{
-public:
-    AAA();
 };

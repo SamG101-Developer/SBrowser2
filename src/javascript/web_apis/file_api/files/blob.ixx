@@ -8,7 +8,7 @@ module;
 
 
 export module apis.file_api.blob;
-import apis._.dom_object;
+import apis.dom_object;
 import apis.file_api.types;
 
 import ext.any;

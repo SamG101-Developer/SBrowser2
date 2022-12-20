@@ -3,6 +3,7 @@ module;
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
 
+
 module apis.dom.character_data_private;
 import apis.dom.range;
 import apis.dom.range_private;
@@ -13,9 +14,7 @@ import apis.dom.text_private;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.number;
-import ext.vector;
-import ext.string;
+import ext.core;
 
 import js.env.slots;
 import js.env.realms;

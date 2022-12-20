@@ -6,7 +6,6 @@ module;
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/transform.hpp>
 #include <tl/optional.hpp>
-#include <tuplet/tuple.hpp>
 
 
 module apis.dom.element;
@@ -18,16 +17,7 @@ import apis.dom.shadow_root_private;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.any;
-import ext.boolean;
-import ext.casting;
-import ext.functional;
-import ext.map;
-import ext.optional;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 import js.env.realms;
 import js.env.slots;

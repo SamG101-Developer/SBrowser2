@@ -7,9 +7,7 @@ module;
 
 export module apis.dom.custom_event;
 import apis.dom.event;
-import ext.any;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

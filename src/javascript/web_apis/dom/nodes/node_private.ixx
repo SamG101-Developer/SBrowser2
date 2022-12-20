@@ -5,20 +5,9 @@ module;
 export module apis.dom.node_private;
 import apis.dom.event_target_private;
 import apis.dom.types;
-import ext.boolean;
-import ext.memory;
-import ext.number;
-import ext.ranges;
-import ext.string;
-import ext.vector;
+import apis.html.types;
 
-namespace dom {class document;}
-namespace dom {class element;}
-namespace dom {class node;}
-namespace dom {class shadow_root;}
-namespace dom {class text;}
-namespace dom {class mutation_observer;}
-namespace html {class html_slot_element;}
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, node)

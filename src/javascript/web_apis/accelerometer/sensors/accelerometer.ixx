@@ -9,12 +9,7 @@ module;
 export module apis.accelerometer.accelerometer;
 import apis.sensors.sensor;
 
-import ext.any;
-import ext.enums;
-import ext.number;
-import ext.map;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

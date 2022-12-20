@@ -6,17 +6,11 @@ module;
 
 
 export module apis.dom.mixins.parentable_node;
-import apis._.dom_object;
-import ext.concepts;
-import ext.number;
-import ext.ranges;
-import ext.string;
-import ext.type_traits;
-import ext.tuple;
-import ext.vector;
-import js.env.module_type;
+import apis.dom_object;
 
-namespace dom {class element; class node;}
+import apis.dom.types;
+import ext.core;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, parentable_node)

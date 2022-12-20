@@ -3,10 +3,10 @@ module;
 #include <range/v3/view/filter.hpp>
 #include <range/v3/algorithm/all_of.hpp>
 
+
 module apis.dom.mixins.document_or_element_node;
-import ext.casting;
-import ext.ranges;
-import ext.string;
+
+import ext.core;
 
 
 auto dom::document_or_element_node::get_elements_by_class_name(

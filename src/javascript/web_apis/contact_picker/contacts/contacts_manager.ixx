@@ -5,7 +5,7 @@ module;
 
 
 export module apis.contact_picker.contacts_manager;
-import apis._.dom_object;
+import apis.dom_object;
 import apis.contact_picker.types;
 
 import ext.any;

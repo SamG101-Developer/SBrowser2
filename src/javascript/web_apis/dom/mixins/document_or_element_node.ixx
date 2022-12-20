@@ -6,10 +6,8 @@ module;
 
 
 export module apis.dom.mixins.document_or_element_node;
-import apis._.dom_object;
-import ext.string;
-import ext.ranges;
-import ext.tuple;
+import apis.dom_object;
+import ext.core;;
 import js.env.module_type;
 
 namespace dom {class element;}

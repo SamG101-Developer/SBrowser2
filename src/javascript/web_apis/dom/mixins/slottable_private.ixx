@@ -3,18 +3,19 @@ module;
 
 
 export module apis.dom.mixins.slottable_private;
-import apis._.dom_object_private;
-import ext.memory;
-import ext.string;
+import apis.dom_object_private;
 
-namespace html {class html_slot_element;}
+import apis.html.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, slottable)
         : virtual dom_object_private
 {
+public:
     MAKE_QIMPL(slottable);
 
+public:
     ext::string name;
     std::observer_ptr<html::html_slot_element> assigned_slot;
     std::observer_ptr<html::html_slot_element> manual_slot_assignment;

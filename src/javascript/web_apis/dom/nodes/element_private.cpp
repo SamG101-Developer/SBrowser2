@@ -12,10 +12,7 @@ import apis.dom.attr;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.boolean;
-import ext.functional;
-import ext.optional;
-import ext.string;
+import ext.core;
 
 
 auto dom::element_private::set_attribute(std::unique_ptr<attr>&& attribute) -> attr*

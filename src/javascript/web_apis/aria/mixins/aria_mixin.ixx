@@ -6,7 +6,7 @@ module;
 
 
 export module apis.aria.mixins.aria_mixin;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.span;
 import ext.string;

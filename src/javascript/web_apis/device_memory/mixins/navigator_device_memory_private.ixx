@@ -6,7 +6,7 @@ module;
 
 
 export module apis.device_memory.navigator_device_memory_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 
 import ext.number;
 

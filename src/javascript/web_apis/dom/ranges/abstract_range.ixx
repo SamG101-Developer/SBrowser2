@@ -6,7 +6,7 @@ module;
 
 
 export module apis.dom.abstract_range;
-import apis._.dom_object;
+import apis.dom_object;
 
 import ext.boolean;
 import ext.number;

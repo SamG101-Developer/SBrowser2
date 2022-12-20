@@ -3,18 +3,9 @@ module;
 
 
 export module apis.dom.event_private;
-import apis._.dom_object_private;
+import apis.dom_object_private;
 import apis.dom.types;
-import ext.any;
-import ext.boolean;
-import ext.string;
-import ext.number;
-import ext.map;
-import ext.memory;
-import ext.span;
-import ext.vector;
-
-namespace dom {class event_target;}
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, event)

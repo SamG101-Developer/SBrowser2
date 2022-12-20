@@ -3,10 +3,11 @@ module;
 
 
 module apis.dom.tree_walker_private;
-
 import apis.dom.node;
 import apis.dom.node_private;
 import apis.dom.node_filter;
+
+import ext.core;
 
 
 auto dom::tree_walker_private::traverse_children(traversal_child_t type) -> node*

@@ -3,20 +3,19 @@ module;
 
 
 export module apis.dom.mutation_record_private;
-import apis._.dom_object_private;
-import ext.memory;
-import ext.string;
-import ext.vector;
+import apis.dom_object_private;
 
-namespace dom {class node;}
-
+import apis.dom.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, mutation_record)
         : virtual dom_object_private
 {
+public:
     MAKE_QIMPL(mutation_record);
 
+public:
     ext::string type;
     ext::string attribute_name;
     ext::string attribute_namespace;
