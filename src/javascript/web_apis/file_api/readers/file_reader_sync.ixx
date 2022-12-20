@@ -1,14 +1,23 @@
-#ifndef SBROWSER2_FILE_READER_SYNC_HPP
-#define SBROWSER2_FILE_READER_SYNC_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-namespace file_api {class file_reader_sync;}
-namespace file_api {class file_reader_sync_private;}
+export module apis.file_api.file_reader_sync;
+import apis._.dom_object;
+
+import ext.array_buffer;
+import ext.enums;
+import ext.tuple;
+import ext.string;
+
+import js.env.module_type;
 
 namespace file_api {class blob;}
 
 
-class file_api::file_reader_sync
+DEFINE_PUBLIC_CLASS(file_api, file_reader_sync) final
         : public virtual dom_object
 {
 public constructors:
@@ -22,6 +31,3 @@ public js_methods:
     auto read_as_text(blob* blob_object, ext::string_view encoding) -> ext::string;
     auto read_as_data_url(blob* blob_object) -> ext::string;
 };
-
-
-#endif //SBROWSER2_FILE_READER_SYNC_HPP

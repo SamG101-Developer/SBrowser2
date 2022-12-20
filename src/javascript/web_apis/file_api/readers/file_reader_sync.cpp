@@ -1,23 +1,23 @@
-#include "file_reader_sync.hpp"
-#include "file_reader_sync_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
 
 
+module apis.file_api.file_reader_sync;
+import apis.file_api.file_reader_sync_private;
+import apis.file_api.blob;
 
+import ext.string;
+import ext.tuple;
 
-
-
-
-#include "file_api/detail/blob_internals.hpp"
-#include "file_api/blob.hpp"
-#include "file_api/blob_private.hpp"
-
-#include "streams/detail/readable_abstract_operations_internals.hpp"
-#include "web_idl/detail/type_mapping_internals.hpp"
+import js.env.module_type;
 
 
 file_api::file_reader_sync::file_reader_sync()
 {
-    INIT_PIMPL(file_reader_sync);
+    INIT_PIMPL;
 }
 
 
@@ -44,7 +44,7 @@ auto file_api::file_reader_sync::read_as_text(
 auto file_api::file_reader_sync::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
