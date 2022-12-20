@@ -1,14 +1,31 @@
-#include "file.hpp"
-#include "file_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
-#include "ext/date.ixx"
-#include "ext/pimpl.ixx"
-
-
-#include INCLUDE_INNER_TYPES(hr_time)
-#include "file_api/detail/blob_internals.hpp"
-#include "hr_time/detail/time_internals.hpp"
 #include <range/v3/view/iota.hpp>
+#include <v8-isolate.h>
+#include <v8pp/class.hpp>
+
+
+module apis.file_api.file;
+import apis.file_api.file_private;
+import apis.file_api.detail;
+import apis.file_api.types;
+
+import apis.hr_time.detail;
+import apis.hr_time.types;
+
+import ext.any;
+import ext.boolean;
+import ext.map;
+import ext.number;
+import ext.ranges;
+import ext.string;
+import ext.tuple;
+import ext.vector;
+
+import js.env.module_type;
+import js.env.realms;
 
 
 file_api::file::file(
@@ -16,7 +33,7 @@ file_api::file::file(
         ext::string&& file_name,
         detail::file_property_bag_t&& options)
 {
-    INIT_PIMPL(file);
+    INIT_PIMPL;
 
     auto bytes = detail::process_blob_parts(std::move(file_bits), std::move(options));
     auto options_type = options[u"type"].to<ext::string>();
@@ -29,7 +46,7 @@ file_api::file::file(
             ? options[u"lastModified"].to<hr_time::epoch_time_stamp>()
             : std::bit_cast<hr_time::epoch_time_stamp>(hr_time::detail::current_hr_time(e.js.global()));
 
-    ACCESS_PIMPL(file);
+    ACCESS_PIMPL;
     d->name = std::move(file_name);
     d->byte_sequence = std::move(bytes);
     d->type = std::move(options_type);
@@ -42,7 +59,7 @@ auto file_api::file::_serialize(
         ext::boolean for_storage)
         -> void
 {
-    ACCESS_PIMPL(file);
+    ACCESS_PIMPL;
     serialized.insert_or_assign(u"$SnapshotState", d->snapshot_state);
     serialized.insert_or_assign(u"$ByteSequence", d->byte_sequence);
     serialized.insert_or_assign(u"$Name", d->name);
@@ -53,9 +70,9 @@ auto file_api::file::_serialize(
 auto file_api::file::_deserialize(
         ext::map<ext::string, ext::any>& serialized,
         ext::boolean for_storage)
-        -> self_t*
+        -> this_t*
 {
-    ACCESS_PIMPL(file);
+    ACCESS_PIMPL;
     d->snapshot_state = serialized.at(u"$SnapshotState").to<decltype(d->snapshot_state)>();
     d->byte_sequence = serialized.at(u"$SnapshotState").to<decltype(d->byte_sequence)>();
     d->name = serialized.at(u"$SnapshotState").to<decltype(d->name)>();
@@ -65,14 +82,14 @@ auto file_api::file::_deserialize(
 
 auto file_api::file::get_name() const -> ext::string
 {
-    ACCESS_PIMPL(const file);
+    ACCESS_PIMPL;
     return d->name;
 }
 
 
 auto file_api::file::get_last_modified() const -> ext::number<longlong>
 {
-    ACCESS_PIMPL(const file);
+    ACCESS_PIMPL;
     return d->last_modified;
 }
 
@@ -80,7 +97,7 @@ auto file_api::file::get_last_modified() const -> ext::number<longlong>
 auto file_api::file::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<blob>()

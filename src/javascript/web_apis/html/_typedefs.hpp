@@ -40,13 +40,7 @@ namespace webgl2::contexts {class webgl2_rendering_context;}
 namespace webgpu {class gpu_canvas_context;}
 
 
-#define MAKE_SERIALIZABLE \
-    auto _serialize(ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> void; \
-    auto _deserialize(ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> self_t*;
 
-#define MAKE_TRANSFERABLE(t) \
-    t(const t& other);       \
-    auto operator=(const t& other) -> decltype(auto);
 
 
 namespace html::detail

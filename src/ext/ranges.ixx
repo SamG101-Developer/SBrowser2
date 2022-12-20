@@ -474,8 +474,9 @@ export namespace ranges
     auto make_any_helpful_view(Args&&... args) -> any_helpful_view<_EXT nth_variadic_type_t<0, Args...>, C>;
 
     MAKE_CONVERTIBLE_PIPEABLE(vector)
-    MAKE_CONVERTIBLE_PIPEABLE(map) // TODO : separate implementation? or specialization on cvonersion of T for pair<U, V>
+    // MAKE_CONVERTIBLE_PIPEABLE(map) TODO : separate implementation? or specialization on cvonersion of T for pair<U, V>
     MAKE_CONVERTIBLE_PIPEABLE(set)
     MAKE_CONVERTIBLE_PIPEABLE(stack)
     MAKE_CONVERTIBLE_PIPEABLE(queue)
+    // MAKE_CONVERTIBLE_PIPEABLE(string) TODO : separate implementation? or U<char>?
 }
