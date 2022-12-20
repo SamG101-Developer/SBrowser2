@@ -9,18 +9,9 @@ export module apis.hr_time.performance;
 import apis.dom.event_target;
 import apis.hr_time.types;
 
-import ext.number;
-import ext.string;
-import ext.tuple;
-import ext.vector;
+import ext.core;
 
 import js.env.module_type;
-
-namespace performance_timeline {class performance_entry;}
-namespace event_timing {class event_counts;}
-namespace event_timing {class interaction_counts;}
-namespace user_timing {class performance_mark;}
-namespace user_timing {class performance_measure;}
 
 
 DEFINE_PUBLIC_CLASS(hr_time, performance)

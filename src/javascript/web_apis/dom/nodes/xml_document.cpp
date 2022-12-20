@@ -1,8 +1,12 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/pimpl.hpp"
 
 
 module apis.dom.xml_document;
+import apis.dom.xml_document_private;
+
+import ext.core;
 
 
 dom::nodes::xml_document::xml_document()

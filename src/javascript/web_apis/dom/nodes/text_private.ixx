@@ -11,5 +11,6 @@ DEFINE_PRIVATE_CLASS(dom, text)
         : dom::character_data_private
         , dom::slottable_private
 {
+public:
     MAKE_QIMPL(text);
 };

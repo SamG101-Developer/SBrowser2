@@ -15,8 +15,7 @@ import apis.dom.attr;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.number;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 

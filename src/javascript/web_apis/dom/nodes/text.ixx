@@ -10,6 +10,9 @@ export module apis.dom.text;
 import apis.dom.character_data;
 import apis.dom.mixins.slottable;
 
+import ext.core;
+import js.env.module_type;
+
 
 DEFINE_PUBLIC_CLASS(dom, text)
         : public dom::character_data

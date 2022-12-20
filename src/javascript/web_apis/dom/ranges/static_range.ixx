@@ -7,10 +7,7 @@ module;
 export module apis.dom.static_range;
 import apis.dom.abstract_range;
 
-import ext.any;
-import ext.map;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

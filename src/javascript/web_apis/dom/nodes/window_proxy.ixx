@@ -7,7 +7,7 @@ module;
 export module apis.dom.window_proxy;
 import apis.dom_object;
 
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

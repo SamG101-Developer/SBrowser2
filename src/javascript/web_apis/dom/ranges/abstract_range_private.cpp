@@ -1,6 +1,6 @@
 module apis.dom.abstract_range_private;
 
-import ext.boolean;
+import ext.core;
 
 
 auto dom::abstract_range_private::is_range_collapsed() const -> ext::boolean

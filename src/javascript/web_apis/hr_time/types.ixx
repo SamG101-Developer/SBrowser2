@@ -3,7 +3,7 @@ module;
 
 
 export module apis.hr_time.types;
-import ext.number;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(hr_time)

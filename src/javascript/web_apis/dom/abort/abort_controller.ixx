@@ -7,10 +7,10 @@ module;
 
 export module apis.dom.abort_controller;
 import apis.dom_object;
+
+import apis.dom.types;
 import ext.core;
 import js.env.module_type;
-
-namespace dom {class abort_signal;}
 
 
 DEFINE_PUBLIC_CLASS(dom, abort_controller)

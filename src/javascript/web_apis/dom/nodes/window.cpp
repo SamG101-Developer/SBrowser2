@@ -4,9 +4,11 @@ module;
 #include <range/v3/algorithm/all_of.hpp>
 #include <range/v3/action/remove.hpp>
 
-module apis.dom.window;
 
-import ext.number;
+module apis.dom.window;
+import apis.dom.window_private;
+
+import ext.core;
 
 
 auto dom::window::request_idle_callback(
@@ -61,7 +63,7 @@ auto dom::window::cancel_idle_task(
         ext::number<ulong> handle)
         -> void
 {
-    ACCESS_PIMPL(window);
+    ACCESS_PIMPL;
 
     // Remove the callback at the 'handle' index from both the idle-request and runnable-idle callback lists.
     d->idle_request_callbacks  |= ranges::actions::remove_at_index(handle);
@@ -78,49 +80,49 @@ auto dom::window::get_window() const -> window_proxy*
 
 auto dom::window::get_document() const -> document*
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->document.get();
 }
 
 
 auto dom::window::get_name() const -> ext::string_view
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->navigable ? d->navigable->target_name() : u"";
 }
 
 
 auto dom::window::get_location() const -> html::other::location*
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->location.get();
 }
 
 
 auto dom::window::get_history() const -> html::other::history*
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->document->d_func()->history.get();
 }
 
 
 auto dom::window::get_custom_elements() const -> html::other::custom_element_registry*
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->custom_elements.get();
 }
 
 
 auto dom::window::get_closed() const -> ext::boolean
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return !d->document->d_func()->browsing_context || d->navigable->is_closing;
 }
 
 
 auto dom::window::get_top() const -> window_proxy*
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->navigable
             ? html::detail::top_level_traversable(d->navigable.get())->active_window_proxy
             : nullptr;
@@ -129,7 +131,7 @@ auto dom::window::get_top() const -> window_proxy*
 
 auto dom::window::get_parent() const -> window_proxy*
 {
-    ACCESS_PIMPL(const window);
+    ACCESS_PIMPL;
     return d->navigable
             ? (d->navigable = d->navigable->parent.get())->active_window_proxy()
             : nullptr;
@@ -138,7 +140,7 @@ auto dom::window::get_parent() const -> window_proxy*
 
 auto dom::window::set_name(ext::string new_name) -> ext::string
 {
-    ACCESS_PIMPL(window);
+    ACCESS_PIMPL;
     return_if (!d->navigable) u"";
     return d->navigable->active_session_history->document_state->navigable_target_name = std::move(new_name);
 }

@@ -9,9 +9,7 @@ module apis.dom.abstract_range;
 import apis.dom.abstract_range_private;
 import apis.dom.node;
 
-import ext.boolean;
-import ext.number;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 

@@ -6,8 +6,7 @@ module;
 
 module apis.dom.window_private;
 
-import ext.concepts;
-import ext.number;
+import ext.core;
 
 
 template <ext::callable F>

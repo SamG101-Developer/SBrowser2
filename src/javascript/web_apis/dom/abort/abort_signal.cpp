@@ -6,7 +6,14 @@ module;
 
 module apis.dom.abort_signal;
 import apis.dom.abort_signal_private;
+import apis.dom.dom_exception;
+import apis.dom.dom_exception_private;
+import apis.dom.detail;
+import apis.dom.types;
+
 import ext.core;
+import js.env.module_type;
+import js.env.realms;
 
 
 dom::abort_signal::abort_signal()

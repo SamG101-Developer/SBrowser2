@@ -6,18 +6,9 @@ export module apis.dom.window_private;
 import apis.dom.event_target_private;
 import apis.background_tasks.types;
 
-import ext.boolean;
-import ext.concepts;
-import ext.map;
-import ext.number;
-import ext.queue;
-import ext.set;
-import ext.vector;
-
-namespace dom {class document;}
-namespace html {class custom_element_registry;}
-namespace html {class location;}
-namespace html {class navigator;}
+import apis.dom.types;
+import apis.html.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, window)

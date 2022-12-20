@@ -11,11 +11,8 @@ import apis.dom.mixins.document_or_shadow_root;
 import apis.dom_parsing.mixins.inner_html;
 
 import apis.dom.types;
-import ext.boolean;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class element;}
 
 
 DEFINE_PUBLIC_CLASS(dom, shadow_root) final

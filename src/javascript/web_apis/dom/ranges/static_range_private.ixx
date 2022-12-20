@@ -9,5 +9,6 @@ import apis.dom.abstract_range_private;
 DEFINE_PRIVATE_CLASS(dom, static_range)
         : abstract_range_private
 {
+public:
     MAKE_QIMPL(static_range);
 };

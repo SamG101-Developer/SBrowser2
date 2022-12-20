@@ -4,20 +4,8 @@ module;
 
 export module apis.dom.detail;
 import apis.dom.types;
-import ext.any;
-import ext.boolean;
-import ext.concepts;
-import ext.functional;
-import ext.map;
-import ext.span;
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
-import ext.vector;
-
-namespace dom {class dom_exception;}
-namespace dom {class node;}
-namespace js::env {class env;}
+import ext.core;
+import js.env.realms;
 
 
 export namespace dom::detail

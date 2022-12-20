@@ -4,7 +4,7 @@ module;
 
 
 export module ext.js:symbol;
-import :string;
+import ext.core;
 
 
 _EXT_BEGIN

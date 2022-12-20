@@ -6,7 +6,7 @@ export module apis.dom.dom_implementation;
 import apis.dom.document_type;
 import apis.dom.detail;
 
-import ext.string;
+import ext.core;
 
 
 

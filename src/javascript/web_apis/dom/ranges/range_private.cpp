@@ -14,12 +14,7 @@ import apis.dom.document_type;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.boolean;
-import ext.casting;
-import ext.functional;
-import ext.number;
-import ext.ranges;
-import ext.tuple;
+import ext.core;
 
 
 auto dom::range_private::contains(node* new_container) const -> ext::boolean

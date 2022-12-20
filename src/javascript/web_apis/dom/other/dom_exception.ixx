@@ -6,9 +6,9 @@ module;
 
 export module apis.dom.dom_exception;
 import apis.base_exception;
+
 import apis.dom.types;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 namespace dom {class abort_signal;}

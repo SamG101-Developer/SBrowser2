@@ -11,13 +11,16 @@ import ext.core;
 DEFINE_PRIVATE_CLASS(dom, event)
         : virtual dom_object_private
 {
+public:
     MAKE_QIMPL(event);
 
+public:
     auto dispatch(event_target* target) -> ext::boolean;
     auto append_to_event_path(event_target* invocation_target, event_target* shadow_adjusted_target, event_target* related_target, ext::vector<event_target*>&& touch_targets, ext::boolean slot_in_closed_tree) -> void;
     auto invoke(detail::event_path_struct_t& s, ext::number<uchar> phase) -> void;
     auto inner_invoke(ext::vector_span<ext::map<ext::string, ext::any>> event_listeners, ext::number<uchar> phase, ext::boolean invocation_target_in_shadow_tree) -> void;
 
+public:
     ext::string  type;
     ext::boolean bubbles;
     ext::boolean cancelable;

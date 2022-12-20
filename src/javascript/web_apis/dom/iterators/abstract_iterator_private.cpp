@@ -17,7 +17,7 @@ auto dom::abstract_iterator_private::filter(const node* node) -> ext::number<ush
 {
     using enum detail::dom_exception_error_t;
 
-    throw_v8_exception<INVALID_STATE_ERR>(
+    detail::throw_v8_exception<INVALID_STATE_ERR>(
             [this] {return active_flag;},
             u8"NodeIterator/TreeWalker must be inactive to start filtering");
 

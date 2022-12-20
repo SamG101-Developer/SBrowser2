@@ -1,7 +1,15 @@
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+
+
 module apis.dom.text;
+import apis.dom.text_private;
+
+import ext.core;
 
 
-dom::nodes::text::text(
+dom::text::text(
         ext::string&& new_data)
 {
     INIT_PIMPL(text);
@@ -10,7 +18,7 @@ dom::nodes::text::text(
 }
 
 
-auto dom::nodes::text::split_text(
+auto dom::text::split_text(
         ext::number<ulong> offset)
         -> std::unique_ptr<text>
 {
@@ -20,7 +28,7 @@ auto dom::nodes::text::split_text(
 }
 
 
-auto dom::nodes::text::get_node_name() const -> ext::string
+auto dom::text::get_node_name() const -> ext::string
 {
     // The 'node_name' getter returns the fixed string "#text". Apply custom element reactions to this getter.
     CE_REACTIONS_METHOD_DEF
@@ -29,7 +37,7 @@ auto dom::nodes::text::get_node_name() const -> ext::string
 }
 
 
-auto dom::nodes::text::get_whole_text() const -> ext::string
+auto dom::text::get_whole_text() const -> ext::string
 {
     // TODO -> create contiguous_text_content(...) in detail
     // The whole text of a Text node is the contiguous node data ie the combined data of all the contiguous Text nodes
@@ -39,7 +47,7 @@ auto dom::nodes::text::get_whole_text() const -> ext::string
 }
 
 
-auto dom::nodes::text::_to_v8(
+auto dom::text::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

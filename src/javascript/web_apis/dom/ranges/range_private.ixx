@@ -7,15 +7,8 @@ export module apis.dom.range_private;
 import apis.dom.abstract_range_private;
 import apis.dom.types;
 
-import ext.boolean;
-import ext.number;
-import ext.ranges;
-import ext.tuple;
-
-namespace dom {class character_data;}
-namespace dom {class character_data_private;}
-namespace dom {class document_fragment;}
-namespace dom {class node;}
+import apis.dom.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, range) final

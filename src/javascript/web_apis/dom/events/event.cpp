@@ -6,6 +6,9 @@ module;
 module apis.dom.event;
 import apis.dom.event_private;
 import apis.dom.types;
+
+import apis.hr_time.detail;
+
 import ext.core;
 import js.env.module_type;
 import js.env.realms;
@@ -20,9 +23,9 @@ dom::event::event(
 
     ACCESS_PIMPL;
     d->type = std::move(event_type);
-    d->bubbles = event_init[u"bubbles"].to<decltype(d->bubbles)>();
-    d->cancelable = event_init[u"cancelable"].to<decltype(d->cancelable)>();
-    d->composed = event_init[u"composed"].to<decltype(d->composed)>();
+    d->bubbles = event_init[u"bubbles"].to<bool>();
+    d->cancelable = event_init[u"cancelable"].to<bool>();
+    d->composed = event_init[u"composed"].to<bool>();
     d->target = nullptr;
     d->current_target = nullptr;
     d->related_target = nullptr;

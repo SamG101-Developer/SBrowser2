@@ -8,10 +8,9 @@ module;
 export module apis.dom.xml_document;
 import apis.dom.document;
 
-import ext.tuple;
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class dom_implementation;}
 
 
 DEFINE_PUBLIC_CLASS(dom, xml_document) final

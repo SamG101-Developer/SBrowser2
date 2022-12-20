@@ -6,8 +6,7 @@ module;
 export module apis.hr_time.detail;
 import apis.hr_time.types;
 
-import ext.boolean;
-import ext.optional;
+import ext.core;
 
 
 

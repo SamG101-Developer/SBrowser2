@@ -10,30 +10,15 @@ export module apis.dom.window;
 import apis.dom.event_target;
 import apis.html.mixins.window_or_worker_global_scope;
 import ext.vector_like;
+
 import apis.background_tasks.types;
+import apis.css.cssom.types;
+import apis.dom.types;
+import apis.html.types;
+import apis.selection.types;
 
-import ext.boolean;
-import ext.any;
-import ext.number;
-import ext.string;
-import ext.span;
-import ext.tuple;
-import ext.type_traits;
+import ext.core;
 import js.env.module_type;
-
-namespace background_tasks {class idle_deadline;}
-namespace css::cssom {class css_style_declaration;}
-namespace dom {class document;}
-namespace dom {class element;}
-namespace dom {class window_proxy;}
-namespace event_timing {class performance_event_timing;}
-namespace event_timing {class event_counts;}
-namespace event_timing {class interaction_counts;}
-namespace html {class custom_element_registry;}
-namespace html {class history;}
-namespace html {class location;}
-namespace html {class navigator;}
-namespace selection {class selection;}
 
 
 DEFINE_PUBLIC_CLASS(dom, window) final

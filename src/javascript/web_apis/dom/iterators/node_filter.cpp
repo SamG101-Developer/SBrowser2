@@ -5,6 +5,7 @@ module;
 
 module apis.dom.node_filter;
 import apis.dom.node_filter_private;
+import apis.dom.node;
 
 import ext.core;
 import js.env.module_type;

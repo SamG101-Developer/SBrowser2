@@ -7,10 +7,10 @@ module;
 
 
 module apis.dom.dom_exception;
-import apis.dom.types;
 import apis.base_exception;
-import ext.string;
-import ext.tuple;
+import apis.dom.types;
+
+import ext.core;
 import js.env.module_type;
 
 

@@ -5,6 +5,8 @@ module;
 
 module apis.dom.abstract_iterator;
 import apis.dom.abstract_iterator_private;
+import apis.dom.node_filter;
+import apis.dom.node;
 import ext.core;
 import js.env.module_type;
 

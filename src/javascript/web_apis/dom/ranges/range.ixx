@@ -9,15 +9,9 @@ module;
 export module apis.dom.range;
 import apis.dom.abstract_range;
 
-import ext.boolean;
-import ext.number;
-import ext.string;
-import ext.tuple;
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class document_fragment;}
-namespace dom {class node;}
-namespace dom {class character_data_private;}
 
 
 DEFINE_PUBLIC_CLASS(dom, range) final

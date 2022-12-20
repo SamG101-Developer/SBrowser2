@@ -8,12 +8,9 @@ module;
 export module apis.dom.abstract_range;
 import apis.dom_object;
 
-import ext.boolean;
-import ext.number;
-import ext.tuple;
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class node;}
 
 
 DEFINE_PUBLIC_CLASS(dom, abstract_range)

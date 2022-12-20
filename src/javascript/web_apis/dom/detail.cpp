@@ -7,12 +7,7 @@ module;
 module apis.dom.detail;
 import apis.dom.types;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
+import ext.core;
 
 import js.env.realms;
 

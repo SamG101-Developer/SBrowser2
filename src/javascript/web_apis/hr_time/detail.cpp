@@ -8,10 +8,7 @@ module;
 module apis.hr_time.detail;
 import apis.hr_time.types;
 
-import ext.boolean;
-import ext.number;
-import ext.optional;
-
+import ext.core;
 import js.env.realms;
 import js.env.settings;
 
