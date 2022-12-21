@@ -1,9 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include <javascript/macros/expose.hpp>
-#include <utility>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.device_orientation.device_orientation_event;
@@ -11,12 +8,8 @@ import apis.device_orientation.device_orientation_event_private;
 
 import apis.dom.event;
 
-import ext.boolean;
-import ext.number;
-import ext.promise;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
+import ext.js;
 import js.env.module_type;
 
 
@@ -25,8 +18,7 @@ device_orientation::device_orientation_event::device_orientation_event(
         device_orientation_event_init_t&& event_init)
         : dom::event{std::move(event_type), std::move(event_init)}
 {
-    INIT_PIMPL;
-    ACCESS_PIMPL;
+    INIT_PIMPL; ACCESS_PIMPL;
 
     d->alpha = event_init[u"alpha"].to<double>();
     d->beta  = event_init[u"beta" ].to<double>();
@@ -36,7 +28,7 @@ device_orientation::device_orientation_event::device_orientation_event(
 
 auto device_orientation::device_orientation_event::request_permission() -> ext::promise<detail::permission_state_t>
 {
-    ext::promise<detail::permission_state_t> promise;
+    auto promise = ext::promise<detail::permission_state_t>{};
     // TODO
 }
 

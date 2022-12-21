@@ -7,13 +7,7 @@ export module apis.file_api.detail;
 import apis.file_api.types;
 import apis.url.types;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.promise;
-import ext.string;
-import ext.variant;
-import ext.vector;
+import ext.core
 
 namespace file_api {class blob;}
 namespace file_api {class file_reader;}

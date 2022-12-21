@@ -1,16 +1,13 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.device_posture.device_posture;
 import apis.device_posture.device_posture_private ;
 import apis.device_posture.types;
 
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

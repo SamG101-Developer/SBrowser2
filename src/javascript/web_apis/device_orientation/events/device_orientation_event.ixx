@@ -8,15 +8,7 @@ module;
 export module apis.device_orientation.device_orientation_event;
 import apis.dom.event;
 
-import ext.any;
-import ext.boolean;
-import ext.enums;
-import ext.map;
-import ext.number;
-import ext.promise;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

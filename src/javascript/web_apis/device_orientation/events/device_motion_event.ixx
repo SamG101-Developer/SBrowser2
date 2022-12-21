@@ -8,18 +8,9 @@ module;
 export module apis.device_orientation.device_motion_event;
 import apis.dom.event;
 
-import ext.any;
-import ext.boolean;
-import ext.enums;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.tuple;
-
+import apis.device_orientation.types;
+import ext.core;
 import js.env.module_type;
-
-namespace device_orientation {class device_motion_event_acceleration;}
-namespace device_orientation {class device_motion_event_rotation_rate;}
 
 
 DEFINE_PUBLIC_CLASS(device_orientation, device_motion_event) final

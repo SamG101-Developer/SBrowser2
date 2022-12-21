@@ -9,8 +9,7 @@ export module apis.background_tasks.idle_deadline;
 import apis.dom_object;
 import apis.hr_time.types;
 
-import ext.boolean;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

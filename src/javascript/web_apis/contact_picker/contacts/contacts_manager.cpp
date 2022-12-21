@@ -7,15 +7,12 @@ module apis.contact_picker.contacts_manager;
 import apis.contact_picker.contacts_manager_private;
 import apis.contact_picker.types;
 
-import apis.dom.types;
 import apis.dom.window;
 import apis.dom.window_private;
 import apis.dom.dom_exception;
+import apis.dom.types;
 
-import ext.promise;
-import ext.vector;
-import ext.span;
-
+import ext.core;
 import js.env.module_type;
 import js.env.realms;
 

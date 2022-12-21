@@ -3,7 +3,7 @@ module;
 
 
 export module apis.console.types;
-import ext.string;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(console)

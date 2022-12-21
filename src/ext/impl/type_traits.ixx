@@ -1,7 +1,6 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <bit>
-#include <string_view>
 #include <type_traits>
 #include <function2/function2.hpp>
 #include <swl/variant.hpp>

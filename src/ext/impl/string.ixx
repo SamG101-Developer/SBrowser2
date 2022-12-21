@@ -1,5 +1,6 @@
 module;
 #include "ext/macros/namespaces.hpp"
+#include <string>
 #include <cryptopp/secblock.h>
 #include <range/v3/algorithm/fold.hpp>
 #include <range/v3/to_container.hpp>

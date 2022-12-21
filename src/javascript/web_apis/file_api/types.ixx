@@ -6,11 +6,8 @@ module;
 
 export module apis.file_api.types;
 
-import ext.any;
-import ext.array_buffer;
-import ext.map;
-import ext.string;
-import ext.variant;
+import ext.core;
+import ext.js;
 
 
 DEFINE_FWD_DECL_NAMESPACE(file_api)

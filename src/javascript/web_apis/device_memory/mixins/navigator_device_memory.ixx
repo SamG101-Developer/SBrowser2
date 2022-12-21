@@ -8,9 +8,7 @@ module;
 export module apis.device_memory.navigator_device_memory;
 import apis.dom_object;
 
-import ext.enums;
-import ext.number;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

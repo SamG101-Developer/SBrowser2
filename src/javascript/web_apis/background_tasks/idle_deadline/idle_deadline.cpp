@@ -1,19 +1,18 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.background_tasks.idle_deadline;
 import apis.background_tasks.idle_deadline_private;
+
+import apis.hr_time.detail;
 import apis.hr_time.types;
 
-import ext.boolean;
-import ext.number;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
+import js.env.realms;
 
 
 background_tasks::idle_deadline::idle_deadline()

@@ -8,11 +8,7 @@ module;
 export module apis.contact_picker.contact_address;
 import apis.dom_object;
 
-import ext.string;
-import ext.vector;
-import ext.tuple;
-import ext.span;
-
+import ext.core;
 import js.env.module_type;
 
 

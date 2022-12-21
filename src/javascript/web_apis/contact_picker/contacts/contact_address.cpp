@@ -9,10 +9,7 @@ module;
 module apis.contact_picker.contact_address;
 import apis.contact_picker.contact_address_private;
 
-import ext.string;
-import ext.tuple;
-import ext.span;
-
+import ext.core;
 import js.env.module_type;
 
 

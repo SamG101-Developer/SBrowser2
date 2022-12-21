@@ -1,28 +1,27 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.device_memory.navigator_device_memory;
+import apis.device_memory.navigator_device_memory_private;
 
-import ext.number;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 
-auto device_memory::mixins::navigator_device_memory::get_device_memory() const -> ext::number<double>
+auto device_memory::navigator_device_memory::get_device_memory() const -> ext::number<double>
 {
     // The 'device_memory' getter returns the equivalent 'device_memory' attribute value that is stored in the private
     // class. Method call becuase the value is always changing, and has to be got at the exact time the property is
     // accessed.
-    ACCESS_PIMPL(const navigator_device_memory);
+    ACCESS_PIMPL;
     return d->device_memory();
 
 }
 
 
-auto device_memory::mixins::navigator_device_memory::_to_v8(
+auto device_memory::navigator_device_memory::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<this_t>>

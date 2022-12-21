@@ -4,10 +4,9 @@ module;
 
 export module apis.device_orientation.device_motion_event_private;
 import apis.dom.event_private;
-import ext.number;
 
-namespace device_orientation {class device_motion_event_acceleration;}
-namespace device_orientation {class device_motion_event_rotation_rate;}
+import apis.device_orientation.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(device_orientation, device_motion_event) final

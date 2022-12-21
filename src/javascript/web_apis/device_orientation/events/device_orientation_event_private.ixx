@@ -5,8 +5,7 @@ module;
 export module apis.device_orientation.device_orientation_event_private;
 import apis.dom.event_private;
 
-import ext.boolean;
-import ext.number;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event) final

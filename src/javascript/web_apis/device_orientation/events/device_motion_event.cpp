@@ -7,7 +7,7 @@ import apis.device_orientation.device_motion_event_private;
 import apis.device_orientation.device_motion_event_acceleration;
 import apis.dom.event;
 
-import ext.string;
+import ext.core;
 
 
 device_orientation::device_motion_event::device_motion_event(

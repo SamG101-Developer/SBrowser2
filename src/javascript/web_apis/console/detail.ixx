@@ -1,6 +1,5 @@
 export module apis.console.detail;
-import ext.concepts;
-import ext.string;
+import ext.core;
 
 
 export namespace console::detail

@@ -19,15 +19,7 @@ import apis.console.console_private;
 import apis.console.detail;
 import apis.console.types;
 
-import ext.any;
-import ext.boolean;
-import ext.concepts;
-import ext.functional;
-import ext.number;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-import ext.vector;
+import ext.core;
 
 import js.env.realms;
 import js.env.module_type;

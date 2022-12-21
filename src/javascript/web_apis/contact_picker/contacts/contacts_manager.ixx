@@ -6,17 +6,10 @@ module;
 
 export module apis.contact_picker.contacts_manager;
 import apis.dom_object;
+
 import apis.contact_picker.types;
-
-import ext.any;
-import ext.enums;
-import ext.map;
-import ext.promise;
-import ext.string;
-import ext.vector;
-import ext.tuple;
-import ext.span;
-
+import ext.core;
+import ext.js;
 import js.env.module_type;
 
 

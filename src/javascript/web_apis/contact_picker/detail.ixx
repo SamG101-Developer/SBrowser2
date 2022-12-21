@@ -5,10 +5,7 @@ module;
 export module apis.contact_picker.detail;
 import apis.contact_picker.types;
 
-import ext.boolean;
-import ext.span;
-import ext.string;
-import ext.optional;
+import ext.core;
 
 
 export namespace contact_picker::detail

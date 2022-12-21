@@ -12,7 +12,7 @@ module;
 
 
 module apis.device_memory.navigator_device_memory_private;
-import ext.number;
+import ext.core;
 
 
 auto device_memory::navigator_device_memory_private::device_memory() const -> ext::number<double>

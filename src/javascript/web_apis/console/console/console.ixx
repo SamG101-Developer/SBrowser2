@@ -6,13 +6,9 @@ module;
 
 export module apis.console.console;
 import apis.dom_object;
-import ext.singleton;
 
-import ext.any;
-import ext.boolean;
-import ext.tuple;
-import ext.string;
-import ext.vector;
+import ext.core;
+import ext.mixins;
 
 import js.env.module_type;
 

@@ -8,10 +8,7 @@ module;
 export module apis.device_orientation.device_motion_event_acceleration;
 import apis.dom_object;
 
-import ext.enums;
-import ext.number;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

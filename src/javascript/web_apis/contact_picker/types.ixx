@@ -6,10 +6,7 @@ module;
 export module apis.contact_picker.types;
 import apis.file_api.types;
 
-import ext.any;
-import ext.map;
-import ext.string;
-import ext.vector;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(contact_picker)

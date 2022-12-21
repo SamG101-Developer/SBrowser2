@@ -1,5 +1,6 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
+#include <tuplet/tuple.hpp>
 #include <re2/re2.h>
 #include <re2/stringpiece.h>
 #include <utility>
@@ -7,14 +8,7 @@ module;
 
 module apis.console.detail;
 
-import ext.concepts;
-import ext.functional;
-import ext.hashing;
-import ext.regex;
-import ext.string;
-import ext.tuple;
-import ext.variadic;
-
+import ext.core;
 import js.env.realms;
 
 

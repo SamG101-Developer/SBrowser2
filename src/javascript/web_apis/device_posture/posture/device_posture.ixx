@@ -10,8 +10,7 @@ export module apis.device_posture.device_posture;
 import apis.dom.event_target;
 import apis.device_posture.types;
 
-import ext.enums;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 
