@@ -5,8 +5,7 @@ module;
 export module apis.edit_context.text_update_event_private;
 import apis.dom.event_private;
 
-import ext.number;
-import ext.string;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(edit_context, text_update_event)

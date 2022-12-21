@@ -5,13 +5,9 @@ module;
 
 export module apis.edit_context.edit_context_private;
 import apis.dom.event_target_private;
+import apis.css.geometry.types;
 
-import ext.boolean;
-import ext.number;
-import ext.string;
-import ext.vector;
-
-namespace css::geometry {class dom_rect;}
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(edit_context, edit_context)

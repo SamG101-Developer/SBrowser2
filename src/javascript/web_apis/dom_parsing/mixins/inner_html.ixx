@@ -8,9 +8,7 @@ module;
 export module apis.dom_parsing.mixins.inner_html;
 import apis.dom_object;
 
-import ext.string;
-import ext.tuple;
-import ext.type_traits;
+import ext.core;
 
 import js.env.module_type;
 

@@ -9,19 +9,10 @@ module;
 export module apis.edit_context.edit_context;
 import apis.dom.event_target;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.number;
-import ext.span;
-import ext.string;
-import ext.tuple;
-import ext.vector;
-
+import apis.css.geometry.types;
+import apis.dom.types;
+import ext.core;
 import js.env.module_type;
-
-namespace css::geometry {class dom_rect;}
-namespace dom {class element;}
 
 
 DEFINE_PUBLIC_CLASS(edit_context, edit_context) final

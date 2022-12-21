@@ -6,7 +6,7 @@ module;
 export module apis.dom_parsing.xml_serializer;
 import apis.dom_object;
 
-import ext.string;
+import ext.core;
 
 namespace dom {class node;}
 

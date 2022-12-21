@@ -1,6 +1,6 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include <utility>
+#include "javascript/macros/expose.hpp"
 
 
 module apis.dom_parsing.mixins.inner_html;
@@ -10,9 +10,8 @@ import apis.dom.element;
 import apis.dom.shadow_root;
 import apis.dom.shadow_root_private;
 
-import ext.casting;
-import ext.string;
-import ext.type_traits;
+import ext.core;
+import js.env.module_type;
 
 
 auto dom_parsing::inner_html::get_inner_html() -> ext::string

@@ -1,16 +1,12 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.edit_context.text_format;
 import apis.edit_context.text_format_private;
 
-import ext.number;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

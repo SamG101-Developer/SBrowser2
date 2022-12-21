@@ -3,16 +3,12 @@ module;
 
 
 export module apis.dom_parser.types;
-import ext.any;
-import ext.map;
-import ext.number;
-import ext.string;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(dom_parsing)
 {
     class inner_html;
-
     class xml_serializer;
 }
 

@@ -5,16 +5,16 @@ module;
 export module apis.edit_context.text_format_private;
 import apis.dom_object_private;
 
-import ext.number;
-import ext.string;
-
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(edit_context, text_format)
         : virtual dom_object_private
 {
+public:
     MAKE_QIMPL(text_format);
 
+public:
     ext::number<ulong> range_start;
     ext::number<ulong> range_end;
 

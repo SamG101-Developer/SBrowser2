@@ -10,10 +10,7 @@ import apis.edit_context.character_bounds_update_event_private;
 
 import apis.dom.event;
 
-import ext.number;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

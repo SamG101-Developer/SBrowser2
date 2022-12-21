@@ -8,12 +8,7 @@ module;
 export module apis.edit_context.text_update_event;
 import apis.dom.event;
 
-import ext.any;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

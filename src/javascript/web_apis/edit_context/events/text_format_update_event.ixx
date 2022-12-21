@@ -7,12 +7,7 @@ module;
 export module apis.edit_context.text_format_update_event;
 import apis.dom.event;
 
-import ext.any;
-import ext.map;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 namespace edit_context {class text_format;};

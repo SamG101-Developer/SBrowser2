@@ -1,10 +1,7 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
 #include "ext/macros/pimpl.hpp"
-#include "javascript./macros/expose.hpp"
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "javascript/macros/expose.hpp"
 
 
 module apis.edit_context.edit_context;
@@ -13,13 +10,7 @@ import apis.edit_context.edit_context_private;
 import apis.css.geometry.dom_rect;
 import apis.dom.event_target;
 
-import ext.number;
-import ext.ranges;
-import ext.span;
-import ext.string;
-import ext.tuple;
-import ext.vector;
-
+import ext.core;
 import js.env.module_type;
 
 

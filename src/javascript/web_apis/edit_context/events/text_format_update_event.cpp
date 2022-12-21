@@ -10,11 +10,7 @@ module apis.edit_context.text_format_update_event;
 import apis.edit_context.text_format_update_event_private;
 import apis.dom.event;
 
-import ext.functional;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

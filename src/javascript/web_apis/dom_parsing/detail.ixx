@@ -1,11 +1,8 @@
 export module apis.dom_parser.detail;
 
-import ext.string;
-import ext.vector;
-
-namespace dom {class document_fragment;}
-namespace dom {class element;}
-namespace dom {class node;}
+import apis.dom.types;
+import apis.dom_parser.types;
+import ext.core;
 
 
 namespace dom_parsing::detail
