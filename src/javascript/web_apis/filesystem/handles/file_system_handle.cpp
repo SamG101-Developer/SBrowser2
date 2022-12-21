@@ -1,22 +1,32 @@
-#include "file_system_handle.hpp"
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
-#include "file_system_handle_private.hpp"
 
+module apis.filesystem.file_system_handle;
+import apis.filesystem.file_system_handle_private;
+import apis.filesystem.types;
 
+import apis.dom.detail;
+import apis.dom.types;
 
+import apis.html.detail;
+import apis.html.types;
 
-#include "filesystem/_typedefs.hpp"
-#include "filesystem/detail/file_internals.hpp"
+import ext.core;
+import ext.js;
 
-#include "html/detail/origin_internals.hpp"
-#include "web_idl/detail/type_mapping_internals.hpp"
+import js.env.realms;
+import js.env.settings;
+import js.env.module_type;
 
 
 auto filesystem::file_system_handle::_serialize(
         ext::map<ext::string, ext::any>& serialized,
         ext::boolean for_storage) -> void
 {
-    ACCESS_PIMPL(file_system_handle);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
 
     serialized[u"$Origin"] = e.cpp.settings()->origin.get();
@@ -26,9 +36,9 @@ auto filesystem::file_system_handle::_serialize(
 
 auto filesystem::file_system_handle::_deserialize(
         ext::map<ext::string, ext::any>& serialized,
-        ext::boolean for_storage) -> self_t*
+        ext::boolean for_storage) -> this_t*
 {
-    ACCESS_PIMPL(file_system_handle);
+    ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
     auto e = js::env::env::relevant(this);
 
@@ -44,10 +54,10 @@ auto filesystem::file_system_handle::is_same_entry(
         filesystem::file_system_handle* other)
         const -> ext::promise<ext::boolean>
 {
-    ACCESS_PIMPL(const file_system_handle);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
     auto promise = web_idl::detail::create_promise<ext::boolean>(e.js.realm());
-    GO [d, other, &e, &promise] {web_idl::detail::resolve_promise(promise, e.js.realm(), *d->entry == *other->d_func()->entry);};
+    _GO [d, other, &e, &promise] {web_idl::detail::resolve_promise(promise, e.js.realm(), *d->entry == *other->d_func()->entry);};
 
     return promise;
 }
@@ -55,7 +65,7 @@ auto filesystem::file_system_handle::is_same_entry(
 
 auto filesystem::file_system_handle::get_kind() const -> detail::file_system_handle_kind_t
 {
-    ACCESS_PIMPL(const file_system_handle);
+    ACCESS_PIMPL;
     return dom_cast<const detail::file_entry_t*>(d->entry.get())
             ? detail::file_system_handle_kind_t::FILE
             : detail::file_system_handle_kind_t::DIRECTORY;
@@ -64,7 +74,7 @@ auto filesystem::file_system_handle::get_kind() const -> detail::file_system_han
 
 auto filesystem::file_system_handle::get_name() const -> ext::string_view
 {
-    ACCESS_PIMPL(const file_system_handle);
+    ACCESS_PIMPL;
     return d->entry->name;
 }
 
@@ -72,7 +82,7 @@ auto filesystem::file_system_handle::get_name() const -> ext::string_view
 auto filesystem::file_system_handle::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

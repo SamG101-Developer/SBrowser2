@@ -1,17 +1,26 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM__TYPEDEFS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM__TYPEDEFS_HPP
+module;
+#include "ext/macros/pimpl.hpp"
+#include <swl/variant.hpp>
 
 
+export module apis.filesystem.types;
 
-#include "ext/array_buffer.hpp"
-
-
-
-
-namespace file_api {class blob;}
+import apis.file_api.types;
+import ext.core;
+import ext.js;
 
 
-namespace filesystem::detail
+DEFINE_FWD_DECL_NAMESPACE(filesystem)
+{
+    class file_system_directory_handle;
+    class file_system_file_handle;
+    class file_system_handle;
+    class file_system_sync_access_handle;
+    class file_system_writeable_file_stream;
+}
+
+
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(filesystem)
 {
     struct entry_t;
     struct file_entry_t;
@@ -32,5 +41,3 @@ namespace filesystem::detail
     using write_params_t = ext::map<ext::string, ext::any>;
     using file_system_write_chunk_type_t = ext::variant<ext::buffer_source*, file_api::blob*, ext::string, write_params_t>;
 }
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FILESYSTEM__TYPEDEFS_HPP
