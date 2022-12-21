@@ -1,6 +1,6 @@
 module;
 #include "ext/macros/pimpl.hpp"
-#include <memory>
+#include <tuplet/tuple.hpp>
 
 
 export module apis.dom.document_private;
@@ -10,6 +10,7 @@ import apis.dom.mixins.document_or_shadow_root_private;
 import apis.dom.mixins.non_element_parent_node_private;
 import apis.dom.mixins.parentable_node_private;
 
+import apis.dom.types;
 import ext.core;
 
 
@@ -19,17 +20,28 @@ DEFINE_PRIVATE_CLASS(dom, document)
         , dom::document_or_shadow_root_private
         , dom::non_element_parent_node_private
         , dom::parentable_node_private
-        , dom::xpath::xpath_evaluator_base_private
+        // , dom::xpath::xpath_evaluator_base_private
 {
+public:
     MAKE_QIMPL(document);
 
+public:
+    /* [FULLSCREEN] */
+    auto unfullscreen_document() -> void;
+    auto fully_exit_fullscreen() -> void;
+    auto run_fullscreen_steps() -> void;
+    auto fullscreen_element_ready_check(element* element) -> ext::boolean;
+    auto collect_documents_to_unfullscreen() -> ext::vector<document*>;
+    auto exit_fullscreen() -> void;
+
+public:
     /* [DOM] */
     auto is_document_available_to_user(ext::string_view) -> ext::boolean;
     auto is_document_fully_active() -> ext::boolean;
     auto has_active_parser() const -> ext::boolean;
     auto document_has_style_sheets_blocking_scripts() const -> ext::boolean;
     auto convert_nodes_into_node(ext::type_is<node*, ext::string> auto&&... nodes) const -> node*;
-    auto adopt(const node* node) -> node*;
+    auto adopt(node* node) -> node*;
     auto document_element() const -> element*;
 
     std::unique_ptr<encoding::encoding> encoding;
@@ -38,7 +50,7 @@ DEFINE_PRIVATE_CLASS(dom, document)
     ext::string type = u"xml";
     ext::string mode = u"no-quirks";
     std::shared_ptr<html::detail::origin_t> origin;
-    dom::other::dom_implementation* implementation;
+    dom::dom_implementation* implementation;
 
     /* [HTML] */
     // Policies & Permissions
@@ -85,20 +97,21 @@ DEFINE_PRIVATE_CLASS(dom, document)
 
     // Other
     html::detail::directionality_t dir;
-    std::unique_ptr<node_ranges::range> active_range;
+    std::unique_ptr<range> active_range;
 
     /* [DEVICE_POSTURE] */
-    ext::number<double> s_current_posture;
+    ext::number<double> current_posture;
 
     /* [FULLSCREEN] */
     ext::vector<ext::tuple<ext::string, element*>> list_of_pending_fullscreen_events;
+    std::observer_ptr<element> fullscreen_element;
 
     /* [PAINT_TIMING] */
     ext::set<ext::string> previously_reported_paints;
 
     /* [Largest-Contentful-Paint] */
     ext::number<int> largest_contentful_paint_size = 0;
-    ext::set<ext::tuple<dom::nodes::element*, fetch::request*>> content_set; // TODO: std::weak-ptr<T> ?
+    ext::set<ext::tuple<dom::element*, fetch::request*>> content_set; // TODO: std::weak-ptr<T> ?
 
     /* [CSS_ANIMATION_WORKLET] */
     ext::map<ext::string, css::detail::document_animator_definition_t*> document_animator_definitions;

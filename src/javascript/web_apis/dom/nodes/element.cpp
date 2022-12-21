@@ -6,18 +6,24 @@ module;
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/transform.hpp>
 #include <tl/optional.hpp>
+#include <tuplet/tuple.hpp>
 
 
 module apis.dom.element;
 import apis.dom.element_private;
 import apis.dom.attr;
 import apis.dom.attr_private;
+import apis.dom.document;
+import apis.dom.document_promise;
 import apis.dom.shadow_root;
 import apis.dom.shadow_root_private;
 import apis.dom.detail;
 import apis.dom.types;
 
+import apis.web_idl.detail;
+
 import ext.core;
+import ext.js;
 import js.env.module_type;
 import js.env.realms;
 import js.env.slots;
@@ -46,7 +52,7 @@ auto dom::element::get_attribute_names() const -> ranges::any_helpful_view<ext::
     // `any_helpful_view` object for type erasure (no need to know the internal range-type workings).
     ACCESS_PIMPL;
     decltype(auto) attribute_nodes = d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get);
-    decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(std::mem_fn(&attr_private::qualified_name));
+    decltype(auto) attribute_names = attribute_nodes | ranges::views::transform(std::mem_fn(&attr_private::qualified_name), ext::get_pimpl);
     return attribute_names;
 }
 
@@ -61,7 +67,7 @@ auto dom::element::has_attribute(
     // Transform each Attr node in the 'attribute' list to its name, using a range-transform view adapter. Return if the
     // transformed range contains the 'name' parameter.
     ACCESS_PIMPL;
-    decltype(auto) attribute_names = d->attribute_list | ranges::views::transform(std::mem_fn(&attr_private::qualified_name));
+    decltype(auto) attribute_names = d->attribute_list | ranges::views::transform(std::mem_fn(&attr_private::qualified_name), ext::get_pimpl);
     return ranges::contains(attribute_names, name);
 }
 
@@ -75,7 +81,7 @@ auto dom::element::has_attribute_ns(
     // adapter. Return if the transformed range contains the 'local_name' and 'namespace_' parameters.
     ACCESS_PIMPL;
     decltype(auto) attribute_namespaces = d->attribute_list
-            | ranges::views::transform(&ext::underlying)
+            | ranges::views::transform(&std::unique_ptr<attr>::get)
             | ranges::views::transform_to_attr(&attr_private::local_name, &attr_private::namespace_, ext::get_pimpl);
 
     return ranges::contains(attribute_namespaces, ext::make_tuple(namespace_, local_name));
@@ -140,7 +146,7 @@ auto dom::element::get_attribute_node(
     // parameter; nullptr is returned if there is no matching Attr node. the qualified name has to be html adjusted
     decltype(auto) html_adjusted_qualified_name = detail::html_adjust_string(d->qualified_name(), d->is_html());
     decltype(auto) match_algorithm = [html_adjusted_qualified_name](attr* attribute) {return attribute->d_func()->qualified_name() == html_adjusted_qualified_name;};
-    decltype(auto) match_attribute = *ranges::first_where(d->attribute_list | ranges::views::transform(ext::underlying), std::move(match_algorithm));
+    decltype(auto) match_attribute = *ranges::first_where(d->attribute_list | ranges::views::transform(&std::unique_ptr<attr>::get), std::move(match_algorithm));
     return match_attribute;
 }
 
@@ -354,6 +360,7 @@ auto dom::element::attach_shadow(
 {
     ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
+    auto e = js::env::env::relevant_realm(this);
 
     auto shadow_attachable_local_names = {
         u"article", u"aside", u"blockquote", u"body", u"div", u"footer", u"h1", u"h2", u"h3", u"h4", u"h5",
@@ -364,20 +371,20 @@ auto dom::element::attach_shadow(
     auto definition = detail::lookup_custom_element_definition(d->node_document.get(), d->namespace_, d->local_name, d->is);
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
-            [d] {return d->namespace_ != detail::HTML;},
-            u8"");
+            [d] {return d->namespace_ != detail::namespaces::HTML;},
+            u8"", e);
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [valid_local, valid_custom] {return !valid_local && !valid_custom;},
-            u8"");
+            u8"", e);
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [valid_custom, definition] {return valid_custom && definition && definition->disable_shadow;},
-            u8"");
+            u8"", e);
 
     detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [this] {return detail::is_shadow_host(this);},
-            u8"");
+            u8"", e);
 
     auto shadow = std::make_unique<shadow_root>();
     shadow->d_func()->node_document = d->node_document.get();
@@ -387,6 +394,57 @@ auto dom::element::attach_shadow(
     shadow->d_func()->slot_assignment = options[u"slotAssignment"].to<detail::slot_assignment_mode_t>();
     d->shadow_root = shadow.get();
     return shadow;
+}
+
+
+auto dom::element::request_fullscreen(fullscreen_options_t&& options) -> ext::promise<void>
+{
+    ACCESS_PIMPL;
+    auto e = js::env::env::relevant(this);
+
+    decltype(auto) pending_document = d->node_document.get();
+    auto promise = web_idl::detail::create_promise<void>(e);
+
+    if (!pending_document->d_func()->is_fully_active())
+        web_idl::detail::reject_promise(promise, e.js.realm(), v8::Exception::TypeError());
+
+    auto error =
+            !(d->namespace_uri = detail::namespaces::HTML || dom_cast<svg::svg_element*>(this) || dom_cast<mathml::mathml_element*>(this))
+            || dom_cast<html::html_dialog_element*>(this)
+            || !d->fullscreen_element_ready_for_check(this)
+            || !d->fullscreen_supported()
+            // TODO : || ...
+            ;
+
+    _GO [error, &e, &promise]
+    {
+
+        // TODO : Top level traversable stuff
+        error = pending_document != d->node_document.get() || !d->fullscreen_element_ready_for_check(this);
+        if (error)
+        {
+            pending_document->d_func()->list_of_pending_fullscreen_events.emplace_back(u"fullscreenerror", this);
+            return web_idl::reject_promise(promise, e.js.realm(), v8::Exception::TypeError());
+        }
+
+        auto fullscreen_elements = ext::vector<element*>{this};
+        // TODO : navigable stuff
+
+        for (decltype(auto) element: fullscreen_elments)
+        {
+            decltype(auto) document = element->d_func()->node_document.get();
+            continue_if (elment == document->d_func()->fullscreen_element);
+
+            if (element == this && dom_cast<html::iframe_element*>(this))
+                element->d_func()->iframe_fullscreen_flag = true;
+            element->d_func()->fullscreen_element(document);
+            element->d_func()->list_of_pending_fullscreen_elements.emplace_back(u"fullscreenchange", element);
+        }
+
+        web_idl::detail::resolve_promise(promise, e.js.realm());
+    };
+
+    return promise;
 }
 
 

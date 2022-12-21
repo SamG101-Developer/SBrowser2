@@ -5,14 +5,8 @@ module;
 export module js.env.slots;
 
 import apis.performance_timeline.types;
-
-import ext.boolean;
-import ext.map;
-import ext.number;
-import ext.string;
-import ext.vector;
-
-namespace dom {class range;}
+import apis.dom.types;
+import ext.core;
 
 
 namespace js
@@ -36,7 +30,7 @@ namespace js::env
     export namespace slots
     {
         /* [HTML] */
-        const auto MUTATION_OBSERVERS = slot{};
+        const auto MUTATION_OBSERVERS = slot<ext::vector<std::unique_ptr<dom::detail::registered_observer_t>>*>{};
         const auto MUTATION_OBSERVERS_MICROTASK_QUEUED = slot<ext::boolean>{};
         const auto NOTIFY_OBSERVERS = slot{};
         const auto SIGNAL_SLOTS = slot{};

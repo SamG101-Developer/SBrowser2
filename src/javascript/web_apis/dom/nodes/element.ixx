@@ -37,6 +37,10 @@ DEFINE_PUBLIC_CLASS(dom, element)
         , public aria::aria_mixin
         , public dom_parsing::inner_html
 {
+public typedefs:
+    /* [FULLSCREEN] */
+    using fullscreen_options_t = ext::map<ext::string, ext::any>;
+
 public friends:
     friend class dom::document_or_element_node;
     friend class dom::node;
@@ -80,18 +84,18 @@ public js_methods:
     auto closest(ext::string_view selectors) -> element*;
     auto matches(ext::string_view selectors) -> ext::boolean;
 
-    /* POINTER_EVENTS */
+    /* [POINTER-EVENTS] */
     auto set_pointer_capture(ext::number<long> pointer_id) -> void;
     auto release_pointer_capture(ext::number<long> pointer_id) -> void;
     auto has_pointer_capture(ext::number<long> pointer_id) -> ext::boolean;
 
-    /* POINTER_LOCK */
+    /* [POINTER-LOCK] */
     auto request_pointer_lock() -> void;
 
-    /* FULLSCREEN */
-    auto request_fullscreen(fullscreen::detail::fullscreen_options_t&& options = {}) -> ext::promise<void>;
+    /* [FULLSCREEN] */
+    auto request_fullscreen(fullscreen_options_t&& options = {}) -> ext::promise<void>;
 
-    /* [DOM_PARSING] */
+    /* [DOM-PARSING] */
     auto insert_adjacent_html(ext::string_view position, ext::string&& text) -> void; // TODO : CE_REACTIONS
 
     /* CSS_BOX_TREE */
@@ -107,14 +111,14 @@ private js_properties:
     DEFINE_SETTER(node_value, ext::string) override;
     DEFINE_SETTER(text_content, ext::string) override;
 
-    DEFINE_GETTER(namespace_uri, ext::string);
-    DEFINE_GETTER(prefix, ext::string);
-    DEFINE_GETTER(local_name, ext::string);
-    DEFINE_GETTER(tag_name, ext::string);
-    DEFINE_GETTER(class_list, ext::vector<ext::string>);
-    DEFINE_GETTER(class_name, ext::string);
-    DEFINE_GETTER(slot, ext::string);
-    DEFINE_GETTER(id, ext::string);
+    DEFINE_GETTER(namespace_uri, ext::string_view);
+    DEFINE_GETTER(prefix, ext::string_view);
+    DEFINE_GETTER(local_name, ext::string_view);
+    DEFINE_GETTER(tag_name, ext::string_view);
+    DEFINE_GETTER(class_list, ext::vector_span<ext::string>);
+    DEFINE_GETTER(class_name, ext::string_view);
+    DEFINE_GETTER(slot, ext::string_view);
+    DEFINE_GETTER(id, ext::string_view);
     DEFINE_GETTER(shadow_root, shadow_root*);
     DEFINE_GETTER(attributes, ranges::any_helpful_view<attr*>);
 

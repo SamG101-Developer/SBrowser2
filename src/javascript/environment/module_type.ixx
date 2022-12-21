@@ -1,5 +1,5 @@
 export module js.env.module_type;
-import ext.number;
+import ext.core;
 
 
 namespace js::env
