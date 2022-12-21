@@ -5,7 +5,7 @@ module;
 export module apis.file_api.blob_private;
 import apis.dom_object_private;
 
-import ext.string;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(file_api, blob)

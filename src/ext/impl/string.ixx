@@ -1,7 +1,6 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <string>
-#include <cryptopp/secblock.h>
 #include <range/v3/algorithm/fold.hpp>
 #include <range/v3/to_container.hpp>
 
@@ -79,7 +78,7 @@ _EXT_SECURE_END
 
 
 _EXT_SHORTHAND_BEGIN
-    export using sv = u8string_view;
+    export using sv = string_view;
 _EXT_SHORTHAND_END
 
 

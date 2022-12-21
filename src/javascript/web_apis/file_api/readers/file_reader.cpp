@@ -14,11 +14,7 @@ import apis.file_api.types;
 import apis.dom.dom_exception;
 import apis.dom.event_target;
 
-import ext.number;
-import ext.string;
-import ext.tuple;
-import ext.variant;
-
+import ext.core
 import js.env.module_type;
 
 

@@ -1,12 +1,11 @@
-#include "file_system_writable_file_stream.hpp"
-#include "file_system_writable_file_stream_private.hpp"
+module apis.file_system.file_system_writeable_file_stream;
 
-#include "streams/detail/writable_abstract_operations.hpp"
-#include "streams/writable/writable_stream_default_writer.hpp"
+import ext.core;
+import ext.js;
 
 
 auto filesystem::file_system_writable_file_stream::write(
-        detail::file_system_write_chunk_type_t&& data)
+        file_system_write_chunk_type_t&& data)
         -> ext::promise<void>
 {
     auto writer = streams::detail::get_writer(this);

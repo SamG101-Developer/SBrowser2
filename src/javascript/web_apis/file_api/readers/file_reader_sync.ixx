@@ -7,14 +7,11 @@ module;
 export module apis.file_api.file_reader_sync;
 import apis.dom_object;
 
-import ext.array_buffer;
-import ext.enums;
-import ext.tuple;
-import ext.string;
-
+import apis.file_api.types;
+import ext.core
+import ext.js;
 import js.env.module_type;
 
-namespace file_api {class blob;}
 
 
 DEFINE_PUBLIC_CLASS(file_api, file_reader_sync) final

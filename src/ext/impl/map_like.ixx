@@ -11,36 +11,55 @@ import apis.dom_object;
 import apis.dom_object_private;
 import js.env.module_type;
 
-
-export DEFINE_PRIVATE_CLASS_T(ext, map_like, typename K, typename V) : virtual dom_object_private
+namespace ext
 {
+    export template <typename K, typename V> class map_like_private;
+    export template <typename K, typename V> class map_like_linked_private;
+    export template <typename K, typename V> class map_like;
+    export template <typename K, typename V> class map_like_linked;
+    export template <typename K, typename V> using async_map_like = map_like<K, V>;
+    export template <typename K, typename V> using async_map_like_linked = map_like_linked<K, V>;
+}
+
+
+template <typename K, typename V>
+class ext::map_like_private
+        : virtual dom_object_private
+{
+public:
     MAKE_QIMPL_T(map_like, K, V);
 };
 
 
-export DEFINE_PRIVATE_CLASS_T(ext, map_like_linked, typename K, typename V) : map_like_private<K, V>
+template <typename K, typename V>
+class ext::map_like_linked_private
+        : map_like_private<K, V>
 {
+public:
     MAKE_QIMPL_T(map_like_linked, K, V);
+
+public:
     std::unique_ptr<ext::map<K, V>> map;
 };
 
 
-DEFINE_PUBLIC_CLASS_T(ext, map_like, typename K, typename V)
+template <typename K, typename V>
+class ext::map_like
         : virtual public dom_object
 {
 public constructors:
+    explicit map_like() {INIT_PIMPL;}
     MAKE_PIMPL_T(map_like, K, V);
     MAKE_V8_AVAILABLE(ALL);
 
-    explicit map_like()
-    {INIT_PIMPL;}
-
+public:
     virtual auto operator[](const K& key) -> V& = 0;
     virtual auto operator[](const K& key) const -> V& {return (*this)[key];}
 };
 
 
-DEFINE_PUBLIC_CLASS_T(ext, map_like_linked, typename K, typename V)
+template <typename K, typename V>
+class ext::map_like_linked
         : public map_like<K, V>
 {
 public constructors:
@@ -53,6 +72,7 @@ public constructors:
         d->map = container ? std::unique_ptr<map<K, V>>{container} : std::make_unique<map<K, V>>();
     }
 
+public:
     auto operator[](const K& key) -> V& override
     {
         ACCESS_PIMPL;

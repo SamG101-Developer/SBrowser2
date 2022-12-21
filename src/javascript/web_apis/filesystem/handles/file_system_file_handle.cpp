@@ -1,36 +1,42 @@
-#include "file_system_file_handle.hpp"
-#include "file_system_file_handle_private.hpp"
-
-#include "ext/filesystem.ixx"
-
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/pimpl.hpp"
 
 
+module apis.filesystem.file_system_file_handle;
+import apis.filesystem.detail;
+import apis.filesystem.types;
 
-#include "file_api/file.hpp"
-#include "file_api/file_private.hpp"
+import apis.dom.types;
+import apis.dom.dom_exception;
 
-#include "filesystem/_typedefs.hpp"
-#include "filesystem/detail/file_internals.hpp"
-#include "filesystem/file_system_writable_file_stream.hpp"
-#include "filesystem/file_system_writable_file_stream_private.hpp"
+import apis.file_api.types;
+import apis.file_api.file;
+import apis.file_api.file_private;
 
-#include "permissions/_typedefs.hpp"
-#include "web_idl/detail/type_mapping_internals.hpp"
+import apis.permissions.types;
+import apis.web_idl.detail;
+
+import ext.core;
+import ext.js;
+
+import js.env.realms;
+import js.env.module_type;
 
 
 auto filesystem::file_system_file_handle::get_file()
         -> ext::promise<std::unique_ptr<file_api::file>>
 {
-    ACCESS_PIMPL(file_system_file_handle);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
     auto result = web_idl::detail::create_promise<std::unique_ptr<file_api::file>>(e.js.realm());
 
-    GO [d, &e, &result]
+    _GO [d, &e, &result]
     {
         using enum dom::detail::dom_exception_error_t;
 
         if (d->entry->query_access(detail::mode_t::READ) != permissions::detail::permission_state_t::GRANTED)
-            web_idl::detail::reject_promise(result, e.js.realm(), dom::other::dom_exception{u8"Permission not granted", NOT_ALLOWED_ERR});
+            web_idl::detail::reject_promise(result, e.js.realm(), dom::dom_exception{u8"Permission not granted", NOT_ALLOWED_ERR});
 
         auto f = std::make_unique<file_api::file>();
         f->d_func()->snapshot_state = d->entry->state;
@@ -50,11 +56,11 @@ auto filesystem::file_system_file_handle::create_writable(
         detail::file_system_create_writable_options_t&& options)
         -> ext::promise<std::unique_ptr<file_system_writable_file_stream>>
 {
-    ACCESS_PIMPL(file_system_file_handle);
+    ACCESS_PIMPL;
     auto e = js::env::env::relevant(this);
     auto result = web_idl::detail::create_promise<std::unique_ptr<file_system_writable_file_stream>>(e.js.realm());
 
-    GO [d, &e, &result, options = std::move(options)]
+    _GO [d, &e, &result, options = std::move(options)]
     {
         using enum dom::detail::dom_exception_error_t;
 

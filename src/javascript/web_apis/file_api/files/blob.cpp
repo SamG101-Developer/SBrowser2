@@ -15,16 +15,7 @@ import apis.file_api.blob_private;
 import apis.file_api.detail;
 import apis.file_api.types;
 
-import ext.any;
-import ext.boolean;
-import ext.array_buffer;
-import ext.number;
-import ext.map;
-import ext.promise;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-import ext.vector;
+import ext.core;
 
 import js.env.module_type;
 import js.env.realms;

@@ -4,9 +4,9 @@ module;
 
 export module apis.file_api.file_reader_private;
 import apis.dom.event_target_private;
-import apis.file_api.types;
 
-namespace dom {class dom_exception;}
+import apis.dom.types;
+import apis.file_api.types;
 
 
 DEFINE_PRIVATE_CLASS(file_api, file_reader)

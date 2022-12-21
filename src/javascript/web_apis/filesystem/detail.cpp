@@ -1,16 +1,4 @@
-#include "file_internals.hpp"
-
-#include "environment/realms.ixx"
-
-#include "ext/custom_operator.hpp"
-#include "ext/filesystem.ixx"
-
-
-#include "filesystem/_typedefs.hpp"
-#include "web_idl/detail/type_mapping_internals.hpp"
-
-#include <filesystem>
-#include <range/v3/algorithm/contains.hpp>
+module apis.filesystem.detail;
 
 
 auto filesystem::detail::is_valid_file_name(ext::string_view string) -> ext::boolean

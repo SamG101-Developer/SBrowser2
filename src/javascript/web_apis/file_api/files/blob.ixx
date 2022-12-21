@@ -11,16 +11,7 @@ export module apis.file_api.blob;
 import apis.dom_object;
 import apis.file_api.types;
 
-import ext.any;
-import ext.boolean;
-import ext.array_buffer;
-import ext.enums;
-import ext.map;
-import ext.number;
-import ext.promise;
-import ext.string;
-import ext.tuple;
-import ext.vector;
+import ext.core;
 
 import js.env.module_type;
 

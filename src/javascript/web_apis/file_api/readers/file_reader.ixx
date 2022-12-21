@@ -7,17 +7,11 @@ module;
 
 export module apis.file_api.file_reader;
 import apis.dom.event_target;
+
+import apis.dom.types;
 import apis.file_api.types;
-
-import ext.enums;
-import ext.number;
-import ext.string;
-import ext.tuple;
-
+import ext.core
 import js.env.module_type;
-
-namespace dom {class dom_exception;}
-namespace file_api {class blob;}
 
 
 DEFINE_PUBLIC_CLASS(file_api, file_reader) final

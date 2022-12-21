@@ -1,15 +1,18 @@
-#include "type_mapping_internals.hpp"
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros/other.hpp"
 
-
-#include "ext/array_buffer.hpp"
-#include "v8-forward.h"
-#include "v8-promise.h"
-
-#include <v8-internal.h>
-#include <v8-isolate.h>
+#include <swl/variant.hpp>
+#include <tl/optional.hpp>
+#include <v8-local-handle.h>
 #include <v8-object.h>
-
+#include <v8-promise.h>
 #include <v8pp/convert.hpp>
+
+
+module apis.web_idl.detail;
+import ext.core;
+import ext.js;
 
 
 template <typename T>
@@ -31,7 +34,7 @@ auto web_idl::detail::create_resolved_promise(T&& x, v8::Local<v8::Context> real
 
 
 template <typename T>
-auto web_idl::detail::create_rejected_promise(ext::any reason, v8::Local<v8::Context> realm) -> ext::promise<T>
+auto web_idl::detail::create_rejected_promise(ext::any&& reason, v8::Local<v8::Context> realm) -> ext::promise<T>
 {
     auto js_value = v8pp::to_v8(realm->GetIsolate(), reason);
     auto js_promise_resolver = v8::Promise::Resolver::New(realm).ToLocalChecked();
@@ -41,21 +44,20 @@ auto web_idl::detail::create_rejected_promise(ext::any reason, v8::Local<v8::Con
 
 
 template <typename T>
-auto web_idl::detail::resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm) -> ext::promise<T>&
-{
-    auto js_promise = v8pp::to_v8(realm->GetIsolate(), promise).template As<v8::Promise::Resolver>();
-    auto js_value = v8::Null(realm->GetIsolate());
-    js_promise.Resolve(realm, js_value);
-    return promise;
-}
-
-
-template <typename T>
 auto web_idl::detail::resolve_promise(ext::promise<T>& promise, v8::Local<v8::Context> realm, T&& x) -> ext::promise<T>&
 {
     auto js_promise = v8pp::to_v8(realm->GetIsolate(), promise).template As<v8::Promise::Resolver>();
     auto js_value = v8pp::to_v8(realm->GetIsolate(), std::forward<T>(x));
-    js_promise.Resolve(realm, js_value);
+    js_promise->Resolve(realm, js_value);
+    return promise;
+}
+
+
+auto web_idl::detail::resolve_promise(ext::promise<void>& promise, v8::Local<v8::Context> realm) -> ext::promise<void>&
+{
+    auto js_promise = v8pp::to_v8(realm->GetIsolate(), promise).template As<v8::Promise::Resolver>();
+    auto js_value = v8::Null(realm->GetIsolate());
+    js_promise->Resolve(realm, js_value);
     return promise;
 }
 
@@ -209,7 +211,7 @@ auto web_idl::detail::get_copy_of_bytes_in_buffer_source(
     }
     else
     {
-        assert (js_buffer_source->IsArrayBuffer() || js_buffer_source->IsSharedArrayBuffer());
+        ext::assert_(js_buffer_source->IsArrayBuffer() || js_buffer_source->IsSharedArrayBuffer());
         length = js_buffer_source.As<v8::ArrayBuffer>()->ByteLength();
     }
 

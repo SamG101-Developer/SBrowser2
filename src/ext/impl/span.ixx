@@ -24,7 +24,7 @@ _EXT_END
 
 
 export template <typename T, typename BeginIter, typename EndIter>
-class ext::span final
+class ext::span
 {
 public typedefs:
     using element_type = T;

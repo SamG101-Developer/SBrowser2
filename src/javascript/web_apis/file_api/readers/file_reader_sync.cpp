@@ -9,9 +9,7 @@ module apis.file_api.file_reader_sync;
 import apis.file_api.file_reader_sync_private;
 import apis.file_api.blob;
 
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
 
 

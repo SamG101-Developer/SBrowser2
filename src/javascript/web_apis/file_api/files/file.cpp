@@ -15,15 +15,7 @@ import apis.file_api.types;
 import apis.hr_time.detail;
 import apis.hr_time.types;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.number;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-import ext.vector;
-
+import ext.core
 import js.env.module_type;
 import js.env.realms;
 
