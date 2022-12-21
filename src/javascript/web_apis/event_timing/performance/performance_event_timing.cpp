@@ -2,9 +2,6 @@ module;
 #include "ext/macros/language_shorthand.hpp"
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
-
 
 module apis.event_timing.performance_event_timing;
 import apis.event_timing.performance_event_timing_private;
@@ -17,11 +14,7 @@ import apis.dom.shadow_root_private;
 import apis.hr_time.types;
 import apis.performance_timeline.performance_entry;
 
-import ext.boolean;
-import ext.casting;
-import ext.number;
-import ext.string;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 

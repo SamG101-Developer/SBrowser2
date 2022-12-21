@@ -4,12 +4,10 @@ module;
 
 export module apis.event_timing.performance_event_timing_private;
 import apis.performance_timeline.performance_entry_private;
+
+import apis.dom.types;
 import apis.hr_time.types;
-
-import ext.memory;
-
-namespace dom {class event;}
-namespace dom {class event_target;}
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(event_timing, performance_event_timing)

@@ -7,9 +7,7 @@ module;
 
 module apis.event_timing.event_counts;
 
-import ext.number;
-import ext.string;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 

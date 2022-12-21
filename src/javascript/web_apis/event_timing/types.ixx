@@ -3,14 +3,12 @@ module;
 
 
 export module apis.event_timing.types;
-import ext.any;
-import ext.map;
-import ext.string;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(event_timing)
 {
-    class performance_event;
+    class performance_event_timing;
     class event_counts;
     class interaction_counts;
 }

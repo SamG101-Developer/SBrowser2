@@ -8,16 +8,11 @@ module;
 
 export module apis.event_timing.performance_event_timing;
 import apis.performance_timeline.performance_entry;
+
+import apis.dom.types;
 import apis.hr_time.types;
-
-import ext.boolean;
-import ext.number;
-import ext.string;
-import ext.tuple;
-
+import ext.core;
 import js.env.module_type;
-
-namespace dom {class node;}
 
 
 DEFINE_PUBLIC_CLASS(event_timing, performance_event_timing) final

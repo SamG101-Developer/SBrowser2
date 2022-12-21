@@ -6,16 +6,9 @@ export module apis.event_timing.detail;
 import apis.event_timing.types;
 import apis.hr_time.types;
 
-import ext.boolean;
-import ext.number;
-import ext.string;
-
-
-namespace dom {class event;}
-namespace dom {class event_target;}
-namespace dom {class document;}
-namespace dom {class window;}
-namespace event_timing {class performance_event_timing;}
+import apis.dom.types;
+import apis.event_timing.types;
+import ext.core;
 
 
 export namespace event_timing::detail

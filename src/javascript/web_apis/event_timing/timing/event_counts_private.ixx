@@ -4,10 +4,9 @@ module;
 
 export module apis.event_timing.event_counts_private;
 import apis.dom_object_private;
-import ext.map_like;
+import ext.mixins;
 
-import ext.number;
-import ext.string;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(event_timing, event_counts)

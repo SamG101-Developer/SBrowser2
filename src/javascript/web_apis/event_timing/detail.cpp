@@ -6,13 +6,16 @@ module;
 #include <range/v3/algorithm/for_each.hpp>
 
 
-export module apis.event_timing.detail;
+module apis.event_timing.detail;
+import apis.event_timing.performance_event_timing;
 
 import apis.dom.event;
 
+import ext.core;
+
 
 auto event_timing::detail::should_event_be_considered_for_event_timing(
-        dom::events::event* event)
+        dom::event* event)
         -> ext::boolean
 {
     // If an event isn't trusted, then the event should NOT be considered for event timing (only secure events are
@@ -70,7 +73,7 @@ auto event_timing::detail::increase_interaction_count(
 
 
 auto event_timing::detail::compute_interaction_id(
-        dom::events::event* event)
+        dom::event* event)
         -> ext::number<int>
 {
     // If an event isn't trusted, then the event should NOT be considered for event timing (only secure events are
@@ -193,7 +196,7 @@ auto event_timing::detail::compute_interaction_id(
 
 
 auto event_timing::detail::initialize_event_timing(
-        dom::events::event* event,
+        dom::event* event,
         ext::number<double> processing_start,
         ext::number<int> interaction_id)
         -> std::unique_ptr<performance_event_timing>
@@ -213,7 +216,7 @@ auto event_timing::detail::initialize_event_timing(
 
 auto event_timing::detail::finalize_event_timing(
         performance_event_timing* timing_entry,
-        dom::events::event* event,
+        dom::event* event,
         dom::nodes::event_target* target,
         ext::number<double> processing_end)
         -> void
