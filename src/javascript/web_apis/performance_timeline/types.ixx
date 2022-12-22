@@ -25,7 +25,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(performance_timeline)
     using performance_observer_callback_options_t = ext::map<ext::string, ext::any>;
     using performance_observer_init_t = ext::map<ext::string, ext::any>;
     using performance_entry_buffer_map_t = ext::map<ext::string, performance_entry_buffer_map_tuple_t>;
-    using performance_observer_callback_t = ext::function<void(ext::vector_span<performance_observer*>, performance_observer*, performance_observer_callback_options_t)>;
+    using performance_observer_callback_t = ext::function<void(ext::vector<performance_observer*>&&, performance_observer*, performance_observer_callback_options_t)>; // TODO : or vector_span<T>?
 }
 
 

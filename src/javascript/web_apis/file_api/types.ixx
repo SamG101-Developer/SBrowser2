@@ -36,7 +36,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(file_api)
 
 struct file_api::detail::blob_url_entry_t
 {
-    ext::variant<blob*, media::source::media_source*> object;
+    // ext::variant<blob*, media::source::media_source*> object;
     v8::Local<v8::Object> settings;
 };
 

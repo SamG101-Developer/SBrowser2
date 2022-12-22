@@ -1,23 +1,28 @@
-#ifndef SBROWSER2_URL_HPP
-#define SBROWSER2_URL_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/other.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-namespace url {class url;}
-namespace url {class url_private;}
+export module apis.url.url;
+import apis.dom_object;
 
-#include INCLUDE_INNER_TYPES(url)
-namespace file_api {class blob;}
-namespace url {class url_search_params;}
+import apis.file_api.types;
+import apis.url.types;
+import ext.core;
+import js.env.module_type;
 
 
-class url::url
+DEFINE_PUBLIC_CLASS(url, url) final
         : virtual public dom_object
 {
 public constructors:
     url(ext::string_view url_string = u"", ext::string_view base = u"");
     MAKE_PIMPL(url);
     MAKE_STRINGIFIER;
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
     operator bool() const;
     auto operator!() const -> ext::boolean;
@@ -52,6 +57,3 @@ private js_properties:
     DEFINE_SETTER(search, ext::string);
     DEFINE_SETTER(hash, ext::string);
 };
-
-
-#endif //SBROWSER2_URL_HPP

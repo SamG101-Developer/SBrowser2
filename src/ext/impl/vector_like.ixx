@@ -53,8 +53,7 @@ public constructors:
 
     explicit vector_like_linked(vector<T>* container = nullptr)
     {
-        INIT_PIMPL_TEMPLATED(vector_like_linked, T);
-        ACCESS_PIMPL_TEMPLATED(vector_like_linked, T);
+        INIT_PIMPL; ACCESS_PIMPL;
         d->linked_vector = container ? std::unique_ptr<vector<T>>{container} : std::make_unique<vector<T>>();
     }
 

@@ -1,21 +1,25 @@
 module;
-#include <ctime>
-#include <iomanip>
-#include <sstream>
-#include <variant>
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros/pimpl.hpp"
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
 
+
 module apis.dom.document;
+import apis.dom.event;
+import apis.dom.window;
+
+import js.env.realms;
+import ext.core;
 
 
 dom::document::document()
 {
-    INIT_PIMPL(document);
-    ACCESS_PIMPL(document);
+    INIT_PIMPL; ACCESS_PIMPL;
 
     auto e = js::env::env::surrounding(this);
     d->url = std::make_unique<url::detail::url_t>(u"about:blank");
@@ -23,12 +27,12 @@ dom::document::document()
     d->ready_state = u"complete";
     d->origin = e.cpp.settings()->origin; // TODO : settings?
     d->get_the_parent =
-            [this, d](events::event* event)
+            [this, d](event* event)
             {
                 auto e = js::env::env::relevant(this);
                 return_if(event->d_func()->type == u"load" || !d->browsing_context) ext::nullptr_cast<event_target*>();
 
-                decltype(auto) global_object = v8pp::from_v8<event_target*>(e.js.agent(), e.js.global());
+                decltype(auto) global_object = e.cpp.global<window*>();
                 return global_object;
             };
 
@@ -41,7 +45,7 @@ auto dom::document::create_element(
         ext::map<ext::string, ext::any>&& options)
         -> std::unique_ptr<element>
 {
-    CE_REACTIONS_METHOD_DEF
+    _CE_REACTIONS_METHOD_DEF
         ACCESS_PIMPL(const document);
 
         // create the html adjusted local name and namespace, and get the 'is' option from the options dictionary - set it
@@ -52,7 +56,7 @@ auto dom::document::create_element(
 
         // create the Element node with the html adjusted variables
         return detail::create_an_element(this, html_adjusted_local_name, html_adjusted_namespace_, u8"", is, true);
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 

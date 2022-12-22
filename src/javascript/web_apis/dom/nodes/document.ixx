@@ -12,17 +12,19 @@ import apis.dom.mixins.document_or_element_node;
 import apis.dom.mixins.document_or_shadow_root;
 import apis.dom.mixins.non_element_parent_node;
 import apis.dom.mixins.parentable_node;
-import ext.map_like;
+import ext.mixins;
 
 import apis.dom.types;
 import apis.html.types;
-import apis.css.css_web_animation.types
-import apis.encoding.types;
-import apis.intersection_observer.types;
-import apis.permissions_policy.types;
-import apis.selection.types;
-import apis.svg.types;
+//import apis.css.css_web_animation.types
+//import apis.encoding.types;
+//import apis.intersection_observer.types;
+//import apis.permissions_policy.types;
+//import apis.selection.types;
+//import apis.svg.types;
 import ext.core;
+import ext.js;
+import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, document)
@@ -31,7 +33,7 @@ DEFINE_PUBLIC_CLASS(dom, document)
         , public dom::document_or_shadow_root
         , public dom::non_element_parent_node
         , public dom::parentable_node
-        , public dom::xpath_evaluator_base
+        // , public dom::xpath_evaluator_base
         , public ext::map_like<ext::string, ranges::any_helpful_view<element*>>
 {
 public friends:
@@ -57,9 +59,9 @@ public js_methods:
     _EXT_NODISCARD auto create_attribute(ext::string&& local_name) -> std::unique_ptr<attr>;
     _EXT_NODISCARD auto create_attribute_ns(ext::string&& namespace_, ext::string&& qualified_name) -> std::unique_ptr<attr>;
 
-    _EXT_NODISCARD auto create_range() -> std::unique_ptr<node_ranges::range>;
-    auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) -> std::unique_ptr<node_iterators::node_iterator>;
-    auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_iterators::node_filter* filter = nullptr) -> std::unique_ptr<node_iterators::tree_walker>;
+    _EXT_NODISCARD auto create_range() -> std::unique_ptr<range>;
+    auto create_node_iterator(node* root, ulong what_to_show = 0xFFFFFFFF, node_filter* filter = nullptr) -> std::unique_ptr<node_iterator>;
+    auto create_tree_walker(node* root, ulong what_to_show = 0xFFFFFFFF, node_filter* filter = nullptr) -> std::unique_ptr<tree_walker>;
 
     auto import_node(node* new_node, ext::boolean deep = false) -> node*;
     auto adopt_node(node* new_node) -> node*;
@@ -98,9 +100,6 @@ private js_properties:
     ext::property<ext::boolean> hidden;
     ext::property<page_visibility::detail::visibility_state_t> visibility_state;
 
-    /* [FULLSCREEN] */
-    ext::property<ext::boolean> fullscreen_enabled;
-
     /* [CSS_WEB_ANIMATIONS] */
     ext::property<css::css_web_animation::document_timeline*> timeline;
 
@@ -130,12 +129,12 @@ private js_properties:
     DEFINE_GETTER(ready_state, html::detail::document_readiness_state_t);
     DEFINE_GETTER(title, ext::string);
     DEFINE_GETTER(dir, html::detail::directionality_t);
-    DEFINE_GETTER(body, html::elements::html_body_element*);
-    DEFINE_GETTER(head, html::elements::html_head_element*);
-    DEFINE_GETTER(images, ranges::any_helpful_view<html::elements::html_image_element*>);
-    DEFINE_GETTER(links, ranges::any_helpful_view<html::elements::html_element*>);
-    DEFINE_GETTER(forms, ranges::any_helpful_view<html::elements::html_form_element*>);
-    DEFINE_GETTER(scripts, ranges::any_helpful_view<html::elements::html_script_element*>);
+    DEFINE_GETTER(body, html::html_body_element*);
+    DEFINE_GETTER(head, html::html_head_element*);
+    DEFINE_GETTER(images, ranges::any_helpful_view<html::html_image_element*>);
+    DEFINE_GETTER(links, ranges::any_helpful_view<html::html_element*>);
+    DEFINE_GETTER(forms, ranges::any_helpful_view<html::html_form_element*>);
+    DEFINE_GETTER(scripts, ranges::any_helpful_view<html::html_script_element*>);
     DEFINE_GETTER(current_script, html::detail::html_or_svg_image_element_t);
     DEFINE_GETTER(default_view, window_proxy*);
     DEFINE_GETTER(design_mode, ext::boolean);
@@ -145,8 +144,11 @@ private js_properties:
     DEFINE_GETTER(last_modified, ext::string);
     DEFINE_SETTER(title, ext::string);
     DEFINE_SETTER(dir, html::detail::directionality_t);
-    DEFINE_SETTER(body, html::elements::html_body_element*);
+    DEFINE_SETTER(body, html::html_body_element*);
     DEFINE_SETTER(design_mode, ext::boolean);
+
+    /* [FULLSCREEN] */
+    DEFINE_GETTER(fullscreen_enabled, ext::boolean);
 
     /* [PAGE_VISIBILITY] */ // TODO
     DEFINE_GETTER(hidden, ext::boolean);
@@ -157,6 +159,3 @@ private js_properties:
     /* [CSS_WEB_ANIMATIONS] */ // TODO
     DEFINE_GETTER(timeline);
 };
-
-
-#endif //SBROWSER2_DOCUMENT_HPP

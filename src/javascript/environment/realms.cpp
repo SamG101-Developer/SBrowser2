@@ -6,6 +6,17 @@ module;
 
 module js.env.realms;
 import js.env.slots;
+import ext.core;
+
+
+template <ext::callable F>
+js::env::env(v8::Isolate* isolate, F&& context)
+{
+    m_agent = isolate;
+    m_realm = std::mem_fn(context)(isolate);
+    m_global = m_realm->Global();
+    m_settings = v8pp::to_v8(m_agent, get_settings(m_global));
+};
 
 
 auto js::env::get_settings(v8::Local<v8::Object> object) -> settings_t*

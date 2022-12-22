@@ -187,26 +187,7 @@ namespace url::detail
 };
 
 
-struct url::detail::url_t
-{
-    url_t(ext::string&& url_string);
-    url_t(const url_t&);
 
-    ext::string scheme;
-    ext::string username;
-    ext::string password;
-    domain_t host;
-
-    ext::number<short> port;
-    ext::vector<ext::string> path;
-    ext::string query;
-    ext::string fragment;
-
-    std::unique_ptr<file_api::detail::blob_url_entry_t> blob_url_entry {nullptr};
-    std::unique_ptr<dom_object> object {nullptr};
-
-    auto operator*() -> ext::string {return url_serializer(*this);}
-};
 
 
 auto operator""_url(const char16_t* string, size_t length) -> std::unique_ptr<url::detail::url_t>; // TODO{return url::detail::url_t{ext::string{string, length}};}

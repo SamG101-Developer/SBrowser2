@@ -6,9 +6,6 @@ module;
 export module js.env.settings;
 namespace js::env {export struct settings_t;}
 
-namespace service_workers::workers {class service_worker_private;}
-namespace service_workers::workers {class service_worker;}
-namespace web_locks {class lock_manager;}
 
 struct js::env::settings_t
 {

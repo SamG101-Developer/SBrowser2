@@ -6,7 +6,8 @@ module;
 
 
 export module js.env.realms;
-import ext.concepts;
+import ext.core;
+
 
 namespace js::env
 {
@@ -19,13 +20,7 @@ namespace js::env
 struct js::env::env
 {
     template <ext::callable F>
-    env(v8::Isolate* isolate, F&& context)
-    {
-        m_agent = isolate;
-        m_realm = std::mem_fn(context)(isolate);
-        m_global = m_realm->Global();
-        m_settings = v8pp::to_v8(m_agent, get_settings(m_global));
-    };
+    env(v8::Isolate* isolate, F&& context);
 
 public:
     struct
