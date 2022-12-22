@@ -1,19 +1,12 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP
+module;
+#include <function2/function2.hpp>
+#include <tl/optional.hpp>
 
 
-#include "ext/expected.ixx"
+export module apis.url.detail;
 
-#include "ext/optional.ixx"
-
-#include "ext/vector.hpp"
-#include INCLUDE_INNER_TYPES(file_api)
-#include INCLUDE_INNER_TYPES(html)
-#include INCLUDE_INNER_TYPES(url)
-namespace encoding {class encoding;}
-namespace url {class url_search_params;}
-class dom_object;
+import apis.url.types;
+import ext.core;
 
 
 namespace url::detail
@@ -184,13 +177,166 @@ namespace url::detail
     auto update_url_search_params(
             url_search_params* query)
             -> void;
+
+    auto is_host_opaque(
+            domain_t&& host)
+            -> ext::boolean;
+
+    auto is_empty_host(
+            domain_t&& host)
+            -> ext::boolean;
+
+    auto is_forbidden_host_code_point(
+            wchar_t code_point)
+            -> ext::boolean;
+
+    auto host_public_suffix(
+            domain_t&& host)
+            -> ext::string;
+
+    auto host_registerable_domain(
+            domain_t&& host)
+            -> ext::string;
+
+    auto domain_to_ascii(
+            domain_t&& domain,
+            ext::boolean be_strict)
+            -> ext::optional<ext::string>;
+
+    auto domain_to_unicode(
+            domain_t&& domain)
+            -> ext::optional<ext::string>;
+
+    auto is_valid_host_string(
+            domain_t&& host)
+            -> ext::boolean;
+
+    auto is_valid_domain_string(
+            domain_t&& domain)
+            -> ext::boolean;
+
+    auto is_valid_ipv4_address_string(
+            domain_t&& domain)
+            -> ext::boolean;
+
+    auto is_valid_ipv6_address_string(
+            domain_t&& domain)
+            -> ext::boolean;
+
+    auto is_valid_opaque_host_string(
+            domain_t&& domain)
+            -> ext::boolean;
+
+    auto host_parser(
+            domain_t&& input,
+            ext::boolean is_not_special = false)
+            -> ext::optional<domain_t>;
+
+    auto ipv4_parser(
+            domain_t&& input)
+            -> ext::optional<ext::number<char>>;
+
+    auto ipv6_parser(
+            domain_t&& input)
+            -> ext::optional<ext::number<char>>;
+
+    auto ipv4_number_parser(
+            domain_t&& input)
+            -> ext::optional<ext::number<char>>;
+
+    auto opaque_host_parser(
+            domain_t&& input)
+            -> ext::optional<domain_t>;
+
+    auto ends_in_number_checker(
+            ext::string&& input)
+            -> ext::boolean;
+
+    auto host_serializer(
+            ext::string_view host)
+            -> domain_t;
+
+    auto ipv4_serializer(
+            ext::string_view address)
+            -> domain_t;
+
+    auto ipv6_serializer(
+            ext::string_view address)
+            -> domain_t;
+
+    auto is_percent_encoded_byte(
+            char8_t)
+            -> ext::boolean;
+
+    auto percent_encode(
+            std::byte byte)
+            -> ext::string;
+
+    auto percent_decode(
+            ext::string byte_sequence)
+            -> ext::string;
+
+    auto percent_encode_after_encoding(
+            encoding::encoding* encoding,
+            ext::string&& input,
+            ext::function<ext::boolean(char8_t)>&& percent_encodable_set)
+            -> ext::string;
+
+    auto utf8_percent_encode(
+            char16_t code_point,
+            encoding::encoding* percent_encode_set)
+            -> char16_t;
+
+    auto utf8_percent_decode(
+            char16_t code_point,
+            encoding::encoding* percent_encode_set)
+            -> char16_t;
+
+    auto is_c0_control_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_fragment_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_query_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_special_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_path_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_userinfo_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_component_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto is_application_x_www_form_url_encoded_percent_encodable(
+            char16_t code_point)
+            -> ext::boolean;
+
+    auto application_x_www_form_urlencoded_parser(
+            ext::string_view input)
+            -> ext::map<ext::string, ext::string>;
+
+    auto application_x_www_form_urlencoded_serializer(
+            ext::map_span<ext::string, ext::string> tuples,
+            encoding::encoding* encoding = nullptr)
+            -> ext::string;
+
+    auto application_x_www_form_urlencoded_string_parser(
+            ext::string_view input)
+            -> ext::map<ext::string, ext::string>;
 };
 
 
-
-
-
-auto operator""_url(const char16_t* string, size_t length) -> std::unique_ptr<url::detail::url_t>; // TODO{return url::detail::url_t{ext::string{string, length}};}
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_DETAIL_URL_INTERNALS_HPP
+auto operator""_url(const char16_t* string, size_t length) -> std::unique_ptr<url::detail::url_t>;

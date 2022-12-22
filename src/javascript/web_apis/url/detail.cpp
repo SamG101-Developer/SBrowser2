@@ -1,10 +1,4 @@
-#include "encoding_internals.hpp"
-
-#include "infra/detail/code_points_internals.hpp"
-
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/view/concat.hpp>
-#include <range/v3/view/iota.hpp>
+module apis.url.detail;
 
 
 auto url::detail::is_c0_control_percent_encodable(char16_t code_point) -> ext::boolean
@@ -66,3 +60,4 @@ auto url::detail::is_application_x_www_form_url_encoded_percent_encodable(char16
     auto application_x_www_form_code_point_set = ranges::views::concat(application_x_www_form_code_point_set1, application_x_www_form_code_point_set2);
     return is_path_percent_encodable(code_point) || ranges::contains(application_x_www_form_code_point_set, code_point);
 }
+

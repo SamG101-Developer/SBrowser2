@@ -1,19 +1,19 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_URL_SEARCH_PARAMS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_URL_SEARCH_PARAMS_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/other.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-#include "ext/map_like.ixx"
-namespace url {class url_search_params;}
-namespace url {class url_search_params_private;}
+export module apis.url.url_search_params;
+import apis.dom_object;
+import ext.mixins;
+
+import ext.core;
+import js.env.module_type;
 
 
-
-#include "ext/vector.hpp"
-namespace url {class url;}
-
-
-class url::url_search_params
+DEFINE_PUBLIC_CLASS(url, url_search_params) final
         : virtual public dom_object
         , ext::map_like_linked<ext::string, ext::string>
 {
@@ -26,7 +26,7 @@ public constructors:
     url_search_params(ext::string_view init = u"");
     MAKE_PIMPL(url_search_params);
     MAKE_STRINGIFIER;
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
     auto append(ext::string&& name, ext::string&& value) -> void;
@@ -38,6 +38,3 @@ public js_methods:
 
     auto sort() -> void;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_URL_URL_SEARCH_PARAMS_HPP

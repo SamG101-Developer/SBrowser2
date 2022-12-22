@@ -11,7 +11,7 @@ import apis.dom.detail;
 import ext.core;
 
 
-url::url(ext::string_view url_string, ext::string_view base)
+url::url::url(ext::string_view url_string, ext::string_view base)
 {
     INIT_PIMPL; ACCESS_PIMPL;
     using enum v8_primitive_error_t;
