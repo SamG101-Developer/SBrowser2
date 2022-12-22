@@ -118,6 +118,9 @@ private:
 
 _EXT_BEGIN
     export template <typename T, typename Iter>
+    using same_iterator_span2 = _EXT span<T, Iter, Iter>;
+
+    export template <typename T, typename Iter>
     using same_iterator_span = _EXT span<T, Iter, Iter>;
 
     export template <typename T, size_t N>
@@ -136,5 +139,5 @@ _EXT_BEGIN
     using stack_span = _EXT same_iterator_span<T, const typename _EXT stack<T>::pointer>;
 
     export template <typename T>
-    using vector_span = _EXT same_iterator_span<T, typename _EXT vector<T>::const_iterator>;
+    using vector_span = _EXT span<T, typename _EXT vector<T>::const_iterator, typename _EXT vector<T>::const_iterator>;
 _EXT_END

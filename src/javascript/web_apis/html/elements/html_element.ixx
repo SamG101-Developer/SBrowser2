@@ -1,32 +1,35 @@
-#ifndef SBROWSER2_HTML_ELEMENT_HPP
-#define SBROWSER2_HTML_ELEMENT_HPP
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/constructors.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-#include "html/mixins/content_editable.hpp"
-#include "html/mixins/html_or_svg_element.hpp"
-#include "css/cssom/mixins/element_css_inline_style.hpp"
-namespace html::elements {class html_element;}
-namespace html::elements {class html_element_private;}
+export module apis.html.html_element;
+import apis.dom.element;
+import apis.html.mixins.content_editable;
+import apis.html.mixins.html_or_svg_element;
+
+import apis.html.types;
+import ext.core;
+import js.env.module_type;
 
 
-#include INCLUDE_INNER_TYPES(html)
-namespace html::other {class element_internals;}
-
-
-class html::elements::html_element
-        : public dom::nodes::element
-        , public mixins::content_editable
-        , public mixins::html_or_svg_element
-        , public css::cssom::mixins::element_css_inline_style
+DEFINE_PUBLIC_CLASS(html, html_element)
+        : public dom::element
+        , public html::content_editable
+        , public html::html_or_svg_element
+        // , public css::cssom::mixins::element_css_inline_style
 {
 public constructors:
     DOM_CTORS(html_element);
     MAKE_PIMPL(html_element);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 public js_methods:
     auto click() -> void;
-    auto attach_internals() -> other::element_internals;
+    auto attach_internals() -> std::unique_ptr<element_internals>;
 
 private js_properties:
     DEFINE_GETTER(title, ext::string_view);
@@ -55,8 +58,4 @@ private js_properties:
     DEFINE_SETTER(inert, ext::boolean);
     DEFINE_SETTER(draggable, ext::boolean);
     DEFINE_SETTER(spellcheck, ext::bool_string_t);
-
 };
-
-
-#endif //SBROWSER2_HTML_ELEMENT_HPP

@@ -345,7 +345,7 @@ export namespace ranges::actions
                 {return f(std::forward<T>(current_value)) ? std::forward<T>(new_value) : std::forward<T>(current_value);});
             })
 
-    RANGE_ACTION_STRUCT(remove_at_index,
+    RANGE_ACTION_STRUCT(pop,
             constexpr auto operator()(_EXT number<size_t> r_index) const
             {
         return ranges::views::enumerate
@@ -454,11 +454,11 @@ export namespace ranges
 }
 
 
-#define MAKE_CONVERTIBLE_PIPEABLE(s)                                     \
-    struct to_##s##_t{} to_##s;                                          \
-    template <typename T>                                                \
-    auto operator|(ranges::any_helpful_view<T>&& rng, const to_##s##_t&) \
-    {return ranges::to<_EXT s<T>>;}
+#define MAKE_CONVERTIBLE_PIPEABLE(s)             \
+    struct to_##s##_t{} to_##s;                  \
+    template <typename Rng>                      \
+    auto operator|(Rng&& rng, const to_##s##_t&) \
+    {return ranges::to<_EXT s<typename range_traits<Rng>::value_type>>;}
 
 
 /* OTHER */
@@ -474,9 +474,9 @@ export namespace ranges
     auto make_any_helpful_view(Args&&... args) -> any_helpful_view<_EXT nth_variadic_type_t<0, Args...>, C>;
 
     MAKE_CONVERTIBLE_PIPEABLE(vector)
-    // MAKE_CONVERTIBLE_PIPEABLE(map) TODO : separate implementation? or specialization on cvonersion of T for pair<U, V>
     MAKE_CONVERTIBLE_PIPEABLE(set)
     MAKE_CONVERTIBLE_PIPEABLE(stack)
     MAKE_CONVERTIBLE_PIPEABLE(queue)
+    // MAKE_CONVERTIBLE_PIPEABLE(map) TODO : separate implementation? or specialization on cvonersion of T for pair<U, V>
     // MAKE_CONVERTIBLE_PIPEABLE(string) TODO : separate implementation? or U<char>?
 }

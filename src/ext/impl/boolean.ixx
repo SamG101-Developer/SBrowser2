@@ -7,7 +7,7 @@ export module ext.core:boolean;
 
 _EXT_BEGIN
     export class boolean;
-    enum class bool_string_t {_, TRUE, FALSE};
+    export enum class bool_string_t {_, TRUE, FALSE};
 _EXT_END
 
 

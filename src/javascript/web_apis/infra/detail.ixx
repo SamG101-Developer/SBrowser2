@@ -1,15 +1,93 @@
-#pragma once
-#ifndef SBROWSER2_STRINGS_HPP
-#define SBROWSER2_INFRA_STRINGS_INTERNALS_HPP
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+export module apis.infra.detail;
+import apis.infra.types;
+import ext.core;
 
 
-
-
-
-namespace infra::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(infra)
 {
+    enum literals
+    {
+        LF = 0x000a,
+        CR = 0x000d,
+        SPACE = 0x0020
+    };
+
+    auto is_surrogate(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_scalar(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_non_character(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_code_point(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_tab_or_newline(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_newline(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_whitespace(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_c0_control(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_c0_control_or_space(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_control(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_digit(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_upper_hex_digit(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_lower_hex_digit(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_hex_digit(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_upper_alpha(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_lower_alpha(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_alpha(
+            code_point_t code_point)
+            -> ext::boolean;
+
+    auto is_ascii_alphanumeric(
+            code_point_t code_point)
+            -> ext::boolean;
+    
     template <ext::string_like T>
     auto strip_newlines(
             T& string)
@@ -95,6 +173,3 @@ namespace infra::detail
             ext::view_of_t<T> string)
             -> ext::string;
 }
-
-
-#endif //SBROWSER2_STRINGS_HPP

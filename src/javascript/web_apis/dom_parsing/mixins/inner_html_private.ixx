@@ -7,7 +7,7 @@ import apis.dom_object_private;
 
 
 DEFINE_PRIVATE_CLASS(dom_parsing, inner_html)
-        : dom_object_private
+        : virtual dom_object_private
 {
 public:
     MAKE_QIMPL(inner_html);

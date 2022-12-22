@@ -14,7 +14,7 @@ import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom_parsing, inner_html)
-        : public dom_object
+        : virtual public dom_object
 {
 public constructors:
     inner_html();

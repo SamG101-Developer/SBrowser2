@@ -98,9 +98,6 @@ custom_operator(go)
     }
 
 
-#define _HTML_CONSTRUCTOR     \
-    {                        \
-        JS_REALM_GET_CURRENT \
-    }
+#define _HTML_CONSTRUCTOR
 
 #endif //SBROWSER2_SRC_EXT_MACROS_CUSTOM_OPERATOR_HPP

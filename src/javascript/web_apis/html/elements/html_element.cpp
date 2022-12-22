@@ -1,26 +1,9 @@
-#include "html_element.hpp"
-#include "html_element_private.hpp"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include "html/detail/context_internals.hpp"
-#include "html/detail/html_element_internals.hpp"
-#include "html/detail/render_blocking_internals.hpp"
-#include "html/other/element_internals.hpp"
-
-#include "url/detail/url_internals.hpp"
-
+module;
+#include "ext/macros/custom_operator.hpp"
+#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include "javascript/macros/errors.hpp"
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/trim.hpp>
@@ -31,23 +14,38 @@
 #include <range/v3/view/replace_if.hpp>
 
 
-html::elements::html_element::html_element()
-{
-    INIT_PIMPL(html_element);
-    HTML_CONSTRUCTOR
+module apis.html.html_element;
+import apis.html.html_element_private;
+import apis.html.detail;
+import apis.html.types;
 
-    ACCESS_PIMPL(html_element);
+import apis.dom.event;
+import apis.dom.element;
+import apis.dom.node;
+import apis.dom.detail;
+import apis.dom.types;
+
+import ext.core;
+import js.env.realms;
+import js.env.module_type;
+
+
+html::html_element::html_element()
+{
+    INIT_PIMPL; ACCESS_PIMPL;
+    _HTML_CONSTRUCTOR
+
     d->insertion_steps = [this] {/* TODO */ };
-    d->remove_steps = [this](dom::nodes::node* parent = nullptr) {/* TODO */};
-    d->activation_behaviour = [this](dom::events::event* event) {/* TODO */};
+    d->remove_steps = [this](dom::node* parent = nullptr) {/* TODO */};
+    d->activation_behaviour = [this](dom::event* event) {/* TODO */};
 }
 
 
-auto html::elements::html_element::click() -> void
+auto html::html_element::click() -> void
 {
     // TODO : return if dynamic_cast<T>(this)->disabled = True
 
-    ACCESS_PIMPL(html_element);
+    ACCESS_PIMPL;
     return_if (d->click_in_progress_flag);
 
     d->click_in_progress_flag = true;
@@ -56,85 +54,87 @@ auto html::elements::html_element::click() -> void
 }
 
 
-auto html::elements::html_element::attach_internals() -> other::element_internals
+auto html::html_element::attach_internals() -> std::unique_ptr<element_internals>
 {
-    ACCESS_PIMPL(html_element);
+    ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
+    auto e = js::env::env::relevant(this);
+    
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return !d->is.empty();},
-            u8"Elements 'is' value must be empty");
+            u8"Elements 'is' value must be empty", e);
 
-    decltype(auto) definition = dom::detail::lookup_custom_element_definition(d->node_document, d->namespace_, d->local_name, u8"");
+    decltype(auto) definition = dom::detail::lookup_custom_element_definition(d->node_document.get(), d->namespace_, d->local_name, u8"");
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [definition] {return !definition->has_value();},
-            u8"Definition must be valid");
+            u8"Definition must be valid", e);
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->disable_internals;},
-            u8"This element has disabled internals set to true");
+            u8"This element has disabled internals set to true", e);
 
     dom::detail::throw_v8_exception<NOT_SUPPORTED_ERR>(
             [d] {return d->custom_element_state != PRECUSTOMIZED && d->custom_element_state != CUSTOM;},
-            u8"This element must be precustomized or custom");
+            u8"This element must be precustomized or custom", e);
 
     d->attached_internals = true;
 
-    auto element_internals = other::element_internals{};
+    auto element_internals = std::make_unique<element_internals>();
     element_internals->d_func()->target_element = this;
     return element_internals;
 }
 
 
-auto html::elements::html_element::get_title() const -> ext::string_view
+auto html::html_element::get_title() const -> ext::string_view
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->title;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::get_lang() const -> ext::string_view
+auto html::html_element::get_lang() const -> ext::string_view
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->lang;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::get_translate() const -> ext::boolean
+auto html::html_element::get_translate() const -> ext::boolean
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->translate_mode;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::get_dir() const -> detail::directionality_t
+auto html::html_element::get_dir() const -> detail::directionality_t
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->dir;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::get_access_key() const -> ext::string_view
+auto html::html_element::get_access_key() const -> ext::string_view
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(const html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->access_key;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::get_inner_text() const -> ext::string
+auto html::html_element::get_inner_text() const -> ext::string
 {
-    ACCESS_PIMPL(const html_element);
+    ACCESS_PIMPL;
 
     // if the HTMLElement is not being rendered at the moment, then return the descendant text content of the element;
     // the '[inner/outer]_text' property represents the data of the elements beneath this element
@@ -162,65 +162,65 @@ auto html::elements::html_element::get_inner_text() const -> ext::string
 }
 
 
-auto html::elements::html_element::set_title(ext::string new_title) -> ext::string
+auto html::html_element::set_title(ext::string new_title) -> ext::string
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->title = std::move(new_title);
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::set_lang(ext::string new_lang) -> ext::string
+auto html::html_element::set_lang(ext::string new_lang) -> ext::string
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->title = std::move(new_lang);
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::set_translate(ext::boolean new_translate) -> ext::boolean
+auto html::html_element::set_translate(ext::boolean new_translate) -> ext::boolean
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->translate_mode = new_translate;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::set_dir(detail::directionality_t new_dir) -> detail::directionality_t
+auto html::html_element::set_dir(detail::directionality_t new_dir) -> detail::directionality_t
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->dir = new_dir;
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
-auto html::elements::html_element::set_access_key(ext::string new_access_key) -> ext::string
+auto html::html_element::set_access_key(ext::string new_access_key) -> ext::string
 {
-    CE_REACTIONS_METHOD_DEF
-        ACCESS_PIMPL(html_element);
+    _CE_REACTIONS_METHOD_DEF
+        ACCESS_PIMPL;
         return d->access_key = std::move(new_access_key);
-    CE_REACTIONS_METHOD_EXE
+    _CE_REACTIONS_METHOD_EXE
 }
 
 
 
-auto html::elements::html_element::set_inner_text(ext::string new_inner_text) -> ext::string
+auto html::html_element::set_inner_text(ext::string new_inner_text) -> ext::string
 {
     // to set the 'inner_text' of a HTMLElement, a DocumentFragment is generated from the input 'val', and everything
     // contained by this node is replaced with the DocumentFragment
-    ACCESS_PIMPL(html_element);
+    ACCESS_PIMPL;
     decltype(auto) fragment = detail::rendered_text_fragment(std::move(new_inner_text), d->node_document.get());
     dom::detail::replace_all(std::move(fragment), this);
 }
 
 
-auto html::elements::html_element::set_outer_text(ext::string new_outer_text) -> ext::string
+auto html::html_element::set_outer_text(ext::string new_outer_text) -> ext::string
 {
-    ACCESS_PIMPL(html_element);
+    ACCESS_PIMPL;
     using enum dom::detail::dom_exception_error_t;
 
     // cannot replace the outer text if here isn't a parent node, because the outer text includes this node, which has
@@ -257,14 +257,31 @@ auto html::elements::html_element::set_outer_text(ext::string new_outer_text) ->
 }
 
 
-auto html::elements::html_element::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto html::html_element::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<html_element>{isolate}
-        .inherit<dom::nodes::element>()
-        .inherit<mixins::content_editable>()
-        .inherit<mixins::html_or_svg_element>()
-        .inherit<css::cssom::mixins::element_css_inline_style>()
-        .auto_wrap_objects(); // TODO
+    V8_INTEROP_CREATE_JS_OBJECT
+        .inherit<dom::element>()
+        .inherit<content_editable>()
+        .inherit<html_or_svg_element>()
+        .function("click", &html_element::click)
+        .function("attachInternals", &html_element::attach_internals)
+        .property("title", &html_element::get_title, &html_element::set_title)
+        .property("lang", &html_element::get_lang, &html_element::set_lang)
+        .property("translate", &html_element::get_translate, &html_element::set_translate)
+        .property("dir", &html_element::get_title, &html_element::set_title)
+        .property("hidden", &html_element::get_hidden, &html_element::set_hidden)
+        .property("inert", &html_element::get_inert, &html_element::set_inert)
+        .property("accessKey", &html_element::get_access_key, &html_element::set_access_key)
+        .property("accessKeyLabel", &html_element::get_access_key_label)
+        .property("draggable", &html_element::get_draggable, &html_element::set_draggable)
+        .property("spellcheck", &html_element::get_spellcheck, &html_element::set_spellcheck)
+        .property("autocapitalize", &html_element::get_autocapitalize, &html_element::set_autocapitalize)
+        .property("innerText", &html_element::get_inner_text, &html_element::set_inner_text)
+        .property("outerText", &html_element::get_outer_text, &html_element::set_outer_text)
+        .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
