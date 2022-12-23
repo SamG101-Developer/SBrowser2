@@ -81,12 +81,7 @@ namespace intersection_observer::detail
 }
 
 
-struct intersection_observer::detail::intersection_observer_registration_t
-{
-    intersection_observer* observer;
-    ext::number<int> previous_threshold_index;
-    ext::boolean previous_is_intersecting;
-};
+
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_INTERSECTION_OBSERVER_DETAIL_ALGORITHM_INTERNALS_HPP

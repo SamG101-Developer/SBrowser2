@@ -1,5 +1,5 @@
-#include "intersection_observer.hpp"
-#include "intersection_observer_private.hpp"
+#include "intersection_observer.ixx"
+#include "intersection_observer_private.ixx"
 
 #include INCLUDE_INNER_TYPES(dom)
 
