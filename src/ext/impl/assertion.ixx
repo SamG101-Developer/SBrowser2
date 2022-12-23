@@ -3,13 +3,13 @@ module;
 
 
 export module ext.core:assertion;
-#include <assert.hpp>
+//#include <assert.hpp>
 
 
 _EXT_BEGIN
-    using namespace ::libassert;
+//    using namespace ::libassert;
 
     export template <typename ...Args>
-    auto assert_(auto&& expression, Args&&... args)
-    {ASSERT(expression, std::forward<Args>(args)...);};
+    auto assert_(auto&& expression, Args&&... args) {}
+//    {ASSERT(expression, std::forward<Args>(args)...);};
 _EXT_END
