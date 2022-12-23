@@ -20,7 +20,6 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(intersection_observer)
 {
     struct intersection_observer_registration_t;
 
-    using intersection_observer_callback_t = ext::function<void(ext::vector<intersection_observer_entry*>, intersection_observer*)>;
     using intersection_observer_entry_init_t = ext::map<ext::string, ext::any>;
     using document_or_element_t = ext::variant<dom::document*, dom::element*>;
 }

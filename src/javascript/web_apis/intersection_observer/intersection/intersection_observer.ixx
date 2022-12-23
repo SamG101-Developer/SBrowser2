@@ -3,6 +3,7 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "ext/macros/property.hpp"
 #include "javascript/macros/expose.hpp"
+#include <function2/function2.hpp>
 
 
 export module apis.intersection_observer.intersection_observer;
@@ -18,10 +19,11 @@ DEFINE_PUBLIC_CLASS(intersection_observer, intersection_observer) final
         : public virtual dom_object
 {
 public typedefs:
+    using intersection_observer_callback_t = ext::function<void(ext::vector<intersection_observer_entry*>, intersection_observer*)>;
     using intersection_observer_init_t = ext::map<ext::string, ext::any>;
 
 public constructors:
-    intersection_observer(detail::intersection_observer_callback_t&& callback, intersection_observer_init_t&& options = {});
+    intersection_observer(intersection_observer_callback_t&& callback, intersection_observer_init_t&& options = {});
     MAKE_PIMPL(intersection_observer);
     MAKE_V8_AVAILABLE(WINDOW);
 

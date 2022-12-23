@@ -1,32 +1,55 @@
-#include "algorithm_internals.hpp"
+module;
+#include "ext/macros/language_shorthand.hpp"
+#include <range/v3/algorithm/contains.hpp>
 
 
+module apis.intersection_observer.detail;
+import apis.intersection_observer.intersection_observer;
+import apis.intersection_observer.intersection_observer_private;
+import apis.intersection_observer.types;
+
+import apis.dom.element;
+import apis.dom.element_private;
 
 
+auto intersection_observer::detail::observe_target_element(
+        intersection_observer* observer,
+        dom::element* target) -> void
+{
+    // Cannot re-observe an Element that is being observed already, so return early if the 'target' is already being
+    // observed -- this is determined by checking if the 'target' is contained in the [[ObservationTargets]] slot.
+    return_if (ranges::contains(observer->d_func()->observation_targets, target));
+
+    // Create the 'intersection_observer_registration' struct.
+    auto intersection_observer_registration = std::make_unique<detail::intersection_observer_registration_t>();
+
+    // Set the 'observer' to 'this', and other attributes that act as defaults to start the observing. Add the
+    // registration to the 'target's [[RegistrationIntersectionObservers]], and add the 'target' to the 'observer's
+    // IntersectionObserver's [[ObservationTargets]] slot.
+    intersection_observer_registration->observer = observer;
+    intersection_observer_registration->previous_threshold_index = -1;
+    intersection_observer_registration->previous_is_intersecting = false;
+    target->d_func()->registration_intersection_observers.push_back(std::move(intersection_observer_registration));
+    observer->d_func()->observation_targets.push_back(target);
+}
 
 
+intersection_observer::detail::unobserve_target_element(
+        intersection_observer* observer,
+        dom::element* target)
+        -> void
+{
+    // Cannot unobserve a null target, so return early
+    return_if (!target);
 
+    // Remove the registration from the 'target's [[RegistrationIntersectionObservers]] slot, and remove the 'target'
+    // from this IntersectionObserver's [[ObservationTargets]] slot.
+    target->d_func()->registration_intersection_observers
+            |= ranges::actions::remove_if([this](auto&& r) {return r->observer == this;});
 
-
-
-
-
-
-#include "hr_time/performance.hpp"
-#include "html/detail/task_internals.hpp"
-
-#include "intersection_observer/intersection_observer.hpp"
-#include "intersection_observer/intersection_observer_private.hpp"
-#include "intersection_observer/intersection_observer_entry.hpp"
-#include "intersection_observer/intersection_observer_entry_private.hpp"
-
-#include <range/v3/algorithm/any_of.hpp>
-#include <range/v3/action/remove.hpp>
-#include <range/v3/view/cycle.hpp>
-#include <range/v3/view/replace_if.hpp>
-#include <range/v3/view/take.hpp>
-#include <range/v3/to_container.hpp>
-#include <v8pp/convert.hpp>
+    observer->d_func()->observation_targets
+            |= ranges::actions::remove(target);
+}
 
 
 auto intersection_observer::detail::intersection_root(
