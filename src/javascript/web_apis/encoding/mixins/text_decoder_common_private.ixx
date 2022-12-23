@@ -1,12 +1,13 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_MIXINS_TEXT_DECODER_COMMON_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_MIXINS_TEXT_DECODER_COMMON_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros/pimpl.hpp"
+#include <swl/variant.hpp>
 
 
-#include INCLUDE_INNER_TYPES(encoding)
+export module apis.encoding.mixins.text_decoder_common_private;
+import apis.dom_object_private;
 
+import apis.encoding.types;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common)
@@ -21,6 +22,3 @@ DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common)
     ext::boolean bom_seen;
     ext::variant<detail::decoder_error_mode_t, detail::encoder_error_mode_t> error_mode;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_ENCODING_MIXINS_TEXT_DECODER_COMMON_PRIVATE_HPP

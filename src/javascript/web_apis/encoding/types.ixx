@@ -36,9 +36,6 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(encoding)
 
     using item_t = infra::detail::code_point_t;
     using io_queue_t = ext::vector<item_t>;
-    using text_decoder_options_t = ext::map<ext::string, ext::any>;
-    using text_decode_options_t = ext::map<ext::string, ext::any>;
-    using text_encoder_encoder_into_result_t = ext::map<ext::string, ext::any>;
     using handler_result_t = ext::tuple<handle_state_t, ext::vector<item_t>>;
 }
 

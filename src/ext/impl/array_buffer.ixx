@@ -1,6 +1,7 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <v8-forward.h>
+#include <swl/variant.hpp>
 
 
 export module ext.js:array_buffer;

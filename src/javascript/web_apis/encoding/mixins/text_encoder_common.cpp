@@ -1,9 +1,12 @@
-#include "text_encoder_common.hpp"
-#include "text_encoder_common_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
 
 
-auto encoding::mixins::text_encoder_common::get_encoding() const -> ext::string_view
+module apis.encoding.mixins.text_encoder_common;
+import ext.core;
+
+
+auto encoding::text_encoder_common::get_encoding() const -> ext::string_view
 {
-    ACCESS_PIMPL(const text_encoder_common);
-    return d->encoding;
+    return u"utf-8";
 }
