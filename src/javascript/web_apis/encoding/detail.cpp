@@ -62,6 +62,6 @@ auto encoding::detail::process_item(
 
     else if (!result[1_tag].empty())
     {
-        
+
     }
 }
