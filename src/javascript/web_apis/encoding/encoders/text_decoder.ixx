@@ -27,5 +27,5 @@ public constructors:
     MAKE_V8_AVAILABLE(ALL);
 
 public js_methods:
-    auto decode(ext::buffer_source& input, text_decode_options_t&& options = {});
+    auto decode(ext::buffer_source&& input, text_decode_options_t&& options = {});
 };
