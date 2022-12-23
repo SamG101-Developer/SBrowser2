@@ -4,9 +4,7 @@ module;
 
 export module apis._3ds.types;
 
-import ext.any;
-import ext.map;
-import ext.string;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(three_ds)
