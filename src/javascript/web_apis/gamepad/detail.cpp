@@ -42,6 +42,11 @@ auto gamepad::detail::init() -> void
             auto gamepad = std::make_unique<class gamepad>();
             auto relevant_environment = js::env::env::relevant(gamepad.get());
             gamepad->d_func()->platform_gamepad = device;
+            gamepad->d_func()->axes = device->get_axes() | ranges::views::values;
+            gamepad->d_func()->axis_mapping = device->get_axis();
+            gamepad->d_func()->axis_minimums = device->get_axis() | ranges::views::transform([] {return -1;});
+            gamepad->d_func()->axis_maximums = device->get_axis() | ranges::views::transform([] {return +1;});
+            // TODO : button attributes & transformations
 
             // Get the navigator of the 'gamepad's relevant envuironment, and add the new Gamepad object into the
             // 'Navigator's private class's 'gamepads' list, at the end.
@@ -95,6 +100,8 @@ auto gamepad::detail::init() -> void
             navigator->d_func()->gamepads |= ranges::actions::rtrim([](auto&& gamepad) {gamepad == nullptr});
         };
     });
+
+    hook->
 }
 
 
