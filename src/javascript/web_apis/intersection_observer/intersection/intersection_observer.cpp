@@ -2,12 +2,15 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include <range/v3/action/sort.hpp>
 #include <range/v3/algorithm/any_of.hpp>
+#include <range/v3/view/for_each.hpp>
 
 
 module apis.intersection_observer.intersection_observer;
 import apis.intersection_observer.intersection_observer_private;
 import apis.intersection_observer.detail;
 
+import apis.dom.element;
+import apis.dom.element_private;
 import apis.dom.node;
 import apis.dom.detail;
 import apis.dom.types;
@@ -52,29 +55,31 @@ intersection_observer::intersection_observer::intersection_observer(
 }
 
 
-auto intersection_observer::intersection_observer::observe(
-        dom::element* target)
-        -> void
+auto intersection_observer::intersection_observer::observe(dom::element* target) -> void
 {
-    detail::observe_an_element(this, target);
+    detail::observe_target_element(this, target);
 }
 
 
-auto intersection_observer::intersection_observer::unobserve(
-        dom::nodes::element* target)
-        -> void
+auto intersection_observer::intersection_observer::unobserve(dom::element* target) -> void
 {
-    detail::unobserver_an_element(this, target);
+    detail::unobserve_target_element(this, target);
 }
 
 
-auto intersection_observer::intersection_observer::disconnect()
-        -> void
+auto intersection_observer::intersection_observer::disconnect() -> void
 {
-    ACCESS_PIMPL(intersection_observer);
+    ACCESS_PIMPL;
 
     // To disconnect this IntersectionObserver, unobserve every Element in the [[ObservationTargets]] slot.
-    d->observation_targets | ranges::views::for_each(&intersection_observer::unobserve);
+    for (decltype(auto) target: d->observation_targets)
+    {
+        target->d_func()->registered_intersection_observers
+                |= ranges::actions::transform(&intersection_observer_registration_t::observer)
+                | ranges::actions::remove(this, std::observer_ptr<intersection_observer_registration_t>::get);
+
+        d->observervation_targets |= ranges::actions::remove(target);
+    }
 }
 
 

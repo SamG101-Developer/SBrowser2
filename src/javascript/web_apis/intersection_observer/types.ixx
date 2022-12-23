@@ -27,7 +27,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(intersection_observer)
 
 struct intersection_observer::detail::intersection_observer_registration_t
 {
-    intersection_observer* observer;
+    std::observer_ptr<intersection_observer> observer;
     ext::number<int> previous_threshold_index;
     ext::boolean previous_is_intersecting;
 };
