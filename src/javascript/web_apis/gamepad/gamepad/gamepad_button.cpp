@@ -1,5 +1,5 @@
-#include "gamepad_button.hpp"
-#include "gamepad_button_private.hpp"
+#include "gamepad_button.ixx"
+#include "gamepad_button_private.ixx"
 
 
 gamepad::gamepad_button::gamepad_button()

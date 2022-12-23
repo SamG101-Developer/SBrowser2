@@ -86,20 +86,20 @@ FetchContent_Declare(VectorReplacement SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/vect
         GIT_REPOSITORY https://github.com/Shmoopty/veque.git
         GIT_TAG master)
 
-FetchContent_Declare(HardwareInfo
-        GIT_REPOSITORY https://github.com/lfreist/hwinfo.git
-        GIT_TAG main)
-
-FetchContent_Declare(BigInt
-        GIT_REPOSITORY https://github.com/rgroshanrg/bigint.git
-        GIT_TAG main)
-
 FetchContent_Declare(Crypto SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/crypto-src/cryptopp
         GIT_REPOSITORY https://github.com/weidai11/cryptopp.git
         GIT_TAG master)
 
 FetchContent_Declare(DateTime
         GIT_REPOSITORY https://github.com/mobius3/asap.git
+        GIT_TAG master)
+
+FetchContent_Declare(HardwareInfo
+        GIT_REPOSITORY https://github.com/lfreist/hwinfo.git
+        GIT_TAG main)
+
+FetchContent_Declare(Gamepad
+        GIT_REPOSITORY https://github.com/univrsal/libgamepad.git
         GIT_TAG master)
 
 FetchContent_Declare(MagicEnum SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/magicenum-src/magic_enum
@@ -126,7 +126,7 @@ FetchContent_MakeAvailable(
         AssertReplacement ExpectedReplacement FileSystemReplacement FunctionReplacement HashMapSetReplacement
         InitializerListReplacement JsonReplacement OptionalReplacement QueueReplacement RandomReplacement
         RangeReplacement RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement
-        VectorReplacement HardwareInfo BigInt Crypto DateTime MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        VectorReplacement Crypto DateTime HardwareInfo Gamepad MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 #list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 #find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -162,7 +162,7 @@ target_include_directories(hwinfo INTERFACE ${FETCH_CONTENT_BASE_DIR}/hardwarein
 target_link_libraries(${PROJECT_NAME}
         assert expected cppfs function2::function2 unordered_dense::unordered_dense better_braces jsonpp optional
         effolkronium_random range-v3::range-v3 re2::re2 plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
-        hwinfo bigint crypto asap magic_enum::magic_enum self_macro stduuid v8pp)
+        crypto asap hwinfo gamepad magic_enum::magic_enum self_macro stduuid v8pp)
 #foreach (QT_COMPONENT ${QT_COMPONENTS})
 #    target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
 #endforeach ()

@@ -288,12 +288,10 @@ export namespace ranges::views
             {return {all(std::forward<Rng>(rng)) COMMA _EXT identity};}) // TODO : impl with ranges::views::elements<N>(...)
 
 
-    RANGE_VIEW_STRUCT(remove_at_index,
-            constexpr auto operator()(_EXT number<size_t> r_index) const
+    RANGE_VIEW_STRUCT(remove_null,
+            constexpr auto operator()() const
             {
-        return ranges::views::enumerate
-                | ranges::views::remove_if(_EXT bind_back(_EXT pair_key_matches, r_index))
-                | ranges::views::values;
+        return ranges::view::remove_if([](auto&& e) {return !e;});
             })
 
     RANGE_VIEW_STRUCT(for_each_if,

@@ -1,5 +1,5 @@
-#include "gamepad_event.hpp"
-#include "gamepad_event_private.hpp"
+#include "gamepad_event.ixx"
+#include "gamepad_event_private.ixx"
 
 #include "gamepad/gamepad.hpp"
 

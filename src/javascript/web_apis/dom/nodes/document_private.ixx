@@ -26,15 +26,6 @@ public:
     MAKE_QIMPL(document);
 
 public:
-    /* [FULLSCREEN] */
-    auto unfullscreen_document() -> void;
-    auto fully_exit_fullscreen() -> void;
-    auto run_fullscreen_steps() -> void;
-    auto fullscreen_element_ready_check(element* element) -> ext::boolean;
-    auto collect_documents_to_unfullscreen() -> ext::vector<document*>;
-    auto exit_fullscreen() -> void;
-
-public:
     /* [DOM] */
     auto is_document_available_to_user(ext::string_view) -> ext::boolean;
     auto is_document_fully_active() -> ext::boolean;

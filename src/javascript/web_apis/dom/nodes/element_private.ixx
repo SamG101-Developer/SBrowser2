@@ -44,10 +44,6 @@ public:
     auto remove_attribute(attr* attribute) -> attr*;
     auto toggle_attribute(attr* attribute, ext::optional<ext::boolean> force, ext::string_view qualified_name = u"", ext::string_view namespace_ = u"") -> attr*;
 
-    /* [DULLSCREEN] */
-    auto fullscreen_element() -> void;
-    auto unfullscreen_element() -> void;
-
 public:
     ext::string namespace_;
     ext::string namespace_prefix;
