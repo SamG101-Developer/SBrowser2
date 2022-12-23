@@ -27,7 +27,7 @@ public:
     intersection_observer_callback_t callback;
     ext::array<int, 4> root_margin;
     ext::vector<dom::element*> observation_targets;
-    ext::vector<intersection_observer*> queued_entries;
+    ext::vector<intersection_observer_entry*> queued_entries;
     ext::vector<ext::number<double>> thresholds;
     std::observer_ptr<dom::node> root;
 };

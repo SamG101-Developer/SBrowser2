@@ -1,13 +1,18 @@
 module;
 #include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
+#include <range/v3/action/remove.hpp>
 #include <range/v3/action/sort.hpp>
+#include <range/v3/action/transform.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/for_each.hpp>
+#include <swl/variant.hpp>
 
 
 module apis.intersection_observer.intersection_observer;
 import apis.intersection_observer.intersection_observer_private;
 import apis.intersection_observer.detail;
+import apis.intersection_observer.types;
 
 import apis.dom.element;
 import apis.dom.element_private;
@@ -16,6 +21,7 @@ import apis.dom.detail;
 import apis.dom.types;
 
 import ext.core;
+import js.env.module_type;
 import js.env.realms;
 
 
@@ -74,19 +80,18 @@ auto intersection_observer::intersection_observer::disconnect() -> void
     // To disconnect this IntersectionObserver, unobserve every Element in the [[ObservationTargets]] slot.
     for (decltype(auto) target: d->observation_targets)
     {
-        target->d_func()->registered_intersection_observers
-                |= ranges::actions::transform(&intersection_observer_registration_t::observer)
-                | ranges::actions::remove(this, std::observer_ptr<intersection_observer_registration_t>::get);
+        target->d_func()->registered_observer_list
+                |= ranges::actions::transform(&detail::intersection_observer_registration_t::observer)
+                | ranges::actions::remove(this, &ext::underlying);
 
-        d->observervation_targets |= ranges::actions::remove(target);
+        d->observation_targets |= ranges::actions::remove(target);
     }
 }
 
 
-auto intersection_observer::intersection_observer::take_records()
-        -> ext::vector<intersection_observer_entry*>
+auto intersection_observer::intersection_observer::take_records() -> ext::vector<intersection_observer_entry*>
 {
-    ACCESS_PIMPL(intersection_observer);
+    ACCESS_PIMPL;
 
     // To take the records, return a copy of the [[QueuedEntries]] slot, and clear the [[QueuedEntries]] slot
     auto queue = std::move(d->queued_entries);
@@ -97,31 +102,32 @@ auto intersection_observer::intersection_observer::take_records()
 
 auto intersection_observer::intersection_observer::get_root() const -> detail::document_or_element_t
 {
-    ACCESS_PIMPL(const intersection_observer);
-    return ext::visit([d]<typename T>(T*) -> detail::document_or_element_t {return dynamic_cast<T*>(d->root);}, detail::document_or_element_t{});
+    ACCESS_PIMPL;
+    return ext::visit([]<typename T>(auto&& node) {dynamic_cast<T*>(node);}, detail::document_or_element_t());
 }
 
 
 auto intersection_observer::intersection_observer::get_root_margin() const -> ext::string
 {
-    ACCESS_PIMPL(const intersection_observer);
+    ACCESS_PIMPL;
     return d->root_margin; // TODO : serialize
 }
 
 
-auto intersection_observer::intersection_observer::get_thresholds() const -> ext::vector_span<ext::number<double>>
+auto intersection_observer::intersection_observer::get_thresholds() const -> ext::span<ext::number<double>>
 {
-    ACCESS_PIMPL(const intersection_observer);
+    ACCESS_PIMPL;
     return d->thresholds;
 }
 
 
-auto intersection_observer::intersection_observer::to_v8(
+auto intersection_observer::intersection_observer::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<self_t>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<intersection_observer>{isolate}
-        .ctor<detail::intersection_observer_callback_t&&, detail::intersection_observer_init_t&&>()
+    V8_INTEROP_CREATE_JS_OBJECT
+        .ctor<intersection_observer_callback_t&&, intersection_observer_init_t&&>()
         .function("observe", &intersection_observer::observe)
         .function("unobserve", &intersection_observer::unobserve)
         .function("disconnect", &intersection_observer::disconnect)
@@ -131,5 +137,5 @@ auto intersection_observer::intersection_observer::to_v8(
         .property("thresholds", &intersection_observer::get_thresholds)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
