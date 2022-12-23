@@ -16,11 +16,9 @@ _EXT_BEGIN
     // Define aliases
     export using octet_t = char8_t;
     export using octet_string = std::basic_string<octet_t, std::char_traits<octet_t>, _EXT allocator<octet_t>>;
-    export using octet_string_view = std::basic_string_view<octet_t>;
 
     export using byte_t = char8_t;
     export using byte_string = std::basic_string<byte_t, std::char_traits<byte_t>, _EXT allocator<byte_t>>;
-    export using byte_string_view = std::basic_string_view<byte_t>;
 
     // Define all string types, default is utf16 encoding
     export using u8string  = std::basic_string<char8_t, std::char_traits<char8_t>, _EXT allocator<char8_t>>;

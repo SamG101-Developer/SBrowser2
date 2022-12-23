@@ -345,11 +345,23 @@ export namespace ranges::actions
                 {return f(std::forward<T>(current_value)) ? std::forward<T>(new_value) : std::forward<T>(current_value);});
             })
 
+    RANGE_ACTION_STRUCT(pop_back,
+            constexpr auto operator()() const
+            {
+        return ranges::actions::drop(0); // TODO
+            })
+
+    RANGE_ACTION_STRUCT(pop_front,
+            constexpr auto operator()() const
+            {
+        return ranges::actions::drop(0);
+            })
+
     RANGE_ACTION_STRUCT(pop,
-            constexpr auto operator()(_EXT number<size_t> r_index) const
+            constexpr auto operator()(_EXT number<size_t> i) const
             {
         return ranges::views::enumerate
-                | ranges::actions::remove_if(_EXT bind_front(_EXT pair_key_matches, r_index))
+                | ranges::actions::remove_if(_EXT bind_front(_EXT pair_key_matches, i))
                 | ranges::views::values;
             })
 
