@@ -1,13 +1,8 @@
-#include "gyroscope.hpp"
-#include "gyroscope_private.hpp"
-
-#include "gyroscope/detail/abstract_operations_internals.hpp"
-#include "sensors/detail/sensor_internals.hpp"
-
+module apis.gyroscope.gyroscope;
 
 
 gyroscope::gyroscope::gyroscope(
-        detail::gyroscope_sensor_options_t&& options)
+        gyroscope_sensor_options_t&& options)
 {
     // Construct an gyroscope instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.

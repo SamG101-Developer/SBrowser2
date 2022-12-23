@@ -9,15 +9,8 @@ export module apis.performance_timeline.performance_observer;
 import apis.dom_object;
 import apis.performance_timeline.types;
 
-import ext.enums;
-import ext.string;
-import ext.tuple;
-import ext.span;
-import ext.vector;
-
+import ext.core
 import js.env.module_type;
-
-namespace performance_timeline {class performance_entry;}
 
 
 DEFINE_PUBLIC_CLASS(performance_timeline, performance_observer) final

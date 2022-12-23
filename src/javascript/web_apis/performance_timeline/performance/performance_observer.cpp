@@ -20,13 +20,7 @@ import apis.performance_timeline.types;
 import apis.dom.detail;
 import apis.dom.types;
 
-import ext.assertion;
-import ext.boolean;
-import ext.functional;
-import ext.ranges;
-import ext.string;
-import ext.tuple;
-import ext.vector;
+import ext.core;
 
 import js.env.module_type;
 import js.env.realms;

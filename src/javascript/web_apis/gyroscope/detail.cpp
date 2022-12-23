@@ -1,16 +1,8 @@
-#include "abstract_operations_internals.hpp"
+module apis.gyroscope.detail;
+import apis.gyroscope.gyroscope;
+import apis.gyroscope.gyroscope_private;
 
-
-
-
-#include "gyroscope/_typedefs.hpp"
-#include "gyroscope/gyroscope.hpp"
-#include "gyroscope/gyroscope_private.hpp"
-
-#include "sensors/_typedefs.hpp"
-#include "sensors/detail/sensor_internals.hpp"
-
-#include <typeinfo>
+import apis.sensors.detail;
 
 
 auto gyroscope::detail::construct_gyroscope_object(

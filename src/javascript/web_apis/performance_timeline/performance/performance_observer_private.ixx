@@ -6,10 +6,7 @@ export module apis.performance_timeline.performance_observer_private;
 import apis.dom_object_private;
 import apis.performance_timeline.types;
 
-import ext.boolean;
-import ext.vector;
-
-namespace performance_timeline {class performance_entry;}
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(performance_timeline, performance_observer)

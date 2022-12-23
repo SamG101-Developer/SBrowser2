@@ -1,14 +1,14 @@
 module;
 #include "ext/macros/pimpl.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "javascript/macros/expose.hpp"
 
 
 module apis.performance_timeline.performance_entry;
+import apis.performance_timeline.performance_entry_private;
 import apis.hr_time.types;
 
-import ext.string;
-import ext.tuple;
+import ext.core;
+import js.env.module_type;
 
 
 performance_timeline::performance_entry::performance_entry()
@@ -17,14 +17,14 @@ performance_timeline::performance_entry::performance_entry()
 }
 
 
-auto performance_timeline::performance_entry::get_name() const -> ext::string
+auto performance_timeline::performance_entry::get_name() const -> ext::string_view
 {
     ACCESS_PIMPL;
     return d->name;
 }
 
 
-auto performance_timeline::performance_entry::get_entry_type() const -> ext::string
+auto performance_timeline::performance_entry::get_entry_type() const -> ext::string_view
 {
     ACCESS_PIMPL;
     return d->entry_type;
@@ -45,11 +45,12 @@ auto performance_timeline::performance_entry::get_duration() const -> hr_time::d
 }
 
 
-auto performance_timeline::performance_entry::to_v8(
+auto performance_timeline::performance_entry::_to_v8(
+        js::env::module_t E,
         v8::Isolate* isolate)
-        -> v8pp::class_<this_t>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<performance_entry>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
         .property("name", &performance_entry::get_name)
         .property("entryType", &performance_entry::get_entry_type)
@@ -57,5 +58,5 @@ auto performance_timeline::performance_entry::to_v8(
         .property("duration", &performance_entry::get_duration)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

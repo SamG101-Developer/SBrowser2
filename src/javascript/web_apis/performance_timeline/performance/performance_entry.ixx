@@ -10,8 +10,7 @@ export module apis.performance_timeline.performance_entry;
 import apis.dom_object;
 import apis.hr_time.types;
 
-import ext.string;
-import ext.tuple;
+import ext.core;
 
 import js.env.module_type;
 

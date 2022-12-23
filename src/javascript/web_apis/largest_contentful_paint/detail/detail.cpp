@@ -1,27 +1,4 @@
-#include "detail.hpp"
-
-#include "environment/realms.ixx"
-#include "ext/hashing.ixx"
-
-
-#include "css/geometry/dom_rect_readonly.hpp"
-
-
-
-
-
-
-
-
-#include "html/detail/context_internals.hpp"
-#include "html/detail/document_internals.hpp"
-
-#include "largest_contentful_paint/largest_contentful_paint.hpp"
-#include "largest_contentful_paint/largest_contentful_paint_private.hpp"
-
-#include "fetch/request.hpp"
-#include "hr_time/detail/time_internals.hpp"
-#include "performance_timeline/detail/processing_internals.hpp"
+module apis.largest_contentful_paint.detail;
 
 
 auto largest_contentful_paint::detail::potentially_add_largest_contentful_paint_entry(

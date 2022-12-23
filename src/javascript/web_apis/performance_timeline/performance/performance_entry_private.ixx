@@ -2,11 +2,11 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-export module apis.perforance_timeline.performance_entry_private;
+export module apis.performance_timeline.performance_entry_private;
 import apis.dom_object_private;
 import apis.hr_time.types;
 
-import ext.string;
+import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(performance_timeline, performance_entry)
