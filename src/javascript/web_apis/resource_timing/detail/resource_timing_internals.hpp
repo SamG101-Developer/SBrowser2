@@ -24,7 +24,7 @@ namespace resource_timing::detail
     auto fire_buffer_full_event()
             -> void;
 
-    auto mark_resource_timing(
+    /* [4.7.1] */ auto mark_resource_timing(
             fetch::detail::fetch_timing_info_t& timing_info,
             ext::string_view requested_url,
             ext::string_view initiator_type,
@@ -33,7 +33,7 @@ namespace resource_timing::detail
             fetch::detail::response_body_info_t& body_info)
             -> void;
 
-    auto setup_resource_timing_entry(
+    /* [4.7.2] */ auto setup_resource_timing_entry(
             performance_resource_timing* entry,
             fetch::detail::initiator_type_t initiator_type,
             ext::string_view requested_url,
@@ -42,7 +42,7 @@ namespace resource_timing::detail
             fetch::detail::response_body_info_t&& body_info)
             -> void;
 
-    auto convert_fetch_timestamp(
+    /* [4.7.3] */ auto convert_fetch_timestamp(
             const hr_time::dom_high_res_time_stamp& time_stamp,
             v8::Local<v8::Object> global)
             -> hr_time::dom_high_res_time_stamp;

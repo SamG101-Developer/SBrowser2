@@ -1,24 +1,27 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_RESOURCE_TIMING_PERFORMANCE_RESOURCE_TIMING_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_RESOURCE_TIMING_PERFORMANCE_RESOURCE_TIMING_HPP
-
-#include "performance_timeline/performance_entry.hpp"
-namespace resource_timing {class performance_resource_timing;}
-namespace resource_timing {class performance_resource_timing_private;}
-
-#include INCLUDE_INNER_TYPES(fetch)
-#include INCLUDE_INNER_TYPES(hr_time)
-#include "ext/vector.hpp"
-namespace server_timing {class performance_server_timing;}
+module;
+#include "ext/macros/annotations.hpp"
+#include "ext/macros/other.hpp"
+#include "ext/macros/pimpl.hpp"
+#include "ext/macros/property.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-class resource_timing::performance_resource_timing
+export module apis.resource_timing.performance_resource_timing;
+import apis.performance_timeline.performance_entry;
+
+import apis.fetch.types;
+import apis.hr_time.types;
+import apis.server_timing.types;
+import ext.core;
+import js.env.module_type;
+
+
+DEFINE_PUBLIC_CLASS(resource_timing, performance_resource_timing)
         : public performance_timeline::performance_entry
 {
 public constructors:
-    DOM_CTORS(performance_resource_timing);
     MAKE_PIMPL(performance_resource_timing);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | WORKER);
     MAKE_STRINGIFIER;
 
 private js_properties:
@@ -41,14 +44,11 @@ private js_properties:
     DEFINE_GETTER(encoded_body_size, ext::number<ulonglong>);
     DEFINE_GETTER(decoded_body_size, ext::number<ulonglong>);
 
-    DEFINE_GETTER(name, ext::string) override;
-    DEFINE_GETTER(entry_type, ext::string) override {return u8"resource";}
+    DEFINE_GETTER(name, ext::string_view) override;
+    DEFINE_GETTER(entry_type, ext::string_view) override;
     DEFINE_GETTER(start_time, hr_time::dom_high_res_time_stamp) override;
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp) override;
 
     /* [SERVER-TIMING] */
     DEFINE_GETTER(server_timing, ext::vector<server_timing::performance_server_timing>);
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_RESOURCE_TIMING_PERFORMANCE_RESOURCE_TIMING_HPP
