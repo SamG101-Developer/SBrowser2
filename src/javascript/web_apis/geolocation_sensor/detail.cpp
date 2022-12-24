@@ -1,17 +1,8 @@
-#include "abstract_operations_internals.hpp"
+module apis.geolocation_sensor.detail;
+import apis.geolocation_sensor.geolocation_sensor;
 
-#include INCLUDE_INNER_TYPES(geolocation_sensor)
-
-
-
-
-#include "geolocation_sensor/geolocation_sensor.hpp"
-#include "geolocation_sensor/geolocation_sensor_private.hpp"
-
-#include "sensors/_typedefs.hpp"
-#include "sensors/detail/sensor_internals.hpp"
-
-#include "web_idl/detail/type_mapping_internals.hpp"
+import ext.core;
+import ext.js;
 
 
 auto geolocation_sensor::detail::construct_geolocation_sensor_object(

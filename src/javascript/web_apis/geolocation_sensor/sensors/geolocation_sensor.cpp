@@ -1,19 +1,30 @@
-#include "geolocation_sensor.hpp"
-
-#include "geolocation_sensor_private.hpp"
-
-
-
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/errors.hpp"
+#include "javascript/macros/expose.hpp"
 
 
-#include "geolocation_sensor/detail/abstract_operations_internals.hpp"
-#include "sensors/detail/sensor_internals.hpp"
+module apis.geolocation_sensor.geolocation_sensor;
+import apis.geolocation_sensor.detail;
 
-#include "web_idl/detail/type_mapping_internals.hpp"
+import apis.dom.abort_signal;
+import apis.dom.dom_exception;
+import apis.dom.detail;
+
+import apis.sensors.sensor;
+import apis.sensors.detail;
+import apis.sensors.types;
+
+import apis.web_idl.detail;
+
+import ext.core;
+import ext.js;
+import js.env.module_type;
+import js.env.realms;
 
 
 geolocation_sensor::geolocation_sensor::geolocation_sensor(
-        detail::geolocation_sensor_options_t&& options)
+        geolocation_sensor_options_t&& options)
 {
     // Construct a GeolocationSensor instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -22,17 +33,17 @@ geolocation_sensor::geolocation_sensor::geolocation_sensor(
 
 
 auto geolocation_sensor::geolocation_sensor::read(
-        detail::read_options_t&& read_options)
-        -> ext::promise<detail::geolocation_sensor_reading_t>
+        read_options_t&& read_options)
+        -> ext::promise<geolocation_sensor_reading_t>
 {
-    ext::promise<detail::geolocation_sensor_reading_t> promise;
-    decltype(auto) signal = read_options[u"signal"].to<dom::abort::abort_signal*>();
+    auto promise = ext::promise<geolocation_sensor_reading_t>{};
+    decltype(auto) signal = read_options[u"signal"].to<dom::abort_signal*>();
     auto e = js::env::env::current();
     auto sensor = geolocation_sensor{};
     JS_EXCEPTION_HANDLER;
 
     if (signal && dom::detail::is_signal_aborted(signal))
-        return web_idl::detail::reject_promise(promise, e.js.realm(), signal->d_func()->abort_reason.to<dom::other::dom_exception*>());
+        return web_idl::detail::reject_promise(promise, e.js.realm(), signal->d_func()->abort_reason.to<dom::dom_exception*>());
 
     if (JS_EXCEPTION_HAS_THROWN)
         return web_idl::detail::reject_promise(promise, e.js.realm(), JS_EXCEPTION);
@@ -41,7 +52,7 @@ auto geolocation_sensor::geolocation_sensor::read(
     if (signal)
         signal->d_func()->abort_algorithms.emplace_back(
                 [&e, &sensor, &promise, signal]
-                {sensor.stop(); web_idl::detail::reject_promise(promise, e.js.realm(), signal->d_func()->abort_reason.to<dom::other::dom_exception*>());});
+                {sensor.stop(); web_idl::detail::reject_promise(promise, e.js.realm(), signal->d_func()->abort_reason.to<dom::dom_exception*>());});
 
     // TODO : async algorithm
 
@@ -126,11 +137,14 @@ auto geolocation_sensor::geolocation_sensor::get_speed() const -> ext::number<do
 }
 
 
-auto geolocation_sensor::geolocation_sensor::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto geolocation_sensor::geolocation_sensor::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<geolocation_sensor>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<sensors::sensor>()
-        .ctor<detail::geolocation_sensor_options_t&&>()
+        .ctor<geolocation_sensor_options_t&&>()
         .property("latitude", &geolocation_sensor::get_latitude)
         .property("longitude", &geolocation_sensor::get_longitude)
         .property("altitude", &geolocation_sensor::get_altitude)
@@ -140,6 +154,6 @@ auto geolocation_sensor::geolocation_sensor::to_v8(v8::Isolate* isolate) -> v8pp
         .property("speed", &geolocation_sensor::get_speed)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }
 
