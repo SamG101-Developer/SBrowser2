@@ -49,21 +49,6 @@ namespace permissions::detail
 };
 
 
-struct permissions::detail::powerful_feature_t
-{
-    powerful_feature_t(ext::string&& powerful_feature_name);
-
-    ext::string name;
-
-    ext::number<long double> permission_life; // TODO : steps when it expires
-    permission_state_t default_permission_state;
-
-    auto permission_state_constraints() -> permissions_descriptor_t;
-    auto extra_permissions_data_constraints() -> permissions_descriptor_t;
-    auto permission_query_algorithm(permissions_descriptor_t&& permission_descriptor, permissions_result_t* status) -> void;
-
-    ext::function<void()> permission_revocation_algorithm;
-};
 
 
 #endif //SBROWSER2_PERMISSION_INTERNALS_HPP

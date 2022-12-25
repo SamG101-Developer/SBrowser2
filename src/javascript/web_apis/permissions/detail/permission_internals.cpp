@@ -86,24 +86,7 @@ permissions::detail::powerful_feature_t::powerful_feature_t(
         ext::string&& powerful_feature_name)
         : name(powerful_feature_name)
 {
-    if (name == u"persistent-storage")
-        permission_revocation_algorithm =
-                [powerful_feature_name = std::move(powerful_feature_name)] mutable
-        {
-            return_if (get_current_permission_state(std::move(powerful_feature_name), ext::nullopt) == permission_state_t::GRANTED);
-
-            auto e = js::env::env::current();
-            decltype(auto) shelf = storage::detail::obtain_local_storage_shelf(e.js.global());
-            shelf->bucket_map.emplace(u"default", storage::detail::storage_bucket_mode_t::BEST_EFFORT);
-        };
-
-    if (name == u"storage")
-    {
-        // TODO : sensors spec
-    }
-
-    if (name == u"speaker-selection")
-    {
-        // TODO: https://w3c.github.io/mediacapture-output/#permissions-integration
-    }
+    permission_query_algorithm = [](permissions_descriptor_t&& permission_descriptor, permissions_status* status) {status->d_func()->state = std::move(detail::permission_state(permission_descriptor));}
+    permission_key_generation_algorithm = [](js::env::env& environment) {return environment.js.settings()->origin;};
+    permission_key_comparison_algorithm = [](const permission_key_t& key_a, const permission_key_t& key_b) {return html::detail::same_origin(key_a, key_b);};
 }
