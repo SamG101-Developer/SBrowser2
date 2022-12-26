@@ -2,6 +2,8 @@ module;
 #include "ext/macros/pimpl.hpp"
 #include "javascript/macros/expose.hpp"
 #include <magic_enum.hpp>
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/transform.hpp>
 
 
 module apis.webappsec_permissions_policy.permissions_policy;
@@ -22,13 +24,12 @@ auto webappsec_permissions_policy::permissions_policy::allows_feature(
     // If the origin is empty, then set it to the default origin, which is dependent on whether the associated node is
     // an Element of Document. The policy is the observable policy for the correctly cast associated node.
     origin = origin ?: html::detail::serialize_origin(d->default_origin());
-    auto policy = d->observable_policy(d->associated_node.get());
-    return detail::policy_allows_feature(*policy, std::move(feature))
+    auto policy = detail::observable_policy(d->associated_node.get());
+    return detail::policy_allows_feature(*policy, std::move(feature), std::move(origin));
 }
 
 
-auto webappsec_permissions_policy::permissions_policy::features()
-        -> ext::span<detail::feature_name_t>
+auto webappsec_permissions_policy::permissions_policy::features() -> ext::span<detail::feature_name_t>
 {
     // take all the supported features (in a clas-scoped enumeration), get all the entries with 'magic_enum', take the
     // enum values (exclude heir indexes), and transform them into their string representations of the enum values,
@@ -37,33 +38,39 @@ auto webappsec_permissions_policy::permissions_policy::features()
 }
 
 
-auto permissions_policy::permissions_policy_object::allowed_features()
-        -> ext::set<ext::string>
+auto webappsec_permissions_policy::permissions_policy::allowed_features() -> ext::set<ext::string>
 {
+    ACCESS_PIMPL;
+
+    auto origin = d->default_origin();
+    auto policy = detail::observable_policy(d->associated_node.get());
+
     return detail::supported_features
-            | ranges::views::filter(ext::bind_front(&detail::policy_allows_feature, d->observable_policy(d->associated_node.get())))
-            | ranges::to_set();
+            | ranges::views::filter(ext::bind_front(&detail::policy_allows_feature, *policy, *origin))
+            | ranges::to_set;
 }
 
 
-auto permissions_policy::permissions_policy_object::get_allowlist_for_feature(
+auto webappsec_permissions_policy::permissions_policy::get_allowlist_for_feature(
         detail::feature_name_t&& feature)
         -> ext::set<ext::string>
 {
-    using enum detail::inherited_policy_value_t;
+    ACCESS_PIMPL;
 
-    auto origin = m_default_origin();
-    auto policy = detail::observable_policy(m_associated_node);
+    auto origin = d->default_origin();
+    auto policy = detail::observable_policy(d->associated_node.get());
+
+    return_if (!detail::policy_allows_feature(*policy, std::move(feature), *origin)) {};
 
     // return an empty set if the feature doesn't exist, or the value is disabled in the policy
     auto feature_enum = magic_enum::enum_cast<detail::feature_t>(std::move(feature));
     return_if(!feature_enum.has_value()) {};
-    return_if(policy.inherited_policy.at(*feature_enum) == DISABLED) {};
+    return_if(policy->inherited_policy.at(*feature_enum) == DISABLED) {};
 
-    auto allowlist = policy.declared_policy.at(*feature_enum);
-    return ranges::contains(allowlist, "*")
+    auto allowlist = policy->declared_policy.at(/* TODO */);
+    return ranges::contains(allowlist, u"*")
             ? allowlist
-            : allowlist | ranges::views::transform(html::detail::serialize_origin) | ranges::to<detail::allowlist_t>;
+            : allowlist | ranges::views::transform(html::detail::serialize_origin) | ranges::to_set;
 }
 
 

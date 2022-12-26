@@ -8,13 +8,20 @@ import apis.html.types;
 import ext.core;
 
 
+DEFINE_FWD_DECL_NAMESPACE(webappsec_permissions_policy)
+{
+    class permissions_policy;
+    class permissions_policy_violation_report_body;
+}
+
+
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(webappsec_permissions_policy)
 {
     /* [4.1] */ struct policy_controlled_feature_t;
     /* [4.2] */ struct permissions_policy_t;
 
     /* [4.9] */ enum class default_allowlist_t {ALL, SELF};
-    enum class inherited_policy_value_t {DISABLED, ENABLED};
+    enum class inherited_policy_value_t : bool {DISABLED = false, ENABLED = true};
 
     using feature_name_t = ext::string;
     /* [4.8] */ using allowlist_t = ext::set<html::detail::origin_t>;
