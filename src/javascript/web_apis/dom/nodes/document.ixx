@@ -93,8 +93,6 @@ public js_methods:
     auto layout_now() -> void;
 
 private js_properties:
-    /* [PERMISSIONS_POLICY] */
-    ext::property<std::unique_ptr<permissions_policy::permissions_policy_object>> permissions_policy;
 
     /* [PAGE_VISIBILITY] */
     ext::property<ext::boolean> hidden;
@@ -155,6 +153,9 @@ private js_properties:
     DEFINE_GETTER(visibility_state, page_visibility::detail::visibility_state_t);
 
     DEFINE_SETTER(visibility_state, page_visibility::detail::visibility_state_t);
+
+    /* [WebAppSec-Permissions-Policy] */
+    DEFINE_GETTER(permissions_policy, webappsec_permissions_policy::permissions_policy*);
 
     /* [CSS_WEB_ANIMATIONS] */ // TODO
     DEFINE_GETTER(timeline);

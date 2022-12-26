@@ -10,6 +10,7 @@ import apis.dom.mixins.document_or_shadow_root_private;
 import apis.dom.mixins.non_element_parent_node_private;
 import apis.dom.mixins.parentable_node_private;
 
+import apis.webappsec_permissions_policy.types;
 import apis.dom.types;
 import ext.core;
 
@@ -24,6 +25,7 @@ DEFINE_PRIVATE_CLASS(dom, document)
 {
 public:
     MAKE_QIMPL(document);
+    document_private();
 
 public:
     /* [DOM] */
@@ -103,6 +105,9 @@ public:
     /* [Largest-Contentful-Paint] */
     ext::number<int> largest_contentful_paint_size = 0;
     ext::set<ext::tuple<dom::element*, fetch::request*>> content_set; // TODO: std::weak-ptr<T> ?
+
+    /* [WebAppSec-Permissions-Policy] */
+    std::unique_ptr<webappsec_permissions_policy::permissions_policy>;
 
     /* [CSS_ANIMATION_WORKLET] */
     ext::map<ext::string, css::detail::document_animator_definition_t*> document_animator_definitions;

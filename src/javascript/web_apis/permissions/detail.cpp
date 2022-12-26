@@ -1,44 +1,33 @@
-#include "permission_internals.hpp"
+module;
+#include <utility>
 
-#include "permissions/permission_status.hpp"
-#include "html/detail/document_internals.hpp"
-#include "storage/detail/storage_internals.hpp"
 
-#include "gui/javascript_interop/registry.hpp"
+module apis.permissions.detail;
+import apis.permissions.types;
 
-#include <v8-local-handle.h>
-#include <v8-object.h>
-#include <magic_enum.hpp>
+import ext.core;
+import js.env.realms;
 
 
 auto permissions::detail::get_current_permission_state(
         ext::string&& name,
-        ext::optional<v8::Local<v8::Object>> environment_settings_object)
+        js::env::env& environment)
         -> permission_state_t
 {
-    auto e = js::env::env::current();
-
-    // create a mock 'permissions_descriptor' dictionary, with the "name" set the 'name' parameter. return the
-    // permission state for this 'permissions_descriptor', and the settings object
-    permissions_descriptor_t permissions_descriptor {{u"name", std::move(name)}};
-    return permission_state(std::move(permissions_descriptor), environment_settings_object.value_or(e.js.settings()));
+    // Create a mock 'permissions_descriptor' dictionary, with the "name" set the 'name' parameter. Return the
+    // permission state for this 'permissions_descriptor', and the settings object.
+    auto permissions_descriptor = permission_descriptor_t{{u"name", std::move(name)}};
+    return permission_state(std::move(permissions_descriptor), environment));
 }
 
 
 auto permissions::detail::permission_state(
-        permissions_descriptor_t&& permission_descriptor,
-        ext::optional<v8::Local<v8::Object>> environment_settings_object)
+        permission_descriptor_t&& permission_descriptor,
+        js::env::env& environment)
         -> permission_state_t
 {
-    // the 'settings' is teh 'environment_settings_object' if provided, otherwise the current global object's settings
-    // object. if the settings object isn't secure, then return from the method - permission states can only be read in
-    // secure contexts
-    auto e = js::env::env::current();
-    auto settings = environment_settings_object.value_or(e.js.settings());
-    // TODO : return if the settings object isn't secure
-
-    // get the feature (permission whose state is to be determined) from the 'permission_descriptor' map, and convert
-    // it to the enum value from the 'permissions_policy' api
+    // Get the feature (permission whose state is to be determined) from the 'permission_descriptor' map, and convert
+    // it to the enum value from the 'permissions_policy' api.
     using permissions_policy::detail::feature_t;
     auto feature_string = permission_descriptor[u"name"].to<powerful_feature_t>().name;
     auto feature = magic_enum::enum_cast<feature_t>(std::move(feature_string));

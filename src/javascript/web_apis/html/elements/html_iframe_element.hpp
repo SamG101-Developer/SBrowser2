@@ -9,9 +9,6 @@ namespace html::elements {class html_iframe_element_private;}
 
 #include INCLUDE_INNER_TYPES(html)
 #include INCLUDE_INNER_TYPES(referrer_policy)
-namespace dom::nodes {class document;}
-namespace dom::nodes {class window_proxy;}
-namespace permissions_policy {class permissions_policy_object;}
 
 
 class html::elements::html_iframe_element
@@ -51,8 +48,8 @@ private js_properties:
     DEFINE_SETTER(referrer_policy, referrer_policy::detail::referrer_policy_t);
     DEFINE_SETTER(loading, detail::lazy_loading_t);
 
-    /* [PERMISSIONS-POLICY] */
-    DEFINE_GETTER(permissions_policy, permissions_policy::permissions_policy_object*);
+    /* [WEBAPPSEC-PERMISSIONS-POLICY] */
+    DEFINE_GETTER(permissions_policy, permissions_policy::permissions_policy*);
 
     /* [WEBAPPSEC-COWL] */
     DEFINE_GETTER(cowl, ext::boolean);

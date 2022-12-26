@@ -1,6 +1,7 @@
 module;
 #include "ext/macros/pimpl.hpp"
 #include <function2/function2.hpp>
+#include <tuplet/tuple.hpp>
 #include <v8-forward.h>
 
 
@@ -23,7 +24,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(permissions)
     enum class permission_state_t {DENIED, GRANTED, PROMPT};
 
     using permission_key_t = ext::string;
-    using permissions_descriptor_t = ext::map<ext::string, ext::any>;
+    using permission_descriptor_t = ext::map<ext::string, ext::any>;
     using permission_store_entry_t = ext::tuple<permission_descriptor_t, permission_key_t, permission_state_t>;
 }
 
@@ -42,7 +43,7 @@ struct permissions::detail::powerful_feature_t
     // extra permissions data constraints
     // extra permissions query algorithm
 
-    ext::function<auto(permissions_descriptor_t&& permission_descriptor, permission_status* status) -> void> permission_query_algorithm;
+    ext::function<auto(permission_descriptor_t&& permission_descriptor, permission_status* status) -> void> permission_query_algorithm;
     ext::function<auto(js::env::env& environment) -> permission_key_t> permission_key_generation_algorithm;
     ext::function<auto(const permission_key_t& key_a, const permission_key_t& key_b) -> bool> permission_key_comparison_algorithm;
     ext::function<auto() -> void> permission_revocation_algorithm;

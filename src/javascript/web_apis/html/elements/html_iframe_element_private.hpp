@@ -30,8 +30,8 @@ DEFINE_PRIVATE_CLASS(html::elements, html_iframe_element)
     ext::boolean current_navigation_lazy_loaded = true;
     detail::sandboxing_flag_set_t sandboxing_set;
 
-    /* [PERMISSIONS-POLICY] */
-    std::unique_ptr<permissions_policy::permissions_policy_object> permissions_policy;
+    /* [WebAppSec-Permissions-Policy] */
+    std::unique_ptr<webappsec_permissions_policy::permissions_policy>;
 
     /* [FULLSCREEN] */
     ext::boolean m_iframe_fullscreen_flag;
