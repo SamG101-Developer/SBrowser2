@@ -53,18 +53,6 @@ namespace html::detail
 }
 
 
-struct html::detail::origin_t
-{
-    ext::string scheme;
-    ext::string host;
-    ext::number<uint16_t> port;
-    url::detail::domain_t domain;
-
-    auto is_opaque() -> ext::boolean {return scheme.empty() && host.empty() && port == 0 && domain.empty();}
-
-    auto operator==(const origin_t&) const -> bool = default;
-    auto operator!=(const origin_t&) const -> bool = default;
-};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_DETAIL_ORIGIN_INTERNALS_HPP

@@ -15,7 +15,7 @@ import ext.core;
 
 
 auto webappsec_permissions_policy::permissions_policy::allows_feature(
-        detail::feature_name_t&& feature,
+        detail::feature_name_t feature,
         ext::string&& origin)
         -> ext::boolean
 {
@@ -52,7 +52,7 @@ auto webappsec_permissions_policy::permissions_policy::allowed_features() -> ext
 
 
 auto webappsec_permissions_policy::permissions_policy::get_allowlist_for_feature(
-        detail::feature_name_t&& feature)
+        detail::feature_name_t feature)
         -> ext::set<ext::string>
 {
     ACCESS_PIMPL;

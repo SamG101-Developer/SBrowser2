@@ -17,13 +17,15 @@ DEFINE_FWD_DECL_NAMESPACE(webappsec_permissions_policy)
 
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(webappsec_permissions_policy)
 {
+    enum class inherited_policy_value_t : bool {DISABLED = false, ENABLED = true};
+    enum class disposition_t {ENFORCE, REPORT};
+    enum feature_name_t {};
+
     /* [4.1] */ struct policy_controlled_feature_t;
     /* [4.2] */ struct permissions_policy_t;
 
     /* [4.9] */ enum class default_allowlist_t {ALL, SELF};
-    enum class inherited_policy_value_t : bool {DISABLED = false, ENABLED = true};
 
-    using feature_name_t = ext::string;
     /* [4.8] */ using allowlist_t = ext::set<html::detail::origin_t>;
     /* [4.3] */ using inherited_policy_t = ext::map<policy_controlled_feature_t, inherited_policy_value_t>;
     /* [4.4] */ using declared_policy_t = ext::map<policy_controlled_feature_t , allowlist_t>;
@@ -40,6 +42,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(webappsec_permissions_policy)
 
 struct webappsec_permissions_policy::detail::policy_controlled_feature_t
 {
+    policy_controlled_feature_t(feature_name_t name);
     default_allowlist_t default_allowlist;
 };
 

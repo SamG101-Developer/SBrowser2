@@ -1,4 +1,12 @@
+module;
+#include <stdint.h>
+
+
 export module apis.html.types;
+
+
+import ext.core;
+import apis.url.types;
 
 
 export namespace html::detail
@@ -151,3 +159,18 @@ export namespace html::detail
     using image_bitmap_options_t = ext::map<ext::string, ext::any>;
     using worklet_options_t = ext::map<ext::string, ext::any>;
 }
+
+
+struct html::detail::origin_t
+{
+    ext::string scheme;
+    ext::string host;
+    ext::number<uint16_t> port;
+    url::detail::domain_t domain;
+
+    auto is_opaque() -> ext::boolean {return scheme.empty() && host.empty() && port == 0 && domain.empty();}
+
+    auto operator==(const origin_t&) const -> bool = default;
+    auto operator!=(const origin_t&) const -> bool = default;
+};
+
