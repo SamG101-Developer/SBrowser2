@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <function2/function2.hpp>
 #include <tl/optional.hpp>
 
@@ -9,7 +10,7 @@ import apis.url.types;
 import ext.core;
 
 
-namespace url::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(url)
 {
     auto is_url_special(
             const url_t& url)
@@ -329,7 +330,7 @@ namespace url::detail
             -> ext::map<ext::string, ext::string>;
 
     auto application_x_www_form_urlencoded_serializer(
-            ext::map_span<ext::string, ext::string> tuples,
+            ext::span<ext::string, ext::string> tuples,
             encoding::encoding* encoding = nullptr)
             -> ext::string;
 

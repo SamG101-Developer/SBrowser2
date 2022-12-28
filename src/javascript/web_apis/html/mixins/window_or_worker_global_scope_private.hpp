@@ -13,6 +13,12 @@
 DEFINE_PRIVATE_CLASS(html::mixins, window_or_worker_global_scope) : virtual dom_object_private
 {
     ext::map<ext::number<long>, hr_time::dom_high_res_time_stamp> active_timers;
+
+    /* [Reporting] */
+    ext::vector<std::unique_ptr<reporting::detail::endpoint_t>> endpoints;
+    ext::vector<std::unique_ptr<reporting::detail::report_t>> reports;
+    ext::vector<std::unique_ptr<reporting::detail::reporting_observer_t>> registered_reporting_observers;
+    ext::vector<std::unique_ptr<reporting::detail::report_t>> report_buffer;
 };
 
 

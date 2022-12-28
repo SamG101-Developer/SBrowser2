@@ -1,6 +1,8 @@
-#include "reporting_observer.hpp"
-#include "reporting_observer_private.hpp"
-#include <iterator>
+module;
+#include "ext/macros/pimpl.hpp"
+
+
+module apis.reporting.reporting_observer_private;
 
 
 reporting::reporting_observer::reporting_observer(

@@ -52,10 +52,10 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(web_idl)
     auto upon_settlement(ext::promise<T>& promise, v8::Local<v8::Context> realm, F&& steps) -> ext::promise<T>&;
 
     template <typename T, ext::callable F0, ext::callable F1>
-    auto wait_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm, F0&& success_steps, F1&& failure_steps) -> void;
+    auto wait_for_all(ext::span<ext::promise<T>*> promises, v8::Local<v8::Context> realm, F0&& success_steps, F1&& failure_steps) -> void;
 
     template <typename T>
-    auto get_promise_for_waiting_for_all(ext::vector_span<ext::promise<T>*> promises, v8::Local<v8::Context> realm) -> ext::promise<T>;
+    auto get_promise_for_waiting_for_all(ext::span<ext::promise<T>*> promises, v8::Local<v8::Context> realm) -> ext::promise<T>;
 
     template <typename T>
     auto mark_as_handled(ext::promise<T>& promise) -> void;

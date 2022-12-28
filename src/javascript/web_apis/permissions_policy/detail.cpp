@@ -1,7 +1,8 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
 #include <memory>
-#include <range/v3/vie
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/for_each.hpp>
 
 
 module apis.webappsec_permissions_policy.detail;
@@ -24,7 +25,11 @@ auto webappsec_permissions_policy::detail::observable_policy(
     auto inherited_policy = inherited_policy_t{};
     auto declared_policy = declared_policy_t{};
 
-    supported_features
-            | ranges::views::filter(ext::bind_back(&detail::define_inherited_policy_for_feature_in_container_at_origin, node, declared_origin(node)))
-            | ranges::views::for_each()
+    for (auto&& feature: supported_features)
+        inherited_policy[feature] = detail::define_inherited_policy_for_feature_in_container_at_origin(feature, node, declared_origin(node));
+
+    auto policy = std::make_unique<permissions_policy_t>();
+    policy->inherited_policy = std::move(inherited_policy);
+    policy->declared_policy = std::move(declared_policy);
+    return policy;
 }

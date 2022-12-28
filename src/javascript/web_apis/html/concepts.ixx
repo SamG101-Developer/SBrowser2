@@ -1,24 +1,21 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__CONCEPTS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__CONCEPTS_HPP
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+export module apis.html.concepts;
+
+import apis.dom.types;
+import apis.html.types;
+import ext.core;
 
 
-
-#include "ext/vector.hpp"
-namespace dom::nodes {class element;}
-namespace dom::nodes {class node;}
-namespace html::elements {class html_element;}
-namespace html::elements {class html_form_element;}
-
-
-namespace html::concepts
+DEFINE_FWD_DECL_NAMESPACE_CONCEPTS(html)
 {
     template <typename T>
     concept form_associated = requires
     {
-        requires ext::inherit<T, elements::html_element>;
-        {T::get_form} -> ext::type_is<elements::html_form_element*>;
+        requires ext::inherit<T, html_element>;
+        {T::get_form} -> ext::type_is<html_form_element*>;
     };
 
     template <typename T>
@@ -49,13 +46,13 @@ namespace html::concepts
     concept labelable_elements = requires
     {
         requires form_associated<T>;
-        {T::get_labels} -> ext::type_is<ext::vector<dom::nodes::node*>>;
+        {T::get_labels} -> ext::type_is<ext::vector<dom::node*>>;
     };
 
     template <typename T>
     concept focusable_area = requires
     {
-        requires ext::inherit<T, dom::nodes::element>; // TODO || ...
+        requires ext::inherit<T, dom::element>; // TODO || ...
 
         // TODO
         //  dom::nodes::element*
@@ -73,5 +70,3 @@ namespace html::concepts
         {t->_deserialize(ext::map<ext::string, ext::any>(), ext::boolean())} -> ext::type_is<T*  >;
     };
 }
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML__CONCEPTS_HPP

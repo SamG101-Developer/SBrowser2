@@ -108,5 +108,8 @@ public:
 #define DEFINE_FWD_DECL_NAMESPACE_DETAIL(ns) \
     export namespace ns::detail
 
+#define DEFINE_FWD_DECL_NAMESPACE_CONCEPTS(ns) \
+    export namespace ns::concepts
+
 
 #endif //SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP
