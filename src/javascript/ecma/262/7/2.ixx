@@ -3,7 +3,7 @@ module;
 
 
 export module js.ecma._262._7._2;
-import ext.boolean;
+import ext.core;
 
 export namespace js::ecma
 {
