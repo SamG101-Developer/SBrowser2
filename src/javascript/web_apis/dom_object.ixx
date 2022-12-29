@@ -1,7 +1,7 @@
 module;
 #include "ext/macros/annotations.hpp"
 #include "ext/macros/other.hpp"
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include "javascript/macros/expose.hpp"
 #include <memory>
 
@@ -10,7 +10,7 @@ export module apis.dom_object;
 import ext.core;
 import js.env.module_type;
 
-class dom_object_private;
+export import :p
 
 export class dom_object
 {

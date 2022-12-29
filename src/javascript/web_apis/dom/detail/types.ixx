@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include <memory>
 #include <function2/function2.hpp>
 #include <swl/variant.hpp>
@@ -87,10 +87,8 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(dom)
 
     using abort_signal_callback_t  = ext::function<void()>;
     using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
-    using event_listener_options_t = ext::map<ext::string, ext::any>;
-    using add_event_listener_options_t = ext::map<ext::string, ext::any>;
     using exception_condiditional_t = ext::function<bool()>;
-    using event_listener_callback_t = ext::function<void(ext::string, event*), void()>;
+
     // using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::html_script_element>, std::unique_ptr<svg::svg_script_element>>;
     using lifecycle_callback_t = ext::function<void()>;

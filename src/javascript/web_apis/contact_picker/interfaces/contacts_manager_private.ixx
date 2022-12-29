@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 
 
 export module apis.contact_picker.contacts_manager_private;

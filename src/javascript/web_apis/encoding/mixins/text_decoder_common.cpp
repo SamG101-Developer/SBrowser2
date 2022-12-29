@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 
 
 module apis.encoding.mixins.text_decoder_common;

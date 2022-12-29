@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 
 
 export module apis.dom.mixins.document_or_shadow_root_private;

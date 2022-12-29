@@ -1,6 +1,6 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include "javascript/macros/expose.hpp"
 
 #include <assert.hpp>

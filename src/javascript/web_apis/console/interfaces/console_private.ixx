@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 
 
 export module apis.console.console_private;

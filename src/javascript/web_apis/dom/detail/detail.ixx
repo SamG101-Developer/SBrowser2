@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include <function2/function2.hpp>
 #include <tuplet/tuple.hpp>
 
@@ -53,6 +53,13 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(dom)
     // Nodes
     template <ext::inherit<node> T>
     auto clone(T* node, document* document = nullptr, ext::boolean deep = false) -> std::unique_ptr<T>;
+    auto handle_attributes_changes(attr* attribute, class element* owner_element, ext::string_view old_value, ext::string_view new_value) -> void;
+    auto set_existing_attribute_value(attr* attribute, ext::string&& value) -> void;
+
+    // Events
+    template <ext::inherit<event> T=event>
+    auto fire_event(ext::string&& e, dom::event_target* target, ext::map<ext::string, ext::any>&& init = {}) -> ext::boolean;
+    auto retarget(const event_target* target, const event_target* other) -> event_target*;
 
     // Queuing tasks
     auto notify_mutation_observers() -> void;

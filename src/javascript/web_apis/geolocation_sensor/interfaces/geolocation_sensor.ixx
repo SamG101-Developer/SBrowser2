@@ -2,7 +2,7 @@ module;
 #include "ext/macros/annotations.hpp"
 #include "ext/macros/constructors.hpp"
 #include "ext/macros/property.hpp"
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include "javascript/macros/expose.hpp"
 
 

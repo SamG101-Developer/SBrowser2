@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 
 
 export module apis.device_orientation.device_motion_event_rotation_rate_private;

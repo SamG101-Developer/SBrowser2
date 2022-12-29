@@ -96,3 +96,11 @@ dom::detail::flatten_more(ext::boolean options) -> ext::map<ext::string, ext::an
 //             ? ext::get<ext::boolean>(options)
 //             : ext::get<ext::map<ext::string, ext::any>>(options).at(u"capture").to<ext::boolean>();
 // }
+//template <ext::inherit<dom::event> T>
+//auto dom::event_target_private::fire_event(ext::string&& e, ext::map<ext::string, ext::any>&& init) -> ext::boolean
+//{
+//    // create a new event of type T, setting the event type and options, and then dispatch it to 'target'
+//    ACCESS_QIMPL;
+//    auto event = std::make_unique<T>(std::move(e), std::move(init));
+//    return dispatch(std::move(event), q);
+//}

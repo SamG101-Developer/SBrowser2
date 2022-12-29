@@ -1,12 +1,11 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include "javascript/macros/expose.hpp"
 #include <tuplet/tuple.hpp>
 #include <v8-isolate.h>
 #include <v8pp/class.hpp>
 
 module apis.dom_object;
-import apis.dom_object_private;
 import ext.core;
 import js.env.module_type;
 

@@ -1,16 +1,13 @@
 module;
-#include "ext/macros/pimpl.hpp"
+#include "ext/macros/macros.hpp"
 #include <function2/function2.hpp>
 
 
-export module apis.dom_object_private;
+export module apis.dom_object:p;
 import ext.core;
 
+import apis.dom.types;
 class dom_object;
-namespace dom {class document;}
-namespace dom {class element;}
-namespace dom {class event;}
-namespace dom {class node;}
 
 #define BEHAVIOUR_METHOD(...) ext::function<void(__VA_ARGS__) const>
 
