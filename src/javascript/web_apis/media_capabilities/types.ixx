@@ -2,11 +2,11 @@ module;
 #include "ext/macros/pimpl.hpp"
 
 
-export module apis.mediacapabilties.types;
+export module apis.mediacapabilities.types;
 import ext.core;
 
 
-DEFINE_FWD_DECL_NAMESPACE_DETAIL(mediacapabilties)
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(mediacapabilities)
 {
     using media_configuration_t = ext::map<ext::string, ext::any>;
     using media_decoding_configuration_t = ext::map<ext::string, ext::any>;
