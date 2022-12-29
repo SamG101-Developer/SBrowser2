@@ -6,6 +6,7 @@ module;
 #include "ext/macros/property.hpp"
 #include "javascript/macros/expose.hpp"
 
+
 export module apis.dom.document;
 import apis.dom.node;
 import apis.dom.mixins.document_or_element_node;

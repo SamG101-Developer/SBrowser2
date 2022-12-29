@@ -108,7 +108,19 @@ auto webappsec_permissions_policy::detail::parse_policy_directive(
     auto directive = policy_directive_t{};
     for (auto&& serialized_declaration: std::move(value) | ranges::views::split(';'))
     {
-        constexpr auto a = ranges::viewable_range<ext::string>;
-        constexpr auto b = ranges::invocable_view_closure<ext::string, decltype(ranges::views::split)>;
+        auto tokens = serialized_declarations | ranges::views::split(' ');
+        continue_if (tokens.empty());
+
+        auto feature_name = tokens.front();
+        continue_if (!magic_enum::enum_cast<feature_name_t>(feature_name).has_value());
+
+        auto feature = std::make_unique<policy_controlled_feature_t>(magic_enum::enum_cast<feature_name_t>(feature_name));
+        auto target_list = tokens | ranges::views::tail;
+        auto allowlist = allowlist_t{};
+
+        if (ranges::contains(allowlist, u"*"))
+            allowlist = {u"*"}
+        else
+            ; // TODO
     }
 }
