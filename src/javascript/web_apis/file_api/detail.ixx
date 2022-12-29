@@ -1,20 +1,18 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 #include <swl/variant.hpp>
 
 
 export module apis.file_api.detail;
 import apis.file_api.types;
+import apis.streams.types;
 import apis.url.types;
 
-import ext.core
-
-namespace file_api {class blob;}
-namespace file_api {class file_reader;}
-namespace streams {class readable_stream;}
+import ext.core;
 
 
-export namespace file_api::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(file_api)
 {
     auto get_stream(blob* blob_object) -> std::unique_ptr<streams::readable_stream>;
     auto process_blob_parts(ext::vector<detail::blob_part_t>&& parts, ext::map<ext::string, ext::any>&& options) -> ext::string;

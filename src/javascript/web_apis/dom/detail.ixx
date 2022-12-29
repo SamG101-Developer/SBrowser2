@@ -1,14 +1,16 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <function2/function2.hpp>
 #include <tuplet/tuple.hpp>
 
 export module apis.dom.detail;
 import apis.dom.types;
+import apis.html.types;
 import ext.core;
 import js.env.realms;
 
 
-export namespace dom::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(dom)
 {
     namespace namespaces
     {
@@ -55,8 +57,8 @@ export namespace dom::detail
     // Queuing tasks
     auto notify_mutation_observers() -> void;
     
-    auto queue_mutation_record(mutation_type_t type, node* target, ext::string_view name, ext::string_view namespace_, ext::string_view old_value, ext::vector_span<node*> added_nodes, ext::vector_span<node*> removed_nodes, node* previous_sibling, node* next_sibling) -> void;
-    auto queue_tree_mutation_record(node* target, ext::vector_span<node*> added_nodes, ext::vector_span<node*> removed_nodes, node* previous_sibling, node* next_sibling) -> void;
+    auto queue_mutation_record(mutation_type_t type, node* target, ext::string_view name, ext::string_view namespace_, ext::string_view old_value, ext::span<node*> added_nodes, ext::vector_span<node*> removed_nodes, node* previous_sibling, node* next_sibling) -> void;
+    auto queue_tree_mutation_record(node* target, ext::span<node*> added_nodes, ext::span<node*> removed_nodes, node* previous_sibling, node* next_sibling) -> void;
     auto queue_mutation_observer_microtask() -> void;
     template <typename F> auto queue_microtask(F&& steps, v8::Isolate* event_loop = nullptr, document* document = nullptr) -> void;
     template <ext::callable F> auto queue_task(html::detail::task_queue_t& task_source, F&& steps, v8::Isolate* event_loop = nullptr, document* document = nullptr) -> void;

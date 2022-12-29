@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <memory>
 
 
@@ -6,10 +7,10 @@ export module apis.ambient_light.detail;
 
 import apis.ambient_light.types;
 import apis.sensors.types;
-import ext.core
+import ext.core;
 
 
-export namespace ambient_light::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(ambient_light)
 {
     ext::number<int> illuminance_rounding_multiple = 1;
     ext::number<int> illuminance_threshold_value = 1;

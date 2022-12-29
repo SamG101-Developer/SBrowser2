@@ -1,4 +1,5 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <tl/optional.hpp>
 
 
@@ -8,10 +9,7 @@ import apis.contact_picker.types;
 import ext.core;
 
 
-export namespace contact_picker::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(contact_picker)
 {
-    auto launch(
-            ext::boolean allow_multiple,
-            ext::vector_span<ext::string> properties)
-            -> ext::optional<user_contact_t>;
+    auto launch(ext::boolean allow_multiple, ext::span<ext::string> properties) -> ext::optional<user_contact_t>;
 }

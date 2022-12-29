@@ -64,12 +64,12 @@ private js_properties:
     DEFINE_GETTER(aria_value_now, ext::string);
     DEFINE_GETTER(aria_value_text, ext::string);
 
-    DEFINE_GETTER(aria_controls_elements, ext::vector_span<dom::element*>);
-    DEFINE_GETTER(aria_described_by_elements, ext::vector_span<dom::element*>);
-    DEFINE_GETTER(aria_details_elements, ext::vector_span<dom::element*>);
-    DEFINE_GETTER(aria_flow_to_elements, ext::vector_span<dom::element*>);
-    DEFINE_GETTER(aria_labelled_by_elements, ext::vector_span<dom::element*>);
-    DEFINE_GETTER(aria_owns_elements, ext::vector_span<dom::element*>);
+    DEFINE_GETTER(aria_controls_elements, ext::span<dom::element*>);
+    DEFINE_GETTER(aria_described_by_elements, ext::span<dom::element*>);
+    DEFINE_GETTER(aria_details_elements, ext::span<dom::element*>);
+    DEFINE_GETTER(aria_flow_to_elements, ext::span<dom::element*>);
+    DEFINE_GETTER(aria_labelled_by_elements, ext::span<dom::element*>);
+    DEFINE_GETTER(aria_owns_elements, ext::span<dom::element*>);
 
     DEFINE_GETTER(aria_active_descendant_element, dom::element*);
     DEFINE_GETTER(aria_error_message_element, dom::element*);

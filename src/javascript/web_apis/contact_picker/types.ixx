@@ -9,6 +9,13 @@ import apis.file_api.types;
 import ext.core;
 
 
+DEFINE_FWD_DECL_NAMESPACE(contact_picker)
+{
+    class contact_address;
+    class contacts_manager;
+}
+
+
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(contact_picker)
 {
     struct physical_address_t;

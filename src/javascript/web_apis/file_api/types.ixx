@@ -12,8 +12,8 @@ import ext.js;
 
 DEFINE_FWD_DECL_NAMESPACE(file_api)
 {
-    class blob;
     class file;
+    class blob;
     class file_reader;
     class file_reader_sync;
 }
