@@ -1,11 +1,12 @@
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES__TYPEDEFS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES__TYPEDEFS_HPP
+module;
+#include "ext/macros/pimpl.hpp"
 
 
+export module apis.mediacapabilties.types;
+import ext.core;
 
 
-
-namespace media::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(mediacapabilties)
 {
     using media_configuration_t = ext::map<ext::string, ext::any>;
     using media_decoding_configuration_t = ext::map<ext::string, ext::any>;
@@ -25,5 +26,3 @@ namespace media::detail
     enum class transfer_function_t {SRGB, PQ, HLG};
 
 }
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_CAPABILITIES__TYPEDEFS_HPP

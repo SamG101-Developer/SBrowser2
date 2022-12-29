@@ -128,8 +128,8 @@ FetchContent_MakeAvailable(
         RangeReplacement RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement
         VectorReplacement Crypto DateTime HardwareInfo Gamepad MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
-#list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
-#find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
+list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
+find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
 
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 
@@ -163,6 +163,6 @@ target_link_libraries(${PROJECT_NAME}
         assert expected cppfs function2::function2 unordered_dense::unordered_dense better_braces jsonpp optional
         effolkronium_random range-v3::range-v3 re2::re2 plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
         crypto asap hwinfo gamepad magic_enum::magic_enum self_macro stduuid v8pp)
-#foreach (QT_COMPONENT ${QT_COMPONENTS})
-#    target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
-#endforeach ()
+foreach (QT_COMPONENT ${QT_COMPONENTS})
+    target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
+endforeach ()

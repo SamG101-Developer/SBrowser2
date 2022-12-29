@@ -1,4 +1,4 @@
-#include "configuration_internals.hpp"
+#include "detail.ixx"
 
 #include "ext/hashing.ixx"
 
