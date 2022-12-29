@@ -1,15 +1,23 @@
-#include "magnetometer.hpp"
-#include "magnetometer_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
-#include "magnetometer/detail/abstract_operations_internals.hpp"
-#include "sensors/detail/sensor_internals.hpp"
 
+module apis.magnetometer.magnetometer;
+import apis.magnetometer.magnetometer_private;
+import apis.magnetometer.detail;
+
+import apis.sensors.detail;
+import apis.sensors.types;
+
+import ext.core;
+import js.env.module_type;
 
 
 magnetometer::magnetometer::magnetometer(
-        detail::magnetometer_sensor_options_t&& options)
+        magnetometer_sensor_options_t&& options)
 {
-    INIT_PIMPL(magnetometer);
+    INIT_PIMPL;
 
     // Construct a Magnetometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -50,15 +58,18 @@ auto magnetometer::magnetometer::get_z() const -> ext::number<double>
 }
 
 
-auto magnetometer::magnetometer::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto magnetometer::magnetometer::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<magnetometer>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
             .inherit<sensors::sensor>()
-            .ctor<detail::magnetometer_sensor_options_t&&>()
+            .ctor<magnetometer_sensor_options_t&&>()
             .property("x", &magnetometer::get_x)
             .property("y", &magnetometer::get_y)
             .property("z", &magnetometer::get_z)
             .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

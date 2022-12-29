@@ -6,13 +6,8 @@ module;
 
 
 export module apis.sensors.types;
-import ext.any;
-import ext.boolean;
-import ext.functional;
-import ext.map;
-import ext.memory;
-import ext.set;
-import ext.string;
+import apis.webappsec_permissions_policy.types;
+import ext.core;
 
 
 DEFINE_FWD_DECL_NAMESPACE(sensors)
@@ -62,7 +57,7 @@ struct sensors::detail::sensor_type_t
     auto default_sensor() -> std::unique_ptr<platform_sensor_t>;
     ext::set<ext::string> sensor_permission_names;
 
-    ext::set<permissions_policy::detail::feature_t> sensor_feature_names;
+    ext::set<webappsec_permissions_policy::detail::feature_name_t> sensor_feature_names;
 
     ext::unique_function<void()> permission_revocation_algorithm;
     ext::unique_function<ext::boolean()> permission_request_algorithm;

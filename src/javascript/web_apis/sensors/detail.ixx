@@ -1,20 +1,18 @@
 module;
+#include "ext/macros/pimpl.hpp"
 #include <tl/optional.hpp>
 
 
 export module apis.sensors.detail;
 import apis.sensors.types;
 
-import ext.boolean;
-import ext.number;
-import ext.optional;
-import ext.string;
-
-namespace dom {class dom_exception;}
-namespace sensors {class sensor;}
+import apis.dom.types;
+import apis.sensors.types;
+import apis.permissions.types;
+import ext.core;
 
 
-export namespace sensors::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(sensors)
 {
     /* [8.01] */ auto initialize_sensor_object(sensor* sensor_instance, sensor_options_t&& options) -> void;
     /* [8.02] */ auto check_sensor_policy_controlled_features(const sensor_type_t& sensor_type) -> ext::boolean;

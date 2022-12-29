@@ -1,0 +1,1 @@
+module apis.magnetometer.uncalibrated_magnetometer_private;

@@ -1,14 +1,22 @@
-#include "uncalibrated_magnetometer.hpp"
-#include "uncalibrated_magnetometer_private.hpp"
+module;
+#include "ext/macros/pimpl.hpp"
+#include "javascript/macros/expose.hpp"
 
-#include "magnetometer/detail/abstract_operations_internals.hpp"
-#include "sensors/detail/sensor_internals.hpp"
+
+module apis.magnetometer.uncalibrated_magnetometer;
+import apis.magnetometer.detail;
+
+import apis.sensors.detail;
+import apis.sensors.types;
+
+import ext.core;
+import js.env.module_type;
 
 
 magnetometer::uncalibrated_magnetometer::uncalibrated_magnetometer(
-        detail::magnetometer_sensor_options_t&& options)
+        uncalibrated_magnetometer_sensor_options_t&& options)
 {
-    INIT_PIMPL(uncalibrated_magnetometer);
+    INIT_PIMPL;
 
     // Construct a Magnetometer instance using a detail algorithm, that runs certain checks for multiple similar
     // objects, tuned by the 'options' dictionary.
@@ -49,15 +57,18 @@ auto magnetometer::uncalibrated_magnetometer::get_z_bias() const -> ext::number<
 }
 
 
-auto magnetometer::uncalibrated_magnetometer::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto magnetometer::uncalibrated_magnetometer::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
-    decltype(auto) conversion = v8pp::class_<uncalibrated_magnetometer>{isolate}
+    V8_INTEROP_CREATE_JS_OBJECT
         .inherit<sensors::sensor>()
-        .ctor<detail::magnetometer_sensor_options_t&&>()
+        .ctor<uncalibrated_magnetometer_sensor_options_t&&>()
         .property("xBias", &uncalibrated_magnetometer::get_x_bias)
         .property("yBias", &uncalibrated_magnetometer::get_y_bias)
         .property("zBias", &uncalibrated_magnetometer::get_z_bias)
         .auto_wrap_objects();
 
-    return std::move(conversion);
+    return V8_INTEROP_SUCCESSFUL_CONVERSION;
 }

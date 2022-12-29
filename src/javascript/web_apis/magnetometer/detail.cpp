@@ -1,20 +1,15 @@
-#include "abstract_operations_internals.hpp"
+module apis.magnetometer.detail;
+import apis.magnetometer.magnetometer;
 
-
-
-
-#include "magnetometer/magnetometer.hpp"
-#include "magnetometer/magnetometer_private.hpp"
-
-#include "sensors/_typedefs.hpp"
-#include "sensors/detail/sensor_internals.hpp"
+import ext.core;
 
 
 auto magnetometer::detail::construct_magnetometer_object(
         magnetometer* sensor,
-        magnetometer_sensor_options_t&& options) -> void
+        ext::map<ext::string, ext::any>&& options) -> void
 {
     using enum dom::detail::dom_exception_error_t;
+
     // If the sensor isn't allowed by a policy, then throw a SecurityError, letting the user know that using this sensor
     // isn't permitted.
     dom::detail::throw_v8_exception<SECURITY_ERR>(
