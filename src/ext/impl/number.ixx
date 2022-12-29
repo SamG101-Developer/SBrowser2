@@ -1,3 +1,4 @@
+#include <concepts>
 module;
 #include "ext/macros/extended_attributes.hpp"
 #include "ext/macros/namespaces.hpp"
@@ -20,6 +21,7 @@ export using uint       = unsigned int;
 export using ulong      = unsigned long;
 export using ulonglong  = unsigned long long;
 export using longdouble = long double;
+
 
 #define DEFINE_BINARY_NUMBER_OPERATOR(op)                                                     \
     template <ext::arithmetic T, ext::arithmetic U>                                           \
@@ -46,6 +48,7 @@ export using longdouble = long double;
     constexpr auto operator op##=(T& lhs, _EXT number<U> rhs) -> T&                           \
     {lhs op##= *rhs; return lhs;}
 
+
 #define DEFINE_BINARY_NUMBER_COMPARISON(op)                                                   \
     template <ext::arithmetic T, ext::arithmetic U>                                           \
     constexpr auto operator op (const ext::number<T>& lhs, const ext::number<U>& rhs) -> bool \
@@ -59,45 +62,91 @@ export using longdouble = long double;
     constexpr auto operator op (const T& lhs, const ext::number<U>& rhs) -> bool              \
     {return {lhs op *rhs};}
 
+
 _EXT_BEGIN
     // TODO : change boolean to enum (restrict, enforce range, clamp etc)
     export template <arithmetic T, bool unrestricted = false>
     class number;
 _EXT_END
 
+
 _STD_BEGIN
-    export template <_EXT arithmetic T>
-    class numeric_limits<ext::number<T>> : public numeric_limits<T>
+    export template <_STD integral T>
+    class numeric_limits<ext::number<T>> : public _Num_int_base
     {
     public:
-        _EXT_NODISCARD static constexpr auto (min)() noexcept -> T
+        _EXT_NODISCARD static constexpr auto (min)() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::min();}
 
-        _EXT_NODISCARD static constexpr auto (max)() noexcept -> T
+        _EXT_NODISCARD static constexpr auto (max)() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::max();}
 
-        _EXT_NODISCARD static constexpr auto lowest() noexcept -> T
+        _EXT_NODISCARD static constexpr auto lowest() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::lowest();}
 
-        _EXT_NODISCARD static constexpr auto epsilon() noexcept -> T
+        _EXT_NODISCARD static constexpr auto epsilon() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::epsilon();}
 
-        _EXT_NODISCARD static constexpr auto round_error() noexcept -> T
+        _EXT_NODISCARD static constexpr auto round_error() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::round_error();}
 
-        _EXT_NODISCARD static constexpr auto denorm_min() noexcept -> T
+        _EXT_NODISCARD static constexpr auto denorm_min() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::denorm_min();}
 
-        _EXT_NODISCARD static constexpr auto infinity() noexcept -> T
+        _EXT_NODISCARD static constexpr auto infinity() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::infinity();}
 
-        _EXT_NODISCARD static constexpr auto quiet_NaN() noexcept -> T
+        _EXT_NODISCARD static constexpr auto quiet_NaN() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::quiet_NaN();}
 
-        _EXT_NODISCARD static constexpr auto signaling_NaN() noexcept -> T
+        _EXT_NODISCARD static constexpr auto signaling_NaN() noexcept -> ext::number<T>
         {return std::numeric_limits<T>::signaling_NaN();}
+
+    static constexpr bool is_modulo = _STD numeric_limits<T>::is_modulo;
+    static constexpr int digits     = _STD numeric_limits<T>::digits;
+    static constexpr int digits10   = _STD numeric_limits<T>::digits10;
+    };
+
+    export template <_STD floating_point T>
+    class numeric_limits<ext::number<T>> : public _Num_float_base
+    {
+        _EXT_NODISCARD static constexpr auto (min)() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::min();}
+
+        _EXT_NODISCARD static constexpr auto (max)() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::max();}
+
+        _EXT_NODISCARD static constexpr auto lowest() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::lowest();}
+
+        _EXT_NODISCARD static constexpr auto epsilon() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::epsilon();}
+
+        _EXT_NODISCARD static constexpr auto round_error() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::round_error();}
+
+        _EXT_NODISCARD static constexpr auto denorm_min() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::denorm_min();}
+
+        _EXT_NODISCARD static constexpr auto infinity() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::infinity();}
+
+        _EXT_NODISCARD static constexpr auto quiet_NaN() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::quiet_NaN();}
+
+        _EXT_NODISCARD static constexpr auto signaling_NaN() noexcept -> ext::number<T>
+        {return std::numeric_limits<T>::signaling_NaN();}
+
+        static constexpr int digits         = _STD numeric_limits<T>::digits;
+        static constexpr int digits10       = _STD numeric_limits<T>::digits10;
+        static constexpr int max_digits10   = _STD numeric_limits<T>::max_digits10;
+        static constexpr int max_exponent   = _STD numeric_limits<T>::max_exponent;
+        static constexpr int max_exponent10 = _STD numeric_limits<T>::max_exponent10;
+        static constexpr int min_exponent   = _STD numeric_limits<T>::min_exponent;
+        static constexpr int min_exponent10 = _STD numeric_limits<T>::min_exponent10;
     };
 _STD_END
+
 
 _EXT_BEGIN
     export template <bool IncludeLo, bool IncludeHi, typename T, typename U, typename V>
@@ -164,10 +213,6 @@ _EXT_BEGIN
     {return number * ((number > 0) - (number < 0));}
 _EXT_END
 
-_EXT_SHORTHAND_BEGIN
-    export template <typename T>
-    using nv = number<T>;
-_EXT_SHORTHAND_END
 
 template <_EXT arithmetic T, bool unrestricted>
 class ext::number final
@@ -238,11 +283,13 @@ private:
     T n;
 };
 
+
 _EXT_LITERALS_BEGIN
     export auto operator""_n(char number) {return _EXT number<char>{number};}
     export auto operator""_n(ulonglong number) {return _EXT number<ulonglong>{number};}
     export auto operator""_n(longdouble number) {return _EXT number<longdouble>{number};}
 _EXT_LITERALS_END
+
 
 DEFINE_BINARY_NUMBER_OPERATOR(+)
 DEFINE_BINARY_NUMBER_OPERATOR(-)

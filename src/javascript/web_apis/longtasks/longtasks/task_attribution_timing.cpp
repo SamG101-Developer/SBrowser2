@@ -1,10 +1,6 @@
-#include "task_attribution_timing.hpp"
+module apis.longtasks.task_attribution_timing;
 
-
-#include "html/detail/context_internals.hpp"
-#include "longtasks/detail/processing_internals.hpp"
-
-// TODO : v8 stuff in this file ???
+import ext.core;
 
 
 auto longtasks::task_attribution_timing::get_container_type() const -> ext::string
