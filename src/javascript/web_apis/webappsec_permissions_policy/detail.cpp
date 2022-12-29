@@ -1,10 +1,13 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
 #include <memory>
+
+#include <magic_enum.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/for_each.hpp>
 #include <range/v3/view/split.hpp>
+#include <range/v3/view/tail.hpp>
 #include <tl/optional.hpp>
 
 
@@ -66,13 +69,13 @@ auto webappsec_permissions_policy::detail::construct_policy_from_dict_and_origin
         // special case occurs where there is only a "*" in the 'allowlist' -- anything will match against it, so don't
         // bother adding any other filters (in the case of a vector of strings).
         if (value.to<ext::string>() == u"*" || ranges::contains(value.to<detail::allowlist_t>(), u"*"))
-            allowlist.emplace_back(u"*");
+            allowlist.emplace(u"*");
 
         // If the value is the special string "self", then add the 'origin' parameter into the 'allowlist'. If the
         // "self" string in contained in a vector of strings, then the rest of the vector has to be handled too, so
         // consider this case in the vector case (below).
         else if (value.to<ext::string>() == u"self")
-            allowlist.emplace_back(origin);
+            allowlist.emplace(origin);
 
         // If the value in the ext::any type can be converted into a vector of strings (ie the 'allowlist_t' type), then
         // parse the string-representations of URLs into the 'policy', and handle the special "self" case too.
@@ -83,9 +86,9 @@ auto webappsec_permissions_policy::detail::construct_policy_from_dict_and_origin
                 // For the special case "self", append the 'origin' to the 'allowlist' (same as above). Otherwise, parse
                 // each 'element' of the 'value', and if the parsing doesn't result in a failure, and its origin isn't
                 // opaque, append its origin to the 'allowlist'.
-                if (value.to<ext::string>() == u"self") allowlist.emplace_back(origin);
+                if (value.to<ext::string>() == u"self") allowlist.emplace(origin);
                 else if (auto result = url::detail::url_parser(std::move(element)); result.has_value() /* TODO */)
-                    allowlist.emplace_back(result->d_func()->origin.get());
+                    allowlist.emplace(result->d_func()->origin.get());
             }
         }
 
@@ -100,15 +103,15 @@ auto webappsec_permissions_policy::detail::construct_policy_from_dict_and_origin
 
 
 auto webappsec_permissions_policy::detail::parse_policy_directive(
-        ext::string&& value,
-        const html::detail::origin_t& origin,
+        ext::string_view value,
+        const html::detail::origin_t& container_origin,
         ext::optional<const html::detail::origin_t&>&& target_origin)
         -> policy_directive_t
 {
     auto directive = policy_directive_t{};
-    for (auto&& serialized_declaration: std::move(value) | ranges::views::split(';'))
+    for (auto serialized_declaration: value | ranges::views::split_string(';'))
     {
-        auto tokens = serialized_declarations | ranges::views::split(' ');
+        auto tokens = serialized_declaration | ranges::views::split(' ');
         continue_if (tokens.empty());
 
         auto feature_name = tokens.front();
@@ -118,9 +121,29 @@ auto webappsec_permissions_policy::detail::parse_policy_directive(
         auto target_list = tokens | ranges::views::tail;
         auto allowlist = allowlist_t{};
 
-        if (ranges::contains(allowlist, u"*"))
-            allowlist = {u"*"}
+        if (ranges::contains(allowlist, u"*", &html::detail::serialize_origin))
+            allowlist = {u"*"};
         else
-            ; // TODO
+        {
+            if (target_list.empty() && target_origin.has_value())
+                allowlist.emplace(&container_origin);
+            for (auto&& element: target_list)
+            {
+                auto result = ext::nullptr_cast<html::detail::origin>();
+                if (element == u"self")
+                    result = &container_origin;
+                if (element == u"src" && target_origin.has_value())
+                    result = &target_origin;
+                else
+                    result = url::detail::url_parser(element).get();
+
+                if (result.has_value() /* TODO : && not an opaque origin */)
+                    allowlist.emplace(target);
+            }
+        }
+
+        policy[feature] = allowlist;
     }
+
+    return policy;
 }

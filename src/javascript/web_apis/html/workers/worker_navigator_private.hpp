@@ -24,7 +24,10 @@ DEFINE_PRIVATE_CLASS(html::workers, worker_navigator)
         , public device_memory::mixins::navigator_device_memory_private
         , public storage::mixins::navigator_storage_private
         , public web_locks::mixins::navigator_locks
-{};
+{
+    /* [Permissions] */
+    std::unique_ptr<permissions::permissions> permissions;
+};
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_HTML_NAVIGATORS_WORKER_NAVIGATOR_PRIVATE_HPP

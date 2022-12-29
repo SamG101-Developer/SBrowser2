@@ -146,9 +146,9 @@ export namespace ranges::views
     // "o", "r", "l", "d"}}, with each item a character from the string, so using the transform adaptor, convert
     // each sub-range into a string, to get {"hello", "world"}.
     RANGE_VIEW_STRUCT(split_string,
-            template <typename S = _EXT string COMMA typename ...Args> // TODO : S a class or operator template? -> class
-            constexpr auto operator()(Args... delimiter) const // NOTE: deliberately not Args&&...
-            {return (ranges::views::split(delimiter) | ...) | ranges::views::transform(ranges::to<S>());})
+            template <_EXT string_view_like S = _EXT string_view COMMA typename ...Args>
+            constexpr auto operator()(Args... delimiter) const
+            {return (ranges::views::split(delimiter) || ...) | ranges::views::transform(ranges::to<S>());})
 
 
     // A take_until adaptor works by taking items from a range until a condition is met -- semantically the same as
@@ -359,7 +359,7 @@ export namespace ranges::actions
             constexpr auto operator()(_EXT number<size_t> i) const
             {
         return ranges::views::enumerate
-                | ranges::actions::remove_if(_EXT bind_front(_EXT pair_key_matches, i))
+                | ranges::actions::remove_if(_EXT bind_front(&_EXT pair_key_matches, i))
                 | ranges::views::values;
             })
 

@@ -46,6 +46,9 @@ DEFINE_PRIVATE_CLASS(html::navigators, navigator)
     ext::boolean has_gamepad_gesture;
     ext::vector<gamepad::gamepad*> gamepads;
 
+    /* [Permissions] */
+    std::unique_ptr<permissions::permissions> permissions;
+
     /* [MEDIASESSION] */
     std::unique_ptr<mediasession::media_session> media_session;
 };

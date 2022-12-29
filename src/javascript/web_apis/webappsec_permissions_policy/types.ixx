@@ -36,13 +36,14 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(webappsec_permissions_policy)
     using header_policy_t = ext::vector<policy_directive_t>;
     using container_policy_t = policy_directive_t;
 
-    ext::set<feature_name_t> supported_features {};
+    // ext::set<feature_name_t> supported_features {};
 }
 
 
 struct webappsec_permissions_policy::detail::policy_controlled_feature_t
 {
-    policy_controlled_feature_t(feature_name_t name);
+    policy_controlled_feature_t() = delete;
+    static auto from_enum(feature_name_t name) -> policy_controlled_feature_t*;
     default_allowlist_t default_allowlist;
 };
 

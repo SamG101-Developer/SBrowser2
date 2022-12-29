@@ -24,7 +24,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(webappsec_permissions_policy)
     // [9] Abstract operations
     /* [9.01] */ auto process_response_policy(const fetch::detail::response_t&, const html::detail::origin_t&) -> declared_policy_t;
     /* [9.02] */ auto construct_policy_from_dict_and_origin(ext::map<detail::feature_name_t, ext::any>&& dictionary, const html::detail::origin_t& origin) -> declared_policy_t;
-    /* [9.03] */ auto parse_policy_directive(ext::string&& value, const html::detail::origin_t& origin, ext::optional<const html::detail::origin_t&>&& target_origin) -> policy_directive_t;
+    /* [9.03] */ auto parse_policy_directive(ext::string_view value, const html::detail::origin_t& container_origin, ext::optional<const html::detail::origin_t&>&& target_origin) -> policy_directive_t;
     /* [9.04] */ auto process_permissions_policy_attributes(dom::element* element) -> container_policy_t;
     /* [9.05] */ auto create_permissions_policy_for_browsing_context(const html::detail::browsing_context_t& browsing_context, const html::detail::origin_t& origin) -> std::unique_ptr<permissions_policy>;
     /* [9.06] */ auto create_permissions_policy_for_browsing_context_from_response(const html::detail::browsing_context_t& browsing_context, const html::detail::origin_t& origin, const fetch::detail::response_t&) -> std::unique_ptr<permissions_policy>;

@@ -95,8 +95,8 @@ _EXT_BEGIN
             (std::same_as<std::remove_cvref_t<TypeToCheck>, TypesToCheckAgainst> || ...);
 
     export template <typename TypeToCheck, template <typename> typename ...TemplatedTypesToCheckAgainst>
-    concept type_is_any_specialization =
-            (_EXT inherit_template<TemplatedTypesToCheckAgainst, TypeToCheck> || ...);
+    concept type_is_any_specialization = requires
+            {(([]<typename ...Ts>(TemplatedTypesToCheckAgainst<Ts...>){}(std::declval<TypeToCheck>())) || ...);};
 
     export template <typename TypeTpCheck, typename ...TypesToCheckAgainst>
     concept type_is_not =

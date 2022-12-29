@@ -6,6 +6,8 @@ module;
 
 
 export module apis.permissions.types;
+
+import apis.webappsec_permissions_policy.types;
 import ext.core;
 import js.env.realms;
 
@@ -31,7 +33,8 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(permissions)
 
 struct permissions::detail::powerful_feature_t
 {
-    powerful_feature_t(ext::string&& powerful_feature_name);
+    powerful_feature_t() = delete;
+    static auto from_enum(webappsec::detail::feature_name_t feature_name) -> powerful_feature_t*;
 
     ext::string name;
     ext::vector<permission_descriptor_t> aspects;

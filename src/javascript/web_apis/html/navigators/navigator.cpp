@@ -237,6 +237,7 @@ auto html::navigators::navigator::_to_v8(
         .function<autoplay::detail::autoplay_policy_t(autoplay::detail::autoplay_policy_media_type_t)>("getAutoplayPolicy", &navigator::get_autoplay_policy)
         .function<autoplay::detail::autoplay_policy_t(elements::html_media_element*)>("getAutoplayPolicy", &navigator::get_autoplay_policy)
         // .function<autoplay::detail::autoplay_policy_t(webaudio::contexts::audio_context*)>("getAutoplayPolicy", &navigator::get_autoplay_policy);
+        .property("permissions", &navigator::get_permissions)
         ;
 
     V8_INTEROP_EXTEND_JS_OBJECT(WORKER | SECURE)
