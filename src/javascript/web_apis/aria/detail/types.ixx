@@ -5,7 +5,7 @@ module;
 export module apis.aria.types;
 
 
-DEFINE_FWD_DECL_NAMESPACE(aria)
+DEFINE_FWD_DECL_NAMESPACE_MIXINS(aria)
 {
     class aria_mixin;
 }

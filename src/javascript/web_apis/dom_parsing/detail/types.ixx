@@ -8,8 +8,13 @@ import ext.core;
 
 DEFINE_FWD_DECL_NAMESPACE(dom_parsing)
 {
-    class inner_html;
     class xml_serializer;
+}
+
+
+DEFINE_FWD_DECL_NAMESPACE_MIXINS(dom_parsing)
+{
+    class inner_html;
 }
 
 

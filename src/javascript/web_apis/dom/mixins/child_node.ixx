@@ -11,7 +11,7 @@ import apis.dom.types;
 import ext.core;
 import js.env.module_type;
 
-DEFINE_PUBLIC_CLASS(dom, child_node)
+DEFINE_PUBLIC_CLASS(dom::mixins, child_node)
         : public virtual dom_object
 {
 public constructors:
@@ -23,5 +23,5 @@ public js_methods:
     template <ext::type_is<node*, ext::string> ...Args> auto before(Args&&... nodes) -> node*;
     template <ext::type_is<node*, ext::string> ...Args> auto after(Args&&... nodes) -> node*;
     template <ext::type_is<node*, ext::string> ...Args> auto replace_with(Args&&... nodes) -> node*;
-    auto remove() -> nodes::node*;
+    auto remove() -> node*;
 };

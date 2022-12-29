@@ -8,13 +8,12 @@ module;
 export module apis.dom.mixins.document_or_shadow_root;
 import apis.dom_object;
 
+import apis.dom.types;
 import ext.core;
 import js.env.module_type;
 
-namespace dom {class element;}
 
-
-DEFINE_PUBLIC_CLASS(dom, document_or_shadow_root)
+DEFINE_PUBLIC_CLASS(dom::mixins, document_or_shadow_root)
         : public virtual dom_object
 {
 public constructors:

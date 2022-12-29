@@ -7,15 +7,12 @@ module;
 
 export module apis.dom.mixins.slottable;
 import apis.dom_object;
-import ext.tuple;
-import ext.type_traits;
+
+import ext.core;
 import js.env.module_type;
 
-namespace dom {class node;}
-namespace html {class html_slot_element;}
 
-
-DEFINE_PUBLIC_CLASS(dom, slottable)
+DEFINE_PUBLIC_CLASS(dom::mixins, slottable)
         : public virtual dom_object
 {
 public friends:

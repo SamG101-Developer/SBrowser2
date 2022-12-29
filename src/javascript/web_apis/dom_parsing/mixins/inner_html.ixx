@@ -9,11 +9,10 @@ export module apis.dom_parsing.mixins.inner_html;
 import apis.dom_object;
 
 import ext.core;
-
 import js.env.module_type;
 
 
-DEFINE_PUBLIC_CLASS(dom_parsing, inner_html)
+DEFINE_PUBLIC_CLASS(dom_parsing::mixins, inner_html)
         : virtual public dom_object
 {
 public constructors:

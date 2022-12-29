@@ -12,7 +12,7 @@ import ext.core;
 import js.env.module_type;
 
 
-DEFINE_PUBLIC_CLASS(dom, non_element_parent_node)
+DEFINE_PUBLIC_CLASS(dom::mixins, non_element_parent_node)
         : public virtual dom_object
 {
 public constructors:

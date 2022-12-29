@@ -6,7 +6,7 @@ export module apis.dom.mixins.child_node_private;
 import apis.dom_object_private;
 
 
-DEFINE_PRIVATE_CLASS(dom, child_node)
+DEFINE_PRIVATE_CLASS(dom::mixins, child_node)
         : virtual dom_object_private
 {
 public:

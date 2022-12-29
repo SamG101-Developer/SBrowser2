@@ -9,7 +9,7 @@ module apis.dom.mixins.document_or_element_node;
 import ext.core;
 
 
-auto dom::document_or_element_node::get_elements_by_class_name(
+auto dom::mixins::document_or_element_node::get_elements_by_class_name(
         const ext::string_view class_names)
         const -> ranges::any_helpful_view<element*>
 {
@@ -40,7 +40,7 @@ auto dom::document_or_element_node::get_elements_by_class_name(
 }
 
 
-auto dom::document_or_element_node::get_elements_by_tag_name(
+auto dom::mixins::document_or_element_node::get_elements_by_tag_name(
         ext::string_view qualified_name)
         const -> ranges::any_view<nodes::element*>
 {
@@ -73,7 +73,7 @@ auto dom::document_or_element_node::get_elements_by_tag_name(
 }
 
 
-auto dom::document_or_element_node::get_elements_by_tag_name_ns(
+auto dom::mixins::document_or_element_node::get_elements_by_tag_name_ns(
         const ext::string_view namespace_,
         const ext::string_view local_name)
         const -> ranges::any_view<nodes::element*>
@@ -102,7 +102,7 @@ auto dom::document_or_element_node::get_elements_by_tag_name_ns(
 }
 
 
-auto dom::document_or_element_node::_to_v8(
+auto dom::mixins::document_or_element_node::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

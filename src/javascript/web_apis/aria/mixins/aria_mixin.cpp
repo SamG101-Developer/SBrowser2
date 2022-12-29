@@ -1,16 +1,14 @@
 module;
 #include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.aria.mixins.aria_mixin;
 
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 
-auto aria::aria_mixin::_to_v8(
+auto aria::mixins::aria_mixin::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<this_t>>

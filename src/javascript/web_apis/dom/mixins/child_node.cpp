@@ -13,7 +13,7 @@ import ext.core;
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...Args>
-auto dom::child_node::before(Args&&... nodes) -> nodes::node*
+auto dom::mixins::child_node::before(Args&&... nodes) -> nodes::node*
 {
     _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -42,7 +42,7 @@ auto dom::child_node::before(Args&&... nodes) -> nodes::node*
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...Args>
-auto dom::child_node::after(Args&&... nodes) -> nodes::node*
+auto dom::mixins::child_node::after(Args&&... nodes) -> nodes::node*
 {
     _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -70,7 +70,7 @@ auto dom::child_node::after(Args&&... nodes) -> nodes::node*
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...Args>
-auto dom::child_node::replace_with(Args&& ...nodes) -> nodes::node*
+auto dom::mixins::child_node::replace_with(Args&& ...nodes) -> nodes::node*
 {
     _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -101,7 +101,7 @@ auto dom::child_node::replace_with(Args&& ...nodes) -> nodes::node*
 }
 
 
-auto dom::child_node::remove() -> nodes::node*
+auto dom::mixins::child_node::remove() -> nodes::node*
 {
     _CE_REACTIONS_METHOD_DEF
         // Get the node* cross-cast of 'this', and store the parent node, returning early if the parent is nullptr; it's
@@ -118,7 +118,7 @@ auto dom::child_node::remove() -> nodes::node*
 }
 
 
-auto dom::child_node::_to_v8(
+auto dom::mixins::child_node::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
         -> ext::tuple<bool, v8pp::class_<self_t>>

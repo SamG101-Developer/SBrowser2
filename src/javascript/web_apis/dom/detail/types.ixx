@@ -13,14 +13,6 @@ DEFINE_FWD_DECL_NAMESPACE(dom)
 {
     class abstract_iterator;
 
-    class child_node;
-    class document_or_element_node;
-    class document_or_shadow_root;
-    class non_document_type_child_node;
-    class non_element_parent_node;
-    class parentable_node;
-    class slottable;
-
     class abstract_range;
     class abort_controller;
     class abort_signal;
@@ -51,6 +43,18 @@ DEFINE_FWD_DECL_NAMESPACE(dom)
     class window;
     class window_proxy;
     class xml_document;
+}
+
+
+DEFINE_FWD_DECL_NAMESPACE_MIXINS(dom)
+{
+    class child_node;
+    class document_or_element_node;
+    class document_or_shadow_root;
+    class non_document_type_child_node;
+    class non_element_parent_node;
+    class parentable_node;
+    class slottable;
 }
 
 

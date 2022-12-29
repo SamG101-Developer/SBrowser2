@@ -13,7 +13,7 @@ import ext.core;
 import js.env.module_type;
 
 
-DEFINE_PUBLIC_CLASS(aria, aria_mixin)
+DEFINE_PUBLIC_CLASS(aria::mixins, aria_mixin)
         : public virtual dom_object
 {
 public constructors:

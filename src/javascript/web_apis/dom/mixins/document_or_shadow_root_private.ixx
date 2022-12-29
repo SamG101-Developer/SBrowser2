@@ -8,7 +8,7 @@ import apis.dom_object_private;
 import ext.core;
 
 
-DEFINE_PRIVATE_CLASS(dom, document_or_shadow_root)
+DEFINE_PRIVATE_CLASS(dom::mixins, document_or_shadow_root)
         : virtual dom_object_private
 {
 public:

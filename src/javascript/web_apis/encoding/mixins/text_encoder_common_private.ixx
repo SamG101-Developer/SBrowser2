@@ -8,7 +8,7 @@ import apis.dom_object_private;
 import ext.core;
 
 
-DEFINE_PRIVATE_CLASS(encoding, text_encoder_common)
+DEFINE_PRIVATE_CLASS(encoding::mixins, text_encoder_common)
         : virtual dom_object_private
 {
 public:

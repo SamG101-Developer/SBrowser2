@@ -108,6 +108,9 @@ public:
 #define DEFINE_FWD_DECL_NAMESPACE_DETAIL(ns) \
     export namespace ns::detail
 
+#define DEFINE_FWD_DECL_NAMESPACE_MIXINS(ns) \
+    export namespace ns::mixins
+
 #define DEFINE_FWD_DECL_NAMESPACE_CONCEPTS(ns) \
     export namespace ns::concepts
 

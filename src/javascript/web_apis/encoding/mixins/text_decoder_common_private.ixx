@@ -13,7 +13,10 @@ import ext.core;
 DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common)
         : virtual dom_object_private
 {
+public:
     MAKE_QIMPL(text_decoder_common);
+
+public:
     std::unique_ptr<detail::encoding_t> encoding;
     std::unique_ptr<detail::decoder_t> decoder;
 

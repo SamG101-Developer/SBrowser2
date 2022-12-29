@@ -1,18 +1,4 @@
-#include "parentable_node.ixx"
-#include "parentable_node_private.ixx"
-
-
-
-
-
-
-
-
-
-
-
-
-#include <range/v3/view/remove.hpp>
+module apis.dom.mixins.parentable_node;
 
 
 template <ext::type_is<dom::nodes::node*, ext::string> ...T>

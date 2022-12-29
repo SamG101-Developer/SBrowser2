@@ -7,13 +7,14 @@ module;
 
 export module apis.dom.mixins.document_or_element_node;
 import apis.dom_object;
-import ext.core;;
+
+import ext.core;
 import js.env.module_type;
 
 namespace dom {class element;}
 
 
-DEFINE_PUBLIC_CLASS(dom, document_or_element_node)
+DEFINE_PUBLIC_CLASS(dom::mixins, document_or_element_node)
         : public virtual dom_object
 {
 public constructors:

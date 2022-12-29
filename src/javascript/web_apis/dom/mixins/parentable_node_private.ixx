@@ -9,7 +9,7 @@ import apis.dom.types;
 import ext.core;
 
 
-DEFINE_PRIVATE_CLASS(dom, parentable_node)
+DEFINE_PRIVATE_CLASS(dom::mixins, parentable_node)
         : virtual dom_object_private
 {
 public:

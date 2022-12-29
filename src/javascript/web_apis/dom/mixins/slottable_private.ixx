@@ -9,7 +9,7 @@ import apis.html.types;
 import ext.core;
 
 
-DEFINE_PRIVATE_CLASS(dom, slottable)
+DEFINE_PRIVATE_CLASS(dom::mixins, slottable)
         : virtual dom_object_private
 {
 public:

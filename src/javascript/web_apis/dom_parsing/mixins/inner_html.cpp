@@ -14,7 +14,7 @@ import ext.core;
 import js.env.module_type;
 
 
-auto dom_parsing::inner_html::get_inner_html() -> ext::string
+auto dom_parsing::mixins::inner_html::get_inner_html() -> ext::string
 {
     _CE_REACTIONS_METHOD_DEF
         decltype(auto) base = dom_cross_cast<dom::node*>(this);
@@ -23,7 +23,7 @@ auto dom_parsing::inner_html::get_inner_html() -> ext::string
 }
 
 
-auto dom_parsing::inner_html::set_inner_html(ext::string&& new_inner_html) -> ext::view_of_t<ext::string&&>
+auto dom_parsing::mixins::inner_html::set_inner_html(ext::string&& new_inner_html) -> ext::view_of_t<ext::string&&>
 {
     _CE_REACTIONS_METHOD_DEF
         decltype(auto) base = dom_cross_cast<dom::node*>(this);

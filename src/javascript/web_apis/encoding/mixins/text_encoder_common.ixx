@@ -12,7 +12,7 @@ import ext.core;
 import js.env.module_type;
 
 
-DEFINE_PUBLIC_CLASS(encoding, text_encoder_common) final
+DEFINE_PUBLIC_CLASS(encoding::mixins, text_encoder_common) final
         : public virtual dom_object
 {
 public constructors:
