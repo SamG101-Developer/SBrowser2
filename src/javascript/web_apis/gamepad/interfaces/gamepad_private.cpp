@@ -2,7 +2,7 @@ module;
 #include <libgamepad.hpp>
 
 
-module apis.gamepad.gamepad_private;
+module apis.gamepad.gamepad:p;
 
 import ext.core;
 

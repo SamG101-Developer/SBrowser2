@@ -1,1 +1,1 @@
-module apis.web_audio.offline_audio_context_private;
+module apis.web_audio.offline_audio_context:p;

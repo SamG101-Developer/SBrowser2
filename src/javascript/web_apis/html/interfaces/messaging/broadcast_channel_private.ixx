@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.html.broadcast_channel_private;
-import apis.dom.event_target_private;
+export module apis.html.broadcast_channel:p;
+import apis.dom.event_target;
 
 import ext.boolean;
 import ext.string;

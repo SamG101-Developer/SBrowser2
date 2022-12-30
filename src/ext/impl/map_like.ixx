@@ -1,14 +1,10 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros/namespaces.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <memory>
+#include "ext/macros.hpp"
 
 export module ext.mixins:map_like;
 import ext.core;
 import apis.dom_object;
-import apis.dom_object_private;
 import js.env.module_type;
 
 namespace ext

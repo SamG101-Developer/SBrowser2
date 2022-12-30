@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.magnetometer.magnetometer;
-import apis.magnetometer.magnetometer_private;
 import apis.magnetometer.detail;
 
 import apis.sensors.detail;

@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.web_audio.audio_buffer;
-import apis.web_audio.audio_buffer_private;
-
 import ext.number;
 
 

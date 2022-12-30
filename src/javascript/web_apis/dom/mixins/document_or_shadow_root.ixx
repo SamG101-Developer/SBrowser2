@@ -1,16 +1,11 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.dom.mixins.document_or_shadow_root;
 import apis.dom_object;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom::mixins, document_or_shadow_root)

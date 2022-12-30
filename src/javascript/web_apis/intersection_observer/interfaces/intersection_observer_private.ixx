@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.intersection_observer.intersection_observer_private;
-import apis.dom_object_private;
+export module apis.intersection_observer.intersection_observer:p;
+import apis.dom_object;
 
 import apis.dom.types;
 import apis.intersection_observer.types;

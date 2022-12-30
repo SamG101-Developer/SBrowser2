@@ -1,14 +1,12 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.contact_picker.contacts_manager;
-import apis.contact_picker.contacts_manager_private;
 import apis.contact_picker.types;
 
 import apis.dom.window;
-import apis.dom.window_private;
 import apis.dom.dom_exception;
 import apis.dom.types;
 

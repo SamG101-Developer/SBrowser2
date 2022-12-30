@@ -1,9 +1,7 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include "javascript/macros/errors.hpp"
+#include "ext/macros.hpp"
+
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/cache1.hpp>
 #include <range/v3/view/trim.hpp>
@@ -15,7 +13,7 @@ module;
 
 
 module apis.html.html_element;
-import apis.html.html_element_private;
+import apis.html.html_element;
 import apis.html.detail;
 import apis.html.types;
 

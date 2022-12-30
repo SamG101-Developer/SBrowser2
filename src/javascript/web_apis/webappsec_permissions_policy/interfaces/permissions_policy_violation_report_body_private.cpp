@@ -1,1 +1,1 @@
-module apis.webappsec_permissions_policy.permissions_policy_violation_report_body_private;
+module apis.webappsec_permissions_policy.permissions_policy_violation_report_body:p;

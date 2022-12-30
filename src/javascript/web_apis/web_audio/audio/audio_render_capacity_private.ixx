@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <QtCore/QTimer>
 
 
-export module apis.web_audio.audio_render_capacity_private;
-import apis.dom.event_target_private;
+export module apis.web_audio.audio_render_capacity:p;
+import apis.dom.event_target;
 
 
 DEFINE_PRIVATE_CLASS(web_audio, audio_render_capacity)

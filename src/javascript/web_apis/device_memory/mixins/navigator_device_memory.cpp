@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.device_memory.navigator_device_memory;
-import apis.device_memory.navigator_device_memory_private;
 
 import ext.core;
 import js.env.module_type;

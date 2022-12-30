@@ -1,7 +1,6 @@
-module apis.battery.battery_manager_private;
+module apis.battery.battery_manager:p;
 
-import ext.boolean;
-import ext.number;
+import ext.core;
 
 
 auto battery::battery_manager_private::charging() const -> ext::boolean

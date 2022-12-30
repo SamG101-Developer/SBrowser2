@@ -1,8 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-module apis.reporting.reporting_observer_private;
+module apis.reporting.reporting_observer:p;
 
 
 reporting::reporting_observer::reporting_observer(

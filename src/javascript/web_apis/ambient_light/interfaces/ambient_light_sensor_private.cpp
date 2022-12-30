@@ -1,1 +1,1 @@
-module apis.ambient_light.ambient_light_sensor_private;
+module apis.ambient_light.ambient_light_sensor:p;

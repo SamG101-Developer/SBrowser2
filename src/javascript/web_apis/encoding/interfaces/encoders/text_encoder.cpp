@@ -1,6 +1,6 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <range/v3/to_container.hpp>
 #include <v8-array-buffer.h>
 #include <v8-container.h>
@@ -8,7 +8,6 @@ module;
 
 
 module apis.encoding.text_encoder;
-import apis.encoding.text_encoder_private;
 import apis.encoding.detail;
 import apis.encoding.types;
 

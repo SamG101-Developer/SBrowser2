@@ -1,11 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 #include <magic_enum.hpp>
 
 
 module apis.base_exception;
-import apis.base_exception_private;
 import ext.core;
 import js.env.module_type;
 

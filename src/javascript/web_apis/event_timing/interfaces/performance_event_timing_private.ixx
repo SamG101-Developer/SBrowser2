@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.event_timing.performance_event_timing_private;
-import apis.performance_timeline.performance_entry_private;
+export module apis.event_timing.performance_event_timing:p;
+import apis.performance_timeline.performance_entry;
 
 import apis.dom.types;
 import apis.hr_time.types;

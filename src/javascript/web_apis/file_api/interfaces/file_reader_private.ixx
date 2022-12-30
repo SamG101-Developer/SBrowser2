@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.file_api.file_reader_private;
-import apis.dom.event_target_private;
+export module apis.file_api.file_reader:p;
+import apis.dom.event_target;
 
 import apis.dom.types;
 import apis.file_api.types;

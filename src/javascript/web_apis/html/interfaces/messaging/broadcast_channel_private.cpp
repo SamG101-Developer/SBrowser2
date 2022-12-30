@@ -1,15 +1,12 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-module apis.html.broadcast_channel_private;
+module apis.html.broadcast_channel:p;
 
 import apis.dom.window;
-import apis.dom.window_private;
 import apis.dom.document;
-import apis.dom.document_private;
 import apis.html.worker_global_scope;
-import apis.html.worker_global_scope_private;
 
 
 import ext.boolean;

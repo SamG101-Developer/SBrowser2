@@ -1,12 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "ext/macros.hpp"
 
 
 module apis.html.broadcast_channel;
-import apis.html.broadcast_channel_private;
 
 import apis.dom.event_target;
 

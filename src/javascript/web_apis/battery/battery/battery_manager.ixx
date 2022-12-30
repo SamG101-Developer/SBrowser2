@@ -1,19 +1,9 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/constructors.hpp"
-#include "ext/macros/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.battery.battery_manager;
 import apis.dom.event_target;
-
-import ext.boolean;
-import ext.enums;
-import ext.number;
-import ext.tuple;
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(battery, battery_manager)

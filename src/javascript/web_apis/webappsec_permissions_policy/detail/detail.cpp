@@ -15,7 +15,6 @@ module apis.webappsec_permissions_policy.detail;
 import apis.webappsec_permissions_policy.types;
 
 import apis.dom.document;
-import apis.dom.document_private;
 import apis.dom.node;
 
 import apis.html.types;

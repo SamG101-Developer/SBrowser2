@@ -1,6 +1,6 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.filesystem.file_system_file_handle;
@@ -12,7 +12,6 @@ import apis.dom.dom_exception;
 
 import apis.file_api.types;
 import apis.file_api.file;
-import apis.file_api.file_private;
 
 import apis.permissions.types;
 import apis.web_idl.detail;

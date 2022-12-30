@@ -1,18 +1,12 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.gamepad.gamepad;
 import apis.dom_object;
 
-import apis.hr_time.types;
-import apis.gamepad.types;
-
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(hr_time);
+IMPORT_ALL_TYPES(gamepad);
 
 
 DEFINE_PUBLIC_CLASS(gamepad, gamepad) final

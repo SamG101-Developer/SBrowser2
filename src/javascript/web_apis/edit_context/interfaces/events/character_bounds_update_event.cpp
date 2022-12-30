@@ -1,12 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "ext/macros.hpp"
 
 
 module apis.edit_context.character_bounds_update_event;
-import apis.edit_context.character_bounds_update_event_private;
 
 import apis.dom.event;
 

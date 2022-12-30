@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.sensors.sensor_error_event_private;
-import apis.dom.event_private;
+export module apis.sensors.sensor_error_event:p;
+import apis.dom.event;
 
 namespace dom {class dom_exception;}
 

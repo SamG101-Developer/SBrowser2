@@ -1,1 +1,1 @@
-module apis.web_audio.offline_audio_completion_event_private;
+module apis.web_audio.offline_audio_completion_event:p;

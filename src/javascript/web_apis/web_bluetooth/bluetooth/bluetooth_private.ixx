@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_bluetooth.bluetooth_private;
-import apis.dom.event_target_private;
+export module apis.web_bluetooth.bluetooth:p;
+import apis.dom.event_target;
 import apis.web_bluetooth.types;
 
 import ext.any;

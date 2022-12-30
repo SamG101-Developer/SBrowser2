@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <tl/optional.hpp>
 
 
-export module apis.sensors.sensor_private;
-import apis.dom.event_target_private;
+export module apis.sensors.sensor:p;
+import apis.dom.event_target;
 
 import apis.sensors.types;
 import ext.number;

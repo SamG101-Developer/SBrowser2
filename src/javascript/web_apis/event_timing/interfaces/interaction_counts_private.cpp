@@ -1,1 +1,1 @@
-module apis.event_timing.interaction_counts_private;
+module apis.event_timing.interaction_counts:p;

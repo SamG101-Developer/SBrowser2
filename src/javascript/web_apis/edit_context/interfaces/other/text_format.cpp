@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.edit_context.text_format;
-import apis.edit_context.text_format_private;
 
 import ext.core;
 import js.env.module_type;

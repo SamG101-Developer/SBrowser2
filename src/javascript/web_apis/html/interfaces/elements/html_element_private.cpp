@@ -1,1 +1,1 @@
-module apis.html.html_element_private;
+module apis.html.html_element:p;

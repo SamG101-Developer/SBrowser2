@@ -1,1 +1,1 @@
-module apis.gamepad.gamepad_event_private;
+module apis.gamepad.gamepad_event:p;

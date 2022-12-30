@@ -1,1 +1,1 @@
-module apis.clipboard.clipboard_item_private;
+module apis.clipboard.clipboard_item:p;

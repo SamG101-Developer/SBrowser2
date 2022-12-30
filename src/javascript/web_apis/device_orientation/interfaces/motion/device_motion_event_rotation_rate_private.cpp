@@ -1,1 +1,1 @@
-module apis.device_orientation.device_motion_event_rotation_rate_private;
+module apis.device_orientation.device_motion_event_rotation_rate:p;

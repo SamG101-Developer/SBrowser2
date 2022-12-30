@@ -1,9 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "ext/macros.hpp"
 
 
 module apis.hr_time.performance;
@@ -12,7 +8,6 @@ import apis.hr_time.types;
 
 import apis.dom.event_target;
 import apis.dom.window;
-import apis.dom.window_private;
 
 import ext.tuple;
 

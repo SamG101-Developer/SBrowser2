@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.url.url_private;
-import apis.dom_object_private;
+export module apis.url.url:p;
+import apis.dom_object;
 
 import apis.url.types;
 

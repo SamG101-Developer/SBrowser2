@@ -1,6 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 #include <range/v3/view/iota.hpp>
 #include <v8-isolate.h>
@@ -8,7 +7,6 @@ module;
 
 
 module apis.file_api.file;
-import apis.file_api.file_private;
 import apis.file_api.detail;
 import apis.file_api.types;
 

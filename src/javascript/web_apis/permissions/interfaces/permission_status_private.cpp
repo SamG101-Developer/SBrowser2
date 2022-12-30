@@ -1,1 +1,1 @@
-module apis.permissions.permission_status_private;
+module apis.permissions.permission_status:p;

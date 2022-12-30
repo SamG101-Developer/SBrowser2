@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.audio_param_private;
-import apis.dom_object_private;
+export module apis.web_audio.audio_param:p;
+import apis.dom_object;
 import apis.web_audio.types;
 
 import ext.number;

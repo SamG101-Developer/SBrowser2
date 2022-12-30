@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.magnetometer.uncalibrated_magnetometer_private;
-import apis.sensors.sensor_private;
+export module apis.magnetometer.uncalibrated_magnetometer:p;
+import apis.sensors.sensor;
 
 
 DEFINE_PRIVATE_CLASS(magnetometer, uncalibrated_magnetometer)

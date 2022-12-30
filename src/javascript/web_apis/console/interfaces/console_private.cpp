@@ -1,1 +1,1 @@
-module apis.console.console_private;
+module apis.console.console:p;

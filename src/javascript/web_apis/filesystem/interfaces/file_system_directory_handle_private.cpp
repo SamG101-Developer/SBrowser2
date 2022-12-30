@@ -1,1 +1,1 @@
-export module apis.filesystem.file_system_directory_handle_private;
+export module apis.filesystem.file_system_directory_handle:p;

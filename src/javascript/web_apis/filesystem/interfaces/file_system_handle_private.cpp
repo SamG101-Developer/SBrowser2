@@ -1,1 +1,1 @@
-module apis.filesystem.file_system_handle_private;
+module apis.filesystem.file_system_handle:p;

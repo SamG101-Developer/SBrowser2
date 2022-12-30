@@ -1,1 +1,1 @@
-module apis.encoding.mixins.text_encoder_private;
+module apis.encoding.mixins.text_encoder:p;

@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.accelerometer.accelerometer;
-import apis.accelerometer.accelerometer_private;
 import apis.accelerometer.detail;
 
 import apis.sensors.sensor;

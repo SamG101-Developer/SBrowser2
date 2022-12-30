@@ -1,16 +1,10 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.console.console;
 import apis.dom_object;
-
-import ext.core;
 import ext.mixins;
-
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(console, console) final

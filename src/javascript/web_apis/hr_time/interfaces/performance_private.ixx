@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.hr_time.performance_private;
-import apis.dom.event_target_private;
+export module apis.hr_time.performance:p;
+import apis.dom.event_target;
 
 
 DEFINE_PRIVATE_CLASS(hr_time, performance) : dom::event_target_private {};

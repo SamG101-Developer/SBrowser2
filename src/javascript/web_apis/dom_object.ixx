@@ -1,9 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/other.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <memory>
+#include "ext/macros.hpp"
 
 
 export module apis.dom_object;

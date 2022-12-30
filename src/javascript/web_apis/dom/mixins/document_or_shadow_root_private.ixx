@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.dom.mixins.document_or_shadow_root_private;
-import apis.dom_object_private;
+export module apis.dom.mixins.document_or_shadow_root:p;
+import apis.dom_object;
 
 import ext.core;
 

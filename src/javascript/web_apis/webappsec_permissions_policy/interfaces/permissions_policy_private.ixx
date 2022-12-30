@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.webappsec_permissions_policy.permissions_policy_private;
-import apis.dom_object_private;
+export module apis.webappsec_permissions_policy.permissions_policy:p;
+import apis.dom_object;
 
 import apis.dom.types;
 import apis.html.types;

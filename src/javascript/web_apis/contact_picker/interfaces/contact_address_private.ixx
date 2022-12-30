@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.contact_picker.contact_address_private;
-import apis.dom_object_private;
+export module apis.contact_picker.contact_address:p;
+import apis.dom_object;
 
 import apis.contact_picker.types;
 

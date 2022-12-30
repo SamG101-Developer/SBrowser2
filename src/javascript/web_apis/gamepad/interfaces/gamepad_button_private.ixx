@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <libgamepad.hpp>
 
 
-export module apis.gamepad.gamepad_button_private;
-import apis.dom_object_private;
+export module apis.gamepad.gamepad_button:p;
+import apis.dom_object;
 
 import ext.core;
 

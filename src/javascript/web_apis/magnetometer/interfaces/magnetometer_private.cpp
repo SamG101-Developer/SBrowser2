@@ -1,1 +1,1 @@
-module apis.magnetometer.magnetometer_private;
+module apis.magnetometer.magnetometer:p;

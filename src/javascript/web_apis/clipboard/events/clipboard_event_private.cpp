@@ -1,1 +1,1 @@
-module apis.clipboard.clipboard_event_private;
+module apis.clipboard.clipboard_event:p;

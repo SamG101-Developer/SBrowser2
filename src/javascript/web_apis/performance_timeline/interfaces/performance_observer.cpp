@@ -1,7 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 #include <assert.hpp>
 #include <range/v3/action/remove.hpp>
@@ -13,7 +11,6 @@ module;
 
 
 module apis.performance_timeline.performance_observer;
-import apis.performance_timeline.performance_observer_private;
 import apis.performance_timeline.performance_entry;
 import apis.performance_timeline.types;
 

@@ -1,10 +1,9 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.encoding.text_decoder;
-import apis.encoding.text_decoder_private;
 import apis.encoding.detail;
 import apis.encoding.types;
 

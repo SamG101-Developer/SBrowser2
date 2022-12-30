@@ -1,12 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 #include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.battery.battery_manager;
-import apis.battery.battery_manager_private;
 import apis.dom.event_target;
 
 import ext.boolean;

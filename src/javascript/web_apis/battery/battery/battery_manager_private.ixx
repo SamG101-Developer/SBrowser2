@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <hwinfo/battery.h>
 
 
-export module apis.battery.battery_manager_private;
+export module apis.battery.battery_manager:p;
 import ext.boolean;
 import ext.number;
 

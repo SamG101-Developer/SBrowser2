@@ -1,1 +1,1 @@
-module apis.dom.mixins.slottable_private;
+module apis.dom.mixins.slottable:p;

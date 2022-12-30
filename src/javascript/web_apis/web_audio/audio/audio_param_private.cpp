@@ -1,4 +1,4 @@
-module apis.web_audio.audio_param_private;
+module apis.web_audio.audio_param:p;
 
 import ext.number;
 

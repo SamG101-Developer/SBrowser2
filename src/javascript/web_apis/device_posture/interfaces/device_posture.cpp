@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.device_posture.device_posture;
-import apis.device_posture.device_posture_private ;
 import apis.device_posture.types;
 
 import ext.core;

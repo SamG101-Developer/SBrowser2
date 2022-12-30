@@ -1,1 +1,1 @@
-module apis.device_orientation.device_orientation_event_private;
+module apis.device_orientation.device_orientation_event:p;

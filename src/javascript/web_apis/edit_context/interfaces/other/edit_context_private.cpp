@@ -2,12 +2,10 @@ module;
 #include "ext/macros/language_shorthand.hpp"
 
 
-module apis.edit_context.edit_context_private;
+module apis.edit_context.edit_context:p;
 
 import apis.dom.event;
-import apis.dom.event_private;
 import apis.dom.event_target;
-import apis.dom.event_target_private;
 import apis.css.geometry.dom_rect;
 
 

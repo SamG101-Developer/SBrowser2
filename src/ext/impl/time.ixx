@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
+#include "ext/macros.hpp"
 #include "ext/macros/namespaces.hpp"
 
 export module ext.logging:time;

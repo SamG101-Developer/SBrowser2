@@ -1,11 +1,10 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.filesystem.file_system_handle;
-import apis.filesystem.file_system_handle_private;
+import apis.filesystem.file_system_handle;
 import apis.filesystem.types;
 
 import apis.dom.detail;

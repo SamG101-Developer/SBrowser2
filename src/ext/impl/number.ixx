@@ -1,6 +1,6 @@
 #include <concepts>
 module;
-#include "ext/macros/extended_attributes.hpp"
+#include "ext/macros.hpp"
 #include "ext/macros/namespaces.hpp"
 #include <cmath>
 #include <limits>

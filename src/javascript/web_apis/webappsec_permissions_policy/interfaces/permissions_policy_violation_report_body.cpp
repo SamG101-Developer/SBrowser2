@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.webappsec_permissions_policy.permissions_policy_violation_report_body;
-import apis.webappsec_permissions_policy.permissions_policy_violation_report_body_private;
 import apis.webappsec_permissions_policy.types;
 
 import apis.reporting.report_body;

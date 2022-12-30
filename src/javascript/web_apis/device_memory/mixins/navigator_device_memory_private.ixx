@@ -1,12 +1,12 @@
 module;
 #include "ext/macros/extended_attributes.hpp"
 #include "ext/macros/os.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <hwinfo/ram.h>
 
 
-export module apis.device_memory.navigator_device_memory_private;
-import apis.dom_object_private;
+export module apis.device_memory.navigator_device_memory:p;
+import apis.dom_object;
 
 import ext.core;
 

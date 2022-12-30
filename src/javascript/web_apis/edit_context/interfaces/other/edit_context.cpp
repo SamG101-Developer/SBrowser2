@@ -1,11 +1,8 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.edit_context.edit_context;
-import apis.edit_context.edit_context_private;
 
 import apis.css.geometry.dom_rect;
 import apis.dom.event_target;

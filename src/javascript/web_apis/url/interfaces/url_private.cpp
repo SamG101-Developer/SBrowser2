@@ -1,1 +1,1 @@
-module apis.url.url_private;
+module apis.url.url:p;

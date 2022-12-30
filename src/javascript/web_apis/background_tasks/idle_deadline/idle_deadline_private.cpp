@@ -1,1 +1,1 @@
-module apis.background_tasks.idle_deadline_private;
+module apis.background_tasks.idle_deadline:p;

@@ -1,12 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "ext/macros.hpp"
 
 
 module apis.web_audio.audio_sink_info;
-import apis.web_audio.audio_sink_info_private;
 import apis.web_audio.types;
 
 import ext.tuple;

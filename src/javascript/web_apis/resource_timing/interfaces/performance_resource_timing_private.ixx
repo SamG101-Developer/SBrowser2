@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.resource_timing.performance_resource_timing_private;
-import apis.performance_timeline.performance_entry_private;
+export module apis.resource_timing.performance_resource_timing:p;
+import apis.performance_timeline.performance_entry;
 
 import apis.resource_timing.types;
 import apis.fetch.types;

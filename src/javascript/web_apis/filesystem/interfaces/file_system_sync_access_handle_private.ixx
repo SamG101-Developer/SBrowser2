@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.filesystem.file_system_sync_access_handle_private;
-import apis.dom_object_private;
+export module apis.filesystem.file_system_sync_access_handle:p;
+import apis.dom_object;
 
 import apis.filesystem.types;
 

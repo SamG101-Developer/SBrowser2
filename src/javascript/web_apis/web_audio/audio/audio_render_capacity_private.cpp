@@ -2,7 +2,7 @@ module;
 #include <QtCore/QTimer>
 
 
-module apis.web_audio.audio_render_capacity_private;
+module apis.web_audio.audio_render_capacity:p;
 
 
 web_audio::audio_render_capacity_private::audio_render_capacity_private()

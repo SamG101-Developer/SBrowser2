@@ -1,1 +1,1 @@
-module apis.aria.mixins.aria_mixin_private;
+module apis.aria.mixins.aria_mixin:p;

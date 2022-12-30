@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.offline_audio_completion_event_private;
-import apis.dom.event_private;
+export module apis.web_audio.offline_audio_completion_event:p;
+import apis.dom.event;
 
 namespace web_audio {class audio_buffer;}
 

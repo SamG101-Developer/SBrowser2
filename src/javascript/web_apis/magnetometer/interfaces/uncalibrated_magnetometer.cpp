@@ -1,6 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.magnetometer.uncalibrated_magnetometer;

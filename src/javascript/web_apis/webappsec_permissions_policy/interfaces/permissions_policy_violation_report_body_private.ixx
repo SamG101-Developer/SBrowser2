@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.webappsec_permissions_policy.permissions_policy_violation_report_body_private;
-import apis.reporting.report_body_private;
+export module apis.webappsec_permissions_policy.permissions_policy_violation_report_body:p;
+import apis.reporting.report_body;
 
 import apis.webappsec_permissions_policy.types;
 import ext.core;

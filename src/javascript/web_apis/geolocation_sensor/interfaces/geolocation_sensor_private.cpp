@@ -1,1 +1,1 @@
-module apis.geolocation_sensor.geolocation_sensor_private;
+module apis.geolocation_sensor.geolocation_sensor:p;

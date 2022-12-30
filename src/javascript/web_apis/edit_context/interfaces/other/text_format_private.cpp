@@ -1,1 +1,1 @@
-module apis.edit_context.text_format_private;
+module apis.edit_context.text_format:p;

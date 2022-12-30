@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.html.audio_track_private;
-import apis.html.abstract_track_private;
+export module apis.html.audio_track:p;
+import apis.html.abstract_track;
 
 import ext.boolean;
 

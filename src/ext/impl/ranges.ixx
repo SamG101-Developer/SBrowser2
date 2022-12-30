@@ -2,9 +2,8 @@
 // TODO : comment MACROS
 
 module;
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
 #include "ext/macros/namespaces.hpp"
-#include "ext/macros/other.hpp"
 
 #include <function2/function2.hpp>
 #include <tuplet/tuple.hpp>

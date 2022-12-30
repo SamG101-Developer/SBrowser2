@@ -1,6 +1,5 @@
 module apis.gyroscope.detail;
 import apis.gyroscope.gyroscope;
-import apis.gyroscope.gyroscope_private;
 
 import apis.sensors.detail;
 

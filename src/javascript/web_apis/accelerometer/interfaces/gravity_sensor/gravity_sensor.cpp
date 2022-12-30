@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.accelerometer.gravity_sensor;
-import apis.accelerometer.gravity_sensor_private;
 import apis.accelerometer.detail;
 
 import ext.tuple;

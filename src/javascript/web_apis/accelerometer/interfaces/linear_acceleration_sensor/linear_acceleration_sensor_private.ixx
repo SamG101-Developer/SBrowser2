@@ -1,8 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.accelerometer.linear_acceleration_sensor_private;
+export module apis.accelerometer.linear_acceleration_sensor:p;
 import apis.accelerometer.accelerometer;
 
 

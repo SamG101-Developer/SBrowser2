@@ -1,6 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
@@ -11,7 +10,6 @@ module;
 
 
 module apis.file_api.blob;
-import apis.file_api.blob_private;
 import apis.file_api.detail;
 import apis.file_api.types;
 

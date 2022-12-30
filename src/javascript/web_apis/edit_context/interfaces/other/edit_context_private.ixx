@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <utility>
 
 
-export module apis.edit_context.edit_context_private;
-import apis.dom.event_target_private;
+export module apis.edit_context.edit_context:p;
+import apis.dom.event_target;
 import apis.css.geometry.types;
 
 import ext.core;

@@ -1,1 +1,1 @@
-module apis.reporting.reporting_observer_private;
+module apis.reporting.reporting_observer:p;

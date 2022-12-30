@@ -1,10 +1,10 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.filesystem.file_system_sync_access_handle;
-import apis.filesystem.file_system_sync_access_handle_private;
+import apis.filesystem.file_system_sync_access_handle;
 import apis.filesystem.types;
 
 import apis.dom.detail;

@@ -1,1 +1,1 @@
-module apis.gyroscope.gyroscope_private;
+module apis.gyroscope.gyroscope:p;

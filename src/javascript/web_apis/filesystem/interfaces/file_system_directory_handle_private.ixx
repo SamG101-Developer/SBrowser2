@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.filesystem.file_system_directory_handle;
-import apis.filesystem.file_system_handle_private;
+import apis.filesystem.file_system_handle;
 import ext.mixins;
 
 import apis.filesystem.tyes;

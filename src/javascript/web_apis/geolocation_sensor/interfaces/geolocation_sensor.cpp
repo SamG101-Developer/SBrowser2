@@ -1,7 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/errors.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.geolocation_sensor.geolocation_sensor;

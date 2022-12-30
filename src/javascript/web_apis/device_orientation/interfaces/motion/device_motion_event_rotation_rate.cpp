@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.device_orientation.device_motion_event_rotation_rate;
-import apis.device_orientation.device_motion_event_rotation_rate_private;
 
 import ext.core;
 import js.env.module_type;

@@ -1,5 +1,4 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
 #include <chrono>
 #include <libgamepad.hpp>
 #include <range/v3/view/filter.hpp>
@@ -8,11 +7,9 @@ module;
 module apis.gamepad.detail;
 import apis.gamepad.gamepad;
 import apis.gamepad.gamepad_event;
-import apis.gamepad.gamepad_private;
 
 import apis.dom.detail;
 import apis.dom.window;
-import apis.dom.window_private;
 
 import apis.hr_time.detail;
 

@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.filesystem.file_system_writable_file_stream_private;
-import apis.streams.writeable_stream_private;
+export module apis.filesystem.file_system_writable_file_stream:p;
+import apis.streams.writeable_stream;
 
 import apis.filesystem.types;
 import ext.core;

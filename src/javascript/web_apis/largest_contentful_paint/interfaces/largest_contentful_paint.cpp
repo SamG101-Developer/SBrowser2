@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.largest_contentful_paint.largest_contentful_paint;
-import apis.largest_contentful_paint.largest_contentful_paint_private;
 
 import apis.dom.element;
 import apis.hr_time.types;

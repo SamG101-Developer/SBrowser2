@@ -1,17 +1,11 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/macros.hpp"
-#include "ext/macros/extended_attributes.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.dom.mixins.document_or_element_node;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
-namespace dom {class element;}
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom::mixins, document_or_element_node)

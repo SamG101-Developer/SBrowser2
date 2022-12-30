@@ -1,1 +1,1 @@
-module apis.file_api.blob_private;
+module apis.file_api.blob:p;

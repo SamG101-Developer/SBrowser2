@@ -1,9 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.reporting.report;
-import apis.reporting.report_private;
 import apis.reporting.report_body;
 
 import apis.url.detail;

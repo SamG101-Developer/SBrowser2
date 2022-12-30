@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.background_tasks.idle_deadline_private;
-import apis.dom_object_private;
+export module apis.background_tasks.idle_deadline:p;
+import apis.dom_object;
 
 import apis.hr_time.types;
 import ext.core;

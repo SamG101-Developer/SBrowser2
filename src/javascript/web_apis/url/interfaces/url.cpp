@@ -1,9 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.url.url;
-import apis.url.url_private;
 import apis.url.types;
 
 import apis.dom.detail;

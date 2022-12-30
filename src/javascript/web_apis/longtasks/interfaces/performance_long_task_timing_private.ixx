@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.longtasks.performance_long_task_timing_private;
-import apis.performance_timeline.performance_entry_private;
+export module apis.longtasks.performance_long_task_timing:p;
+import apis.performance_timeline.performance_entry;
 
 import apis.longtasks.types;
 import ext.core;

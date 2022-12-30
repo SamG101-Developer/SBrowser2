@@ -1,1 +1,1 @@
-module apis.web_audio.audio_destination_node_private;
+module apis.web_audio.audio_destination_node:p;

@@ -1,6 +1,6 @@
 module;
 #include "ext/macros/annotations.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.dom_parsing.xml_serializer;

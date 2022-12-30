@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.reporting.report_body_private;
-import apis.dom_object_private;
+export module apis.reporting.report_body:p;
+import apis.dom_object;
 
 
 DEFINE_PRIVATE_CLASS(reporting, report_body)

@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.reporting.report_body;
-import apis.reporting.report_body_private;
 
 import ext.core;
 import js.env.module_type;

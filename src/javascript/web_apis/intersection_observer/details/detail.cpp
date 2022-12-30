@@ -5,11 +5,9 @@ module;
 
 module apis.intersection_observer.detail;
 import apis.intersection_observer.intersection_observer;
-import apis.intersection_observer.intersection_observer_private;
 import apis.intersection_observer.types;
 
 import apis.dom.element;
-import apis.dom.element_private;
 
 
 auto intersection_observer::detail::observe_target_element(

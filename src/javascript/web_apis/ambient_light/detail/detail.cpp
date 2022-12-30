@@ -5,7 +5,6 @@ module;
 
 module apis.ambient_light.detail;
 import apis.ambient_light.ambient_light_sensor;
-import apis.ambient_light.ambient_light_sensor_private;
 
 import apis.dom.detail;
 import apis.dom.types;

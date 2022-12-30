@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.url.url_search_params_private;
-import apis.dom_object_private;
+export module apis.url.url_search_params:p;
+import apis.dom_object;
 import ext.mixins;
 
 import ext.core;

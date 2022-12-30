@@ -1,5 +1,5 @@
-export module apis.base_exception_private;
-import apis.dom_object_private;
+export module apis.base_exception:p;
+import apis.dom_object;
 import ext.core;
 
 

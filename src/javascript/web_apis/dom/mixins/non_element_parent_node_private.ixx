@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.dom.mixins.non_element_parent_node_private;
-import apis.dom_object_private;
+export module apis.dom.mixins.non_element_parent_node:p;
+import apis.dom_object;
 
 
 DEFINE_PRIVATE_CLASS(dom::mixins, non_element_parent_node)

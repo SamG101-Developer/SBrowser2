@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.geolocation_sensor.geolocation_sensor_private;
-import apis.sensors.sensor_private;
+export module apis.geolocation_sensor.geolocation_sensor:p;
+import apis.sensors.sensor;
 
 
 DEFINE_PRIVATE_CLASS(geolocation_sensor, geolocation_sensor) : sensors::sensor_private {};

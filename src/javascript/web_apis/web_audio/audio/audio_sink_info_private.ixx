@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.audio_sink_info_private;
-import apis.dom_object_private;
+export module apis.web_audio.audio_sink_info:p;
+import apis.dom_object;
 import apis.web_audio.types;
 
 

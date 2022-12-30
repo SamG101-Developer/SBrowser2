@@ -1,5 +1,4 @@
 module;
-#include "javascript/macros/expose.hpp"
 
 
 module apis.aria.mixins.aria_mixin;

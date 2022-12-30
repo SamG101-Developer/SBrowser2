@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.clipboard.clipboard_event_private;
-import apis.dom.event_private;
+export module apis.clipboard.clipboard_event:p;
+import apis.dom.event;
 
 namespace html {class data_transfer;}
 

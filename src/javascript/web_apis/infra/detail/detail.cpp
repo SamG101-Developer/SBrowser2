@@ -1,5 +1,6 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
+
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/ends_with.hpp>
 #include <range/v3/algorithm/starts_with.hpp>

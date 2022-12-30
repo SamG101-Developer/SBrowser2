@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.audio_listener_private;
-import apis.dom_object_private;
+export module apis.web_audio.audio_listener:p;
+import apis.dom_object;
 
 namespace web_audio {class audio_param;}
 

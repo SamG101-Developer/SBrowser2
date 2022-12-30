@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <range/v3/to_container.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
@@ -10,8 +10,6 @@ module;
 
 
 module apis.url.url_search_params;
-import apis.url.url_search_params_private;
-
 import ext.core;
 
 

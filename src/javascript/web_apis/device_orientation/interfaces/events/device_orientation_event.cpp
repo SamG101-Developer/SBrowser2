@@ -1,10 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <javascript/macros/expose.hpp>
 
 
 module apis.device_orientation.device_orientation_event;
-import apis.device_orientation.device_orientation_event_private;
 
 import apis.dom.event;
 

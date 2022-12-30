@@ -7,7 +7,6 @@ module apis.permissions.detail;
 import apis.permissions.types;
 
 import apis.dom.window;
-import apis.dom.window_private;
 
 import apis.webappsec_permissions_policy.detail;
 import apis.webappsec_permissions_policy.types;

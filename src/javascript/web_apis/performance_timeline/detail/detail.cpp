@@ -11,9 +11,7 @@ module;
 module apis.performance_timeline.detail;
 import apis.performance_timeline.types;
 import apis.performance_timeline.performance_entry;
-import apis.performance_timeline.performance_entry_private;
 import apis.performance_timeline.performance_observer;
-import apis.performance_timeline.performance_observer_private;
 
 import apis.timing_entry.detail;
 

@@ -1,1 +1,1 @@
-module apis.contact_picker.contact_address_private;
+module apis.contact_picker.contact_address:p;

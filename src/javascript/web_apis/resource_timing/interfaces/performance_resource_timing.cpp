@@ -1,13 +1,12 @@
 module;
 #include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/to_container.hpp>
 
 
 module apis.resource_timing.performance_resource_timing;
-import apis.resource_timing.performance_resource_timing_private;
 import apis.resource_timing.types;
 
 import apis.fetch.types;

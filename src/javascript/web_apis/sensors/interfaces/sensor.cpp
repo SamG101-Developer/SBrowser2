@@ -1,15 +1,8 @@
 module;
-#include "ext/macros/custom_operator.hpp"
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
-#include <tuplet/tuple.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
+#include "ext/macros.hpp"
 
 
 module apis.sensors.sensor;
-import apis.sensors.sensor_private;
 import apis.sensors.detail;
 import apis.sensors.types;
 

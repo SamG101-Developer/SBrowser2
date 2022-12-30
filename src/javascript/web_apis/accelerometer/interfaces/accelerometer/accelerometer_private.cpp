@@ -1,1 +1,1 @@
-module apis.accelerometer.accelerometer_private;
+module apis.accelerometer.accelerometer:p;

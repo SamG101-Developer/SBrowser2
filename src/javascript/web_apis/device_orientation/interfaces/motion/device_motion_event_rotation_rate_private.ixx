@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.device_orientation.device_motion_event_rotation_rate_private;
-import apis.dom_object_private;
+export module apis.device_orientation.device_motion_event_rotation_rate:p;
+import apis.dom_object;
 
 import ext.core;
 

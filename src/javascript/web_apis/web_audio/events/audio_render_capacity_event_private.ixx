@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.audio_render_capacity_event_private;
-import apis.dom.event_private;
+export module apis.web_audio.audio_render_capacity_event:p;
+import apis.dom.event;
 
 import ext.number;
 

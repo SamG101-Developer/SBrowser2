@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.longtasks.task_attribution_timing_private;
-import apis.performance_timeline.performance_entry_private;
+export module apis.longtasks.task_attribution_timing:p;
+import apis.performance_timeline.performance_entry;
 
 
 DEFINE_PRIVATE_CLASS(longtasks, task_attribution_timing)

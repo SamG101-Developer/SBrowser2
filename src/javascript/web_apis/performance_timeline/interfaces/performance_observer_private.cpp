@@ -1,1 +1,1 @@
-module apis.performance_timeline.performance_observer_private;
+module apis.performance_timeline.performance_observer:p;

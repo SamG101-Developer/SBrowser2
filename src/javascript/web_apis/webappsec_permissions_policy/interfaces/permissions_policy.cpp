@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include "javascript/macros/expose.hpp"
 #include <magic_enum.hpp>
 #include <range/v3/view/filter.hpp>
@@ -7,7 +7,6 @@ module;
 
 
 module apis.webappsec_permissions_policy.permissions_policy;
-import apis.webappsec_permissions_policy.permissions_policy_private;
 import apis.webappsec_permissions_policy.detail;
 import apis.webappsec_permissions_policy.types;
 

@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.file_api.file_reader_sync_private;
-import apis.dom_object_private;
+export module apis.file_api.file_reader_sync:p;
+import apis.dom_object;
 
 
 DEFINE_PRIVATE_CLASS(file_api, file_reader_sync)

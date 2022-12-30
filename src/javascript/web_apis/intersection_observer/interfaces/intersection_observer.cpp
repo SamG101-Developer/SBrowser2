@@ -1,6 +1,6 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
+
 #include <range/v3/action/remove.hpp>
 #include <range/v3/action/sort.hpp>
 #include <range/v3/action/transform.hpp>
@@ -10,12 +10,10 @@ module;
 
 
 module apis.intersection_observer.intersection_observer;
-import apis.intersection_observer.intersection_observer_private;
 import apis.intersection_observer.detail;
 import apis.intersection_observer.types;
 
 import apis.dom.element;
-import apis.dom.element_private;
 import apis.dom.node;
 import apis.dom.detail;
 import apis.dom.types;

@@ -1,6 +1,7 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
+
 #include <range/v3/algorithm/fold.hpp>
 #include <range/v3/algorithm/remove.hpp>
 #include <range/v3/view/for_each.hpp>
@@ -12,7 +13,6 @@ module;
 module apis.sensors.detail;
 import apis.sensors.types;
 import apis.sensors.sensor;
-import apis.sensors.sensor_private;
 
 import apis.dom.detail;
 import apis.dom.types;

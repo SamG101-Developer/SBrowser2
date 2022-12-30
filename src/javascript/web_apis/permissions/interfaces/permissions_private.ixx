@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include "javascript/macros/expose.hpp"
 
 
-export module apis.permissions.permissions_private;
-import apis.dom_object_private;
+export module apis.permissions.permissions:p;
+import apis.dom_object;
 
 
 DEFINE_PRIVATE_CLASS(permissions, permissions)

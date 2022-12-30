@@ -1,1 +1,1 @@
-module apis.dom_parsing.xml_serializer_private;
+module apis.dom_parsing.xml_serializer:p;

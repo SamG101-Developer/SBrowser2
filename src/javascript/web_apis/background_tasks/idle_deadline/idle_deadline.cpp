@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.background_tasks.idle_deadline;
-import apis.background_tasks.idle_deadline_private;
 
 import apis.hr_time.detail;
 import apis.hr_time.types;

@@ -1,1 +1,1 @@
-module apis.web_audio.audio_sceduled_source_node_private;
+module apis.web_audio.audio_sceduled_source_node:p;

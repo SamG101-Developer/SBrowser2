@@ -1,1 +1,1 @@
-module apis.accelerometer.gravity_sensor_private;
+module apis.accelerometer.gravity_sensor:p;

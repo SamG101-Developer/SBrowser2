@@ -1,7 +1,7 @@
 #ifndef SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP
 #define SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP
 
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
 
 #include <tuplet/tuple.hpp>
 #include <v8-isolate.h>

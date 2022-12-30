@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.ambient_light.ambient_light_sensor;
-import apis.ambient_light.ambient_light_sensor_private;
 import apis.ambient_light.detail;
 
 import apis.sensors.sensor;

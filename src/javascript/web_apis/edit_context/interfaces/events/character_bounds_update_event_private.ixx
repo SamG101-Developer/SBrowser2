@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.edit_context.character_bounds_update_event_private;
-import apis.dom.event_private;
+export module apis.edit_context.character_bounds_update_event:p;
+import apis.dom.event;
 
 import ext.core;
 

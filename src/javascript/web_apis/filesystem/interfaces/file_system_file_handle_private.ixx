@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.filesystem.file_system_file_handle_private;
-import apis.filesystem.file_system_handle_private;
+export module apis.filesystem.file_system_file_handle:p;
+import apis.filesystem.file_system_handle;
 import apis.filesystem.types;
 
 

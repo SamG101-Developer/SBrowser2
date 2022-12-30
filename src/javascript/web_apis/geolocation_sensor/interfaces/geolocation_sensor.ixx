@@ -1,9 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/constructors.hpp"
-#include "ext/macros/property.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.geolocation_sensor.geolocation_sensor;

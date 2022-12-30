@@ -1,8 +1,8 @@
 module;
 #include <range/v3/view/transform.hpp>
 
-module apis.dom.parentable_node_private;
-import apis.dom.node_private;
+module apis.dom.parentable_node:p;
+import apis.dom.node;
 
 import ext.core;
 

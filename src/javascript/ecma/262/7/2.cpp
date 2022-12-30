@@ -1,6 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "javascript/macros/errors.hpp"
+#include "ext/macros.hpp"
 
 #include <cassert>
 #include <v8-callbacks.h>
@@ -13,7 +12,7 @@ module;
 
 
 module js.ecma._262._7._2;
-import ext.boolean;
+import ext.core;
 
 
 auto js::ecma::IsArray(

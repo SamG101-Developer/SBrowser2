@@ -1,3 +1,3 @@
-module api.sensors.sensor_private;
+module api.sensors.sensor:p;
 
 

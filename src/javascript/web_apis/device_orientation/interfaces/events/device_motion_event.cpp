@@ -1,9 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.device_orientation.device_motion_event;
-import apis.device_orientation.device_motion_event_private;
 import apis.device_orientation.device_motion_event_acceleration;
 import apis.dom.event;
 

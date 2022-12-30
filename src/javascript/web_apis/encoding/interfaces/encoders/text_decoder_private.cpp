@@ -1,1 +1,1 @@
-module apis.encoding.text_decoder_private;
+module apis.encoding.text_decoder:p;

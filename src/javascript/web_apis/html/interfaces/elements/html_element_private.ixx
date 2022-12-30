@@ -1,11 +1,11 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.html.html_element_private;
-import apis.dom.element_private;
-import apis.html.mixins.content_editable_private;
-import apis.html.mixins.html_or_svg_element_private;
+export module apis.html.html_element:p;
+import apis.dom.element;
+import apis.html.mixins.content_editable;
+import apis.html.mixins.html_or_svg_element;
 
 import apis.html.types;
 import ext.core;

@@ -1,6 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 #include <limits>
 #include <v8-exception.h>
@@ -14,9 +13,7 @@ module;
 
 
 module js.ecma._262._7._1;
-import ext.initializer_list;
-import ext.number;
-import ext.string;
+import ext.core;
 
 
 auto js::ecma::ToPrimitive(v8::Local<v8::Value> input, ConversionHint hint) -> v8::Local<v8::Value>

@@ -1,1 +1,1 @@
-export module apis.html.audio_track_private;
+export module apis.html.audio_track:p;

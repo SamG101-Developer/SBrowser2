@@ -9,7 +9,6 @@ module;
 module apis.encoding.detail;
 import apis.encoding.types;
 import apis.encoding.mixins.text_decoder_common;
-import apis.encoding.mixins.text_decoder_common_private;
 
 import apis.infra.detail;
 import ext.core;

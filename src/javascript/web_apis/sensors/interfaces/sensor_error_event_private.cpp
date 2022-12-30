@@ -1,1 +1,1 @@
-module apis.sensors.sensor_error_event_private;
+module apis.sensors.sensor_error_event:p;

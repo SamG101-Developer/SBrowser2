@@ -1,6 +1,5 @@
 module;
 #include "ext/macros/custom_operator.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 module apis.dom_parsing.mixins.inner_html;
@@ -8,7 +7,6 @@ module apis.dom_parsing.mixins.inner_html;
 import apis.dom.node;
 import apis.dom.element;
 import apis.dom.shadow_root;
-import apis.dom.shadow_root_private;
 
 import ext.core;
 import js.env.module_type;

@@ -1,15 +1,10 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 module apis.event_timing.performance_event_timing;
-import apis.event_timing.performance_event_timing_private;
 
 import apis.dom.node;
-import apis.dom.node_private;
 import apis.dom.shadow_root;
-import apis.dom.shadow_root_private;
 
 import apis.hr_time.types;
 import apis.performance_timeline.performance_entry;

@@ -1,1 +1,1 @@
-module apis.gamepad.gamepad_button_private;
+module apis.gamepad.gamepad_button:p;

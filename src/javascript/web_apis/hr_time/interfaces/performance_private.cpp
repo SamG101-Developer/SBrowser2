@@ -1,1 +1,1 @@
-module apis.hr_time.performance_private;
+module apis.hr_time.performance:p;

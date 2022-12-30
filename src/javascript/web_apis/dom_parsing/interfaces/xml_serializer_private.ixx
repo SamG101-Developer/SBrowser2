@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.dom_parsing.xml_serializer_private;
-import apis.dom_object_private;
+export module apis.dom_parsing.xml_serializer:p;
+import apis.dom_object;
 
 
 DEFINE_PRIVATE_CLASS(dom_parsing, xml_serializer)

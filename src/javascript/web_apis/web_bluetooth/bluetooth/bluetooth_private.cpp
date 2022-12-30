@@ -1,1 +1,1 @@
-module apis.web_bluetooth.bluetooth_private;
+module apis.web_bluetooth.bluetooth:p;

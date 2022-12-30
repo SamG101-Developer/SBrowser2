@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.audio_context_private;
-import apis.web_audio.base_audio_context_private;
+export module apis.web_audio.audio_context:p;
+import apis.web_audio.base_audio_context;
 
 import ext.boolean;
 

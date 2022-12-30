@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 #include <libgamepad.hpp>
 
 
-export module apis.gamepad.gamepad_private;
-import apis.dom_object_private;
+export module apis.gamepad.gamepad:p;
+import apis.dom_object;
 
 import apis.gamepad.types;
 import apis.hr_time.types;

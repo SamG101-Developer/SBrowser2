@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.gamepad.gamepad_event_private;
-import apis.dom.event_private;
+export module apis.gamepad.gamepad_event:p;
+import apis.dom.event;
 
 import ext.core;
 

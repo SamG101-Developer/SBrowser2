@@ -6,12 +6,8 @@ module apis.reporting.detail;
 import apis.reporting.types;
 
 import apis.dom.window;
-import apis.dom.window_private;
-
 import apis.hr_time.detail;
-
 import apis.html.concepts;
-
 import apis.url.types;
 
 import ext.core;

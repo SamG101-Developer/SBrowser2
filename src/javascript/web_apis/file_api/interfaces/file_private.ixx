@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.file_api.file_private;
-import apis.file_api.blob_private;
+export module apis.file_api.file:p;
+import apis.file_api.blob;
 
 import ext.core;
 

@@ -11,7 +11,7 @@ module;
 
 
 
-module apis.device_memory.navigator_device_memory_private;
+module apis.device_memory.navigator_device_memory:p;
 import ext.core;
 
 

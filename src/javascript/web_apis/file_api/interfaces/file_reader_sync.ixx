@@ -1,7 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 export module apis.file_api.file_reader_sync;

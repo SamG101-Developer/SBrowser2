@@ -2,7 +2,6 @@ module apis.permissions.permissions;
 import apis.permissions.types;
 
 import apis.dom.window;
-import apis.dom.window_private;
 
 import apis.html.detail;
 import apis.web_idl.detail;

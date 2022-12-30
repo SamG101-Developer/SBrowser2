@@ -1,7 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 #include <fmt/ostream.h>
 #include <range/v3/action/remove.hpp>
@@ -10,12 +8,9 @@ module;
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/algorithm/max_element.hpp>
-#include <v8-isolate.h>
-#include <v8pp/class.hpp>
 
 
 module apis.console.console;
-import apis.console.console_private;
 import apis.console.detail;
 import apis.console.types;
 

@@ -1,9 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.encoding.mixins.text_decoder_common;
-import apis.encoding.mixins.text_decoder_common_private;
 import ext.core;
 
 

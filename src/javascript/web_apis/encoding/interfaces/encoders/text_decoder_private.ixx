@@ -1,10 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.encoding.text_decoder_private;
-import apis.dom_object_private;
-import apis.encoding.mixins.text_decoder_common_private;
+export module apis.encoding.text_decoder:p;
+import apis.dom_object;
+import apis.encoding.mixins.text_decoder_common;
 
 import ext.core;
 

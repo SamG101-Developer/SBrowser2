@@ -5,7 +5,6 @@ module;
 module apis.accelerometer.detail;
 
 import apis.accelerometer.accelerometer;
-import apis.accelerometer.accelerometer_private;
 import apis.accelerometer.types;
 
 import apis.dom.detail;

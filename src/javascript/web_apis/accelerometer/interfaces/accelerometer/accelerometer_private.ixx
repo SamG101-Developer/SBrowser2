@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.accelerometer.accelerometer_private;
-import apis.sensors.sensor_private;
+export module apis.accelerometer.accelerometer:p;
+import apis.sensors.sensor;
 
 
 DEFINE_PRIVATE_CLASS(accelerometer, accelerometer)

@@ -1,1 +1,1 @@
-module apis.file_api.file_reader_private;
+module apis.file_api.file_reader:p;

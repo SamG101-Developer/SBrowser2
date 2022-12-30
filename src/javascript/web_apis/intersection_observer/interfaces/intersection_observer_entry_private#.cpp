@@ -1,1 +1,1 @@
-module apis.intersection_observer.intersection_observer_entry_private;
+module apis.intersection_observer.intersection_observer_entry:p;

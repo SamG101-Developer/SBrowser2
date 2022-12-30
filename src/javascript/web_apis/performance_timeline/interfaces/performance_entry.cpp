@@ -1,10 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.performance_timeline.performance_entry;
-import apis.performance_timeline.performance_entry_private;
 import apis.hr_time.types;
 
 import ext.core;

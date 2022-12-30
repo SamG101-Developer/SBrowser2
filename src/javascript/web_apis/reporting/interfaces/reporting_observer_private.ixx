@@ -1,9 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.reporting.reporting_observer_private;
-import apis.dom_object_private;
+export module apis.reporting.reporting_observer:p;
 
 import apis.reporting.types;
 

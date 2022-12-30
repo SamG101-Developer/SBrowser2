@@ -1,1 +1,1 @@
-module apis.dom.mixins.child_node_private;
+module apis.dom.mixins.child_node:p;

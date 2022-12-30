@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.dom_parsing.mixins.inner_html_private;
-import apis.dom_object_private;
+export module apis.dom_parsing.mixins.inner_html:p;
+import apis.dom_object;
 
 
 DEFINE_PRIVATE_CLASS(dom_parsing::mixins, inner_html)

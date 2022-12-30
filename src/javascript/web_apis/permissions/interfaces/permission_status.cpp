@@ -1,9 +1,8 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.permissions.permission_status;
-import apis.permissions.permission_status_private;
 import apis.permissions.types;
 
 import apis.webappsec_permissions_policy.types;

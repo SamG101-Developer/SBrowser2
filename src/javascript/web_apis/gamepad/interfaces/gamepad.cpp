@@ -1,12 +1,10 @@
 module;
-#include "ext/macros/macros.hpp"
-#include "javascript/macros/expose.hpp"
+#include "ext/macros.hpp"
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/range/operations.hpp>
 
 
 module apis.gamepad.gamepad;
-import apis.gamepad.gamepad_private;
 import apis.gamepad.gamepad_button;
 import apis.gamepad.detail;
 import apis.gamepad.types;
@@ -15,7 +13,6 @@ import apis.hr_time.detail;
 import apis.hr_time.types;
 
 import apis.dom.window;
-import apis.dom.window_private;
 
 import ext.core;
 

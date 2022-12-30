@@ -1,9 +1,9 @@
 module;
-#include "ext/macros/macros.hpp"
+#include "ext/macros.hpp"
 
 
-export module apis.web_audio.biquad_filter_node_private;
-import apis.web_audio.audio_node_private;
+export module apis.web_audio.biquad_filter_node:p;
+import apis.web_audio.audio_node;
 
 
 DEFINE_PRIVATE_CLASS(web_audio, biquad_filter_node)

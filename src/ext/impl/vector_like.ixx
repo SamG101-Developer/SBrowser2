@@ -1,16 +1,11 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros/namespaces.hpp"
-#include "ext/macros/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
-#include <memory>
+#include "ext/macros.hpp"
 
 
 export module ext.mixins:vector_like;
 import ext.core;
 import apis.dom_object;
-import apis.dom_object_private;
 import js.env.module_type;
 
 
