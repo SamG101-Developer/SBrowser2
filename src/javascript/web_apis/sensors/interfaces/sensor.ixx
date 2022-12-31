@@ -5,11 +5,7 @@ module;
 export module apis.sensors.sensor;
 import apis.dom.event_target;
 
-import ext.any;
-import ext.boolean;
-import ext.map;
-import ext.tuple;
-import ext.string;
+import ext.core;
 import js.env.module_type;
 
 

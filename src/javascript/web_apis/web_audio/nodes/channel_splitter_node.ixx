@@ -1,8 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/constructors.hpp"
 #include "ext/macros.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.web_audio.channel_splitter_node;

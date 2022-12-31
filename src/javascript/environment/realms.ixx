@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/extended_attributes.hpp"
+#include "ext/macros.hpp"
 #include <functional>
 #include <v8-forward.h>
 #include <v8pp/convert.hpp>

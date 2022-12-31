@@ -5,8 +5,6 @@ module;
 export module apis.device_orientation.device_motion_event_rotation_rate:p;
 import apis.dom_object;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(device_orientation, device_motion_event_rotation_rate)
         : dom_object_private

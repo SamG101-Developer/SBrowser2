@@ -1,17 +1,11 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/constructors.hpp"
 #include "ext/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.ambient_light.ambient_light_sensor;
 import apis.sensors.sensor;
 
-import apis.sensors.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(sensors);
 
 
 DEFINE_PUBLIC_CLASS(ambient_light, ambient_light_sensor) final

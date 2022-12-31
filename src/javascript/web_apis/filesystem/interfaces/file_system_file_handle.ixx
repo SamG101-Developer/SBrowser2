@@ -1,5 +1,4 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
 
 export module apis.filesystem.file_system_file_handle;

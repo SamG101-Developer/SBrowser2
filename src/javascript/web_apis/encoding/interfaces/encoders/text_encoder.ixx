@@ -1,7 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.encoding.text_encoder;

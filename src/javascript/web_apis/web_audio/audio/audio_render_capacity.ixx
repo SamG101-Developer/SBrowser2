@@ -1,7 +1,5 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.web_audio.audio_render_capacity;

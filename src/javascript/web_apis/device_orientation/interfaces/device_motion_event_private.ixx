@@ -5,8 +5,7 @@ module;
 export module apis.device_orientation.device_motion_event:p;
 import apis.dom.event;
 
-import apis.device_orientation.types;
-import ext.core;
+IMPORT_ALL_TYPES(device_orientation);
 
 
 DEFINE_PRIVATE_CLASS(device_orientation, device_motion_event) final

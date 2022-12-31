@@ -5,8 +5,8 @@ module;
 export module apis.console.console:p;
 import apis.dom_object;
 
-import apis.console.types;
-import apis.hr_time.types;
+IMPORT_ALL_TYPES(console);
+IMPORT_ALL_TYPES(hr_time);
 import ext.core;
 
 

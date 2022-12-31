@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
 
 #include <memory>
 #include <range/v3/view/filter.hpp>

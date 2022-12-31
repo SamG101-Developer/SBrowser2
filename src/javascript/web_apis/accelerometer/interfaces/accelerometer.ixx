@@ -1,16 +1,9 @@
 module;
-#include "ext/macros/annotations.hpp"
-#include "ext/macros/constructors.hpp"
 #include "ext/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.accelerometer.accelerometer;
 import apis.sensors.sensor;
-
-import ext.core;
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(accelerometer, accelerometer)

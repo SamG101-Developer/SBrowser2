@@ -5,8 +5,6 @@ module;
 export module apis.device_orientation.device_orientation_event:p;
 import apis.dom.event;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(device_orientation, device_orientation_event) final
         : virtual dom::event_private

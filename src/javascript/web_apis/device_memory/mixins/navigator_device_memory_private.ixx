@@ -1,17 +1,14 @@
 module;
-#include "ext/macros/extended_attributes.hpp"
 #include "ext/macros/os.hpp"
 #include "ext/macros.hpp"
 #include <hwinfo/ram.h>
 
 
-export module apis.device_memory.navigator_device_memory:p;
+export module apis.device_memory.mixins.navigator_device_memory:p;
 import apis.dom_object;
 
-import ext.core;
 
-
-DEFINE_PRIVATE_CLASS(device_memory, navigator_device_memory)
+DEFINE_PRIVATE_CLASS(device_memory::mixins, navigator_device_memory)
         : virtual dom_object_private
 {
 public:

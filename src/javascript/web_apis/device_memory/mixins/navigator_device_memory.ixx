@@ -1,18 +1,12 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
 
 
-export module apis.device_memory.navigator_device_memory;
+export module apis.device_memory.mixins.navigator_device_memory;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
 
-
-DEFINE_PUBLIC_CLASS(device_memory, navigator_device_memory)
+DEFINE_PUBLIC_CLASS(device_memory::mixins, navigator_device_memory)
         : public virtual dom_object
 {
 private constructors:

@@ -1,16 +1,11 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.device_orientation.device_motion_event;
 import apis.dom.event;
 
-import apis.device_orientation.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(device_orientation);
 
 
 DEFINE_PUBLIC_CLASS(device_orientation, device_motion_event) final

@@ -1,6 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
-#include "ext/macros/other.hpp"
+#include "ext/macros.hpp"
 
 #include <swl/variant.hpp>
 #include <tl/optional.hpp>

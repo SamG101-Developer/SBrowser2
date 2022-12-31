@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/join.hpp>

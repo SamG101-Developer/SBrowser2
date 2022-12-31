@@ -87,15 +87,13 @@ public:
     import ext.core;               \
     import js.env.module_type;     \
     export import :p;              \
-    export import :t;              \
     namespace ns {export class c;} \
     export class ns::c
 
 #define DEFINE_PUBLIC_CLASS_T(ns, c, ...)                 \
-    import ext.core;                                      \
+    import ext.core; import ext.js                        \
     import js.env.module_type;                            \
     export import :p;                                     \
-    export import :t;                                     \
     namespace ns {export template <__VA_ARGS__> class c;} \
     export template <__VA_ARGS__> class ns::c
 
@@ -103,8 +101,7 @@ public:
 // Define a private class, defining the class and its corresponding public class in their respective namespaces, and
 // then beginning the definition of the class. Note: cannot be created in the global namespace.
 #define DEFINE_PRIVATE_CLASS(ns, c)             \
-    import :t;                                  \
-    import ext.core;                            \
+    import ext.core; import ext.js;             \
     namespace ns {export struct c ## _private;} \
     export struct ns::c ## _private
 

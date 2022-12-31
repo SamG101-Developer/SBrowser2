@@ -11,11 +11,11 @@ module;
 
 
 
-module apis.device_memory.navigator_device_memory:p;
+module apis.device_memory.mixins.navigator_device_memory:p;
 import ext.core;
 
 
-auto device_memory::navigator_device_memory_private::device_memory() const -> ext::number<double>
+auto device_memory::mixins::navigator_device_memory_private::device_memory() const -> ext::number<double>
 {
     return hwinfo::RAM::getTotalSize_Bytes();
 //#ifdef OS_WINDOWS

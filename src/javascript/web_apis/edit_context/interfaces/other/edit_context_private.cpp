@@ -1,5 +1,5 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
+#include "ext/macros.hpp"
 
 
 module apis.edit_context.edit_context:p;

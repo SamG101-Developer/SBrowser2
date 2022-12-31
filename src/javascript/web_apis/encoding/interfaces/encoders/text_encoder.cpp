@@ -1,5 +1,4 @@
 module;
-#include "ext/macros/language_shorthand.hpp"
 #include "ext/macros.hpp"
 #include <range/v3/to_container.hpp>
 #include <v8-array-buffer.h>

@@ -1,6 +1,5 @@
 module;
 #include "ext/macros.hpp"
-#include "javascript/macros/expose.hpp"
 #include <magic_enum.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>

@@ -1,16 +1,11 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.contact_picker.contacts_manager;
 import apis.dom_object;
 
-import apis.contact_picker.types;
-import ext.core;
-import ext.js;
-import js.env.module_type;
+IMPORT_ALL_TYPES(contact_picker);
 
 
 DEFINE_PUBLIC_CLASS(contact_picker, contacts_manager) final

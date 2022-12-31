@@ -1,6 +1,5 @@
 module;
 #include "ext/macros.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.permissions.permissions:p;

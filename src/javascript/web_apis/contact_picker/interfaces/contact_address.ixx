@@ -1,15 +1,9 @@
 module;
-#include "ext/macros/annotations.hpp"
 #include "ext/macros.hpp"
-#include "ext/macros/property.hpp"
-#include "javascript/macros/expose.hpp"
 
 
 export module apis.contact_picker.contact_address;
 import apis.dom_object;
-
-import ext.core;
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(contact_picker, contact_address) final

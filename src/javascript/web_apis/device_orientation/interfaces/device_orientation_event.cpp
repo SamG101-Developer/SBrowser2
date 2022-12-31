@@ -1,6 +1,5 @@
 module;
 #include "ext/macros.hpp"
-#include <javascript/macros/expose.hpp>
 
 
 module apis.device_orientation.device_orientation_event;
