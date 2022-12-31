@@ -4,7 +4,8 @@ module;
 
 export module apis.device_posture.device_posture:p;
 import apis.dom.event_target;
-import apis.device_posture.types;
+
+IMPORT_ALL_TYPES(device_posture);
 
 
 DEFINE_PRIVATE_CLASS(device_posture, device_posture) final

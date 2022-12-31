@@ -6,8 +6,7 @@ module;
 export module apis.dom.abstract_iterator:p;
 import apis.dom_object;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, abstract_iterator)

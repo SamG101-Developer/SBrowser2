@@ -7,8 +7,7 @@ export module apis.dom.range:p;
 import apis.dom.abstract_range;
 import apis.dom.types;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, range) final

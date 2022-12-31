@@ -1,12 +1,10 @@
 module;
+#include "ext/macros.hpp"
 
 
 export module apis.dom.processing_instruction;
 import apis.dom.character_data;
 import apis.css.cssom.mixins.link_style;
-
-import ext.core;
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, processing_instruction) final

@@ -4,8 +4,6 @@ module;
 
 export module apis.dom.custom_event;
 import apis.dom.event;
-import ext.core;
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, custom_event) final

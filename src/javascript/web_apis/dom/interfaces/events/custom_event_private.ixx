@@ -3,7 +3,6 @@ module;
 
 export module apis.dom.custom_event:p;
 import apis.dom.event;
-import ext.core;
 
 
 DEFINE_PRIVATE_CLASS(dom, custom_event)

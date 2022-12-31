@@ -5,8 +5,7 @@ module;
 export module apis.dom.mixins.slottable:p;
 import apis.dom_object;
 
-import apis.html.types;
-import ext.core;
+IMPORT_ALL_TYPES(html);
 
 
 DEFINE_PRIVATE_CLASS(dom::mixins, slottable)

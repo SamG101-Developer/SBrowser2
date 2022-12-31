@@ -5,8 +5,6 @@ module;
 
 export module apis.dom.abort_signal;
 import apis.dom.event_target;
-import ext.core;
-import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(dom, abort_signal) final

@@ -5,10 +5,7 @@ module;
 export module apis.dom.tree_walker;
 import apis.dom.abstract_iterator;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
-
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, tree_walker)

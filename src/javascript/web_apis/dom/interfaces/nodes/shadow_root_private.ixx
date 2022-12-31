@@ -7,8 +7,7 @@ import apis.dom.document_fragment;
 import apis.dom.mixins.document_or_shadow_root;
 import apis.dom_parsing.mixins.inner_html;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, shadow_root) final

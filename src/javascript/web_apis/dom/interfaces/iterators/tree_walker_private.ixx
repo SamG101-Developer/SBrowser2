@@ -5,8 +5,7 @@ module;
 export module apis.dom.tree_walker:p;
 import apis.dom.abstract_iterator;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, tree_walker)

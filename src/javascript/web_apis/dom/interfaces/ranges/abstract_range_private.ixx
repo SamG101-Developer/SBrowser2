@@ -4,9 +4,8 @@ module;
 
 export module apis.dom.abstract_range:p;
 import apis.dom_object;
-import apis.dom.types;
 
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, abstract_range)

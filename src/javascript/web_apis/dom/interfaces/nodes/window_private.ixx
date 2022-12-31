@@ -6,9 +6,8 @@ export module apis.dom.window:p;
 import apis.dom.event_target;
 import apis.background_tasks.types;
 
-import apis.dom.types;
-import apis.html.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(html);
 
 
 DEFINE_PRIVATE_CLASS(dom, window)

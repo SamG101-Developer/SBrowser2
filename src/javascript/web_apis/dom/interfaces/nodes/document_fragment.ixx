@@ -7,9 +7,7 @@ import apis.dom.node;
 import apis.dom.mixins.non_element_parent_node;
 import apis.dom.mixins.parentable_node;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, document_fragment)

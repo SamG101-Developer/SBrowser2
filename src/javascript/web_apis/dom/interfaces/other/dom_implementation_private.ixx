@@ -5,9 +5,7 @@ module;
 export module apis.dom.dom_implementation;
 import apis.dom_object;
 
-import apis.dom.types;
-import ext.memory;
-
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, dom_implementation) final

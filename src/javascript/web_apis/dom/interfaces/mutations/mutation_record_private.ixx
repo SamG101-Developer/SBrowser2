@@ -5,8 +5,7 @@ module;
 export module apis.dom.mutation_record:p;
 import apis.dom_object;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, mutation_record)

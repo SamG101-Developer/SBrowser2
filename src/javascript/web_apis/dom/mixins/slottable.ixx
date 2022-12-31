@@ -5,9 +5,6 @@ module;
 export module apis.dom.mixins.slottable;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(dom::mixins, slottable)
         : public virtual dom_object

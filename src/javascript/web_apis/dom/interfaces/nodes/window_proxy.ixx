@@ -5,9 +5,6 @@ module;
 export module apis.dom.window_proxy;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(dom, window_proxy) final
         : public virtual dom_object

@@ -4,10 +4,8 @@ module;
 
 export module apis.dom.node_iterator;
 import apis.dom.abstract_iterator;
-import ext.core;
-import js.env.module_type;
 
-namespace dom {class node;}
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, node_iterator) final

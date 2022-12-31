@@ -5,11 +5,7 @@ module;
 export module apis.dom.dom_exception;
 import apis.base_exception;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
-
-namespace dom {class abort_signal;}
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, dom_exception)

@@ -5,7 +5,7 @@ module;
 export module apis.dom.dom_exception:p;
 import apis.base_exception;
 
-import apis.dom.types;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, dom_exception)

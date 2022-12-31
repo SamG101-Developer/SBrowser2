@@ -4,9 +4,8 @@ module;
 
 export module apis.dom.event;
 import apis.dom_object;
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, event)
@@ -19,8 +18,6 @@ public friends:
     
 public typedefs:
     using event_init_t = ext::map<ext::string, ext::any>;
-    using touch_targets_t = ext::vector<event_target*>;
-    using path_t = ext::vector<std::unique_ptr<detail::event_path_struct_t>>;
 
 public constructors:
     event(ext::string&& event_type, event_init_t&& event_init = {});
@@ -54,6 +51,6 @@ public js_properties:
     DEFINE_GETTER(time_stamp, ext::number<double>);
     DEFINE_GETTER(is_trusted, ext::boolean);
 
-    DEFINE_GETTER(touch_targets, ranges::any_helpful_view<touch_targets_t::value_t::pointer>);
-    DEFINE_GETTER(path, ranges::any_helpful_view<path_t::value_t::pointer>);
+    DEFINE_GETTER(touch_targets, ranges::any_helpful_view<event_target*>);
+    DEFINE_GETTER(path, ranges::any_helpful_view<detail::event_path_struct_t*>);
 };

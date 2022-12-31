@@ -5,9 +5,7 @@ module;
 export module apis.dom.xml_document;
 import apis.dom.document;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, xml_document) final

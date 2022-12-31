@@ -6,10 +6,7 @@ export module apis.dom.document_type;
 import apis.dom.node;
 import apis.dom.mixins.child_node;
 
-import ext.core;
-import js.env.module_type;
-
-namespace dom {class dom_implementation;}
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, document_type) final

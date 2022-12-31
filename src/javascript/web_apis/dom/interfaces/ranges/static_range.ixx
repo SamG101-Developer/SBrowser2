@@ -5,9 +5,6 @@ module;
 export module apis.dom.static_range;
 import apis.dom.abstract_range;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(dom, static_range) final
         : public dom::abstract_range

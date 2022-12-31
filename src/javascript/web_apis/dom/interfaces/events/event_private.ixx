@@ -14,6 +14,8 @@ DEFINE_PRIVATE_CLASS(dom, event)
 {
 public:
     MAKE_QIMPL(event);
+    using touch_targets_t = ext::vector<event_target*>;
+    using path_t = ext::vector<std::unique_ptr<detail::event_path_struct_t>>;
 
 public:
     auto dispatch(event_target* target) -> ext::boolean;
@@ -35,8 +37,8 @@ public:
     ext::number<double> time_stamp;
     ext::boolean is_trusted;
 
-    event::touch_targets_t touch_targets;
-    event::path_t path;
+    touch_targets_t touch_targets;
+    path_t path;
 
     ext::boolean stop_propagation_flag = false;
     ext::boolean stop_immediate_propagation_flag = false;

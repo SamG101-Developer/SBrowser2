@@ -6,7 +6,8 @@ export module apis.dom_object;
 import ext.core;
 import js.env.module_type;
 
-export import :p
+export import :p;
+
 
 export class dom_object
 {

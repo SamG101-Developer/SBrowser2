@@ -5,7 +5,8 @@ module;
 
 export module apis.dom.abort_controller:p;
 import apis.dom_object;
-import apis.dom.types;
+
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, abort_controller)

@@ -5,8 +5,7 @@ module;
 export module apis.dom.mixins.parentable_node:p;
 import apis.dom_object;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom::mixins, parentable_node)

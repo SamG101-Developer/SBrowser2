@@ -13,13 +13,9 @@ import apis.dom.mixins.slottable;
 import apis.aria.mixins.aria_mixin;
 import apis.dom_parsing.mixins.inner_html;
 
-import apis.css.box_tree.types;
-import apis.dom.types;
-import apis.edit_context.types;
-
-import ext.core;
-import ext.js;
-import js.env.module_type;
+IMPORT_ALL_TYPES(css.box_tree);
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(edit_context);
 
 
 DEFINE_PUBLIC_CLASS(dom, element)

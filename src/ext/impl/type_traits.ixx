@@ -1,6 +1,7 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <bit>
+#include <range/v3/range/concepts.hpp>
 #include <type_traits>
 #include <function2/function2.hpp>
 #include <swl/variant.hpp>
@@ -54,10 +55,15 @@ _EXT_BEGIN
     struct view_of<T>
     {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
 
+    // Convert a range-v3 view by keeping it the same (readonly)
+    export template <ranges::view_ T>
+    struct view_of<T>
+    {using type = T;};
+
     // Convert a pure-iterable container (same iterator type for begin() amd end()) to its corresponding 'span<...>' type.
     export template <_EXT pure_iterable T>
     struct view_of<T>
-    {using type = _EXT span<typename T::value_type, decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>;};
+    {using type = _EXT span<typename T::value_type>;};
 
     // Convert a 'function<Ts...>' to a 'function_view<Ts...>'.
     export template <typename ...Ts>

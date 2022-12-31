@@ -7,9 +7,7 @@ import apis.dom_object;
 import ext.core;
 import js.env.module_type;
 
-
-template <ext::type_is_enum T>
-class base_exception_private;
+export import :p;
 
 
 export template <ext::type_is_enum T>

@@ -7,14 +7,11 @@ import apis.dom.event_target;
 import apis.html.mixins.window_or_worker_global_scope;
 import ext.vector_like;
 
-import apis.background_tasks.types;
-import apis.css.cssom.types;
-import apis.dom.types;
-import apis.html.types;
-import apis.selection.types;
-
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(background_tasks);
+IMPORT_ALL_TYPES(css.cssom);
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(html);
+IMPORT_ALL_TYPES(selection);
 
 
 DEFINE_PUBLIC_CLASS(dom, window) final

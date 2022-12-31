@@ -4,8 +4,8 @@ module;
 
 export module apis.dom.abort_signal:p;
 import apis.dom.event_target;
-import apis.dom.types;
-import ext.core;
+
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, abort_signal)

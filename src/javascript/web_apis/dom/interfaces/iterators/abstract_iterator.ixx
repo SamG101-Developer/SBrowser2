@@ -4,9 +4,8 @@ module;
 
 export module apis.dom.abstract_iterator;
 import apis.dom_object;
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, abstract_iterator)

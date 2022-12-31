@@ -5,8 +5,6 @@ module;
 export module apis.dom.mixins.document_or_shadow_root:p;
 import apis.dom_object;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(dom::mixins, document_or_shadow_root)
         : virtual dom_object_private

@@ -13,8 +13,7 @@ import apis.dom.mixins.slottable;
 import apis.aria.mixins.aria_mixin;
 import apis.dom_parsing.mixins.inner_html;
 
-import apis.dom.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PRIVATE_CLASS(dom, element)

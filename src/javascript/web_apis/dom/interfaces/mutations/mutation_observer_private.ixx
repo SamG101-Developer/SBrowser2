@@ -1,6 +1,6 @@
 module;
 #include "ext/macros.hpp"
-#include <memory>
+#include <function2/function2.hpp>
 
 
 export module apis.dom.mutation_observer:p;
@@ -15,6 +15,8 @@ DEFINE_PRIVATE_CLASS(dom, mutation_observer)
 {
 public:
     MAKE_QIMPL(mutation_observer);
+    using mutation_observer_init_t = ext::map<ext::string, ext::any>;
+    using mutation_callback_t = ext::unique_function<void(ext::vector<mutation_record*>&&, mutation_observer*)>;
 
 public:
     mutation_callback_t callback;

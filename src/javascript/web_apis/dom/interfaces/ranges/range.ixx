@@ -5,9 +5,7 @@ module;
 export module apis.dom.range;
 import apis.dom.abstract_range;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, range) final

@@ -5,9 +5,7 @@ module;
 export module apis.dom.mutation_record;
 import apis.dom_object;
 
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(dom, mutation_record) final
@@ -28,6 +26,6 @@ private js_properties:
     DEFINE_GETTER(previous_sibling, node*);
     DEFINE_GETTER(next_sibling, node*);
 
-    DEFINE_GETTER(added_nodes, ext::vector_span<node*>);
-    DEFINE_GETTER(removed_nodes, ext::vector_span<node*>);
+    DEFINE_GETTER(added_nodes, ext::span<node*>);
+    DEFINE_GETTER(removed_nodes, ext::span<node*>);
 };

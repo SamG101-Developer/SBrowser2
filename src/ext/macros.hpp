@@ -30,7 +30,7 @@ public:                                                   \
 public:                              \
     using this_public_t = type;      \
     using this_t = type ## _private; \
-    friend struct type;              \
+    friend class type;               \
     _MAKE_QIMPL(type)
 
 #define MAKE_QIMPL_T(type, ...)                   \

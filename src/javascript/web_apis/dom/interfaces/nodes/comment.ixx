@@ -5,9 +5,6 @@ module;
 export module apis.dom.comment;
 import apis.dom.character_data;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(dom, comment) final
         : public character_data

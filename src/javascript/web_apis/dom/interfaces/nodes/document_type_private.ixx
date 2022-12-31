@@ -6,8 +6,6 @@ export module apis.dom.document_type:p;
 import apis.dom.node;
 import apis.dom.mixins.child_node;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(dom, document_type) final
         : dom::node_private
