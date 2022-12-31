@@ -6,9 +6,6 @@ export module apis.event_timing.interaction_counts;
 import apis.dom_object;
 import ext.mixins;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(event_timing, interaction_counts) final
         : public virtual dom_object

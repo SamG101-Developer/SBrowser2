@@ -5,9 +5,6 @@ module;
 export module apis.edit_context.character_bounds_update_event;
 import apis.dom.event;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(edit_context, character_bounds_update_event) final
         : public dom::event

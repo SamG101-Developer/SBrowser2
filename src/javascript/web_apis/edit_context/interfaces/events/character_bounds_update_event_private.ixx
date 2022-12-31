@@ -5,8 +5,6 @@ module;
 export module apis.edit_context.character_bounds_update_event:p;
 import apis.dom.event;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(edit_context::events, character_bounds_update_event)
         : dom::event_private

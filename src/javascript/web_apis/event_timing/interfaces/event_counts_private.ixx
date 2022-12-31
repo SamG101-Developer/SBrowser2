@@ -6,8 +6,6 @@ export module apis.event_timing.event_counts:p;
 import apis.dom_object;
 import ext.mixins;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(event_timing, event_counts)
         : virtual dom_object_private

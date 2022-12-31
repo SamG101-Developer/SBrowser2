@@ -6,10 +6,6 @@ export module apis.encoding.text_decoder;
 import apis.dom_object;
 import apis.encoding.mixins.text_decoder_common;
 
-import ext.core;
-import ext.js;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(encoding, text_decoder) final
         : public virtual dom_object

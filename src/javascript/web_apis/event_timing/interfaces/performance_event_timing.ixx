@@ -5,10 +5,8 @@ module;
 export module apis.event_timing.performance_event_timing;
 import apis.performance_timeline.performance_entry;
 
-import apis.dom.types;
-import apis.hr_time.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(hr_time);
 
 
 DEFINE_PUBLIC_CLASS(event_timing, performance_event_timing) final

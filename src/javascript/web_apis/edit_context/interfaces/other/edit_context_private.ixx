@@ -7,8 +7,6 @@ export module apis.edit_context.edit_context:p;
 import apis.dom.event_target;
 import apis.css.geometry.types;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(edit_context, edit_context)
         : dom::event_target_private

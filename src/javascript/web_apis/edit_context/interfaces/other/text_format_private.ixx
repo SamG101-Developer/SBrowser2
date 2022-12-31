@@ -5,8 +5,6 @@ module;
 export module apis.edit_context.text_format:p;
 import apis.dom_object;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(edit_context, text_format)
         : virtual dom_object_private

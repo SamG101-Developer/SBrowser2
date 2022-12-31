@@ -5,9 +5,6 @@ module;
 export module apis.encoding.mixins.text_decoder_common;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(encoding::mixins, text_decoder_common)
         : public virtual dom_object

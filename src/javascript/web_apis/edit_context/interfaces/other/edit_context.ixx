@@ -5,10 +5,8 @@ module;
 export module apis.edit_context.edit_context;
 import apis.dom.event_target;
 
-import apis.css.geometry.types;
-import apis.dom.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(css.geometry);
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(edit_context, edit_context) final

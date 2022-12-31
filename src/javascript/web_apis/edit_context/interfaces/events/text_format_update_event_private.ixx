@@ -5,8 +5,7 @@ module;
 export module apis.edit_context.text_format_update_event:p;
 import apis.dom.event;
 
-import ext.core;
-namespace edit_context {class text_format;}
+IMPORT_ALL_TYPES(edit_context);
 
 
 DEFINE_PRIVATE_CLASS(edit_context, text_format_update_event)

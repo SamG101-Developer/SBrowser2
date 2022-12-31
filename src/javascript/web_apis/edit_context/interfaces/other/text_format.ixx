@@ -5,9 +5,6 @@ module;
 export module apis.edit_context.text_format;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(edit_context, text_format) final
         : public virtual dom_object

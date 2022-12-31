@@ -5,10 +5,7 @@ module;
 export module apis.edit_context.text_format_update_event;
 import apis.dom.event;
 
-import ext.core;
-import js.env.module_type;
-
-namespace edit_context {class text_format;};
+IMPORT_ALL_TYPES(edit_context);
 
 
 DEFINE_PUBLIC_CLASS(edit_context, text_format_update_event) final

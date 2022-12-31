@@ -6,9 +6,6 @@ module;
 export module apis.encoding.mixins.text_decoder_common:p;
 import apis.dom_object;
 
-import apis.encoding.types;
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(encoding::mixins, text_decoder_common)
         : virtual dom_object_private
