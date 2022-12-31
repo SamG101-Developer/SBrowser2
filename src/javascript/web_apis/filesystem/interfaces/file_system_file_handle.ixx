@@ -4,9 +4,6 @@ module;
 export module apis.filesystem.file_system_file_handle;
 import apis.filesystem.file_system_handle;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(filesystem, file_system_file_handle) final
         : public filesystem::file_system_handle

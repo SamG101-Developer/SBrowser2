@@ -4,11 +4,8 @@ module;
 
 export module apis.hr_time.performance;
 import apis.dom.event_target;
-import apis.hr_time.types;
 
-import ext.core;
-
-import js.env.module_type;
+IMPORT_ALL_TYPES(hr_time);
 
 
 DEFINE_PUBLIC_CLASS(hr_time, performance)

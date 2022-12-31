@@ -6,8 +6,7 @@ export module apis.filesystem.file_system_directory_handle;
 import apis.filesystem.file_system_handle;
 import ext.mixins;
 
-import apis.filesystem.tyes;
-import ext.core;
+IMPORT_ALL_TYPES(filesystem);
 
 
 DEFINE_PRIVATE_CLASS(filesystem, file_system_directory_handle)

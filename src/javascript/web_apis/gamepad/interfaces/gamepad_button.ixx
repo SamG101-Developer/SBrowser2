@@ -5,9 +5,6 @@ module;
 export module apis.gamepad.gamepad_button;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(gamepad, gamepad_button) final
         : public virtual dom_object

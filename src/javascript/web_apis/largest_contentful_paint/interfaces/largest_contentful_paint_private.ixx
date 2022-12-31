@@ -5,14 +5,17 @@ module;
 export module apis.largest_contentful_paint.largest_contentful_paint:p;
 import apis.performance_timeline.performance_entry;
 
-import apis.dom.types;
-import apis.hr_time.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(hr_time);
 
 
 DEFINE_PRIVATE_CLASS(largest_contentful_paint, largest_contentful_paint)
         : performance_timeline::performance_entry_private
 {
+public:
+    MAKE_QIMPL(largest_contentful_paint);
+
+public:
     hr_time::dom_high_res_time_stamp render_time = 0;
     hr_time::dom_high_res_time_stamp   load_time = 0;
 

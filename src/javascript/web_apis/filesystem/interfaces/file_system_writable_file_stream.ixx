@@ -5,11 +5,8 @@ module;
 export module apis.filesystem.file_system_writable_file_stream;
 import apis.streams.writeable_stream;
 
-import apis.file_api.types;
-import apis.filesystem.types;
-import ext.core;
-import ext.js;
-import js.env.module_type;
+IMPORT_ALL_TYPES(file_api);
+IMPORT_ALL_TYPES(filesystem);
 
 
 DEFINE_PUBLIC_CLASS(filesystem, file_system_writable_file_stream) final

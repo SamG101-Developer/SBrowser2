@@ -5,7 +5,7 @@ module;
 export module apis.reporting.report:p;
 import apis.dom_object;
 
-import apis.reporting.types;
+IMPORT_ALL_TYPES(reporting);
 
 
 DEFINE_PRIVATE_CLASS(reporting, report)

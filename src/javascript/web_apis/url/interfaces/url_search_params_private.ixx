@@ -6,8 +6,6 @@ export module apis.url.url_search_params:p;
 import apis.dom_object;
 import ext.mixins;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(url, url_search_params)
         : virtual dom_object_private

@@ -5,11 +5,7 @@ module;
 export module apis.file_api.file_reader_sync;
 import apis.dom_object;
 
-import apis.file_api.types;
-import ext.core
-import ext.js;
-import js.env.module_type;
-
+IMPORT_ALL_TYPES(file_api);
 
 
 DEFINE_PUBLIC_CLASS(file_api, file_reader_sync) final

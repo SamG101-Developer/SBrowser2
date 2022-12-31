@@ -5,8 +5,7 @@ module;
 export module apis.sensors.sensor;
 import apis.dom.event_target;
 
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(hr_time);
 
 
 DEFINE_PUBLIC_CLASS(sensors, sensor)

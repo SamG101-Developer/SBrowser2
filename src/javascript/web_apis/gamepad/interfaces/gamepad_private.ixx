@@ -6,9 +6,8 @@ module;
 export module apis.gamepad.gamepad:p;
 import apis.dom_object;
 
-import apis.gamepad.types;
-import apis.hr_time.types;
-import ext.core;
+IMPORT_ALL_TYPES(gamepad);
+IMPORT_ALL_TYPES(hr_time);
 
 
 DEFINE_PRIVATE_CLASS(gamepad, gamepad)

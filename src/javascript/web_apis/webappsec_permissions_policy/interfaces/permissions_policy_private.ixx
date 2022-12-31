@@ -5,10 +5,9 @@ module;
 export module apis.webappsec_permissions_policy.permissions_policy:p;
 import apis.dom_object;
 
-import apis.dom.types;
-import apis.html.types;
-import apis.webappsec_permissions_policy.types;
-import ext.core;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(html);
+IMPORT_ALL_TYPES(webappsec_permissions_policy);
 
 
 DEFINE_PRIVATE_CLASS(webappsec_permissions_policy, permissions_policy)

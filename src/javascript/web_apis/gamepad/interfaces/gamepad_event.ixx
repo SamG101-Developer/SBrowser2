@@ -5,9 +5,7 @@ module;
 export module apis.gamepad.gamepad_event;
 import apis.dom.event;
 
-import apis.gamepad.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(gamepad);
 
 
 DEFINE_PUBLIC_CLASS(gamepad, gamepad_event) final

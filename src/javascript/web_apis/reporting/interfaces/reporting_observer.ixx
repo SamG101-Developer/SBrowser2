@@ -6,9 +6,7 @@ module;
 export module apis.reporting.reporting_observer;
 import apis.dom_object;
 
-import apis.reporting.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(reporting);
 
 
 DEFINE_PUBLIC_CLASS(reporting, reporting_observer) final

@@ -6,9 +6,6 @@ export module apis.url.url_search_params;
 import apis.dom_object;
 import ext.mixins;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(url, url_search_params) final
         : virtual public dom_object

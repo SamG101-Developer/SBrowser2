@@ -6,8 +6,6 @@ module;
 export module apis.gamepad.gamepad_button:p;
 import apis.dom_object;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(gamepad, gamepad_button)
         : virtual dom_object_private

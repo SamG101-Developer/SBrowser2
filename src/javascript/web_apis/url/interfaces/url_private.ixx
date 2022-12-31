@@ -5,7 +5,7 @@ module;
 export module apis.url.url:p;
 import apis.dom_object;
 
-import apis.url.types;
+IMPORT_ALL_TYPES(url);
 
 
 DEFINE_PRIVATE_CLASS(url, url) : virtual dom_object_private

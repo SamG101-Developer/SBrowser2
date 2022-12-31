@@ -5,10 +5,8 @@ module;
 export module apis.intersection_observer.intersection_observer;
 import apis.dom_object;
 
-import apis.dom.types;
-import apis.intersection_observer.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(intersection_observer);
 
 
 DEFINE_PUBLIC_CLASS(intersection_observer, intersection_observer) final

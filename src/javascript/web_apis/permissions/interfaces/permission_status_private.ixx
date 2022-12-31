@@ -5,8 +5,7 @@ module;
 export module apis.permissions.permission_status:p;
 import apis.dom.event_target;
 
-import apis.permissions.types;
-import ext.core;
+IMPORT_ALL_TYPES(permissions);
 
 
 DEFINE_PRIVATE_CLASS(permissions, permission_status)

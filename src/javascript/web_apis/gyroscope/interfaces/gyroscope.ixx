@@ -5,9 +5,6 @@ module;
 export module apis.gyroscope.gyroscope;
 import apis.sensors.sensor;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(gyroscope, gyroscope) final
         : public sensors::sensor

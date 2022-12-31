@@ -6,16 +6,16 @@ module;
 export module apis.sensors.sensor:p;
 import apis.dom.event_target;
 
-import apis.sensors.types;
-import ext.number;
-import ext.boolean;
-import ext.string;
-import ext.optional;
+IMPORT_ALL_TYPES(sensors);
 
 
 DEFINE_PRIVATE_CLASS(sensors, sensor)
         : dom::event_target_private
 {
+public:
+    MAKE_QIMPL(sensor);
+
+public:
     detail::state_t state;
     detail::coordinate_system_t coordinate_system;
     std::unique_ptr<detail::sensor_type_t> sensor_type;

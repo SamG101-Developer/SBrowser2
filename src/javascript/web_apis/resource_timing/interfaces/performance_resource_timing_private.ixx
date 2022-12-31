@@ -5,14 +5,17 @@ module;
 export module apis.resource_timing.performance_resource_timing:p;
 import apis.performance_timeline.performance_entry;
 
-import apis.resource_timing.types;
-import apis.fetch.types;
-import ext.core;
+IMPORT_ALL_TYPES(fetch);
+IMPORT_ALL_TYPES(resource_timing);
 
 
 DEFINE_PRIVATE_CLASS(resource_timing, performance_resource_timing)
         : performance_timeline::performance_entry_private
 {
+public:
+    MAKE_QIMPL(performance_resource_timing);
+
+public:
     ext::string requested_url;
     detail::cache_mode_t cache_mode;
     fetch::detail::initiator_type_t initiator_type;

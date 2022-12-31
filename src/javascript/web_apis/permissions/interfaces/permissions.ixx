@@ -5,10 +5,7 @@ module;
 export module apis.permissions.permissions;
 import apis.dom_object;
 
-import apis.permissions.types;
-import ext.core;
-import ext.js;
-import js.env.module_type;
+IMPORT_ALL_TYPES(permissions);
 
 
 DEFINE_PUBLIC_CLASS(permissions, permissions)

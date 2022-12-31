@@ -5,8 +5,7 @@ module;
 export module apis.webappsec_permissions_policy.permissions_policy_violation_report_body:p;
 import apis.reporting.report_body;
 
-import apis.webappsec_permissions_policy.types;
-import ext.core;
+IMPORT_ALL_TYPES(webappsec_permissions_policy);
 
 
 DEFINE_PUBLIC_CLASS(webappsec_permissions_policy, permissions_policy_violation_report_body)

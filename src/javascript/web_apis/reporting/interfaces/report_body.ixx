@@ -5,9 +5,6 @@ module;
 export module apis.reporting.report_body;
 import apis.dom_object;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(reporting, report_body)
         : public virtual dom_object

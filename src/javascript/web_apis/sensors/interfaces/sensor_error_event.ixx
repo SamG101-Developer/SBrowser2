@@ -5,14 +5,7 @@ module;
 export module apis.sensors.sensor_error_event;
 import apis.dom.event;
 
-import ext.any;
-import ext.map;
-import ext.string;
-import ext.tuple;
-
-import js.env.module_type;
-
-namespace dom {class dom_exception;}
+IMPORT_ALL_TYPES(dom);
 
 
 DEFINE_PUBLIC_CLASS(sensors, sensor_error_event)

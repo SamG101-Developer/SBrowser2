@@ -5,10 +5,8 @@ module;
 export module apis.longtasks.performance_long_task_timing;
 import apis.performance_timeline.performance_entry;
 
-import apis.hr_time.types;
-import apis.longtasks.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(hr_time);
+IMPORT_ALL_TYPES(longtasks);
 
 
 DEFINE_PUBLIC_CLASS(longtasks, performance_long_task_timing) final

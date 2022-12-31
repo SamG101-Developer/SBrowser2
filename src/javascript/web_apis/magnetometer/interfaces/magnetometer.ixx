@@ -5,9 +5,6 @@ module;
 export module apis.magnetometer.magnetometer;
 import apis.sensors.sensor;
 
-import ext.core;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(magnetometer, magnetometer) final
         : public sensors::sensor

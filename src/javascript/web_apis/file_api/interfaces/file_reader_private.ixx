@@ -5,8 +5,8 @@ module;
 export module apis.file_api.file_reader:p;
 import apis.dom.event_target;
 
-import apis.dom.types;
-import apis.file_api.types;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(file_api);
 
 
 DEFINE_PRIVATE_CLASS(file_api, file_reader)

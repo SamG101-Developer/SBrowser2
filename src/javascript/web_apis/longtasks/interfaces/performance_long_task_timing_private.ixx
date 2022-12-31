@@ -5,8 +5,7 @@ module;
 export module apis.longtasks.performance_long_task_timing:p;
 import apis.performance_timeline.performance_entry;
 
-import apis.longtasks.types;
-import ext.core;
+IMPORT_ALL_TYPES(longtasks);
 
 
 DEFINE_PRIVATE_CLASS(longtasks, performance_long_task_timing)

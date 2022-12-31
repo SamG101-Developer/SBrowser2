@@ -4,10 +4,8 @@ module;
 
 export module apis.file_api.file;
 import apis.file_api.blob;
-import apis.file_api.types;
 
-import ext.core
-import js.env.module_type;
+IMPORT_ALL_TYPES(file_api);
 
 
 DEFINE_PUBLIC_CLASS(file_api, file) final

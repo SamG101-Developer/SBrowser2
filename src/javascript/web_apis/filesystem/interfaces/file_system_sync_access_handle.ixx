@@ -5,10 +5,6 @@ module;
 export module apis.filesystem.file_system_sync_access_handle;
 import apis.dom_object;
 
-import ext.core;
-import ext.js;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(filesystem, file_system_sync_access_handle) final
         : virtual public dom_object

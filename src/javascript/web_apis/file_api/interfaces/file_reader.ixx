@@ -5,10 +5,8 @@ module;
 export module apis.file_api.file_reader;
 import apis.dom.event_target;
 
-import apis.dom.types;
-import apis.file_api.types;
-import ext.core
-import js.env.module_type;
+IMPORT_ALL_TYPES(dom);
+IMPORT_ALL_TYPES(file_api);
 
 
 DEFINE_PUBLIC_CLASS(file_api, file_reader) final

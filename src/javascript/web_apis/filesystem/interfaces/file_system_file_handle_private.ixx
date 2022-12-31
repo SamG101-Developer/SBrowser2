@@ -4,7 +4,8 @@ module;
 
 export module apis.filesystem.file_system_file_handle:p;
 import apis.filesystem.file_system_handle;
-import apis.filesystem.types;
+
+IMPORT_ALL_TYPES(filesystem);
 
 
 DEFINE_PRIVATE_CLASS(filesystem, file_system_file_handle)

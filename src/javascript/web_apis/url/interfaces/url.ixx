@@ -5,10 +5,8 @@ module;
 export module apis.url.url;
 import apis.dom_object;
 
-import apis.file_api.types;
-import apis.url.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(file_api);
+IMPORT_ALL_TYPES(url);
 
 
 DEFINE_PUBLIC_CLASS(url, url) final

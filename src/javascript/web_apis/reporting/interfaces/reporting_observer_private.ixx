@@ -4,7 +4,7 @@ module;
 
 export module apis.reporting.reporting_observer:p;
 
-import apis.reporting.types;
+IMPORT_ALL_TYPES(reporting);
 
 
 DEFINE_PRIVATE_CLASS(reporting, reporting_observer)

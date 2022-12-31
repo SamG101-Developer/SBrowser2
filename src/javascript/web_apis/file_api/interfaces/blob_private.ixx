@@ -5,8 +5,6 @@ module;
 export module apis.file_api.blob:p;
 import apis.dom_object;
 
-import ext.core;
-
 
 DEFINE_PRIVATE_CLASS(file_api, blob)
         : virtual dom_object_private

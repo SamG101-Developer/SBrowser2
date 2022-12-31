@@ -5,10 +5,6 @@ module;
 export module apis.geolocation_sensor.geolocation_sensor;
 import apis.sensors.sensor;
 
-import ext.core;
-import ext.js;
-import js.env.module_type;
-
 
 DEFINE_PUBLIC_CLASS(geolocation_sensor, geolocation_sensor) final
         : public sensors::sensor

@@ -5,9 +5,7 @@ module;
 export module apis.webappsec_permissions_policy.permissions_policy;
 import apis.dom_object;
 
-import apis.webappsec_permissions_policy.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(webappsec_permissions_policy);
 
 
 DEFINE_PUBLIC_CLASS(webappsec_permissions_policy, permissions_policy) final

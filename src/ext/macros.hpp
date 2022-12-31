@@ -102,10 +102,12 @@ public:
 // then beginning the definition of the class. Note: cannot be created in the global namespace.
 #define DEFINE_PRIVATE_CLASS(ns, c)             \
     import ext.core; import ext.js;             \
+    namespace ns {class c;}                     \
     namespace ns {export struct c ## _private;} \
     export struct ns::c ## _private
 
 #define DEFINE_PRIVATE_CLASS_T(ns, c, ...)                             \
+    namespace ns {template <__VA_ARGS__> class c;}                     \
     namespace ns {export template <__VA_ARGS__> struct c ## _private;} \
     export template <__VA_ARGS__> struct ns::c ## _private
 

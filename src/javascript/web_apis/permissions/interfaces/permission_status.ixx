@@ -5,9 +5,7 @@ module;
 export module apis.permissions.permission_status;
 import apis.dom.event_target;
 
-import apis.permissions.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(permissions);
 
 
 DEFINE_PUBLIC_CLASS(permissions, permission_status)

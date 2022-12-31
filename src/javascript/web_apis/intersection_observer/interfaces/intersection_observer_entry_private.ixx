@@ -5,8 +5,7 @@ module;
 export module apis.intersection_observer.intersection_observer_entry:p;
 import apis.dom_object;
 
-import apis.intersection_observer.types;
-import ext.core;
+IMPORT_ALL_TYPES(intersection_observer);
 
 
 DEFINE_PRIVATE_CLASS(intersection_observer, intersection_observer_entry)

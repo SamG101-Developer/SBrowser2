@@ -5,11 +5,9 @@ module;
 export module apis.resource_timing.performance_resource_timing;
 import apis.performance_timeline.performance_entry;
 
-import apis.fetch.types;
-import apis.hr_time.types;
-import apis.server_timing.types;
-import ext.core;
-import js.env.module_type;
+IMPORT_ALL_TYPES(fetch);
+IMPORT_ALL_TYPES(hr_time);
+IMPORT_ALL_TYPES(server_timing);
 
 
 DEFINE_PUBLIC_CLASS(resource_timing, performance_resource_timing)

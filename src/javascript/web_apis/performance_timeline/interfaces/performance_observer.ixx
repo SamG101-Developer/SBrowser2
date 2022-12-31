@@ -4,10 +4,8 @@ module;
 
 export module apis.performance_timeline.performance_observer;
 import apis.dom_object;
-import apis.performance_timeline.types;
 
-import ext.core
-import js.env.module_type;
+IMPORT_ALL_TYPES(perfomance_timeline);
 
 
 DEFINE_PUBLIC_CLASS(performance_timeline, performance_observer) final

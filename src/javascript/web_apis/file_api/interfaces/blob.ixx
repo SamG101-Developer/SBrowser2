@@ -2,16 +2,11 @@ module;
 #include "ext/macros.hpp"
 
 
-
 export module apis.file_api.blob;
 import apis.dom_object;
-import apis.file_api.types;
 
-import ext.core;
-
-import js.env.module_type;
-
-namespace streams {class readable_stream;}
+IMPORT_ALL_TYPES(file_api);
+IMPORT_ALL_TYPES(streams);
 
 
 DEFINE_PUBLIC_CLASS(file_api, blob)

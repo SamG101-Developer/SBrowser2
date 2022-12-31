@@ -5,8 +5,7 @@ module;
 export module apis.filesystem.file_system_writable_file_stream:p;
 import apis.streams.writeable_stream;
 
-import apis.filesystem.types;
-import ext.core;
+IMPORT_ALL_TYPES(filesystem);
 
 
 DEFINE_PRIVATE_CLASS(filesystem, file_system_writable_file_stream)
