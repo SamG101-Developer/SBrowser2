@@ -1,17 +1,7 @@
-#include "detail.hpp"
+module apis.battery.detail;
 
-
-
-
-
-
-
-
-#include "html/detail/task_internals.hpp"
-#include "html/navigators/navigator.hpp"
-#include "html/navigators/navigator_private.hpp"
-
-#include <v8pp/convert.hpp>
+import ext.core;
+import js.env.realms;
 
 
 template <ext::type_is<ext::boolean, ext::number<double>> T>

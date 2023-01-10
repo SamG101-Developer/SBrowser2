@@ -5,7 +5,7 @@ module;
 export module apis.dom.window;
 import apis.dom.event_target;
 import apis.html.mixins.window_or_worker_global_scope;
-import ext.vector_like;
+import ext.mixins;
 
 IMPORT_ALL_TYPES(background_tasks);
 IMPORT_ALL_TYPES(css.cssom);
@@ -75,4 +75,3 @@ private js_properties:
     DEFINE_SETTER(opener, window_proxy*);
     DEFINE_SETTER(frame_element, element*);
 };
-

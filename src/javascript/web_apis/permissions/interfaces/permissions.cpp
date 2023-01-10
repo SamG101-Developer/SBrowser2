@@ -1,3 +1,7 @@
+module;
+#include "ext/macros/custom_operator.hpp"
+
+
 module apis.permissions.permissions;
 import apis.permissions.types;
 

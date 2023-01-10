@@ -4,11 +4,10 @@ module;
 
 
 module apis.battery.battery_manager;
+import apis.battery.battery_manager_private;
 import apis.dom.event_target;
 
-import ext.boolean;
-import ext.number;
-import ext.tuple;
+import ext.core;
 import js.env.module_type;
 
 
@@ -22,7 +21,7 @@ battery::battery_manager::battery_manager()
 auto battery::battery_manager::get_charging() const -> ext::boolean
 {
     // The 'charging' getter returns the equivalent 'charging' attribute value that is stored in the private class.
-    // Method call becuase the value is always changing, and has to be got at the exact time the property is accessed.
+    // Method call because the value is always changing, and has to be got at the exact time the property is accessed.
     ACCESS_PIMPL;
     return d->charging();
 }
@@ -31,7 +30,7 @@ auto battery::battery_manager::get_charging() const -> ext::boolean
 auto battery::battery_manager::get_charging_time() const -> ext::number<double>
 {
     // The 'charging_time' getter returns the equivalent 'charging_time' attribute value that is stored in the private
-    // class. Method call becuase the value is always changing, and has to be got at the exact time the property is
+    // class. Method call because the value is always changing, and has to be got at the exact time the property is
     // accessed.
     ACCESS_PIMPL;
     return d->charging_time();
@@ -41,7 +40,7 @@ auto battery::battery_manager::get_charging_time() const -> ext::number<double>
 auto battery::battery_manager::get_discharging_time() const -> ext::number<double>
 {
     // The 'discharging_time' getter returns the equivalent 'discharging_time' attribute value that is stored in the
-    // private class. Method call becuase the value is always changing, and has to be got at the exact time the property
+    // private class. Method call because the value is always changing, and has to be got at the exact time the property
     // is accessed.
     ACCESS_PIMPL;
     return d->discharging_time();
@@ -51,7 +50,7 @@ auto battery::battery_manager::get_discharging_time() const -> ext::number<doubl
 auto battery::battery_manager::get_level() const -> ext::number<double>
 {
     // The 'level' getter returns the equivalent 'level' attribute value that is stored in the private class. Method
-    // call becuase the value is always changing, and has to be got at the exact time the property is accessed.
+    // call because the value is always changing, and has to be got at the exact time the property is accessed.
     ACCESS_PIMPL;
     return d->level();
 }

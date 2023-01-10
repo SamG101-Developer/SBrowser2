@@ -1,1 +1,1 @@
-#include "algorithm_internals.hpp"
+#include "detail.hpp"

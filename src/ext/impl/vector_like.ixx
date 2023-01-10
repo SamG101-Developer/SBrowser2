@@ -9,16 +9,28 @@ import apis.dom_object;
 import js.env.module_type;
 
 
-export DEFINE_PRIVATE_CLASS_T(ext, vector_like, typename T) : virtual dom_object_private {};
+export namespace ext
+{
+    template <typename T> class vector_like;
+    template <typename T> class vector_like_linked;
+    template <typename T> class vector_like_private;
+    template <typename T> class vector_like_linked_private;
+}
 
 
-export DEFINE_PRIVATE_CLASS_T(ext, vector_like_linked, typename T) : vector_like_private<T>
+export template <typename T>
+class ext::vector_like_private : virtual dom_object_private {};
+
+
+export template <typename T>
+class ext::vector_like_linked_private : vector_like_private<T>
 {
     std::unique_ptr<vector<T>> linked_vector;
 };
 
 
-DEFINE_PUBLIC_CLASS_T(ext, vector_like, typename T)
+export template <typename T>
+class ext::vector_like
         : public virtual dom_object
 {
 public constructors:
@@ -39,7 +51,8 @@ protected js_properties:
 };
 
 
-DEFINE_PUBLIC_CLASS_T(ext, vector_like_linked, typename T)
+export template <typename T>
+class ext::vector_like_linked
         : public vector_like<T>
 {
 public constructors:
