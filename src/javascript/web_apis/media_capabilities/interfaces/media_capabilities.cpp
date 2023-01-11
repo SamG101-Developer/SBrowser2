@@ -1,20 +1,11 @@
-#include "media_capabilities.hpp"
-#include "environment/realms.ixx"
-#include "media_capabilities_private.hpp"
+module apis.media_capabilities.media_capabilties;
+import apis.media_capabilities.detail;
+import apis.media_capabilities.types;
+
+import ext.js;
 
 
-
-
-
-
-#include "html/workers/worker_global_scope.hpp"
-#include "media_capabilities/detail/configuration_internals.hpp"
-#include "web_idl/detail/type_mapping_internals.hpp"
-
-#include <v8-exception.h>
-
-
-auto media::capabilities::media_capabilities::decoding_info(
+auto media_capabilities::media_capabilities::decoding_info(
         detail::media_decoding_configuration_t&& configuration)
         -> ext::promise<detail::media_capabilities_decoding_info_t>
 {

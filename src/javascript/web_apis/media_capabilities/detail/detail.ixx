@@ -2,13 +2,13 @@ module;
 #include "ext/macros.hpp"
 
 
-export module apis.mediacapabilities.detail;
-import apis.mediacapabilities.types;
+export module apis.media_capabilities.detail;
+import apis.media_capabilities.types;
 
 import ext.core;
 
 
-DEFINE_FWD_DECL_NAMESPACE_DETAIL(mediacapabilities)
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(media_capabilities)
 {
     auto is_valid_media_configuration(media_configuration_t&& configuration) -> ext::boolean;
     auto is_valid_media_decoding_configuration(media_decoding_configuration_t&& configuration) -> ext::boolean;
