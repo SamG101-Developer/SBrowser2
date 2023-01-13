@@ -6,6 +6,12 @@ export module apis.media_capabilities.types;
 import ext.core;
 
 
+DEFINE_FWD_DECL_NAMESPACE(media_capabilities)
+{
+    class media_capabilities;
+}
+
+
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(media_capabilities)
 {
     using media_configuration_t = ext::map<ext::string, ext::any>;
