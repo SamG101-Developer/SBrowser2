@@ -48,4 +48,8 @@ _STD_BEGIN
     export template <typename ...Ts> // TODO
     struct hash<_EXT tuple<Ts...>>
     {constexpr auto operator()(const _EXT tuple<Ts...>& value) const noexcept -> size_t {return 0;}};
+
+    export template <_EXT string_like T>
+    struct hash<T>
+    {constexpr auto operator()(T&& value) const noexcept -> size_t {return _EXT hash_range(value);}};
 _STD_END

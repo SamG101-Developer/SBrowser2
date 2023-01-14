@@ -14,6 +14,8 @@ auto media_capabilities::detail::is_valid_media_configuration(
         media_configuration_t&& configuration)
         -> ext::boolean
 {
+    // If the 'configuration' contains the "audio" or "video" entry and its respective valifity check passes, then
+    // return 'true', otherwise 'false'.
     return_if (configuration.contains(u"audio") && is_valid_audio_configuration(configuration[u"audio"].to<audio_configuration_t>())) true;
     return_if (configuration.contains(u"video") && is_valid_video_configuration(configuration[u"video"].to<video_configuration_t>())) true;
     return false;
