@@ -1,10 +1,17 @@
-#include "video_playback_quality.hpp"
-#include "video_playback_quality_private.hpp"
-
-#include "hr_time/detail/time_internals.hpp"
+module;
+#include "ext/macros.hpp"
 
 
-media::playback_quality::video_playback_quality::video_playback_quality()
+module apis.media_playback_quality.video_playback_quality;
+
+import apis.hr_time.detail;
+import apis.hr_time.types;
+
+import js.env.realms;
+import ext.core;
+
+
+media_playback_quality::video_playback_quality::video_playback_quality()
 {
     INIT_PIMPL(video_playback_quality);
     auto e = js::env::env::current();
@@ -14,28 +21,28 @@ media::playback_quality::video_playback_quality::video_playback_quality()
 }
 
 
-auto media::playback_quality::video_playback_quality::get_creation_time() const -> hr_time::dom_high_res_time_stamp
+auto media_playback_quality::video_playback_quality::get_creation_time() const -> hr_time::dom_high_res_time_stamp
 {
     ACCESS_PIMPL(const video_playback_quality);
     return d->creation_time;
 }
 
 
-auto media::playback_quality::video_playback_quality::get_dropped_video_frames() const -> ext::number<ulong>
+auto media_playback_quality::video_playback_quality::get_dropped_video_frames() const -> ext::number<ulong>
 {
     ACCESS_PIMPL(const video_playback_quality);
     return d->dropped_video_frames;
 }
 
 
-auto media::playback_quality::video_playback_quality::get_total_video_frames() const -> ext::number<ulong>
+auto media_playback_quality::video_playback_quality::get_total_video_frames() const -> ext::number<ulong>
 {
     ACCESS_PIMPL(const video_playback_quality);
     return d->total_video_frames;
 }
 
 
-auto media::playback_quality::video_playback_quality::to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
+auto media_playback_quality::video_playback_quality::_to_v8(v8::Isolate* isolate) -> v8pp::class_<self_t>
 {
     decltype(auto) conversion = v8pp::class_<video_playback_quality>{isolate}
         .inherit<dom_object>()
