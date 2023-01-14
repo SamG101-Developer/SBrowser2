@@ -1,17 +1,16 @@
-#include "detail.ixx"
-
-#include "ext/hashing.ixx"
-
-
-#include INCLUDE_INNER_TYPES(media_capabilities)
-
-#include "mimesniff/detail/mimetype_internals.hpp"
-
-#include <magic_enum.hpp>
+module;
+#include "ext/macros.hpp"
 #include <range/v3/algorithm/contains.hpp>
+#include <magic_enum.hpp>
 
 
-auto media::detail::is_valid_media_configuration(
+module apis.media_capabilities.detail;
+import apis.media_capabilities.types;
+
+import ext.core;
+
+
+auto media_capabilities::detail::is_valid_media_configuration(
         media_configuration_t&& configuration)
         -> ext::boolean
 {
@@ -21,7 +20,7 @@ auto media::detail::is_valid_media_configuration(
 }
 
 
-auto media::detail::is_valid_media_decoding_configuration(
+auto media_capabilities::detail::is_valid_media_decoding_configuration(
         media_decoding_configuration_t&& configuration)
         -> ext::boolean
 {
@@ -30,7 +29,7 @@ auto media::detail::is_valid_media_decoding_configuration(
         auto allowed_key_system_configurations = {media_decoding_type_t::FILE, media_decoding_type_t::MEDIA_SOURCE};
         auto key_system_configuration = configuration[u"keySystemConfiguration"].to<detail::media_capabilities_key_system_configuration_t>();
         auto key_system_configuration_type = key_system_configuration[u"type"].to<ext::string>();
-        auto cast_type = magic_enum::enum_cast<detail::media_decoding_type_t>(key_system_configuration_type);
+        auto cast_type = magic_enum::enum_cast<media_decoding_type_t>(key_system_configuration_type);
 
         return is_valid_media_configuration(std::move(configuration))
                 && ranges::contains(allowed_key_system_configurations, cast_type)
@@ -42,7 +41,7 @@ auto media::detail::is_valid_media_decoding_configuration(
 }
 
 
-auto media::detail::is_valid_audio_mime_type(
+auto media_capabilities::detail::is_valid_audio_mime_type(
         ext::string_view mime_type)
         -> ext::boolean
 {
@@ -52,7 +51,7 @@ auto media::detail::is_valid_audio_mime_type(
 }
 
 
-auto media::detail::is_valid_video_mime_type(
+auto media_capabilities::detail::is_valid_video_mime_type(
         ext::string_view mime_type)
         -> ext::boolean
 {
@@ -62,7 +61,7 @@ auto media::detail::is_valid_video_mime_type(
 }
 
 
-auto media::detail::is_valid_audio_configuration(
+auto media_capabilities::detail::is_valid_audio_configuration(
         audio_configuration_t&& configuration)
         -> ext::boolean
 {
@@ -70,7 +69,7 @@ auto media::detail::is_valid_audio_configuration(
 }
 
 
-auto media::detail::is_valid_video_configuration(
+auto media_capabilities::detail::is_valid_video_configuration(
         video_configuration_t&& configuration)
         -> ext::boolean
 {
@@ -80,7 +79,7 @@ auto media::detail::is_valid_video_configuration(
 }
 
 
-auto media::detail::create_media_capabilities_decoding_info(
+auto media_capabilities::detail::create_media_capabilities_decoding_info(
         media_decoding_configuration_t&& configuration)
         -> media_capabilities_decoding_info_t
 {
@@ -98,7 +97,7 @@ auto media::detail::create_media_capabilities_decoding_info(
 }
 
 
-auto media::detail::create_media_capabilities_encoding_info(
+auto media_capabilities::detail::create_media_capabilities_encoding_info(
         media_encoding_configuration_t&& configuration)
         -> media_capabilities_encoding_info_t
 {
