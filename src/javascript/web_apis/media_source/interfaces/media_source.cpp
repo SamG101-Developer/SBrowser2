@@ -1,32 +1,5 @@
-#include "media_source.hpp"
-#include "media_source_private.hpp"
-
-
-
-
-
-
-
-
-
-
-#include "html/basic_media/audio_track.hpp"
-#include "html/basic_media/audio_track_private.hpp"
-#include "html/basic_media/text_track.hpp"
-#include "html/basic_media/text_track_private.hpp"
-#include "html/basic_media/video_track.hpp"
-#include "html/basic_media/video_track_private.hpp"
-#include "html/basic_media/time_ranges.hpp"
-#include "html/basic_media/time_ranges_private.hpp"
-#include "html/detail/task_internals.hpp"
-
-#include "media_source/_typedefs.hpp"
-#include "media_source/source_buffer.hpp"
-#include "media_source/source_buffer_private.hpp"
-#include "media_source/detail/algorithm_internals.hpp"
-
-#include "mimesniff/detail/mimetype_internals.hpp"
-
+module;
+#include "ext/macros.hpp"
 #include <range/v3/action/remove.hpp>
 #include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
@@ -36,7 +9,16 @@
 #include <range/v3/to_container.hpp>
 
 
-auto media::source::media_source::add_source_buffer(ext::string_view type) -> source_buffer*
+module apis.media_source.media_source;
+
+import apis.dom.dom_exception;
+import apis.dom.detail;
+import apis.dom.types;
+
+import ext.core;
+
+
+auto media_source::media_source::add_source_buffer(ext::string_view type) -> source_buffer*
 {
     ACCESS_PIMPL(media_source);
     using enum dom::detail::dom_exception_error_t;
@@ -57,7 +39,7 @@ auto media::source::media_source::add_source_buffer(ext::string_view type) -> so
             [d] {return d->ready_state != detail::ready_state_t::OPEN;},
             u8"State must be 'open'");
 
-    auto buffer = std::make_unique<media::source::source_buffer>();
+    auto buffer = std::make_unique<source_buffer>();
     buffer->d_func()->generate_timestamps_flag = mse::byte_stream_format_registry::registry(mimesniff::detail::parse_mime_type(type)).generate_timestamps_flag;
     buffer->d_func()->mode = buffer->d_func()->generate_timestamps_flag ? detail::append_mode_t::SEQUENCE : detail::append_mode_t::SEGMENTS;
     d->source_buffers.push_back(std::move(buffer));

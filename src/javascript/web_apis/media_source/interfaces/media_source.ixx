@@ -1,28 +1,20 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_MEDIA_SOURCE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_MEDIA_SOURCE_HPP
+module;
+#include "ext/macros.hpp"
+#include <tl/optional.hpp>
 
 
-namespace media::source {class media_source;}
-namespace media::source {class media_source_private;}
-
-#include INCLUDE_INNER_TYPES(media_source)
-#include "ext/optional.ixx"
+export module apis.media_source.media_source;
+import apis.dom.event_target;
+import apis.media_source.types;
 
 
-namespace html::basic_media {class time_ranges;}
-namespace html::messaging {class message_port;}
-namespace media::source {class media_source_handle;}
-namespace media::source {class source_buffer;}
-
-
-class media::source::media_source
-        : public dom::nodes::event_target
+DEFINE_PUBLIC_CLASS(media_source, media_source) final
+        : public dom::event_target
 {
 public constructors:
     media_source();
     MAKE_PIMPL(media_source);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | DEDICATED_WORKER);
 
 public js_methods:
     auto add_source_buffer(ext::string_view type) -> source_buffer*;
@@ -42,6 +34,3 @@ private js_properties:
 
     DEFINE_SETTER(duration, ext::number<double>);
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_MEDIA_SOURCE_HPP

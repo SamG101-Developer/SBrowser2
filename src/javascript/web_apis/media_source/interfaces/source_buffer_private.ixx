@@ -1,19 +1,18 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_PRIVATE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_PRIVATE_HPP
-
-#include "ext/pimpl.ixx"
+module;
+#include "ext/macros.hpp"
 
 
-#include INCLUDE_INNER_TYPES(media_source)
-namespace html::basic_media {class time_ranges;}
-namespace html::basic_media {class audio_track;}
-namespace html::basic_media {class video_track;}
-namespace html::basic_media {class text_track;}
+export module apis.media_source.source_buffer:p;
+import apis.dom.event_target;
+import apis.media_source.source_buffer;
 
 
-DEFINE_PRIVATE_CLASS(media::source, source_buffer) : dom::nodes::event_target_private
+DEFINE_PRIVATE_CLASS(media_source, source_buffer) : dom::event_target_private
 {
+public:
+    MAKE_QIMPL(source_buffer);
+
+public:
     detail::append_mode_t mode;
     ext::boolean updating;
     ext::number<double> timestamp_offset;
@@ -32,6 +31,3 @@ DEFINE_PRIVATE_CLASS(media::source, source_buffer) : dom::nodes::event_target_pr
     ext::number<double> group_end_timestamp;
     ext::boolean generate_timestamps_flag;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_PRIVATE_HPP

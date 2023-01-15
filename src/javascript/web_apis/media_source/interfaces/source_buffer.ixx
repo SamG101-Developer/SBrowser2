@@ -1,23 +1,16 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_HPP
+module;
+#include "ext/macros.hpp"
 
 
-namespace media::source {class source_buffer;}
-namespace media::source {class source_buffer_private;}
+export module apis.media_source.source_buffer;
+import apis.dom.event_target;
+import apis.media_source.types;
 
-#include INCLUDE_INNER_TYPES(media_source)
-#include INCLUDE_INNER_TYPES(web_idl)
-
-namespace html::basic_media {class time_ranges;}
-namespace html::basic_media {class audio_track;}
-namespace html::basic_media {class video_track;}
-namespace html::basic_media {class text_track;}
-namespace media::source {class media_source;}
+import ext.js;
 
 
-class media::source::source_buffer
-        : public dom::nodes::event_target
+DEFINE_PUBLIC_CLASS(media_source, source_buffer) final
+        : public dom::event_target
 {
 public friends:
     friend class media_source;
@@ -25,10 +18,10 @@ public friends:
 public constructors:
     DOM_CTORS(source_buffer);
     MAKE_PIMPL(source_buffer);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | DEDICATED_WORKER);
 
 public js_methods:
-    auto append_buffer(v8::BufferSource data) -> void;
+    auto append_buffer(ext::buffer_source& data) -> void;
     auto abort() -> void;
     auto change_type(const ext::string& type) -> void;
     auto remove(ext::number<double> start, ext::number<double> end) -> void;
@@ -51,6 +44,3 @@ private js_properties:
     DEFINE_SETTER(append_window_start, ext::number<double>);
     DEFINE_SETTER(append_window_end, ext::number<double>);
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_MEDIA_SOURCE_SOURCE_BUFFER_HPP
