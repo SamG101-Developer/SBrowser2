@@ -94,15 +94,5 @@ namespace fetch::detail
 // TODO : WindowOrWorkerGlobalScope with a fetch(...) method https://fetch.spec.whatwg.org/#fetch-method
 
 
-struct fetch::detail::cache_entry_t
-{
-    network_partition_key_t key;
-    ext::string byte_serialized_origin;
-    std::unique_ptr<url::detail::url_t> url;
-    ext::number<int> mag_age;
-    ext::boolean credentials;
-    ext::string method;
-    header_name_t header_name;
-};
 
 #endif //SBROWSER2_FETCH_INTERNALS_HPP

@@ -93,14 +93,6 @@ namespace fetch::detail
 }
 
 
-struct fetch::detail::fetch_controller_t
-{
-    fetch_controller_state_t state = fetch_controller_state_t::ONGOING;
-    std::unique_ptr<fetch_timing_info_t> full_timing_info;
-    algorithm_t report_timing_steps;
-    algorithm_t next_manual_redirect_steps;
-    v8::Local<v8::Object> serialzied_abort_reason; // TODO : type
-};
 
 
 struct fetch::detail::fetch_timing_info_t
@@ -120,23 +112,7 @@ struct fetch::detail::fetch_timing_info_t
 };
 
 
-struct fetch::detail::fetch_params_t
-{
-    algorithm_t process_request_body_chunk_length;
-    algorithm_t process_request_end_of_body;
-    algorithm_t process_early_hints_response;
-    algorithm_t process_response;
-    algorithm_t process_response_end_of_body;
-    algorithm_t process_response_consume_body;
 
-    v8::Local<v8::Object> task_destination;
-    ext::boolean cross_origin_isolated_capability = false;
-
-    std::unique_ptr<fetch_controller_t> controller;
-    std::unique_ptr<fetch_timing_info_t> timing_info;
-    ext::variant<preload_response_t, std::unique_ptr<response_t>> preloaded_response_candidate;
-    std::observer_ptr<request_t> request;
-};
 
 
 struct fetch::detail::fetch_record_t

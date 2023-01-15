@@ -1,21 +1,29 @@
-#ifndef SBROWSER2_FETCH_TYPEDEFS_HPP
-#define SBROWSER2_FETCH_TYPEDEFS_HPP
+module;
+#include "ext/macros.hpp"
+#include <swl/variant.hpp>
 
 
+export module apis.fetch.types;
+
+import apis.url.types;
+import ext.core;
 
 
-#include "ext/tuple.ixx"
+DEFINE_FWD_DECL_NAMESPACE_MIXINS(fetch)
+{
+    class body;
+}
 
 
+DEFINE_FWD_DECL_NAMESPACE(fetch)
+{
+    class headers;
+    class request;
+    class response;
+}
 
-#include <v8-forward.h>
-namespace fetch {class request;}
-namespace file_api {class blob;}
-namespace xhr {class form_data;}
-namespace streams::readable {class readable_stream;}
 
-
-namespace fetch::detail
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
 {
     struct body_t;
     struct connection_t;
@@ -86,6 +94,47 @@ namespace fetch::detail
     using window_t = ext::variant<ext::variant_monostate_t, deferred_window_t, v8::Local<v8::Object>>;
     using request_init_t = ext::map<ext::string, ext::any>;
     using response_init_t = ext::map<ext::string, ext::any>;
+    using task_desintation_t = ext::variant<html::task_queue_t, v8::Local<v8::Object>>;
 }
 
-#endif //SBROWSER2_FETCH_TYPEDEFS_HPP
+
+struct fetch::detail::fetch_params_t
+{
+    std::observer_ptr<request_t> request;
+
+    algorithm_t process_request_body_chunk_length;
+    algorithm_t process_request_end_of_body;
+    algorithm_t process_early_hints_response;
+    algorithm_t process_response;
+    algorithm_t process_response_end_of_body;
+    algorithm_t process_response_consume_body;
+
+    task_destination_t task_destination;
+    ext::boolean cross_origin_isolated_capability = false;
+
+    std::unique_ptr<fetch_controller_t> controller;
+    std::unique_ptr<fetch_timing_info_t> timing_info;
+    ext::variant<ext::variant_monostate_t, preload_response_t, std::unique_ptr<response_t>> preloaded_response_candidate;
+};
+
+
+struct fetch::detail::fetch_controller_t
+{
+    fetch_controller_state_t state = fetch_controller_state_t::ONGOING;
+    std::unique_ptr<fetch_timing_info_t> full_timing_info;
+    algorithm_t report_timing_steps;
+    algorithm_t next_manual_redirect_steps;
+    ext::map<ext::string, ext::any> serialized_abort_reason;
+};
+
+
+struct fetch::detail::cache_entry_t
+{
+    network_partition_key_t key;
+    ext::string byte_serialized_origin;
+    std::unique_ptr<url::detail::url_t> url;
+    ext::number<int> mag_age;
+    ext::boolean credentials;
+    ext::string method;
+    header_name_t header_name;
+};
