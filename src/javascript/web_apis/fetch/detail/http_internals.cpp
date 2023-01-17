@@ -7,31 +7,7 @@
 #include <range/v3/algorithm/contains.hpp>
 
 
-auto fetch::detail::is_local_scheme(ext::string_view scheme) -> ext::boolean
-{
-    auto local_schemes = {u"about", u"blob", u"data"};
-    return ranges::contains(local_schemes, scheme);
-}
 
-
-auto fetch::detail::is_http_scheme(ext::string_view scheme) -> ext::boolean
-{
-    auto http_schemes = {u"http", u"https"};
-    return ranges::contains(http_schemes, scheme);
-}
-
-
-auto fetch::detail::is_fetch_scheme(ext::string_view scheme) -> ext::boolean
-{
-    return is_local_scheme(scheme) || is_http_scheme(scheme) || scheme == u"file";
-}
-
-
-auto fetch::detail::is_url_local(url::detail::url_t& url) -> ext::boolean
-{
-    // a url is local if its scheme is a local scheme; these schemes are the "about", "blob" and "data" schemes
-    return is_local_scheme(url.scheme);
-}
 
 
 auto fetch::detail::is_http_newline_byte(char8_t character) -> ext::boolean

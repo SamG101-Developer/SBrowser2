@@ -26,41 +26,6 @@ namespace fetch::detail
     const ext::vector<ext::number<ushort>> redirect_status {101, 103, 204, 205, 304};
 
 
-    auto report_timing(
-            fetch_controller_t& controller,
-            v8::Local<v8::Object> global_object)
-            -> void;
-
-    auto process_next_manual_redirect(
-            fetch_controller_t& controller)
-            -> void;
-
-    auto extract_full_timing_info(
-            fetch_controller_t& controller)
-            -> fetch_timing_info_t*;
-
-    auto abort_fetch_controller(
-            fetch_controller_t& controller,
-            ext::optional<dom::other::dom_exception> error = ext::nullopt)
-            -> void;
-
-    auto deserialize_serialized_abort_reason(
-            v8::Local<v8::Object> abort_reason,
-            v8::Local<v8::Context> realm)
-            -> dom::other::dom_exception;
-
-    auto terminate_fetch_controller(
-            fetch_controller_t& controller)
-            -> void;
-
-    auto is_aborted(
-            fetch_params_t& params)
-            -> ext::boolean;
-
-    auto is_cancelled(
-            fetch_params_t& params)
-            -> ext::boolean;
-
     auto is_cors_safelisted_method(
             ext::string_view method)
             -> ext::boolean;
@@ -80,39 +45,7 @@ namespace fetch::detail
     auto terminate_fetch_group(
             fetch_group_t& fetch_group_object)
             -> void;
-
-    auto create_opaque_timing_info(
-            fetch_timing_info_t& timing_info)
-            -> std::unique_ptr<fetch_timing_info_t>;
-
-    template <ext::callable F>
-    auto queue_fetch_task(F&& steps, html::detail::task_queue_t& task_destination) -> void;
-
-    template <ext::callable F>
-    auto queue_fetch_task(F&& steps, v8::Local<v8::Object> task_destination) -> void;
 }
-
-
-
-
-struct fetch::detail::fetch_timing_info_t
-{
-    hr_time::dom_high_res_time_stamp start_time = 0;
-    hr_time::dom_high_res_time_stamp redirect_start_time = 0;
-    hr_time::dom_high_res_time_stamp redirect_end_time = 0;
-    hr_time::dom_high_res_time_stamp post_redirect_start_time = 0;
-    hr_time::dom_high_res_time_stamp final_service_worker_start_time = 0;
-    hr_time::dom_high_res_time_stamp final_network_request_start_time = 0;
-    hr_time::dom_high_res_time_stamp final_network_response_start_time = 0;
-    hr_time::dom_high_res_time_stamp end_time = 0;
-
-    std::unique_ptr<connection_timing_info_t> final_connection_timing_info = nullptr;
-    ext::vector<ext::string> server_timing_headers{};
-    ext::boolean render_blocking = false;
-};
-
-
-
 
 
 struct fetch::detail::fetch_record_t
@@ -133,11 +66,7 @@ struct fetch::detail::fetch_group_t
 };
 
 
-struct fetch::detail::response_body_info_t
-{
-    ext::number<int> encoded_size = 0;
-    ext::number<int> decoded_size = 0;
-};
+
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_FETCH_DETAIL_GENERAL_INTERNALS_HPP

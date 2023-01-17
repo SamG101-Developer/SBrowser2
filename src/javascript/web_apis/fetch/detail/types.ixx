@@ -1,11 +1,16 @@
 module;
 #include "ext/macros.hpp"
 #include <swl/variant.hpp>
+#include <function2/function2.hpp>
 
 
 export module apis.fetch.types;
 
+import apis.file_api.types;
+import apis.html.types;
+import apis.hr_time.types;
 import apis.url.types;
+import apis.xhr.types;
 import ext.core;
 
 
@@ -94,7 +99,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     using window_t = ext::variant<ext::variant_monostate_t, deferred_window_t, v8::Local<v8::Object>>;
     using request_init_t = ext::map<ext::string, ext::any>;
     using response_init_t = ext::map<ext::string, ext::any>;
-    using task_desintation_t = ext::variant<html::task_queue_t, v8::Local<v8::Object>>;
+    using task_desintation_t = ext::variant<html::detail::task_queue_t, v8::Local<v8::Object>>>;
 }
 
 
@@ -102,12 +107,12 @@ struct fetch::detail::fetch_params_t
 {
     std::observer_ptr<request_t> request;
 
-    algorithm_t process_request_body_chunk_length;
-    algorithm_t process_request_end_of_body;
-    algorithm_t process_early_hints_response;
-    algorithm_t process_response;
-    algorithm_t process_response_end_of_body;
-    algorithm_t process_response_consume_body;
+    ext::function<auto(int) -> void> process_request_body_chunk_length;
+    ext::function<auto() -> void> process_request_end_of_body;
+    ext::function<auto(response*) -> void> process_early_hints_response;
+    ext::function<auto(response*) -> void> process_response;
+    ext::function<auto(response*) -> void> process_response_end_of_body;
+    ext::function<auto(response*) -> ext::u8string> process_response_consume_body;
 
     task_destination_t task_destination;
     ext::boolean cross_origin_isolated_capability = false;
@@ -115,6 +120,9 @@ struct fetch::detail::fetch_params_t
     std::unique_ptr<fetch_controller_t> controller;
     std::unique_ptr<fetch_timing_info_t> timing_info;
     ext::variant<ext::variant_monostate_t, preload_response_t, std::unique_ptr<response_t>> preloaded_response_candidate;
+
+    auto aborted() -> ext::boolean {return controller->state == fetch_controller_state_t::ABORTED;};
+    auto termination() -> ext::boolean {return aborted() || controller->state == fetch_controller_state_t::TERMINATED;};
 };
 
 
@@ -122,9 +130,33 @@ struct fetch::detail::fetch_controller_t
 {
     fetch_controller_state_t state = fetch_controller_state_t::ONGOING;
     std::unique_ptr<fetch_timing_info_t> full_timing_info;
-    algorithm_t report_timing_steps;
-    algorithm_t next_manual_redirect_steps;
+    ext::function<auto(v8::Local<v8::Object>) -> void> report_timing_steps;
+    ext::function<auto() -> void> next_manual_redirect_steps;
     ext::map<ext::string, ext::any> serialized_abort_reason;
+};
+
+
+struct fetch::detail::fetch_timing_info_t
+{
+    hr_time::dom_high_res_time_stamp start_time = 0;
+    hr_time::dom_high_res_time_stamp redirect_start_time = 0;
+    hr_time::dom_high_res_time_stamp redirect_end_time = 0;
+    hr_time::dom_high_res_time_stamp post_redirect_start_time = 0;
+    hr_time::dom_high_res_time_stamp final_service_worker_start_time = 0;
+    hr_time::dom_high_res_time_stamp final_network_request_start_time = 0;
+    hr_time::dom_high_res_time_stamp final_network_response_start_time = 0;
+    hr_time::dom_high_res_time_stamp end_time = 0;
+
+    std::unique_ptr<connection_timing_info_t> final_connection_timing_info;
+    ext::vector<ext::string> server_timing_headers{};
+    ext::boolean render_blocking = false;
+};
+
+
+struct fetch::detail::response_body_info_t
+{
+    ext::number<int> encoded_size = 0;
+    ext::number<int> decoded_size = 0;
 };
 
 
