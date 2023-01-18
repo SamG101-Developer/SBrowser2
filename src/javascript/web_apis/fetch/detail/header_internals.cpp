@@ -16,75 +16,21 @@
 #include <range/v3/algorithm/sort.hpp>
 #include <range/v3/range/operations.hpp>
 #include <range/v3/view/drop_while.hpp>
-#include <range/v3/view/filter.hpp>
+
 #include <range/v3/view/iota.hpp>
-#include <range/v3/view/map.hpp>
+
 #include <range/v3/view/reverse.hpp>
 #include <range/v3/view/transform.hpp>
 
 
-template <fetch::detail::header_value_object_t T>
-auto fetch::detail::get_structured_field_value(
-        ext::view_of_t<header_name_t> header_name,
-        ext::span_of_t<headers_t> headers)
-        -> header_value_variable_t<T>
-{
-    // get the raw header value from the 'headers', as a string - this could be a string, string representation of a
-    // dictionary, or a string representation of a list; the value is parsed into the correct format (string /
-    // dictionary / list), and returned if it is empty
-    auto value = get_header_value(header_name, headers);
-    return_if(value.empty()) value;
-
-    // parse the value into the correct type and return it (variant return type of string, dictionary or list). parsing
-    // similar to loading a json.loads
-    auto parsed_value = parse_structured_value(value, type);
-    return parsed_value;
-}
 
 
-auto fetch::detail::set_structured_field_value(
-        fetch::detail::header_t&& header,
-        fetch::detail::headers_t& headers)
-        -> void
-{
-    // serialize the value of the header (string / dictionary / list, and set a header with the header name and
-    // serialized header value, into the 'headers' list
-    const auto& header_name = header.first;
-    auto serialized_value = serialize_structured_fields(header.second);
-    set_header({header_name, serialized_value}, headers);
-}
 
 
-auto fetch::detail::header_list_contains_header(
-        ext::view_of_t<header_name_t> header_name,
-        ext::span_of_t<headers_t> headers)
-        -> ext::boolean
-{
-    // 'headers' contains the 'head_name' if any of the pairs in the 'headers' list have the first part of the pair set
-    // to a value equal to 'header_name'
-    return ranges::contains(headers | ranges::views::keys, header_name);
-}
 
 
-auto fetch::detail::get_header_value(
-        ext::view_of_t<header_name_t> header_name,
-        ext::span_of_t<headers_t> headers)
-        -> header_value_t
-{
-    // convert the 'header_name' to lowercase for comparisons (the headers stored in the list are all in lowercase
-    // already; this conversion is done in the 'set_header(...)' method for uniformity between all header names inserted
-    // into the 'headers'
-    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to<ext::string>();
 
-    // filter all the headers down to headers that have the same name as 'lowercase_header_name', and then transform
-    // them to have a COMMA followed by a SPACE. remove teh last occurrence of ", " by matching it to the end character
-    // as-well ie ", \0"
-    return headers
-            | ranges::views::filter(BIND_BACK(ext::pair_key_matches, std::move(lowercase_header_name)))
-            | ranges::views::transform([](const header_t& header) {return header.second + char8_t(0x2c) + char8_t(0x20);})
-            | ranges::views::remove(ext::string{char16_t(0x002c) + char16_t(0x0020) + '\0'})
-            | ranges::to<header_value_t>();
-}
+
 
 
 auto fetch::detail::get_decode_split_value(

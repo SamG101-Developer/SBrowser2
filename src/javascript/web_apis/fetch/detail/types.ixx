@@ -46,7 +46,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     enum class new_connection_setting_t {NO, YES, YES_AND_DEDICATED};
     enum class header_value_object_t {DICT, LIST, ITEM};
     enum class header_guard_t {IMMUTABLE, REQUEST, REQUEST_NO_CORS, RESPONSE, NONE};
-    enum class method_t {DELETE, GET, HEAD, OPTIONS, POST, PUT};
+    enum class method_t {GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE};
 
     enum class fetch_controller_state_t {ONGOING, TERMINATED, ABORTED};
     enum class service_workers_mode_t {ALL, NONE};
@@ -70,17 +70,17 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     enum class request_duplex_t {HALF};
     enum class request_redirect_t {FOLLOW, ERROR, MANUAL};
 
-    // body related
+    // Body related
     using xml_http_request_body_init_t = ext::variant<ext::variant_monostate_t , file_api::blob*, v8::ArrayBuffer, xhr::form_data*, ext::string>;
     using body_init_t = ext::extend_variant_t<xml_http_request_body_init_t, streams::readable::readable_stream*>;
     using body_with_type_t = ext::tuple<std::unique_ptr<body_t>, ext::string>;
 
-    // connection related
+    // Connection related
     using network_partition_key_t = ext::pair<ext::string, ext::string>; // TODO : ?
     using connection_pool_t = ext::vector<connection_t*>;
     using proxy_t = ext::string;
 
-    // header related
+    // Header related
     using header_name_t = ext::u8string;
     using header_value_t = ext::u8string;
     using header_t = ext::pair<header_name_t, header_value_t>;
@@ -91,11 +91,11 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
 
     using request_info_t = ext::variant<std::unique_ptr<request>, ext::string>;
 
-    // authentication related
+    // Authentication related
     using authentication_entry_t = ext::tuple<ext::string, ext::string, v8::Local<v8::Context>>;
     using proxy_authentication_entry_t = authentication_entry_t;
 
-    // request & response related
+    // Request & Response related
     using window_t = ext::variant<ext::variant_monostate_t, deferred_window_t, v8::Local<v8::Object>>;
     using request_init_t = ext::map<ext::string, ext::any>;
     using response_init_t = ext::map<ext::string, ext::any>;

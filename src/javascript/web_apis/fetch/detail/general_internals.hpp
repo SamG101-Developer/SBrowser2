@@ -26,18 +26,6 @@ namespace fetch::detail
     const ext::vector<ext::number<ushort>> redirect_status {101, 103, 204, 205, 304};
 
 
-    auto is_cors_safelisted_method(
-            ext::string_view method)
-            -> ext::boolean;
-
-    auto is_forbidden_method(
-            ext::string_view method)
-            -> ext::boolean;
-
-    auto normalize_method(
-            ext::string_view method)
-            -> ext::string;
-
     auto translate_potential_destination(
             ext::string_view potential_destination)
             -> ext::string;

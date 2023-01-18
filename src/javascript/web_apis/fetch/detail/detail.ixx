@@ -37,4 +37,27 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     template <ext::char_like T> auto is_http_tab_or_space_byte(T character) -> ext::boolean;
     template <ext::char_like T> auto is_http_whitespace_byte(T character) -> ext::boolean;
     template <ext::string_like T> auto collect_http_quoted_string(T& input, typename T::iterator& position, ext::boolean extract_value_flag = false) -> T&;
+
+    // Method helpers
+    auto is_cors_safelisted_method(method_t method) -> ext::boolean;
+    auto is_forbidden_method(method_t method) -> ext::boolean;
+
+    // Header helpers
+    template <header_value_object_t T, typename U> auto get_structured_field_value(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> U;
+    template <> auto get_structured_field_value<header_value_object_t::DICT>(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> ext::map<header_value_t, header_values_t>;
+    template <> auto get_structured_field_value<header_value_object_t::LIST>(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> ext::vector<header_value_t>;
+    template <> auto get_structured_field_value<header_value_object_t::ITEM>(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_value_t;
+    auto set_structured_field_value(header_t&& header, headers_t& headers) -> void;
+    auto contains_header(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> ext::boolean;
+    auto get_header_value(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_value_t;
+    auto get_decode_split_value(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_names_t;
+    auto append_header(header_t&& header, headers_t& headers) -> void;
+    auto delete_header(ext::view_of_t<header_name_t> header_name, headers_t& headers) -> void;
+    auto set_header(header_t&& header, headers_t& headers) -> void;
+    auto combine_header(header_t&& header, const headers_t& headers) -> void;
+    auto convert_header_names_to_sorted_lowercase_set(ext::view_of_t<header_names_t> header_names) -> header_names_t;
+    auto sort_and_combine(const headers_t& headers) -> headers_t;
+    auto is_header_name(ext::view_of_t<header_name_t> header_name) -> ext::boolean;
+    auto is_header_value(ext::view_of_t<header_value_t> header_value) -> ext::boolean;
+    auto normalize(header_value_t& potential_value) -> header_value_t&;
 }

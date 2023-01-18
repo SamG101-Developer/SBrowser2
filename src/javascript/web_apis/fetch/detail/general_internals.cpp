@@ -25,22 +25,6 @@ fetch::detail::fetch_group_t::~fetch_group_t()
 
 
 
-auto fetch::detail::is_cors_safelisted_method(
-        ext::string_view method)
-        -> ext::boolean
-{
-    auto cors_safelisted_methods = {u"GET", u"HEAD", u"POST"};
-    return ranges::contains(cors_safelisted_methods, normalize_method(method));
-}
-
-
-auto fetch::detail::is_forbidden_method(
-        ext::string_view method)
-        -> ext::boolean
-{
-    auto forbidden_methods = {u"CONNECT", u"TRACE", u"TRACK"};
-    return ranges::contains(forbidden_methods, normalize_method(method));
-}
 
 
 auto fetch::detail::normalize_method(

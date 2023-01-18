@@ -488,4 +488,6 @@ export namespace ranges
     MAKE_CONVERTIBLE_PIPEABLE(queue)
     // MAKE_CONVERTIBLE_PIPEABLE(map) TODO : separate implementation? or specialization on cvonersion of T for pair<U, V>
     // MAKE_CONVERTIBLE_PIPEABLE(string) TODO : separate implementation? or U<char>?
+    MAKE_CONVERTIBLE_PIPEABLE(any_string);
+    using to_string = to_any_string<ext::string::value_type>;
 }
