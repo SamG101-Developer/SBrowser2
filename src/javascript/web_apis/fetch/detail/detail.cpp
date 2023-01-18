@@ -3,6 +3,7 @@ module;
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
+#include <range/v3/view/drop_last.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/map.hpp>
 
@@ -262,7 +263,7 @@ auto fetch::detail::header_list_contains_header(
     // The 'headers' contain the 'head_name' if any of the pairs in the 'headers' list have the first part of the pair
     // set to a value equal to 'header_name'. The comparison is case-insensitive to convert both to lowercase for the
     // comparisons.
-    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to_string;
+    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to_any_string;
     return ranges::contains(headers | ranges::views::keys, lowercase_header_name, ranges::views::lowercase);
 }
 
@@ -273,12 +274,12 @@ auto fetch::detail::get_header_value(
         -> header_value_t
 {
     // Filter all the headers down to headers that have the same name as 'lowercase_header_name', and then transform
-    // them to have a COMMA followed by a SPACE. remove teh last occurrence of ", " by matching it to the end character
-    // as-well ie ", \0".
-    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to_string;
+    // them to have a COMMA followed by a SPACE. Remove the last occurrence of ", " by dropping the last 2 characters of
+    // the range.
+    auto lowercase_header_name = header_name | ranges::views::lowercase | ranges::to_any_string;
     return headers
-           | ranges::views::filter(BIND_BACK(ext::pair_key_matches, std::move(lowercase_header_name)))
-           | ranges::views::transform([](const header_t& header) {return header.second + char8_t(0x2c) + char8_t(0x20);})
-           | ranges::views::remove(ext::string{char16_t(0x002c) + char16_t(0x0020) + '\0'})
+           | ranges::views::filter(ext::bind_back(ext::pair_key_matches, std::move(lowercase_header_name)))
+           | ranges::views::transform([](auto&& header) {return header.second + header_value_t::value_type(0x2c) + header_value_t::value_type(0x20);})
+           | ranges::views::drop_last(2)
            | ranges::to<header_value_t>();
 }
