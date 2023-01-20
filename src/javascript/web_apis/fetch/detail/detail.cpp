@@ -3,9 +3,11 @@ module;
 
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
+#include <range/v3/to_container.hpp>
 #include <range/v3/view/drop_last.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/map.hpp>
+#include <range/v3/view/transform.hpp>
 
 #include <tl/optional.hpp>
 #include <v8-local-handle.h>
@@ -282,4 +284,113 @@ auto fetch::detail::get_header_value(
            | ranges::views::transform([](auto&& header) {return header.second + header_value_t::value_type(0x2c) + header_value_t::value_type(0x20);})
            | ranges::views::drop_last(2)
            | ranges::to<header_value_t>();
+}
+
+
+fetch::detail::get_decode_split_name(
+        ext::view_of_t<header_name_t> header_name,
+        ext::view_of_t<headers_t> headers)
+        -> header_names
+{
+    // Get the header value for the 'header_name' in 'headers', and return an empty list if there are no values
+    // associated with the 'header_name' because the 'header_name' key doesn;t contain any values.
+    auto input = get_header_value(header_name, headers);
+    return input.empty() ? {} : get_decode_split_value(std::move(input));
+}
+
+
+auto fetch::detail::get_decode_split_value(
+        ext::view_of_t<header_name_t> header_value,
+        ext::view_of_t<headers_t> headers)
+        -> header_names_t
+{
+    auto input = infra::detail::isomorphic_encode(value);
+
+    // Set the 'position' to point at the start of the string, and initialize the current 'value, and the final 'values'
+    // list that will be returned.
+    auto position = input.begin();
+    auto values = header_names_t{};
+    auto temporary_value = ext::string{};
+
+    // Loop until the 'position' pointer points to the end of the header value string ('input').
+    while (position != input.end())
+    {
+        // Append the collection of code points up until a SPEECH_MARK or COMMA from the 'input', starting at the
+        // pointer 'position'; these code points are automatically removed from the 'input' string.
+        temporary_value += infra::detail::collect_code_points_not_matching(input, position, 0x0022, 0x002c);
+
+        // Re-check the character at the end position, after collecting the above code points from 'input' -- otherwise
+        // could be dereferencing a nullptr iterator.
+        if (position != input.end())
+        {
+            // If the current 'position' pointer is pointing to a SPEECH_MARK, then collect the html-quoted string from
+            // the 'input' (starting from 'position'), and remove it from the 'input'. append this extracted string to
+            // the 'value', and continue if the 'input's end pointer hasn't been reached yet.
+            if (*position == header_value_t::value_type(0x0022))
+            {
+                temporary_value += collect_http_quoted_string(input, position);
+                continue_if(position != input.end());
+            }
+
+            // Otherwise, the current character must be a comma, so assert this, and then increment the 'position'
+            // iterator to inspect the next character (or to reach the end of the string).
+            else
+            {
+                ext::assert_(*position == char(0x002c));
+                ranges::advance(position, 1);
+            }
+        }
+
+        // Append the new value with spaces and tabs removed from the back and front of the string, and then reset the
+        // value string for the next iteration pass.
+        values.emplace_back(temporary_value | ranges::actions::remove_if(is_http_tab_or_space));
+        temporary_value = {};
+    }
+
+    // Return the list of header values that have been decoded and split into a list.
+    return values;
+}
+
+
+
+auto fetch::detail::append_header(fetch::detail::header_t&& header, fetch::detail::headers_t& headers) -> void
+{
+    // If the 'header' already exists in the 'headers', then convert 'header.name' to the matching case of the existing
+    // entry of that name.
+    if (header_list_contains_header(header.first, headers))
+    {
+        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase)));
+        header.first = existing_header.first
+    }
+
+    // Emplace the 'header' into the 'headers'.
+    headers.emplace_back(std::move(header));
+}
+
+
+auto fetch::detail::delete_header(ext::view_of_t<header_name_t> header_name, fetch::detail::headers_t& headers) -> void
+{
+    // Remove the individual headers from the 'headers' list whose key value matches 'header_name' (can be more
+    // than one header with a matching name to 'header_name'.
+    headers |= ranges::actions::remove_if(headers, ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
+}
+
+
+auto fetch::detail::set_header(fetch::detail::header_t&& header, fetch::detail::headers_t& headers) -> void
+{
+    // If any of the headers have their name matching the new 'header' name, then perform specific replacement steps --
+    // set the value of the 'existing_header' to 'header.second', so that this header maintains its position in the
+    // 'headers'. Remove other occurences of headers in the 'headers' list whose key matches 'header.first'.
+    if (header_list_contains_header(header.first, headers))
+    {
+        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase)));
+        existing_header.second = std::move(header.second);
+        headers
+                |= ranges::actions::drop_if_n(ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase), 1)
+                |  ranges::actions::remove_if(ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
+    }
+
+    // Otherwise just append the header to the list
+    else
+        append_header(std::move(header), headers);
 }

@@ -452,6 +452,7 @@ export namespace ranges
             constexpr auto operator()(R&& range, F&& pred) const
             {return ranges::end(range | ranges::views::filter(std::forward<F>(pred)));})
 
+
     RANGE_ALGORITHM_STRUCT(index_of,
             template <typename Rng COMMA typename T>
             constexpr auto operator()(Rng&& rng, T&& element) const -> _EXT number<size_t>

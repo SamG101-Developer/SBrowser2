@@ -47,10 +47,12 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     template <> auto get_structured_field_value<header_value_object_t::DICT>(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> ext::map<header_value_t, header_values_t>;
     template <> auto get_structured_field_value<header_value_object_t::LIST>(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> ext::vector<header_value_t>;
     template <> auto get_structured_field_value<header_value_object_t::ITEM>(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_value_t;
+    auto header_name_matches(ext::view_of_t<header_name_t> header_name1, ext::view_of_t<header_name_t> header_name2) -> ext::boolean;
     auto set_structured_field_value(header_t&& header, headers_t& headers) -> void;
     auto contains_header(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> ext::boolean;
     auto get_header_value(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_value_t;
-    auto get_decode_split_value(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_names_t;
+    auto get_decode_split_name(ext::view_of_t<header_name_t> header_name, ext::view_of_t<headers_t> headers) -> header_names_t;
+    auto get_decode_split_value(ext::view_of_t<header_value_t> header_value, ext::view_of_t<headers_t> headers) -> header_names_t;
     auto append_header(header_t&& header, headers_t& headers) -> void;
     auto delete_header(ext::view_of_t<header_name_t> header_name, headers_t& headers) -> void;
     auto set_header(header_t&& header, headers_t& headers) -> void;
