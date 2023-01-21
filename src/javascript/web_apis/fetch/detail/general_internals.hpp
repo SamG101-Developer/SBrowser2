@@ -19,20 +19,10 @@ namespace dom::other {class dom_exception;}
 
 namespace fetch::detail
 {
-    using algorithm_t = ext::function<void(v8::Local<v8::Object>)>;
-
-    const ext::vector<ext::number<ushort>> null_body_status {101, 103, 204, 205, 304};
-    const ext::vector<ext::number<ushort>> ok_status = ranges::views::closed_iota(200, 299) | ranges::to<ext::vector<ext::number<ushort>>>;
-    const ext::vector<ext::number<ushort>> redirect_status {101, 103, 204, 205, 304};
 
 
-    auto translate_potential_destination(
-            ext::string_view potential_destination)
-            -> ext::string;
 
-    auto terminate_fetch_group(
-            fetch_group_t& fetch_group_object)
-            -> void;
+
 }
 
 
@@ -44,14 +34,6 @@ struct fetch::detail::fetch_record_t
 };
 
 
-struct fetch::detail::fetch_group_t
-{
-    ext::vector<std::unique_ptr<fetch_record_t>> fetch_records;
-    std::observer_ptr<request_t> request;
-    std::observer_ptr<fetch_controller_t> fetch_controller;
-
-    ~fetch_group_t();
-};
 
 
 

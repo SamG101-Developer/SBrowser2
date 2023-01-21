@@ -2,12 +2,14 @@ module;
 #include "ext/macros.hpp"
 
 #include <range/v3/action/remove_if.hpp>
+#include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
 #include <range/v3/to_container.hpp>
 #include <range/v3/view/drop_last.hpp>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/map.hpp>
+#include <range/v3/view/set_algorithm.hpp>
 #include <range/v3/view/transform.hpp>
 
 #include <tl/optional.hpp>
@@ -133,7 +135,11 @@ auto fetch::detail::is_http_whitespace_byte(T character) -> ext::boolean
 
 
 template <ext::string_like T>
-auto fetch::detail::collect_http_quoted_string(T& input, typename T::iterator& position, ext::boolean extract_value_flag) -> T&
+auto fetch::detail::collect_http_quoted_string(
+        T& input,
+        typename T::iterator& position,
+        ext::boolean extract_value_flag)
+        -> T&
 {
     // Copy the position as the start position (not a aliased reference) to save the iterator, and create an empty
     // 'value' string which might be returned depending on the 'extract_value_flag' flag. Assert that the current
@@ -457,45 +463,112 @@ auto fetch::detail::sort_and_combine(
 }
 
 
-auto normalize(header_value_t& potential_value) -> header_value_t&
+auto fetch::detail::normalize(header_value_t& potential_value) -> header_value_t&
 {
     potential_value |= ranges::actions::trim_if(is_http_whitespace_byte);
 }
 
 
-auto fetch::detail::is_cors_safelisted_request_header(fetch::detail::header_t&& header) -> ext::boolean
+template <ext::char_like T>
+auto fetch::detail::is_cors_unsafe_request_header_byte(T byte) -> ext::boolean
+{
+    // Unsafe bytes are in the 'unsafe_buytes' list, or [are less than 0x20 and not the 0x09]. Check for either case and
+    // return the result.
+    auto unsafe_byte = {0x22, 0x28, 0x29, 0x3a, 0x3c, 0x3e, 0x3f, 0x40, 0x5b, 0x5c, 0x5d, 0x7b, 0x7d, 0x7f};
+    return (byte < 0x20 && byte != 0x09) || ranges::contains(unsafe_bytes, byte);
+}
+
+
+auto fetch::detail::cors_unsafe_request_header_names(
+        ext::view_of_t<headers_t> headers)
+        -> header_names_t
+{
+    auto unsafe_header_names = headers | ranges::views::filter(is_cors_safelisted_request_header);
+    auto potentially_unsafe_names = headers | ranges::views::set_difference(unsafe_header_names);
+    auto safelist_value_size = potentially_unsafe_names.size();
+
+    if (safelist_value_size > 1024)
+        unsafe_header_names |= ranges::actions::concat(potentially_unsafe_names);
+
+    return convert_header_names_to_sorted_lowercase_set(unsafe_names);
+}
+
+
+auto fetch::detail::is_cors_non_wildcard_request_header_name(
+        ext::view_of_t<header_name_t> header_name)
+        -> ext::boolean
+{
+    auto exclusion_list = {u"Autorization"};
+    return ranges::contains(exclusion_list, header_name);
+}
+
+
+auto fetch::detail::is_privileged_no_cors_request_header_name(
+        ext::view_of_t<header_name_t> header_name)
+        -> ext::boolean
+{
+    auto exclusion_list = {u"Range"};
+    return ranges::contains(exclusion_list, header_name);
+}
+
+
+auto fetch::detail::is_request_body_header_name(
+        ext::view_of_t<header_name_t> header_name)
+        -> ext::boolean
+{
+    auto exclusion_list = {u"Content-Encoding", u"Content-Language", u"Content-Location", u"Content-Type"};
+    return ranges::contains(exclusion_list, header_name);
+}
+
+
+auto fetch::detail::is_cors_safelisted_response_header_name(
+        ext::view_of_t<header_name_t> header_name)
+        -> ext::boolean
+{
+    auto exclusion_list = {u"Cache-Control", u"Content-Language", u"Content-Length", u"Content-Type", u"Expires", u"Last-Modified", u"Pragma"};
+    return ranges::contains(exclusion_list, header_name) && !is_forbidden_response_header_name(header_name);
+}
+
+
+auto fetch::detail::is_no_cors_safelisted_request_header_name(
+        ext::view_of_t<header_name_t> header_name)
+        -> ext::boolean
+{
+    auto exclusion_list = {u"Accept", u"Accept-Language", u"Content-Language", u"Content-Type"};
+    return range::contains(exclusion_list, header_name);
+}
+
+
+auto fetch::detail::is_cors_safelisted_request_header(const header_t& header) -> ext::boolean
 {
     return_if (header.second.size() > 128) false;
 
-    string_switch(header.first | ranges::views::lowercase | ranges::to_any_string)
+    auto lowercase_header_name = header.first | ranges::views::lowercase | ranges::to_any_string;
+
+    if (lowercase_header_name == u"accept" && ranges::any_of(header.second, is_cors_unsafe_request_header_byte))
+        return false;
+
+    else if ((lowercase_header_name == u"accept-language") && ranges::any_of(header.second, is_cors_unsafe_language_header_byte))
+        return false;
+
+    else if ((lowercase_header_name == u"content-language") && ranges::any_of(header.second, is_cors_unsafe_language_header_byte))
+        return false;
+
+    else if (lowercase_header_name == u"content-type")
     {
-        string_case(u"accept"):
-            return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
-
-        string_case(u"accept-language"):
-        string_case(u"content-language"):
-            auto language_safe_bytes
-                    = ranges::views::closed_iota(0x30, 0x39)
-                    + ranges::views::closed_iota(0x41, 0x5a)
-                    + ranges::views::closed_iota(0x61, 0x7a))
-                    + ranges::views::single(0x20, 0x2a, 0x2c, 0x2d, 0x2e, 0x3b, 0x3d);
-            auto stripped_header_value = header.second | ranges::views::remove_if(ext::bind_front(ranges::contains, langauge_safe_bytes));
-            return_if (!stripped_header_value.empty()) false;
-
-        string_case(u"content-type"):
-        {
-            return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
-            auto mime_type = mime_sniffing::mime_type_internals::parse(header.second);
-            return_if(mime_type.empty()) false;
-            return_if(!ranges::contains(ext::initializer_list<ext::string>{u"application/x-www-form-urlencoded", u"multipart/form-data", u"text/plain"}, mime_type.essence)) false;
-        }
-
-        string_case(u"range");
-            return_if (!is_simple_range_header_value(header.second));
-
-        string_default:
-            return false;
+        auto mime_type = mime_sniffing::mime_type_internals::parse(infra::Detail::isomorphic_decode(header.second));
+        return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
+        return_if (mime_type.empty()) false;
+        return_if (!ranges::contains(ext::string[3]{u"application/x-www-form-urlencoded", u"multipart/form-data", u"text/plain"}, mime_type.essence)) false;
     }
+
+    else if (lowercase_header_name == u"range");
+        auto range_value = pars_singla_ranger_header_value(header.second);
+        return_if (!range_value.has_value()) false;
+        return_if ((*range_value)[0].empty()) false;
+
+    else
+        return false;
 
     return true;
 }

@@ -1,18 +1,19 @@
-#include "headers.hpp"
-#include "headers_private.hpp"
+module;
+#include "ext/macros.hpp"
 
 
+module apis.fetch.headers;
+import apis.fetch.detail;
+import apis.fetch.types;
 
-
-#include "fetch/_typedefs.hpp"
-#include "fetch/detail/header_internals.hpp"
+import apis.dom.types;
+import apis.dom.detail;
 
 
 fetch::headers::headers(detail::headers_t&& headers)
 {
-    INIT_PIMPL(headers);
+    INIT_PIMPL; ACCESS_PIMPL;
 
-    ACCESS_PIMPL(headers);
     d->headers_guard = detail::header_guard_t::NONE;
     d->headers_list = std::move(headers);
 }
@@ -23,7 +24,7 @@ auto fetch::headers::append(
         detail::header_value_t&& value)
         -> void
 {
-    ACCESS_PIMPL(headers);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
     detail::normalize(value);
 

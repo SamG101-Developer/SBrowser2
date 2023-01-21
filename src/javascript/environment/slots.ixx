@@ -58,6 +58,7 @@ namespace js::env
         // constexpr auto
 
         /* [FETCH] */
+        const auto FETCH_GROUP = slot<std::unique_ptr<fetch::detail:fetch_group_t>>{};
         // constexpr auto connection_pool = 7;
     }
 }

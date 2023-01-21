@@ -15,53 +15,37 @@
 namespace fetch::mixins {class body;}
 namespace streams::readable {class readable_stream_default_reader;}
 
+auto cors_check(
+        request_t& request,
+        response_t& response)
+-> ext::boolean;
 
+auto tao_check(
+        request_t& request,
+        response_t& response)
+-> ext::boolean;
 namespace fetch::detail
 {
     using algorithm_t = ext::function<void()>;
 
-    auto clone_body(
-            body_t& body)
-            -> std::unique_ptr<body_t>;
 
-    auto get_byte_sequence_as_body(
-            ext::u8string_view byte_sequence)
-            -> std::unique_ptr<body_t>;
+
+
 
     template <ext::type_is<v8::Local<v8::Object>, html::detail::task_queue_t> T>
-    auto incrementally_read_body(
-            body_t& body,
-            algorithm_t&& process_body_chunk,
-            algorithm_t&& process_end_of_body,
-            algorithm_t&& process_body_error,
-            T&& task_destination)
-            -> void;
+
 
     template <ext::type_is<v8::Local<v8::Object>, html::detail::task_queue_t> T>
-    auto incrementally_read_loop(
-            streams::readable::readable_stream_default_reader* reader,
-            T&& task_destination,
-            algorithm_t&& process_body_chunk,
-            algorithm_t&& process_end_of_body,
-            algorithm_t&& process_body_error)
-            -> void;
+
 
     template <ext::type_is<v8::Local<v8::Object>, html::detail::task_queue_t> T>
-    auto fully_read_body(
-            body_t& body,
-            algorithm_t&& process_body,
-            algorithm_t&& process_body_error,
-            T&& task_destination)
-            -> void;
+
 
     auto fully_read_body_as_promise(
             body_t& body)
             -> ext::promise<ext::u8string>;
 
-    auto handle_content_encodings(
-            ext::string_view codings,
-            ext::u8string_view bytes)
-            -> ext::string; // TODO
+
 
     auto safely_extract_body(
             body_init_t&& object)
@@ -89,12 +73,6 @@ namespace fetch::detail
 }
 
 
-struct fetch::detail::body_t
-{
-    std::unique_ptr<streams::readable::readable_stream> stream;
-    ext::variant<ext::u8string, std::unique_ptr<file_api::blob*>, std::unique_ptr<xhr::form_data>> source;
-    ext::number<size_t> length;
-};
 
 
 #endif //SBROWSER2_BODY_INTERNALS_HPP

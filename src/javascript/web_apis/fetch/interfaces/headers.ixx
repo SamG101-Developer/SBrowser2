@@ -1,15 +1,15 @@
-#ifndef SBROWSER2_HEADERS_HPP
-#define SBROWSER2_HEADERS_HPP
+module;
+#include "ext/macros.hpp"
 
 
-#include "ext/map_like.ixx"
-namespace fetch {class headers;}
-namespace fetch {class headers_private;}
+export module apis.fetch.headers;
+import apis.dom_object;
+import ext.mixins;
 
-#include INCLUDE_INNER_TYPES(fetch)
+import apis.fetch.types;
 
 
-class fetch::headers
+DEFINE_PUBLIC_CLASS(fetch, headers) final
         : public virtual dom_object
         , ext::map_like<detail::header_name_t, detail::header_value_t>
 {
@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(headers);
     MAKE_V8_AVAILABLE(WINDOW | WORKER)
 
-    auto operator[](const detail::header_name_t& key) -> detail::header_value_t& = 0;
+    auto operator[](const detail::header_name_t& key) -> detail::header_value_t& {return (*this)[key];};
     auto operator[](const detail::header_name_t& key) const -> detail::header_value_t& {return (*this)[key];}
 
 public js_methods:
@@ -28,5 +28,3 @@ public js_methods:
     auto has(ext::u8string_view name) -> ext::boolean;
     auto set(detail::header_name_t&& name, detail::header_value_t&& value) -> void;
 };
-
-#endif //SBROWSER2_HEADERS_HPP
