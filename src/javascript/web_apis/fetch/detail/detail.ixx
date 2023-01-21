@@ -56,10 +56,12 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     auto append_header(header_t&& header, headers_t& headers) -> void;
     auto delete_header(ext::view_of_t<header_name_t> header_name, headers_t& headers) -> void;
     auto set_header(header_t&& header, headers_t& headers) -> void;
-    auto combine_header(header_t&& header, const headers_t& headers) -> void;
+    auto combine_header(header_t&& header, headers_t& headers) -> void;
     auto convert_header_names_to_sorted_lowercase_set(ext::view_of_t<header_names_t> header_names) -> header_names_t;
-    auto sort_and_combine(const headers_t& headers) -> headers_t;
+    auto sort_and_combine(ext::view_of_t<headers_t> headers) -> headers_t;
     auto is_header_name(ext::view_of_t<header_name_t> header_name) -> ext::boolean;
     auto is_header_value(ext::view_of_t<header_value_t> header_value) -> ext::boolean;
     auto normalize(header_value_t& potential_value) -> header_value_t&;
+
+    auto is_cors_safelisted_request_header(header_t&& header) -> ext::boolean;
 }

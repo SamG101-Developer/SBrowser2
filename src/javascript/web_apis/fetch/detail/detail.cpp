@@ -1,6 +1,7 @@
 module;
 #include "ext/macros.hpp"
 
+#include <range/v3/action/remove_if.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/range/operations.hpp>
 #include <range/v3/to_container.hpp>
@@ -353,14 +354,17 @@ auto fetch::detail::get_decode_split_value(
 
 
 
-auto fetch::detail::append_header(fetch::detail::header_t&& header, fetch::detail::headers_t& headers) -> void
+auto fetch::detail::append_header(
+        header_t&& header,
+        headers_t& headers)
+        -> void
 {
     // If the 'header' already exists in the 'headers', then convert 'header.name' to the matching case of the existing
     // entry of that name.
     if (header_list_contains_header(header.first, headers))
     {
-        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase)));
-        header.first = existing_header.first
+        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(&ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase)));
+        header.first = existing_header.first;
     }
 
     // Emplace the 'header' into the 'headers'.
@@ -368,29 +372,130 @@ auto fetch::detail::append_header(fetch::detail::header_t&& header, fetch::detai
 }
 
 
-auto fetch::detail::delete_header(ext::view_of_t<header_name_t> header_name, fetch::detail::headers_t& headers) -> void
+auto fetch::detail::delete_header(ext::view_of_t<header_name_t> header_name, headers_t& headers) -> void
 {
     // Remove the individual headers from the 'headers' list whose key value matches 'header_name' (can be more
     // than one header with a matching name to 'header_name'.
-    headers |= ranges::actions::remove_if(headers, ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
+    headers |= ranges::actions::remove_if(headers, ext::bind_back(&ext::cmp::eq, header_name | ranges::views::lowercase, ranges::views::lowercase));
 }
 
 
-auto fetch::detail::set_header(fetch::detail::header_t&& header, fetch::detail::headers_t& headers) -> void
+auto fetch::detail::set_header(
+        header_t&& header, headers_t& headers)
+        -> void
 {
     // If any of the headers have their name matching the new 'header' name, then perform specific replacement steps --
     // set the value of the 'existing_header' to 'header.second', so that this header maintains its position in the
     // 'headers'. Remove other occurences of headers in the 'headers' list whose key matches 'header.first'.
     if (header_list_contains_header(header.first, headers))
     {
-        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase)));
+        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(&ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
         existing_header.second = std::move(header.second);
         headers
-                |= ranges::actions::drop_if_n(ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase), 1)
-                |  ranges::actions::remove_if(ext::bind_back(ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
+                |= ranges::actions::filter_n(ext::bind_back(&ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase), 1)
+                | ranges::actions::remove_if(ext::bind_back(&ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
     }
 
     // Otherwise just append the header to the list
     else
         append_header(std::move(header), headers);
+}
+
+
+auto fetch::detail::combine_header(
+        fetch::detail::header_t&& header,
+        fetch::detail::headers_t& headers)
+        -> void
+{
+    // If any of the headers have their name matching the new 'header' name, then perform specific replacement steps --
+    // combine the value of the 'existing_header' to 'header.second', with a ", " joining the values.
+    if (header_list_contains_header(header.first, headers))
+    {
+        decltype(auto) existing_header = *ranges::first_where(headers, ext::bind_back(&ext::cmp::eq, header.first | ranges::views::lowercase, ranges::views::lowercase));
+        existing_header += 0x2c + 0x20 + std::move(header.second);
+    }
+
+    // Otherwise just append the header to the list
+    else
+        append_header(std::move(header), headers);
+}
+
+
+auto fetch::detail::convert_header_names_to_sorted_lowercase_set(
+        ext::view_of_t<header_names_t> header_names)
+        -> header_names_t
+{
+    // Convert the header names to lowercase and return the new list (doesn't modifier original list, which is why the
+    // 'header_names' input list is a view.
+    return header_names
+            | ranges::views::transform(ranges::views::lowercase)
+            | ranges::views::transform(ranges::to<header_name_t>)
+            | ranges::views::sort(infra::detail::is_code_unit_less_than)
+            | ranges::to<header_names_t>;
+}
+
+
+auto fetch::detail::sort_and_combine(
+        ext::view_of_t<headers_t> headers)
+        -> headers_t
+{
+    // Create an empty 'formatted_headers' list, and get the sorted name as a list of strings.
+    auto formatted_headers = headers_t{};
+    auto sorted_names = convert_header_names_to_sorted_lowercase_set(headers | ranges::views::keys);
+
+    // Iterate through the names in the 'sorted_names' list, as each header name needs to be put through the
+    // 'append_header(...)' method.
+    for (auto&& header_name: sorted_names)
+    {
+        auto header_value = get_header_value(header_name, headers);
+        ext::assert_(!header_value.empty());
+        append_header({std::move(header_name), std::move(header_value)}, formatted_headers);
+    }
+
+    // Return the 'formatted_headers' list.
+    return formatted_headers;
+}
+
+
+auto normalize(header_value_t& potential_value) -> header_value_t&
+{
+    potential_value |= ranges::actions::trim_if(is_http_whitespace_byte);
+}
+
+
+auto fetch::detail::is_cors_safelisted_request_header(fetch::detail::header_t&& header) -> ext::boolean
+{
+    return_if (header.second.size() > 128) false;
+
+    string_switch(header.first | ranges::views::lowercase | ranges::to_any_string)
+    {
+        string_case(u"accept"):
+            return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
+
+        string_case(u"accept-language"):
+        string_case(u"content-language"):
+            auto language_safe_bytes
+                    = ranges::views::closed_iota(0x30, 0x39)
+                    + ranges::views::closed_iota(0x41, 0x5a)
+                    + ranges::views::closed_iota(0x61, 0x7a))
+                    + ranges::views::single(0x20, 0x2a, 0x2c, 0x2d, 0x2e, 0x3b, 0x3d);
+            auto stripped_header_value = header.second | ranges::views::remove_if(ext::bind_front(ranges::contains, langauge_safe_bytes));
+            return_if (!stripped_header_value.empty()) false;
+
+        string_case(u"content-type"):
+        {
+            return_if (ranges::any_of(header.second, is_cors_unsafe_request_header_byte)) false;
+            auto mime_type = mime_sniffing::mime_type_internals::parse(header.second);
+            return_if(mime_type.empty()) false;
+            return_if(!ranges::contains(ext::initializer_list<ext::string>{u"application/x-www-form-urlencoded", u"multipart/form-data", u"text/plain"}, mime_type.essence)) false;
+        }
+
+        string_case(u"range");
+            return_if (!is_simple_range_header_value(header.second));
+
+        string_default:
+            return false;
+    }
+
+    return true;
 }

@@ -29,9 +29,7 @@ namespace fetch::detail
 
 
 
-    auto is_cors_safelisted_request_header(
-            header_t&& header)
-            -> ext::boolean;
+
 
     template <ext::char_like T>
     auto is_cors_unsafe_request_header_byte(

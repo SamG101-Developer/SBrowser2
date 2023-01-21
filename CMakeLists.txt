@@ -18,71 +18,71 @@ file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 include(FetchContent)
 set(FETCH_CONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps)
 
-FetchContent_Declare(AssertReplacement
+FetchContent_Declare(Assert
         GIT_REPOSITORY https://github.com/jeremy-rifkin/libassert.git
         GIT_TAG master)
 
-FetchContent_Declare(ExpectedReplacement
+FetchContent_Declare(Expected
         GIT_REPOSITORY https://github.com/TartanLlama/expected.git
         GIT_TAG master)
 
-FetchContent_Declare(FileSystemReplacement
+FetchContent_Declare(FileSystem
         GIT_REPOSITORY https://github.com/cginternals/cppfs.git
         GIT_TAG master)
 
-FetchContent_Declare(FunctionReplacement
+FetchContent_Declare(Function
         GIT_REPOSITORY https://github.com/Naios/function2.git
         GIT_TAG master)
 
-FetchContent_Declare(HashMapSetReplacement
+FetchContent_Declare(HashMapSet
         GIT_REPOSITORY https://github.com/martinus/unordered_dense.git
         GIT_TAG main)
 
-FetchContent_Declare(InitializerListReplacement ${FETCH_CONTENT_BASE_DIR}/initializerlistreplacement-src/better_braces
+FetchContent_Declare(InitializerList ${FETCH_CONTENT_BASE_DIR}/initializerlist-src/better_braces
         GIT_REPOSITORY https://github.com/HolyBlackCat/better_braces.git
         GIT_TAG master)
 
-FetchContent_Declare(JsonReplacement
+FetchContent_Declare(Json
         GIT_REPOSITORY https://github.com/wqking/jsonpp.git
         GIT_TAG master)
 
-FetchContent_Declare(OptionalReplacement
+FetchContent_Declare(Optional
         GIT_REPOSITORY https://github.com/TartanLlama/optional.git
         GIT_TAG master)
 
-FetchContent_Declare(QueueReplacement SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/queuereplacement-src/plf
+FetchContent_Declare(Queue SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/queue-src/plf
         GIT_REPOSITORY https://github.com/mattreecebentley/plf_queue.git
         GIT_TAG main)
 
-FetchContent_Declare(RandomReplacement
+FetchContent_Declare(Random
         GIT_REPOSITORY https://github.com/effolkronium/random.git
         GIT_TAG master)
 
-FetchContent_Declare(RangeReplacement
+FetchContent_Declare(Range
         GIT_REPOSITORY https://github.com/ericniebler/range-v3.git
         GIT_TAG master)
 
-FetchContent_Declare(RegexReplacement # TODO : switch to Hyper...1
+FetchContent_Declare(Regex # TODO : switch to Hyper...1
         GIT_REPOSITORY https://github.com/google/re2.git
         GIT_TAG main)
 
-FetchContent_Declare(StackReplacement SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/stackreplacement-src/plf
+FetchContent_Declare(Stack SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/stack-src/plf
         GIT_REPOSITORY https://github.com/mattreecebentley/plf_stack.git
         GIT_TAG master)
 
-FetchContent_Declare(StreamsReplacement
+FetchContent_Declare(Streams
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG master)
 
-FetchContent_Declare(TupleReplacement
+FetchContent_Declare(Tuple
         GIT_REPOSITORY https://github.com/codeinred/tuplet.git
         GIT_TAG main)
 
-FetchContent_Declare(VariantReplacement
+FetchContent_Declare(Variant
         GIT_REPOSITORY https://github.com/groundswellaudio/swl-variant.git
         GIT_TAG main)
 
-FetchContent_Declare(VectorReplacement SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/vectorreplacement-src/veque
+FetchContent_Declare(Vector SOURCE_DIR ${FETCH_CONTENT_BASE_DIR}/vector-src/veque
         GIT_REPOSITORY https://github.com/Shmoopty/veque.git
         GIT_TAG master)
 
@@ -123,10 +123,10 @@ FetchContent_Declare(V8PP
         GIT_TAG master)
 
 FetchContent_MakeAvailable(
-        AssertReplacement ExpectedReplacement FileSystemReplacement FunctionReplacement HashMapSetReplacement
-        InitializerListReplacement JsonReplacement OptionalReplacement QueueReplacement RandomReplacement
-        RangeReplacement RegexReplacement StackReplacement StreamsReplacement TupleReplacement VariantReplacement
-        VectorReplacement Crypto DateTime HardwareInfo Gamepad MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
+        Assert Expected FileSystem Function HashMapSet
+        InitializerList Json Optional Queue Random
+        Range Regex Stack Streams Tuple Variant
+        Vector Crypto DateTime HardwareInfo Gamepad MagicEnum SelfMacro UUIDs V8PP) # TODO : Qt
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
@@ -139,16 +139,16 @@ file(GLOB cryptopp_src ${FETCH_CONTENT_BASE_DIR}/crypto-src/cryptopp/*.cpp)
 
 
 add_library(better_braces INTERFACE)
-target_include_directories(better_braces INTERFACE ${FETCH_CONTENT_BASE_DIR}/initializerlistreplacement-src/include)
+target_include_directories(better_braces INTERFACE ${FETCH_CONTENT_BASE_DIR}/initializerlist-src/include)
 
 add_library(plf_stack INTERFACE)
-target_include_directories(plf_stack INTERFACE ${FETCH_CONTENT_BASE_DIR}/stackreplacement-src)
+target_include_directories(plf_stack INTERFACE ${FETCH_CONTENT_BASE_DIR}/stack-src)
 
 add_library(plf_queue INTERFACE)
-target_include_directories(plf_queue INTERFACE ${FETCH_CONTENT_BASE_DIR}/queuereplacement-src)
+target_include_directories(plf_queue INTERFACE ${FETCH_CONTENT_BASE_DIR}/queue-src)
 
 add_library(veque INTERFACE)
-target_include_directories(veque INTERFACE ${FETCH_CONTENT_BASE_DIR}/vectorreplacement-src/veque/include)
+target_include_directories(veque INTERFACE ${FETCH_CONTENT_BASE_DIR}/vector-src/veque/include)
 
 add_library(bigint INTERFACE)
 target_include_directories(bigint INTERFACE "${FETCH_CONTENT_BASE_DIR}/bigint-src/Big Integer Library in Single file")
