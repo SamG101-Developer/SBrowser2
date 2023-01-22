@@ -3,7 +3,7 @@
 #define SBROWSER2_RESPONSE_HPP
 
 
-#include "mixins/body.hpp"
+#include "mixins/body.ixx"
 namespace fetch {class response;}
 namespace fetch {class response_private;}
 

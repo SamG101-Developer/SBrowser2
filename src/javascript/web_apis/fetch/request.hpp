@@ -3,7 +3,7 @@
 #define SBROWSER2_REQUEST_HPP
 
 
-#include "mixins/body.hpp"
+#include "mixins/body.ixx"
 namespace fetch {class request;}
 namespace fetch {class request_private;}
 

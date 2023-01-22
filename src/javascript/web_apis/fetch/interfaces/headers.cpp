@@ -68,12 +68,12 @@ auto fetch::headers::delete_(
             u8"Name must be a valid header name");
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [d] {d->headers_guard == detail::header_guard_t::IMMUTABLE;},
+            [d] {return d->headers_guard == detail::header_guard_t::IMMUTABLE;},
             u8"Cannot modify a header whose guard is 'immutable'");
 
     return_if (
             d->headers_guard == detail::header_guard_t::REQUEST
-            && detail::is_forbidden_request_header({name, u""}));
+            && detail::is_forbidden_request_header({name, u8""}));
 
     return_if (
             d->headers_guard == detail::header_guard_t::REQUEST_NO_CORS

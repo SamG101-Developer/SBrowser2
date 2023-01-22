@@ -1,20 +1,19 @@
-#ifndef SBROWSER2_BODY_HPP
-#define SBROWSER2_BODY_HPP
-
-
-namespace fetch::mixins {class body;}
-namespace fetch::mixins {class body_private;}
-
-#include INCLUDE_INNER_TYPES(fetch)
-
-
+module;
+#include "ext/macros.hpp"
 #include <v8-forward.h>
-namespace file_api {class blob;}
-namespace streams::readable {class readable_stream;}
-namespace xhr {class form_data;}
 
 
-class fetch::mixins::body
+export module apis.fetch.mixins.body;
+import apis.dom_object;
+
+import apis.file_api.types;
+import apis.streams.types;
+import apis.xhr.types;
+
+import ext.js;
+
+
+DEFINE_PUBLIC_CLASS(fetch::mixins, body)
         : public virtual dom_object
 {
 public constructors:
@@ -30,9 +29,6 @@ public js_methods:
     auto text() -> ext::promise<ext::string>;
 
 private js_properties:
-    DEFINE_GETTER(body, streams::readable::readable_stream*);
+    DEFINE_GETTER(body, streams::readable_stream*);
     DEFINE_GETTER(body_used, ext::boolean);
 };
-
-
-#endif //SBROWSER2_BODY_HPP

@@ -1,5 +1,5 @@
-#include "body.hpp"
-#include "body_private.hpp"
+#include "body.ixx"
+#include "body_private.ixx"
 
 #include "fetch/detail/body_internals.hpp"
 #include "streams/detail/readable_abstract_operations_internals.hpp"

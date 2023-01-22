@@ -56,14 +56,14 @@ _EXT_BEGIN
     {using type = T;};
 
     // Convert a pure-iterable container (same iterator type for begin() amd end()) to its corresponding 'span<...>' type.
-    export template <_EXT pure_iterable T> requires (!_EXT string_like<T>)
+    export template <_EXT pure_iterable T>
     struct view_of<T>
     {using type = _EXT span<typename T::value_type>;};
 
     // Convert a 'string_like<T>' object to a 'string_view<...>' object of the same char-traits.
-    export template <_EXT string_like T>
-    struct view_of<T>
-    {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
+    export template <>
+    struct view_of<ext::u8string>
+    {using type = _EXT u8string_view;};
 
     // Convert a 'function<Ts...>' to a 'function_view<Ts...>'.
     export template <typename ...Ts>
