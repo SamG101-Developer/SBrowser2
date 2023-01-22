@@ -19,7 +19,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW | WORKER)
 
     auto operator[](const detail::header_name_t& key) -> detail::header_value_t& {return (*this)[key];};
-    auto operator[](const detail::header_name_t& key) const -> detail::header_value_t& {return (*this)[key];}
+    auto operator[](const detail::header_name_t& key) const -> detail::header_value_t&;
 
 public js_methods:
     auto append(detail::header_name_t&& name, detail::header_value_t&& value) -> void;

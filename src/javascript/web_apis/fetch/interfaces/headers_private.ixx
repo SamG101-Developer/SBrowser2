@@ -9,7 +9,7 @@ import ext.mixins;
 import apis.fetch.types;
 
 
-DEFINE_PRIVATE_CLASS(fetch, headers)
+DEFINE_PRIVATE_CLASS(fetch, headers) final
         : virtual dom_object_private
         , ext::map_like_private<detail::header_name_t, detail::header_value_t>
 {

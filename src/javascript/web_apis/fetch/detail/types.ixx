@@ -9,7 +9,7 @@ export module apis.fetch.types;
 import apis.file_api.types;
 import apis.html.types;
 import apis.hr_time.types;
-import apis.streams.types;
+//import apis.streams.types;
 import apis.url.types;
 import apis.xhr.types;
 import ext.core;

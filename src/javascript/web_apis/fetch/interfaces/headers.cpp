@@ -9,6 +9,11 @@ import apis.fetch.types;
 import apis.dom.types;
 import apis.dom.detail;
 
+import js.env.module_type;
+import js.env.realms;
+import ext.core;
+import ext.mixins;
+
 
 fetch::headers::headers(detail::headers_t&& headers)
 {
@@ -33,7 +38,7 @@ auto fetch::headers::append(
             u8"Name and value must be a valid header name and value");
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
-            [d] {d->headers_guard == detail::header_guard_t::IMMUTABLE;},
+            [d] {return d->headers_guard == detail::header_guard_t::IMMUTABLE;},
             u8"Cannot modify a header whose guard is 'immutable'");
 
     return_if (
@@ -55,7 +60,7 @@ auto fetch::headers::delete_(
         ext::u8string_view name)
         -> void
 {
-    ACCESS_PIMPL(headers);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
@@ -68,7 +73,7 @@ auto fetch::headers::delete_(
 
     return_if (
             d->headers_guard == detail::header_guard_t::REQUEST
-            && detail::is_forbidden_request_header({name, ""}));
+            && detail::is_forbidden_request_header({name, u""}));
 
     return_if (
             d->headers_guard == detail::header_guard_t::REQUEST_NO_CORS
@@ -79,7 +84,7 @@ auto fetch::headers::delete_(
             d->headers_guard == detail::header_guard_t::RESPONSE
             && detail::is_forbidden_response_header_name(name));
 
-    return_if (!detail::header_list_contains_header(d->headers_list, name));
+    return_if (!detail::contains_header(d->headers_list, name));
     detail::delete_header(name, d->headers_list);
 
     if (d->headers_guard == detail::header_guard_t::REQUEST_NO_CORS)
@@ -91,7 +96,7 @@ auto fetch::headers::get(
         ext::u8string_view name)
         -> detail::header_value_t
 {
-    ACCESS_PIMPL(headers);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
@@ -106,7 +111,7 @@ auto fetch::headers::has(
         ext::u8string_view name)
         -> ext::boolean
 {
-    ACCESS_PIMPL(headers);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
@@ -122,7 +127,7 @@ auto fetch::headers::set(
         detail::header_value_t&& value)
         -> void
 {
-    ACCESS_PIMPL(headers);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
 
     dom::detail::throw_v8_exception<V8_TYPE_ERROR>(
@@ -133,9 +138,9 @@ auto fetch::headers::set(
 }
 
 
-auto fetch::headers::operator[](const detail::header_name_t& key) -> detail::header_value_t&
+auto fetch::headers::operator[](const detail::header_name_t& key) const -> detail::header_value_t&
 {
-    ACCESS_PIMPL(headers);
+    ACCESS_PIMPL;
     return detail::get_header_value(key, detail::sort_and_combine(d->headers_list));
 }
 
@@ -143,11 +148,11 @@ auto fetch::headers::operator[](const detail::header_name_t& key) -> detail::hea
 auto fetch::headers::_to_v8(
         js::env::module_t E,
         v8::Isolate* isolate)
-        -> ext::tuple<bool, v8pp::class_<self_t>>
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
-        .inherit<ext::map_like<detail::header_name_t , detail::header_name_t>>()
+        .inherit<ext::map_like<detail::header_name_t, detail::header_name_t>>()
         .ctor<detail::headers_t&&>()
         .function("append", &headers::append)
         .function("delete", &headers::delete_)

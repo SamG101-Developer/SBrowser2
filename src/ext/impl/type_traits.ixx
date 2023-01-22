@@ -45,15 +45,10 @@ _EXT_BEGIN
     using extend_variant_t = typename extend_variant<OldVariant, NewTypes...>::type;
 
 
-    // Get the view of an object -- general (non-specialized) type returns the same type.
+    // Get the view of an object -- general (non-specialized) type returns the same type. TODO : const& for default?
     export template <typename T>
     struct view_of
     {using type = T;};
-
-    // Convert a 'string_like<T>' object to a 'string_view<...>' object of the same char-traits.
-    export template <_EXT string_like T>
-    struct view_of<T>
-    {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
 
     // Convert a range-v3 view by keeping it the same (readonly)
     export template <ranges::view_ T>
@@ -61,9 +56,14 @@ _EXT_BEGIN
     {using type = T;};
 
     // Convert a pure-iterable container (same iterator type for begin() amd end()) to its corresponding 'span<...>' type.
-    export template <_EXT pure_iterable T>
+    export template <_EXT pure_iterable T> requires (!_EXT string_like<T>)
     struct view_of<T>
     {using type = _EXT span<typename T::value_type>;};
+
+    // Convert a 'string_like<T>' object to a 'string_view<...>' object of the same char-traits.
+    export template <_EXT string_like T>
+    struct view_of<T>
+    {using type = std::basic_string_view<typename T::value_type, typename T::traits_type>;};
 
     // Convert a 'function<Ts...>' to a 'function_view<Ts...>'.
     export template <typename ...Ts>
