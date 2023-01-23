@@ -1,30 +1,15 @@
-#include "response.hpp"
-#include "environment/realms.ixx"
-#include "response_private.hpp"
+module;
+#include "ext/macros.hpp"
 
 
-
-
-#include "fetch/_typedefs.hpp"
-#include "fetch/detail/body_internals.hpp"
-#include "fetch/detail/general_internals.hpp"
-#include "fetch/detail/response_internals.hpp"
-#include "fetch/headers.hpp"
-#include "fetch/headers_private.hpp"
-
-#include "infra/detail/code_points_internals.hpp"
-#include "infra/detail/infra_strings_internals.hpp"
-#include "url/detail/url_internals.hpp"
-
-#include <range/v3/algorithm/contains.hpp>
+module apis.fetch.response;
 
 
 fetch::response::response(
         detail::body_init_t&& body,
         detail::response_init_t&& init)
 {
-    INIT_PIMPL(response);
-    ACCESS_PIMPL(response);
+    INIT_PIMPL; ACCESS_PIMPL;
 
     d->response = std::make_unique<detail::response_t>();
     d->headers = std::make_unique<headers>(d->response->header_list, detail::header_guard_t::RESPONSE);
@@ -59,16 +44,16 @@ auto fetch::response::redirect(
             u8"Status must be a redirect status", e);
 
     auto response_object = detail::create_response_object(std::make_unique<detail::response_t>(), detail::header_guard_t::IMMUTABLE);
-    response_object->d_func()->response->status = status;
-
     auto value = infra::detail::isomorphic_encode(url::detail::url_serializer(**parsed_url));
+
+    response_object->d_func()->response->status = status;
     response_object->d_func()->response->header_list;
 }
 
 
 auto fetch::response::clone() -> std::unique_ptr<response>
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
     auto e = js::env::env::relevant(this); // TODO : env
 
@@ -84,49 +69,49 @@ auto fetch::response::clone() -> std::unique_ptr<response>
 
 auto fetch::response::get_type() const -> detail::response_type_t
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return d->response->type;
 }
 
 
 auto fetch::response::get_url() const -> ext::string
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return d->response->url ? url::detail::url_serializer(**d->response->url) : u"";
 }
 
 
 auto fetch::response::get_redirected() const -> ext::boolean
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return d->response->url_list.size() > 1;
 }
 
 
 auto fetch::response::get_status() const -> ext::number<ushort>
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return d->response->status;
 }
 
 
 auto fetch::response::get_ok() const -> ext::boolean
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return ranges::contains(detail::ok_status, d->response->status);
 }
 
 
 auto fetch::response::get_status_text() const -> ext::u8string_view
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return d->response->status_message;
 }
 
 
 auto fetch::response::get_headers() const -> headers*
 {
-    ACCESS_PIMPL(const response);
+    ACCESS_PIMPL;
     return d->headers.get();
 }
 

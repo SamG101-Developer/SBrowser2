@@ -19,5 +19,5 @@ public:
 
     // TODO : Provide default implementations?
     virtual auto mime_type() const -> ext::string = 0;
-    virtual auto body() const -> detail::body_t* = 0;
+    virtual auto body() const -> detail::body_t& = 0;
 };

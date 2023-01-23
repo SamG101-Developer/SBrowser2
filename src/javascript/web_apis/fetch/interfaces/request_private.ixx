@@ -23,5 +23,5 @@ public:
 
 public:
     auto mime_type() const -> ext::string override;
-    auto body() const -> detail::body_t* override;
+    auto body() const -> detail::body_t& override;
 };

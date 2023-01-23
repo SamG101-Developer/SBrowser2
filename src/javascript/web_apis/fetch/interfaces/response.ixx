@@ -1,17 +1,15 @@
-#pragma once
-#ifndef SBROWSER2_RESPONSE_HPP
-#define SBROWSER2_RESPONSE_HPP
+module;
+#include "ext/macros.hpp"
 
 
-#include "mixins/body.ixx"
-namespace fetch {class response;}
-namespace fetch {class response_private;}
+export module apis.fetch.response;
+import apis.dom_object;
+import apis.fetch.mixins.body;
 
-#include INCLUDE_INNER_TYPES(fetch)
-namespace fetch {class headers;}
+import apis.fetch.types;
 
 
-class fetch::response
+DEFINE_PUBLIC_CLASS(fetch, response) final
         : virtual public dom_object
         , public mixins::body
 {
@@ -36,6 +34,3 @@ private js_properties:
     DEFINE_GETTER(status_text, ext::u8string_view);
     DEFINE_GETTER(headers, headers*);
 };
-
-
-#endif //SBROWSER2_RESPONSE_HPP

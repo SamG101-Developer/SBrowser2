@@ -11,9 +11,12 @@ import apis.html.types;
 import apis.fetch.types;
 import apis.hr_time.types;
 import apis.url.types;
+
 import js.env.realms;
 import js.env.settings;
+
 import ext.core;
+import ext.js;
 
 
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
@@ -110,6 +113,11 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     template <ext::callable T, ext::callable U> auto fully_read_body(body_t& body, T&& process_body, U&& process_body_error, task_destination_t&& task_destination) -> void;
     auto handle_content_encodings(ext::string_view codings, ext::u8string_view bytes) -> ext::expected<ext::u8string>; // TODO - check types
 
+    auto is_unusable(mixins::body* body) -> ext::boolean;
+    auto consume_body(mixins::body* body, ext::string_view type) -> ext::promise<ext::u8string>; // TODO: <T>?
+    auto safely_extract_body(body_init_t&& object) -> detail::body_with_type_t;
+    auto extract(body_init_t&& object, ext::boolean keepalive = false) -> detail::body_with_type_t;
+
     // Request helpers
     auto is_subresource_request(const request_t& request) -> ext::boolean;
     auto is_non_subresource_request(const request_t& request) -> ext::boolean;
@@ -124,6 +132,8 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
 
     auto is_cors_request(request_t& request_object) -> ext::boolean;
     auto is_cors_preflight_request(request_t& request_object) -> ext::boolean;
+
+    auto create_request_object(std::unique_ptr<request_t>&& inner_request, header_guard_t header_guard) -> std::unique_ptr<request>;
 
     // Response helpers
     auto serialize_response_url_for_reporting(const response_t& response) -> ext::string;
@@ -144,6 +154,9 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     auto location_url(const response_t& response) -> ext::expected<url::detail::url_t>;
 
     auto should_response_to_request_be_blocked_due_to_nosniff(request_t& request_object, response_t& response_object) -> ext::boolean;
+
+    auto create_response_object(std::unique_ptr<response_t>&& inner_response, header_guard_t header_guard) -> std::unique_ptr<response>;
+    auto initialize_response_object(response* response_object, response_init_t&& init, body_with_type_t&& body = nullptr) -> void;
 
     // Miscellaneous helpers
     auto is_potential_destination(potential_destination_t&& destination);

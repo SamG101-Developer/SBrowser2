@@ -47,14 +47,7 @@ namespace fetch::detail
 
 
 
-    auto safely_extract_body(
-            body_init_t&& object)
-            -> detail::body_with_type_t;
 
-    auto extract(
-            body_init_t&& object,
-            ext::boolean keepalive = false)
-            -> detail::body_with_type_t;
 
     auto is_unusable(
             mixins::body* body)
@@ -66,9 +59,7 @@ namespace fetch::detail
             ext::string_view mime_type)
             -> ext::string;
 
-    auto consume_body(
-            mixins::body* body,
-            ext::string_view type)
+
             -> auto; // TODO : not sure what the type should be -> std::future<...>?
 }
 

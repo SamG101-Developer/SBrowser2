@@ -1,22 +1,34 @@
 module;
 #include "ext/macros.hpp"
+#include <swl/variant.hpp>
 
 
 module apis.fetch.request;
+import apis.fetch.types;
 
-//import apis.fetch.types;
+import apis.dom.abort_signal;
+import apis.dom.detail;
+import apis.dom.types;
+
+import apis.referrer_policy.types;
+
+import apis.url.detail;
+
+import js.env.module_type;
+import js.env.realms;
+import js.env.settings;
+import ext.core;
 
 
 fetch::request::request(detail::request_info_t&& input, detail::request_init_t&& init)
 {
     INIT_PIMPL; ACCESS_PIMPL;
-
     using enum v8_primitive_error_t;
     auto e = js::env::env::relevant(this);
 
+    auto inner_request = std::make_unique<fetch::detail::request_t>(nullptr);
     auto fallback_mode = detail::request_mode_t::_;
-    auto signal = std::make_unique<dom::abort::abort_signal>();
-    auto inner_request = std::make_unique<fetch::detail::request_t>();
+    auto signal = std::make_unique<dom::abort_signal>();
     decltype(auto) base_url = *e.cpp.settings()->api_base_url;
     decltype(auto) origin   = *e.cpp.settings()->origin;
 
@@ -32,13 +44,14 @@ fetch::request::request(detail::request_info_t&& input, detail::request_init_t&&
                 [&parsed_url] {return url::detail::url_includes_credentials(**parsed_url);},
                 u8"Invalid URL - URL must not include credentials", e);
 
+        inner_request = std::make_unique<fetch::detail::request_t>();
         inner_request->url = std::move(*parsed_url);
         fallback_mode = detail::request_mode_t::CORS;
     }
 
     else
     {
-        ASSERT(ext::holds_alternative<std::unique_ptr<request>>(input));
+        ext::assert_(ext::holds_alternative<std::unique_ptr<request>>(input));
         inner_request = std::move(ext::get<0>(input)->d_func()->request);
         signal = std::move(ext::get<0>(input)->d_func()->signal);
     }
@@ -81,10 +94,7 @@ fetch::request::request(detail::request_info_t&& input, detail::request_init_t&&
 
     if (!init.empty())
     {
-        inner_request->mode = inner_request->mode == detail::request_mode_t::NAVIGATE
-                ? detail::request_mode_t::SAME_ORIGIN
-                : inner_request->mode;
-
+        inner_request->mode = inner_request->mode == detail::request_mode_t::NAVIGATE ? detail::request_mode_t::SAME_ORIGIN : inner_request->mode;
         inner_request->reload_navigation_flag = false;
         inner_request->history_navigation_flag = false;
         inner_request->origin = u"client";
@@ -94,13 +104,27 @@ fetch::request::request(detail::request_info_t&& input, detail::request_init_t&&
         inner_request->url_list = {inner_request->url.get()};
     }
 
+    if (init.contains(u"referrer"))
+    {
+        auto referrer = init[u"referrer"].to<ext::string>();
+        if (referrer.empty())
+            referrer = detail::referrer::NO_REFERRER;
+        else
+        {
+            parsed_referrer = url::detail::url_parser(referrer, base_url);
+            // TODO
+        }
+
+        // TODO
+    }
+
     // TODO
 }
 
 
 auto fetch::request::clone() -> std::unique_ptr<request>
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     using enum v8_primitive_error_t;
     auto e = js::env::env::relevant(this);
 
@@ -117,35 +141,35 @@ auto fetch::request::clone() -> std::unique_ptr<request>
 
 auto fetch::request::get_method() const -> detail::method_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->method;
 }
 
 
 auto fetch::request::get_url() const -> ext::string
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return url::detail::url_serializer(*d->request->url);
 }
 
 
 auto fetch::request::get_headers() const -> headers*
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->headers.get();
 }
 
 
 auto fetch::request::get_destination() const -> detail::request_destination_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->destination;
 }
 
 
 auto fetch::request::get_referrer() const -> ext::string
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return_if (ext::get_and_equals(d->request->referrer, detail::referrer_t::NO_REFERRER)) u"";
     return_if (ext::get_and_equals(d->request->referrer, detail::referrer_t::CLIENT)) u"abort:client";
     return url::detail::url_serializer(*ext::unsafe_get<1>(d->request->referrer));
@@ -154,82 +178,85 @@ auto fetch::request::get_referrer() const -> ext::string
 
 auto fetch::request::get_referrer_policy() const -> referrer_policy::detail::referrer_policy_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->referrer_policy;
 }
 
 
 auto fetch::request::get_mode() const -> detail::request_mode_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->mode;
 }
 
 
 auto fetch::request::get_credentials() const -> detail::request_credentials_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->credentials_mode;
 }
 
 
 auto fetch::request::get_cache() const -> detail::request_cache_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->cache_mode;
 }
 
 
 auto fetch::request::get_redirect() const -> detail::request_redirect_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->redirect_mode;
 }
 
 
 auto fetch::request::get_integrity() const -> ext::string_view
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->integrity_metadata;
 }
 
 
 auto fetch::request::get_keepalive() const -> ext::boolean
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->keep_alive;
 }
 
 
 auto fetch::request::get_is_reload_navigation() const -> ext::boolean
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->reload_navigation_flag;
 }
 
 
 auto fetch::request::get_is_history_navigation() const -> ext::boolean
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->request->history_navigation_flag;
 }
 
 
-auto fetch::request::get_signal() const -> dom::abort::abort_signal*
+auto fetch::request::get_signal() const -> dom::abort_signal*
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return d->signal.get();
 }
 
 
 auto fetch::request::get_duplex() const -> detail::request_duplex_t
 {
-    ACCESS_PIMPL(const request);
+    ACCESS_PIMPL;
     return detail::request_duplex_t::HALF;
 }
 
 
-auto fetch::request::_to_v8(js::env::module_t E, v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
+auto fetch::request::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()
