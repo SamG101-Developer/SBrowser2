@@ -11,7 +11,7 @@ import apis.streams.types;
 
 DEFINE_PRIVATE_CLASS(streams, readable_stream)
         : virtual dom_object_private
-        , public ext::async_vector_like<ext::any>
+        , public ext::async_vector_like_private<ext::any>
 {
 public:
     MAKE_QIMPL(readable_stream);

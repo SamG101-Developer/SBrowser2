@@ -21,12 +21,13 @@ streams::readable_stream::readable_stream(
         detail::underlying_source_t&& underlying_source,
         detail::queueing_strategy_t&& strategy)
 {
+    auto e = js::env::env::relevant(this);
     using enum v8_primitive_error_t;
 
     detail::initialize_readable_stream(this);
     if (underlying_source[u"type"].to<detail::readable_stream_type_t>() == detail::readable_stream_type_t::BYTES)
     {
-        dom::detail::throw_v8_exception<V8_RANGE_ERROR>([&strategy] {return strategy.contains(u"size");}, u8"Cannot have 'type' and 'size' set");
+        dom::detail::throw_v8_exception<V8_RANGE_ERROR>([&strategy] {return strategy.contains(u"size");}, u8"Cannot have 'type' and 'size' set", e);
         auto high_water_mark = detail::extract_high_water_mark(strategy, 0);
         detail::setup_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark);
     }
@@ -38,6 +39,30 @@ streams::readable_stream::readable_stream(
         auto high_water_mark = detail::extract_high_water_mark(strategy, 1);
         detail::setup_readable_stream_default_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark, std::move(size_algorithm));
     }
+}
+
+
+streams::readable_stream::readable_stream(const readable_stream& other) // TODO
+{
+    auto e = js::env::env::relevant(this);
+    using dom::detail::dom_exception_error_t;
+
+    dom::detail::throw_v8_exception<DATA_CLONE_ERR>([&other] {return detail::is_readable_stream_locked(other);}, u8"Cannot transfer locked stream", e);
+
+    auto port1 = std::make_unique<html::message_port>();
+    auto port2 = std::make_unique<html::message_port>();
+    html::detail::entangle_ports(*port1, *port2);
+
+    auto writable = std::make_unique<writable_stream>();
+    detail::setup_cross_realm_transform_writable(writable.get(), *port1);
+
+    auto promise = detail::readable_stream_pipe_to(other, writable.get(), false, false, false);
+    // TODO : promise.[[PromiseIsHandled]] = true
+
+    auto c = js::env::env::current();
+    d->port = html::detail::structured_serialize_with_transfer(*port2, {port2.get()});
+    auto deserialized_record = html::detail::structed_deserialize_with_transform(d->port, c.js.realm());
+    detail::setup_cross_realm_tranform_readable(&other, deserialized_record.d_func()->deserialized);
 }
 
 

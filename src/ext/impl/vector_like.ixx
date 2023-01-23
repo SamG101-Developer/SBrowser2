@@ -24,7 +24,8 @@ export namespace ext
 
 
 export template <typename T>
-class ext::vector_like_private : virtual dom_object_private
+class ext::vector_like_private
+        : virtual dom_object_private
 {
 public:
     MAKE_QIMPL_T(vector_like, T);
@@ -32,7 +33,8 @@ public:
 
 
 export template <typename T>
-class ext::vector_like_linked_private : vector_like_private<T>
+class ext::vector_like_linked_private
+        : vector_like_private<T>
 {
 public:
     MAKE_QIMPL_T(vector_like_linked, T);
@@ -43,12 +45,12 @@ public:
 
 
 export template <typename T>
-class async_vector_like_private
-        : public vector_like_private
+class ext::async_vector_like_private
+        : public vector_like_private<T>
         , public async_like_private
 {
 public:
-    MAKE_QIMPL_T(vasync_vector_like, T);
+    MAKE_QIMPL_T(async_vector_like, T);
 };
 
 
@@ -122,6 +124,8 @@ private js_properties:
 
 export template <typename T>
 class ext::async_vector_like
+        : public vector_like<T>
+        , public async_like
 {
 public:
     MAKE_PIMPL_T(async_vector_like, T);

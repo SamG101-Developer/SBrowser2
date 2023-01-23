@@ -7,10 +7,10 @@ import ext.core;
 import ext.js;
 
 
-namespace ext
+export namespace ext
 {
-    export class async_like;
-    export class async_like_private;
+    class async_like;
+    class async_like_private;
 }
 
 

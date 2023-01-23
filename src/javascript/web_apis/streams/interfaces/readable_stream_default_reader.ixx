@@ -14,9 +14,6 @@ DEFINE_PUBLIC_CLASS(streams, readable_stream_default_reader) final
         : public dom_object
         , public mixins::readable_stream_generic_reader
 {
-public typedefs:
-    using readable_stream_read_result_t = ext::map<ext::string, ext::any>;
-
 public constructors:
     readable_stream_default_reader();
     readable_stream_default_reader(readable_stream* stream);
