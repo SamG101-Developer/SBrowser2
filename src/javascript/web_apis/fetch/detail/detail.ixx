@@ -19,6 +19,9 @@ import ext.core;
 import ext.js;
 
 
+// TODO : WindowOrWorkerGlobalScope::fetch(...)
+
+
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
 {
     // Fetch controller helpers
@@ -197,4 +200,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     auto cache_entry_match(const cache_entry_t&, const request_t&) -> ext::boolean;
     auto method_cache_entry_match(method_t, const request_t&) -> ext::boolean;
     auto header_name_cache_entry_match(ext::view_of_t<header_name_t>, const request_t&) -> ext::boolean;
+
+    // Data helpers
+    auto data_url_processor(const url::detail::url_t& url) -> std::unique_ptr<data_url_struct>;
 }

@@ -110,6 +110,9 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
 
     using response_init_t = ext::map<ext::string, ext::any>;
     using potential_destination_t = ext::variant<ext::string, request_destination_t>;
+
+    // Data related
+    struct data_url_struct;
 }
 
 
@@ -143,6 +146,14 @@ struct fetch::detail::fetch_controller_t
     ext::function<auto(v8::Local<v8::Object>) -> void> report_timing_steps;
     ext::function<auto() -> void> next_manual_redirect_steps;
     ext::map<ext::string, ext::any> serialized_abort_reason;
+};
+
+
+struct fetch::detail::fetch_record_t
+{
+    // TODO : ownership of these 2 pointers?
+    std::observer_ptr<request_t> request;
+    std::observer_ptr<fetch_controller_t> controller;
 };
 
 
@@ -285,6 +296,16 @@ struct fetch::detail::fetch_group_t
 };
 
 
+struct fetch::detail::connection_t
+{
+    network_partition_key_t key;
+    ext::string origin;
+    ext::boolean credentials;
+
+    std::unique_ptr<connection_timing_info_t> timing_info;
+};
+
+
 struct fetch::detail::connection_timing_info_t
 {
     hr_time::dom_high_res_time_stamp domain_lookup_start_time = 0;
@@ -305,4 +326,11 @@ struct fetch::detail::cache_entry_t
     ext::boolean credentials;
     ext::string method;
     header_name_t header_name;
+};
+
+
+struct fetch::detail::data_url_struct
+{
+    mimesniff::detail::mime_type mime_type;
+    ext::byte_string body;
 };

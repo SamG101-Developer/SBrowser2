@@ -1,8 +1,15 @@
 module;
 #include "ext/macros.hpp"
+#include <swl/variant.hpp>
 
 
 module apis.fetch.response;
+import apis.fetch.detail;
+import apis.fetch.types;
+
+import apis.infra.detail;
+
+import ext.core;
 
 
 fetch::response::response(
