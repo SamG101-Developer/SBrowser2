@@ -1,21 +1,17 @@
-#pragma once
-#ifndef SBROWSER2_REQUEST_HPP
-#define SBROWSER2_REQUEST_HPP
+module;
+#include "ext/macros.hpp"
 
 
-#include "mixins/body.ixx"
-namespace fetch {class request;}
-namespace fetch {class request_private;}
+export module apis.fetch.request;
+import apis.dom_object;
+import apis.fetch.mixins.body;
+
+import apis.fetch.types;
+import apis.dom.types;
+import apis.referrer_policy.types;
 
 
-
-#include INCLUDE_INNER_TYPES(fetch)
-#include INCLUDE_INNER_TYPES(referrer_policy)
-namespace dom::abort {class abort_signal;}
-namespace fetch {class headers;}
-
-
-class fetch::request
+DEFINE_PUBLIC_CLASS(fetch, request) final
         : virtual public dom_object
         , public mixins::body
 {
@@ -43,9 +39,6 @@ private js_properties:
     DEFINE_GETTER(keepalive, ext::boolean);
     DEFINE_GETTER(is_reload_navigation, ext::boolean);
     DEFINE_GETTER(is_history_navigation, ext::boolean);
-    DEFINE_GETTER(signal, dom::abort::abort_signal*);
+    DEFINE_GETTER(signal, dom::abort_signal*);
     DEFINE_GETTER(duplex, detail::request_duplex_t);
 };
-
-
-#endif //SBROWSER2_REQUEST_HPP

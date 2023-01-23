@@ -42,7 +42,7 @@
 #define MAKE_V8_AVAILABLE(A)                                      \
     using enum js::env::module_t;                                 \
     inline static js::env::module_t _allowed_v8_environments = A; \
-    static auto _to_v8(js::env::module_t E, v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<this_t>>;
+    static auto _to_v8(js::env::module_t E, v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<this_t>>
 
 
 #endif //SBROWSER2_SRC_JAVASCRIPT_MACROS_EXPOSE_HPP

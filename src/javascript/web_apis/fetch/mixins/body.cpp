@@ -1,25 +1,32 @@
-#include "body.ixx"
-#include "body_private.ixx"
-
-#include "fetch/detail/body_internals.hpp"
-#include "streams/detail/readable_abstract_operations_internals.hpp"
+module;
+#include "ext/macros.hpp"
 
 
-auto fetch::mixins::body::get_body() const -> streams::readable::readable_stream*
+module apis.fetch.mixins.body;
+
+import js.env.module_type;
+import js.env.realms;
+import ext.core;
+
+
+auto fetch::mixins::body::get_body() const -> streams::readable_stream*
 {
-    ACCESS_PIMPL(const body);
+    ACCESS_PIMPL;
     return d->body() ? d->body()->stream.get() : nullptr;
 }
 
 
 auto fetch::mixins::body::get_body_used() const -> ext::boolean
 {
-    ACCESS_PIMPL(const body);
+    ACCESS_PIMPL;
     return d->body() && streams::detail::is_disturbed(d->body()->stream.get());
 }
 
 
-auto fetch::mixins::body::_to_v8(js::env::module_t E, v8::Isolate* isolate) -> ext::tuple<bool, v8pp::class_<self_t>>
+auto fetch::mixins::body::_to_v8(
+        js::env::module_t E,
+        v8::Isolate* isolate)
+        -> ext::tuple<bool, v8pp::class_<this_t>>
 {
     V8_INTEROP_CREATE_JS_OBJECT
         .inherit<dom_object>()

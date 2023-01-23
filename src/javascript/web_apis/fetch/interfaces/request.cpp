@@ -1,33 +1,15 @@
-#include "request.hpp"
-#include "mixins/body.ixx"
-#include "request_private.ixx"
+module;
+#include "ext/macros.hpp"
 
 
+module apis.fetch.request;
 
-
-
-
-
-
-
-
-#include "html/detail/origin_internals.hpp"
-
-#include "fetch/_typedefs.hpp"
-#include "fetch/headers.hpp"
-#include "fetch/headers_private.hpp"
-#include "fetch/detail/body_internals.hpp"
-#include "fetch/detail/header_internals.hpp"
-#include "fetch/detail/request_internals.hpp"
-
-#include "referrer_policy/_typedefs.hpp"
-#include "url/detail/url_internals.hpp"
+//import apis.fetch.types;
 
 
 fetch::request::request(detail::request_info_t&& input, detail::request_init_t&& init)
 {
-    INIT_PIMPL(request);
-    ACCESS_PIMPL(request);
+    INIT_PIMPL; ACCESS_PIMPL;
 
     using enum v8_primitive_error_t;
     auto e = js::env::env::relevant(this);

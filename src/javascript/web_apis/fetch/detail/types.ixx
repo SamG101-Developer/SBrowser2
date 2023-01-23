@@ -10,6 +10,7 @@ import apis.file_api.types;
 import apis.html.types;
 import apis.hr_time.types;
 //import apis.streams.types;
+import apis.referrer_policy.types;
 import apis.url.types;
 import apis.xhr.types;
 import ext.core;
@@ -171,7 +172,7 @@ struct fetch::detail::response_body_info_t
 
 struct fetch::detail::body_t
 {
-    body_t(ext::u8sting&& byte_sequence);
+    body_t(ext::u8string&& byte_sequence);
 
     std::unique_ptr<streams::readable_stream> stream;
     ext::variant<ext::u8string, std::unique_ptr<file_api::blob*>, std::unique_ptr<xhr::form_data>> source;
