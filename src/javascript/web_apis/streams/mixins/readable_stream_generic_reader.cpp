@@ -1,14 +1,15 @@
-#include "readable_stream_generic_reader.hpp"
-#include "readable_stream_generic_reader_private.hpp"
+module;
+#include "ext/macros.hpp"
 
 
+module apis.streams.mixins.readable_stream_generic_reader;
+import apis.dom.dom_exception;
+
+import ext.core;
+import ext.js;
 
 
-#include "streams/readable/readable_stream.hpp"
-#include "streams/detail/readable_abstract_operations_internals.hpp"
-
-
-auto streams::mixins::readable_stream_generic_reader::cancel(ext::any reason) -> ext::promise<void>
+auto streams::mixins::readable_stream_generic_reader::cancel(ext::any&& reason) -> ext::promise<void>
 {
     ACCESS_PIMPL(readable_stream_generic_reader);
     using enum v8_primitive_error_t;
@@ -17,12 +18,12 @@ auto streams::mixins::readable_stream_generic_reader::cancel(ext::any reason) ->
             [d] {return !d->stream;},
             u8"Can not cancel a reader whose owner (ReadableStream) is null");
 
-    return detail::readable_stream_reader_generic_cancel(dom_cross_cast<readable::readable_stream*>(this), reason);
+    return detail::readable_stream_reader_generic_cancel(dom_cast<readable_stream*>(this), reason);
 }
 
 
-auto streams::mixins::readable_stream_generic_reader::get_closed() const -> const ext::promise<void>&
+auto streams::mixins::readable_stream_generic_reader::get_closed() const -> ext::promise<void>
 {
-    ACCESS_PIMPL(const readable_stream_generic_reader);
+    ACCESS_PIMPL;
     return d->closed_promise;
 }

@@ -192,4 +192,54 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
     auto transfer_array_buffer(v8::Local<v8::ArrayBuffer> O) -> v8::Local<v8::ArrayBuffer>;
     auto clone_as_uint8array(v8::Local<v8::Object> O)-> v8::Local<v8::Uint8Array>;
     auto structured_clone(v8::Local<v8::Object> V) -> v8::Local<v8::String>;
+
+    // [9.1.1] Creation and manipulation
+    auto setup_newly_created_readable_stream(readable_stream* stream, pull_algorithm_t&& pull_algorithm, cancel_algorithm_t&& cancel_algorithm, high_water_mark_t high_water_mark = 1, size_algorithm_t size_algorithm = size_algorithm_t{}) -> void;
+    auto setup_with_byte_reading_support(readable_stream* stream, pull_algorithm_t&& pull_algorithm, cancel_algorithm_t&& cancel_algorithm, high_water_mark_t high_water_mark = 0) -> void;
+    auto readable_stream_desired_size_to_fill_up_to_high_water_mark(readable_stream* stream) -> ext::number<int>;
+    auto close_readable_stream(readable_stream* stream) -> void;
+    auto error_readable_stream(readable_stream* stream) -> void;
+    auto enqueue_chunk_into_readable_stream(readable_stream* stream) -> void;
+    auto current_byob_request_view_for_readable_stream(readable_stream* stream) -> readable_stream_byob_request;
+
+    // [9.1.2] Reading
+    auto get_reader(readable_stream* stream) -> std::unique_ptr<readable_stream_default_reader>;
+    auto read_chunk(readable_stream_default_reader* reader, read_request_t& read_request) -> void;
+    auto read_all_bytes(readable_stream_default_reader* reader) -> ext::promise<ext::u8string>;
+    auto read_loop(readable_stream_default_reader* reader, ext::u8string&& bytes, ext::promise<ext::u8string> promise) -> void;
+    auto release(readable_stream_default_reader* reader) -> ext::promise<void>;
+    auto cancel(readable_stream_default_reader* reader, ext::any&& reason) -> ext::promise<void>;
+    auto cancel(readable_stream* stream, ext::any&& reason) -> void
+    auto tee(readable_stream_default_reader* reader) -> ext::vector<std::unique_ptr<readable_stream>>;
+    
+    // [9.1.3] Introspection
+    auto is_readable(readable_stream* stream) -> ext::boolean;
+    auto is_closed(readable_stream* stream) -> ext::boolean;
+    auto is_errored(readable_stream* stream) -> ext::boolean;
+    auto is_locked(readable_stream* stream) -> ext::boolean;
+    auto is_disturbed(readable_stream* stream) -> ext::boolean;
+
+    // [9.2.1] Creation and manipulation
+    auto setup_newly_created_writable_stream(underlying_sink_write_callback_t&& write_algorithm, underlying_sink_close_callback_t&& close_algorithm, underlying_sink_abort_callback_t&& abort_algorithm, high_water_mark_t high_water_mark = 1, size_algorithm_t = size_algorithm_t{}) -> std::unique_ptr<writable_stream>;
+    auto error_writable_stream(writable_stream* stream, ext::any error) -> void;
+    auto signal_of_writable_stream(writable_stream* stream) -> dom::abort_signal*;
+
+    // [9.2.2] Writing
+    auto get_writer(writable_stream* stream) -> std::unique_ptr<writable_stream_default_writer>;
+    auto write_chunk(writable_stream_default_writer* writer, ext::any&& chunk) -> ext::promise<void>;
+    auto release(writable_stream_default_writer* writer) -> void;
+    auto close(writable_stream* stream) -> ext::promise<void>;
+    auto abort(writable_stream* stream) -> ext::promise<void>;
+
+    // [9.3.1] Creation and manipulation
+    auto setup_newly_created_transform_stream(transform_stream* stream, transform_callback_t&& transform_algorithm, transform_flush_callback_t&& transform_flush_callback) -> void;
+    auto create_identity_transform_stream() -> std::unique_ptr<transform_stream>;
+    auto enqueue_into_transform_stream(transform_stream* stream, chunk_t chunk) -> void;
+    auto terminate_transform_stream(transform_stream* stream) -> void;
+    auto error_transform_stream(transform_stream* stream) -> void;
+
+    // [9.5]
+    auto readable_stream_piped_to_writable_stream(readable_stream* readable, writable_stream* writable, ext::boolean prevent_close = false, ext::boolean prevent_abort = false, ext::boolean prevent_cancel = false, dom::abort_signal* signal = nullptr) -> ext::promise<void>;
+    auto readable_stream_piped_through_writable_stream(readable_stream* readable, writable_stream* writable, ext::boolean prevent_close = false, ext::boolean prevent_abort = false, ext::boolean prevent_cancel = false, dom::abort_signal* signal = nullptr) -> ext::promise<void>;
+    auto create_proxy_readable_stream() -> std::unique_ptr<readable_stream>;
 }
