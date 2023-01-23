@@ -8,10 +8,11 @@ module;
 module apis.resource_timing.performance_resource_timing;
 import apis.resource_timing.types;
 
-import apis.fetch.types;
-
 import apis.hr_time.detail;
 import apis.hr_time.types;
+
+import apis.fetch.types;
+import apis.server_timing.detail;
 
 import ext.core;
 import ext.js;
