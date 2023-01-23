@@ -1,2 +1,1 @@
-#include "text_decoder_stream.hpp"
-#include "text_decoder_stream_private.hpp"
+module apis.encoding.text_decoder_stream;
