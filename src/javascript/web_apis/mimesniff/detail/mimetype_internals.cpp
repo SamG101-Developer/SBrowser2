@@ -11,12 +11,7 @@
 #include <range/v3/range/operations.hpp>
 
 
-auto mimesniff::detail::essence(
-        const detail::mime_type_t& mime_type)
-        -> ext::string
-{
-    return mime_type.type + char(0x002f) + mime_type.sub_type;
-}
+
 
 
 auto mimesniff::detail::parse_mime_type(
