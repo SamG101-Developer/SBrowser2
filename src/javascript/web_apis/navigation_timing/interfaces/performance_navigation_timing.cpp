@@ -6,6 +6,7 @@ module apis.navigation_timing.performance_navigation_timing;
 
 import apis.hr_time.types;
 import apis.html.types;
+import ext.core;
 
 
 auto navigation_timing::performance_navigation_timing::get_unload_event_start() const -> hr_time::dom_high_res_time_stamp

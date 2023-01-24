@@ -7,5 +7,5 @@ export module ext.js:date;
 
 
 _EXT_BEGIN
-    using asap::datetime;
+    export using date = asap::datetime;
 _EXT_END

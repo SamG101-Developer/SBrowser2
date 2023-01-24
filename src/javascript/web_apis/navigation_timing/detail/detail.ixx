@@ -1,25 +1,18 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_DETAIL_TIMING_INTERNALS_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_DETAIL_TIMING_INTERNALS_HPP
+module;
+#include "ext/macros.hpp"
 
 
-#include "ext/optional.ixx"
-#include INCLUDE_INNER_TYPES(fetch)
-#include INCLUDE_INNER_TYPES(resource_timing)
-#include INCLUDE_INNER_TYPES(service_workers)
-namespace dom::nodes {class document;}
+export module apis.navigation_timing.detail;
+import apis.dom.types;
+import apis.fetch.types;
+import apis.resource_timing.types;
+import apis.service_workers.types;
 
-namespace navigation_timing::detail
+
+DEFINE_FWD_DECL_NAMESPACE_DETAIL(navigation_timing)
 {
     auto create_navigation_timing_entry(
-            dom::nodes::document* document,
-            fetch::detail::fetch_timing_info_t&& fetch_timing,
-            ext::number<ushort> redirect_count,
+            dom::document* document, fetch::detail::fetch_timing_info_t&& fetch_timing, ext::number<ushort> redirect_count,
             ext::optional<service_workers::detail::service_worker_timing_info_t> service_worker_timing,
-            resource_timing::detail::cache_mode_t cache_mode,
-            fetch::detail::response_body_info_t&& body_info)
-            -> void;
+            resource_timing::detail::cache_mode_t cache_mode, fetch::detail::response_body_info_t&& body_info) -> void;
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_NAVIGATION_TIMING_DETAIL_TIMING_INTERNALS_HPP
