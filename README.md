@@ -9,3 +9,4 @@ offering better performance. A list of these can be identified in the CMakeLists
 
 The SBrowser engine aims to be very memory-efficient, whilst still offering ultra-high speeds for webpage access and
 rendering.
+
