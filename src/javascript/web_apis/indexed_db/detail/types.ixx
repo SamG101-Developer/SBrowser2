@@ -4,6 +4,7 @@ module;
 
 
 export module apis.indexed_db.types;
+import apis.dom.types;
 import ext.core;
 import ext.js;
 
