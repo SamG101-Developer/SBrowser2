@@ -3,6 +3,9 @@ module;
 
 
 export module apis.streams.mixins.readable_stream_generic_reader:p;
+import apis.dom_object;
+
+import apis.streams.types;
 
 
 DEFINE_PRIVATE_CLASS(streams::mixins, readable_stream_generic_reader)
@@ -13,5 +16,5 @@ public:
 
 public:
     ext::promise<void> closed_promise;
-    std::observer_ptr<readable_stream> stream;
+    std::observer_ptr<readable_stream> stream; // TODO : unique_ptr<>?
 };

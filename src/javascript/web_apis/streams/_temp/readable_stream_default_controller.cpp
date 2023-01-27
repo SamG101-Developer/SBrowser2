@@ -1,13 +1,12 @@
-#include "readable_stream_default_controller.hpp"
-#include "readable_stream_default_controller_private.hpp"
+module;
+#include "ext/macros.hpp"
 
 
+module apis.streams.readable_stream_default_controller;
+import apis.streams.types;
 
 
-#include "streams/detail/readable_abstract_operations_internals.hpp"
-
-
-auto streams::readable::readable_stream_default_controller::close() -> void
+auto streams::readable_stream_default_controller::close() -> void
 {
     ACCESS_PIMPL(readable_stream_default_controller);
     using enum v8_primitive_error_t;
@@ -20,7 +19,7 @@ auto streams::readable::readable_stream_default_controller::close() -> void
 }
 
 
-auto streams::readable::readable_stream_default_controller::enqueue(ext::any chunk) -> void
+auto streams::readable_stream_default_controller::enqueue(detail::chunk_t chunk) -> void
 {
     ACCESS_PIMPL(readable_stream_default_controller);
     using enum v8_primitive_error_t;
@@ -33,13 +32,13 @@ auto streams::readable::readable_stream_default_controller::enqueue(ext::any chu
 }
 
 
-auto streams::readable::readable_stream_default_controller::error(ext::any error) -> void
+auto streams::readable_stream_default_controller::error(ext::any error) -> void
 {
     detail::readable_stream_default_controller_error(this, std::move(error));
 }
 
 
-auto streams::readable::readable_stream_default_controller::get_desired_size() const -> ext::number<double>
+auto streams::readable_stream_default_controller::get_desired_size() const -> ext::number<double>
 {
     return detail::readable_stream_default_controller_get_desired_size(this);
 }

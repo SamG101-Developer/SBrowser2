@@ -1,6 +1,7 @@
 module;
 #include "ext/macros.hpp"
 #include <function2/function2.hpp>
+#include <tl/optional.hpp>
 
 
 export module apis.streams.types;
@@ -77,3 +78,11 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
     using queueing_strategy_size_t = ext::function<ext::number<double>(chunk_t chunk)>;
     using high_water_mark_t = ext::number<double>;
 }
+
+
+struct streams::detail::read_request_t
+{
+    ext::function<auto(chunk_t chunk) -> void> chunk_steps;
+    ext::function<auto(ext::optional<chunk_t>&& chunk) -> void> close_steps;
+    ext::function<auto(v8::Local<v8::Object> js_value) -> void> error_steps;
+};

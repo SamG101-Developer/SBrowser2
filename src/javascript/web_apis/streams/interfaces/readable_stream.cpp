@@ -24,7 +24,12 @@ streams::readable_stream::readable_stream(
     auto e = js::env::env::relevant(this);
     using enum v8_primitive_error_t;
 
+    // Initializ the stream by calling the detail function which performs the initialization steps
     detail::initialize_readable_stream(this);
+
+    // If the underlying source is a byte source, then throw as exception if "size" exists in the options (because
+    // byte-size is automatically deduced. Calculate the high water mark from the detail function, and call another
+    // detail function, which sets up this ReadableStream (already initialized).
     if (underlying_source[u"type"].to<detail::readable_stream_type_t>() == detail::readable_stream_type_t::BYTES)
     {
         dom::detail::throw_v8_exception<V8_RANGE_ERROR>([&strategy] {return strategy.contains(u"size");}, u8"Cannot have 'type' and 'size' set", e);
@@ -32,6 +37,9 @@ streams::readable_stream::readable_stream(
         detail::setup_readable_byte_stream_controller_from_underlying_source(this, std::move(underlying_source), high_water_mark);
     }
 
+    // If the underlying source is not a byte source, then assert "type" is not an option. Calculate the
+    // 'high_water_mark' and create the 'size_algorithm' using the respective detail functions, and call another
+    // detail function, which sets up this ReadableStream (already initialized), utilizing the 'size_algorithm'.
     else
     {
         ext::assert_(!underlying_source.contains(u"type"));
