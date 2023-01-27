@@ -165,7 +165,7 @@ struct indexed_db::detail::request_t // TODO : Request.[[GetTheParent]]() {retur
 
     source_t* source;
     ext::any result;
-    dom::dom_exception error;
+    std::unique_ptr<dom::dom_exception> error;
 
     std::observer_ptr<transaction_t> transaction;
 };

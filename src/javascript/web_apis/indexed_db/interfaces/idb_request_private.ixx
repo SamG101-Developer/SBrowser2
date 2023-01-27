@@ -15,5 +15,5 @@ public:
     MAKE_QIMPL(idb_request);
 
 public:
-    std::unique_ptr<request_t> request;
+    std::unique_ptr<detail::request_t> request;
 };
