@@ -8,7 +8,7 @@ import apis.dom_object;
 import apis.streams.types;
 
 
-DEFINE_PUBLIC_CLASS(streams, readable_stream_generic_controller)
+DEFINE_PUBLIC_CLASS(streams::mixins, readable_stream_generic_controller)
         : public dom_object
 {
 public constructors:

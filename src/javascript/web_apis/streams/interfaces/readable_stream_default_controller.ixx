@@ -4,6 +4,7 @@ module;
 
 export module apis.streams.readable_stream_default_controller;
 import apis.streams.mixins.readable_stream_generic_controller;
+import apis.streams.types;
 
 
 DEFINE_PUBLIC_CLASS(streams, readable_stream_default_controller) final

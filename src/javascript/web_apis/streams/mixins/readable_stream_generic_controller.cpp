@@ -1,1 +1,1 @@
-module apis.streams.readable_stream_generic_controller;
+module apis.streams.mixins.readable_stream_generic_controller;

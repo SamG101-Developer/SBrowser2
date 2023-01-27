@@ -3,13 +3,13 @@ module;
 #include <function2/function2.hpp>
 
 
-export module apis.streams.readable_stream_generic_controller:p;
+export module apis.streams.mixins.readable_stream_generic_controller:p;
 import apis.dom_object;
 
 import apis.streams.types;
 
 
-DEFINE_PRIVATE_CLASS(streams, readable_stream_generic_controller)
+DEFINE_PRIVATE_CLASS(streams::mixins, readable_stream_generic_controller)
         : virtual dom_object_private
 {
 public:
@@ -30,5 +30,5 @@ public:
 public:
     virtual auto pull_steps(const detail::read_request_t& request) -> void = 0;
     virtual auto release_steps() -> void = 0;
-    virtual auto cancel_steps(ext::any&& reason) -> void = 0;
+    virtual auto cancel_steps(ext::any&& reason) -> ext::promise<void>> = 0;
 };
