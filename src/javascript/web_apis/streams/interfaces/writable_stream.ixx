@@ -21,7 +21,7 @@ public constructors:
 public js_methods:
     auto abort(ext::any&& reason) -> ext::promise<void>;
     auto close() -> ext::promise<void>;
-    auto get_writer() -> writable_stream_default_writer*;
+    auto get_writer() -> std::unique_ptr<writable_stream_default_writer>;
 
 public js_properties:
     DEFINE_GETTER(locked, ext::boolean);

@@ -104,7 +104,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
 
     // [5.5.2] Interfacing with controllers
     auto writable_stream_add_wite_request(writable_stream* stream) -> ext::promise<void>;
-    auto writable_stream_close_queue_or_in_flight(writable_stream* stream) -> ext::boolean;
+    auto writable_stream_close_queued_or_in_flight(writable_stream* stream) -> ext::boolean;
     auto writable_stream_deal_with_rejection(writable_stream* stream, ext::any&& error) -> void;
     auto writable_stream_finish_erroring(writable_stream* stream) -> void;
     auto writable_stream_finish_in_flight_close(writable_stream* stream) -> void;
@@ -185,7 +185,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
 
     // [8.3.0] Miscellaneous
     auto can_transfer_array_buffer(v8::Local<v8::ArrayBuffer> O)-> ext::boolean;
-    auto is_non_negative_number(V8::Local<v8::Value> V) -> ext::boolean;
+    auto is_non_negative_number(v8::Local<v8::Value> V) -> ext::boolean;
     auto transfer_array_buffer(v8::Local<v8::ArrayBuffer> O) -> v8::Local<v8::ArrayBuffer>;
     auto clone_as_uint8array(v8::Local<v8::Object> O)-> v8::Local<v8::Uint8Array>;
     auto structured_clone(v8::Local<v8::Object> V) -> v8::Local<v8::String>;
@@ -206,7 +206,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
     auto read_loop(readable_stream_default_reader* reader, ext::u8string&& bytes, ext::promise<ext::u8string> promise) -> void;
     auto release(readable_stream_default_reader* reader) -> ext::promise<void>;
     auto cancel(readable_stream_default_reader* reader, ext::any&& reason) -> ext::promise<void>;
-    auto cancel(readable_stream* stream, ext::any&& reason) -> void
+    auto cancel(readable_stream* stream, ext::any&& reason) -> void;
     auto tee(readable_stream_default_reader* reader) -> ext::vector<std::unique_ptr<readable_stream>>;
     
     // [9.1.3] Introspection
