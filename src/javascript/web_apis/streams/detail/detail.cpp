@@ -2,6 +2,8 @@ module;
 #include "ext/macros.hpp"
 #include "ext/macros/custom_operator.hpp"
 
+#include <range/v3/views/for_each.hpp>
+
 
 module apis.streams.detail;
 import apis.streams.readable_stream;
@@ -98,7 +100,7 @@ auto streams::detail::readable_stream_pipe_to(
     ext::assert_(source && destination);
     ext::assert_(is_readable_stream_locked(source));
     ext::assert_(is_writable_stream_locked(destination));
-    auto e = js::env::env::current();
+    auto e = js::env::env::relevant(source); // tODO
 
     auto reader = dom_cast<readable_byte_stream_controller*>(source->d_func()->controller.get())
             ? acquire_readable_stream_byob_reader(source)
@@ -165,9 +167,9 @@ auto streams::detail::readable_stream_default_tee(
     auto canceled2 = false;
     auto reason1 = ext::any{};
     auto reason2 = ext::any{};
-    auto branch1 = ext::nullptr_cast<readable_stream>();
-    auto branch2 = ext::nullptr_cast<readable_stream>();
-    auto cancel_promise = web_idl::create_promise<void>(e);
+    auto branch1 = ext::nullptr_cast<readable_stream*>();
+    auto branch2 = ext::nullptr_cast<readable_stream*>();
+    auto cancel_promise = web_idl::detail::create_promise<void>(e);
 
     // Create the pull algorithm which will be used to create the final list of ReadableStream objects
     auto pull_algorithm = [&]
@@ -175,7 +177,7 @@ auto streams::detail::readable_stream_default_tee(
         // If currently reading, then by default read again. This is used for when the algorithm is called recursively
         // -- reading is set to true by default, so if it's set to false, and the function is called again, we know that
         // it is the final reading pass so set don't change 'read_again'.
-        if (reading);
+        if (reading)
         {
             read_again = true;
             return web_idl::detail::create_resolved_promise<void>(e.js.realm());
@@ -221,7 +223,7 @@ auto streams::detail::readable_stream_default_tee(
             if (!canceled1) readable_stream_default_controller_enqueue(branch1->d_func()->controller.get(), std::move(chunk1));
             if (!canceled2) readable_stream_default_controller_enqueue(branch2->d_func()->controller.get(), std::move(chunk2));
             if (read_again) pull_algorithm();
-        })};
+        });};
 
         // Define the 'clone_steps' for the read request that will be constructed.
         auto clone_steps = [&]
@@ -247,7 +249,7 @@ auto streams::detail::readable_stream_default_tee(
 
         // Call the default reader's read method with the read request and return a newly created promise that is
         // resolved (with undefined because its an ext::promise<void>).
-        readable_stread_default_reader_read(reader, std::move(read_request));
+        readable_stream_default_reader_read(reader, std::move(read_request));
         return web_idl::create_resolved_promise<void>(e.js.realm());
     };
 
@@ -315,4 +317,121 @@ auto streams::detail::readable_stream_default_tee(
 
     // Return the 2 branches in a list.
     return {std::move(branch1, branch2)};
+}
+
+
+auto streams::detail::readable_stream_add_read_request(
+        readable_stream* stream,
+        std::unique_ptr<read_request_t>&& read_request)
+        -> void
+{
+    ext::assert_(stream->d_func()->state == readable_stream_state_t::READABLE);
+    stream->d_func()->reader->d_func()->read_requests.emplace_back(std::move(read_request));
+}
+
+
+auto streams::detail::readable_stream_cancel(
+        readable_stream* stream,
+        ext::any&& reason)
+        -> ext::promise<void>
+{
+    auto e = js::env::env::relevant(stream);
+
+    stream->d_func()->disturbed = true;
+    return_if (stream->d_func()->state == readable_stream_state_t::closed, web_idl::create_resolved_promise<void>(e.js.realm()));
+    return_if (stream->d_func()->state == readable_stream_state_t::errored, web_idl::create_rejected_promise<void>(e.js.realm(), stream->d_func()->stored_error));
+
+    detail::readable_stream_close(stream);
+    decltype(auto) reader = stream->d_func()->reader.get();
+
+    if (reader && dom_cast<readable_stream_byob_reader*>(reader))
+    {
+        auto read_requests = std::move(reader->d_func()->read_requests);
+        reader->d_func()->read_requests = {};
+        read | ranges::views::for_each(&read_request_t::close_steps);
+    }
+
+    auto source_cancel_promise = stream->d_func()->controller->d_func()->cancel_steps(std::move(reason));
+    return web_idl::detail::react(source_cancel_promise, e.js.realm(), []{});
+}
+
+
+auto streams::detail::readable_stream_close(
+        readable_stream* stream)
+        -> void
+{
+    ext::assert_(stream->d_func()->state == readable_stream_state_t::READABLE);
+    stream->d_func()->state = readable_stream_state_t::CLOSED;
+    decltype(auto) reader = stream->d_func()->reader.get();
+
+    return_if (!reader);
+    web_idl::detail::resolve_promise(reader->d_func()->closed_promise, e.js.realm());
+
+    if (dom_cast<readable_stream_default_reader*>(reader))
+    {
+        auto read_requests = std::move(reader->d_func()->read_requests);
+        reader->d_func()->read_requests = {};
+        read_requests | ranges::views::for_each(&read_request_t::close_steps);
+    }
+}
+
+
+auto streams::detail::readable_stream_error(
+        readable_stream* stream,
+        ext::any&& error) -> void
+{
+    ext::assert_(stream->d_func()->state == readable_stream_state_t::READABLE);
+    stream->d_func()->state = readable_stream_state_t::ERRORED;
+    stream->d_func()->stored_error = std::move(error);
+    decltype(auto) reader = stream->d_func()->reader.get();
+
+    return_if (!reader);
+    web_idl::detail::reject_promise(reader->d_func()->closed_promise, e.js.realm(), std::move(error));
+
+    dom_cast<readable_stream_default_reader*>(reader)
+            ? readable_stream_default_reader_error_read_requests(reader, std::move(error))
+            : readable_stream_byob_reader_error_read_into_requests(reader, std::move(error));
+}
+
+
+auto streams::detail::readable_stream_fulfill_read_request(
+        readable_stream* stream,
+        chunk_t chunk,
+        ext::boolean done)
+        -> void
+{
+    decltype(auto) reader = stream->d_func()->reader.get();
+    ext::assert_(!reader->d_func()->read_requests.empty());
+
+    decltype(auto) read_into_request = std::move(reader->read_requests.front());
+    reader->read_requests.pop_front();
+
+    auto close_data = readable_stream_has_default_reader(stream) ? ext::nullopt : chunk
+    done
+            ? read_into_request->close_steps(std::move(close_data))
+            : read_into_request->chunk_steps(std::move(chunk));
+}
+
+
+auto streams::detail::readable_stream_get_num_read_requests(
+        readable_stream* stream)
+        -> ext::number <size_t>
+{
+    return stream->d_func()->reader->d_func()->read_requests.size();
+}
+
+
+auto streams::detail::readable_stream_has_byob_reader(
+        readable_stream* stream)
+        -> ext::boolean
+{
+    return stream->d_func()->reader && dom_cast<readable_stream_byob_reader*>(stream->d_func()->reader.get());
+}
+
+
+auto streams::detail::readable_stream_has_default_reader(
+        readable_stream* stream)
+        -> ext::boolean
+{
+    return stream->d_func()->reader && dom_cast<readable_stream_default_reader*>(stream->d_func()->reader.get());
 }

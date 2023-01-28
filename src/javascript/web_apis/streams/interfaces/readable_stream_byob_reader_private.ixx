@@ -12,7 +12,4 @@ DEFINE_PRIVATE_CLASS(streams::readable, readable_stream_byob_reader)
 {
 public:
     MAKE_QIMPL(readable_stream_byob_reader);
-
-public:
-    ext::vector<std::unique_ptr<detail::read_into_request_t>> read_into_requests;
 };

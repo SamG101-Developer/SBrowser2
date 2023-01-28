@@ -17,4 +17,5 @@ public:
 public:
     ext::promise<void> closed_promise;
     std::observer_ptr<readable_stream> stream; // TODO : unique_ptr<>?
+    ext::vector<std::unique_ptr<detail::read_request_t>> read_requests;
 };

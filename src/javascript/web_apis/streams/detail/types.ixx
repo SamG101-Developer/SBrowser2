@@ -43,7 +43,6 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
 
     struct pull_into_descriptor_t;
     struct read_request_t;
-    struct read_into_request_t;
     struct pending_abort_request_t;
     struct closed_sentinel_t;
 

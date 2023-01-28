@@ -13,7 +13,4 @@ DEFINE_PRIVATE_CLASS(streams, readable_stream_default_reader)
 {
 public:
     MAKE_QIMPL(readable_stream_default_reader);
-
-public:
-    ext::vector<std::unique_ptr<detail::read_request_t>> read_requests;
 };

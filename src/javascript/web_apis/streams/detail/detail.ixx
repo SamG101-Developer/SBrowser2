@@ -26,14 +26,11 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
     auto readable_byte_stream_tee(readable_stream* stream) -> ext::vector<std::unique_ptr<readable_stream>>;
 
     // [4.9.2] Interfacing with controllers
-    auto readable_stream_add_read_into_request(readable_stream* stream, read_into_request_t& read_request) -> void;
-    auto readable_stream_add_read_request(readable_stream* stream, read_into_request_t& read_request) -> void;
+    auto readable_stream_add_read_request(readable_stream* stream, std::unique_ptr<read_into_request_t>&& read_request) -> void;
     auto readable_stream_cancel(readable_stream* stream, ext::any&& reason) -> ext::promise<void>;
     auto readable_stream_close(readable_stream* stream) -> void;
     auto readable_stream_error(readable_stream* stream, ext::any&& error) -> void;
-    auto readable_stream_fulfill_read_into_request(readable_stream* stream, chunk_t chunk, ext::boolean done) -> void;
     auto readable_stream_fulfill_read_request(readable_stream* stream, chunk_t chunk, ext::boolean done) -> void;
-    auto readable_stream_get_num_read_into_requests(readable_stream* stream) -> ext::number<size_t>;
     auto readable_stream_get_num_read_requests(readable_stream* stream) -> ext::number<size_t>;
     auto readable_stream_has_byob_reader(readable_stream* stream) -> ext::boolean;
     auto readable_stream_has_default_reader(readable_stream* stream) -> ext::boolean;
