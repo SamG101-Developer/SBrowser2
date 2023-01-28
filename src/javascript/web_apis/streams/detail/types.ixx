@@ -85,3 +85,11 @@ struct streams::detail::read_request_t
     ext::function<auto(ext::optional<chunk_t>&& chunk) -> void> close_steps;
     ext::function<auto(v8::Local<v8::Object> js_value) -> void> error_steps;
 };
+
+
+struct streams::detail::pending_abort_request_t
+{
+    ext::promise<void> abort_promise;
+    ext::any reason;
+    ext::boolean was_already_aborting;
+};

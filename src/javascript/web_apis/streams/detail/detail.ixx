@@ -26,7 +26,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
     auto readable_byte_stream_tee(readable_stream* stream) -> ext::vector<std::unique_ptr<readable_stream>>;
 
     // [4.9.2] Interfacing with controllers
-    auto readable_stream_add_read_request(readable_stream* stream, std::unique_ptr<read_into_request_t>&& read_request) -> void;
+    auto readable_stream_add_read_request(readable_stream* stream, std::unique_ptr<read_request_t>&& read_request) -> void;
     auto readable_stream_cancel(readable_stream* stream, ext::any&& reason) -> ext::promise<void>;
     auto readable_stream_close(readable_stream* stream) -> void;
     auto readable_stream_error(readable_stream* stream, ext::any&& error) -> void;
@@ -37,13 +37,13 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(streams)
 
     // [4.9.3] Readers
     auto readable_stream_reader_generic_cancel(readable_stream* stream, ext::any&& reason) -> ext::promise<void>;
-    auto readable_stream_reader_generic_initialize(abstract_readable_stream_reader* reader, readable_stream* stream) -> void;
-    auto readable_stream_reader_generic_release(abstract_readable_stream_reader* reader) -> void;
+    auto readable_stream_reader_generic_initialize(mixins::readable_stream_generic_reader* reader, readable_stream* stream) -> void;
+    auto readable_stream_reader_generic_release(mixins::readable_stream_generic_reader* reader) -> void;
     auto readable_stream_byob_reader_error_read_into_requests(readable_stream_byob_reader* reader, ext::any&& error) -> void;
-    auto readable_stream_byob_reader_read(readable_stream_byob_reader* reader, ext::array_buffer_view& view, read_into_request_t& read_request) -> void;
+    auto readable_stream_byob_reader_read(readable_stream_byob_reader* reader, ext::array_buffer_view& view, read_request_t& read_request) -> void;
     auto readable_stream_byob_reader_release(readable_stream_byob_reader* reader) -> void;
     auto readable_stream_default_reader_error_read_requests(readable_stream_default_reader* reader, ext::any&& error) -> void;
-    auto readable_stream_default_reader_read(readable_stream_default_reader* reader, read_into_request_t& read_request) -> void;
+    auto readable_stream_default_reader_read(readable_stream_default_reader* reader, read_request_t& read_request) -> void;
     auto readable_stream_default_reader_release(readable_stream_default_reader* reader) -> void;
     auto setup_readable_stream_byob_reader(readable_stream_byob_reader* reader, readable_stream* stream) -> void;
     auto setup_readable_stream_default_reader(readable_stream_default_reader* reader, readable_stream* stream) -> void;
