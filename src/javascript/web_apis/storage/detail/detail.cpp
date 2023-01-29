@@ -1,28 +1,17 @@
-#include "storage_internals.hpp"
-
-#include "ext/expected.ixx"
-
-#include "ext/hashing.ixx"
-
-
-
-
-#include "html/detail/origin_internals.hpp"
-
+module;
+#include "ext/macros.hpp"
+#include <tl/optional.hpp>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/view/filter.hpp>
 
 
-auto storage::detail::equal_storage_keys(
-        const storage_key_t& key_a,
-        const storage_key_t& key_b)
-        -> ext::boolean
-{
-    // Two storage keys are equal if their origins are equal, and because the keys are the origins, the keys are used as
-    // the parameter to the 'same_origin(...)' check.
-    using namespace ext::literals;
-    return html::detail::same_origin(*key_a[0_tag], *key_b[0_tag]);
-}
+module apis.storage.detail;
+import apis.storage.types;
+
+import js.env.realms;
+import js.env.settings;
+
+import ext.core;
 
 
 auto storage::detail::obtain_storage_key(
@@ -44,8 +33,22 @@ auto storage::detail::obtain_storage_key_for_non_storage_purposes(
         js::env::env& environment)
         -> storage_key_t
 {
-    decltype(auto) origin = environment.cpp.settings()->origin.get();
+    decltype(auto) origin = !environment.js.settings()->IsEmpty()
+            ? environment.cpp.settings()->origin.get()
+            : url::detail::origin(environment.cpp.settings()->creation_url.get());
     return ext::make_tuple(origin);
+}
+
+
+auto storage::detail::equal_storage_keys(
+        const storage_key_t& key_a,
+        const storage_key_t& key_b)
+        -> ext::boolean
+{
+    // Two storage keys are equal if their origins are equal, and because the keys are the origins, the keys are used as
+    // the parameter to the 'same_origin(...)' check.
+    using namespace ext::literals;
+    return html::detail::same_origin(*key_a[0_tag], *key_b[0_tag]);
 }
 
 
@@ -63,8 +66,7 @@ auto storage::detail::obtain_storage_shelf(
     // The storage shed's shelf (associated with the key) either already exists, or is the result of creating a new
     // storage shelf for the 'type', and whichever of these values is present is what is returned (existing or new
     // shelf).
-    storage_shed.try_emplace(*key, create_storage_shelf(type));
-    return storage_shed[*key];
+    return storage_shed.try_emplace(*key, create_storage_shelf(type)).first->second;
 }
 
 
@@ -72,60 +74,9 @@ auto storage::detail::obtain_local_storage_shelf(
         js::env::env& environment)
         -> ext::expected<storage_shelf_t*>
 {
-    // the local storage shelf is the storage self for the environment and 'local_storage_shed', with the type LOCAL
-    // (this is just a convenience function with contextual meaning)
+    // The local storage shelf is the storage self for the environment and 'local_storage_shed', with the type LOCAL
+    // (this is just a convenience function with contextual meaning).
     return obtain_storage_shelf(*environment.cpp.settings()->local_storage, environment, storage_type_t::LOCAL);
-}
-
-
-auto storage::detail::obtain_storage_bottle_map(
-        storage::detail::storage_type_t type,
-        js::env::env& environment,
-        ext::string_view identifier)
-        -> ext::expected<std::unique_ptr<storage_map_t>>
-{
-    // determine the correct 'session_shed' depending on the 'type' (either local or session). the local storage shed is
-    // stored as a variable because it is renewed for each session, where-as the local storage shed is obtained from the
-    // environment
-    auto storage_shed = type == storage_type_t::LOCAL
-            ? *environment.cpp.settings()->local_storage
-            : *environment.cpp.settings()->session_storage;
-
-    // obtain the storage shelf for the 'storage_shed', and return a failure if the 'storage_shelf' obtained is a
-    // failure
-    auto storage_shelf = obtain_storage_shelf(storage_shed, environment, type);
-    return_if (!storage_shelf.has_value()) ext::failure;
-
-    // determine the 'storage_bucket' -> 'storage_bottle', and create a proxy map whose backend map is the
-    // 'storage_bottle's map. add the proxy map to the 'storage_bottle's proxy maps
-    auto storage_bucket = *storage_shelf.value()->bucket_map[u"default"];
-    auto storage_bottle = *storage_bucket.bottle_map[u8"identifier"];
-    auto proxy_map = std::make_unique<storage_map_t>();
-    proxy_map.reset(&storage_bottle.map);
-    storage_bottle.proxy_map_reference_set.emplace(proxy_map);
-
-    // return the proxy map (this method is to get the bottle map, not the bottle)
-    return proxy_map;
-}
-
-
-auto storage::detail::obtain_local_storage_bottle_map(
-        js::env::env& environment,
-        ext::string_view identifier)
-        -> ext::expected<std::unique_ptr<storage_map_t>>
-{
-    // convenience method to obtain the local storage bottle map (fixed LOCAL first parameter)
-    return obtain_storage_bottle_map(storage_type_t::LOCAL, environment, identifier);
-}
-
-
-auto storage::detail::obtain_session_storage_bottle_map(
-        js::env::env& environment,
-        ext::string_view identifier)
-        -> ext::expected<std::unique_ptr<storage_map_t>>
-{
-    // convenience method to obtain the local storage bottle map (fixed SESSION first parameter)
-    return obtain_storage_bottle_map(storage_type_t::SESSION, environment, identifier);
 }
 
 
@@ -133,7 +84,7 @@ auto storage::detail::create_storage_shelf(
         storage::detail::storage_type_t type)
         -> std::unique_ptr<storage_shelf_t>
 {
-    // create a new storage shelf with a "default" bucket, which is a newly created bucket
+    // Create a new storage shelf with a "default" bucket, which is a newly created bucket.
     auto storage_shelf = std::make_unique<storage_shelf_t>();
     storage_shelf->bucket_map.emplace(u"default", create_storage_bucket(type));
     return storage_shelf;
@@ -144,17 +95,68 @@ auto storage::detail::create_storage_bucket(
         storage::detail::storage_type_t type)
         -> std::unique_ptr<storage_bucket_t>
 {
-    // create a new bucket, and insert all the registered endpoints whose types contain the 'type'
+    // Create a new bucket, and insert all the registered endpoints whose types contain the 'type'.
     std::unique_ptr<storage_bucket_t> storage_bucket = type == storage_type_t::LOCAL
             ? std::make_unique<local_storage_bucket_t>()
             : std::make_unique<session_storage_bucket_t>();
 
     using enum ranges::filter_compare_t;
-    for (decltype(auto) endpoint: registered_storage_endpoints | ranges::views::filter(BIND_BACK(ranges::contains, type), &storage_endpoint_t::types))
+    for (decltype(auto) endpoint: registered_storage_endpoints | ranges::views::filter(ext::bind_back(ranges::contains, type), &storage_endpoint_t::types))
     {
         storage_bucket->bottle_map[endpoint.identifier] = std::make_unique<storage_bottle_t>();
         storage_bucket->bottle_map[endpoint.identifier]->quota = endpoint.quota;
     }
 
     return storage_bucket;
+}
+
+
+auto storage::detail::obtain_storage_bottle_map(
+        storage::detail::storage_type_t type,
+        js::env::env& environment,
+        ext::view_of_t<storage_identifier_t> identifier)
+        -> ext::expected<std::unique_ptr<storage_map_t>>
+{
+    // Determine the correct 'session_shed' depending on the 'type' (either local or session). the local storage shed is
+    // stored as a variable because it is renewed for each session, where-as the local storage shed is obtained from the
+    // environment.
+    auto storage_shed = type == storage_type_t::LOCAL
+            ? *environment.cpp.settings()->local_storage
+            : *environment.cpp.settings()->session_storage;
+
+    // Obtain the storage shelf for the 'storage_shed', and return a failure if the 'storage_shelf' obtained is a
+    // failure.
+    auto storage_shelf = obtain_storage_shelf(storage_shed, environment, type);
+    return_if (!storage_shelf.has_value()) ext::failure;
+
+    // Determine the 'storage_bucket' -> 'storage_bottle', and create a proxy map whose backend map is the
+    // 'storage_bottle's map. add the proxy map to the 'storage_bottle's proxy maps.
+    decltype(auto) storage_bucket = *storage_shelf.value()->bucket_map[u"default"];
+    decltype(auto) storage_bottle = *storage_bucket.bottle_map[u8"identifier"];
+    auto proxy_map = std::make_unique<storage_map_t>();
+    proxy_map.reset(&storage_bottle.map);
+    storage_bottle.proxy_map_reference_set.emplace(proxy_map);
+
+    // Return the proxy map (this method is to get the bottle map, not the bottle).
+    return proxy_map;
+}
+
+
+auto storage::detail::obtain_local_storage_bottle_map(
+        js::env::env& environment,
+        ext::view_of_t<storage_identifier_t> identifier)
+        -> ext::expected<std::unique_ptr<storage_map_t>>
+{
+    // convenience method to obtain the local storage bottle map (fixed LOCAL first parameter)
+    return obtain_storage_bottle_map(storage_type_t::LOCAL, environment, identifier);
+}
+
+
+auto storage::detail::obtain_session_storage_bottle_map(
+        js::env::env& environment,
+        ext::view_of_t<storage_identifier_t> identifier)
+        -> ext::expected<std::unique_ptr<storage_map_t>>
+{
+    // convenience method to obtain the local storage bottle map (fixed SESSION first parameter)
+    return obtain_storage_bottle_map(storage_type_t::SESSION, environment, identifier);
 }
