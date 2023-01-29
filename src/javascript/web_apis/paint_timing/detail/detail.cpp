@@ -1,16 +1,14 @@
-#include "detail.hpp"
+module;
+#include "ext/macros.hpp"
 
 
+module apis.paint_timing.detail;
 
-
-#include "hr_time/detail/time_internals.hpp"
-#include "paint_timing/detail/paint_timing_internals.hpp"
-
-#include <range/v3/view/filter.hpp>
+import apis.dom.document;
 
 
 auto paint_timing::detail::should_report_first_contentful_paint(
-        dom::nodes::document* document)
+        dom::document* document)
         -> ext::boolean
 {
     return_if (document->d_func()->previously_reported_paints.contains("first-contentful-paint")) false;
@@ -21,7 +19,7 @@ auto paint_timing::detail::should_report_first_contentful_paint(
 
 
 auto paint_timing::detail::mark_paint_timing(
-        dom::nodes::document* document)
+        dom::document* document)
         -> void
 {
     auto e = js::env::env::relevant(document);
