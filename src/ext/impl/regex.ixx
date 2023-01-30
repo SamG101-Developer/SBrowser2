@@ -8,6 +8,5 @@ export module ext.core:regex;
 
 
 _EXT_BEGIN
-    namespace regex = re2;
-    using regex_utils = RE2;
+    template <ext::string_like T> auto regex_matches(T&& pattern, T&& matches)
 _EXT_END

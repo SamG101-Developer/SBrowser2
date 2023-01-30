@@ -173,20 +173,6 @@ private:                 \
     operator ext::string() const
 
 
-// Make a class serializable by defining 2 methods -- one to serialize the class into a map and one to deserialize a
-// class from a map into this class.
-#define MAKE_SERIALIZABLE \
-    auto _serialize(ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> void; \
-    auto _deserialize(const ext::map<ext::string, ext::any>& serialized, ext::boolean for_storage) -> this_t*;
-
-
-// A transferable class is a class that inherits the EventTarget interface (so implicitly has no copy constructor or
-// assignment), but has copy steps defined specially.
-#define MAKE_TRANSFERABLE(t) \
-    t(const t& other);       \
-    auto operator=(const t& other) -> decltype(auto);
-
-
 /* LANGUAGE SHORTHAND */
 #define return_if(condition) if (condition) return
 #define constexpr_return_if(condition) if constexpr (condition) return
