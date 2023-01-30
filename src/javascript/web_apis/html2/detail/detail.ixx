@@ -192,4 +192,8 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     auto rendered_text_collection_steps(dom::node* node) -> ext::vector<ext::string>;
     auto rendered_text_fragment(ext::string&& input, dom::document* document) -> std::unique_ptr<dom::document_fragment>;
     auto merge_with_next_text_node(dom::text* text) -> void;
+
+    // [4.2.3] - HtmlBaseElement
+    template <linkable_element T> auto get_elements_target(T* element) -> ext::string;
+    auto set_frozen_base_url(element* element) -> void;
 }
