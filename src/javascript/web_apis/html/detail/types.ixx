@@ -1,12 +1,12 @@
-module;
-#include <stdint.h>
-
-
-export module apis.html.types;
-
-
-import ext.core;
-import apis.url.types;
+//module;
+//#include <stdint.h>
+//
+//
+//export module apis.html.types;
+//
+//
+//import ext.core;
+//import apis.url.types;
 
 
 export namespace html::detail
