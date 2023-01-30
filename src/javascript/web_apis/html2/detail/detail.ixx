@@ -126,8 +126,8 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
 
     // [2.4] - URLs (TODO : 2.4.3)
     auto is_valid_non_empty_url(ext::string_view url) -> ext::boolean;
-    auto is_valid_url_potentially_surrounded_by_spaces(ext::string_ciew url) -> ext::boolean;
-    auto is_valid_non_empty_url_potentially_surrounded_by_spaces(ext::string_ciew url) -> ext::boolean;
+    auto is_valid_url_potentially_surrounded_by_spaces(ext::string_view url) -> ext::boolean;
+    auto is_valid_non_empty_url_potentially_surrounded_by_spaces(ext::string_view url) -> ext::boolean;
     auto fallback_base_url(dom::document* document) -> const url::detail::url_t&;
     auto document_base_url(dom::document* document) -> const url::detail::url_t&;
     auto parse_url(ext::string_view url, dom::document* document) -> ext::expected<ext::pair<ext::string, std::unique_ptr<url::detail::url_t>>>;
@@ -159,4 +159,37 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     template <typename T> auto structured_deserialize(T&& value, const js::env::env& env, ext::map<ext::string, ext::any>&& memory) -> ext::map<ext::string, ext::any>;
     template <typename T> auto structured_serialize_with_transfer(T&& value, ext::vector<>&& transfer_list) -> ext::map<ext::string, ext::any>;
     template <typename T> auto structured_deserialize_with_transfer(ext::map<ext::string, ext::any>&& serialize_with_transfer_result, const js::env::env& env) -> ext::map<ext::string, ext::any>;
+
+    // [3.1.4] - Reporting Document Loading Status
+    auto update_current_document_readiness(dom::document* document) -> void;
+    auto has_active_parser(dom::document* document) -> ext::boolean;
+
+    // [3.1.5] - Render Blocking Mechanism
+    auto allows_adding_render_blocking_elements(dom::document* document) -> ext::boolean;
+    auto is_render_blocked(dom::document* document) -> ext::boolean;
+    auto is_render_blocking_element(dom::element* element) -> ext::boolean;
+    auto block_rendering(dom::element* element) -> void;
+    auto unblock_rendering(dom::element* element) -> void;
+
+    // [3.2.5] - Content Models
+    auto is_metadata_content(dom::node* node) -> ext::boolean;
+    auto is_flow_content(dom::node* node) -> ext::boolean;
+    auto is_sectioning_content(dom::node* node) -> ext::boolean;
+    auto is_heading_content(dom::node* node) -> ext::boolean;
+    auto is_phrasing_content(dom::node* node) -> ext::boolean;
+    auto is_embedded_content(dom::node* node) -> ext::boolean;
+    auto is_interactive_content(dom::node* node) -> ext::boolean;
+    auto is_palpable_content(dom::node* node) -> ext::boolean;
+    auto is_script_supporting_element(dom::node* node) -> ext::boolean;
+
+    // [3.2.6] - Global Attributes
+    auto advisory_information(dom::node* node) -> ext::string;
+    auto language_of_node(dom::node* node) -> ext::string;
+    auto directionality(dom::node* node) -> directionality_t;
+    auto directionality(dom::attr* attr) -> directionality_t;
+
+    // [3.2.7] - Inner & Outer Text
+    auto rendered_text_collection_steps(dom::node* node) -> ext::vector<ext::string>;
+    auto rendered_text_fragment(ext::string&& input, dom::document* document) -> std::unique_ptr<dom::document_fragment>;
+    auto merge_with_next_text_node(dom::text* text) -> void;
 }

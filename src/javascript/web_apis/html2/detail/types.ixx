@@ -49,6 +49,10 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     enum class lazy_loading_attribute_t {LAZY, EAGER};
     enum class blocking_attribute_t {RENDER};
     using lazy_loading_steps_t = ext::function<void()>;
+
+    // [3.1.4] - Reporting Document Lozding Status
+    struct document_load_timing_info;
+    struct document_unload_timing_info;
 }
 
 
@@ -56,3 +60,22 @@ struct html::detail::parallel_queue_t
 {
     ext::queue<ext::function<auto()>> algorithm_queue;
 };
+
+
+struct html::detail::document_load_timing_info_t
+{
+    ext::number<int> navigation_start_time = 0;
+    hr_time::dom_high_res_time_stamp_t dom_interactive_time = 0;
+    hr_time::dom_high_res_time_stamp_t dom_content_loaded_event_start_time = 0;
+    hr_time::dom_high_res_time_stamp_t dom_content_loaded_event_end_time = 0;
+    hr_time::dom_high_res_time_stamp_t dom_complete_time = 0;
+    hr_time::dom_high_res_time_stamp_t load_event_start_time = 0;
+    hr_time::dom_high_res_time_stamp_t load_event_end_time = 0;
+};
+
+
+struct html::detail::document_unload_timing_info
+{
+    hr_time::dom_high_res_time_stamp_t unload_event_start_time = 0;
+    hr_time::dom_high_res_time_stamp_t unload_event_end_time = 0;
+}
