@@ -17,9 +17,6 @@ public:
     enum class traversal_direction_t {NEXT, PREVIOUS};
 
 public:
-    auto traverse(traversal_direction_t direction) const -> node*;
-
-public:
     ext::vector<node*> iterator_collection;
     std::observer_ptr<node> reference;
     ext::boolean pointer_before_reference;

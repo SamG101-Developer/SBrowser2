@@ -17,7 +17,4 @@ public:
 public:
     std::unique_ptr<detail::boundary_point_t> start;
     std::unique_ptr<detail::boundary_point_t> end;
-
-public:
-    auto is_range_collapsed() const -> ext::boolean;
 };

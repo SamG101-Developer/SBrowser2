@@ -18,8 +18,4 @@ public:
 
 public:
     std::observer_ptr<node> current;
-
-public:
-    auto traverse_children(traversal_child_t type) const -> node*;
-    auto traverse_siblings(traversal_sibling_t type) const -> node*;
 };

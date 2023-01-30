@@ -33,6 +33,7 @@ auto dom::detail::validate_and_extract(
     // namespace and prefix can't both be empty, and certain variables have to conform to certain constraints,
     // especially concerning xml / xmlns prefixing.
     using enum dom::detail::dom_exception_error_t;
+    using namespace namespaces;
     auto e = js::env::env::current();
 
     throw_v8_exception<NAMESPACE_ERR>(
@@ -63,7 +64,6 @@ auto dom::detail::html_adjust_string(
         ext::boolean lower)
         -> ext::string
 {
-    // TODO : rework so that `(ext::string)` conversion is not required
     return adjust ? lower
             ? string | ranges::views::lowercase | ranges::to<ext::string>()
             : string | ranges::views::uppercase | ranges::to<ext::string>()
@@ -80,27 +80,14 @@ auto dom::detail::flatten_more(ext::map<ext::string, ext::any>&& options) -> ext
 }
 
 
-dom::detail::flatten_more(ext::boolean options) -> ext::map<ext::string, ext::any>
+auto dom::detail::flatten_more(ext::boolean options) -> ext::map<ext::string, ext::any>
 {
     // Return {capture: true} if the options is a bool value, otherwise the map already being held in the variant
     // object. This just acts as a normalizer to get the "capture" value in map form.
-    return {u"capture", options};
+    return {{u"capture", options}};
 }
 
 
-// auto dom::detail::flatten(event_listener_options_t&& options) -> ext::boolean
-// {
-//     // Return the boolean "capture" value if a boolean value is being stored in the variant, otherwise the capture
-//     // option of the map. This just acts as a normalizer to get the boolean representation of the "capture" value
-//     return ext::holds_alternative<ext::boolean>(options)
-//             ? ext::get<ext::boolean>(options)
-//             : ext::get<ext::map<ext::string, ext::any>>(options).at(u"capture").to<ext::boolean>();
-// }
-//template <ext::inherit<dom::event> T>
-//auto dom::event_target_private::fire_event(ext::string&& e, ext::map<ext::string, ext::any>&& init) -> ext::boolean
-//{
-//    // create a new event of type T, setting the event type and options, and then dispatch it to 'target'
-//    ACCESS_QIMPL;
-//    auto event = std::make_unique<T>(std::move(e), std::move(init));
-//    return dispatch(std::move(event), q);
-//}
+dom::detail::flatten
+
+

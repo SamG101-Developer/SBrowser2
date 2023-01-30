@@ -14,59 +14,7 @@ namespace dom::mutations {class mutation_observer;}
 
 namespace dom::detail
 {
-    // common checks across multiple methods / validity checks
-    auto common_checks(
-            const nodes::node* node,
-            const nodes::node* parent,
-            const nodes::node* child)
-            -> void;
 
-    auto ensure_pre_insertion_validity(
-            const nodes::node* node,
-            const nodes::node* parent,
-            const nodes::node* child)
-            -> void;
-
-    // pre-insertion and -removal
-    auto pre_insert(
-            std::unique_ptr<nodes::node> node,
-            nodes::node* parent,
-            const nodes::node* child)
-            -> nodes::node*;
-
-    auto pre_remove(
-            const nodes::node* node,
-            const nodes::node* parent)
-            -> nodes::node*;
-
-    // general mutations
-    auto insert(
-            std::unique_ptr<nodes::node>&& node,
-            nodes::node* parent,
-            const nodes::node* child,
-            ext::boolean  suppress_observers_flag = false)
-            -> nodes::node*;
-
-    auto append(
-            std::unique_ptr<nodes::node>&& node,
-            nodes::node* parent)
-            -> nodes::node*;
-
-    auto replace(
-            std::unique_ptr<nodes::node>&& node,
-            const nodes::node* parent,
-            nodes::node* child)
-            -> nodes::node*;
-
-    auto replace_all(
-            std::unique_ptr<nodes::node>&& node,
-            const nodes::node* parent)
-            -> void;
-
-    auto remove(
-            const nodes::node* node,
-            ext::boolean  suppress_observers_flag = false)
-            -> nodes::node*;
 }
 
 

@@ -21,7 +21,4 @@ public:
     std::observer_ptr<node> root;
     ext::number<ulong> what_to_show;
     std::unique_ptr<node_filter> node_filter;
-
-public:
-    auto filter(const node* node) -> ext::number<ushort>;
 };

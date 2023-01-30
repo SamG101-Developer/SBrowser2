@@ -30,20 +30,6 @@ public:
     MAKE_QIMPL(element);
 
 public:
-    /* [DOM] */
-    auto locate_a_namespace_prefix(ext::string_view namespace_) const -> ext::string;
-    auto locate_a_namespace(ext::string_view prefix) const -> ext::string;
-
-    auto is_html() const -> ext::boolean;
-    auto qualified_name() const -> ext::string;
-    auto html_uppercase_qualified_name() const -> ext::string;
-    auto html_lowercase_qualified_name() const -> ext::string;
-
-    auto set_attribute(std::unique_ptr<attr>&& attribute) -> attr*;
-    auto remove_attribute(attr* attribute) -> attr*;
-    auto toggle_attribute(attr* attribute, ext::optional<ext::boolean> force, ext::string_view qualified_name = u"", ext::string_view namespace_ = u"") -> attr*;
-
-public:
     ext::string namespace_;
     ext::string namespace_prefix;
     ext::string local_name;

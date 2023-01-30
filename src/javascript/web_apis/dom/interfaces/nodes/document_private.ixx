@@ -27,14 +27,6 @@ public:
 
 public:
     /* [DOM] */
-    auto is_document_available_to_user(ext::string_view) -> ext::boolean;
-    auto is_document_fully_active() -> ext::boolean;
-    auto has_active_parser() const -> ext::boolean;
-    auto document_has_style_sheets_blocking_scripts() const -> ext::boolean;
-    auto convert_nodes_into_node(ext::type_is<node*, ext::string> auto&&... nodes) const -> node*;
-    auto adopt(node* node) -> node*;
-    auto document_element() const -> element*;
-
     std::unique_ptr<encoding::encoding> encoding;
     std::unique_ptr<url::detail::url_t> url;
     ext::string content_type;
