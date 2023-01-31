@@ -196,4 +196,29 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     // [4.2.3] - HtmlBaseElement
     template <linkable_element T> auto get_elements_target(T* element) -> ext::string;
     auto set_frozen_base_url(element* element) -> void;
+
+    // [4.2.4] - HtmlLinkElement
+    auto default_fetch_and_process_linked_resource(html::html_link_element* element) -> void;
+    auto create_link_request(const link_processing_options_t& options) -> std::unique_ptr<fetch::detail::request_t>;
+    auto create_link_options(html::html_link_element* element) -> std::unique_ptr<link_processing_options_t>;
+    auto extract_links_from_headers(ext::view_of_t<fetch::detail::headers_t> headers) -> ext::vector<std::unique_ptr<html::html_link_element>>;
+    auto process_link_headers(dom::document* document, const fetch::detail::response_t& response, phase_t phase) -> void;
+    auto apply_link_options_from_parsed_header_attributes(link_processing_options_t& options, ext::map<ext::string, ext::any>&& attributes) -> void;
+
+    auto process_early_hint_headers(const fetch::detail::response_t& response, js::env::env& reserved_environment) -> void;
+
+    // [4.2.6] - HtmlStyleElement
+    auto update_style_block(html::html_style_element* element) -> void;
+    auto obtain_style_sheet_critical_subresources(html::html_style_element* element) -> void;
+
+    // [4.2.7] - Interactions of Styling & Scripting
+    auto contributes_script_blocking_style_sheet(dom::element* element, dom::document* document) -> ext::boolean;
+    auto has_style_sheet_blocking_scripts(dom::document* document) -> ext::boolean;
+    auto has_no_style_sheet_blocking_scripts(dom::document* document) -> ext::boolean;
+
+    // [4.3.10] - Address Element
+    auto contact_information(dom::node* node) -> ext::string;
+
+    // [4.3.11] - Headings & Outlines
+    auto outline(dom::document* document) -> ext::span<html::html_heading_element*>;
 }

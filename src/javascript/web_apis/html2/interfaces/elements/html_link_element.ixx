@@ -8,7 +8,7 @@ import apis.html.html_element;
 
 DEFINE_PUBLIC_CLASS(html, html_link_element)
         : public html::html_element
-        , public html::mixins::link_style
+        , public cssom::mixins::link_style
 {
 public constructors:
     html_link_element();

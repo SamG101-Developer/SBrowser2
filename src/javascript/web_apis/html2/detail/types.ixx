@@ -53,6 +53,10 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     // [3.1.4] - Reporting Document Lozding Status
     struct document_load_timing_info;
     struct document_unload_timing_info;
+
+    // [4.2.4] - HtmlLinkElement
+    struct link_processing_options_t;
+    enum class phase_t {PRE_MEDIA, MEDIA};
 }
 
 
@@ -79,3 +83,22 @@ struct html::detail::document_unload_timing_info
     hr_time::dom_high_res_time_stamp_t unload_event_start_time = 0;
     hr_time::dom_high_res_time_stamp_t unload_event_end_time = 0;
 }
+
+
+struct html::detail::link_processing_options_t
+{
+    ext::string href;
+    fetch::detail::request_destination_t destination;
+    fetch::detail::request_initiator_t initiator;
+    ext::string integrity;
+    ext::string type;
+    ext::string cryptographic_nonce_metadata;
+    cors_setting_attribute_t cross_origin;
+    source_set_t source_set;
+    std::unique_ptr<url::detail::url_t> base_url;
+    std::unique_ptr<origin_t> origin;
+    std::observer_ptr<js::env::env> environment;
+    std::unique_ptr<policy_container_t> policy_container;
+    std::observer_ptr<dom::document> document;
+    ext::function<auto(dom::document) -> void> on_document_ready;
+};

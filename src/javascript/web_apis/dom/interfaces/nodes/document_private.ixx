@@ -54,6 +54,7 @@ public:
     ext::set<element*> render_blocking_elements;
     ext::boolean will_declaratively_refresh;
     ext::number<int> script_blocking_style_sheet_counter = 0;
+    ext::set<> script_blocking_style_sheet_set;
     ext::map<html::detail::preload_key_t*, html::detail::preload_entry_t*> preloaded_resources;
     std::unique_ptr<intersection_observer::intersection_observer> lazy_load_intersection_observer;
     ext::map<html::detail::available_image_t*, std::byte[]> list_of_available_images;
