@@ -221,4 +221,6 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
 
     // [4.3.11] - Headings & Outlines
     auto outline(dom::document* document) -> ext::span<html::html_heading_element*>;
+
+    // [4.4.5] - HtmlOListElement
 }
