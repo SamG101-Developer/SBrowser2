@@ -235,4 +235,11 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
 
     // [4.4.14] - Main Element
     auto hierarchically_correct_main_element(html::html_element* element) -> ext::boolean;
+
+    // [4.5.10] - Ruby
+    auto segmentation_and_categorization_ruby() -> ext::span<base_text_segment_t>; // TODO
+    auto set_current_base_text() -> void; // TODO
+    auto push_ruby_level() -> void; // TODO
+    auto pop_ruby_level() -> void; // TODO
+    auto push_ruby_annotation() -> void; // TODO
 }
