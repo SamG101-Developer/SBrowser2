@@ -11,4 +11,9 @@ DEFINE_PRIVATE_CLASS(html, html_olist_element)
 {
 public:
     MAKE_QIMPL(html_olist_element);
+
+public:
+    ext::boolean reversed;
+    ext::number<long> start;
+    ext::string type;
 };
