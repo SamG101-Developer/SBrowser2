@@ -223,4 +223,16 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     auto outline(dom::document* document) -> ext::span<html::html_heading_element*>;
 
     // [4.4.5] - HtmlOListElement
+    auto starting_value(html::html_olist_element* element) -> ext::number<long>;
+
+    // [4.4.8] - HtmlUListElement
+    auto list_owner(html::html_element* element) -> html_element*; // TODO : signature
+    auto ordinal_value(html::html_element* element) -> ext::number<long>;
+
+    // [4.4.9] - HtmlDListElement
+    auto name_value_groups(html::html_dlist_element* element) -> ext::span<ext::pair<ext::span<html_element*>, ext::span<html_element*>>>;
+    auto process_dt_or_dd_for_node(dom::node* node) -> void;
+
+    // [4.4.14] - Main Element
+    auto hierarchically_correct_main_element(html::html_element* element) -> ext::boolean;
 }
