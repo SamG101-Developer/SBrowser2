@@ -15,7 +15,7 @@ public constructors:
     MAKE_PIMPL(html_dialog_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto show() -> void;
     auto show_modal() -> void;
     auto close(ext::string&& return_value = u8"") -> void;

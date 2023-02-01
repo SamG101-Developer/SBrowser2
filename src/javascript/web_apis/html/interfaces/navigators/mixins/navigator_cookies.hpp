@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(navigator_cookies);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(cookie_enabled, ext::boolean);
 };
 

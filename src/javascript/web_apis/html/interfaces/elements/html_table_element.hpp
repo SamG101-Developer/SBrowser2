@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(html_table_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto create_caption() -> html_table_caption_element*;
     auto create_t_head() -> html_table_section_element*;
     auto create_t_foot() -> html_table_section_element*;

@@ -14,7 +14,7 @@ public constructors:
     MAKE_PIMPL(svg_length);
     MAKE_V8_AVAILABLE;
 
-public js_static_constants:
+private js_static_constants:
     constexpr static ext::number<ushort> SVG_LENGTHTYPE_UNKNOWN = 0;
     constexpr static ext::number<ushort> SVG_LENGTHTYPE_NUMBER = 1;
     constexpr static ext::number<ushort> SVG_LENGTHTYPE_PERCENTAGE = 2;
@@ -27,11 +27,11 @@ public js_static_constants:
     constexpr static ext::number<ushort> SVG_LENGTHTYPE_PT = 9;
     constexpr static ext::number<ushort> SVG_LENGTHTYPE_PC = 10;
 
-public js_methods:
+private js_methods:
     auto new_value_specified_uniutes(ext::number<ushort> unit_type, ext::number<float> valie_in_pecified_units) -> void;
     auto convert_to_specified_units(ext::number<ushort> unit_type) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(unit_type, ext::number<ushort>);
     DEFINE_GETTER(value, ext::number<float>);
     DEFINE_GETTER(value_in_sepcified_units, ext::number<float>);

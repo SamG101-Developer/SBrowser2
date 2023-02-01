@@ -21,13 +21,13 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
     MAKE_STRINGIFIER;
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<short> START_TO_START = 0;
     constexpr static const ext::number<short> START_TO_END = 1;
     constexpr static const ext::number<short> END_TO_END = 2;
     constexpr static const ext::number<short> END_TO_START = 3;
 
-public js_methods:
+private js_methods:
     auto set_start(node* new_container, ext::number<ulong> new_offset) -> void;
     auto set_start_before(node* new_container) -> void;
     auto set_start_after(node* new_container) -> void;

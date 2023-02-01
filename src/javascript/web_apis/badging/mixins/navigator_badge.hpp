@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(navigator_badge);
     MAKE_V8_AVAILABLE(SECURE);
 
-public js_methods:
+private js_methods:
     auto set_app_badge(ext::number<ulonglong> contents) -> ext::promise<void>;
     auto clear_app_badge() -> ext::promise<void>;
 };

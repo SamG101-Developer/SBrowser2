@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(window_or_worker_global_scope);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto report_error(ext::any&& e) -> void;
 
     // Base64 Utility Methods

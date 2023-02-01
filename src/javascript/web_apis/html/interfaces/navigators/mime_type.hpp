@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(mime_type);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(type, ext::string_view);
     DEFINE_GETTER(description, ext::string_view);
     DEFINE_GETTER(suffixes, ext::string_view);

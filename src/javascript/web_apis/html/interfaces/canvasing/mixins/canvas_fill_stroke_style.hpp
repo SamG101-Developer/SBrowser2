@@ -19,7 +19,7 @@ public enums:
 public constructors:
     ~canvas_fill_stroke_style();
 
-public js_methods:
+private js_methods:
     auto create_linear_gradient(ext::number<double> x0, ext::number<double> x1, ext::number<double> y0, ext::number<double> y1) -> canvas_gradient;
     auto create_radial_gradient(ext::number<double> x0, ext::number<double> x1, ext::number<double> y0, ext::number<double> y1, ext::number<double> r0, ext::number<double> r1) -> canvas_gradient;
     auto create_conic_gradient(ext::number<double> start_angle, ext::number<double> x, ext::number<double> y) -> canvas_gradient;

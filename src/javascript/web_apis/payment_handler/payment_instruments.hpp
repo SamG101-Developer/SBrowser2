@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(payment_instruments);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto delete_(ext::string_view instrument_key) -> ext::promise<ext::boolean>;
     auto get(ext::string_view instrument_key) const -> ext::promise<ext::any>;
     auto keys() const -> ext::promise<ext::vector<ext::string>>;

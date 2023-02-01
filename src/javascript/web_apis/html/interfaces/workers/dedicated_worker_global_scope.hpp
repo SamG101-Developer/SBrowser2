@@ -18,12 +18,12 @@ public constructors:
     MAKE_PIMPL(dedicated_worker_global_scope);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto post_message(ext::any&& message, ext::vector_span<void*> transfer) -> void;
     auto post_message(ext::any&& message, detail::structured_serialize_options_t options = {}) -> void;
     auto close() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(name, ext::string_view);
 };
 

@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(time_ranges);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     _EXT_NODISCARD auto start(ext::number<long> index) const -> ext::number<double>;
     _EXT_NODISCARD auto end(ext::number<long> index) const -> ext::number<double>;
 };

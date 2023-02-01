@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(character_data);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     _EXT_NODISCARD auto substring_data(ext::number<ulong> offset, ext::number<ulong> count) const -> ext::string;
     auto append_data(ext::string&& new_data) -> ext::string;
     auto insert_data(ext::number<ulong> offset, ext::string&& new_data) -> ext::string;

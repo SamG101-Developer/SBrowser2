@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(html_script_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     static auto supports(ext::string_view type) -> ext::boolean;
 
 private js_properties:

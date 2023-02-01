@@ -14,6 +14,6 @@ public constructors:
     MAKE_PIMPL(html_time_element);
     MAKE_V8_AVAILABLE();
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(date_time, ext::string);
 };

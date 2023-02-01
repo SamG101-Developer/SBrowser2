@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(clients);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get(ext::string_view id) -> ext::variant<ext::promise<void>, ext::promise<client*>>;
     auto match_all(detail::client_query_options_t&& options = {}) -> ext::promise<const ext::vector<client*>>;
     auto open_window(ext::string_view url) -> ext::promise<window_client*>;

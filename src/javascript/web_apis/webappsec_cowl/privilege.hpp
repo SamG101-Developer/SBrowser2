@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(privilege);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     static auto fresh_privilege() -> std::unique_ptr<privilege>;
     auto as_label() -> label*;
     auto combine(privilege* other) -> std::unique_ptr<privilege>;

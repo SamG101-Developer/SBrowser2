@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(contacts_manager);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     auto get_properties() -> ext::promise<ext::vector<detail::contact_property_t>>;
     auto select(ext::vector_span<detail::contact_property_t*> properties, contacts_select_options_t&& options = {}) -> ext::promise<ext::vector<contact_info_t>>;
 };

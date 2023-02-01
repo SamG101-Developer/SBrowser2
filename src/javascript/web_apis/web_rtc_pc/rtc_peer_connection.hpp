@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(rtc_peer_connection);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto create_offer(detail::rtc_offer_options&& options = {}) -> ext::promise<detail::rtc_session_description_init_t>;
     auto create_answer(detail::rtc_answer_options&& options = {}) -> ext::promise<detail::rtc_session_description_init_t>;
     auto set_local_description(detail::rtc_local_session_description_init_t&& = {}) -> ext::promise<void>;
@@ -32,7 +32,7 @@ public js_methods:
     auto set_configuration(detail::rtc_configuration_t&& configuration = {}) -> void;
     auto close() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(local_description, detail::rtc_session_description_t);
     DEFINE_GETTER(current_local_description, detail::rtc_session_description_t);
     DEFINE_GETTER(pending_local_description, detail::rtc_session_description_t);

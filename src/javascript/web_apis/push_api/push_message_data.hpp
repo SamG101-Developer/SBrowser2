@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(push_message_data);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto array_buffer() const -> v8::Local<v8::ArrayBuffer>;
     auto blob() const -> file_api::blob;
     auto json() const -> ext::any;

@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(html_canvas_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     /* [HTML] */
     auto get_context(detail::canvas_context_mode_t context_id, ext::map<ext::string, ext::any>&& options = {}) -> detail::rendering_context_t;
     auto to_data_url(ext::string_view type = "image/png", ext::any&& quality = {}) -> ext::string;

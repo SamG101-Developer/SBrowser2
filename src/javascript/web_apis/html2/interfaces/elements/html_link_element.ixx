@@ -15,7 +15,7 @@ public constructors:
     MAKE_PIMPL(html_link_element);
     MAKE_V8_AVAILABLE();
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(href, ext::string_view);
     DEFINE_GETTER(cross_origin, ext::optional<ext::string_view>);
     DEFINE_GETTER(rel, ext::string_view);

@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(file_system_sync_access_handle);
     MAKE_V8_AVAILABLE(DEDICATED_WORKER | SECURE);
 
-public js_methods:
+private js_methods:
     auto read(ext::buffer_source& buffer, file_system_read_write_options_t&& options = {}) -> ext::number<ulonglong>;
     auto write(ext::buffer_source& buffer, file_system_read_write_options_t&& options = {}) -> ext::number<ulonglong>;
     auto truncate(ext::number<ulonglong> new_size) -> void;

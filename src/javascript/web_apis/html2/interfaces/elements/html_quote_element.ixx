@@ -14,7 +14,7 @@ public constructors:
     MAKE_PIMPL(html_quote_element);
     MAKE_V8_AVAILABLE();
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(cite, ext::string_view);
     DEFINE_SETTER(cite, ext::string);
 };

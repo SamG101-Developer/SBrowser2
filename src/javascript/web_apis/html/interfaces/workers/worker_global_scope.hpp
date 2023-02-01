@@ -20,10 +20,10 @@ public constructors:
     MAKE_PIMPL(worker_global_scope);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     template <ext::type_is<ext::string>... Args> auto import_scripts(Args... urls);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(self, worker_global_scope*);
     DEFINE_GETTER(location, worker_location*);
     DEFINE_GETTER(navigator, worker_navigator*);

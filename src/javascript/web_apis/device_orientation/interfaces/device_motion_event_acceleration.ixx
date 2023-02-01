@@ -14,7 +14,7 @@ public constructors:
     MAKE_PIMPL(device_motion_event_acceleration);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(x, ext::number<double>);
     DEFINE_GETTER(y, ext::number<double>);
     DEFINE_GETTER(z, ext::number<double>);

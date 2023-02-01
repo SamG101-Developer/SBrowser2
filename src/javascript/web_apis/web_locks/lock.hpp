@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(lock);
     MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(name, ext::view_of_t<detail::resource_name_t>);
     DEFINE_GETTER(mode, detail::lock_mode_t);
 };

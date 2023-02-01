@@ -11,7 +11,7 @@ namespace html::canvasing::mixins {class canvas_path_drawing_styles;}
 class html::canvasing::mixins::canvas_path_drawing_styles
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto set_line_dash(const ext::vector<ext::number<double>>& segments) -> void;
     auto get_line_dash() -> const ext::vector<ext::number<double>>&;
 

@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(service_worker_global_scope);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto skip_waiting() -> ext::promise<void>;
 
 private js_properties:

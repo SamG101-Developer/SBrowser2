@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(html_track_element);
     MAKE_V8_AVAILABLE;
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<ushort> NONE = 0;
     constexpr static const ext::number<ushort> LOADING = 1;
     constexpr static const ext::number<ushort> LOADED = 2;

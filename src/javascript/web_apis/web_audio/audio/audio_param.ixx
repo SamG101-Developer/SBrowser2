@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(audio_param);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto set_value_at_time(ext::number<float> value, ext::number<double> start_time) -> audio_param*;
     auto linear_ramp_to_value_at_time(ext::number<float> value, ext::number<double> end_time) -> audio_param*;
     auto exponential_ramp_to_value_at_time(ext::number<float> value, ext::number<double> end_time) -> audio_param*;
@@ -31,7 +31,7 @@ public js_methods:
     auto cancel_scheduled_values(ext::number<double> cancel_time) -> audio_param*;
     auto cancel_and_hold_at_time(ext::number<double> cancel_time) -> audio_param*;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(value, ext::number<float>);
     DEFINE_GETTER(automation_rate, detail::automation_rate_t);
     DEFINE_GETTER(default_value, ext::number<float>);

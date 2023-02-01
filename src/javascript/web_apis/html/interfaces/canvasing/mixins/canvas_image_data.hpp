@@ -12,7 +12,7 @@ namespace html::canvasing {class image_data;}
 class html::canvasing::mixins::canvas_image_data
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto create_image_data(ext::number<long> sw, ext::number<long> sh, detail::image_data_settings_t&& settings = {}) -> image_data;
     auto create_image_data(image_data* data) -> image_data;
     auto get_image_data(ext::number<long> sx, ext::number<long> sy, ext::number<long> sw, ext::number<long> sh, detail::image_data_settings_t&& settings = {}) -> image_data;

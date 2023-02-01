@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(performance);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     /* [HR-TIME] */
     auto now() const -> dom_high_res_time_stamp;
 

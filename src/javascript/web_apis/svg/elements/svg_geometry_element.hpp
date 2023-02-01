@@ -19,13 +19,13 @@ public constructors:
     MAKE_PIMPL(svg_geometry_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto is_point_in_fill(css::detail::dom_point_init_t&& point = {}) -> ext::boolean;
     auto is_point_in_stroke(css::detail::dom_point_init_t&& point = {}) -> ext::boolean;
     auto get_total_length() -> ext::number<float>;
     auto get_point_at_length() -> css::geometry::dom_point;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(path_length, types::svg_animated_number*);
 };
 

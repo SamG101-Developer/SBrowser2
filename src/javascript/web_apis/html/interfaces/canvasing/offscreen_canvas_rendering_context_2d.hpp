@@ -45,7 +45,7 @@ class html::canvasing::offscreen_canvas_rendering_context_2d
 public constructors:
     offscreen_canvas_rendering_context_2d() = default;
 
-public js_methods:
+private js_methods:
     auto commit() -> void;
 
 private js_properties:

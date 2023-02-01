@@ -23,12 +23,12 @@ public constructors:
     MAKE_PIMPL(push_manager);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto subscribe(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<push_subscription*>;
     auto get_subscription() -> ext::promise<push_subscription*>;
     auto get_permission_state(detail::push_subscription_options_init_t&& options = {}) -> ext::promise<permissions::detail::permission_state_t>;
 
-public js_properties:
+private js_properties:
     DEFINE_STATIC_GETTER(supported_content_encodings, ext::vector<ext::string>)
 };
 

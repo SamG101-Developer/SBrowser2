@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(html_table_cell_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     DEFINE_GETTER(col_span, ext::number<ulong>);
     DEFINE_GETTER(row_span, ext::number<ulong>);
     DEFINE_GETTER(cell_index, ext::number<long>);

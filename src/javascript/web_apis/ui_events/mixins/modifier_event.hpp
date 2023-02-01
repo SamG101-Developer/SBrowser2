@@ -15,7 +15,7 @@ public constructors:
     MAKE_PIMPL(modifier_event);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_modifier_state(ext::string_view arg) -> ext::boolean;
 
 private js_properties:

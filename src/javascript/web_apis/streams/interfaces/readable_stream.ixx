@@ -29,7 +29,7 @@ public constructors:
 
     auto operator[](const readable_stream_iterator_options_t& key) -> ext::any& override;
 
-public js_methods:
+private js_methods:
     auto cancel(ext::any&& reason) -> ext::promise<void>;
     auto get_reader(readable_stream_get_reader_options_t&& options = {}) -> std::unique_ptr<mixins::readable_stream_generic_reader>;
     auto pipe_through(readable_writable_pair_t&& transform, stream_pipe_options_t&& options = {}) -> readable_stream*;

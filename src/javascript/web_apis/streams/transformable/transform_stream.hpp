@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(transform_stream);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(readable, readable::readable_stream*);
     DEFINE_GETTER(writable, writable::writable_stream*);
 };

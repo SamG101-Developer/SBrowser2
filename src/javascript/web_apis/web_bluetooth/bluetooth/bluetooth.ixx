@@ -27,11 +27,11 @@ public constructors:
     MAKE_PIMPL(bluetooth);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     auto get_availablility() -> ext::promise<ext::boolean>;
     auto get_devices() -> ext::promise<ext::vector<bluetooth_device*>>
     auto request_device(request_device_options_t&& options = {}) -> ext::promise<bluetooth_device*>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(referring_device, bluetooth_device*);
 };

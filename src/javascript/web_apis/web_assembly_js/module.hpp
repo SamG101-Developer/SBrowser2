@@ -19,7 +19,7 @@ public constructors:
     module() = default;
     explicit module(v8::Local<v8::ArrayBuffer> bytes);
 
-public js_methods:
+private js_methods:
     static auto exports(module* module_object) -> ext::vector<detail::module_export_descriptor_t>;
     static auto imports(module* module_object) -> ext::vector<detail::module_import_descriptor_t>;
     static auto custom_sections(module* module_object, ext::string_view section_name) -> ext::vector<v8::Local<v8::ArrayBuffer>>;

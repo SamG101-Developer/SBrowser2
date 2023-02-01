@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(webgl2_rendering_context_base);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     // Buffer Objects
     auto copy_buffer_sub_data(
             detail::glenum_t read_target, detail::glenum_t write_target, detail::glintptr_t read_offset,

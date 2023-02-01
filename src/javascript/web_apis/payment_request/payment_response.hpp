@@ -20,7 +20,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
 
-public js_methods:
+private js_methods:
     auto complete(detail::payment_complete_t result = detail::payment_complete_t::UNKNOWN, detail::payment_complete_details_t&& details = {}) -> ext::promise<void>;
     auto retry(detail::payment_validation_errors_t&& error_fields = {}) -> ext::promise<void>;
 

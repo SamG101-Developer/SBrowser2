@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(image_capture);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto take_photo(detail::photo_settings_t&& photo_settings = {}) -> ext::promise<file_api::blob*>;
     auto get_photo_capabilties() -> ext::promise<detail::photo_capabilities_t>;
     auto get_photo_settings() -> ext::promise<detail::photo_settings_t>;

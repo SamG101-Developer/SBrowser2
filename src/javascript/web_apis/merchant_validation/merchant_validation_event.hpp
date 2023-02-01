@@ -19,10 +19,10 @@ public constructors:
     MAKE_PIMPL(merchant_validation_event);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     auto complete(ext::promise<ext::any>&& merchant_session_promise) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(method_name, ext::string_view);
     DEFINE_GETTER(validation_url, ext::string);
 };

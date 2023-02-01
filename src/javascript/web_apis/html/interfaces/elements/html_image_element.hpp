@@ -24,7 +24,7 @@ public constructors:
     MAKE_PIMPL(html_image_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto decode() -> ext::promise<void>;
 
 private js_properties:

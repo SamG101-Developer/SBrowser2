@@ -65,7 +65,7 @@ public constructors:
     MAKE_PIMPL(navigator);
     MAKE_V8_AVAILABLE(SECURE);
 
-public js_methods:
+private js_methods:
     /* [MEDIACAPTURE-MAIN] */
     auto get_user_media(
             ext::map<ext::string, ext::any>&& constraints,

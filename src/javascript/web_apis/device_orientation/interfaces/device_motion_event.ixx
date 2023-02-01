@@ -19,10 +19,10 @@ public constructors:
     MAKE_PIMPL(device_motion_event);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     auto request_permisison() -> ext::boolean;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(acceleration, device_motion_event_acceleration*);
     DEFINE_GETTER(acceleration_inlcuding_gravity, device_motion_event_acceleration*);
     DEFINE_GETTER(rotation_rate, device_motion_event_rotation_rate*);

@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(count_queuing_strategy);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(size, ext::function<>) override;
 };
 

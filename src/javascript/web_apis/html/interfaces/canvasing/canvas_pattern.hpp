@@ -17,7 +17,7 @@ public constructors:
 public cpp_methods:
     auto to_v8(v8::Isolate *isolate) const && -> ext::any override;
 
-public js_methods:
+private js_methods:
     auto set_transform(css::detail::dom_matrix2d_init_t&& transform = {});
 };
 

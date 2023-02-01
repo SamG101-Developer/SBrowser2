@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(readable_stream_byob_request);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto respond(ext::number<ulonglong> bytes_written) -> void;
     auto respond_with_new_view(ext::array_buffer_view&& view) -> void;
 

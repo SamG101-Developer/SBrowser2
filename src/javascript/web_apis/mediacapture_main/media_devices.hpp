@@ -28,7 +28,7 @@ private js_properties:
     /* [MEDIACAPTURE-EXTENSIONS] */
     detail::get_user_media_semantics_t default_semantics;
 
-public js_methods:
+private js_methods:
     auto enumerate_devices() -> ext::promise<ext::vector<media_device_info*>>;
     auto get_user_media(detail::constraints_t&& constraints = {}) -> ext::promise<media_stream*>;
     auto get_supported_constraints() -> detail::constraints_t;

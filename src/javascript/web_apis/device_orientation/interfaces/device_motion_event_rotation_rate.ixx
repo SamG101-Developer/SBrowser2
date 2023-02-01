@@ -14,7 +14,7 @@ public constructors:
     MAKE_PIMPL(device_motion_event_rotation_rate);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(alpha, ext::number<double>);
     DEFINE_GETTER(beta , ext::number<double>);
     DEFINE_GETTER(gamma, ext::number<double>);

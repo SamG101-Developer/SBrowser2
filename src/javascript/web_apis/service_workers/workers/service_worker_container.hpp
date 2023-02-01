@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(service_worker_container);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto register_(ext::string_view script_url, detail::registration_options_t&& options = {}) -> ext::promise<service_worker_registration>;
     auto get_registration(ext::string_view client_url = "") -> ext::promise<service_worker_registration*>;
     auto get_registrations() -> ext::promise<const ext::vector<service_worker_registration>>;

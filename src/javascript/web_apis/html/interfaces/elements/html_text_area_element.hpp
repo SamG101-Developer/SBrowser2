@@ -18,7 +18,7 @@ public constructors:
     DOM_CTORS(html_text_area_element);
     html_text_area_element() = default;
 
-public js_methods:
+private js_methods:
     auto select() -> void;
     auto set_range_text(ext::string&& replacement, ext::number<long> start = 0, ext::number<long> end = 0, detail::selection_mode_t selection_mode = detail::selection_mode_t::PRESERVE) -> void;
     auto set_selection_range(ext::number<long> start, ext::number<long> end, detail::selection_mode_t selection_mode);

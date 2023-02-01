@@ -23,7 +23,7 @@ public constructors:
     MAKE_PIMPL(password_credential);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(password, ext::string_view);
 };
 

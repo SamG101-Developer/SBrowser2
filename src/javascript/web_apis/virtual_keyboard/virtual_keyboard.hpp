@@ -19,11 +19,11 @@ public constructors:
     MAKE_PIMPL(virtual_keyboard);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     auto show() -> void;
     auto hide() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(bounding_rext, css::geometry::dom_rect*);
     DEFINE_GETTER(overlays_context, ext::boolean);
 };

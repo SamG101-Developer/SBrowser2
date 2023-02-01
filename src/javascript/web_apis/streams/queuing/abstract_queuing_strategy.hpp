@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(abstract_queuing_strategy);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(high_water_mark, detail::high_water_mark_t);
     virtual DEFINE_GETTER(size, ext::function<>) = 0;
 };

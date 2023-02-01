@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(orientation_sensor);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto populate_matrix(ext::vector<ext::number<double>>& target_matrix) -> void;
     auto populate_matrix(css::geometry::dom_matrix* target_matrix) -> void;
 

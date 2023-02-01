@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(readable_stream_generic_controller);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     virtual auto close() -> void = 0;
     virtual auto enqueue(detail::chunk_t chunk) -> void = 0;
     virtual auto error(ext::any&& error) -> void = 0;

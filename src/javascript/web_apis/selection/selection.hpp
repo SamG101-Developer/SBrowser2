@@ -28,7 +28,7 @@ private js_properties:
     ext::property<ext::boolean> is_collapsed;
     ext::property<ext::string> type;
 
-public js_methods:
+private js_methods:
     auto get_range_at(ext::number<ulong> index) -> dom::node_ranges::range*;
     auto add_range(dom::node_ranges::range* range) -> void;
 

@@ -21,7 +21,7 @@ public constructors:
     operator bool() const;
     auto operator!() const -> ext::boolean;
 
-public js_methods:
+private js_methods:
     /* [FILE-API] */
     static auto create_object_url(file_api::blob* blob) -> ext::string;
     static auto revoke_object_url(ext::string_view url);

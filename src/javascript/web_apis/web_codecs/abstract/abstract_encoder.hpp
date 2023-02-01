@@ -18,7 +18,7 @@ public constructors:
     abstract_encoder() = default;
     abstract_encoder(ext::map<ext::string, ext::any>&& init);
 
-public js_methods:
+private js_methods:
     auto configure(detail::audio_decoder_config_t&& config) -> void;
     virtual auto encode(audio::audio_data* data) -> void {};
     virtual auto encode(video::video_data* data) -> void {};

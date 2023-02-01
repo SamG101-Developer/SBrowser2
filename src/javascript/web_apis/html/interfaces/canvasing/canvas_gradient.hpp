@@ -18,7 +18,7 @@ public constructors:
     canvas_gradient();
     ~canvas_gradient() override;
 
-public js_methods:
+private js_methods:
     auto add_color_stop(ext::number<double> offset, ext::string&& color);
 
 public cpp_methods:

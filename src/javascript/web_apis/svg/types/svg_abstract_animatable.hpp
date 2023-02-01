@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL_TEMPLATED(svg_abstract_animatable, T);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     virtual DEFINE_GETTER(base_val, T);
     virtual DEFINE_GETTER(anim_val, T);
 

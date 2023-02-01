@@ -18,7 +18,7 @@ public aliases:
 public constructors:
     idb_database();
 
-public js_methods:
+private js_methods:
     auto transaction(ext::vector_view<ext::string> store_names, detail::transaction_mode_t mode = READONLY, ext::map<ext::string, ext::any>&& options = {}) -> idb_transaction;
     auto create_object_store(ext::string_view object_store_name, ext::map<ext::string, ext::any>&& options = {}) -> idb_object_store;
     auto close() -> void;

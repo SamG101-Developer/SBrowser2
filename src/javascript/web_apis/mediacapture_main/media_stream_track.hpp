@@ -26,7 +26,7 @@ public constructors:
 private constructors:
     media_stream_track(detail::media_stream_track_source_t& source, ext::boolean tie_source_to_context = true);
 
-public js_methods:
+private js_methods:
     auto clone() const -> media_stream_track;
     auto stop() -> void;
 

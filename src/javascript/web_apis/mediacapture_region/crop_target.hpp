@@ -19,7 +19,7 @@ public constructors:
     MAKE_SERIALIZABLE;
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     static auto from_element(dom::nodes::element) -> ext::promise<crop_target>;
 };
 

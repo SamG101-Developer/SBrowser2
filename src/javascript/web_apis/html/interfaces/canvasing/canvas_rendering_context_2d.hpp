@@ -49,7 +49,7 @@ public constructors:
     DOM_CTORS(canvas_rendering_context_2d);
     canvas_rendering_context_2d() = default;
 
-public js_methods:
+private js_methods:
     auto get_context_attributes() -> canvas_rendering_context_2d_settings;
 
 private js_properties:

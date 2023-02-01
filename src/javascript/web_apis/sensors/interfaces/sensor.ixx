@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(sensor);
     MAKE_V8_AVAILABLE(WINDOW | DEDICATED_WORKER | SECURE);
 
-public js_methods:
+private js_methods:
     auto start() -> void;
     auto stop() -> void;
 

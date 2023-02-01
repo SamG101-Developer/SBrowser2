@@ -17,7 +17,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
     mutation_observer(this_private_t::mutation_callback_t&& callback);
 
-public js_methods:
+private js_methods:
     auto observe(node* target, this_private_t::mutation_observer_init_t&& options = {}) -> void;
     auto disconnect() -> void;
     auto take_records() -> ext::vector<mutation_record*>;

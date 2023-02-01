@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(geolocation);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_current_position(
             detail::position_callback_t&& success_callback,
             detail::position_error_callback_t&& error_callback = detail::position_error_callback_t{},

@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(document_or_shadow_root);
     MAKE_V8_AVAILABLE(MIXIN);
 
-public js_methods:
+private js_methods:
     // /* [CSS_WEB_ANIMATIONS] */
     // auto get_animations() -> ext::vector<css::css_web_animations::animation*>;
 

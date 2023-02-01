@@ -19,10 +19,10 @@ public constructors:
     MAKE_PIMPL(writable_stream_default_controller);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto error(ext::any error) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(signal, dom::abort::abort_signal*);
 };
 

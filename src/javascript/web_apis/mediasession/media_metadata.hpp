@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(media_metadata);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(title, ext::string_view);
     DEFINE_GETTER(artist, ext::string_view);
     DEFINE_GETTER(album, ext::string_view);

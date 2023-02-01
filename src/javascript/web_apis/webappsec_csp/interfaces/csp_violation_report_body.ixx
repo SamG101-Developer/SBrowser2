@@ -1,21 +1,17 @@
-#pragma once
-#ifndef SBROWSER2_CSP_VIOLATION_REPORT_BODY_HPP
-#define SBROWSER2_CSP_VIOLATION_REPORT_BODY_HPP
+module;
+#include "ext/macros.hpp"
 
-#include "reporting/report_body.hpp"
-namespace webappsec::csp {class csp_violation_report_body;}
-namespace webappsec::csp {class csp_violation_report_body_private;}
-
-#include INCLUDE_INNER_TYPES(webappsec_csp)
+export module apis.webappsec_csp.csp_violation_report_body;
+import apis.reporting.report_body;
 
 
-class webappsec::csp::csp_violation_report_body
+DEFINE_PUBLIC_CLASS(webappsec_csp, csp_violation_report_body) final
         : reporting::report_body
 {
 public constructors:
     csp_violation_report_body();
     MAKE_PIMPL(csp_violation_report_body);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW);
 
 private js_properties:
     DEFINE_GETTER(document_url, ext::string);
@@ -31,6 +27,3 @@ private js_properties:
     DEFINE_GETTER(line_number, ext::number<ulong>);
     DEFINE_GETTER(column_number, ext::number<ulong>);
 };
-
-
-#endif //SBROWSER2_CSP_VIOLATION_REPORT_BODY_HPP

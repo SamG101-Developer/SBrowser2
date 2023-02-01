@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(geolocation_sensor);
     MAKE_V8_AVAILABLE(DEDICATED_WORKER | WINDOW);
 
-public js_methods:
+private js_methods:
     auto read(read_options_t&& read_options) -> ext::promise<geolocation_sensor_reading_t>;
 
 private js_properties:

@@ -12,7 +12,7 @@ namespace html::canvasing {class path_2d;}
 class html::canvasing::mixins::canvas_draw_path
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto begin_path() -> void;
     auto fill(detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> void;
     auto fill(path_2d* path, detail::canvas_fill_rule_t fill_rule = detail::canvas_fill_rule_t::NONZERO) -> void;

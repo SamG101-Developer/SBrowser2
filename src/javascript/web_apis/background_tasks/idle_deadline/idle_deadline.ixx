@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(idle_deadline);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto time_remaining() -> hr_time::dom_high_res_time_stamp;
 
 private js_properties:

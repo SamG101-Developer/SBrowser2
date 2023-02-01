@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(validatable);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto check_validity() -> ext::boolean;
     auto report_validity() -> ext::boolean;
     auto set_custom_validity(ext::string&& error) -> void;

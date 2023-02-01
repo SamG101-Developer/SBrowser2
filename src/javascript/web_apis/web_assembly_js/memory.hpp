@@ -17,7 +17,7 @@ public constructors:
     memory() = default;
     memory(detail::memory_descriptor_t&& descriptor);
 
-public js_methods:
+private js_methods:
     auto grow(ext::number<ulong> delta) -> ext::number<ulong>;
 
 private js_properties:

@@ -26,7 +26,7 @@ public constructors:
     auto operator[](ext::string_view index) -> mime_type*& override;
     auto operator[](ext::string_view index) const -> mime_type*& override;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(name, ext::string_view);
     DEFINE_GETTER(filename, ext::string_view);
     DEFINE_GETTER(description, ext::string_view);

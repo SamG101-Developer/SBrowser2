@@ -16,11 +16,11 @@ public constructors:
     MAKE_PIMPL(performance_observer);
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
-public js_methods:
+private js_methods:
     auto observe(detail::performance_observer_init_t&& options = {}) -> void;
     auto disconnect() -> void;
     auto take_records() -> ext::vector<performance_entry*>;
 
-public js_properties:
+private js_properties:
     DEFINE_STATIC_GETTER(supported_entry_types, ext::vector_span<ext::string>);
 };

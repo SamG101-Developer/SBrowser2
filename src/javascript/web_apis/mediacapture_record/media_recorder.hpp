@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(media_recorder);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     static auto is_type_supported(ext::string_view type) -> ext::boolean;
 
     auto start(ext::number<ulong> timeslice = 0) -> void;

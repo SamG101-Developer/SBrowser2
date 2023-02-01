@@ -24,7 +24,7 @@ public constructors:
     MAKE_PIMPL(audio_render_capacity_event);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(timestamp, ext::number<double>);
     DEFINE_GETTER(average_load, ext::number<double>);
     DEFINE_GETTER(peak_load, ext::number<double>);

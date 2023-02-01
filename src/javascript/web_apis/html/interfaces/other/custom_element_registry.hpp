@@ -24,7 +24,7 @@ public constructors:
     MAKE_PIMPL(custom_element_registry);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto define(ext::string_view name, detail::custom_element_constructor_t&& constructor, detail::element_definition_options_t&& options = {}) -> void;
     auto get(ext::string_view name) -> ext::optional<detail::custom_element_constructor_t>;
     auto when_defined(ext::string_view name) -> ext::promise<detail::custom_element_constructor_t>;

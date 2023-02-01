@@ -16,6 +16,6 @@ DEFINE_PUBLIC_CLASS(dom_parsing, xml_serializer) final
 public constructors:
     xml_serializer() = default;
 
-public js_methods:
+private js_methods:
     auto serialize_to_string(dom::node* root) -> ext::string;
 };

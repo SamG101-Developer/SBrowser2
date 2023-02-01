@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(service_worker);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto post_message(ext::any&& message, ext::vector<ext::any>&& transfer) -> void;
     auto post_message(ext::any&& message, html::detail::structured_serialize_options_t&& options = {}) -> void;
 

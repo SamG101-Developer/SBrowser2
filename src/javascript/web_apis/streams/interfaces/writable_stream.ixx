@@ -18,11 +18,11 @@ public constructors:
     MAKE_TRANSFERABLE(writable_stream);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto abort(ext::any&& reason) -> ext::promise<void>;
     auto close() -> ext::promise<void>;
     auto get_writer() -> std::unique_ptr<writable_stream_default_writer>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(locked, ext::boolean);
 };

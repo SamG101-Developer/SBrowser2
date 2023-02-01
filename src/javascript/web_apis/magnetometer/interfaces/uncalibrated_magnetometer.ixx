@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(uncalibrated_magnetometer);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(x_bias, ext::number<double>);
     DEFINE_GETTER(y_bias, ext::number<double>);
     DEFINE_GETTER(z_bias, ext::number<double>);

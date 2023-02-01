@@ -41,7 +41,7 @@ public constructors:
     MAKE_PIMPL(element);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     /* [DOM] */
     _EXT_NODISCARD auto has_attributes() const -> ext::boolean;
     _EXT_NODISCARD auto get_attribute_names() const -> ranges::any_helpful_view<ext::string>;

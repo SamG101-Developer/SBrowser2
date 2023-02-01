@@ -24,20 +24,20 @@ public constructors:
     MAKE_PIMPL(event);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<ushort> NONE = 0;
     constexpr static const ext::number<ushort> CAPTURING_PHASE = 1;
     constexpr static const ext::number<ushort> AT_TARGET = 2;
     constexpr static const ext::number<ushort> BUBBLING_PHASE = 3;
 
-public js_methods:
+private js_methods:
     auto stop_propagation() -> void;
     auto stop_immediate_propagation() -> void;
     auto prevent_default() -> void;
 
     _EXT_NODISCARD auto composed_path() const -> ext::vector<event_target*>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(type, ext::string);
     DEFINE_GETTER(bubbles, ext::boolean);
     DEFINE_GETTER(cancelable, ext::boolean);

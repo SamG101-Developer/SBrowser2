@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(source_buffer);
     MAKE_V8_AVAILABLE(WINDOW | DEDICATED_WORKER);
 
-public js_methods:
+private js_methods:
     auto append_buffer(ext::buffer_source& data) -> void;
     auto abort() -> void;
     auto change_type(const ext::string& type) -> void;

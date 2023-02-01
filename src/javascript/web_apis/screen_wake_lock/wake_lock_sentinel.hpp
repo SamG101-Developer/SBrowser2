@@ -20,10 +20,10 @@ public constructors:
     MAKE_PIMPL(wake_lock_sentinel);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto release() -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(released, ext::boolean);
     DEFINE_GETTER(type, detail::wake_lock_type);
 };

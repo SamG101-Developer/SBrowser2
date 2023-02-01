@@ -20,7 +20,7 @@ public constructors:
     payment_request_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
     MAKE_PIMPL(payment_request_event);
 
-public js_methods:
+private js_methods:
     auto open_window(ext::string_view url) -> ext::promise<window_client*>;
     auto change_payment_method(ext::string_view method_name, ext::map<ext::string, ext::any>&& options = {}); // TODO: detail::payment_request_update_t
     auto respond_with(ext::promise<detail::payment_handler_reponse_t> handler_response_promise) -> void;

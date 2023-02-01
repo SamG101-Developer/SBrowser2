@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(html_iframe_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_svg_document() -> dom::nodes::document*;
 
 private js_properties:

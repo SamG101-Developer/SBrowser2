@@ -12,7 +12,7 @@ namespace html::canvasing::mixins {class canvas_state;}
 class html::canvasing::mixins::canvas_state
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto save() -> void;
     auto restore() -> void;
     auto reset() -> void;

@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(intersection_observer);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto observe(dom::element* target) -> void;
     auto unobserve(dom::element* target) -> void;
     auto disconnect() -> void;

@@ -30,13 +30,13 @@ public constructors:
     MAKE_PIMPL(analyser_node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto get_float_frequency_data(ext::float32_array& array) -> void;
     auto get_byte_frequency_data(ext::uint8_array& array) -> void;
     auto get_float_time_domain_data(ext::float32_array& array) -> void;
     auto get_byte_time_domain_data(ext::uint8_array& array) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(frequency_bin_count, ext::number<ulong>);
 
     DEFINE_GETTER(fft_size, ext::number<ulong>);

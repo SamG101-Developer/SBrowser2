@@ -28,7 +28,7 @@ public constructors:
     MAKE_PIMPL(element_internals);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto set_form_value(
             ext::variant<file_api::file*, ext::string, xhr::form_data*> value,
             ext::variant<file_api::file*, ext::string, xhr::form_data*> state = u8"")

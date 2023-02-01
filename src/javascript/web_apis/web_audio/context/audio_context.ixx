@@ -41,7 +41,7 @@ public constructors:
     MAKE_PIMPL(audio_context);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto get_output_timestamp() -> audio_timestamp_t;
     auto resume() -> ext::promise<void>;
     auto suspend() -> ext::promise<void>;
@@ -54,7 +54,7 @@ public js_methods:
     auto create_media_stream_track_source(media_capture::media_stream* media_stream_track) -> std::unique_ptr<media_stream_track_audio_source_node>;
     auto create_media_stream_destination() -> std::unique_ptr<media_stream_audio_destination_node>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(base_latency, ext::number<double>);
     DEFINE_GETTER(output_latency, ext::number<double>);
     DEFINE_GETTER(sink_id, ext::variant<ext::string, audio_sink_info*>);

@@ -15,7 +15,7 @@ public constructors:
     MAKE_PIMPL(html_anchor_element);
     MAKE_V8_AVAILABLE();
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(target, ext::string_view);
     DEFINE_GETTER(download, ext::string_view);
     DEFINE_GETTER(ping, ext::string_view);

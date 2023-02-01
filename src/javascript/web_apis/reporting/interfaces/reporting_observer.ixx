@@ -22,7 +22,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
     MAKE_STRINGIFIER;
 
-public js_methods:
+private js_methods:
     auto observe() -> void;
     auto disconnect() -> void;
     auto take_records() -> ext::vector<report*>;

@@ -20,13 +20,13 @@ public constructors:
     MAKE_PIMPL(writable_stream_default_writer);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto abort(ext::any reason) -> ext::promise<void>;
     auto close() -> ext::promise<void>;
     auto release_lock() -> void;
     auto write(ext::any chunk) -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(closed, ext::promise<void>);
     DEFINE_GETTER(desired_size, ext::number<double>);
     DEFINE_GETTER(ready, ext::promise<void>);

@@ -19,6 +19,6 @@ public constructors:
     MAKE_PIMPL(text_format_update_event);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto get_text_formats() -> ranges::any_helpful_view<text_format*>;
 };

@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(inner_html);
     MAKE_V8_AVAILABLE(MIXIN);
 
-public js_properties:
+private js_properties:
     virtual DEFINE_GETTER(inner_html, ext::string);
     virtual DEFINE_SETTER(inner_html, ext::string&&);
 };

@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(readable_stream_byob_reader);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto read(ext::array_buffer_view&& view = {}) -> ext::promise<readable_stream_read_result_t> override;
     auto release_lock() -> void override;
 };

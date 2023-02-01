@@ -23,7 +23,7 @@ public constructors:
     MAKE_PIMPL(cache_storage);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto match(fetch::detail::request_info_t request, detail::multi_cache_query_options_t&& options = {}) -> ext::promise<fetch::response*>;
     auto has(ext::string_view cache_name) -> ext::promise<ext::boolean>;
     auto open(ext::string_view cache_name) -> ext::promise<caches::cache>;

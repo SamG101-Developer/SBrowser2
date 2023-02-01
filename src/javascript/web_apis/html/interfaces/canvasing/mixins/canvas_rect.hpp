@@ -10,7 +10,7 @@ namespace html::canvasing::mixins {class canvas_rect;}
 class html::canvasing::mixins::canvas_rect
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto clear_rect (ext::number<double> x, ext::number<double> y, ext::number<double> w, ext::number<double> h) -> void;
     auto fill_rect  (ext::number<double> x, ext::number<double> y, ext::number<double> w, ext::number<double> h) -> void;
     auto stroke_rect(ext::number<double> x, ext::number<double> y, ext::number<double> w, ext::number<double> h) -> void;

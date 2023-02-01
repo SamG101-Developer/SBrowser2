@@ -33,10 +33,10 @@ public constructors:
     MAKE_PIMPL(clipboard_item);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     auto get_type(ext::string_view type) -> ext::promise<std::unique_ptr<file_api::blob>>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(presentation_style, presentation_style_t);
     DEFINE_GETTER(types, ext::vector_span<ext::string>);
 };

@@ -20,7 +20,7 @@ public constructors:
     TRANSFERABLE_ASSIGNMENT(image_bitmap);
     ~image_bitmap() override = default;
 
-public js_methods:
+private js_methods:
     auto close() -> void;
 
 private js_properties:

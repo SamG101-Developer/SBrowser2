@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(event_target);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     template <ext::type_is<this_private_t::add_event_listener_options_t, ext::boolean T> T>
     auto add_event_listener(ext::string&& type, this_private_t::event_listener_callback_t&& callback, T&& options = {}) -> void;
 

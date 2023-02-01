@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(readable_stream_generic_reader);
     MAKE_V8_AVAILABLE(MIXIN);
 
-public js_methods:
+private js_methods:
     auto cancel(ext::any&& reason) -> ext::promise<void>;
     virtual auto read(ext::array_buffer_view&& view = {}) -> ext::promise<readable_stream_read_result_t> = 0;
     virtual auto release_lock() -> void = 0;

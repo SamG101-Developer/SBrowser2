@@ -18,6 +18,6 @@ public constructors:
     MAKE_PIMPL(audio_sink_info);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(type, detail::audio_sink_type_t);
 };

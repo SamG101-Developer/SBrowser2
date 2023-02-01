@@ -24,14 +24,14 @@ public constructors:
 public enums:
     enum response_type_t {ARRAYBUFFER, BLOB, DOCUMENT, JSON, TEXT};
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<ushort> UNSENT = 0;
     constexpr static const ext::number<ushort> OPENED = 1;
     constexpr static const ext::number<ushort> HEADERS_RECEIVED = 2;
     constexpr static const ext::number<ushort> LOADING = 3;
     constexpr static const ext::number<ushort> DONE = 4;
 
-public js_methods:
+private js_methods:
     auto open(ext::string_view method, ext::string_view url, ext::optional<ext::boolean> async, ext::string_view username = "", ext::string_view password = "");
     auto set_request_header(ext::string_view name, ext::string_view value, ext::number_view<ulong> timeout, ext::boolean_view with_credentials) -> void;
     auto send(dom::nodes::document* document = nullptr) -> void;

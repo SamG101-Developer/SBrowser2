@@ -49,22 +49,6 @@ namespace webappsec::detail
             ext::string_view metadata)
             -> ext::set<ext::string>;
 
-    auto parse_csp(
-            ext::string_view string,
-            source_t source,
-            disposition_t disposition)
-            -> std::unique_ptr<policy_t>;
-
-    auto parse_csp_list(
-            ext::string_view string,
-            source_t source,
-            disposition_t disposition)
-            -> ext::vector<std::unique_ptr<policy_t>>;
-
-    auto parse_responses_csp(
-            const fetch::detail::response_t& response)
-            -> ext::vector<std::unique_ptr<policy_t>>;
-
     auto is_base_allowed_for_document(
             url::detail::url_t& base,
             dom::nodes::document* document)
@@ -72,13 +56,7 @@ namespace webappsec::detail
 }
 
 
-struct webappsec::detail::policy_t
-{
-    ext::vector<directive_t> directive_set;
-    disposition_t disposition;
-    source_t source;
-    std::shared_ptr<html::detail::origin_t> self_origin;
-};
+
 
 
 #endif //SBROWSER2_CSP_INTERNALS_HPP

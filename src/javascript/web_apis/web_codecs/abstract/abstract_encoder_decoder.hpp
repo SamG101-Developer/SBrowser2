@@ -18,7 +18,7 @@ public constructors:
     abstract_encoder_decoder() = default;
     abstract_encoder_decoder(ext::map<ext::string, ext::any>&& init);
 
-public js_methods:
+private js_methods:
     virtual auto configure(detail::audio_decoder_config_t&& config) -> void; // TODO: IMPL
     auto flush() -> ext::promise<void>;
     auto reset() -> void;

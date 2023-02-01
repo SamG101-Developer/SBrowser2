@@ -40,7 +40,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW);
     auto operator[](const ext::string& name) -> ranges::any_view<element*>& override;
 
-public js_methods:
+private js_methods:
     /* [DOM] */
     _EXT_NODISCARD auto create_element(ext::string&& local_name, ext::map<ext::string, ext::any>&& options = {}) -> std::unique_ptr<element>;
     _EXT_NODISCARD auto create_element_ns(ext::string&& namespace_, ext::string&& qualified_name, ext::map<ext::string, ext::any>&& options = {}) -> std::unique_ptr<element>;

@@ -14,7 +14,7 @@ public constructors:
     wheel_event() = default;
     wheel_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_static_constants:
+private js_static_constants:
     constexpr const static ext::number<ulong> DOM_DELTA_PIXEL = 0x00;
     constexpr const static ext::number<ulong> DOM_DELTA_LINE = 0x01;
     constexpr const static ext::number<ulong> DOM_DELTA_PAGE = 0x02;

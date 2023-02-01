@@ -25,7 +25,7 @@ public constructors:
     MAKE_SERIALIZABLE;
     MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
 
-public js_methods:
+private js_methods:
     auto get_file_handle(ext::string_view name, file_system_get_file_options_t&& options = {}) -> ext::promise<std::unique_ptr<file_system_file_handle>>;
     auto get_directory_handle(ext::string_view name, file_system_get_directory_options_t&& options = {}) -> ext::promise<std::unique_ptr<file_system_directory_handle>>;
     auto remove_entry(ext::string_view name, file_system_remove_options_t&& options = {}) -> ext::promise<void>;

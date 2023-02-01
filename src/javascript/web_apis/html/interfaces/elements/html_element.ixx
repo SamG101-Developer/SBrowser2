@@ -23,7 +23,7 @@ public constructors:
     MAKE_PIMPL(html_element);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto click() -> void;
     auto attach_internals() -> std::unique_ptr<element_internals>;
 

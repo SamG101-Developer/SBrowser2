@@ -19,12 +19,12 @@ public constructors:
     MAKE_PIMPL(svg_graphics_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_b_box(detail::svg_bounding_box_options_t&& options = {}) -> css::geometry::dom_rect*;
     auto get_ctm() -> css::geometry::dom_rect*;
     auto get_screen_ctm() -> css::geometry::dom_rect*;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(transform, types::svg_animated_transform_list*);
 };
 

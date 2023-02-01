@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(node_iterator);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto next_node() -> node*;
     auto prev_node() -> node*;
 

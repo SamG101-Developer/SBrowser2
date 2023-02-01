@@ -15,7 +15,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
     MAKE_STRINGIFIER;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(name, ext::string_view);
     DEFINE_GETTER(duration, hr_time::dom_high_res_time_stamp);
     DEFINE_GETTER(description, ext::string_view);

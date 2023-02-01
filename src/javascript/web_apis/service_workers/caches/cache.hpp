@@ -24,7 +24,7 @@ public constructors:
     MAKE_PIMPL(cache);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto match(fetch::detail::request_info_t&& request, detail::cache_query_options_t&& options = {}) -> ext::promise<fetch::response*>;
     auto match_all(ext::optional<fetch::detail::request_info_t> request, detail::cache_query_options_t&& options = {}) -> ext::promise<ext::vector_span<fetch::response*>>;
     auto keys(fetch::detail::request_info_t&& request, detail::cache_query_options_t&& options = {}) -> ext::promise<ext::vector_span<fetch::request*>>;

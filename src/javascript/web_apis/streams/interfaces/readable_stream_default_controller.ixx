@@ -15,7 +15,7 @@ public constructors:
     MAKE_PIMPL(readable_stream_default_controller);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto close() -> void override;
     auto enqueue(detail::chunk_t chunk) -> void override;
     auto error(ext::any&& error) -> void override;

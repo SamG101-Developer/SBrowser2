@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(constrainable);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     _EXT_NODISCARD auto get_capabilities() const -> detail::capabilities_t;
     _EXT_NODISCARD auto get_constraints() const -> detail::constraints_t;
     _EXT_NODISCARD auto get_settings() const -> detail::settings_t;

@@ -9,7 +9,7 @@ class class_name
         , public templated_class_b<template_parameter_1>
 {
     public constructors:
-    public js_methods:
+    private js_methods:
     private js_properties:
     
     protected cpp_methods:

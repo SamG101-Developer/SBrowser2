@@ -14,7 +14,7 @@ public constructors:
     MAKE_PIMPL(window_proxy);
     MAKE_V8_AVAILABLE(WINDOW); // TODO : check
 
-public js_properties:
+private js_properties:
     auto get_prototype() -> v8::Local<v8::Value>;
     auto set_prototype(v8::Local<v8::Context> context, v8::Local<v8::Value> prototype) -> v8::Maybe<bool>;
     auto is_extensible() -> bool;

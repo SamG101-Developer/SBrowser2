@@ -23,7 +23,7 @@ public constructors:
     MAKE_PIMPL(data_transfer);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto set_drag_image(dom::nodes::element* element, ext::number<long> x, ext::number<long> y) -> void;
 
 private js_properties:

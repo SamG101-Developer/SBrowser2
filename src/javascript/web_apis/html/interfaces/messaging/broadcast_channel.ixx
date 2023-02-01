@@ -21,10 +21,10 @@ public constructors:
     MAKE_PIMPL(broadcast_channel);
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
-public js_methods:
+private js_methods:
     auto post_message(ext::any&& message) -> void;
     auto close() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(name, ext::string_view);
 };

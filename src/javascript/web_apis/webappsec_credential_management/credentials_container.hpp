@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(credentials_container);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get(detail::credential_request_options_t&& options = {}) -> ext::promise<credential*>;
     auto store(credential* credential_object) -> ext::promise<credential*>;
     auto create(detail::credential_request_options_t&& options = {}) -> ext::promise<credential*>;

@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(lock_manager);
     MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
 
-public js_methods:
+private js_methods:
     auto request(ext::string_view name, detail::lock_granted_callback_t&& callback, detail::lock_options_t&& options = {}) -> ext::promise<ext::any>;
     auto query() -> ext::promise<detail::lock_manager_snapshot_t>;
 };

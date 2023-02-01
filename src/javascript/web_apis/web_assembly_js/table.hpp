@@ -18,7 +18,7 @@ public constructors:
     table() = default;
     table(detail::table_escriptor_t&& descriptor, const ext::any& value = nullptr);
 
-public js_methods:
+private js_methods:
     auto grow(ext::number<ulong> delta, const ext::any& value = nullptr) -> ext::number<ulong>;
 
 public cpp_methods:

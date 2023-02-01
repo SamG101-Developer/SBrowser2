@@ -11,7 +11,7 @@ namespace html::canvasing::mixins {class canvas_path;}
 class html::canvasing::mixins::canvas_path
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto close_path()
             -> void;
 

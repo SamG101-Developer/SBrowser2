@@ -11,7 +11,7 @@ namespace html::canvasing {class text_metrics;}
 class html::canvasing::mixins::canvas_text
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto fill_text  (ext::string&& text, ext::number<double> x, ext::number<double> y, ext::number<double> max_width = 0);
     auto stroke_text(ext::string&& text, ext::number<double> x, ext::number<double> y, ext::number<double> max_width = 0);
     auto measure_text(ext::string_view text) -> text_metrics;

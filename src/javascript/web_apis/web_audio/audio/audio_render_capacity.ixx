@@ -24,7 +24,7 @@ public constructors:
     MAKE_PIMPL(audio_render_capacity);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto start(audio_render_capacity_options_t&& options = {}) -> void;
     auto stop() -> void;
 };

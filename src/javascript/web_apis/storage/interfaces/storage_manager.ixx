@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(storage_manager);
     MAKE_V8_AVAILABLE(SECURE | WINDOW | WORKER);
 
-public js_methods:
+private js_methods:
     auto persisted() -> ext::promise<ext::boolean>;
     auto persist() -> ext::promise<ext::boolean>;
     auto estimate() -> ext::promise<detail::storage_estimate_t>;

@@ -13,7 +13,7 @@ namespace css::geometry {class dom_matrix;}
 class html::canvasing::mixins::canvas_transform
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto scale(ext::number<double> x, ext::number<double> y) -> void;
     auto rotate(ext::number<double> angle) -> void;
     auto translate(ext::number<double> x, ext::number<double> y) -> void;

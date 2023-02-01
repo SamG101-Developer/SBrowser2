@@ -18,7 +18,7 @@ class web_crypto::subtle_crypto
 public constructors:
     subtle_crypto() = default;
 
-public js_methods:
+private js_methods:
     auto encrypt(detail::algorithm_identifier_t algorithm, crypto_key* key, v8::Local<v8::BufferSource> data) -> ext::promise<ext::any>;
     auto decrypt(detail::algorithm_identifier_t algorithm, crypto_key* key, v8::Local<v8::BufferSource> data) -> ext::promise<ext::any>;
     auto sign(detail::algorithm_identifier_t algorithm, crypto_key* key, v8::Local<v8::BufferSource> data) -> ext::promise<ext::any>;

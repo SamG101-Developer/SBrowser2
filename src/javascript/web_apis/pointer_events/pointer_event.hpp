@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(pointer_event);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     _EXT_NODISCARD auto get_coalesced_events() const -> ext::vector_span<pointer_event*>;
     _EXT_NODISCARD auto get_predicted_events() const -> ext::vector_span<pointer_event*>;
 

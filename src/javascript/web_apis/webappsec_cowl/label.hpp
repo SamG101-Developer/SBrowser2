@@ -19,7 +19,7 @@ public constructors:
     MAKE_STRINGIFIER;
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto equals(label* other) -> ext::boolean;
     auto subsumes(label* other, privilege* priv = nullptr) -> ext::boolean;
 

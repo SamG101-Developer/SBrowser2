@@ -14,7 +14,7 @@ public constructors:
     keyboard_event() = default;
     keyboard_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_static_constants:
+private js_static_constants:
     constexpr const static ext::number<ulong> DOM_KEY_LOCATION_STANDARD = 0x00;
     constexpr const static ext::number<ulong> DOM_KEY_LOCATION_LEFT = 0x01;
     constexpr const static ext::number<ulong> DOM_KEY_LOCATION_RIGHT = 0x02;

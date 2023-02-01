@@ -18,7 +18,7 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
     MAKE_SERIALIZABLE;
 
-public js_methods:
+private js_methods:
     auto slice(ext::number<longlong> start = 0, ext::number<longlong> end = ext::number<longlong>::max(), ext::string_view content_type = u"") -> std::unique_ptr<blob>;
     auto stream() -> std::unique_ptr<streams::readable_stream>;
     auto text() -> ext::promise<ext::string>;

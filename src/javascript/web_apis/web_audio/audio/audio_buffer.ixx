@@ -26,12 +26,12 @@ public constructors:
     MAKE_PIMPL(audio_buffer);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto get_channel_data(ext::number<ulong> channel) -> ext::float32_array;
     auto copy_from_channel(ext::float32_array& destination, ext::number<ulong> channel_number, ext::number<ulong> buffer_offset = 0) -> void;
     auto copy_to_channel(const ext::float32_array& source, ext::number<ulong> channel_number, ext::number<ulong> buffer_offset = 0) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(sample_rate, ext::number<float>);
     DEFINE_GETTER(length, ext::number<ulong>);
     DEFINE_GETTER(duration, ext::number<double>);

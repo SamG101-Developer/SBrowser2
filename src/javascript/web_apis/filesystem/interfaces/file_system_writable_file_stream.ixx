@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(file_system_writable_file_stream);
     MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
 
-public js_methods:
+private js_methods:
     auto write(file_system_write_chunk_type_t&& data) -> ext::promise<void>;
     auto seek(ext::number<ulonglong> position) -> ext::promise<void>;
     auto truncate(ext::number<ulonglong> size) -> ext::promise<void>;

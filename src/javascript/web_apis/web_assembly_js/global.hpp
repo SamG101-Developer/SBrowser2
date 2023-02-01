@@ -16,7 +16,7 @@ public constructors:
     global() = default;
     global(detail::global_descriptor_t&& descriptor, const ext::any& value = nullptr);
 
-public js_methods:
+private js_methods:
     auto value_of() -> ext::any;
 
 private js_properties:

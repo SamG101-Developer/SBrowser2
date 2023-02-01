@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(media_stream);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     _EXT_NODISCARD auto get_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;
     _EXT_NODISCARD auto get_audio_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;
     _EXT_NODISCARD auto get_video_tracks() const -> ranges::any_view<media_stream_track*, ranges::category::forward>;

@@ -18,7 +18,7 @@ public constructors:
     offscreen_canvas() = default;
     offscreen_canvas(ext::number<ulonglong> width, ext::number<ulonglong> height);
 
-public js_methods:
+private js_methods:
     auto get_context(detail::offscreen_rendering_context_id_t context_id, ext::any&& options = nullptr) -> detail::offscreen_rendering_context_t;
     auto transfer_to_image_bitmap() -> image_bitmap;
     auto convert_to_block(detail::image_encode_options_t&& options = {}) -> ext::promise<file_api::blob>;

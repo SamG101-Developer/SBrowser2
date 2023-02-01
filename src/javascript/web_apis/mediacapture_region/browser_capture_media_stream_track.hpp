@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(browser_capture_media_stream_track);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto crop_to(crop_target* crop_target) -> ext::promise<void>;
     auto clone() -> browser_capture_media_stream_track;
 };

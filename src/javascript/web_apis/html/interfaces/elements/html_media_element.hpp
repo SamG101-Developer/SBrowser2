@@ -29,7 +29,7 @@ public constructors:
     MAKE_V8_AVAILABLE;
     ~html_media_element();
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<ushort> NETWORK_EMPTY = 0;
     constexpr static const ext::number<ushort> NETWORK_IDLE = 1;
     constexpr static const ext::number<ushort> NETWORK_LOADING = 2;
@@ -41,7 +41,7 @@ public js_static_constants:
     constexpr static const ext::number<ushort> HAVE_FUTURE_DATA = 3;
     constexpr static const ext::number<ushort> HAVE_ENOUGH_DATA = 4;
 
-public js_methods:
+private js_methods:
     /* [HTML] */
     auto load() -> void;
     auto can_play_type(ext::string_view type) -> detail::can_play_type_result_t;

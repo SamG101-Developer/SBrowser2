@@ -14,7 +14,7 @@ class web_crypto::crypto
 public constructors:
     crypto() = default;
 
-public js_methods:
+private js_methods:
     auto get_random_values(v8::Local<v8::ArrayBufferView> array) -> v8::Local<v8::ArrayBufferView>;
     auto random_uuid() -> ext::string;
 

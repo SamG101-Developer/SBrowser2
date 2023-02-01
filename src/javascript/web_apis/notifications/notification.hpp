@@ -18,7 +18,7 @@ public constructors:
     notification() = default;
     notification(ext::string&& title, detail::notification_options_t&& options = {});
 
-public js_methods:
+private js_methods:
     auto close() -> void;
 
 private js_properties:

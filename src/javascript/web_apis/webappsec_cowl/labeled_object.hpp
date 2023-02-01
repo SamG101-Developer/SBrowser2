@@ -22,10 +22,10 @@ public constructors:
     MAKE_PIMPL(labeled_object);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto clone(detail::ci_label_t&& labels) -> std::unique_ptr<labeled_object>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(confidentiality, label*);
     DEFINE_GETTER(integrity, label*);
     DEFINE_GETTER(protected_object, void*);

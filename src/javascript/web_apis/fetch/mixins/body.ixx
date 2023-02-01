@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(body);
     MAKE_V8_AVAILABLE(MIXIN);
 
-public js_methods:
+private js_methods:
     auto array_buffer() -> ext::promise<v8::Local<v8::ArrayBuffer>>;
     auto blob() -> ext::promise<file_api::blob>;
     auto form_data() -> ext::promise<xhr::form_data>;

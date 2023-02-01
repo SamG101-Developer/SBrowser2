@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(console);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     // Logging
     auto clear() -> void;
     template <typename ...Args> auto assert_(ext::boolean condition = false, Args&&... data) -> void;

@@ -23,7 +23,7 @@ public constructors:
     MAKE_PIMPL(cowl);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_STATIC_GETTER(confidentiality, label*);
     DEFINE_STATIC_GETTER(integrity, label*);
     DEFINE_STATIC_GETTER(privilege, privilege*);

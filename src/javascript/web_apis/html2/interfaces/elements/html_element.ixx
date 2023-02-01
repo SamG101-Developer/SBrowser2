@@ -16,14 +16,14 @@ public constructors:
     MAKE_PIMPL(html_element);
     MAKE_V8_AVAILABLE();
 
-public js_methods:
+private js_methods:
     auto click() -> void;
     auto attach_internals() -> std::unique_ptr<element_internals>;
     auto show_popover() -> void;
     auto hide_popover() -> void;
     auto toggle_popover() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(title, ext::string_view);
     DEFINE_GETTER(lang, ext::string_view);
     DEFINE_GETTER(translate, ext::boolean);

@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(input_device_info);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_capabilities() const -> detail::capabilities_t ;
 };
 

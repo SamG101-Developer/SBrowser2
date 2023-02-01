@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(extendable_event);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto wait_until(ext::promise<ext::any>&& f) -> void;
 };
 

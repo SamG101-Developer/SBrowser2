@@ -17,10 +17,10 @@ public constructors:
     MAKE_V8_AVAILABLE(WINDOW | WORKER | SECURE);
     MAKE_SERIALIZABLE;
 
-public js_methods:
+private js_methods:
     auto is_same_entry(file_system_handle* other) const -> ext::promise<ext::boolean>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(kind, detail::file_system_handle_kind_t);
     DEFINE_GETTER(name, ext::string_view);
 };

@@ -19,7 +19,7 @@ public constructors:
     input_event() = default;
     input_event(ext::string&& event_type, ext::map<ext::string, ext::any>&& event_init = {});
 
-public js_methods:
+private js_methods:
     /* INPUT_EVENTS */
     auto get_target_ranges() -> ext::vector<dom::node_ranges::static_range*>*;
 

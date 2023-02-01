@@ -22,7 +22,7 @@ public constructors:
     MAKE_STRINGIFIER;
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto append(ext::string&& name, ext::string&& value) -> void;
     auto delete_(ext::string&& name) -> void;
     auto get(ext::string&& name) -> ext::string;

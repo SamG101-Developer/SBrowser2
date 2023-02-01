@@ -26,6 +26,6 @@ public constructors:
     MAKE_PIMPL(offline_audio_completion_event);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(rendered_buffer, audio_buffer*);
 };

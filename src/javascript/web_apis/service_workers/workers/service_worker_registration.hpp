@@ -25,7 +25,7 @@ public constructors:
     MAKE_PIMPL(service_worker_registration);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto update() -> ext::promise<void>;
     auto unregister() -> ext::promise<ext::boolean>;
 

@@ -14,7 +14,7 @@ public constructors:
     MAKE_PIMPL(html_li_element);
     MAKE_V8_AVAILABLE();
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(value, ext::number<long>);
     DEFINE_SETTER(value, ext::number<long>);
 };

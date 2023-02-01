@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(wake_lock);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto request(detail::wake_lock_type type = detail::SCRREN) -> ext::promise<wake_lock_sentinel>;
 };
 

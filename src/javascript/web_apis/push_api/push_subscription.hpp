@@ -25,11 +25,11 @@ public constructors:
     MAKE_V8_AVAILABLE;
     MAKE_STRINGIFIER;
 
-public js_methods:
+private js_methods:
     auto get_key(detail::push_encryption_key_name_t name) -> v8::Local<v8::ArrayBuffer>;
     auto unsubscribe() -> ext::promise<ext::boolean>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(endpoint, ext::string);
     DEFINE_GETTER(expiration_time, hr_time::epoch_time_stamp);
     DEFINE_GETTER(options, ext::map_span<ext::string COMMA ext::any>);

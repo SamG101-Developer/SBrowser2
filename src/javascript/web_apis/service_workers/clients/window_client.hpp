@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(window_client);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto focus() -> ext::promise<window_client*>;
     auto navigate(ext::string_view url) -> ext::promise<window_client*>;
 

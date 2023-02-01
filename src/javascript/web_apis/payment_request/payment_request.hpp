@@ -23,7 +23,7 @@ public constructors:
     MAKE_PIMPL(payment_request);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto show(ext::optional<ext::promise<detail::payment_details_update_t>&> details_promise = ext::nullopt) -> ext::promise<payment_response>;
     auto abort() -> ext::promise<void>;
     auto can_make_payment() -> ext::promise<ext::boolean>;

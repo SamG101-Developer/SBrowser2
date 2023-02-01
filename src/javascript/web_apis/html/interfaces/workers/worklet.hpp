@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(worklet);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto add_module(ext::string_view module_url, detail::worklet_options_t&& options = {}) -> ext::promise<void>;
 };
 

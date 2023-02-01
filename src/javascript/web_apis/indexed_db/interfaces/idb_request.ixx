@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(idb_request);
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(result, ext::any);
     DEFINE_GETTER(error, dom::dom_exception&);
     DEFINE_GETTER(source, ext::variant<idb_object_store* COMMA idb_index* COMMA idb_cursor*>);

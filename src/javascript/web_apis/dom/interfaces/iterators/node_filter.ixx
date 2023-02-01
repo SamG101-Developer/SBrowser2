@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(node_filter);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<ushort> FILTER_ACCEPT = 1;
     constexpr static const ext::number<ushort> FILTER_REJECT = 2;
     constexpr static const ext::number<ushort> FILTER_SKIP   = 3;

@@ -32,10 +32,10 @@ public constructors:
     MAKE_PIMPL(audio_buffer_source_node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto start(ext::number<double> when = 0, ext::number<double> offset = 0, ext::number<double> duration = 0) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(buffer, audio_buffer*);
     DEFINE_GETTER(playback_rate, audio_param*);
     DEFINE_GETTER(detune, audio_param*);

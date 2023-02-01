@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(parentable_node);
     MAKE_V8_AVAILABLE(MIXIN);
 
-public js_methods:
+private js_methods:
     template <ext::type_is<node*, ext::string> ...T> auto prepend(T&&... nodes) -> node*;
     template <ext::type_is<node*, ext::string> ...T> auto append(T&&... nodes) -> node*;
     template <ext::type_is<node*, ext::string> ...T> auto replace_children(T&&... nodes) -> node*;

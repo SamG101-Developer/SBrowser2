@@ -20,6 +20,6 @@ public constructors:
     MAKE_PIMPL(text_decoder);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto decode(ext::buffer_source&& input, text_decode_options_t&& options = {});
 };

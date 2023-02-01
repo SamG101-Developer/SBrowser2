@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(dom_implementation);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     _EXT_NODISCARD auto create_document_type(ext::string&& qualified_name, ext::string&& public_id, ext::string&& system_id) const -> std::unique_ptr<document_type>;
     _EXT_NODISCARD auto create_document(ext::string&& namespace_, ext::string&& qualified_name, std::unique_ptr<document_type>&& document_type) const -> std::unique_ptr<xml_document>;
     _EXT_NODISCARD auto create_html_document(ext::string&& title = u"") const -> std::unique_ptr<document>;

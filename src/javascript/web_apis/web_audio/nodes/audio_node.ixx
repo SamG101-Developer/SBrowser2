@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(audio_node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto connect(audio_node* destination, ext::number<ulong> output = 0, ext::number<ulong> input = 0) -> std::unique_ptr<audio_node>;
     auto connect(audio_param* destination_param, ext::number<ulong> output = 0) -> void;
 
@@ -29,7 +29,7 @@ public js_methods:
     auto disconnect(audio_node* destination, ext::number<ulong> output = 0, ext::number<ulong> input = 0) -> void;
     auto disconnect(audio_param* destination_param, ext::number<ulong> output = 0) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(context, base_audio_context*);
     DEFINE_GETTER(number_of_inputs, ext::number<ulong>);
     DEFINE_GETTER(number_of_outputs, ext::number<ulong>);

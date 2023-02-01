@@ -22,7 +22,7 @@ public constructors:
     MAKE_PIMPL(text);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto split_text(ext::number<ulong> offset) -> std::unique_ptr<text>;
 
 private js_properties:

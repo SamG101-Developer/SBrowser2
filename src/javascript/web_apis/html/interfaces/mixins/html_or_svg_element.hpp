@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(html_or_svg_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto focus(detail::focus_options_t&& options = {}) -> void;
     auto blur();
 

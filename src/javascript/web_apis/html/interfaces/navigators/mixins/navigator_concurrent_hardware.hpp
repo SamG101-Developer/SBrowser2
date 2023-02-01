@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(navigator_concurrent_hardware);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(navigator_concurrent_hardware, ext::number<ulonglong>);
 };
 

@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(fetch_event);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto respond_with(ext::promise<fetch::response*>&& r) -> void;
 
 private js_properties:

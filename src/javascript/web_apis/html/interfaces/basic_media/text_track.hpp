@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(text_track);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto add_cue(text_track_cue* cue) -> void;
     auto remove_cue(text_track_cue* cue) -> void;
 

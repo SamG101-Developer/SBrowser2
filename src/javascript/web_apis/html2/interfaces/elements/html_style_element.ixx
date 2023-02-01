@@ -15,7 +15,7 @@ public constructors:
     MAKE_PIMPL(html_style_element);
     MAKE_V8_AVAILABLE();
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(disabled, ext::boolean);
     DEFINE_GETTER(media, ext::string_view);
     DEFINE_GETTER(blocking, ext::span<ext::string>);

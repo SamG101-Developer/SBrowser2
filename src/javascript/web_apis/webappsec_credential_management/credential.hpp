@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(credential);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     static auto is_conditional_mediation_available() -> ext::promise<ext::boolean>;
 
 private js_properties:

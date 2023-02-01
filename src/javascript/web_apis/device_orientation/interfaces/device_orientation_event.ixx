@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(device_orientation_event);
     MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
-public js_methods:
+private js_methods:
     static auto request_permission() -> ext::promise<permissions::detail::permission_state_t>;
 
 private js_properties:

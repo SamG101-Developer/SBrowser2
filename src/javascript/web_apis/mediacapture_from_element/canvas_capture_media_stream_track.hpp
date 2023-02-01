@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(canvas_capture_media_stream_track);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto request_frame() -> void;
 
 private js_properties:

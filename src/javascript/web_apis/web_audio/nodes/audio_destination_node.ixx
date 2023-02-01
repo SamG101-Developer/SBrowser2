@@ -19,6 +19,6 @@ public constructors:
     MAKE_PIMPL(audio_destination_node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(max_channel_count, ext::number<ulong>);
 };

@@ -18,12 +18,12 @@ public constructors:
     MAKE_PIMPL(transform_stream_default_controller);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto enqueue(ext::any chunk) -> void;
     auto error(ext::any chunk) -> void;
     auto terminate() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(desired_size, ext::number<double>);
 };
 

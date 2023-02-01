@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(navigator_content_utils);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto register_protocol_handler(ext::string_view scheme, ext::string_view url) -> void;
     auto unregister_protocol_handler(ext::string_view scheme, ext::string_view url) -> void;
 };

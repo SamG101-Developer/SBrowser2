@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(html_form_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto submit() -> void;
     auto request_submit(html_element* submitter = nullptr);
     auto reset() -> void;

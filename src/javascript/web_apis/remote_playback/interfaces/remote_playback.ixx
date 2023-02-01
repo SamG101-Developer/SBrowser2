@@ -18,11 +18,11 @@ public constructors:
     MAKE_PIMPL(remote_playback);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto watch_availability(detail::remote_playback_availability_callback_t&& callback) -> ext::promise<ext::number<long>>;
     auto cancel_watch_availability(ext::optional<ext::number<long>> id = ext::nullopt) -> ext::promise<void>;
     auto prompt() -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(state, detail::remote_playback_state);
 };

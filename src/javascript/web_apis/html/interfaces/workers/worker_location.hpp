@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(worker_location);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(origin, ext::string);
     DEFINE_GETTER(href, ext::string);
     DEFINE_GETTER(protocol, ext::string);

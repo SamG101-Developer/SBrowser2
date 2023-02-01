@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(payment_request_update_event);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto update_with(ext::promise<detail::payment_details_update_t>& details_promise) -> void;
 };
 

@@ -18,7 +18,7 @@ public constructors:
     image_bitmap_rendering_context() = default;
     ~image_bitmap_rendering_context();
 
-public js_methods:
+private js_methods:
     auto transfer_from_image_bitmap(image_bitmap* bitmap) -> void;
 
 private js_properties:

@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(presentation_connection);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto close() -> void;
     auto terminate() -> void;
     auto send(ext::string&& data) -> void;
@@ -27,7 +27,7 @@ public js_methods:
     auto send(v8::Local<v8::ArrayBuffer> data) -> void;
     auto send(v8::Local<v8::ArrayBufferView> data) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(id, ext::string_view);
     DEFINE_GETTER(url, ext::string_view);
     DEFINE_GETTER(state, detail::presentation_connection_state_t);

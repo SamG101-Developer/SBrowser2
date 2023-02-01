@@ -21,7 +21,7 @@ public constructors:
     auto operator[](const detail::header_name_t& key) -> detail::header_value_t& {return (*this)[key];};
     auto operator[](const detail::header_name_t& key) const -> detail::header_value_t&;
 
-public js_methods:
+private js_methods:
     auto append(detail::header_name_t&& name, detail::header_value_t&& value) -> void;
     auto delete_(ext::u8string_view name) -> void;
     auto get(ext::u8string_view name) -> detail::header_value_t; // TODO u8string?

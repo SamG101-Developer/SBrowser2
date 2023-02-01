@@ -12,7 +12,7 @@ namespace html::canvasing {class path_2d;}
 class html::canvasing::mixins::canvas_user_interface
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto draw_if_focus_needed(dom::nodes::element* element) -> void;
     auto draw_if_focus_needed(path_2d* path, dom::nodes::element* element) -> void;
     auto scroll_path_into_view() -> void;

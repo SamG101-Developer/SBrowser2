@@ -28,7 +28,7 @@ public constructors:
     MAKE_PIMPL(window);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     /* [HTML] */
     auto close() -> void;
     auto stop() -> void;

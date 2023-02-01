@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(html_video_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     /* [MEDIA-PLAYBACK-QUALITY] */
     auto get_video_playback_quality() -> std::unique_ptr<media::playback_quality::video_playback_quality>;
 

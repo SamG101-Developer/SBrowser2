@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(navigator_plugins);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(pdf_viewer_enabled, ext::boolean);
     DEFINE_GETTER(plugins, ranges::any_helpful_view<plugin*>);
     DEFINE_GETTER(mime_types, ranges::any_helpful_view<mime_type*>);

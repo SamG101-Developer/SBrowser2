@@ -22,11 +22,11 @@ public constructors:
     MAKE_PIMPL(data_transfer_item);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_as_string(ext::optional<function_string_callback_t> callback) const -> ext::string;
     auto get_as_file() const -> ext::optional<file_api::file>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(type, ext::string_view);
     DEFINE_GETTER(kind, detail::drag_data_item_kind_t);
 };

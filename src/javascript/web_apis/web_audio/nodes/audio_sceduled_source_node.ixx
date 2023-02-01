@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(audio_sceduled_source_node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto start(ext::number<double> when = 0) -> void;
     auto stop(ext::number<double> when = 0) -> void;
 };

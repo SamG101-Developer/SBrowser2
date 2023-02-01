@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(abort_controller);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     auto abort(ext::any&& reason) const -> void;
 
 private js_properties:

@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(html_slot_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto assigned_nodes(detail::assigned_node_options_t&& options = {}) const -> ranges::any_helpful_view<dom::nodes::node*>;
     auto assigned_elements(detail::assigned_node_options_t&& options = {}) const -> ranges::any_helpful_view<dom::nodes::element*>;
     auto assign(ext::type_is<dom::mixins::slottable*> auto*... nodes) -> void;

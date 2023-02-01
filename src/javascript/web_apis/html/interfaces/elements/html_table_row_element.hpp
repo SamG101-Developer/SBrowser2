@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(html_table_row_element);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto insert_cell(ext::number<long> index = -1) -> html_table_cell_element*;
     auto delete_cell(ext::number<long> index = -1) -> html_table_cell_element*;
 

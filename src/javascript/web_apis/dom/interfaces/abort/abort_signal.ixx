@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(abort_signal);
     MAKE_V8_AVAILABLE(ALL);
 
-public js_methods:
+private js_methods:
     static auto abort(ext::optional<ext::any>&& reason = ext::nullopt) -> std::unique_ptr<abort_signal>;
     static auto timeout(ext::number<ulonglong> milliseconds) -> std::unique_ptr<abort_signal>;
     auto throw_if_aborted() -> void;

@@ -57,7 +57,7 @@ public constructors:
     MAKE_PIMPL(base_audio_context);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto create_analyser() const -> std::unique_ptr<analyser_node>;
     auto create_biquad_filter() const -> std::unique_ptr<biquad_filter_node>;
     auto create_buffer(ext::number<ulong> number_of_channels, ext::number<ulong> length, ext::number<float> sample_rate) const -> std::unique_ptr<audio_buffer>;
@@ -79,7 +79,7 @@ public js_methods:
 
     auto decode_audio_data(ext::array_buffer* data, decode_success_callback_t&& success_callback, decode_error_callback_t&& error_callback) const -> ext::promise<std::unique_ptr<audio_buffer>>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(destination, audio_destination_node*);
     DEFINE_GETTER(sample_rate, ext::number<float>);
     DEFINE_GETTER(current_time, ext::number<double>);

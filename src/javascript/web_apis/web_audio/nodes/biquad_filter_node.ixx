@@ -29,10 +29,10 @@ public constructors:
     MAKE_PIMPL(biquad_filter_node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto get_frequency_response(ext::float32_array& frequency_hz, ext::float32_array& mag_Response, ext::float32_array& phase_response) -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(frequency, audio_param*);
     DEFINE_GETTER(detune, audio_param*);
     DEFINE_GETTER(q, audio_param*);

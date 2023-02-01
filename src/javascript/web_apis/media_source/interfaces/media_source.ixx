@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(media_source);
     MAKE_V8_AVAILABLE(WINDOW | DEDICATED_WORKER);
 
-public js_methods:
+private js_methods:
     auto add_source_buffer(ext::string_view type) -> source_buffer*;
     auto remove_source_buffer(source_buffer* buffer) -> void;
     auto end_of_stream(ext::optional<detail::end_of_stream_error_t> error) -> void;

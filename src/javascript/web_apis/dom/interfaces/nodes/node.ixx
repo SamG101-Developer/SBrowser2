@@ -17,7 +17,7 @@ public constructors:
     MAKE_PIMPL(node);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_static_constants:
+private js_static_constants:
     constexpr static const ext::number<ushort> ELEMENT_NODE = 1;
     constexpr static const ext::number<ushort> ATTRIBUTE_NODE = 2;
     constexpr static const ext::number<ushort> TEXT_NODE = 3;
@@ -35,7 +35,7 @@ public js_static_constants:
     constexpr static const ext::number<ushort> DOCUMENT_POSITION_CONTAINED_BY = 0x10;
     constexpr static const ext::number<ushort> DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
 
-public js_methods:
+private js_methods:
     auto compare_document_position(node* other) -> ext::number<ushort>;
     auto get_root_node(detail::get_root_node_options_t&& options) -> node*;
     auto contains(node* other) -> ext::boolean;

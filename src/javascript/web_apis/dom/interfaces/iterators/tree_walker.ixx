@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(tree_walker);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto parent_node() -> node*;
     auto first_child() -> node*;
     auto last_child() -> node*;

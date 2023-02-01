@@ -15,7 +15,7 @@ namespace indexed_db {class idb_open_request;}
 class indexed_db::idb_factory
         : public virtual dom_object
 {
-public js_methods:
+private js_methods:
     auto open(const ext::string& name, ext::number<ulonglong> version) -> idb_open_request;
     auto delete_database(const ext::string& name) -> idb_open_request;
     auto databases() -> ext::promise<ext::vector<ext::map<ext::string, ext::any>>>;

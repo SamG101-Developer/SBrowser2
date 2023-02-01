@@ -20,10 +20,10 @@ public constructors:
     MAKE_PIMPL(rtc_certificate);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto get_fingerprints() -> ext::vector<detail::rtc_dtls_fingerprint_t>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(expires, hr_time::epoch_time_stamp);
 };
 

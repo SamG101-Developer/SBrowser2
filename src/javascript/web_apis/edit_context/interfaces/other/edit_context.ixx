@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(edit_context);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto update_text(ext::number<ulong> range_start, ext::number<ulong> range_end, ext::string&& new_text) -> void;
     auto update_selection(ext::number<ulong> start, ext::number<ulong> end) -> void;
     auto update_control_bound(std::unique_ptr<css::geometry::dom_rect> new_control_bound) -> void;

@@ -21,7 +21,7 @@ public constructors:
     MAKE_PIMPL(audio_listener);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(position_x, audio_param*);
     DEFINE_GETTER(position_y, audio_param*);
     DEFINE_GETTER(position_z, audio_param*);

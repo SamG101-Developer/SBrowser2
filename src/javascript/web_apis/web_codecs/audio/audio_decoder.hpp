@@ -19,7 +19,7 @@ public constructors:
     audio_decoder() = default;
     audio_decoder(detail::audio_decoder_init_t&& init);
 
-public js_methods:
+private js_methods:
     auto decode(audio::encoded_audio_chunk* data) -> void override;
 };
 

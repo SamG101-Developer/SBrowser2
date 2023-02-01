@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(request);
     MAKE_V8_AVAILABLE(WINDOW | WORKER);
 
-public js_methods:
+private js_methods:
     auto clone() -> std::unique_ptr<request>;
 
 private js_properties:

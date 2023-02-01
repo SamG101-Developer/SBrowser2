@@ -20,7 +20,7 @@ public constructors:
     MAKE_PIMPL(can_make_payment_event);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto response_with(const ext::promise<ext::boolean>& can_make_payment_response) -> void;
 
 private js_properties:

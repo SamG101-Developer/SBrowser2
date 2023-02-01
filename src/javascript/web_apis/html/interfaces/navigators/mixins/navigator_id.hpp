@@ -18,7 +18,7 @@ public constructors:
     MAKE_PIMPL(navigator_id);
     MAKE_V8_AVAILABLE;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(app_code_name, ext::string) {return u8"Mozilla";}
     DEFINE_GETTER(app_name, ext::string) {return u8"Netscape";}
     DEFINE_GETTER(app_version, ext::string);

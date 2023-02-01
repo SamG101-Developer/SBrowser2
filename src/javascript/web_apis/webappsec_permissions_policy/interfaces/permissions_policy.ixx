@@ -16,7 +16,7 @@ public constructors:
     MAKE_PIMPL(permissions_policy);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto allows_feature(detail::feature_name_t feature, ext::string&& origin = u"") -> ext::boolean;
     auto features() -> ext::span<detail::feature_name_t>;
     auto allowed_features() -> ext::set<ext::string>;

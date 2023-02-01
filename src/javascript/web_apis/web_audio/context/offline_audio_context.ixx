@@ -29,11 +29,11 @@ public constructors:
     MAKE_PIMPL(offline_audio_context);
     MAKE_V8_AVAILABLE(WINDOW);
 
-public js_methods:
+private js_methods:
     auto start_rendering() -> ext::promise<std::unique_ptr<audio_buffer>>;
     auto resume() -> ext::promise<void>;
     auto suspend() -> ext::promise<void>;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(length, ext::number<ulong>);
 };

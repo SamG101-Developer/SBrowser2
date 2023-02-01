@@ -18,10 +18,10 @@ public constructors:
     MAKE_PIMPL(shared_worker_global_scope);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto close() -> void;
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(name, ext::string_view);
 };
 

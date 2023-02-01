@@ -19,7 +19,7 @@ public constructors:
     MAKE_PIMPL(navigator_locks);
     MAKE_V8_AVAILABLE(ALL | SECURE);
 
-public js_properties:
+private js_properties:
     DEFINE_GETTER(locks, lock_manager*);
 };
 

@@ -44,7 +44,7 @@ public:                                           \
 // This macro makes a class a PIMPL public class -- this is done by defining alias types for the type of this class and
 // its corresponding private class (used in class methods). Define 2 methods to access the PIMPL pointer in their class.
 #define _MAKE_PIMPL(type)                                                                                                             \
-private:                                                                                                                              \
+public:                                                                                                                               \
     inline auto d_func() noexcept -> this_private_t* {return reinterpret_cast<this_private_t*>(this->d_ptr.get());}                   \
     inline auto d_func() const noexcept -> const this_private_t* {return reinterpret_cast<const this_private_t*>(this->d_ptr.get());} \
 public:
@@ -53,7 +53,7 @@ public:
 // This macro makes a class a PIMPL private class -- this is done by defining alias types fo the type of this class and
 // its corresponding public class (used in class methods). Define 2 methods to access the QIMPL pointer in their class.
 #define _MAKE_QIMPL(type)                                                                                                           \
-private:                                                                                                                            \
+public:                                                                                                                             \
     inline auto q_func() noexcept -> this_public_t* {return reinterpret_cast<this_public_t*>(this->q_ptr.get());}                   \
     inline auto q_func() const noexcept -> const this_public_t* {return reinterpret_cast<const this_public_t*>(this->q_ptr.get());} \
 public:

@@ -18,7 +18,7 @@ public constructors:
     path_2d(const path_2d& path);
     path_2d(ext::string_view path = "");
 
-public js_methods:
+private js_methods:
     auto add_path(path_2d* path, css::detail::dom_matrix2d_init_t&& transform = {});
 
 private cpp_properties:

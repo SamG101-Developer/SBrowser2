@@ -25,7 +25,7 @@ public constructors:
     MAKE_PIMPL(presentation_request);
     MAKE_V8_AVAILABLE;
 
-public js_methods:
+private js_methods:
     auto start() -> ext::promise<presentation_connection>;
     auto reconnect() -> ext::promise<presentation_connection>;
     auto get_availability() -> presentation_availablility;
