@@ -1,39 +1,23 @@
-#include "position_internals.hpp"
-
-
-
-
-
-
-
-
-#include "geolocation/_typedefs.hpp"
-#include "geolocation/geolocation.hpp"
-#include "geolocation/geolocation_private.hpp"
-
-#include "permissions/_typedefs.hpp"
-#include "permissions/detail/permission_internals.hpp"
-
-#include "html/detail/document_internals.hpp"
-#include "page_visibility/_typedefs.hpp"
-
-#include <range/v3/action/remove.hpp>
+module apis.geolocation.detail;
 
 
 auto geolocation::detail::request_position(
         geolocation* geolocation,
-        detail::position_callback_t&& success_callback,
-        detail::position_error_callback_t&& error_callback,
-        detail::position_options_t&& options,
+        position_callback_t&& success_callback,
+        position_error_callback_t&& error_callback,
+        position_options_t&& options,
         ext::optional<ext::number<long>> watch_id)
         -> void
 {
     auto e = js::env::env::current();
+
+    decltype(auto) watch_ids = ext::span{geolocation->d_func()->watch_ids};
     decltype(auto) document = e.cpp.global<dom::nodes::window>()->d_func()->document.get();
 
     if (!html::detail::allowed_to_use(document, u"geolocation"))
     {
-        if (watch_id.has_value()) geolocation->d_func()->watch_ids |= ranges::actions::remove(watch_id);
+        if (watch_id.has_value())
+            geolocation->d_func()->watch_ids |= ranges::actions::remove(watch_id);
         callback_with_error(std::move(error_callback), error_reason_t::PERMISSION_DENIED);
         return;
     }
@@ -41,6 +25,7 @@ auto geolocation::detail::request_position(
     while (document->visibility_state() != page_visibility::detail::visibility_state_t::VISIBLE)
         continue;
 
+    // TODO (beneath...)
     permissions::detail::permissions_descriptor_t descriptor{{u"name", u"geolocation"}};
     auto permission = permissions::detail::request_permission_to_use(std::move(descriptor));
 

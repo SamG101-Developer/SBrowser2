@@ -85,14 +85,14 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(dom)
             NOT_READABLE_ERR, UNKNOWN_ERR, CONSTRAINT_ERR, DATA_ERR, TRANSACTION_INACTIVE_ERR, READONLY_ERR,
             VERSION_ERR, OPERATION_ERR, NOT_ALLOWED_ERR, /* [MEDIA-CAPTURE-MAIN] */ OVERCONSTRAINED_ERR};
 
-    using abort_signal_callback_t  = ext::function<void()>;
+    using abort_signal_callback_t  = ext::unique_function<void()>;
     using abort_signal_callbacks_t = ext::vector<abort_signal_callback_t>;
-    using exception_condiditional_t = ext::function<bool()>;
+    using exception_condiditional_t = ext::unique_function<bool()>;
 
     // using module_map_t = ext::map<ext::tuple<ext::string, url::detail::url_t*>, ext::string>;
     using html_or_svg_script_element_t = ext::variant<std::unique_ptr<html::html_script_element>, std::unique_ptr<svg::svg_script_element>>;
-    using lifecycle_callback_t = ext::function<void()>;
-    using html_element_constructor_t = ext::function<element*()>;
+    using lifecycle_callback_t = ext::unique_function<void()>;
+    using html_element_constructor_t = ext::unique_function<element*()>;
 }
 
 

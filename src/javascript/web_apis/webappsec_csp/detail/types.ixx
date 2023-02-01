@@ -15,12 +15,20 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(webappsec_csp)
     // [2.3] - Directives
     struct directive_value_t;
     using directive_t = ext::pair<ext::string, std::unique_ptr<directive_value_t>>;
+    using source_list_t = ext::set<ext::variant<ext::string, directive_t>>;
     using serialized_directive_t = ext::string;
-    using serializes_source_list_t = ext::string;
+    using serialized_source_list_t = ext::string;
 
     // [2.4] - Violations
     struct violation_t;
 
+    // [6] - Directives
+    enum class underlying_directive_t {
+        CONNECT_SRC, DEFAULT_SRC, FONT_SRC, IMG_SRC, MANIFEST_SRC, MEDIA_SRC, OBJECT_SRC, SCRIPT_SRC, SCRIPT_SRC_ELEM,
+        SCRIPT_SRC_ATTR, STYLE_SRC, STYLE_SRC_ELEM, STYLE_SRC_ATTR, WEB_RTC, WORKER_SRC, BASE_URI, SANDBOX, FORM_ACTION,
+        FORM_ANCESTORS, REPORT_URI, REPORT_TO, SCRIPT};
+
+    //
     enum class disposition_t {ENFORCE, REPORT};
     enum class source_t {HEADER, META};
     enum class violation_resource_t {INLINE, EVAL, WASM_EVAL};
@@ -39,7 +47,7 @@ struct webappsec_csp::detail::policy_t
 
 struct webappsec_csp::detail::directive_value_t
 {
-    ext::set<ext::variant<ext::string, directive_t>> source_list;
+    source_list_t source_list;
 };
 
 

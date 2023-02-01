@@ -16,6 +16,6 @@ DEFINE_FWD_DECL_NAMESPACE(background_tasks)
 
 DEFINE_FWD_DECL_NAMESPACE_DETAIL(background_tasks)
 {
-    using idle_request_callback_t = ext::function<void(idle_deadline*)>;
-    using deadline_time_algorithm_t = ext::function<hr_time::dom_high_res_time_stamp()>;
+    using idle_request_callback_t = ext::unique_function<void(idle_deadline*)>;
+    using deadline_time_algorithm_t = ext::unique_function<hr_time::dom_high_res_time_stamp()>;
 }
