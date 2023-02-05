@@ -1,35 +1,4 @@
-#include "observer_internals.hpp"
-
-
-#include "ext/optional.ixx"
-
-
-
-
-
-#include INCLUDE_INNER_TYPES(dom)
-#include INCLUDE_INNER_TYPES(html)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include "html/elements/html_slot_element.hpp"
-#include "html/elements/html_slot_element_private.hpp"
-
+module;
 #include <magic_enum.hpp>
 #include <range/v3/action/remove_if.hpp>
 #include <range/v3/view/map.hpp>

@@ -1,14 +1,3 @@
-#include "shadow_internals.hpp"
-
-
-
-
-
-
-
-
-#include <range/v3/algorithm/contains.hpp>
-
 
 auto dom::detail::is_connected(
         const nodes::node* const node_a)

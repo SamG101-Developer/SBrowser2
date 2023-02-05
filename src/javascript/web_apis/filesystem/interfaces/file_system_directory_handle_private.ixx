@@ -2,7 +2,7 @@ module;
 #include "ext/macros.hpp"
 
 
-export module apis.filesystem.file_system_directory_handle;
+export module apis.filesystem.file_system_directory_handle:p;
 import apis.filesystem.file_system_handle;
 import ext.mixins;
 

@@ -1,1 +1,1 @@
-module apis.reporting.report_body:p;
+module apis.reporting.report:p;

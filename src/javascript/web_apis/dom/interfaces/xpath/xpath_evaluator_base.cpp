@@ -1,8 +1,3 @@
-#include "xpath_evaluator_base.hpp"
-
-
-
-
 
 
 auto dom::xpath::xpath_evaluator_base::to_v8(

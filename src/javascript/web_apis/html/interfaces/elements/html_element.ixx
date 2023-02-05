@@ -1,15 +1,15 @@
-module;
+//module;
 #include "ext/macros.hpp"
 
 
-export module apis.html.html_element;
-import apis.dom.element;
-import apis.html.mixins.content_editable;
-import apis.html.mixins.html_or_svg_element;
-
-import apis.html.types;
-import ext.core;
-import js.env.module_type;
+//export module apis.html.html_element;
+//import apis.dom.element;
+//import apis.html.mixins.content_editable;
+//import apis.html.mixins.html_or_svg_element;
+//
+//import apis.html.types;
+//import ext.core;
+//import js.env.module_type;
 
 
 DEFINE_PUBLIC_CLASS(html, html_element)

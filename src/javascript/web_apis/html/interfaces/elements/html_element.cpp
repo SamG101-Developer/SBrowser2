@@ -1,4 +1,4 @@
-module;
+//module;
 #include "ext/macros/custom_operator.hpp"
 #include "ext/macros.hpp"
 
@@ -12,20 +12,20 @@ module;
 #include <range/v3/view/replace_if.hpp>
 
 
-module apis.html.html_element;
-import apis.html.html_element;
-import apis.html.detail;
-import apis.html.types;
-
-import apis.dom.event;
-import apis.dom.element;
-import apis.dom.node;
-import apis.dom.detail;
-import apis.dom.types;
-
-import ext.core;
-import js.env.realms;
-import js.env.module_type;
+//module apis.html.html_element;
+//import apis.html.html_element;
+//import apis.html.detail;
+//import apis.html.types;
+//
+//import apis.dom.event;
+//import apis.dom.element;
+//import apis.dom.node;
+//import apis.dom.detail;
+//import apis.dom.types;
+//
+//import ext.core;
+//import js.env.realms;
+//import js.env.module_type;
 
 
 html::html_element::html_element()

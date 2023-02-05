@@ -2,7 +2,7 @@ module;
 #include "ext/macros.hpp"
 
 
-export module apis.dom.dom_implementation;
+export module apis.dom.dom_implementation:p;
 import apis.dom_object;
 
 IMPORT_ALL_TYPES(dom);

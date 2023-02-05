@@ -1,6 +1,3 @@
-#include "xpath_result.hpp"
-
-
 
 
 auto dom::xpath::xpath_result::to_v8(

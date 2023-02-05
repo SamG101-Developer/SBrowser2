@@ -1,10 +1,4 @@
-#include "svg_element.hpp"
-#include "svg_element_private.hpp"
-
-
-
-
-
+module;
 #include <range/v3/view/take.hpp>
 
 

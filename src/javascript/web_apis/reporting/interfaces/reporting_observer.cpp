@@ -2,7 +2,7 @@ module;
 #include "ext/macros.hpp"
 
 
-module apis.reporting.reporting_observer:p;
+module apis.reporting.reporting_observer;
 
 
 reporting::reporting_observer::reporting_observer(

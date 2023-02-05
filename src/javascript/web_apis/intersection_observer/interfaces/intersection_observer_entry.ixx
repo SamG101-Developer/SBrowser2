@@ -2,7 +2,7 @@ module;
 #include "ext/macros.hpp"
 
 
-export module apis.intersection_observer.intersection_observer_entry:p;
+export module apis.intersection_observer.intersection_observer_entry;
 import apis.dom_object;
 
 

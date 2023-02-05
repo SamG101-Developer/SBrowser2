@@ -1,28 +1,3 @@
-#include "attribute_internals.hpp"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/algorithm/find_if.hpp>
-#include <range/v3/action/remove.hpp>
-#include <range/v3/view/view.hpp>
-
-#include <QWidget>
-
 
 
 auto dom::detail::change(
