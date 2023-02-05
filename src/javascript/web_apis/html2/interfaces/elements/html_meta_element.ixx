@@ -6,7 +6,7 @@ export module apis.html.html_meta_element;
 import apis.html.html_element;
 
 
-DEFINE_PUBLIC_CLASS(html, html_meta_element)
+DEFINE_PUBLIC_CLASS(html, html_meta_element) final
         : public html::html_element
 {
 public constructors:

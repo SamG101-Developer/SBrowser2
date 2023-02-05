@@ -6,7 +6,7 @@ export module apis.html.html_style_element;
 import apis.html.html_element;
 
 
-DEFINE_PUBLIC_CLASS(html, html_style_element)
+DEFINE_PUBLIC_CLASS(html, html_style_element) final
         : public html::html_element
         , public cssom::mixins::link_style
 {

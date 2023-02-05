@@ -57,6 +57,10 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     // [4.2.4] - HtmlLinkElement
     struct link_processing_options_t;
     enum class phase_t {PRE_MEDIA, MEDIA};
+
+    // [4.6.7] - Hyperlink Auditing
+    struct preload_key_t;
+    struct preload_entry_t;
 }
 
 
@@ -82,7 +86,7 @@ struct html::detail::document_unload_timing_info
 {
     hr_time::dom_high_res_time_stamp_t unload_event_start_time = 0;
     hr_time::dom_high_res_time_stamp_t unload_event_end_time = 0;
-}
+};
 
 
 struct html::detail::link_processing_options_t
@@ -101,4 +105,21 @@ struct html::detail::link_processing_options_t
     std::unique_ptr<policy_container_t> policy_container;
     std::observer_ptr<dom::document> document;
     ext::function<auto(dom::document) -> void> on_document_ready;
+};
+
+
+struct html::detail::preload_key_t
+{
+    std::unique_ptr<url::detail::url_t> url;
+    fetch::detail::request_destination_t destination;
+    fetch::detail::request_mode_t mode;
+    fetch::detail::request_credentials_mode_t credentials;
+};
+
+
+struct html::detail::preload_entry_t
+{
+    ext::string integrity_metadata;
+    std::observer_ptr<fetch::detail::response_t> response;
+    ext::function<auto(fetch::detail::response_t*) -> void> on_response_available;
 };

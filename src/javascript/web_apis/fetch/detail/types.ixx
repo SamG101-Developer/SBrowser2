@@ -85,7 +85,7 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(fetch)
     enum class request_initiator_t {_, AUDIO, BEACON, BODY, CSS, EARLY_HINT, EMBED, FETCH, FONT, FRAME, IFRAME, IMAGE, IMG, INPUT, LINK, OBJECT, PING, SCRIPT, TRACK, VIDEO, XMLHTTPREQUEST, OTHER};
     enum class request_destination_t {_, AUDIO, AUDIOWORLET, DOCUMENT, MEBED, FONT, FRAME, IFRAME, IMAGE, MANIFEST, OBJECT, PAINTWORKLET, REPORT, SCRIPT, SHAREDWORKER, STYLE, TRACK, VIDEO, WORKER, XSLT, /* -- INNER -> */ SERVICEWORKER, WEBIDENTITY};
     enum class request_mode_t {_, SAME_ORIGIN, NO_CORS, CORS, /* -- INNER -> */ NAVIGATE, WEBSOCKET, ANONYMOUS};
-    enum class request_credentials_t {OMIT, SAME_ORIGIN, INCLUDE};
+    enum class request_credentials_mode_t {OMIT, SAME_ORIGIN, INCLUDE};
     enum class request_cache_t {DEFAULT, NO_STORE, RELOAD, NO_CACHE, FORCE_CACHE, ONLY_IF_CACHED};
     enum class request_duplex_t {HALF};
     enum class request_redirect_t {FOLLOW, ERROR, MANUAL};

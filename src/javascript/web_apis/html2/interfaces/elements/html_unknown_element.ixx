@@ -6,7 +6,7 @@ export module apis.html.html_unknown_element;
 import apis.html.html_element;
 
 
-DEFINE_PUBLIC_CLASS(html, html_unknown_element)
+DEFINE_PUBLIC_CLASS(html, html_unknown_element) final
         : public html::html_element
 {
 public constructors:

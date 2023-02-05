@@ -198,18 +198,18 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     auto set_frozen_base_url(element* element) -> void;
 
     // [4.2.4] - HtmlLinkElement
-    auto default_fetch_and_process_linked_resource(html::html_link_element* element) -> void;
+    auto default_fetch_and_process_linked_resource(html_link_element* element) -> void;
     auto create_link_request(const link_processing_options_t& options) -> std::unique_ptr<fetch::detail::request_t>;
-    auto create_link_options(html::html_link_element* element) -> std::unique_ptr<link_processing_options_t>;
-    auto extract_links_from_headers(ext::view_of_t<fetch::detail::headers_t> headers) -> ext::vector<std::unique_ptr<html::html_link_element>>;
+    auto create_link_options(html_link_element* element) -> std::unique_ptr<link_processing_options_t>;
+    auto extract_links_from_headers(ext::view_of_t<fetch::detail::headers_t> headers) -> ext::vector<std::unique_ptr<html_link_element>>;
     auto process_link_headers(dom::document* document, const fetch::detail::response_t& response, phase_t phase) -> void;
     auto apply_link_options_from_parsed_header_attributes(link_processing_options_t& options, ext::map<ext::string, ext::any>&& attributes) -> void;
 
     auto process_early_hint_headers(const fetch::detail::response_t& response, js::env::env& reserved_environment) -> void;
 
     // [4.2.6] - HtmlStyleElement
-    auto update_style_block(html::html_style_element* element) -> void;
-    auto obtain_style_sheet_critical_subresources(html::html_style_element* element) -> void;
+    auto update_style_block(html_style_element* element) -> void;
+    auto obtain_style_sheet_critical_subresources(html_style_element* element) -> void;
 
     // [4.2.7] - Interactions of Styling & Scripting
     auto contributes_script_blocking_style_sheet(dom::element* element, dom::document* document) -> ext::boolean;
@@ -220,21 +220,21 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     auto contact_information(dom::node* node) -> ext::string;
 
     // [4.3.11] - Headings & Outlines
-    auto outline(dom::document* document) -> ext::span<html::html_heading_element*>;
+    auto outline(dom::document* document) -> ext::span<html_heading_element*>;
 
     // [4.4.5] - HtmlOListElement
-    auto starting_value(html::html_olist_element* element) -> ext::number<long>;
+    auto starting_value(html_olist_element* element) -> ext::number<long>;
 
     // [4.4.8] - HtmlUListElement
-    auto list_owner(html::html_element* element) -> html_element*; // TODO : signature
-    auto ordinal_value(html::html_element* element) -> ext::number<long>;
+    auto list_owner(html_element* element) -> html_element*; // TODO : signature
+    auto ordinal_value(html_element* element) -> ext::number<long>;
 
     // [4.4.9] - HtmlDListElement
-    auto name_value_groups(html::html_dlist_element* element) -> ext::span<ext::pair<ext::span<html_element*>, ext::span<html_element*>>>;
+    auto name_value_groups(html_dlist_element* element) -> ext::span<ext::pair<ext::span<html_element*>, ext::span<html_element*>>>;
     auto process_dt_or_dd_for_node(dom::node* node) -> void;
 
     // [4.4.14] - Main Element
-    auto hierarchically_correct_main_element(html::html_element* element) -> ext::boolean;
+    auto hierarchically_correct_main_element(html_element* element) -> ext::boolean;
 
     // [4.5.10] - Ruby
     auto segmentation_and_categorization_ruby() -> ext::span<base_text_segment_t>; // TODO
@@ -242,4 +242,27 @@ DEFINE_FWD_DECL_NAMESPACE_DETAIL(html)
     auto push_ruby_level() -> void; // TODO
     auto pop_ruby_level() -> void; // TODO
     auto push_ruby_annotation() -> void; // TODO
+
+    // [4.5.14] - HtmlTimeElement
+    auto datetime_value(html_time_element* element) -> ext::string;
+    auto machine_readable_equivalent_element_contents(html_time_element* element) -> ext::string;
+
+    // [4.6.4] - Following Hyperlinks
+    auto cannot_navigate(dom::element* element) -> ext::boolean;
+    auto get_elements_noopener(html_element* element) -> ext::boolean;
+    auto follow_hyperlink(html_element* element, ext::string_view hyperlink_suffix) -> void;
+
+    // [4.6.5] - Downloading Hyperlinks
+    auto allowed_to_download(ext::boolean source_allows_download, target_allows_downloading) -> ext::boolean;
+    auto download_hyperlink(html_element* element, ext::string_view hyperlink_suffix) -> void;
+    auto needs_filename_for_resource_download(const fetch::detail::request& request) -> void; // TODO
+
+    // [4.6.7] - Hyperlink Auditing
+    // TODO
+
+    auto consume_preloaded_resource(dom::window* window, const url::detail::url_t& url, fetch::detail::request_destination_t destination, fetch::detail::request_mode_t mode, fetch::detail::request_credentials_mode_t ceredentials_mode, ext::String&& integrity_metadata, ext::function<auto(fetch::detail::response_t*>) ->void>&& on_response) -> void;
+    auto string_matches_destination(ext::string_view string, fetch::detail::request_destination_t destination) -> ext::boolean;
+    auto create_preload_key(const fetch::detail::request_t& request) -> std::unique_ptr<preload_key_t>;
+    auto preload(link_processing_options&& options, ext::function<auto(fetch::detail::response_t*) -> void>&& process_response) -> void;
+    // TODO
 }

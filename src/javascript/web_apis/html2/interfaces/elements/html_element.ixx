@@ -6,7 +6,7 @@ export module apis.html.html_element;
 import apis.dom.element;
 
 
-DEFINE_PUBLIC_CLASS(html, html_element)
+DEFINE_PUBLIC_CLASS(html, html_element) final
         : public dom::element
         , html::mixins::element_content_editable
         , html::mixins::html_or_svg_element

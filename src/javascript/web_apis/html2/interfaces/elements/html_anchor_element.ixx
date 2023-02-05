@@ -4,9 +4,11 @@ module;
 
 export module apis.html.html_anchor_element;
 import apis.html.html_element;
+import apis.html.mixins.html_hyperlink_element_utils;
+import ext.corel
 
 
-DEFINE_PUBLIC_CLASS(html, html_anchor_element)
+DEFINE_PUBLIC_CLASS(html, html_anchor_element) final
         : public html::html_element
         , public html::mixins::html_hyperlink_element_utils
 {
