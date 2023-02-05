@@ -1,19 +1,18 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_COORDINATES_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_COORDINATES_HPP
+module;
+#include "ext/macros.hpp"
 
 
-namespace geolocation {class geolocation_coordinates;}
-namespace geolocation {class geolocation_coordinates_private;}
+export module apis.geolocation.geolocation_coordinates;
+import apis.dom_object;
 
 
-class geolocation::geolocation_coordinates
+DEFINE_PUBLIC_CLASS(geolocation, geolocation_coordinates) final
         : public virtual dom_object
 {
 public constructors:
     DOM_CTORS(geolocation_coordinates);
     MAKE_PIMPL(geolocation_coordinates);
-    MAKE_V8_AVAILABLE;
+    MAKE_V8_AVAILABLE(WINDOW | SECURE);
 
 private js_properties:
     DEFINE_GETTER(accuracy, ext::number<double>);
@@ -24,6 +23,3 @@ private js_properties:
     DEFINE_GETTER(heading, ext::number<double>);
     DEFINE_GETTER(speed, ext::number<double>);
 };
-
-
-#endif //SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_GEOLOCATION_GEOLOCATION_COORDINATES_HPP

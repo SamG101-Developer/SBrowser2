@@ -6,6 +6,7 @@ export module apis.geolocation.geolocation_position;
 import apis.dom_object;
 
 import apis.geolcation.types;
+import apis.hr_time.types;
 
 
 DEFINE_PUBLIC_CLASS(geolocation, geolocation_position) final

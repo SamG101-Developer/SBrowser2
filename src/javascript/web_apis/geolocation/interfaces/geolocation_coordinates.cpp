@@ -1,60 +1,62 @@
-#include "geolocation_coordinates.hpp"
-#include "geolocation_coordinates_private.hpp"
+module;
+#include "ext/macros.hpp"
 
 
+export module apis.geolocation.geolocation_coordinates;
+import ext.core;
 
 
 geolocation::geolocation_coordinates::geolocation_coordinates()
 {
-    INIT_PIMPL(geolocation_coordinates);
+    INIT_PIMPL;
 }
 
 
 auto geolocation::geolocation_coordinates::get_accuracy() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->accuracy;
 }
 
 
 auto geolocation::geolocation_coordinates::get_latitude() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->latitude;
 }
 
 
 auto geolocation::geolocation_coordinates::get_longitude() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->longitude;
 }
 
 
 auto geolocation::geolocation_coordinates::get_altitude() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->altitude;
 }
 
 
 auto geolocation::geolocation_coordinates::get_altitude_accuracy() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->altitude_accuracy;
 }
 
 
 auto geolocation::geolocation_coordinates::get_heading() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->heading;
 }
 
 
 auto geolocation::geolocation_coordinates::get_speed() const -> ext::number<double>
 {
-    ACCESS_PIMPL(const geolocation_coordinates);
+    ACCESS_PIMPL;
     return d->speed;
 }
 

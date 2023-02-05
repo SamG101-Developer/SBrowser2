@@ -1,12 +1,14 @@
-#include "geolocation_position_error.hpp"
-#include "geolocation_position_error_private.hpp"
+module;
+#include "ext/macros.hpp"
 
-#include INCLUDE_INNER_TYPES(geolocation)
+
+module apis.geolocation.geolocation_position_error;
+import ext.core;
 
 
 geolocation::geolocation_position_error::geolocation_position_error()
 {
-    INIT_PIMPL(geolocation_position_error);
+    INIT_PIMPL;
 }
 
 
@@ -15,7 +17,7 @@ geolocation::geolocation_position_error::geolocation_position_error(
         exception_t type)
         : base_exception{std::move(message), std::move(type)}
 {
-    INIT_PIMPL(geolocation_position_error);
+    INIT_PIMPL;
 }
 
 
