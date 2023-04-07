@@ -9,8 +9,6 @@ import apis.hr_time.types;
 import apis.dom.event_target;
 import apis.dom.window;
 
-import ext.tuple;
-
 import js.env.module_type;
 import js.env.realms;
 
