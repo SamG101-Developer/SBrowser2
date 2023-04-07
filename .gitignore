@@ -1,6 +1,6 @@
 /.idea
 /.PVS-Studio
-/cmake-build-debug
+/cmake-build-debug-visual-studio-msvc
 /third_party
 /specs
 /tests
