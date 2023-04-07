@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.25.2)
 project(SBrowser2)
+
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "3c375311-a3c9-4396-a187-3227ef642046")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0 /experimental:module") #-std=c++latest -Wno-dev -DCRYPTOPP_DISABLE_ASM")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /experimental:module")
 
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
@@ -13,6 +15,7 @@ set(QT_COMPONENTS Core Widgets Gui Multimedia MultimediaWidgets WebSockets)
 
 include_directories(src)
 
+file(GLOB_RECURSE FIRST_PARTY_MODULE_FILES src/*.ixx)
 file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 
 include(FetchContent)
@@ -130,6 +133,7 @@ FetchContent_MakeAvailable(
 
 list(APPEND CMAKE_PREFIX_PATH "C:/Qt/${QT_VER}/msvc2019_64")
 find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
+
 
 add_executable(${PROJECT_NAME} main.cpp ${FIRST_PARTY_SOURCE_FILES})
 

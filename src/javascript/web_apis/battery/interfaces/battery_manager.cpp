@@ -4,7 +4,7 @@ module;
 
 
 module apis.battery.battery_manager;
-import apis.battery.battery_manager_private;
+import apis.battery.battery_manager:p;
 import apis.dom.event_target;
 
 import ext.core;
