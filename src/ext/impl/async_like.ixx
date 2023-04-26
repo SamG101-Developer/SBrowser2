@@ -1,20 +1,27 @@
 module;
+#include "ext/macros.hpp"
 #include <v8-forward.h>
 
 
 export module ext.mixins:async_like;
-import ext.core;
-import ext.js;
+
+#if USE_MODULES
+    import ext.core;
+    import ext.js;
+#else
+    #include "ext/impl/any.ixx"
+    #include "ext/impl/vector.ixx"
+    #include "ext/impl/promise.ixx"
+#endif
 
 
-export namespace ext
-{
-    class async_like;
-    class async_like_private;
-}
+_EXT_BEGIN
+    export class async_like;
+    export class async_like_private;
+_EXT_END
 
 
-export class ext::async_like_private
+class ext::async_like_private
 {
 public:
     virtual auto asynchronous_iterator_initialization_steps(v8::Local<v8::Object> iterator, ext::vector<ext::any> args) -> void = 0;
@@ -23,4 +30,4 @@ public:
 };
 
 
-export class ext::async_like {};
+class ext::async_like {};

@@ -1,11 +1,18 @@
 module;
+#include "ext/macros.hpp"
 #include "ext/macros/namespaces.hpp"
 #include <v8-forward.h>
 #include <swl/variant.hpp>
 
 
 export module ext.js:array_buffer;
-import ext.core;
+
+
+#if USE_MODULES
+    import ext.core:variant;
+#else
+    #include "ext/impl/variant.ixx"
+#endif
 
 
 _EXT_BEGIN

@@ -1,10 +1,9 @@
 module;
 #include "ext/macros/namespaces.hpp"
 #include <xmemory>
-
+#include <cryptopp/secblock.h>
 
 export module ext.core:allocator;
-#include <cryptopp/secblock.h>
 
 
 _EXT_BEGIN

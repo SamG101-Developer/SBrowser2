@@ -217,4 +217,8 @@ private:                 \
     ALLOW_MOVE(type)
 
 
+/* MODULE CONTROL */
+#define USE_MODULES 1
+
+
 #endif //SBROWSER2_SRC_EXT_MACROS_PIMPL2_HPP

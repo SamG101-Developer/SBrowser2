@@ -5,10 +5,19 @@ module;
 
 
 export module ext.core:any;
-import :boolean;
-import :concepts;
-import :number;
-import :type_traits;
+
+
+#if USE_MODULES
+    import :boolean;
+    import :concepts;
+    import :number;
+    import :type_traits;
+#else
+    #include "ext/impl/boolean.ixx"
+    #include "ext/impl/concepts.ixx"
+    #include "ext/impl/number.ixx"
+    #include "ext/impl/type_traits.ixx"
+#endif
 
 
 _EXT_BEGIN
