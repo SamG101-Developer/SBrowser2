@@ -6,7 +6,9 @@ project(SBrowser2)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")  #  /experimental:module
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /experimental:module")
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_CXX_MODULE_LOCATION ${CMAKE_BINARY_DIR}/pcm)
 
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
@@ -15,7 +17,7 @@ set(QT_COMPONENTS Core Widgets Gui Multimedia MultimediaWidgets WebSockets)
 
 include_directories(src)
 
-# file(GLOB_RECURSE FIRST_PARTY_MODULE_FILES src/*.ixx)
+file(GLOB_RECURSE FIRST_PARTY_MODULE_FILES src/*.ixx)
 file(GLOB_RECURSE FIRST_PARTY_SOURCE_FILES src/*.cpp)
 
 include(FetchContent)
@@ -163,10 +165,13 @@ target_include_directories(crypto PUBLIC ${FETCH_CONTENT_BASE_DIR}/crypto-src)
 add_library(hwinfo INTERFACE)
 target_include_directories(hwinfo INTERFACE ${FETCH_CONTENT_BASE_DIR}/hardwareinfo-src/include)
 
-target_link_libraries(${PROJECT_NAME}
+add_library(modules MODULE ${FIRST_PARTY_MODULE_FILES})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
         assert expected cppfs function2::function2 unordered_dense::unordered_dense better_braces jsonpp optional
         effolkronium_random range-v3::range-v3 re2::re2 plf_stack plf_queue fmt::fmt tuplet::tuplet swl-variant veque
         crypto asap hwinfo gamepad magic_enum::magic_enum self_macro stduuid v8pp)
+add_dependencies(${PROJECT_NAME} modules)
 foreach (QT_COMPONENT ${QT_COMPONENTS})
-    target_link_libraries(${PROJECT_NAME} Qt6::${QT_COMPONENT})
+    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::${QT_COMPONENT})
 endforeach ()

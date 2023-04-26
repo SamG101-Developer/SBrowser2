@@ -1,6 +1,4 @@
-#pragma once
-#ifndef SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BADGING_NAVIGATOR_BADGE_HPP
-#define SBROWSER2_SRC_JAVASCRIPT_WEB_APIS_BADGING_NAVIGATOR_BADGE_HPP
+#include "ext/macros.hpp"
 
 
 namespace badging::mixins {class navigator_badge;}

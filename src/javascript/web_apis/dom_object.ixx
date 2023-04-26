@@ -1,7 +1,6 @@
 module;
 #include "ext/macros.hpp"
 
-
 export module apis.dom_object;
 import ext.core;
 import js.env.module_type;
